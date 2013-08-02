@@ -36,7 +36,6 @@ public class UserInput {
     private ClickingHandler clickingHandler;
     long lastclicked = 0;
     ArrayList<Button> buttons;
-    ArrayList<Button> dragbuttons;
 
     public UserInput(Node rootNode, InputManager inputManager, Camera cam) {
         this.rootNode = rootNode;
@@ -47,7 +46,6 @@ public class UserInput {
         inputManager.addMapping("mouserightclick", new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
         inputManager.addMapping("test", new KeyTrigger(KeyInput.KEY_1));
         inputManager.addListener(actionListener, "mouseleftclick", "mouserightclick");
-        inputManager.addListener(analogListener, "test","mouseleftclick");
       
     }
     private ActionListener actionListener = new ActionListener() {
@@ -91,23 +89,11 @@ public class UserInput {
             }
         }
     };
-    private AnalogListener analogListener = new AnalogListener() {
-        public void onAnalog(String name, float intensity, float tpf) {
-            if(name=="mouseleftclick"){
-                if(testDragClicks()==true){
-                    
-                }
-            }
-        }
-    };
 
-    public void update() {
-    }
 
-    public void giveClickHandler(ClickingHandler clickingHandler,ArrayList<Button> buttons,ArrayList<Button> dragbuttons) {
+    public void giveClickHandler(ClickingHandler clickingHandler,ArrayList<Button> buttons) {
         this.clickingHandler = clickingHandler;
         this.buttons=buttons;
-        this.dragbuttons=dragbuttons;
     }
     public boolean testClicks(){
         for(Button b:buttons){
@@ -119,11 +105,5 @@ public class UserInput {
         return false;
         
     }
-    public boolean testDragClicks(){
-        for(Button b:dragbuttons){
-            
-        }
-        
-        return false;
-    }
+    
 }

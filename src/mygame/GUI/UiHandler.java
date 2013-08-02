@@ -21,8 +21,6 @@ public class UiHandler {
     private final Node guiNode;
     private GUIListener guiListener;
     ArrayList<Button> buttons;
-    ArrayList<Button> dragbuttons;
-    ArrayList<Window> windows;
     private final InputManager iNputManager;
     
 
@@ -53,10 +51,5 @@ public class UiHandler {
     public ArrayList<Button> getButtonList(){
         return buttons;
     }
-    public ArrayList<Button> getDragButtonList(){
-        return dragbuttons;
-    }
-    public ArrayList<Window> getWindowList(){
-        return windows;
-    }
+
 }

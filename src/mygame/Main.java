@@ -9,7 +9,7 @@ import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
-import mygame.GUI.Niftytest;
+
 import mygame.GUI.UiHandler;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.UserInput;
@@ -38,10 +38,7 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        //new Niftytest(assetManager,inputManager,audioRenderer,guiViewPort);
-        uiMaker=new UiHandler(settings,assetManager,guiNode,inputManager);
-            
-        
+        uiMaker=new UiHandler(settings, assetManager, guiNode, inputManager);
         userInput=new UserInput(rootNode,inputManager,cam);
         rootNode.setName("gamenode");
         worldHandler = new WorldHandler(rootNode,assetManager);
@@ -55,7 +52,7 @@ public class Main extends SimpleApplication {
         
        flyCam.setMoveSpeed(100);
        flyCam.setDragToRotate(true);
-       userInput.giveClickHandler(clickingHandler,uiMaker.getButtonList(),uiMaker.getDragButtonList());
+       userInput.giveClickHandler(clickingHandler,uiMaker.getButtonList());
        uiMaker.makeButtons();
        
        
