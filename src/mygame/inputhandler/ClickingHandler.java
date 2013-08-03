@@ -14,7 +14,7 @@ import mygame.terrain.WorldHandler;
  */
 public class ClickingHandler {
 
-    private final WorldHandler worldHandler;
+    public final WorldHandler worldHandler;
     public ClickingModes clickMode = ClickingModes.TERRAIN;
 
     public ClickingHandler(WorldHandler worldHandler) {

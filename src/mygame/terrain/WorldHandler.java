@@ -5,23 +5,13 @@
 package mygame.terrain;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.bullet.control.CharacterControl;
 import com.jme3.collision.CollisionResult;
-import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.control.Control;
 import com.jme3.scene.shape.Box;
-import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
-import com.jme3.texture.Texture2D;
-import java.util.Random;
-import mygame.Main;
 
 /**
  *
@@ -36,7 +26,7 @@ public class WorldHandler {
     AssetManager assetManager;
     int TerrainMap[][] = new int[TERRAINHEIGHT][TERRAINWIDTH];
     Geometry Terrain[][]=new Geometry[TERRAINHEIGHT][TERRAINWIDTH];
-    int brush = 3;
+    public int brush = 3;
     public int mode = 2;
 
     public WorldHandler(Node rootNode, AssetManager assetManager) {
@@ -87,11 +77,6 @@ public class WorldHandler {
                 gameNode.attachChild(geomclone);
 
             }
-           
-
-
-
-
 
         }
     }
@@ -104,48 +89,8 @@ public class WorldHandler {
         reloadLand((int) (tarx - HALFTILE), (int) (tarz - HALFTILE));
 
 
-
-
-
-
-
-
     }
 
-    public int[] getBrush() {
-        switch (brush) {
-            case 1:
-                return new int[]{
-                            0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0,
-                            0, 0, 1, 0, 0,
-                            0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0
-                        };
-
-
-            case 2:
-                return new int[]{
-                            0, 0, 0, 0, 0,
-                            0, 0, 1, 1, 0,
-                            0, 0, 1, 1, 0,
-                            0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0
-                        };
-            case 3:
-                return new int[]{
-                            0, 0, 0, 0, 0,
-                            0, 1, 1, 1, 0,
-                            0, 1, 1, 1, 0,
-                            0, 1, 1, 1, 0,
-                            0, 0, 0, 0, 0
-                        };
-
-
-        }
-        return null;
-
-    }
 
     public void raiseland(CollisionResult target) {
         float tarx = ((target.getContactPoint().x));
@@ -226,5 +171,31 @@ public class WorldHandler {
         gameNode.attachChild(geomclone);
 
 
+    }
+    public void brushMinus(){
+        System.out.println("brushminus");
+        System.out.println("brushminus");
+        System.out.println("brushminus");
+        System.out.println("brushminus");
+        if(brush-1==0){
+            return;
+        }
+        else{
+            brush=brush-1;
+        }
+    }
+    public void brushPlus(){
+        System.out.println("brushplus");
+        System.out.println("brushplus");
+        System.out.println("brushplus");
+        System.out.println("brushplus");
+        
+        
+        if(brush+1==4){
+            return;
+        }
+        else{
+            brush++;
+        }
     }
 }

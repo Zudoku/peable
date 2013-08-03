@@ -5,8 +5,14 @@
 package mygame.GUI;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.Slider;
+import de.lessvoid.nifty.controls.nullobjects.SliderNull;
+import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import mygame.inputhandler.ClickingHandler;
+import mygame.inputhandler.ClickingModes;
 
 /**
  *
@@ -17,14 +23,19 @@ public class IngameHUD implements ScreenController{
      
   private Nifty nifty;
   private Screen screen;
+  public boolean shovel=false;
+  public ClickingHandler clickingHandler;
+
  
  public IngameHUD(){
+    
      
  }
  
   public void bind(Nifty nifty, Screen screen) {
     this.nifty = nifty;
     this.screen = screen;
+    
   }
     public void onStartScreen() {
         
@@ -33,8 +44,23 @@ public class IngameHUD implements ScreenController{
     public void onEndScreen() {
         
     }
-    public void SpamConsole(){
-      
+    public void decreaseShovelSize(){
+        
+        clickingHandler.worldHandler.brushMinus();
     }
+    public void increaseShovelSize(){
+        clickingHandler.worldHandler.brushPlus();
+    }
+    public void Givefields(ClickingHandler clickingHandler){
+        this.clickingHandler=clickingHandler;
+        
+    }
+    public void test(){
+        System.out.println("brushplus");
+        System.out.println("brushplus");
+        System.out.println("brushplus");
+        System.out.println("brushplus");
+    }
+    
     
 }

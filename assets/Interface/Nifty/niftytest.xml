@@ -20,11 +20,22 @@
         </layer>
         <layer id="buttonlayer" x="0"y="0"height="64" width="100%" childLayout="absolute">
             <panel id="buttons"x="0"y="0"height="64" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true">
-                <image filename="Interface/Roads/Icon.png"x="100"y="0" childLayout="absolute" width="64" height="64">
-                    <interact onClick="spamConsole()"/>
+                <image filename="Interface/Roads/Icon.png"x="0"y="0" childLayout="absolute" width="64" height="64">
+                    <interact onClick="test()"/>
                 </image>
             </panel>
         </layer>
-    
+        <layer id="windows" width="200"height="300"childLayout="absolute">
+            <control id="shovelWindow" name="window"title="Shovel"width="200"height="300"x="200"y="200">
+                <panel id="shovelpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true">
+                    <control  id="shovelbrushplus" name="button" label="Size +"x="25%"y="50"visibleToMouse="true">
+                         <interact onClick="increaseShovelSize()"/>
+                    </control>
+                    <control  id="shovelbrushminus" name="button" label="Size -"x="25%"y="100"visibleToMouse="true">
+                         <interact onClick="decreaseShovelSize()"/>
+                    </control>
+                </panel>
+            </control>
+        </layer>
     </screen>
 </nifty>

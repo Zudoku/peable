@@ -29,6 +29,7 @@ public class Main extends SimpleApplication {
     ClickingHandler clickingHandler;
     IngameHUD ingameHUD;
     StartScreen startScreen;
+    Nifty nifty;
     
     
     
@@ -38,6 +39,7 @@ public class Main extends SimpleApplication {
         app.start();
         
     }
+    private UserInput userInput;
     
 
     @Override
@@ -46,12 +48,13 @@ public class Main extends SimpleApplication {
         startScreen=new StartScreen();
         
         
-        
+        userInput=new UserInput(rootNode,inputManager,cam);
         rootNode.setName("gamenode");
         worldHandler = new WorldHandler(rootNode,assetManager);
         clickingHandler=new ClickingHandler(worldHandler);
         worldHandler.makeGround();
-        
+         userInput.giveClickHandler(clickingHandler);
+         ingameHUD.Givefields(clickingHandler);
         Camera camera =getCamera();
         camera.setLocation(new Vector3f(100, 100, 50));
         
@@ -65,10 +68,11 @@ public class Main extends SimpleApplication {
        NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(
     assetManager, inputManager, audioRenderer, guiViewPort);
     /** Create a new NiftyGUI object */
-    Nifty nifty = niftyDisplay.getNifty();
+    nifty = niftyDisplay.getNifty();
     /** Read your XML and initialize your custom ScreenController */
     nifty.fromXml("Interface/Nifty/niftytest.xml", "start");
     
+  
     // attach the Nifty display to the gui view port as a processor
     guiViewPort.addProcessor(niftyDisplay);
        
@@ -80,12 +84,12 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleUpdate(float tpf) {
-        //TODO: add update code
+        nifty.update();
     }
 
     @Override
     public void simpleRender(RenderManager rm) {
-       
+      ;
     }
     
 }

@@ -88,6 +88,10 @@ public class UserInput {
         }
     };
 
+    public void giveClickHandler(ClickingHandler clickingHandler) {
+        this.clickingHandler=clickingHandler;
+    }
+
 
     
     
