@@ -5,10 +5,15 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
+import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.screen.ScreenController;
+import mygame.GUI.IngameHUD;
+import mygame.GUI.StartScreen;
 
 import mygame.GUI.UiHandler;
 import mygame.inputhandler.ClickingHandler;
@@ -17,7 +22,7 @@ import mygame.terrain.WorldHandler;
 
 /**
  * test
- * @author normenhansen
+ * @author arska
  */
 public class Main extends SimpleApplication {
     
@@ -25,6 +30,8 @@ public class Main extends SimpleApplication {
     private UserInput userInput;
     ClickingHandler clickingHandler;
     UiHandler uiMaker;
+    IngameHUD ingameHUD;
+    StartScreen startScreen;
     
     
     
@@ -38,6 +45,9 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        ingameHUD=new IngameHUD();
+        startScreen=new StartScreen();
+        
         uiMaker=new UiHandler(settings, assetManager, guiNode, inputManager);
         userInput=new UserInput(rootNode,inputManager,cam);
         rootNode.setName("gamenode");
@@ -55,6 +65,15 @@ public class Main extends SimpleApplication {
        userInput.giveClickHandler(clickingHandler,uiMaker.getButtonList());
        uiMaker.makeButtons();
        
+       NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(
+    assetManager, inputManager, audioRenderer, guiViewPort);
+    /** Create a new NiftyGUI object */
+    Nifty nifty = niftyDisplay.getNifty();
+    /** Read your XML and initialize your custom ScreenController */
+    nifty.fromXml("Interface/Nifty/niftytest.xml", "start");
+    
+    // attach the Nifty display to the gui view port as a processor
+    guiViewPort.addProcessor(niftyDisplay);
        
               
         
