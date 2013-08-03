@@ -9,6 +9,7 @@ import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.ScreenController;
@@ -76,7 +77,12 @@ public class Main extends SimpleApplication {
     // attach the Nifty display to the gui view port as a processor
     guiViewPort.addProcessor(niftyDisplay);
        
-              
+               Spatial teapot = assetManager.loadModel("Models/roadStraight.j3o");
+        Material mat_default = new Material( 
+            assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
+        teapot.setMaterial(mat_default);
+        teapot.move(10, 10, 10);
+        rootNode.attachChild(teapot);
         
         
         

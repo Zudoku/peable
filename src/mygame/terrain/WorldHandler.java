@@ -18,7 +18,7 @@ import com.jme3.texture.Texture;
  * @author arska
  */
 public class WorldHandler {
-    private static final double HALFTILE = 0.4999;
+    private static final float HALFTILE = 0.4999f;
     public static final int TERRAINHEIGHT=101;
     public static final int TERRAINWIDTH=101;
 
@@ -82,67 +82,34 @@ public class WorldHandler {
     }
 
     public void lowerland(CollisionResult target) {
-        float tarx = ((target.getContactPoint().x));
-        float tarz = ((target.getContactPoint().z));
-        TerrainMap[(int) (tarx - HALFTILE)][(int) (tarz - HALFTILE)]--;
-        gameNode.detachChild(target.getGeometry());
-        reloadLand((int) (tarx - HALFTILE), (int) (tarz - HALFTILE));
-
-
-    }
-
-
-    public void raiseland(CollisionResult target) {
-        float tarx = ((target.getContactPoint().x));
-        float tarz = ((target.getContactPoint().z));
+        float tarx = ((target.getContactPoint().x)-HALFTILE);
+        float tarz = ((target.getContactPoint().z)-HALFTILE);
         switch(brush){
             case 1:
-                TerrainMap[(int) (tarx - HALFTILE)][(int) (tarz - HALFTILE)]++;
-                reloadLand((int) (tarx - HALFTILE), (int) (tarz - HALFTILE));
+                reloadLoweredLand((int) tarx,(int) tarz);
+           
                 break;
                 
             case 2:
-                TerrainMap[(int) (tarx - HALFTILE)][(int) (tarz - HALFTILE)]++;
-                reloadLand((int) (tarx - HALFTILE), (int) (tarz - HALFTILE));
-                
-                TerrainMap[(int) (tarx - HALFTILE)+1][(int) (tarz - HALFTILE)]++;
-                reloadLand((int) (tarx - HALFTILE)+1, (int) (tarz - HALFTILE));
-                
-                TerrainMap[(int) (tarx - HALFTILE)+1][(int) (tarz - HALFTILE)+1]++;
-                reloadLand((int) (tarx - HALFTILE)+1, (int) (tarz - HALFTILE)+1);
-                
-                TerrainMap[(int) (tarx - HALFTILE)][(int) (tarz - HALFTILE)+1]++;
-                reloadLand((int) (tarx - HALFTILE), (int) (tarz - HALFTILE)+1);
+                reloadLoweredLand((int) tarx,(int) tarz);
+                reloadLoweredLand((int) tarx+1,(int) tarz);
+                reloadLoweredLand((int) tarx,(int) tarz+1);
+                reloadLoweredLand((int) tarx+1,(int) tarz+1);
                 break;
                 
                 
             case 3:
-                TerrainMap[(int) (tarx - HALFTILE)-1][(int) (tarz - HALFTILE)-1]++;
-                reloadLand((int) (tarx - HALFTILE)-1, (int) (tarz - HALFTILE)-1);
+                reloadLoweredLand((int) tarx+1,(int) tarz-1);
+                reloadLoweredLand((int) tarx+1,(int) tarz);
+                reloadLoweredLand((int) tarx+1,(int) tarz+1);
                 
-                TerrainMap[(int) (tarx - HALFTILE)-1][(int) (tarz - HALFTILE)]++;
-                reloadLand((int) (tarx - HALFTILE)-1, (int) (tarz - HALFTILE));
+                reloadLoweredLand((int) tarx,(int) tarz-1);
+                reloadLoweredLand((int) tarx,(int) tarz);
+                reloadLoweredLand((int) tarx,(int) tarz+1);
                 
-                TerrainMap[(int) (tarx - HALFTILE)-1][(int) (tarz - HALFTILE)+1]++;
-                reloadLand((int) (tarx - HALFTILE)-1, (int) (tarz - HALFTILE)+1);
-                
-                TerrainMap[(int) (tarx - HALFTILE)][(int) (tarz - HALFTILE)-1]++;
-                reloadLand((int) (tarx - HALFTILE), (int) (tarz - HALFTILE)-1);
-                
-                TerrainMap[(int) (tarx - HALFTILE)][(int) (tarz - HALFTILE)]++;
-                reloadLand((int) (tarx - HALFTILE), (int) (tarz - HALFTILE));
-                
-                TerrainMap[(int) (tarx - HALFTILE)][(int) (tarz - HALFTILE)+1]++;
-                reloadLand((int) (tarx - HALFTILE), (int) (tarz - HALFTILE)+1);
-                
-                TerrainMap[(int) (tarx - HALFTILE)+1][(int) (tarz - HALFTILE)-1]++;
-                reloadLand((int) (tarx - HALFTILE)+1, (int) (tarz - HALFTILE)-1);
-                
-                TerrainMap[(int) (tarx - HALFTILE)+1][(int) (tarz - HALFTILE)]++;
-                reloadLand((int) (tarx - HALFTILE)+1, (int) (tarz - HALFTILE));
-                
-                TerrainMap[(int) (tarx - HALFTILE)+1][(int) (tarz - HALFTILE)+1]++;
-                reloadLand((int) (tarx - HALFTILE)+1, (int) (tarz - HALFTILE)+1);
+                reloadLoweredLand((int) tarx-1,(int) tarz-1);
+                reloadLoweredLand((int) tarx-1,(int) tarz);
+                reloadLoweredLand((int) tarx-1,(int) tarz+1);
                 break;
                 
             case 4:
@@ -150,7 +117,50 @@ public class WorldHandler {
                 break;
                 
         }
-        gameNode.detachChild(target.getGeometry());
+        
+       
+
+
+    }
+
+
+    public void raiseland(CollisionResult target) {
+        float tarx = ((target.getContactPoint().x-HALFTILE));
+        float tarz = ((target.getContactPoint().z-HALFTILE));
+        switch(brush){
+            case 1:
+                reloadRaisedLand((int) tarx,(int) tarz);
+           
+                break;
+                
+            case 2:
+                reloadRaisedLand((int) tarx,(int) tarz);
+                reloadRaisedLand((int) tarx+1,(int) tarz);
+                reloadRaisedLand((int) tarx,(int) tarz+1);
+                reloadRaisedLand((int) tarx+1,(int) tarz+1);
+                break;
+                
+                
+            case 3:
+                reloadRaisedLand((int) tarx+1,(int) tarz-1);
+                reloadRaisedLand((int) tarx+1,(int) tarz);
+                reloadRaisedLand((int) tarx+1,(int) tarz+1);
+                
+                reloadRaisedLand((int) tarx,(int) tarz-1);
+                reloadRaisedLand((int) tarx,(int) tarz);
+                reloadRaisedLand((int) tarx,(int) tarz+1);
+                
+                reloadRaisedLand((int) tarx-1,(int) tarz-1);
+                reloadRaisedLand((int) tarx-1,(int) tarz);
+                reloadRaisedLand((int) tarx-1,(int) tarz+1);
+                break;
+                
+            case 4:
+                
+                break;
+                
+        }
+        
         
         
 
@@ -159,15 +169,34 @@ public class WorldHandler {
 
     }
 
-    public void reloadLand(int x, int z) {
-
+    public void reloadRaisedLand(int x, int z) {
+        Geometry deleted=Terrain[x][z];
+        TerrainMap[x][z]++; 
 
 
         Geometry geomclone = TerrainBox();
         geomclone.setLocalScale((new Vector3f(1, TerrainMap[x][z], 1)));
-        System.out.println(TerrainMap[x][z] + " " + x + " " + z);
+      
         geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().z + ((float) TerrainMap[x][z] / 2), 1);
         geomclone.move(x, 1, z);
+        Terrain[x][z]=geomclone;
+        gameNode.detachChild(deleted);
+        gameNode.attachChild(geomclone);
+
+
+    }
+    public void reloadLoweredLand(int x, int z) {
+        Geometry deleted=Terrain[x][z];
+        TerrainMap[x][z]--; 
+
+
+        Geometry geomclone = TerrainBox();
+        geomclone.setLocalScale((new Vector3f(1, TerrainMap[x][z], 1)));
+      
+        geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().z + ((float) TerrainMap[x][z] / 2), 1);
+        geomclone.move(x, 1, z);
+        Terrain[x][z]=geomclone;
+        gameNode.detachChild(deleted);
         gameNode.attachChild(geomclone);
 
 
