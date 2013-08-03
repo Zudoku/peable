@@ -14,8 +14,6 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.ScreenController;
 import mygame.GUI.IngameHUD;
 import mygame.GUI.StartScreen;
-
-import mygame.GUI.UiHandler;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.UserInput;
 import mygame.terrain.WorldHandler;
@@ -27,9 +25,8 @@ import mygame.terrain.WorldHandler;
 public class Main extends SimpleApplication {
     
     WorldHandler worldHandler;
-    private UserInput userInput;
+    
     ClickingHandler clickingHandler;
-    UiHandler uiMaker;
     IngameHUD ingameHUD;
     StartScreen startScreen;
     
@@ -48,8 +45,8 @@ public class Main extends SimpleApplication {
         ingameHUD=new IngameHUD();
         startScreen=new StartScreen();
         
-        uiMaker=new UiHandler(settings, assetManager, guiNode, inputManager);
-        userInput=new UserInput(rootNode,inputManager,cam);
+        
+        
         rootNode.setName("gamenode");
         worldHandler = new WorldHandler(rootNode,assetManager);
         clickingHandler=new ClickingHandler(worldHandler);
@@ -62,8 +59,8 @@ public class Main extends SimpleApplication {
         
        flyCam.setMoveSpeed(100);
        flyCam.setDragToRotate(true);
-       userInput.giveClickHandler(clickingHandler,uiMaker.getButtonList());
-       uiMaker.makeButtons();
+       
+      
        
        NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(
     assetManager, inputManager, audioRenderer, guiViewPort);

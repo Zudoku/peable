@@ -22,7 +22,7 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
-import mygame.GUI.Button;
+
 
 /**
  *
@@ -35,7 +35,7 @@ public class UserInput {
     private final Node rootNode;
     private ClickingHandler clickingHandler;
     long lastclicked = 0;
-    ArrayList<Button> buttons;
+
 
     public UserInput(Node rootNode, InputManager inputManager, Camera cam) {
         this.rootNode = rootNode;
@@ -54,9 +54,7 @@ public class UserInput {
             if (name.equals("mouseleftclick")) {
                 if (System.currentTimeMillis() - lastclicked > 100) {
                     lastclicked = System.currentTimeMillis();
-                    if(testClicks()==true){
-                        return;
-                    }
+                   
                     CollisionResults results = new CollisionResults();
 
 
@@ -91,19 +89,6 @@ public class UserInput {
     };
 
 
-    public void giveClickHandler(ClickingHandler clickingHandler,ArrayList<Button> buttons) {
-        this.clickingHandler = clickingHandler;
-        this.buttons=buttons;
-    }
-    public boolean testClicks(){
-        for(Button b:buttons){
-            if(b.testHit(inputManager.getCursorPosition().x, inputManager.getCursorPosition().y)==true){
-                b.listener.oAction(b.getName());
-                return true;
-            }
-        }
-        return false;
-        
-    }
+    
     
 }
