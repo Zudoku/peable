@@ -14,6 +14,7 @@ import com.jme3.scene.shape.Box;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.ScreenController;
 import mygame.GUI.IngameHUD;
+import mygame.GUI.SelectionParticleEmitter;
 import mygame.GUI.StartScreen;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.UserInput;
@@ -31,7 +32,7 @@ public class Main extends SimpleApplication {
     IngameHUD ingameHUD;
     StartScreen startScreen;
     Nifty nifty;
-    
+    SelectionParticleEmitter selectionEmitter;
     
     
 
@@ -52,6 +53,7 @@ public class Main extends SimpleApplication {
         userInput=new UserInput(rootNode,inputManager,cam);
         rootNode.setName("gamenode");
         worldHandler = new WorldHandler(rootNode,assetManager);
+        selectionEmitter=new SelectionParticleEmitter(assetManager, rootNode,worldHandler);
         clickingHandler=new ClickingHandler(worldHandler);
         worldHandler.makeGround();
          userInput.giveClickHandler(clickingHandler);
@@ -76,13 +78,8 @@ public class Main extends SimpleApplication {
   
     // attach the Nifty display to the gui view port as a processor
     guiViewPort.addProcessor(niftyDisplay);
-       
-               Spatial teapot = assetManager.loadModel("Models/roadStraight.j3o");
-        Material mat_default = new Material( 
-            assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
-        teapot.setMaterial(mat_default);
-        teapot.move(10, 10, 10);
-        rootNode.attachChild(teapot);
+      selectionEmitter.initSelection();
+
         
         
         
@@ -91,6 +88,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         nifty.update();
+        selectionEmitter.updateSelection(rootNode, inputManager, cam);
     }
 
     @Override

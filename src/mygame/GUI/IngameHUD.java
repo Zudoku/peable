@@ -5,14 +5,9 @@
 package mygame.GUI;
 
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.controls.Slider;
-import de.lessvoid.nifty.controls.nullobjects.SliderNull;
-import de.lessvoid.nifty.elements.Element;
-import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import mygame.inputhandler.ClickingHandler;
-import mygame.inputhandler.ClickingModes;
 
 /**
  *

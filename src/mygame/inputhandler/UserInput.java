@@ -6,22 +6,18 @@ package mygame.inputhandler;
 
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
-import com.jme3.cursors.plugins.JmeCursor;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import java.util.ArrayList;
+import mygame.GUI.SelectionParticleEmitter;
 
 
 /**
@@ -35,6 +31,7 @@ public class UserInput {
     private final Node rootNode;
     private ClickingHandler clickingHandler;
     long lastclicked = 0;
+ 
 
 
     public UserInput(Node rootNode, InputManager inputManager, Camera cam) {
@@ -73,6 +70,7 @@ public class UserInput {
                     if (results.size() > 0) {
                         CollisionResult target = results.getClosestCollision();
                         clickingHandler.handleClicking(target, results);
+                        
                     } else {
                         System.out.println("klikkasit huti");
                     }
@@ -90,6 +88,7 @@ public class UserInput {
 
     public void giveClickHandler(ClickingHandler clickingHandler) {
         this.clickingHandler=clickingHandler;
+
     }
 
 

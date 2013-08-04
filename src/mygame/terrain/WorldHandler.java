@@ -18,7 +18,7 @@ import com.jme3.texture.Texture;
  * @author arska
  */
 public class WorldHandler {
-    private static final float HALFTILE = 0.4999f;
+    public static final float HALFTILE = 0.4999f;
     public static final int TERRAINHEIGHT=101;
     public static final int TERRAINWIDTH=101;
 
