@@ -103,7 +103,7 @@ public class SelectionParticleEmitter {
 
     public void moveEmitter(int num1, int num2, int x, int y, int z) {
         brush[num1][num2].killAllParticles();
-        brush[num1][num2].setLocalTranslation(x + 1, y + 2.01f, z + 1);
+        brush[num1][num2].setLocalTranslation(x + 1, y + 1.01f, z + 1);
         brush[num1][num2].emitAllParticles();
         brush[num1][num2].setEnabled(true);
     }

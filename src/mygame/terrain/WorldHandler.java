@@ -12,6 +12,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
+import mygame.GUI.IngameHUD;
 
 /**
  *
@@ -28,10 +29,12 @@ public class WorldHandler {
     Geometry Terrain[][]=new Geometry[TERRAINHEIGHT][TERRAINWIDTH];
     public int brush = 3;
     public int mode = 2;
+    private final IngameHUD ingameHUD;
 
-    public WorldHandler(Node rootNode, AssetManager assetManager) {
+    public WorldHandler(Node rootNode, AssetManager assetManager,IngameHUD ingameHUD) {
         this.gameNode = rootNode;
         this.assetManager = assetManager;
+        this.ingameHUD=ingameHUD;
 
 
     }
@@ -84,6 +87,7 @@ public class WorldHandler {
     public void lowerland(CollisionResult target) {
         float tarx = ((target.getContactPoint().x)-HALFTILE);
         float tarz = ((target.getContactPoint().z)-HALFTILE);
+
         switch(brush){
             case 1:
                 reloadLoweredLand((int) tarx,(int) tarz);
@@ -127,6 +131,7 @@ public class WorldHandler {
     public void raiseland(CollisionResult target) {
         float tarx = ((target.getContactPoint().x-HALFTILE));
         float tarz = ((target.getContactPoint().z-HALFTILE));
+        
         switch(brush){
             case 1:
                 reloadRaisedLand((int) tarx,(int) tarz);
@@ -201,30 +206,8 @@ public class WorldHandler {
 
 
     }
-    public void brushMinus(){
-        System.out.println("brushminus");
-        System.out.println("brushminus");
-        System.out.println("brushminus");
-        System.out.println("brushminus");
-        if(brush-1==0){
-            return;
-        }
-        else{
-            brush=brush-1;
-        }
+    public void setBrush(int s){
+       brush=s;
     }
-    public void brushPlus(){
-        System.out.println("brushplus");
-        System.out.println("brushplus");
-        System.out.println("brushplus");
-        System.out.println("brushplus");
-        
-        
-        if(brush+1==4){
-            return;
-        }
-        else{
-            brush++;
-        }
-    }
+   
 }

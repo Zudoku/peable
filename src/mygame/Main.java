@@ -26,7 +26,7 @@ import mygame.terrain.WorldHandler;
  */
 public class Main extends SimpleApplication {
     
-    WorldHandler worldHandler;
+    public static  WorldHandler worldHandler;
     
     ClickingHandler clickingHandler;
     IngameHUD ingameHUD;
@@ -52,12 +52,12 @@ public class Main extends SimpleApplication {
         
         userInput=new UserInput(rootNode,inputManager,cam);
         rootNode.setName("gamenode");
-        worldHandler = new WorldHandler(rootNode,assetManager);
+        worldHandler = new WorldHandler(rootNode,assetManager,ingameHUD);
         selectionEmitter=new SelectionParticleEmitter(assetManager, rootNode,worldHandler);
         clickingHandler=new ClickingHandler(worldHandler);
         worldHandler.makeGround();
          userInput.giveClickHandler(clickingHandler);
-         ingameHUD.Givefields(clickingHandler);
+         ingameHUD.givefields(clickingHandler,worldHandler);
         Camera camera =getCamera();
         camera.setLocation(new Vector3f(100, 100, 50));
         

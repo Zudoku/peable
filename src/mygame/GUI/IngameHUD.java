@@ -5,9 +5,16 @@
 package mygame.GUI;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.NiftyEventSubscriber;
+import de.lessvoid.nifty.controls.ButtonClickedEvent;
+import de.lessvoid.nifty.controls.SliderChangedEvent;
+import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
+import mygame.terrain.WorldHandler;
 
 /**
  *
@@ -20,10 +27,12 @@ public class IngameHUD implements ScreenController{
   private Screen screen;
   public boolean shovel=false;
   public ClickingHandler clickingHandler;
+  public int brushsize=3;
+    private WorldHandler worldHandler;
 
  
  public IngameHUD(){
-    
+
      
  }
  
@@ -39,23 +48,26 @@ public class IngameHUD implements ScreenController{
     public void onEndScreen() {
         
     }
-    public void decreaseShovelSize(){
-        
-        clickingHandler.worldHandler.brushMinus();
+    @NiftyEventSubscriber(id = "sliderbrushsize")
+    public void onSliderChange(String id, SliderChangedEvent event){
+        Main.worldHandler.setBrush((int)event.getValue());
+        updateBrushSize();
     }
-    public void increaseShovelSize(){
-        clickingHandler.worldHandler.brushPlus();
-    }
-    public void Givefields(ClickingHandler clickingHandler){
+    public void givefields(ClickingHandler clickingHandler,WorldHandler worldHandler){
         this.clickingHandler=clickingHandler;
-        
+        this.worldHandler=worldHandler;
     }
-    public void test(){
-        System.out.println("brushplus");
-        System.out.println("brushplus");
-        System.out.println("brushplus");
-        System.out.println("brushplus");
+    public int getBrushSize(){
+        return Main.worldHandler.brush;
     }
+    public void updateBrushSize(){
+        // find old text
+    Element niftyElement = nifty.getCurrentScreen().findElementByName("brushsizetextactual");
+    
+    // swap old with new text
+    niftyElement.getRenderer(TextRenderer.class).setText(Integer.toString(getBrushSize()));
+    }
+   
     
     
 }
