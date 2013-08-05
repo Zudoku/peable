@@ -30,6 +30,8 @@ public class WorldHandler {
     public int brush = 3;
     public int mode = 2;
     private final IngameHUD ingameHUD;
+    public int textureindex=1;
+    public boolean useTexture=false;
 
     public WorldHandler(Node rootNode, AssetManager assetManager,IngameHUD ingameHUD) {
         this.gameNode = rootNode;

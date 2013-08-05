@@ -7,6 +7,8 @@ package mygame.GUI;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.ButtonClickedEvent;
+import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
+import de.lessvoid.nifty.controls.ImageSelectSelectionChangedEvent;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
 import de.lessvoid.nifty.controls.Window;
 import de.lessvoid.nifty.controls.window.WindowControl;
@@ -66,6 +68,14 @@ public class IngameHUD implements ScreenController{
             Main.worldHandler.mode=2;
         }
         event.getButton().setText(getBrushMode());
+    }
+     @NiftyEventSubscriber(id = "usetexture")
+    public void useTextureChange(String id, CheckBoxStateChangedEvent event){
+       Main.worldHandler.useTexture=event.isChecked();
+    }
+    @NiftyEventSubscriber(id = "textureforshovel")
+    public void onTextureChange(String id, ImageSelectSelectionChangedEvent event){
+       Main.worldHandler.textureindex=event.getSelectedIndex();
     }
     
     public void givefields(ClickingHandler clickingHandler,WorldHandler worldHandler){
