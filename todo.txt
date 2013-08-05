@@ -2,7 +2,7 @@ Prototype 0.0
 1. Heightmapista tehtyä terrainin DONE!
 2. Terrainia voi muokata eli korkeentaa ja alentaa DONE!
 3. Terrainille texture jota voi vaihtaa yksitellen(kaikilla kordinaateilla oma texture)
-4. Yksinkertainen ikkuna jota voi liikuttaa ja painaa nappeja
+4. Yksinkertainen ikkuna jota voi liikuttaa ja painaa nappeja DONE!
 5. 
 6.
 7.

@@ -8,12 +8,16 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.ButtonClickedEvent;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
+import de.lessvoid.nifty.controls.Window;
+import de.lessvoid.nifty.controls.window.WindowControl;
+import de.lessvoid.nifty.controls.window.builder.WindowBuilder;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
+import mygame.inputhandler.ClickingModes;
 import mygame.terrain.WorldHandler;
 
 /**
@@ -48,11 +52,22 @@ public class IngameHUD implements ScreenController{
     public void onEndScreen() {
         
     }
+    
     @NiftyEventSubscriber(id = "sliderbrushsize")
     public void onSliderChange(String id, SliderChangedEvent event){
         Main.worldHandler.setBrush((int)event.getValue());
         updateBrushSize();
     }
+    @NiftyEventSubscriber(id = "brushmodebutton")
+    public void onModeButtonChange(String id, ButtonClickedEvent event){
+        if(Main.worldHandler.mode==2){
+            Main.worldHandler.mode=1;
+        }else{
+            Main.worldHandler.mode=2;
+        }
+        event.getButton().setText(getBrushMode());
+    }
+    
     public void givefields(ClickingHandler clickingHandler,WorldHandler worldHandler){
         this.clickingHandler=clickingHandler;
         this.worldHandler=worldHandler;
@@ -60,12 +75,28 @@ public class IngameHUD implements ScreenController{
     public int getBrushSize(){
         return Main.worldHandler.brush;
     }
+    public String getBrushMode(){
+        if(Main.worldHandler.mode==2){
+            return "Raise Land";
+        }
+        else{
+            return "Lower Land";
+        }
+    }
     public void updateBrushSize(){
-        // find old text
     Element niftyElement = nifty.getCurrentScreen().findElementByName("brushsizetextactual");
-    
-    // swap old with new text
     niftyElement.getRenderer(TextRenderer.class).setText(Integer.toString(getBrushSize()));
+    }
+    public void toggleShovelWindow(){
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
+
+        niftyElement.setVisible(!niftyElement.isVisible());
+        if(niftyElement.isVisible()==true){
+            Main.clickingHandler.clickMode= ClickingModes.TERRAIN;
+            
+        }else{
+            Main.clickingHandler.clickMode= ClickingModes.NOTHING;
+        }
     }
    
     

@@ -28,7 +28,7 @@ public class Main extends SimpleApplication {
     
     public static  WorldHandler worldHandler;
     
-    ClickingHandler clickingHandler;
+    public static ClickingHandler clickingHandler;
     IngameHUD ingameHUD;
     StartScreen startScreen;
     Nifty nifty;
@@ -79,6 +79,14 @@ public class Main extends SimpleApplication {
     // attach the Nifty display to the gui view port as a processor
     guiViewPort.addProcessor(niftyDisplay);
       selectionEmitter.initSelection();
+       Spatial teapot = assetManager.loadModel("Models/roadBending.j3o");
+        Material mat_default = new Material( 
+            assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
+        teapot.setMaterial(mat_default);
+        teapot.scale(0.5f, 0.5f, 0.5f);
+        teapot.move(20, 6.1f, 20);
+        rootNode.attachChild(teapot);
+        
 
         
         

@@ -20,17 +20,20 @@
         </layer>
         <layer id="buttonlayer" x="0"y="0"height="64" width="100%" childLayout="absolute">
             <panel id="buttons"x="0"y="0"height="64" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true">
-                <image filename="Interface/Roads/Icon.png"x="0"y="0" childLayout="absolute" width="64" height="64">
-                    <interact onClick="test()"/>
+                <image filename="Interface/Terrain/Icon.png"x="0"y="0" childLayout="absolute" width="64" height="64">
+                    <interact onClick="toggleShovelWindow()"/>
                 </image>
             </panel>
         </layer>
         <layer id="windows" width="200"height="300"childLayout="absolute">
-            <control id="shovelWindow" name="window"title="Shovel"width="200"height="300"x="200"y="200">
+            <control id="shovelWindow" name="window"title="Shovel"width="200"height="300"x="200"y="200"hideOnClose="true"closeable="false">
                 <panel id="shovelpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true">
                     <control id="sliderbrushsize" name="horizontalSlider" height="30px"width="100%"x="0"y="10"visibleToMouse="true"min="1"max="3"initial="3"buttonStepSize="1"/>
                     <control id="brushsizetext"name="label" font="Interface/Fonts/Eurocentric.fnt"text="Brush size: " x="10"y="46"/>
                     <control id="brushsizetextactual"name="label" font="Interface/Fonts/Eurocentric.fnt"text="${CALL.getBrushSize()}" x="100"y="46"/>
+                    <control id="brushmodebutton" name="button" label="${CALL.getBrushMode()}" x="10"y="80"width="90%"/>
+                    <control id="usetexture" name="checkbox" x="10"y="120"/>
+                    <control id="brushsizetext"name="label" font="Interface/Fonts/Eurocentric.fnt"text="Use this texture" x="60"y="120"/>
                 </panel>
             </control>
         </layer>

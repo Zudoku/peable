@@ -76,13 +76,27 @@ public class SelectionParticleEmitter {
         
         switch (worldHandler.brush) {
             case 1:
+                brush[0][0].killAllParticles();
+                brush[0][1].killAllParticles();
+                brush[0][2].killAllParticles();
+                brush[1][0].killAllParticles();
                 moveEmitter(1, 1, x, y, z);
+                brush[1][2].killAllParticles();
+                brush[2][0].killAllParticles();
+                brush[2][1].killAllParticles();
+                brush[2][2].killAllParticles();
                 break;
             case 2:
+                brush[0][0].killAllParticles();
+                brush[0][1].killAllParticles();
+                brush[0][2].killAllParticles();
+                brush[1][0].killAllParticles();
                 moveEmitter(1, 1, x, y, z);
-                moveEmitter(2, 1, x + 1, y, z);
                 moveEmitter(1, 2, x, y, z + 1);
+                brush[2][0].killAllParticles();
+                moveEmitter(2, 1, x + 1, y, z);
                 moveEmitter(2, 2, x + 1, y, z + 1);
+                
                 break;
             case 3:
                 moveEmitter(0, 0, x - 1, y, z - 1);
