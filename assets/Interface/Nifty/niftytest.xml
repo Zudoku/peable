@@ -23,6 +23,9 @@
                 <image filename="Interface/Terrain/Icon.png"x="0"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick="toggleShovelWindow()"/>
                 </image>
+                <image filename="Interface/Roads/Icon.png"x="65"y="0" childLayout="absolute" width="64" height="64">
+                    <interact onClick="toggleRoadWindow()"/>
+                </image>
             </panel>
         </layer>
         <layer id="windows" width="200"height="300"childLayout="absolute">
@@ -35,6 +38,26 @@
                     <control id="usetexture" name="checkbox" x="10"y="120"/>
                     <control id="brushsizetext"name="label" font="Interface/Fonts/Eurocentric.fnt"text="Use this texture" x="40"y="120"/>
                     <control id="textureforshovel" x="30"y="150"name="imageSelect" width="126px" imageWidth="80px" imageHeight="80px" imageList="Textures/grasstexturesmall.png,Textures/rocktexturesmall.png" />
+                </panel>
+            </control>
+            <control id="roadWindow" name="window"title="Roads"width="160"height="500"x="500"y="200"hideOnClose="true"closeable="false">
+                <panel id="roadpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true">
+                    <image filename="Interface/Roads/up.png"x="6"y="100" childLayout="absolute" width="64" height="64">
+                        <interact onClick="">   
+                        </interact>
+                    </image>
+                     <image filename="Interface/Roads/right.png"x="78"y="100" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                        <interact onClick="">   
+                        </interact>
+                    </image>
+                     <image filename="Interface/Roads/left.png"x="6"y="176" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                        <interact onClick="">   
+                        </interact>
+                    </image>
+                     <image filename="Interface/Roads/down.png"x="78"y="176" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                        <interact onClick="">   
+                        </interact>
+                    </image>
                 </panel>
             </control>
         </layer>

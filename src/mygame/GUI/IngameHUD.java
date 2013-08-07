@@ -75,7 +75,7 @@ public class IngameHUD implements ScreenController{
     }
     @NiftyEventSubscriber(id = "textureforshovel")
     public void onTextureChange(String id, ImageSelectSelectionChangedEvent event){
-       Main.worldHandler.textureindex=event.getSelectedIndex();
+       Main.worldHandler.textureindex=event.getImageSelect().getSelectedImageIndex()+1;
     }
     
     public void givefields(ClickingHandler clickingHandler,WorldHandler worldHandler){
@@ -103,6 +103,17 @@ public class IngameHUD implements ScreenController{
         niftyElement.setVisible(!niftyElement.isVisible());
         if(niftyElement.isVisible()==true){
             Main.clickingHandler.clickMode= ClickingModes.TERRAIN;
+            
+        }else{
+            Main.clickingHandler.clickMode= ClickingModes.NOTHING;
+        }
+    }
+    public void toggleRoadWindow(){
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
+
+        niftyElement.setVisible(!niftyElement.isVisible());
+        if(niftyElement.isVisible()==true){
+            Main.clickingHandler.clickMode= ClickingModes.ROAD;
             
         }else{
             Main.clickingHandler.clickMode= ClickingModes.NOTHING;

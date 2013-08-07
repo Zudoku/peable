@@ -10,6 +10,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.math.Ray;
@@ -31,6 +32,7 @@ public class UserInput {
     private final Node rootNode;
     private ClickingHandler clickingHandler;
     long lastclicked = 0;
+    CameraController cameraController;
  
 
 
@@ -38,11 +40,17 @@ public class UserInput {
         this.rootNode = rootNode;
         this.inputManager = inputManager;
         this.cam = cam;
+        cameraController=new CameraController(cam);
         inputManager.setCursorVisible(true);
         inputManager.addMapping("mouseleftclick", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         inputManager.addMapping("mouserightclick", new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
         inputManager.addMapping("test", new KeyTrigger(KeyInput.KEY_1));
+        inputManager.addMapping("movecameraup", new KeyTrigger(KeyInput.KEY_W));
+        inputManager.addMapping("movecameradown", new KeyTrigger(KeyInput.KEY_S));
+        inputManager.addMapping("movecameraright", new KeyTrigger(KeyInput.KEY_D));
+        inputManager.addMapping("movecameraleft", new KeyTrigger(KeyInput.KEY_A));
         inputManager.addListener(actionListener, "mouseleftclick", "mouserightclick");
+        inputManager.addListener(analogListener,"movecameraup","movecameradown","movecameraright","movecameraleft" );
       
     }
     private ActionListener actionListener = new ActionListener() {
@@ -90,6 +98,23 @@ public class UserInput {
         this.clickingHandler=clickingHandler;
 
     }
+    private AnalogListener analogListener = new AnalogListener() {
+       
+        public void onAnalog(String name, float value, float tpf) {
+            if(name=="movecameraup"){
+                cameraController.moveUp();
+            }
+            if(name=="movecameradown"){
+                cameraController.moveDown();
+            }
+            if(name=="movecameraright"){
+                cameraController.moveRight();
+            }
+            if(name=="movecameraleft"){
+                cameraController.moveLeft();
+            }
+        }
+    };
 
 
     
