@@ -3,14 +3,14 @@ Prototype 0.0
 2. Terrainia voi muokata eli korkeentaa ja alentaa DONE!
 3. Terrainille texture jota voi vaihtaa yksitellen(kaikilla kordinaateilla oma texture) DONE!
 4. Yksinkertainen ikkuna jota voi liikuttaa ja painaa nappeja DONE!
-5. 
-6.
-7.
+5. Tien rakentaminen
+6. Tie jota voi rakentaa ilmaan ja nousevia teitä
+7. kun rakentaa tietä/nostaa maata kattoo jos se sallitaan ie tietä ei voi rakentaa maan sisään
 8.
 9.
 10.
 CORE 0.1
-1.
+1. Siisti UI!
 2.
 3.
 4.

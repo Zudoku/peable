@@ -13,13 +13,16 @@ import de.lessvoid.nifty.controls.SliderChangedEvent;
 import de.lessvoid.nifty.controls.Window;
 import de.lessvoid.nifty.controls.window.WindowControl;
 import de.lessvoid.nifty.controls.window.builder.WindowBuilder;
+import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import java.util.List;
 import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
+import mygame.terrain.RoadDirection;
 import mygame.terrain.WorldHandler;
 
 /**
@@ -114,10 +117,59 @@ public class IngameHUD implements ScreenController{
         niftyElement.setVisible(!niftyElement.isVisible());
         if(niftyElement.isVisible()==true){
             Main.clickingHandler.clickMode= ClickingModes.ROAD;
+            //sulje muut ikkunat
             
         }else{
+            
             Main.clickingHandler.clickMode= ClickingModes.NOTHING;
         }
+    }
+    public void roadDirectionUp(){
+        Main.roadMaker.direction= RoadDirection.UP;
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
+        niftyElement.startEffect(EffectEventId.onCustom);
+        //resettaa muitten effectit
+        
+        niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        
+    }
+    public void roadDirectionDown(){
+        Main.roadMaker.direction= RoadDirection.DOWN;
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
+        niftyElement.startEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+    }
+    public void roadDirectionRight(){
+        Main.roadMaker.direction= RoadDirection.RIGHT;
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
+        niftyElement.startEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+    }
+    public void roadDirectionLeft(){
+        Main.roadMaker.direction= RoadDirection.LEFT;
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
+        niftyElement.startEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
     }
    
     

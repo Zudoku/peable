@@ -18,6 +18,7 @@ import mygame.GUI.SelectionParticleEmitter;
 import mygame.GUI.StartScreen;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.UserInput;
+import mygame.terrain.RoadMaker;
 import mygame.terrain.WorldHandler;
 
 /**
@@ -29,6 +30,7 @@ public class Main extends SimpleApplication {
     public static  WorldHandler worldHandler;
     
     public static ClickingHandler clickingHandler;
+    public static RoadMaker roadMaker;
     IngameHUD ingameHUD;
     StartScreen startScreen;
     Nifty nifty;
@@ -55,6 +57,7 @@ public class Main extends SimpleApplication {
         worldHandler = new WorldHandler(rootNode,assetManager,ingameHUD);
         selectionEmitter=new SelectionParticleEmitter(assetManager, rootNode,worldHandler);
         clickingHandler=new ClickingHandler(worldHandler);
+        roadMaker=new RoadMaker(assetManager, rootNode);
         worldHandler.makeGround();
          userInput.giveClickHandler(clickingHandler);
          ingameHUD.givefields(clickingHandler,worldHandler);
