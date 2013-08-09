@@ -23,6 +23,8 @@ import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.terrain.RoadDirection;
+import mygame.terrain.RoadHill;
+import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.WorldHandler;
 
 /**
@@ -170,6 +172,45 @@ public class IngameHUD implements ScreenController{
         niftyElement.stopEffect(EffectEventId.onCustom);
         niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
         niftyElement.stopEffect(EffectEventId.onCustom);
+    }
+     public void roadUpHill(){
+        Main.roadMaker.hill= RoadHill.UP;
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
+        niftyElement.startEffect(EffectEventId.onCustom);
+        //resettaa muitten effectit
+        
+        niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+    }
+     public void roadFlatHill(){
+        Main.roadMaker.hill= RoadHill.FLAT;
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
+        niftyElement.startEffect(EffectEventId.onCustom);
+        //resettaa muitten effectit
+        
+        niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+    }
+     public void roadDownHill(){
+        Main.roadMaker.hill= RoadHill.DOWN;
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
+        niftyElement.startEffect(EffectEventId.onCustom);
+        //resettaa muitten effectit
+        
+        niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+    }
+    public void buildButton(){
+        Main.roadMaker.buildRoad();
+    }
+    public void selectionButton(){
+        Main.roadMaker.status= RoadMakerStatus.CHOOSING;
     }
    
     

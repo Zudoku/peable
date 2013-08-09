@@ -20,6 +20,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
+import mygame.Main;
+import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.WorldHandler;
 
 /**
@@ -41,7 +43,7 @@ public class SelectionParticleEmitter {
         this.assetManager = assetManager;
         this.rootNode = rootNode;
         this.worldHandler = worldHandler;
-        last=new CollisionResult();
+        last = new CollisionResult();
     }
 
     public void MakeSelectionEmitter(int x, int z) {
@@ -71,9 +73,21 @@ public class SelectionParticleEmitter {
 
         rootNode.attachChild(selection);
     }
+   
+    public void deleteParticles(){
+       brush[0][0].killAllParticles();
+                brush[0][1].killAllParticles();
+                brush[0][2].killAllParticles();
+                brush[1][0].killAllParticles();
+                brush[1][1].killAllParticles();
+                brush[1][2].killAllParticles();
+                brush[2][0].killAllParticles();
+                brush[2][1].killAllParticles();
+                brush[2][2].killAllParticles();
+    }
 
     public void MoveSelectionEmitters(int x, int y, int z) {
-        
+
         switch (worldHandler.brush) {
             case 1:
                 brush[0][0].killAllParticles();
@@ -96,7 +110,7 @@ public class SelectionParticleEmitter {
                 brush[2][0].killAllParticles();
                 moveEmitter(2, 1, x + 1, y, z);
                 moveEmitter(2, 2, x + 1, y, z + 1);
-                
+
                 break;
             case 3:
                 moveEmitter(0, 0, x - 1, y, z - 1);
@@ -153,12 +167,27 @@ public class SelectionParticleEmitter {
 
         rootNode.collideWith(ray, results);
         CollisionResult target = results.getClosestCollision();
-        if(target==null){
-            return;
+        switch (Main.clickingHandler.clickMode) {
+            case TERRAIN:
+                if (target == null) {
+                    return;
+                }
+                if (target != last) {
+                    MoveSelectionEmitters((int) (target.getContactPoint().x - worldHandler.HALFTILE), (int) (target.getContactPoint().y - worldHandler.HALFTILE), (int) (target.getContactPoint().z - worldHandler.HALFTILE));
+                }
+                last = target;
+                break;
+            case ROAD:
+                if(Main.roadMaker.status==RoadMakerStatus.CHOOSING){
+                    worldHandler.brush=1;
+                    MoveSelectionEmitters((int) (target.getContactPoint().x - worldHandler.HALFTILE), (int) (target.getContactPoint().y - worldHandler.HALFTILE), (int) (target.getContactPoint().z - worldHandler.HALFTILE));
+                }
+                break;
+                case NOTHING:
+                    deleteParticles();
+                    break;
+                    
         }
-        if (target != last) {
-            MoveSelectionEmitters((int) (target.getContactPoint().x - worldHandler.HALFTILE), (int) (target.getContactPoint().y - worldHandler.HALFTILE), (int) (target.getContactPoint().z - worldHandler.HALFTILE));
-        }
-        last=target;
+       
     }
 }
