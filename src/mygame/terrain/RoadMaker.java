@@ -28,12 +28,36 @@ public class RoadMaker {
         this.assetManager = assetManager;
         this.rootNode = rootNode;
     }
+    public void calcPosition(){
+        Vector3f roadPos= new Vector3f(startingPosition);
+    switch (direction) {
+            case UP:
+                roadPos.add(1,0.1f, 0);
+  
+                break;
 
+            case DOWN:
+                roadPos.add(-1,0.1f,0);
+
+                break;
+
+            case RIGHT:
+                roadPos.add(0,0.1f,1);
+                
+                break;
+
+            case LEFT:
+                roadPos.add(0,0.1f,-1);
+                
+                break;
+        }
+     }
     public void buildRoad() {
         if (status == RoadMakerStatus.CHOOSING) {
             return;
         }
         Spatial road = null;
+        
         switch (hill) {
 
             case FLAT:
@@ -48,6 +72,8 @@ public class RoadMaker {
                 road = roadUpHill();
                 break;
         }
+        
+        
         switch (direction) {
             case UP:
                 road.move(startingPosition.x + 1, startingPosition.y + 0.1f, startingPosition.z);

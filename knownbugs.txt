@@ -1,0 +1,2 @@
+-nullpointer exeption kun klikkaat mapin yli
+-

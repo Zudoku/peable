@@ -1,6 +1,7 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -84,6 +85,12 @@ public class Main extends SimpleApplication {
     // attach the Nifty display to the gui view port as a processor
     guiViewPort.addProcessor(niftyDisplay);
       selectionEmitter.initSelection();
+      
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection((new Vector3f(0.5f, 0.5f, 0.5f)));
+        sun.setColor(ColorRGBA.White);
+        rootNode.addLight(sun); 
+        
        Spatial teapot = assetManager.loadModel("Models/roadBending.j3o");
         Material mat_default = new Material( 
             assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
