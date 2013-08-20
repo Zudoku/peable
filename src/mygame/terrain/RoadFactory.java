@@ -33,7 +33,8 @@ public class RoadFactory {
                 assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
         teapot.setMaterial(mat_default);
         //teapot.scale(0.5f, 0.5f, 0.5f);
-        teapot.setLocalTranslation(0, 0.25f, 0);
+        teapot.setLocalTranslation(0, +0.50f, 0);
+        teapot.setName("upHill");
         return teapot;
     }
 
@@ -44,8 +45,9 @@ public class RoadFactory {
         teapot.setMaterial(mat_default);
         //teapot.scale(0.5f, 0.5f, 0.5f);
         float angle = (float) Math.toRadians(180);
-        teapot.setLocalTranslation(0, -0.25f, 0);
+        teapot.setLocalTranslation(0, -0.50f, 0);
         teapot.rotate(0, angle, 0);
+        teapot.setName("downHill");
         return teapot;
     }
 

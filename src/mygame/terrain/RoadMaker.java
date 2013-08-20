@@ -21,7 +21,8 @@ public class RoadMaker {
     public Vector3f startingPosition;
     private final AssetManager assetManager;
     private final Node rootNode;
-    Spatial roads[][] = new Spatial[100][100];
+    //X,Y,Z
+    Spatial roads[][][] = new Spatial[100][100][100];
     public boolean change = true;
     public RoadFactory roadF;
 
@@ -58,7 +59,7 @@ public class RoadMaker {
         }
         return roadPos;
     }
-
+    
     public void buildRoad() {
         if (status == RoadMakerStatus.CHOOSING) {
             return;
@@ -113,22 +114,38 @@ public class RoadMaker {
             }
         }
         road.move(calcPosition());
-        if(roads[(int) calcPosition().x][(int) calcPosition().z]!=null){
-            Spatial temproad=roads[(int) calcPosition().x][(int) calcPosition().z];
+        if(roads[(int) calcPosition().x][(int)calcPosition().y][(int) calcPosition().z]!=null){
+            Spatial temproad=roads[(int) calcPosition().x][(int)calcPosition().y][(int) calcPosition().z];
+            if(temproad.getName()=="upHill"){
+                roads[(int) calcPosition().x][(int)calcPosition().y+1][(int) calcPosition().z]=null;
+            }
+            if(temproad.getName()=="downHill"){
+                roads[(int) calcPosition().x][(int)calcPosition().y-1][(int) calcPosition().z]=null;
+            }
             rootNode.detachChild(temproad);
         }
-        roads[(int) calcPosition().x][(int) calcPosition().z] = road;
+        roads[(int) calcPosition().x][(int)calcPosition().y][(int) calcPosition().z] = road;
+        if(road.getName()=="upHill"){
+            roads[(int) calcPosition().x][(int)calcPosition().y+1][(int) calcPosition().z] = road;
+        }
+        if(road.getName()=="downHill"){
+            roads[(int) calcPosition().x][(int)calcPosition().y-1][(int) calcPosition().z] = road;
+        }
         switch (hill) {
             case FLAT:
                 startingPosition = new Vector3f(road.getWorldTranslation().x, road.getWorldTranslation().y - 0.1f, road.getWorldTranslation().z);
                 break;
 
             case UP:
-                startingPosition = new Vector3f(road.getWorldTranslation().x, road.getWorldTranslation().y - 0.1f + 0.25f, road.getWorldTranslation().z);
+                Vector3f pos=calcPosition();
+                pos.y=(int)pos.y+1;
+                startingPosition = pos;
                 break;
 
             case DOWN:
-                startingPosition = new Vector3f(road.getWorldTranslation().x, road.getWorldTranslation().y - 0.1f - 0.25f, road.getWorldTranslation().z);
+                Vector3f pos2=calcPosition();
+                pos2.y=(int)pos2.y-1;
+                startingPosition = pos2;
                 break;
 
         }
@@ -136,16 +153,16 @@ public class RoadMaker {
         rootNode.attachChild(road);
         int tempx=(int)pyorista(startingPosition).x;
         int tempz=(int)pyorista(startingPosition).z;
-        int tempy=(int)pyorista(startingPosition).y;
-        updateRoad(tempx-1, tempz-1);
-        updateRoad(tempx-1, tempz);
-        updateRoad(tempx-1, tempz+1);
-        updateRoad(tempx, tempz-1);
-        updateRoad(tempx, tempz);
-        updateRoad(tempx, tempz+1);
-        updateRoad(tempx+1, tempz-1);
-        updateRoad(tempx+1, tempz);
-        updateRoad(tempx+1, tempz+1);
+        int tempy=(int)(startingPosition).y;
+        updateRoad(tempx-1,tempy, tempz-1);
+        updateRoad(tempx-1,tempy, tempz);
+        updateRoad(tempx-1,tempy, tempz+1);
+        updateRoad(tempx,tempy, tempz-1);
+        updateRoad(tempx,tempy, tempz);
+        updateRoad(tempx,tempy, tempz+1);
+        updateRoad(tempx+1,tempy, tempz-1);
+        updateRoad(tempx+1,tempy, tempz);
+        updateRoad(tempx+1,tempy, tempz+1);
         
         
     }
@@ -167,204 +184,204 @@ public class RoadMaker {
         startingPosition = vec;
         status = RoadMakerStatus.BUILDING;
     }
-
-    public void updateRoad(int x, int y) {
-        if(roads[x][y]==null){
+    //X,Y,Z
+    public void updateRoad(int x,int z, int y) {
+        if(roads[x][z][y]==null||roads[x][z][y].getName()=="upHill"||roads[x][z][y].getName()=="downHill"){
             return;
         }
-        if (roads[x + 1][y] != null && roads[x - 1][y] != null && roads[x][y + 1] != null && roads[x][y - 1] != null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] != null && roads[x - 1][z][y] != null && roads[x][z][y + 1] != null && roads[x][z][y - 1] != null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.centerRoad();
-            roadp.move(x, 6.10f, y);
-            roads[x][y]=roadp;
+            roadp.move(x, z+0.1f, y);
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
 
             return;
         }
-        if (roads[x + 1][y] != null && roads[x - 1][y] != null && roads[x][y + 1] != null && roads[x][y - 1] == null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] != null && roads[x - 1][z][y] != null && roads[x][z][y + 1] != null && roads[x][z][y - 1] == null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.tRoad();
-            roadp.move(x, 6.10f, y);
+            roadp.move(x,z+0.1f, y);
             float angle = (float) Math.toRadians(90);
             roadp.rotate(0,angle,0);
-            roads[x][y]=roadp;
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
 
             return;
         }
-        if (roads[x + 1][y] == null && roads[x - 1][y] != null && roads[x][y + 1] != null && roads[x][y - 1] != null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] == null && roads[x - 1][z][y] != null && roads[x][z][y + 1] != null && roads[x][z][y - 1] != null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.tRoad();
-            roadp.move(x, 6.10f, y);
+            roadp.move(x, z+0.1f, y);
             
-            roads[x][y]=roadp;
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
 
             return;
         }
-        if (roads[x + 1][y] != null && roads[x - 1][y] != null && roads[x][y + 1] == null && roads[x][y - 1] != null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] != null && roads[x - 1][z][y] != null && roads[x][z][y + 1] == null && roads[x][z][y - 1] != null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.tRoad();
-            roadp.move(x, 6.10f, y);
+            roadp.move(x, z+0.1f, y);
             float angle = (float) Math.toRadians(-90);
             roadp.rotate(0,angle,0);
-            roads[x][y]=roadp;
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
 
             return;
         }
-        if (roads[x + 1][y] != null && roads[x - 1][y] == null && roads[x][y + 1] != null && roads[x][y - 1] != null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] != null && roads[x - 1][z][y] == null && roads[x][z][y + 1] != null && roads[x][z][y - 1] != null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.tRoad();
-            roadp.move(x, 6.10f, y);
+            roadp.move(x,z+0.1f, y);
             float angle = (float) Math.toRadians(180);
             roadp.rotate(0,angle,0);
-            roads[x][y]=roadp;
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
 
             return;
         }
-        if (roads[x + 1][y] == null && roads[x - 1][y] != null && roads[x][y + 1] == null && roads[x][y - 1] != null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] == null && roads[x - 1][z][y] != null && roads[x][z][y + 1] == null && roads[x][z][y - 1] != null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.bendingRoad();
-            roadp.move(x, 6.10f, y);
+            roadp.move(x, z+0.1f, y);
             float angle = (float) Math.toRadians(180);
             roadp.rotate(0,angle,0);
-            roads[x][y]=roadp;
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
 
             return;
         }
-        if (roads[x + 1][y] != null && roads[x - 1][y] == null && roads[x][y + 1] == null && roads[x][y - 1] != null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] != null && roads[x - 1][z][y] == null && roads[x][z][y + 1] == null && roads[x][z][y - 1] != null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.bendingRoad();
-            roadp.move(x, 6.10f, y);
+            roadp.move(x, z+0.1f, y);
             float angle = (float) Math.toRadians(90);
             roadp.rotate(0,angle,0);
-            roads[x][y]=roadp;
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
 
             return;
         }
-        if (roads[x + 1][y] != null && roads[x - 1][y] == null && roads[x][y + 1] != null && roads[x][y - 1] == null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] != null && roads[x - 1][z][y] == null && roads[x][z][y + 1] != null && roads[x][z][y - 1] == null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.bendingRoad();
-            roadp.move(x, 6.10f, y);
+            roadp.move(x, z+0.1f, y);
             
-            roads[x][y]=roadp;
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
 
             return;
         }
-        if (roads[x + 1][y] == null && roads[x - 1][y] != null && roads[x][y + 1] != null && roads[x][y - 1] == null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] == null && roads[x - 1][z][y] != null && roads[x][z][y + 1] != null && roads[x][z][y - 1] == null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.bendingRoad();
-            roadp.move(x, 6.10f, y);
+            roadp.move(x, z+0.1f, y);
             float angle = (float) Math.toRadians(-90);
             roadp.rotate(0,angle,0);
-            roads[x][y]=roadp;
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
 
             return;
         }
-        if (roads[x + 1][y] != null && roads[x - 1][y] == null && roads[x][y + 1] == null && roads[x][y - 1] == null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] != null && roads[x - 1][z][y] == null && roads[x][z][y + 1] == null && roads[x][z][y - 1] == null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.roadStraight();
-            roadp.move(x, 6.10f, y);
+            roadp.move(x, z+0.1f, y);
             
-            roads[x][y]=roadp;
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
 
             return;
         }
-        if (roads[x + 1][y] == null && roads[x - 1][y] == null && roads[x][y + 1] != null && roads[x][y - 1] == null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] == null && roads[x - 1][z][y] == null && roads[x][z][y + 1] != null && roads[x][z][y - 1] == null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.roadStraight();
-            roadp.move(x, 6.10f, y);
+            roadp.move(x, z+0.1f, y);
             float angle = (float) Math.toRadians(90);
             roadp.rotate(0,angle,0);
-            roads[x][y]=roadp;
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
 
             return;
         }
-        if (roads[x + 1][y] == null && roads[x - 1][y] != null && roads[x][y + 1] == null && roads[x][y - 1] == null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] == null && roads[x - 1][z][y] != null && roads[x][z][y + 1] == null && roads[x][z][y - 1] == null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.roadStraight();
-            roadp.move(x, 6.10f, y);        
-            roads[x][y]=roadp;
+            roadp.move(x, z+0.1f, y);        
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
 
             return;
         }
-        if (roads[x + 1][y] == null && roads[x - 1][y] == null && roads[x][y + 1] == null && roads[x][y - 1] != null) {
-            Spatial temp = roads[x][y];
+        if (roads[x + 1][z][y] == null && roads[x - 1][z][y] == null && roads[x][z][y + 1] == null && roads[x][z][y - 1] != null) {
+            Spatial temp = roads[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.roadStraight();
-            roadp.move(x, 6.10f, y);
+            roadp.move(x, z+0.1f, y);
             float angle = (float) Math.toRadians(90);
             roadp.rotate(0,angle,0);
-            roads[x][y]=roadp;
+            roads[x][z][y]=roadp;
             rootNode.attachChild(roadp);
             
 
