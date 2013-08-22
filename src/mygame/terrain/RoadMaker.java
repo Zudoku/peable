@@ -22,7 +22,7 @@ public class RoadMaker {
     private final AssetManager assetManager;
     private final Node rootNode;
     //X,Y,Z
-    Spatial roads[][][] = new Spatial[100][100][100];
+    public Spatial roads[][][] = new Spatial[100][100][100];
     public boolean change = true;
     public RoadFactory roadF;
 

@@ -6,22 +6,22 @@ Prototype 0.0
 5. Tien rakentaminen DONE!
 6. Tie jota voi rakentaa ilmaan ja nousevia teitä DONE!
 7. kun rakentaa tietä/nostaa maata kattoo jos se sallitaan ie tietä ei voi rakentaa maan sisään
-8.
-9.
+8. NPCeitä jotka vaeltavat ja voivat löytää esim kauppoja ja ostaa 
+9. NPCeitä spawnaamaan vaikka joka 10s eri properteieilla
 10.
 CORE 0.1
-1. Siisti UI!
-2.
-3.
+1. NPC osaa kulkea ylös / alas
+2. juoma ruoka paikka info ja vessa tehty ja niiden interact valmiina 
+3. 
 4.
 5.
 6.
 7.
 8.
 9.
-10.
+10. Siisti UI!
 ALPHA 0.2
-1.
+1. 
 2.
 3.
 4.

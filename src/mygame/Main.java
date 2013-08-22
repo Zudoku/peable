@@ -19,6 +19,7 @@ import mygame.GUI.SelectionParticleEmitter;
 import mygame.GUI.StartScreen;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.UserInput;
+import mygame.npc.NPCManager;
 import mygame.terrain.RoadMaker;
 import mygame.terrain.WorldHandler;
 
@@ -36,6 +37,7 @@ public class Main extends SimpleApplication {
     StartScreen startScreen;
     Nifty nifty;
     SelectionParticleEmitter selectionEmitter;
+    NPCManager npcManager;
     
     
 
@@ -62,6 +64,7 @@ public class Main extends SimpleApplication {
         worldHandler.makeGround();
          userInput.giveClickHandler(clickingHandler);
          ingameHUD.givefields(clickingHandler,worldHandler);
+        npcManager=new NPCManager(rootNode,assetManager);
         Camera camera =getCamera();
         camera.setLocation(new Vector3f(-11.696763f, 30.377302f, -13.492211f));
         
@@ -91,13 +94,7 @@ public class Main extends SimpleApplication {
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun); 
         
-       Spatial teapot = assetManager.loadModel("Models/roadBending.j3o");
-        Material mat_default = new Material( 
-            assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
-        teapot.setMaterial(mat_default);
-        teapot.scale(0.5f, 0.5f, 0.5f);
-        teapot.move(20, 6.1f, 20);
-        rootNode.attachChild(teapot);
+       
         
 
         
@@ -109,6 +106,7 @@ public class Main extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         nifty.update();
         selectionEmitter.updateSelection(rootNode, inputManager, cam);
+        npcManager.update();
     }
 
     @Override
