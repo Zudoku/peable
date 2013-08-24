@@ -41,6 +41,9 @@ public class GuestSpawner {
         if(spawnpoints.isEmpty()==true){
             return;
         }
+        if(guestNum>0){
+            return;
+        }
         int num=r.nextInt(firstName.size()-1);
         int num2=r.nextInt(surName.size()-1);
         String name=firstName.get(num)+" "+surName.get(num2);
