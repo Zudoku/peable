@@ -16,54 +16,59 @@ import java.util.Random;
  * @author arska
  */
 public class GuestSpawner {
-    
-    ArrayList<Vector3f> spawnpoints=new ArrayList<Vector3f>();
+
+    ArrayList<Vector3f> spawnpoints = new ArrayList<Vector3f>();
     ArrayList<BasicNPC> npcs = new ArrayList<BasicNPC>();
-    ArrayList<String> firstName =new ArrayList<String>();
-    ArrayList<String> surName =new ArrayList<String>();
-    int guestNum=0;
+    ArrayList<String> firstName = new ArrayList<String>();
+    ArrayList<String> surName = new ArrayList<String>();
+    int guestNum = 0;
     private final Node nPCNode;
     private final Node rootNode;
     Random r;
     private final AssetManager assetManager;
-    
-    public GuestSpawner(Node nPCNode,Node rootNode,AssetManager assetManager,ArrayList<BasicNPC> npcs){
-        this.nPCNode=nPCNode;
-        this.rootNode=rootNode;
-        this.assetManager=assetManager;
-        this.npcs=npcs;
-        r=new Random();
+
+    public GuestSpawner(Node nPCNode, Node rootNode, AssetManager assetManager, ArrayList<BasicNPC> npcs) {
+        this.nPCNode = nPCNode;
+        this.rootNode = rootNode;
+        this.assetManager = assetManager;
+        this.npcs = npcs;
+        r = new Random();
         addNames();
-        spawnpoints.add(new Vector3f(2,6,2));
-        spawnpoints.add(new Vector3f(10,6,2));
+        spawnpoints.add(new Vector3f(5, 6, 5));
+        spawnpoints.add(new Vector3f(5, 6, 5));
     }
-    public void forceSpawnGuest(){
-        if(spawnpoints.isEmpty()==true){
+
+    public void forceSpawnGuest() {
+        if (spawnpoints.isEmpty() == true) {
+            System.out.println("NO OR TOO LITLE SPAWNPOINTS");
             return;
         }
-        if(guestNum>0){
+        if (guestNum > 0) {
             return;
         }
-        int num=r.nextInt(firstName.size()-1);
-        int num2=r.nextInt(surName.size()-1);
-        String name=firstName.get(num)+" "+surName.get(num2);
+
+        int num = r.nextInt(firstName.size() - 1);
+        int num2 = r.nextInt(surName.size() - 1);
+        String name = firstName.get(num) + " " + surName.get(num2);
         //nimi raha numero
-        float money=r.nextInt(30);
-        money=money+15;
-         Spatial geom=assetManager.loadModel("Models/Human/guest.j3o");
-        Guest g = new Guest(name,money, guestNum,geom);
+        float money = r.nextInt(30);
+        money = money + 15;
+        Spatial geom = assetManager.loadModel("Models/Human/guest.j3o");
+        Guest g = new Guest(name, money, guestNum, geom);
         guestNum++;
-        int spp=r.nextInt(spawnpoints.size()-1);
+        int spp = r.nextInt(spawnpoints.size() - 1);
         g.getGeometry().move(spawnpoints.get(spp));
+        g.initXYZ((int) spawnpoints.get(spp).x, (int) spawnpoints.get(spp).y, (int) spawnpoints.get(spp).z);
         npcs.add(g);
         nPCNode.attachChild(g.getGeometry());
-        System.out.println("Guest "+Integer.toString(guestNum)+" Named: "+name+" has entered the world");
-        
+        System.out.println("Guest " + Integer.toString(guestNum) + " Named: " + name + " has entered the world");
+
     }
-    public void guestLeave(int guestnum){
-        
+
+    public void guestLeave(int guestnum) {
     }
-    private void addNames(){
+
+    private void addNames() {
         firstName.add("John");
         firstName.add("Arnold");
         firstName.add("James");
@@ -93,8 +98,8 @@ public class GuestSpawner {
         firstName.add("Edward");
         firstName.add("Adam");
         firstName.add("Jason");
-        
-        
+
+
         firstName.add("Mary");
         firstName.add("Patricia");
         firstName.add("Linda");
@@ -114,7 +119,7 @@ public class GuestSpawner {
         firstName.add("Ruth");
         firstName.add("Karen");
         firstName.add("Ruth");
-        
+
         surName.add("Smith");
         surName.add("Johnson");
         surName.add("Williams");
@@ -141,11 +146,11 @@ public class GuestSpawner {
         surName.add("Young");
         surName.add("King");
         surName.add("Scott");
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
     }
 }

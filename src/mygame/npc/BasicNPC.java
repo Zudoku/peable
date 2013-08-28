@@ -68,13 +68,20 @@ public class BasicNPC {
         }
 
         
-        //System.out.println(location.x + " " + location.y + " " + location.z + " name" + getName());
+        
         object.move(tarx,tary,tarz);
-        System.out.println((point.x - point.x % 0.2) + "   " + (object.getWorldTranslation().x - object.getWorldTranslation().x % 0.2)+"  "+(point.y - point.y % 0.2) + "   " + (object.getWorldTranslation().y - object.getWorldTranslation().y % 0.2)+"  "+(point.z - point.z % 0.2) + "   " + (object.getWorldTranslation().z - object.getWorldTranslation().z % 0.2));
+        System.out.println(object.getWorldTranslation().x+" "+object.getWorldTranslation().y+" "+object.getWorldTranslation().z);
+        //System.out.println(object.getLocalTranslation().x+" local "+object.getLocalTranslation().y+"    "+object.getLocalTranslation().z);
         if ((point.x - point.x % 0.2) == (object.getWorldTranslation().x - object.getWorldTranslation().x % 0.2)&&(point.y - point.y % 0.2) == (object.getWorldTranslation().y - object.getWorldTranslation().y % 0.2)&&(point.z - point.z % 0.2) == (object.getWorldTranslation().z - object.getWorldTranslation().z % 0.2)) {
+            System.out.println(object.getWorldTranslation().x+" "+object.getWorldTranslation().y+" "+object.getWorldTranslation().z);
             movePoints.remove(point);
 
         }
-        Vector3f location = new Vector3f(object.getLocalTranslation());
+        if ((point.x - point.x % 0.2) == (object.getWorldTranslation().x - ((object.getWorldTranslation().x+0.2f) % 0.2))&&(point.y - point.y % 0.2) == (object.getWorldTranslation().y - object.getWorldTranslation().y % 0.2)&&(point.z - point.z % 0.2) == (object.getWorldTranslation().z - object.getWorldTranslation().z % 0.2)) {
+            
+            movePoints.remove(point);
+
+        }
+        
     }
 }

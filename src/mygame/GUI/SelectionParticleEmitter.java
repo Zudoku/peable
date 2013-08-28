@@ -180,7 +180,13 @@ public class SelectionParticleEmitter {
             case ROAD:
                 if(Main.roadMaker.status==RoadMakerStatus.CHOOSING){
                     worldHandler.brush=1;
-                    MoveSelectionEmitters((int) (target.getContactPoint().x - worldHandler.HALFTILE), (int) (target.getContactPoint().y - worldHandler.HALFTILE), (int) (target.getContactPoint().z - worldHandler.HALFTILE));
+                    if (target == null) {
+                    return;
+                    }
+                    int testx=(int) (target.getContactPoint().x - worldHandler.HALFTILE);
+                    int testy=(int) (target.getContactPoint().y - worldHandler.HALFTILE);
+                    int testz=(int) (target.getContactPoint().z - worldHandler.HALFTILE);
+                    MoveSelectionEmitters(testx,testy,testz);
                 }
                 break;
                 case NOTHING:
