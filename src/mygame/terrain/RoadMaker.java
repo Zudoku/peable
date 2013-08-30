@@ -126,9 +126,11 @@ public class RoadMaker {
         }
         roads[(int) calcPosition().x][(int)calcPosition().y][(int) calcPosition().z] = road;
         if(road.getName()=="upHill"){
+            
             roads[(int) calcPosition().x][(int)calcPosition().y+1][(int) calcPosition().z] = road;
         }
         if(road.getName()=="downHill"){
+            
             roads[(int) calcPosition().x][(int)calcPosition().y-1][(int) calcPosition().z] = road;
         }
         switch (hill) {

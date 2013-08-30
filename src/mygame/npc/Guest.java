@@ -15,90 +15,145 @@ import mygame.Main;
  *
  * @author arska
  */
-public class Guest extends BasicNPC{
-    
-    private float money=10;
+public class Guest extends BasicNPC {
+
+    private float money = 10;
     private int guestnum;
-    private int hunger=0;
-    private int thirst=0;
-    private int bathroom=0;
+    private int hunger = 0;
+    private int thirst = 0;
+    private int bathroom = 0;
     private int x;
     private int y;
     private int z;
     private Random r;
-    private GuestWalkingStates walkState= GuestWalkingStates.WALK;
-    Spatial[][][]roads;
-    ArrayList<Vector3f> movePoints=new ArrayList<Vector3f>();
-    
-    
-    public Guest(String name,float money,int guestNum,Spatial geom){
+    private GuestWalkingStates walkState = GuestWalkingStates.WALK;
+    Spatial[][][] roads;
+    ArrayList<Vector3f> movePoints = new ArrayList<Vector3f>();
+
+    public Guest(String name, float money, int guestNum, Spatial geom) {
         super(name, geom);
-       
-        Node test=new Node();
-        
-        this.money=money;
-        this.guestnum=guestNum;
-        r=new Random();
-                
+
+        Node test = new Node();
+
+        this.money = money;
+        this.guestnum = guestNum;
+        r = new Random();
+
     }
 
     @Override
     public void update() {
-        if(movePoints.size()<1){
-            
+        if (movePoints.size() < 1) {
+
             calcMovePoints();
         }
-        if(walkState==GuestWalkingStates.WALK){
-            if(roads[x][y][z]==null){
+        if (walkState == GuestWalkingStates.WALK) {
+            if (roads[x][y][z] == null) {
                 return;
             }
-            if(movePoints.isEmpty()==true){
+            if (movePoints.isEmpty() == true) {
                 return;
             }
-            super.move(movePoints.get(0),movePoints);
+            super.move(movePoints.get(0), movePoints);
         }
-        
+
     }
-    public void randomizeStats(){
+
+    public void randomizeStats() {
         //todo
     }
-    public void calcMovePoints(){
+
+    public void calcMovePoints() {
         //0 p 1 e 2 i 3 l
-        int suunta=r.nextInt(3);
-        if(suunta==0){
-            if(roads[x+1][y][z]!=null){
-                movePoints.add(new Vector3f(x+1f, y+0.1f, z));
-                x=x+1;
+        int suunta = r.nextInt(4);
+        if (suunta == 0) {
+            if (roads[x + 1][y][z] != null) {
+                if (roads[x + 1][y+1][z] != null && roads[x + 2][y+1][z] != null) {
+                    movePoints.add(new Vector3f(x + 0.5f, y + 0.1f, z));
+                    movePoints.add(new Vector3f(x + 1f, y + 1.1f, z));
+                    x = x + 1;
+                    y = y + 1;
+                } else if (roads[x + 1][y-1][z] != null && roads[x + 2][y-1][z] != null) {
+                    movePoints.add(new Vector3f(x + 0.5f, y + 0.1f, z));
+                    movePoints.add(new Vector3f(x + 1f, y - 0.9f, z));
+                    x = x + 1;
+                    y = y - 1;
+                } else {
+                    movePoints.add(new Vector3f(x + 1f, y + 0.1f, z));
+                    x = x + 1;
+                }
             }
             return;
         }
-        if(suunta==1){
-            if(roads[x-1][y][z]!=null){
-                movePoints.add(new Vector3f(x-1, y+0.1f, z));
-                x=x-1;
+        if (suunta == 1) {
+            if (roads[x - 1][y][z] != null) {
+                if (roads[x - 1][y+1][z] !=null && roads[x - 2][y+1][z] != null) {
+                    movePoints.add(new Vector3f(x - 0.5f, y + 0.1f, z));
+                    movePoints.add(new Vector3f(x - 1f, y + 1.1f, z));
+                    x = x - 1;
+                    y=y+1;
+                } else if (roads[x - 1][y-1][z] !=null && roads[x - 2][y-1][z] != null) {
+                    movePoints.add(new Vector3f(x - 0.5f, y + 0.1f, z));
+                    movePoints.add(new Vector3f(x - 1f, y - 0.9f, z));
+                    x = x-1;
+                    y=y-1;
+                } else {
+                    movePoints.add(new Vector3f(x - 1, y + 0.1f, z));
+                    x = x - 1;
+                }
             }
             return;
         }
-        if(suunta==2){
-            if(roads[x][y][z+1]!=null){
-                movePoints.add(new Vector3f(x, y+0.1f, z+1));
-                z=z+1;
+        if (suunta == 2) {
+            if (roads[x][y][z + 1] != null) {
+                if(roads[x][y+1][z + 1] != null && roads[x][y+1][z + 2] != null){
+                    movePoints.add(new Vector3f(x, y + 0.1f, z + 0.5f));
+                    movePoints.add(new Vector3f(x, y + 1.1f, z + 1f));
+                    z=z+1;
+                    y=y+1;
+                }
+                else if (roads[x][y-1][z + 1] != null && roads[x][y-1][z + 2] != null){
+                    movePoints.add(new Vector3f(x, y + 0.1f, z + 0.5f));
+                    movePoints.add(new Vector3f(x, y - 0.9f, z + 1f));
+                    z=z+1;
+                    y=y-1;
+                    
+                }
+                else{
+                    movePoints.add(new Vector3f(x, y + 0.1f, z + 1));
+                    z = z + 1;
+                }
             }
             return;
         }
-        if(suunta==3){
-            if(roads[x][y][z-1]!=null){
-                movePoints.add(new Vector3f(x, y+0.1f, z-1));
-                z=z-1;
+        if (suunta == 3) {
+            if (roads[x][y][z - 1] != null) {
+                if(roads[x][y+1][z - 1] != null && roads[x][y+1][z - 2] != null){
+                    movePoints.add(new Vector3f(x, y + 0.1f, z - 0.5f));
+                    movePoints.add(new Vector3f(x, y + 1.1f, z - 1));
+                    z=z-1;
+                    y=y+1;
+                }
+                else if (roads[x][y-1][z - 1] != null && roads[x][y-1][z - 2] != null){
+                    movePoints.add(new Vector3f(x, y + 0.1f, z - 0.5f));
+                    movePoints.add(new Vector3f(x, y - 0.9f, z - 1));
+                    z=z-1;
+                    y=y-1;
+                }
+                else{
+                    movePoints.add(new Vector3f(x, y + 0.1f, z - 1));
+                    z = z - 1;
+                }
+               
             }
-            
+
         }
     }
-    public void initXYZ(int x,int y,int z){
-        this.x=x;
-        this.y=y;
-        this.z=z;
-        roads=Main.roadMaker.roads;
+
+    public void initXYZ(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        roads = Main.roadMaker.roads;
     }
-    
 }
