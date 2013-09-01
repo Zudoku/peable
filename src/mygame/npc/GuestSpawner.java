@@ -43,9 +43,7 @@ public class GuestSpawner {
             System.out.println("NO OR TOO LITLE SPAWNPOINTS");
             return;
         }
-        if (guestNum > 0) {
-            return;
-        }
+        
 
         int num = r.nextInt(firstName.size() - 1);
         int num2 = r.nextInt(surName.size() - 1);

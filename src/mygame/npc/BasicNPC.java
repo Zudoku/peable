@@ -33,7 +33,7 @@ public class BasicNPC {
 
     public void setName(String name) {
         if (name == null) {
-            System.out.println("NAME IS NULL");
+            System.out.println("Guest name is empty");
             return;
 
         }
@@ -43,27 +43,27 @@ public class BasicNPC {
     public void update() {
     }
 
-    public void move(Vector3f point, ArrayList<Vector3f> movePoints) {
+    public void move(NPCAction action, ArrayList<NPCAction> npcActions) {
         float tarx = 0;
         float tary = 0;
         float tarz = 0;
         
-        if (-(object.getWorldTranslation().x - point.x) > 0) {
+        if (-(object.getWorldTranslation().x - action.getMovePoint().x) > 0) {
             tarx = (0.02f);
         }
-        if (-(object.getWorldTranslation().x - point.x) < 0) {
+        if (-(object.getWorldTranslation().x - action.getMovePoint().x) < 0) {
             tarx = (-0.02f);
         }
-        if (-(object.getWorldTranslation().y - point.y) > 0) {
+        if (-(object.getWorldTranslation().y - action.getMovePoint().y) > 0) {
             tary = (0.02f);
         }
-        if (-(object.getWorldTranslation().y - point.y) < 0) {
+        if (-(object.getWorldTranslation().y - action.getMovePoint().y) < 0) {
             tary = (-0.02f);
         }
-        if (-(object.getWorldTranslation().z - point.z) > 0) {
+        if (-(object.getWorldTranslation().z - action.getMovePoint().z) > 0) {
             tarz = (0.02f);
         }
-        if (-(object.getWorldTranslation().z - point.z) < 0) {
+        if (-(object.getWorldTranslation().z - action.getMovePoint().z) < 0) {
             tarz = (-0.02f);
         }
 
@@ -71,9 +71,10 @@ public class BasicNPC {
         
         object.move(tarx,tary,tarz);
         System.out.println(object.getWorldTranslation().x+" "+object.getWorldTranslation().y+" "+object.getWorldTranslation().z);
-        if(point.distance(object.getWorldTranslation())<0.2){
-            System.out.println("move completed");
-            movePoints.remove(point);
+        if(action.getMovePoint().distance(object.getWorldTranslation())<0.2){
+            action.onAction();
+            System.out.println("NPCAction completed");
+            npcActions.remove(action);
         }
         
         

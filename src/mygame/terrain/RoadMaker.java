@@ -165,6 +165,8 @@ public class RoadMaker {
         updateRoad(tempx+1,tempy, tempz-1);
         updateRoad(tempx+1,tempy, tempz);
         updateRoad(tempx+1,tempy, tempz+1);
+        updateRoad(tempx,tempy+1, tempz-1);
+        updateRoad(tempx,tempy-1, tempz-1);
         
         
     }

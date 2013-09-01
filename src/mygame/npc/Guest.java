@@ -28,7 +28,7 @@ public class Guest extends BasicNPC {
     private Random r;
     private GuestWalkingStates walkState = GuestWalkingStates.WALK;
     Spatial[][][] roads;
-    ArrayList<Vector3f> movePoints = new ArrayList<Vector3f>();
+    ArrayList<NPCAction> actions = new ArrayList<NPCAction>();
 
     public Guest(String name, float money, int guestNum, Spatial geom) {
         super(name, geom);
@@ -43,7 +43,7 @@ public class Guest extends BasicNPC {
 
     @Override
     public void update() {
-        if (movePoints.size() < 1) {
+        if (actions.size() < 1) {
 
             calcMovePoints();
         }
@@ -51,10 +51,10 @@ public class Guest extends BasicNPC {
             if (roads[x][y][z] == null) {
                 return;
             }
-            if (movePoints.isEmpty() == true) {
+            if (actions.isEmpty() == true) {
                 return;
             }
-            super.move(movePoints.get(0), movePoints);
+            super.move(actions.get(0), actions);
         }
 
     }
@@ -69,17 +69,17 @@ public class Guest extends BasicNPC {
         if (suunta == 0) {
             if (roads[x + 1][y][z] != null) {
                 if (roads[x + 1][y+1][z] != null && roads[x + 2][y+1][z] != null) {
-                    movePoints.add(new Vector3f(x + 0.5f, y + 0.1f, z));
-                    movePoints.add(new Vector3f(x + 1f, y + 1.1f, z));
+                    actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), ActionType.NOTHING));
+                    actions.add(new NPCAction(new Vector3f(x + 1f, y + 1.1f, z), ActionType.NOTHING));
                     x = x + 1;
                     y = y + 1;
                 } else if (roads[x + 1][y-1][z] != null && roads[x + 2][y-1][z] != null) {
-                    movePoints.add(new Vector3f(x + 0.5f, y + 0.1f, z));
-                    movePoints.add(new Vector3f(x + 1f, y - 0.9f, z));
+                    actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), ActionType.NOTHING));
+                    actions.add(new NPCAction(new Vector3f(x + 1f, y - 0.9f, z), ActionType.NOTHING));
                     x = x + 1;
                     y = y - 1;
                 } else {
-                    movePoints.add(new Vector3f(x + 1f, y + 0.1f, z));
+                    actions.add(new NPCAction(new Vector3f(x + 1f, y + 0.1f, z), ActionType.NOTHING));
                     x = x + 1;
                 }
             }
@@ -88,17 +88,17 @@ public class Guest extends BasicNPC {
         if (suunta == 1) {
             if (roads[x - 1][y][z] != null) {
                 if (roads[x - 1][y+1][z] !=null && roads[x - 2][y+1][z] != null) {
-                    movePoints.add(new Vector3f(x - 0.5f, y + 0.1f, z));
-                    movePoints.add(new Vector3f(x - 1f, y + 1.1f, z));
+                    actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), ActionType.NOTHING));
+                    actions.add(new NPCAction(new Vector3f(x - 1f, y + 1.1f, z), ActionType.NOTHING));
                     x = x - 1;
                     y=y+1;
                 } else if (roads[x - 1][y-1][z] !=null && roads[x - 2][y-1][z] != null) {
-                    movePoints.add(new Vector3f(x - 0.5f, y + 0.1f, z));
-                    movePoints.add(new Vector3f(x - 1f, y - 0.9f, z));
+                    actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), ActionType.NOTHING));
+                    actions.add(new NPCAction(new Vector3f(x - 1f, y - 0.9f, z), ActionType.NOTHING));
                     x = x-1;
                     y=y-1;
                 } else {
-                    movePoints.add(new Vector3f(x - 1, y + 0.1f, z));
+                    actions.add(new NPCAction(new Vector3f(x - 1, y + 0.1f, z), ActionType.NOTHING));
                     x = x - 1;
                 }
             }
@@ -107,20 +107,20 @@ public class Guest extends BasicNPC {
         if (suunta == 2) {
             if (roads[x][y][z + 1] != null) {
                 if(roads[x][y+1][z + 1] != null && roads[x][y+1][z + 2] != null){
-                    movePoints.add(new Vector3f(x, y + 0.1f, z + 0.5f));
-                    movePoints.add(new Vector3f(x, y + 1.1f, z + 1f));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), ActionType.NOTHING));
+                    actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z + 1f), ActionType.NOTHING));
                     z=z+1;
                     y=y+1;
                 }
                 else if (roads[x][y-1][z + 1] != null && roads[x][y-1][z + 2] != null){
-                    movePoints.add(new Vector3f(x, y + 0.1f, z + 0.5f));
-                    movePoints.add(new Vector3f(x, y - 0.9f, z + 1f));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), ActionType.NOTHING));
+                    actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z + 1f), ActionType.NOTHING));
                     z=z+1;
                     y=y-1;
                     
                 }
                 else{
-                    movePoints.add(new Vector3f(x, y + 0.1f, z + 1));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 1), ActionType.NOTHING));
                     z = z + 1;
                 }
             }
@@ -129,19 +129,19 @@ public class Guest extends BasicNPC {
         if (suunta == 3) {
             if (roads[x][y][z - 1] != null) {
                 if(roads[x][y+1][z - 1] != null && roads[x][y+1][z - 2] != null){
-                    movePoints.add(new Vector3f(x, y + 0.1f, z - 0.5f));
-                    movePoints.add(new Vector3f(x, y + 1.1f, z - 1));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), ActionType.NOTHING));
+                    actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z - 1), ActionType.NOTHING));
                     z=z-1;
                     y=y+1;
                 }
                 else if (roads[x][y-1][z - 1] != null && roads[x][y-1][z - 2] != null){
-                    movePoints.add(new Vector3f(x, y + 0.1f, z - 0.5f));
-                    movePoints.add(new Vector3f(x, y - 0.9f, z - 1));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), ActionType.NOTHING));
+                    actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z - 1), ActionType.NOTHING));
                     z=z-1;
                     y=y-1;
                 }
                 else{
-                    movePoints.add(new Vector3f(x, y + 0.1f, z - 1));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 1), ActionType.NOTHING));
                     z = z - 1;
                 }
                
