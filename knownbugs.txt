@@ -1,2 +1,20 @@
--nullpointer exeption kun klikkaat mapin yli
+-nullpointer exeption kun klikkaat mapin yli  FIXED!
+-tie ei päivity kun rakennat tietä x-1 ja alas 
+-guestien liike bugista (ylös alas -tiet)
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
 -

@@ -40,7 +40,7 @@ public class GuestSpawner {
 
     public void forceSpawnGuest() {
         if (spawnpoints.isEmpty() == true) {
-            System.out.println("NO OR TOO LITLE SPAWNPOINTS");
+            System.out.println("No or too little spawnpoints");
             return;
         }
         

@@ -10,6 +10,8 @@ import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
 import mygame.Main;
+import mygame.npc.inventory.Item;
+import mygame.npc.inventory.Wallet;
 
 /**
  *
@@ -17,7 +19,7 @@ import mygame.Main;
  */
 public class Guest extends BasicNPC {
 
-    private float money = 10;
+    public Wallet wallet;
     private int guestnum;
     private int hunger = 0;
     private int thirst = 0;
@@ -29,18 +31,18 @@ public class Guest extends BasicNPC {
     private GuestWalkingStates walkState = GuestWalkingStates.WALK;
     Spatial[][][] roads;
     ArrayList<NPCAction> actions = new ArrayList<NPCAction>();
+    public ArrayList<Item> inventory = new ArrayList<Item>();
 
     public Guest(String name, float money, int guestNum, Spatial geom) {
         super(name, geom);
 
         Node test = new Node();
 
-        this.money = money;
+        this.wallet=new Wallet(money);
         this.guestnum = guestNum;
         r = new Random();
 
-    }
-
+    } 
     @Override
     public void update() {
         if (actions.size() < 1) {
