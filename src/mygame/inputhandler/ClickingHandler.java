@@ -6,7 +6,6 @@ package mygame.inputhandler;
 
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
-import com.jme3.math.Vector3f;
 import mygame.Main;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.WorldHandler;

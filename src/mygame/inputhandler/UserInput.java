@@ -18,7 +18,6 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
-import mygame.GUI.SelectionParticleEmitter;
 
 
 /**
@@ -101,16 +100,16 @@ public class UserInput {
     private AnalogListener analogListener = new AnalogListener() {
        
         public void onAnalog(String name, float value, float tpf) {
-            if(name=="movecameraup"){
+            if(name.equals("movecameraup")){
                 cameraController.moveUp();
             }
-            if(name=="movecameradown"){
+            if(name.equals("movecameradown")){
                 cameraController.moveDown();
             }
-            if(name=="movecameraright"){
+            if(name.equals("movecameraright")){
                 cameraController.moveRight();
             }
-            if(name=="movecameraleft"){
+            if(name.equals("movecameraleft")){
                 cameraController.moveLeft();
             }
         }

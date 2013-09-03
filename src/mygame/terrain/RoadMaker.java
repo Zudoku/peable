@@ -116,20 +116,20 @@ public class RoadMaker {
         road.move(calcPosition());
         if(roads[(int) calcPosition().x][(int)calcPosition().y][(int) calcPosition().z]!=null){
             Spatial temproad=roads[(int) calcPosition().x][(int)calcPosition().y][(int) calcPosition().z];
-            if(temproad.getName()=="upHill"){
+            if(temproad.getName().equals("upHill")){
                 roads[(int) calcPosition().x][(int)calcPosition().y+1][(int) calcPosition().z]=null;
             }
-            if(temproad.getName()=="downHill"){
+            if(temproad.getName().equals("downHill")){
                 roads[(int) calcPosition().x][(int)calcPosition().y-1][(int) calcPosition().z]=null;
             }
             rootNode.detachChild(temproad);
         }
         roads[(int) calcPosition().x][(int)calcPosition().y][(int) calcPosition().z] = road;
-        if(road.getName()=="upHill"){
+        if(road.getName().equals("upHill")){
             
             roads[(int) calcPosition().x][(int)calcPosition().y+1][(int) calcPosition().z] = road;
         }
-        if(road.getName()=="downHill"){
+        if(road.getName().equals("downHill")){
             
             roads[(int) calcPosition().x][(int)calcPosition().y-1][(int) calcPosition().z] = road;
         }
@@ -190,7 +190,7 @@ public class RoadMaker {
     }
     //X,Y,Z
     public void updateRoad(int x,int z, int y) {
-        if(roads[x][z][y]==null||roads[x][z][y].getName()=="upHill"||roads[x][z][y].getName()=="downHill"){
+        if(roads[x][z][y]==null||roads[x][z][y].getName().equals("upHill")||roads[x][z][y].getName().equals("downHill")){
             return;
         }
         if (roads[x + 1][z][y] != null && roads[x - 1][z][y] != null && roads[x][z][y + 1] != null && roads[x][z][y - 1] != null) {
@@ -393,6 +393,6 @@ public class RoadMaker {
             return;
         }
         System.out.println("BUG IN THE SYSTEM ZZZZ");
-        return;
+        
     }
 }
