@@ -15,10 +15,12 @@ import mygame.npc.Guest;
 public class BasicShop {
     Vector3f position;
     Spatial object;
+    public float constructionmoney;
     
-    public BasicShop(Vector3f position,Spatial object){
+    public BasicShop(Vector3f position,Spatial object,float cost){
         this.position=position;
         this.object=object;
+        this.constructionmoney=cost;
     }
     
     public void interact(Guest guest){

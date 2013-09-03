@@ -20,7 +20,7 @@ public class Meatballshop extends BasicShop{
     String productname="Meatballs";
     
     public Meatballshop(Vector3f position,Spatial geom){
-        super(position,geom);
+        super(position,geom,300);
         
         
         
