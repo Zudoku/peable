@@ -49,7 +49,7 @@ public class IngameHUD implements ScreenController{
     
   }
     public void onStartScreen() {
-        
+     closeWindows("");   
     }
 
     public void onEndScreen() {
@@ -99,6 +99,7 @@ public class IngameHUD implements ScreenController{
     niftyElement.getRenderer(TextRenderer.class).setText(Integer.toString(getBrushSize()));
     }
     public void toggleShovelWindow(){
+        closeWindows("shovelWindow");
         Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
 
         niftyElement.setVisible(!niftyElement.isVisible());
@@ -110,12 +111,13 @@ public class IngameHUD implements ScreenController{
         }
     }
     public void toggleRoadWindow(){
+        closeWindows("roadWindow");
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
 
         niftyElement.setVisible(!niftyElement.isVisible());
         if(niftyElement.isVisible()==true){
             Main.clickingHandler.clickMode= ClickingModes.ROAD;
-            //sulje muut ikkunat
+            
             
         }else{
             
@@ -207,6 +209,18 @@ public class IngameHUD implements ScreenController{
     }
     public void selectionButton(){
         Main.roadMaker.status= RoadMakerStatus.CHOOSING;
+    }
+    public void closeWindows(String elementname){
+        if(!elementname.equals("roadWindow")){
+            Element niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
+        niftyElement.setVisible(false);
+        }
+        if(!elementname.equals("shovelWindow")){
+            Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
+        niftyElement.setVisible(false);
+        }
+         
+        
     }
    
     

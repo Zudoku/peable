@@ -26,9 +26,9 @@ ALPHA 0.2
 3.
 4.
 5.
-6.
+6.Raha
 7.
-8.
-9.
-10.
-ALPHA 0.3
+8.Tallentaminen
+9.Main menu
+10. Updater
+Beta 1.3

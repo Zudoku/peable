@@ -52,6 +52,11 @@ public class ClickingHandler {
                 break;
 
             case RIDE:
+                
+                break;
+                
+            case PLACE:
+                    
                 break;
         }
 

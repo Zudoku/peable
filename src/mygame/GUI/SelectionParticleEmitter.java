@@ -186,8 +186,15 @@ public class SelectionParticleEmitter {
                     MoveSelectionEmitters(testx,testy,testz);
                 }
                 break;
-                case NOTHING:
+            case NOTHING:
                     deleteParticles();
+                    break;
+                    
+                case PLACE:
+                    if(target==null){
+                        return;
+                    }
+                        Main.holoDrawer.updateLocation(target.getContactPoint());
                     break;
                     
         }

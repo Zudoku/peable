@@ -15,6 +15,7 @@ import mygame.GUI.StartScreen;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.UserInput;
 import mygame.npc.NPCManager;
+import mygame.shops.HolomodelDrawer;
 import mygame.terrain.RoadMaker;
 import mygame.terrain.WorldHandler;
 
@@ -28,6 +29,7 @@ public class Main extends SimpleApplication {
     
     public static ClickingHandler clickingHandler;
     public static RoadMaker roadMaker;
+    public static HolomodelDrawer holoDrawer;
     IngameHUD ingameHUD;
     StartScreen startScreen;
     Nifty nifty;
@@ -50,7 +52,7 @@ public class Main extends SimpleApplication {
         ingameHUD=new IngameHUD();
         startScreen=new StartScreen();
         
-        
+        holoDrawer=new HolomodelDrawer(assetManager, rootNode);
         userInput=new UserInput(rootNode,inputManager,cam);
         rootNode.setName("gamenode");
         worldHandler = new WorldHandler(rootNode,assetManager,ingameHUD);
@@ -61,6 +63,8 @@ public class Main extends SimpleApplication {
          userInput.giveClickHandler(clickingHandler);
          ingameHUD.givefields(clickingHandler,worldHandler);
         npcManager=new NPCManager(rootNode,assetManager);
+        
+        
         Camera camera =getCamera();
         camera.setLocation(new Vector3f(-11.696763f, 30.377302f, -13.492211f));
         
