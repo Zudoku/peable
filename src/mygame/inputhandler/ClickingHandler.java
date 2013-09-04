@@ -56,7 +56,7 @@ public class ClickingHandler {
                 break;
                 
             case PLACE:
-                    
+                    Main.shopManager.buy();
                 break;
         }
 

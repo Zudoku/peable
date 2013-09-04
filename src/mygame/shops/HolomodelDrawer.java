@@ -41,6 +41,10 @@ public class HolomodelDrawer {
             drawed = geom;
         }
     }
+    public Vector3f getLocation(){
+        return drawed.getLocalTranslation();
+    }
+    
     public void updateLocation(Vector3f loc){
         drawed.setLocalTranslation(pyorista(loc));
     }

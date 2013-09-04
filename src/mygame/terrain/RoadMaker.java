@@ -15,7 +15,7 @@ import com.jme3.scene.Spatial;
  */
 public class RoadMaker {
 
-    public RoadDirection direction = RoadDirection.UP;
+    public Direction direction = Direction.UP;
     public RoadHill hill = RoadHill.FLAT;
     public RoadMakerStatus status = RoadMakerStatus.BUILDING;
     public Vector3f startingPosition;

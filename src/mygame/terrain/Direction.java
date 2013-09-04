@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mygame.shops;
+package mygame.terrain;
 
 /**
  *
  * @author arska
  */
-public class Toilet {
-    
+public enum Direction {
+    UP,DOWN,RIGHT,LEFT
 }

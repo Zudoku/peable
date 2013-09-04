@@ -4,9 +4,11 @@
  */
 package mygame.shops;
 
+import mygame.shops.actualshops.Meatballshop;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import mygame.terrain.Direction;
 
 /**
  *
@@ -18,9 +20,10 @@ public class ShopFactory {
     public ShopFactory(AssetManager assetManager){
         this.assetManager=assetManager;
     }
-    public Meatballshop meatBallShop(Vector3f pos){
-        Spatial geom =assetManager.loadModel("");
-        Meatballshop shop=new Meatballshop(pos,geom);
+    public Meatballshop meatBallShop(Vector3f pos,Direction facing){
+        Spatial geom =assetManager.loadModel("Models/shops/mball.j3o");
+        Meatballshop shop=new Meatballshop(pos,geom,facing);
+        
         return shop;
     }
     

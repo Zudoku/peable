@@ -18,7 +18,7 @@ import de.lessvoid.nifty.screen.ScreenController;
 import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
-import mygame.terrain.RoadDirection;
+import mygame.terrain.Direction;
 import mygame.terrain.RoadHill;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.WorldHandler;
@@ -125,7 +125,7 @@ public class IngameHUD implements ScreenController{
         }
     }
     public void roadDirectionUp(){
-        Main.roadMaker.direction= RoadDirection.UP;
+        Main.roadMaker.direction= Direction.UP;
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
         niftyElement.startEffect(EffectEventId.onCustom);
         //resettaa muitten effectit
@@ -139,7 +139,7 @@ public class IngameHUD implements ScreenController{
         
     }
     public void roadDirectionDown(){
-        Main.roadMaker.direction= RoadDirection.DOWN;
+        Main.roadMaker.direction= Direction.DOWN;
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
         niftyElement.startEffect(EffectEventId.onCustom);
         niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
@@ -150,7 +150,7 @@ public class IngameHUD implements ScreenController{
         niftyElement.stopEffect(EffectEventId.onCustom);
     }
     public void roadDirectionRight(){
-        Main.roadMaker.direction= RoadDirection.RIGHT;
+        Main.roadMaker.direction= Direction.RIGHT;
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
         niftyElement.startEffect(EffectEventId.onCustom);
         niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
@@ -161,7 +161,7 @@ public class IngameHUD implements ScreenController{
         niftyElement.stopEffect(EffectEventId.onCustom);
     }
     public void roadDirectionLeft(){
-        Main.roadMaker.direction= RoadDirection.LEFT;
+        Main.roadMaker.direction= Direction.LEFT;
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
         niftyElement.startEffect(EffectEventId.onCustom);
         niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
