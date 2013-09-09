@@ -110,6 +110,13 @@ public class IngameHUD implements ScreenController{
             Main.clickingHandler.clickMode= ClickingModes.NOTHING;
         }
     }
+    public void toggleRidesWindow(){
+        closeWindows("rideWindow");
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("rideWindow");
+
+        niftyElement.setVisible(!niftyElement.isVisible());
+        
+    }
     public void toggleRoadWindow(){
         closeWindows("roadWindow");
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");

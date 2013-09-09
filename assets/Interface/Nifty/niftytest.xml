@@ -26,6 +26,10 @@
                 <image filename="Interface/Roads/Icon.png"x="65"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick="toggleRoadWindow()"/>
                 </image>
+                <image filename="Interface/Rides/Icon.png"x="130"y="0" childLayout="absolute" width="64" height="64">
+                    <interact onClick="toggleShopWindow()"/>
+                </image>
+                
             </panel>
         </layer>
         <layer id="windows" width="200"height="300"childLayout="absolute">
@@ -100,6 +104,246 @@
                         </interact>
                     </image>
                 </panel>
+            </control>
+            <control id="ShopWindow" name="window"title="Shops"width="1000"height="600"x="200"y="200"hideOnClose="true"closeable="false">
+                 <panel id="shoppanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true"childClip="true">
+                    <control id="scrollbarPanelId" name="scrollPanel" horizontal="false" height="500px" x="60"y="60"pageSizeY="4"stepSizeY="2">
+                        <panel id="panel"valign="top"align="left"height="1000" width="526" backgroundColor="#999999" childLayout="absolute"visibleToMouse="true"x="0"y="0"> 
+                            <image filename="Interface/Shops/Shops.png"x="0"y="0" childLayout="absolute" height="64"width="128"visibleToMouse="true">
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="10"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="84"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="158"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="232"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="306"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="380"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="454"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="10"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="84"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="158"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="232"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="306"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="380"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="454"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="10"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="84"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="158"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="232"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="306"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="380"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="454"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Rides.png"x="0"y="306" childLayout="absolute" height="64"width="128"visibleToMouse="true">
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="10"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="84"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="158"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="232"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="306"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="380"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="454"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="10"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="84"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="158"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="232"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="306"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="380"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="454"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="10"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="84"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="158"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="232"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="306"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="380"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="454"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="10"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="84"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="158"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="232"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="306"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="380"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="454"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="10"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="84"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="158"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="232"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="306"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="380"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="454"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                        </panel>
+                    </control>
+                    <panel id="shopdescpanel"valign="top"align="left"height="500" width="380" x="600"y="60"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                        <image filename="Interface/Shops/Noshoppic.png"x="2"y="2" childLayout="absolute" height="300"width="376"visibleToMouse="true">
+                        </image>
+                    </panel>
+                 </panel>
             </control>
         </layer>
     </screen>
