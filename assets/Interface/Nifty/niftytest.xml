@@ -112,15 +112,15 @@
                             <image filename="Interface/Shops/Shops.png"x="0"y="0" childLayout="absolute" height="64"width="128"visibleToMouse="true">
                             </image>
                             <image filename="Interface/Shops/Nopic.png"x="10"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
+                                <interact onClick="shopSelectmball()">   
                                 </interact>
                             </image>
                             <image filename="Interface/Shops/Nopic.png"x="84"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
+                                <interact onClick="shopSelecttoilet()">   
                                 </interact>
                             </image>
                             <image filename="Interface/Shops/Nopic.png"x="158"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
+                                <interact onClick="shopSelectenergy()">   
                                 </interact>
                             </image>
                             <image filename="Interface/Shops/Nopic.png"x="232"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
@@ -338,7 +338,7 @@
                                 </interact>
                             </image>
                         </panel>
-                    </control>
+                    </control>***
                     <panel id="shopdescpanel"valign="top"align="left"height="500" width="380" x="600"y="60"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                         <image filename="Interface/Shops/Noshoppic.png"x="2"y="2" childLayout="absolute" height="300"width="376"visibleToMouse="true">
                         </image>

@@ -18,6 +18,7 @@ import de.lessvoid.nifty.screen.ScreenController;
 import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
+import mygame.shops.Basicshops;
 import mygame.terrain.Direction;
 import mygame.terrain.RoadHill;
 import mygame.terrain.RoadMakerStatus;
@@ -35,7 +36,8 @@ public class IngameHUD implements ScreenController{
   public boolean shovel=false;
   public ClickingHandler clickingHandler;
   public int brushsize=3;
-    private WorldHandler worldHandler;
+  private WorldHandler worldHandler;
+  public Basicshops selectedShop= Basicshops.NULL;
 
  
  public IngameHUD(){
@@ -228,6 +230,44 @@ public class IngameHUD implements ScreenController{
         }
          
         
+    }
+    public void shopSelectmball(){
+        selectedShop= Basicshops.MBALL;
+        if(selectedShop==Main.shopManager.selectedShop){
+            System.out.println("YOU BOUGHT SHOP");
+            Main.shopManager.buy();
+            
+            
+            
+        }
+        else{
+            Main.shopManager.setSelection(selectedShop);
+            System.out.println("YOU SELECTED SHOP");
+            //set description
+        }
+    }
+    public void shopSelecttoilet(){
+        selectedShop= Basicshops.TOILET;
+        if(selectedShop==Main.shopManager.selectedShop){
+            Main.clickingHandler.clickMode= ClickingModes.PLACE;
+            Main.shopManager.buy();
+            
+        }
+        else{
+            Main.shopManager.selectedShop=Basicshops.TOILET;
+            //set description
+        }
+    }
+    public void shopSelectenergy(){
+        selectedShop= Basicshops.ENERGY;
+        if(selectedShop==Main.shopManager.selectedShop){
+            Main.shopManager.buy();
+            
+        }
+        else{
+            Main.shopManager.selectedShop=Basicshops.ENERGY;
+            //set description
+        }
     }
    
     
