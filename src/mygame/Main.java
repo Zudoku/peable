@@ -66,7 +66,7 @@ public class Main extends SimpleApplication {
          userInput.giveClickHandler(clickingHandler);
          ingameHUD.givefields(clickingHandler,worldHandler);
         npcManager=new NPCManager(rootNode,assetManager);
-        shopManager=new ShopManager(assetManager);
+        shopManager=new ShopManager(assetManager,rootNode);
         
         
         Camera camera =getCamera();

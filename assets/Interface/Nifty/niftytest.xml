@@ -105,7 +105,7 @@
                     </image>
                 </panel>
             </control>
-            <control id="ShopWindow" name="window"title="Shops"width="1000"height="600"x="200"y="200"hideOnClose="true"closeable="false">
+            <control id="shopWindow" name="window"title="Shops"width="1000"height="600"x="200"y="200"hideOnClose="true"closeable="false">
                  <panel id="shoppanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true"childClip="true">
                     <control id="scrollbarPanelId" name="scrollPanel" horizontal="false" height="500px" x="60"y="60"pageSizeY="4"stepSizeY="2">
                         <panel id="panel"valign="top"align="left"height="1000" width="526" backgroundColor="#999999" childLayout="absolute"visibleToMouse="true"x="0"y="0"> 

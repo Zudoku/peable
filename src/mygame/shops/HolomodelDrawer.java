@@ -5,6 +5,7 @@
 package mygame.shops;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.collision.CollisionResult;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -42,6 +43,9 @@ public class HolomodelDrawer {
 
     public void loadSpatial(Spatial geom) {
         if (geom != null) {
+            if(drawed!=null){
+                node.detachChild(drawed);
+            }
             drawed = geom;
         }
     }
@@ -49,10 +53,14 @@ public class HolomodelDrawer {
         return drawed.getLocalTranslation();
     }
     
-    public void updateLocation(Vector3f loc){
+    public void updateLocation(CollisionResult target){
         if(positionLocked){
             return;
         }
+        if(target.getGeometry()==drawed){
+            return;
+        }
+        Vector3f loc = target.getContactPoint();
         drawed.setLocalTranslation(pyorista(loc));
     }
     public Vector3f pyorista(Vector3f pos){
@@ -96,5 +104,6 @@ public class HolomodelDrawer {
             
         }
     }
+    
     
 }

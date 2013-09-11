@@ -194,7 +194,7 @@ public class SelectionParticleEmitter {
                     if(target==null){
                         return;
                     }
-                        Main.holoDrawer.updateLocation(target.getContactPoint());
+                        Main.holoDrawer.updateLocation(target);
                     break;
                     
         }

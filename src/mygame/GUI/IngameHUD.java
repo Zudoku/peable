@@ -112,9 +112,9 @@ public class IngameHUD implements ScreenController{
             Main.clickingHandler.clickMode= ClickingModes.NOTHING;
         }
     }
-    public void toggleRidesWindow(){
-        closeWindows("rideWindow");
-        Element niftyElement = nifty.getCurrentScreen().findElementByName("rideWindow");
+    public void toggleShopWindow(){
+        closeWindows("shopWindow");
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("shopWindow");
 
         niftyElement.setVisible(!niftyElement.isVisible());
         
@@ -223,9 +223,19 @@ public class IngameHUD implements ScreenController{
         if(!elementname.equals("roadWindow")){
             Element niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
         niftyElement.setVisible(false);
+        niftyElement = nifty.getCurrentScreen().findElementByName("shopWindow");
+        niftyElement.setVisible(false);
         }
         if(!elementname.equals("shovelWindow")){
             Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
+        niftyElement.setVisible(false);
+        niftyElement = nifty.getCurrentScreen().findElementByName("shopWindow");
+        niftyElement.setVisible(false);
+        }
+        if(!elementname.equals("shopWindow")){
+            Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
+        niftyElement.setVisible(false);
+         niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
         niftyElement.setVisible(false);
         }
          
@@ -235,7 +245,9 @@ public class IngameHUD implements ScreenController{
         selectedShop= Basicshops.MBALL;
         if(selectedShop==Main.shopManager.selectedShop){
             System.out.println("YOU BOUGHT SHOP");
-            Main.shopManager.buy();
+            closeWindows(" ");
+            Main.shopManager.activateplace();
+            
             
             
             

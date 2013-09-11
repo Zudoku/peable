@@ -4,10 +4,10 @@
  */
 package mygame.shops;
 
-import mygame.shops.actualshops.Meatballshop;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import mygame.shops.actualshops.Meatballshop;
 import mygame.terrain.Direction;
 
 /**

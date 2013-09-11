@@ -57,6 +57,8 @@ public class ClickingHandler {
                 
             case PLACE:
                     Main.shopManager.buy();
+                    Main.holoDrawer.toggleDrawSpatial();
+                    
                 break;
         }
 

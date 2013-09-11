@@ -6,6 +6,8 @@ package mygame.shops;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import mygame.Main;
 import mygame.inputhandler.ClickingModes;
@@ -21,41 +23,64 @@ public class ShopManager {
     ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
     ShopFactory shopFactory;
     Direction facing = Direction.DOWN;
+    private final AssetManager assetManager;
+    public Node shopNode;
+    public Node rootNode;
 
-    public ShopManager(AssetManager assetManager) {
+    public ShopManager(AssetManager assetManager,Node rootNode) {
         shopFactory = new ShopFactory(assetManager);
+        this.assetManager=assetManager;
+        this.rootNode=rootNode;
+        shopNode=new Node("shopNode");
+        rootNode.attachChild(shopNode);
 
     }
 
     public void buy() {
-        if(Main.clickingHandler.clickMode!=ClickingModes.PLACE){
-            System.out.println("Something just went Wrong!! you tried to buy when you were not in placing mode!");
-            return;
-        }
-        Vector3f loc = Main.holoDrawer.pyorista(Main.holoDrawer.getLocation());
         
+        Vector3f loc = Main.holoDrawer.pyorista(Main.holoDrawer.getLocation());
+        BasicShop boughtshop = null;
         
         switch (selectedShop) {
             case MBALL:
-
+                boughtshop=shopFactory.meatBallShop(loc, facing);
                 break;
 
             case ENERGY:
-                
+                //boughtshop=shopFactory.
                 break;
                 
             case TOILET:
-                
+                //boughtshop=shopFactory.
                 break;
                 
             case NULL:
                 System.out.println("You just tried to buy null shop!");
                 break;
         }
-        shops.add(null);
-
+        shops.add(boughtshop);
+        shopNode.attachChild(boughtshop.object);
+        resetShopdata();
     }
-
+    public void activateplace(){
+        Spatial geom;
+        switch(selectedShop){
+            case MBALL:
+                geom =assetManager.loadModel("Models/shops/mball.j3o");
+                Main.holoDrawer.loadSpatial(geom);
+                break; 
+                       
+            case NULL:
+                System.out.println("BUG IN SHOPMANAGER LINE 64!");
+                break;
+        }
+        Main.holoDrawer.toggleDrawSpatial();
+        Main.clickingHandler.clickMode= ClickingModes.PLACE;
+        
+        
+        //TODO close window
+        
+    }
     public void setSelection(Basicshops select) {
         if (select == null) {
             return;
@@ -67,6 +92,7 @@ public class ShopManager {
     public void resetShopdata() {
         selectedShop = Basicshops.NULL;
         facing = Direction.DOWN;
+        Main.clickingHandler.clickMode= ClickingModes.NOTHING;
     }
     public void rotateShop(){
         switch(facing){
