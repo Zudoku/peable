@@ -5,6 +5,8 @@
 package mygame.shops;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.light.DirectionalLight;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -26,6 +28,7 @@ public class ShopManager {
     private final AssetManager assetManager;
     public Node shopNode;
     public Node rootNode;
+    BasicShop boughtshop;
 
     public ShopManager(AssetManager assetManager,Node rootNode) {
         shopFactory = new ShopFactory(assetManager);
@@ -33,13 +36,15 @@ public class ShopManager {
         this.rootNode=rootNode;
         shopNode=new Node("shopNode");
         rootNode.attachChild(shopNode);
+        
 
     }
 
     public void buy() {
         
         Vector3f loc = Main.holoDrawer.pyorista(Main.holoDrawer.getLocation());
-        BasicShop boughtshop = null;
+        loc.y=6;
+        
         
         switch (selectedShop) {
             case MBALL:
@@ -61,6 +66,14 @@ public class ShopManager {
         shops.add(boughtshop);
         shopNode.attachChild(boughtshop.object);
         resetShopdata();
+        System.out.println("SHOP BOUGHT AT "+loc.x+" "+loc.y+" "+loc.z);
+        Vector3f tempshit=boughtshop.object.getWorldTranslation();
+        System.out.println("SHOP IS AT "+tempshit.x+" "+tempshit.y+" "+tempshit.z);
+        DirectionalLight sun = new DirectionalLight(); 
+        sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f))); 
+        sun.setColor(ColorRGBA.White);
+        shopNode.addLight(sun);
+        
     }
     public void activateplace(){
         Spatial geom;
@@ -76,9 +89,9 @@ public class ShopManager {
         }
         Main.holoDrawer.toggleDrawSpatial();
         Main.clickingHandler.clickMode= ClickingModes.PLACE;
+        Main.clickingHandler.buffer=1;
         
         
-        //TODO close window
         
     }
     public void setSelection(Basicshops select) {
@@ -86,7 +99,7 @@ public class ShopManager {
             return;
         }
         this.selectedShop = select;
-        Main.holoDrawer.toggleDrawSpatial();
+        
     }
 
     public void resetShopdata() {

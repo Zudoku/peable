@@ -24,10 +24,12 @@ public class HolomodelDrawer {
     boolean activated = false;
     Spatial drawed;
     boolean positionLocked=false;
+    public Node holoNode;
 
     public HolomodelDrawer(AssetManager assetManager, Node rootNode) {
         this.assetManager = assetManager;
         this.node = rootNode;
+        holoNode=new Node("holonode");
         
         
     }
@@ -35,19 +37,24 @@ public class HolomodelDrawer {
     public void toggleDrawSpatial() {
         activated = !activated;
         if (activated == true) {
-            node.attachChild(drawed);
+            node.attachChild(holoNode);
         } else {
-            node.detachChild(drawed);
+            node.detachChild(holoNode);
         }
     }
 
     public void loadSpatial(Spatial geom) {
         if (geom != null) {
-            if(drawed!=null){
-                node.detachChild(drawed);
-            }
+            
             drawed = geom;
+            drawed.setName("bobsss");
         }
+        else{
+            return;
+        }
+        holoNode.detachAllChildren();
+        
+        holoNode.attachChild(drawed);
     }
     public Vector3f getLocation(){
         return drawed.getLocalTranslation();
@@ -57,7 +64,7 @@ public class HolomodelDrawer {
         if(positionLocked){
             return;
         }
-        if(target.getGeometry()==drawed){
+        if(target.getGeometry().getName().equals(drawed.getName())){
             return;
         }
         Vector3f loc = target.getContactPoint();

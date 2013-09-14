@@ -18,6 +18,7 @@ public class ClickingHandler {
 
     public final WorldHandler worldHandler;
     public ClickingModes clickMode = ClickingModes.NOTHING;
+    public int buffer=0;
 
     public ClickingHandler(WorldHandler worldHandler) {
         this.worldHandler = worldHandler;
@@ -56,10 +57,15 @@ public class ClickingHandler {
                 break;
                 
             case PLACE:
+                if(buffer==0){
                     Main.shopManager.buy();
                     Main.holoDrawer.toggleDrawSpatial();
-                    
+                }
+                else{
+                    buffer=buffer-1;
+                }
                 break;
+                
         }
 
 
