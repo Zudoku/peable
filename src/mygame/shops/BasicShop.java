@@ -24,10 +24,14 @@ public class BasicShop {
         this.object=object;
         this.constructionmoney=cost;
         this.facing=facing;
+        object.setLocalTranslation(position);
     }
     
     public void interact(Guest guest){
         
+    }
+    public Spatial getGeometry() {
+        return object;
     }
     
 }

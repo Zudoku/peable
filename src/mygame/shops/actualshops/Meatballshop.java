@@ -20,6 +20,7 @@ public class Meatballshop extends BasicShop{
      
     float price=5;
     String productname="Meatballs";
+    String shopName="SHOPNAME";
     
     public Meatballshop(Vector3f position,Spatial geom,Direction facing){
         super(position,geom,300,facing);

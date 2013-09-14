@@ -37,6 +37,7 @@ public class ShopManager {
         shopNode=new Node("shopNode");
         rootNode.attachChild(shopNode);
         
+        
 
     }
 
@@ -52,11 +53,11 @@ public class ShopManager {
                 break;
 
             case ENERGY:
-                //boughtshop=shopFactory.
+                boughtshop=shopFactory.energyShop(loc, facing);
                 break;
                 
             case TOILET:
-                //boughtshop=shopFactory.
+                boughtshop=shopFactory.toilet(loc, facing);
                 break;
                 
             case NULL:
@@ -64,7 +65,7 @@ public class ShopManager {
                 break;
         }
         shops.add(boughtshop);
-        shopNode.attachChild(boughtshop.object);
+        shopNode.attachChild(boughtshop.getGeometry());
         resetShopdata();
         System.out.println("SHOP BOUGHT AT "+loc.x+" "+loc.y+" "+loc.z);
         Vector3f tempshit=boughtshop.object.getWorldTranslation();

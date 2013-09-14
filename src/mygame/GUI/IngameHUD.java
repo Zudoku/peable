@@ -244,7 +244,6 @@ public class IngameHUD implements ScreenController{
     public void shopSelectmball(){
         selectedShop= Basicshops.MBALL;
         if(selectedShop==Main.shopManager.selectedShop){
-            System.out.println("YOU BOUGHT SHOP");
             closeWindows(" ");
             Main.shopManager.activateplace();
             
@@ -261,8 +260,8 @@ public class IngameHUD implements ScreenController{
     public void shopSelecttoilet(){
         selectedShop= Basicshops.TOILET;
         if(selectedShop==Main.shopManager.selectedShop){
-            Main.clickingHandler.clickMode= ClickingModes.PLACE;
-            Main.shopManager.buy();
+            closeWindows(" ");
+            Main.shopManager.activateplace();
             
         }
         else{
@@ -273,7 +272,8 @@ public class IngameHUD implements ScreenController{
     public void shopSelectenergy(){
         selectedShop= Basicshops.ENERGY;
         if(selectedShop==Main.shopManager.selectedShop){
-            Main.shopManager.buy();
+           closeWindows(" ");
+           Main.shopManager.activateplace();
             
         }
         else{
