@@ -84,6 +84,16 @@ public class ShopManager {
                 Main.holoDrawer.loadSpatial(geom);
                 break; 
                        
+            case ENERGY:
+                geom =assetManager.loadModel("Models/shops/energyshop.j3o");
+                Main.holoDrawer.loadSpatial(geom);
+                break;
+                
+            case TOILET:
+                geom =assetManager.loadModel("Models/shops/toilet.j3o");
+                Main.holoDrawer.loadSpatial(geom);
+                break;
+                
             case NULL:
                 System.out.println("BUG IN SHOPMANAGER LINE 64!");
                 break;
