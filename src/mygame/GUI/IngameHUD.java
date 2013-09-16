@@ -13,8 +13,11 @@ import de.lessvoid.nifty.controls.SliderChangedEvent;
 import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
+import de.lessvoid.nifty.layout.align.HorizontalAlign;
+import de.lessvoid.nifty.layout.align.VerticalAlign;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import de.lessvoid.nifty.tools.SizeValue;
 import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
@@ -38,6 +41,7 @@ public class IngameHUD implements ScreenController{
   public int brushsize=3;
   private WorldHandler worldHandler;
   public Basicshops selectedShop= Basicshops.NULL;
+  private ShopDescriptionManager descriptionManager= new ShopDescriptionManager();
 
  
  public IngameHUD(){
@@ -254,7 +258,8 @@ public class IngameHUD implements ScreenController{
         else{
             Main.shopManager.setSelection(selectedShop);
             System.out.println("YOU SELECTED SHOP");
-            //set description
+            descriptionManager.setDescriptionMBall();
+            updateshopdesc();
         }
     }
     public void shopSelecttoilet(){
@@ -266,7 +271,8 @@ public class IngameHUD implements ScreenController{
         }
         else{
             Main.shopManager.selectedShop=Basicshops.TOILET;
-            //set description
+            descriptionManager.setDescriptionToilet();
+            updateshopdesc();
         }
     }
     public void shopSelectenergy(){
@@ -278,10 +284,34 @@ public class IngameHUD implements ScreenController{
         }
         else{
             Main.shopManager.selectedShop=Basicshops.ENERGY;
-            //set description
+            descriptionManager.setDescriptionEnergy();
+            updateshopdesc();
         }
     }
-   
+    public String getshopname(){
+        return descriptionManager.shopName;
+    }
+    public String getshopdesc(){
+        return descriptionManager.shopDescription;
+    }
+    public String getshopprice(){
+        return descriptionManager.shopPrice;
+    }
+    public void updateshopdesc(){
+    Element niftyElement = nifty.getCurrentScreen().findElementByName("shopname");
+    niftyElement.getRenderer(TextRenderer.class).setText(getshopname());
+    niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
+    niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
+    niftyElement = nifty.getCurrentScreen().findElementByName("shopprice");
+    niftyElement.getRenderer(TextRenderer.class).setText(getshopprice());
+    niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
+    niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
+    niftyElement = nifty.getCurrentScreen().findElementByName("shopdesc");
+    niftyElement.getRenderer(TextRenderer.class).setText(getshopdesc());
+    niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
+    niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
+    
+    }
     
     
 }

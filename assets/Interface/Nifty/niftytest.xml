@@ -338,10 +338,13 @@
                                 </interact>
                             </image>
                         </panel>
-                    </control>***
+                    </control>
                     <panel id="shopdescpanel"valign="top"align="left"height="500" width="380" x="600"y="60"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                         <image filename="Interface/Shops/Noshoppic.png"x="2"y="2" childLayout="absolute" height="300"width="376"visibleToMouse="true">
                         </image>
+                        <control id="shopname"name="label" font="Interface/Fonts/Eurocentric.fnt"text="${CALL.getshopname()}" x="6"y="320" color="ffffff"/>
+                        <control id="shopprice"name="label" font="Interface/Fonts/Eurocentric.fnt"text="${CALL.getshopprice()}" x="6"y="370" color="ffffff"/>
+                        <control id="shopdesc"name="label" font="Interface/Fonts/Eurocentric.fnt"text="${CALL.getshopdesc()}" x="6"y="400" color="ffffff"/>
                     </panel>
                  </panel>
             </control>
