@@ -138,4 +138,21 @@ public class ShopManager {
         }
         Main.holoDrawer.rotateDrawed(facing);
     }
+    public BasicShop isthereshop(int x,int y ,int z){
+        BasicShop b=null;
+        if(shops.isEmpty()==false){
+            for(BasicShop p:shops){
+                int tx=(int)Main.holoDrawer.pyorista(p.position).x;
+                int ty=(int)Main.holoDrawer.pyorista(p.position).y;
+                int tz=(int)Main.holoDrawer.pyorista(p.position).z;
+                if(tx==x&&ty==y&&tz==z){
+                    b=p;
+                    System.out.println("SHOP IS LOCATED!");
+                    return b;
+                    
+                }
+            }
+        }
+        return b;
+    }
 }

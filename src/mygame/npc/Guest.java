@@ -12,6 +12,7 @@ import java.util.Random;
 import mygame.Main;
 import mygame.npc.inventory.Item;
 import mygame.npc.inventory.Wallet;
+import mygame.shops.BasicShop;
 
 /**
  *
@@ -85,7 +86,14 @@ public class Guest extends BasicNPC {
                     x = x + 1;
                 }
             }
-            return;
+            BasicShop foundshop=Main.shopManager.isthereshop(x+1, y, z);
+            if(foundshop!=null){
+                
+                NPCAction buy=new NPCAction(new Vector3f(x + 0.3f, y + 0.1f, z), ActionType.BUY);
+                buy.buyAction(foundshop, this);
+                actions.add(buy);
+                actions.add(new NPCAction(new Vector3f(x - 0.3f, y + 0.1f, z), ActionType.NOTHING));
+            }
         }
         if (suunta == 1) {
             if (roads[x - 1][y][z] != null) {
@@ -104,7 +112,14 @@ public class Guest extends BasicNPC {
                     x = x - 1;
                 }
             }
-            return;
+            BasicShop foundshop=Main.shopManager.isthereshop(x-1, y, z);
+            if(foundshop!=null){
+                
+                NPCAction buy=new NPCAction(new Vector3f(x - 0.3f, y + 0.1f, z), ActionType.BUY);
+                buy.buyAction(foundshop, this);
+                actions.add(buy);
+                actions.add(new NPCAction(new Vector3f(x + 0.3f, y + 0.1f, z), ActionType.NOTHING));
+            }
         }
         if (suunta == 2) {
             if (roads[x][y][z + 1] != null) {
@@ -126,7 +141,14 @@ public class Guest extends BasicNPC {
                     z = z + 1;
                 }
             }
-            return;
+            BasicShop foundshop=Main.shopManager.isthereshop(x, y, z+1);
+            if(foundshop!=null){
+                
+                NPCAction buy=new NPCAction(new Vector3f(x, y + 0.1f, z+ 0.3f), ActionType.BUY);
+                buy.buyAction(foundshop, this);
+                actions.add(buy);
+                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z- 0.3f), ActionType.NOTHING));
+            }
         }
         if (suunta == 3) {
             if (roads[x][y][z - 1] != null) {
@@ -147,6 +169,14 @@ public class Guest extends BasicNPC {
                     z = z - 1;
                 }
                
+            }
+            BasicShop foundshop=Main.shopManager.isthereshop(x, y, z-1);
+            if(foundshop!=null){
+                
+                NPCAction buy=new NPCAction(new Vector3f(x, y + 0.1f, z- 0.3f), ActionType.BUY);
+                buy.buyAction(foundshop, this);
+                actions.add(buy);
+                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z+ 0.3f), ActionType.NOTHING));
             }
 
         }

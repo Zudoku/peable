@@ -16,7 +16,6 @@ import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.UserInput;
 import mygame.npc.NPCManager;
 import mygame.shops.HolomodelDrawer;
-import mygame.shops.ShopFactory;
 import mygame.shops.ShopManager;
 import mygame.terrain.RoadMaker;
 import mygame.terrain.WorldHandler;

@@ -22,10 +22,14 @@ public class ShopDescriptionManager {
         
     }
     public void setDescriptionToilet(){
-        
+        shopName="Name: Toilet";
+        shopDescription="Description: test description";
+        shopPrice="Price: 300";
     }
     public void setDescriptionEnergy(){
-        
+        shopName="Name: EnergyDrink shop";
+        shopDescription="Description: test description";
+        shopPrice="Price: 300";
         
     }
     

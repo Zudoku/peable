@@ -69,10 +69,10 @@ public class BasicNPC {
         
         
         object.move(tarx,tary,tarz);
-        System.out.println(object.getWorldTranslation().x+" "+object.getWorldTranslation().y+" "+object.getWorldTranslation().z);
+        
         if(action.getMovePoint().distance(object.getWorldTranslation())<0.2){
             action.onAction();
-            System.out.println("NPCAction completed");
+            
             npcActions.remove(action);
         }
         

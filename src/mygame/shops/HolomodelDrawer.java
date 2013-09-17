@@ -47,7 +47,7 @@ public class HolomodelDrawer {
         if (geom != null) {
             
             drawed = geom;
-            drawed.setName("bobsss");
+            drawed.setName("bob");
         }
         else{
             return;
@@ -64,7 +64,7 @@ public class HolomodelDrawer {
         if(positionLocked){
             return;
         }
-        if(target.getGeometry().getName().equals(drawed.getName())){
+        if(!target.getGeometry().getName().equals("Terrain")){
             return;
         }
         Vector3f loc = target.getContactPoint();

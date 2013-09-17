@@ -5,6 +5,7 @@
 package mygame.npc;
 
 import com.jme3.math.Vector3f;
+import mygame.shops.BasicShop;
 
 /**
  *
@@ -14,6 +15,8 @@ public class NPCAction {
 
     private Vector3f movepoint;
     public ActionType action = ActionType.NOTHING;
+    private Guest guest;
+    private BasicShop shop;
 
     public NPCAction(Vector3f movePoint, ActionType action) {
         this.movepoint = movePoint;
@@ -27,7 +30,11 @@ public class NPCAction {
                 break;
 
             case BUY:
-
+                if(shop==null||guest==null){
+                    System.out.println("null shop or guest in action");
+                    return;
+                }
+                shop.interact(guest);
                 break;
         }
     }
@@ -35,5 +42,9 @@ public class NPCAction {
     public Vector3f getMovePoint() {
 
         return movepoint;
+    }
+    public void buyAction(BasicShop shop,Guest guest){
+        this.guest=guest;
+        this.shop=shop;
     }
 }
