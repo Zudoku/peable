@@ -31,10 +31,6 @@ public class Meatballshop extends BasicShop{
 
     @Override
     public void interact(Guest guest) {
-        System.out.println("LETS GET THE PARTY STARTED1231231231212");
-        System.out.println("LETS GET THE PARTY STARTED1231231231212");
-        System.out.println("LETS GET THE PARTY STARTED1231231231212");
-        
         if(guest.wallet.canAfford(price)){
             guest.inventory.add(new Item(productname, Itemtypes.FOOD));
             guest.wallet.pay(price);

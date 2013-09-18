@@ -6,7 +6,7 @@ Prototype 0.0
 5. Tien rakentaminen DONE!
 6. Tie jota voi rakentaa ilmaan ja nousevia teitä DONE!
 7. kun rakentaa tietä/nostaa maata kattoo jos se sallitaan ie tietä ei voi rakentaa maan sisään
-8. NPCeitä jotka vaeltavat ja voivat löytää esim kauppoja ja ostaa 
+8. NPCeitä jotka vaeltavat ja voivat löytää esim kauppoja ja ostaa DONE!
 9. NPCeitä spawnaamaan vaikka joka 10s eri properteieilla
 10.
 CORE 0.1

@@ -50,7 +50,7 @@ public class GuestSpawner {
         String name = firstName.get(num) + " " + surName.get(num2);
         //nimi raha numero
         float money = r.nextInt(30);
-        money = money + 15;
+        money = money + 35;
         Spatial geom = assetManager.loadModel("Models/Human/guest.j3o");
         Guest g = new Guest(name, money, guestNum, geom);
         guestNum++;

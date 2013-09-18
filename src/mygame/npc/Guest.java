@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import mygame.Main;
 import mygame.npc.inventory.Item;
+import mygame.npc.inventory.StatManager;
 import mygame.npc.inventory.Wallet;
 import mygame.shops.BasicShop;
 
@@ -22,9 +23,7 @@ public class Guest extends BasicNPC {
 
     public Wallet wallet;
     private int guestnum;
-    private int hunger = 0;
-    private int thirst = 0;
-    private int bathroom = 0;
+    
     private int x;
     private int y;
     private int z;
@@ -33,15 +32,14 @@ public class Guest extends BasicNPC {
     Spatial[][][] roads;
     ArrayList<NPCAction> actions = new ArrayList<NPCAction>();
     public ArrayList<Item> inventory = new ArrayList<Item>();
+    public StatManager stats=new StatManager();
 
     public Guest(String name, float money, int guestNum, Spatial geom) {
         super(name, geom);
-
-        Node test = new Node();
-
         this.wallet=new Wallet(money);
         this.guestnum = guestNum;
         r = new Random();
+        stats.randomize();
 
     } 
     @Override
@@ -59,13 +57,10 @@ public class Guest extends BasicNPC {
             }
             super.move(actions.get(0), actions);
         }
+        stats.update();
 
     }
-
-    public void randomizeStats() {
-        //todo
-    }
-
+    
     public void calcMovePoints() {
         //0 p 1 e 2 i 3 l
         int suunta = r.nextInt(4);
