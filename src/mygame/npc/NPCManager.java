@@ -38,7 +38,7 @@ public class NPCManager {
     public void update(){
         updatenum++;
         
-        if(updatenum%300==1){
+        if(updatenum%900==1){
             guestSpawner.forceSpawnGuest();
         }
         if(npcs.isEmpty()==true){

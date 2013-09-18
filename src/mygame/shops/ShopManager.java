@@ -5,8 +5,6 @@
 package mygame.shops;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.light.DirectionalLight;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -44,7 +42,7 @@ public class ShopManager {
     public void buy() {
         
         Vector3f loc = Main.holoDrawer.pyorista(Main.holoDrawer.getLocation());
-        loc.y=6;
+        
         
         
         switch (selectedShop) {
@@ -70,10 +68,8 @@ public class ShopManager {
         System.out.println("SHOP BOUGHT AT "+loc.x+" "+loc.y+" "+loc.z);
         Vector3f tempshit=boughtshop.object.getWorldTranslation();
         System.out.println("SHOP IS AT "+tempshit.x+" "+tempshit.y+" "+tempshit.z);
-        DirectionalLight sun = new DirectionalLight(); 
-        sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f))); 
-        sun.setColor(ColorRGBA.White);
-        shopNode.addLight(sun);
+        
+       
         
     }
     public void activateplace(){

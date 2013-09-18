@@ -5,7 +5,6 @@
 package mygame.npc;
 
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
@@ -84,10 +83,10 @@ public class Guest extends BasicNPC {
             BasicShop foundshop=Main.shopManager.isthereshop(x+1, y, z);
             if(foundshop!=null){
                 
-                NPCAction buy=new NPCAction(new Vector3f(x + 0.3f, y + 0.1f, z), ActionType.BUY);
+                NPCAction buy=new NPCAction(new Vector3f(x + 0.7f, y + 0.1f, z), ActionType.BUY);
                 buy.buyAction(foundshop, this);
                 actions.add(buy);
-                actions.add(new NPCAction(new Vector3f(x - 0.3f, y + 0.1f, z), ActionType.NOTHING));
+                actions.add(new NPCAction(new Vector3f(x , y + 0.1f, z), ActionType.NOTHING));
             }
         }
         if (suunta == 1) {
@@ -110,10 +109,10 @@ public class Guest extends BasicNPC {
             BasicShop foundshop=Main.shopManager.isthereshop(x-1, y, z);
             if(foundshop!=null){
                 
-                NPCAction buy=new NPCAction(new Vector3f(x - 0.3f, y + 0.1f, z), ActionType.BUY);
+                NPCAction buy=new NPCAction(new Vector3f(x - 0.7f, y + 0.1f, z), ActionType.BUY);
                 buy.buyAction(foundshop, this);
                 actions.add(buy);
-                actions.add(new NPCAction(new Vector3f(x + 0.3f, y + 0.1f, z), ActionType.NOTHING));
+                actions.add(new NPCAction(new Vector3f(x , y + 0.1f, z), ActionType.NOTHING));
             }
         }
         if (suunta == 2) {
@@ -139,10 +138,10 @@ public class Guest extends BasicNPC {
             BasicShop foundshop=Main.shopManager.isthereshop(x, y, z+1);
             if(foundshop!=null){
                 
-                NPCAction buy=new NPCAction(new Vector3f(x, y + 0.1f, z+ 0.3f), ActionType.BUY);
+                NPCAction buy=new NPCAction(new Vector3f(x, y + 0.1f, z+ 0.7f), ActionType.BUY);
                 buy.buyAction(foundshop, this);
                 actions.add(buy);
-                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z- 0.3f), ActionType.NOTHING));
+                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING));
             }
         }
         if (suunta == 3) {
@@ -168,10 +167,10 @@ public class Guest extends BasicNPC {
             BasicShop foundshop=Main.shopManager.isthereshop(x, y, z-1);
             if(foundshop!=null){
                 
-                NPCAction buy=new NPCAction(new Vector3f(x, y + 0.1f, z- 0.3f), ActionType.BUY);
+                NPCAction buy=new NPCAction(new Vector3f(x, y + 0.1f, z- 0.7f), ActionType.BUY);
                 buy.buyAction(foundshop, this);
                 actions.add(buy);
-                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z+ 0.3f), ActionType.NOTHING));
+                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING));
             }
 
         }
