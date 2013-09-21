@@ -7,18 +7,18 @@ Prototype 0.0
 6. Tie jota voi rakentaa ilmaan ja nousevia teitä DONE!
 7. kun rakentaa tietä/nostaa maata kattoo jos se sallitaan ie tietä ei voi rakentaa maan sisään
 8. NPCeitä jotka vaeltavat ja voivat löytää esim kauppoja ja ostaa DONE!
-9. NPCeitä spawnaamaan vaikka joka 10s eri properteieilla
+9. NPCeitä spawnaamaan vaikka joka 10s eri properteieilla DONE!
 10.
 CORE 0.1
 1. NPC osaa kulkea ylös / alas  DONE!
-2. juoma ruoka paikka info ja vessa tehty ja niiden interact valmiina 
+2. juoma ruoka paikka info ja vessa tehty ja niiden interact valmiina DONE!
 3. Kun NPC klikkaa avautuu ikkuna
 4. Sama Kaupoille
 5.
 6.Ensimmäinen laite
 7.Sisäänkäynti ja uloskäynti laitteeseen
 8.Que tietä
-9.
+9.Koristeita
 10. Siisti UI!
 ALPHA 0.2
 1. 
@@ -32,3 +32,30 @@ ALPHA 0.2
 9.Main menu
 10. Updater
 Beta 1.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIMELESS TODO:
+-4 kulman kamera (voi vaihtaa kulmaa)
+-assetseja
+-
+-
+-
+-
+-
+-

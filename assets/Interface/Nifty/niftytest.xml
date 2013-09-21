@@ -106,7 +106,7 @@
                 </panel>
             </control>
             <control id="shopWindow" name="window"title="Shops"width="1000"height="600"x="200"y="200"hideOnClose="true"closeable="false">
-                 <panel id="shoppanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true"childClip="true">
+                <panel id="shoppanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true"childClip="true">
                     <control id="scrollbarPanelId" name="scrollPanel" horizontal="false" height="500px" x="60"y="60"pageSizeY="4"stepSizeY="2">
                         <panel id="panel"valign="top"align="left"height="1000" width="526" backgroundColor="#999999" childLayout="absolute"visibleToMouse="true"x="0"y="0"> 
                             <image filename="Interface/Shops/Shops.png"x="0"y="0" childLayout="absolute" height="64"width="128"visibleToMouse="true">
@@ -346,7 +346,53 @@
                         <control id="shopprice"name="label" font="Interface/Fonts/Eurocentric.fnt"text="${CALL.getshopprice()}" x="6"y="370" color="ffffff"/>
                         <control id="shopdesc"name="label" font="Interface/Fonts/Eurocentric.fnt"text="${CALL.getshopdesc()}" x="6"y="400" color="ffffff"/>
                     </panel>
-                 </panel>
+                </panel>
+            </control>
+            <control id="guesttemplate" name="window"title="guestname"width="496"height="400"x="200"y="200"closeable="true">
+                <panel id="rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                    <panel id="tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
+                        <control id="tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
+                            <control id="tab_1" name="tab" caption="Information"x="0"y="0"> 
+                                <panel id="tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    <image filename="Interface/Shops/Nopic.png"x="10"y="30" childLayout="absolute" height="200"width="130"visibleToMouse="true">
+                                    </image>
+                                    <control id="guestnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="150"y="30" color="ffffff"/>
+                                    <control id="guestname"name="label" font="Interface/Fonts/Impact.fnt"text="Template name " x="200"y="30" color="ffffff"/>
+                                    <control id="guestwalletprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Money: " x="150"y="60" color="ffffff"/>
+                                    <control id="guestwallet"name="label" font="Interface/Fonts/Impact.fnt"text="90€" x="210"y="60" color="ffffff"/>
+                                    <control id="guestnumberprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Number:" x="150"y="90" color="ffffff"/>
+                                    <control id="guestnumber"name="label" font="Interface/Fonts/Impact.fnt"text="252" x="220"y="90" color="ffffff"/>
+                                    <control id="gueststatusprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Status:" x="150"y="120" color="ffffff"/>
+                                    <control id="gueststatus"name="label" font="Interface/Fonts/Impact.fnt"text="Walking" x="210"y="120" color="ffffff"/>
+                                    <control id="guestreputationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Reputation:" x="150"y="150" color="ffffff"/>
+                                    <control id="guestreputation"name="label" font="Interface/Fonts/Impact.fnt"text="Good" x="236"y="150" color="ffffff"/>
+                                    <control id="gueststaffprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Class:" x="150"y="180" color="ffffff"/>
+                                    <control id="gueststaff"name="label" font="Interface/Fonts/Impact.fnt"text="Guest" x="200"y="180" color="ffffff"/>
+                                </panel>
+                            </control>
+                            <control id="tab_2" name="tab" caption="Emotions"x="0"y="0">
+                                <panel id="tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    <control id="guesthungerprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Hunger: " x="10"y="30" color="ffffff"/>
+                                    <control id="guesthunger"name="label" font="Interface/Fonts/Impact.fnt"text="50" x="70"y="30" color="ffffff"/>
+                                    <control id="guestthirstprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Thirst: " x="10"y="60" color="ffffff"/>
+                                    <control id="guestthirst"name="label" font="Interface/Fonts/Impact.fnt"text="50" x="60"y="60" color="ffffff"/>
+                                    <control id="guesthappynessprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Happyness: " x="10"y="90" color="ffffff"/>
+                                    <control id="guesthappyness"name="label" font="Interface/Fonts/Impact.fnt"text="50" x="100"y="90" color="ffffff"/>
+                                </panel>
+                            </control>
+                            <control id="tab_3" name="tab" caption="Actions"x="0"y="0"> 
+                                <panel id="tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    
+                                </panel>
+                            </control>
+                            <control id="tab_4" name="tab" caption="More.."x="0"y="0"> 
+                                <panel id="tab_4_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+
+                                </panel>
+                            </control>
+                        </control>
+                    </panel>
+                </panel>
             </control>
         </layer>
     </screen>
