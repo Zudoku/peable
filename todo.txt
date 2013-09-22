@@ -12,7 +12,7 @@ Prototype 0.0
 CORE 0.1
 1. NPC osaa kulkea ylös / alas  DONE!
 2. juoma ruoka paikka info ja vessa tehty ja niiden interact valmiina DONE!
-3. Kun NPC klikkaa avautuu ikkuna
+3. Kun NPC klikkaa avautuu ikkuna DONE!
 4. Sama Kaupoille
 5.
 6.Ensimmäinen laite

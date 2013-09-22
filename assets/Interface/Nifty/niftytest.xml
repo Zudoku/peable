@@ -348,7 +348,7 @@
                     </panel>
                 </panel>
             </control>
-            <control id="guesttemplate" name="window"title="guestname"width="496"height="400"x="200"y="200"closeable="true"hideOnClose="true">
+            <control id="guesttemplate" name="window"title="Guest"width="496"height="400"x="200"y="200"closeable="true"hideOnClose="true">
                 <panel id="rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                     <panel id="tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
                         <control id="tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
@@ -381,6 +381,47 @@
                                 </panel>
                             </control>
                             <control id="tab_3" name="tab" caption="Actions"x="0"y="0"> 
+                                <panel id="tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    
+                                </panel>
+                            </control>
+                            <control id="tab_4" name="tab" caption="More.."x="0"y="0"> 
+                                <panel id="tab_4_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+
+                                </panel>
+                            </control>
+                        </control>
+                    </panel>
+                </panel>
+            </control>
+            <control id="shoptemplate" name="window"title="Shop"width="496"height="400"x="200"y="200"closeable="true"hideOnClose="true">
+                <panel id="rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                    <panel id="tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
+                        <control id="tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
+                            <control id="tab_1" name="tab" caption="Information"x="0"y="0"> 
+                                <panel id="tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    <image filename="Interface/Shops/Nopic.png"x="10"y="10" childLayout="absolute" height="130"width="130"visibleToMouse="true">
+                                    </image>
+                                    <control id="shopnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="150"y="30" color="ffffff"/>
+                                    <control id="shoptname"name="label" font="Interface/Fonts/Impact.fnt"text="Template name " x="200"y="30" color="ffffff"/>
+                                    <control id="shoppriceprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Price: " x="150"y="60" color="ffffff"/>
+                                    <control id="shopprice"name="label" font="Interface/Fonts/Impact.fnt"text="90€" x="196"y="60" color="ffffff"/>
+                                    <control id="shopproductprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Product:" x="150"y="90" color="ffffff"/>
+                                    <control id="shopproduct"name="label" font="Interface/Fonts/Impact.fnt"text="Bobs meatballs" x="215"y="90" color="ffffff"/>
+                                    <control id="shoplocationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Location:" x="150"y="120" color="ffffff"/>
+                                    <control id="shoplocation"name="label" font="Interface/Fonts/Impact.fnt"text="15X 6Y 10Z" x="220"y="120" color="ffffff"/>
+                                    <control id="shopreputationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Reputation:" x="10"y="150" color="ffffff"/>
+                                    <control id="shopreputation"name="label" font="Interface/Fonts/Impact.fnt"text="Bad" x="96"y="150" color="ffffff"/>
+                                    <control id="shopemployeesprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Employees:" x="10"y="180" color="ffffff"/>
+                                    <control id="shopemployees"name="label" font="Interface/Fonts/Impact.fnt"text="Bob lorenz, Carl bobson" x="96"y="180" color="ffffff"/>
+                                </panel>
+                            </control>
+                            <control id="tab_2" name="tab" caption="Actions"x="0"y="0">
+                                <panel id="tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    
+                                </panel>
+                            </control>
+                            <control id="tab_3" name="tab" caption="Employees"x="0"y="0"> 
                                 <panel id="tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     
                                 </panel>

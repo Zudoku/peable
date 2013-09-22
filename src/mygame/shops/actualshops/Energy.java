@@ -17,12 +17,14 @@ import mygame.terrain.Direction;
  * @author arska
  */
 public class Energy extends BasicShop{
-    float price=5;
-    String productname="EnergyDrink";
+    
+    
     
     public Energy(Vector3f position,Spatial geom,Direction facing){
         super(position,geom,300,facing);
-        
+        productname="ES";
+        constructionmoney=300;
+        shopName="Energydrink shop";
         
         
     }

@@ -10,6 +10,7 @@ import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.layout.align.HorizontalAlign;
 import de.lessvoid.nifty.layout.align.VerticalAlign;
 import mygame.npc.Guest;
+import mygame.shops.BasicShop;
 
 /**
  *
@@ -27,6 +28,8 @@ public class WindowMaker {
             return;
         }
        Element guestwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("guesttemplate");
+       
+     
        Element temppanel = guestwindow.findElementByName("rootpanel").findElementByName("tabspanel")
                .findElementByName("tabs").findElementByName("tab_1").findElementByName("tab_1_panel");
       Element niftyElement= temppanel.findElementByName("guestname");
@@ -39,6 +42,16 @@ public class WindowMaker {
       updateText(niftyElement, guest.getWalkingState().toString());
       niftyElement= temppanel.findElementByName("guestreputation");
       updateText(niftyElement, "good");
+      
+      temppanel=temppanel.getParent().getParent().findElementByName("tab_2").findElementByName("tab_2_panel");
+      niftyElement= temppanel.findElementByName("guesthunger");
+      updateText(niftyElement, Integer.toString(guest.stats.hunger));
+      niftyElement= temppanel.findElementByName("guestthirst");
+      updateText(niftyElement, Integer.toString(guest.stats.thirst));
+      niftyElement= temppanel.findElementByName("guesthappyness");
+      updateText(niftyElement, Integer.toString(guest.stats.happyness));
+      
+      
       guestwindow.setVisible(true);
        
        nifty.getCurrentScreen().getLayerElements().get(2).add(guestwindow);
@@ -47,6 +60,35 @@ public class WindowMaker {
     niftyElement.getRenderer(TextRenderer.class).setText(string);
     niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
     niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
+    }
+    public void createShopWindow(BasicShop shop){
+         if(shop==null){
+            System.out.println("Error shop null!!!!");
+            return;
+        }
+       Element shopwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("shoptemplate");
+       
+     
+       Element temppanel = shopwindow.findElementByName("rootpanel").findElementByName("tabspanel")
+               .findElementByName("tabs").findElementByName("tab_1").findElementByName("tab_1_panel");
+      Element niftyElement= temppanel.findElementByName("shopname");
+      updateText(niftyElement, shop.shopName);
+      niftyElement= temppanel.findElementByName("shopprice");
+      updateText(niftyElement, Float.toString(shop.price));
+      niftyElement= temppanel.findElementByName("shopproduct");
+      updateText(niftyElement,shop.productname );
+      niftyElement= temppanel.findElementByName("shoplocation");
+      updateText(niftyElement, "no location specified");
+      niftyElement= temppanel.findElementByName("shopreputation");
+      updateText(niftyElement, "bad");
+      niftyElement= temppanel.findElementByName("shopemployees");
+      updateText(niftyElement, "template name name template");
+      
+      
+      
+      shopwindow.setVisible(true);
+       
+       nifty.getCurrentScreen().getLayerElements().get(2).add(shopwindow);
     }
     
     

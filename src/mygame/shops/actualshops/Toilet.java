@@ -15,12 +15,15 @@ import mygame.terrain.Direction;
  * @author arska
  */
 public class Toilet extends BasicShop{
-    float price=5;
-    String productname="Toilet XD";
+    
+    
     
     public Toilet(Vector3f position,Spatial geom,Direction facing){
         super(position,geom,300,facing);
- 
+        price=5;
+        constructionmoney=300;
+        productname="Toilet usage";
+        shopName="Dirty ol' toilet";
     }
 
     @Override
