@@ -26,4 +26,8 @@ public class Wallet {
     public float getmoney(){
        return money;
     }
+    @Override
+    public String toString() {
+        return Float.toString(money);
+    }
 }

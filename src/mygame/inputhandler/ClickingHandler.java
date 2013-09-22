@@ -7,6 +7,8 @@ package mygame.inputhandler;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import mygame.Main;
+import mygame.npc.BasicNPC;
+import mygame.npc.Guest;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.WorldHandler;
 
@@ -39,7 +41,21 @@ public class ClickingHandler {
                 break;
 
             case NOTHING:
-                    
+                System.out.println(target.getGeometry().getName());
+                if(target.getGeometry().getParent()==null){
+                    return;
+                }
+                if(target.getGeometry().getParent().getParent()==null){
+                    return;
+                }
+                if(target.getGeometry().getParent().getParent().getUserData("guestnum")!=null){
+                    for(Guest g:Main.npcManager.guests){
+                        if(g.getGuestNum()==target.getGeometry().getParent().getParent().getUserData("guestnum")){
+                            Main.windowMaker.createGuestWindow(g);
+                            return;
+                        }
+                    }
+                }    
                 break;
 
             case ROAD:

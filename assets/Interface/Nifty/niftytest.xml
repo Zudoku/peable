@@ -348,7 +348,7 @@
                     </panel>
                 </panel>
             </control>
-            <control id="guesttemplate" name="window"title="guestname"width="496"height="400"x="200"y="200"closeable="true">
+            <control id="guesttemplate" name="window"title="guestname"width="496"height="400"x="200"y="200"closeable="true"hideOnClose="true">
                 <panel id="rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                     <panel id="tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
                         <control id="tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">

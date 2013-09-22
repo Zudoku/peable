@@ -12,6 +12,7 @@ import de.lessvoid.nifty.Nifty;
 import mygame.GUI.IngameHUD;
 import mygame.GUI.SelectionParticleEmitter;
 import mygame.GUI.StartScreen;
+import mygame.GUI.WindowMaker;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.UserInput;
 import mygame.npc.NPCManager;
@@ -32,11 +33,12 @@ public class Main extends SimpleApplication {
     public static RoadMaker roadMaker;
     public static HolomodelDrawer holoDrawer;
     public static ShopManager shopManager;
-    IngameHUD ingameHUD;
+    public static IngameHUD ingameHUD;
     StartScreen startScreen;
     Nifty nifty;
     SelectionParticleEmitter selectionEmitter;
-    NPCManager npcManager;
+    public static NPCManager npcManager;
+    public static WindowMaker windowMaker;
     
     
 
@@ -95,7 +97,7 @@ public class Main extends SimpleApplication {
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun); 
         
-       
+       windowMaker=new WindowMaker(nifty);
         
 
         

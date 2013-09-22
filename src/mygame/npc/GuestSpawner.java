@@ -21,17 +21,19 @@ public class GuestSpawner {
     ArrayList<BasicNPC> npcs = new ArrayList<BasicNPC>();
     ArrayList<String> firstName = new ArrayList<String>();
     ArrayList<String> surName = new ArrayList<String>();
+    ArrayList<Guest> guests=new ArrayList<Guest>();
     int guestNum = 0;
     private final Node nPCNode;
     private final Node rootNode;
     Random r;
     private final AssetManager assetManager;
 
-    public GuestSpawner(Node nPCNode, Node rootNode, AssetManager assetManager, ArrayList<BasicNPC> npcs) {
+    public GuestSpawner(Node nPCNode, Node rootNode, AssetManager assetManager, ArrayList<BasicNPC> npcs,ArrayList<Guest>guests) {
         this.nPCNode = nPCNode;
         this.rootNode = rootNode;
         this.assetManager = assetManager;
         this.npcs = npcs;
+        this.guests=guests;
         r = new Random();
         addNames();
         spawnpoints.add(new Vector3f(5, 6, 5));
@@ -52,12 +54,15 @@ public class GuestSpawner {
         float money = r.nextInt(30);
         money = money + 35;
         Spatial geom = assetManager.loadModel("Models/Human/guest.j3o");
+        geom.setName("thisiswatwerlukinfor");
+        geom.setUserData("guestnum", guestNum);
         Guest g = new Guest(name, money, guestNum, geom);
         guestNum++;
         int spp = r.nextInt(spawnpoints.size() - 1);
         g.getGeometry().move(spawnpoints.get(spp));
         g.initXYZ((int) spawnpoints.get(spp).x, (int) spawnpoints.get(spp).y, (int) spawnpoints.get(spp).z);
         npcs.add(g);
+        guests.add(g);
         nPCNode.attachChild(g.getGeometry());
         System.out.println("Guest " + Integer.toString(guestNum) + " Named: " + name + " has entered the world");
 

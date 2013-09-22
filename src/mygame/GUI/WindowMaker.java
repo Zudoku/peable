@@ -5,6 +5,11 @@
 package mygame.GUI;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.TextRenderer;
+import de.lessvoid.nifty.layout.align.HorizontalAlign;
+import de.lessvoid.nifty.layout.align.VerticalAlign;
+import mygame.npc.Guest;
 
 /**
  *
@@ -16,9 +21,33 @@ public class WindowMaker {
         this.nifty=nifty;
       
     }
-    public void createGuestWindow(){
-        // create a window
- 
+    public void createGuestWindow(Guest guest){
+        if(guest==null){
+            System.out.println("Error Guest null!!!!");
+            return;
+        }
+       Element guestwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("guesttemplate");
+       Element temppanel = guestwindow.findElementByName("rootpanel").findElementByName("tabspanel")
+               .findElementByName("tabs").findElementByName("tab_1").findElementByName("tab_1_panel");
+      Element niftyElement= temppanel.findElementByName("guestname");
+      updateText(niftyElement, guest.getName());
+      niftyElement= temppanel.findElementByName("guestwallet");
+      updateText(niftyElement, guest.wallet.toString());
+      niftyElement= temppanel.findElementByName("guestnumber");
+      updateText(niftyElement, Integer.toString(guest.getGuestNum()));
+      niftyElement= temppanel.findElementByName("gueststatus");
+      updateText(niftyElement, guest.getWalkingState().toString());
+      niftyElement= temppanel.findElementByName("guestreputation");
+      updateText(niftyElement, "good");
+      guestwindow.setVisible(true);
+       
+       nifty.getCurrentScreen().getLayerElements().get(2).add(guestwindow);
     }
+    public void updateText(Element niftyElement,String string){
+    niftyElement.getRenderer(TextRenderer.class).setText(string);
+    niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
+    niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
+    }
+    
     
 }

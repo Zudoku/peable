@@ -5,6 +5,7 @@
 package mygame.npc;
 
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
@@ -35,6 +36,7 @@ public class Guest extends BasicNPC {
 
     public Guest(String name, float money, int guestNum, Spatial geom) {
         super(name, geom);
+        
         this.wallet=new Wallet(money);
         this.guestnum = guestNum;
         r = new Random();
@@ -182,4 +184,12 @@ public class Guest extends BasicNPC {
         this.z = z;
         roads = Main.roadMaker.roads;
     }
+    public int getGuestNum(){
+        return guestnum;
+    }
+    public GuestWalkingStates getWalkingState(){
+        return walkState;
+    }
+    
+    
 }
