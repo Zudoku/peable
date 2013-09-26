@@ -8,12 +8,6 @@ package mygame.shops;
  *
  * @author arska
  */
-public class Employee {
-    private String name="startname";
-
-    @Override
-    public String toString() {
-        return name;
-    }
-    
+public enum ShopReputation {
+    WEIRD,GOOD,BAD,SHIT,HONORABLE,BEST,OK,NEW
 }

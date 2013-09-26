@@ -18,13 +18,14 @@ import mygame.terrain.Direction;
  */
 public class Meatballshop extends BasicShop{
      
-    float price=5;
+
     
     
     public Meatballshop(Vector3f position,Spatial geom,Direction facing){
         super(position,geom,300,facing);
         shopName="MeatBallShop";
         productname="Herggu MeatBalls";
+        price=20;
         
         
         

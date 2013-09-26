@@ -36,11 +36,11 @@
             <control id="shovelWindow" name="window"title="Shovel"width="190"height="300"x="200"y="200"hideOnClose="true"closeable="false">
                 <panel id="shovelpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true">
                     <control id="sliderbrushsize" name="horizontalSlider" height="30px"width="100%"x="0"y="10"visibleToMouse="true"min="1"max="3"initial="3"buttonStepSize="1"/>
-                    <control id="brushsizetext"name="label" font="Interface/Fonts/Eurocentric.fnt"text="Brush size: " x="10"y="46"/>
-                    <control id="brushsizetextactual"name="label" font="Interface/Fonts/Eurocentric.fnt"text="${CALL.getBrushSize()}" x="100"y="46"/>
+                    <control id="brushsizetext"name="label" font="Interface/Fonts/Impact.fnt"text="Brush size: " x="10"y="46"/>
+                    <control id="brushsizetextactual"name="label" font="Interface/Fonts/Impact.fnt"text="${CALL.getBrushSize()}" x="100"y="46"/>
                     <control id="brushmodebutton" name="button" label="${CALL.getBrushMode()}" x="10"y="80"width="90%"/>
                     <control id="usetexture" name="checkbox" x="10"y="120"/>
-                    <control id="brushsizetext"name="label" font="Interface/Fonts/Eurocentric.fnt"text="Use this texture" x="40"y="120"/>
+                    <control id="brushsizetext"name="label" font="Interface/Fonts/Impact.fnt"text="Use this texture" x="40"y="120"/>
                     <control id="textureforshovel" x="30"y="150"name="imageSelect" width="126px" imageWidth="80px" imageHeight="80px" imageList="Textures/grasstexturesmall.png,Textures/rocktexturesmall.png" />
                 </panel>
             </control>
@@ -111,15 +111,15 @@
                         <panel id="panel"valign="top"align="left"height="1000" width="526" backgroundColor="#999999" childLayout="absolute"visibleToMouse="true"x="0"y="0"> 
                             <image filename="Interface/Shops/Shops.png"x="0"y="0" childLayout="absolute" height="64"width="128"visibleToMouse="true">
                             </image>
-                            <image filename="Interface/Shops/Nopic.png"x="10"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                            <image filename="Interface/Shops/Smallicons/mballsmall.png"x="10"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
                                 <interact onClick="shopSelectmball()">   
                                 </interact>
                             </image>
-                            <image filename="Interface/Shops/Nopic.png"x="84"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                            <image filename="Interface/Shops/Smallicons/toiletsmall.png"x="84"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
                                 <interact onClick="shopSelecttoilet()">   
                                 </interact>
                             </image>
-                            <image filename="Interface/Shops/Nopic.png"x="158"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="158"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
                                 <interact onClick="shopSelectenergy()">   
                                 </interact>
                             </image>
@@ -342,9 +342,9 @@
                     <panel id="shopdescpanel"valign="top"align="left"height="500" width="380" x="600"y="60"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                         <image filename="Interface/Shops/Noshoppic.png"x="2"y="2" childLayout="absolute" height="300"width="376"visibleToMouse="true">
                         </image>
-                        <control id="shopname"name="label" font="Interface/Fonts/Eurocentric.fnt"text="${CALL.getshopname()}" x="6"y="320" color="ffffff"/>
-                        <control id="shopprice"name="label" font="Interface/Fonts/Eurocentric.fnt"text="${CALL.getshopprice()}" x="6"y="370" color="ffffff"/>
-                        <control id="shopdesc"name="label" font="Interface/Fonts/Eurocentric.fnt"text="${CALL.getshopdesc()}" x="6"y="400" color="ffffff"/>
+                        <control id="shopname"name="label" font="Interface/Fonts/Impact.fnt"text="${CALL.getshopname()}" x="6"y="320" color="ffffff"/>
+                        <control id="shopprice"name="label" font="Interface/Fonts/Impact.fnt"text="${CALL.getshopprice()}" x="6"y="370" color="ffffff"/>
+                        <control id="shopdesc"name="label" font="Interface/Fonts/Impact.fnt"text="${CALL.getshopdesc()}" x="6"y="400" color="ffffff"/>
                     </panel>
                 </panel>
             </control>
@@ -403,7 +403,7 @@
                                     <image filename="Interface/Shops/Nopic.png"x="10"y="10" childLayout="absolute" height="130"width="130"visibleToMouse="true">
                                     </image>
                                     <control id="shopnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="150"y="30" color="ffffff"/>
-                                    <control id="shoptname"name="label" font="Interface/Fonts/Impact.fnt"text="Template name " x="200"y="30" color="ffffff"/>
+                                    <control id="shopname"name="label" font="Interface/Fonts/Impact.fnt"text="Template name " x="200"y="30" color="ffffff"/>
                                     <control id="shoppriceprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Price: " x="150"y="60" color="ffffff"/>
                                     <control id="shopprice"name="label" font="Interface/Fonts/Impact.fnt"text="90€" x="196"y="60" color="ffffff"/>
                                     <control id="shopproductprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Product:" x="150"y="90" color="ffffff"/>

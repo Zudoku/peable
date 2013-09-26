@@ -24,6 +24,7 @@ public class Energy extends BasicShop{
         super(position,geom,300,facing);
         productname="ES";
         constructionmoney=300;
+        price=20;
         shopName="Energydrink shop";
         
         

@@ -24,6 +24,7 @@ public class ShopFactory {
     }
     public Meatballshop meatBallShop(Vector3f pos,Direction facing){
         Spatial geom =assetManager.loadModel("Models/shops/mball.j3o");
+        
         Meatballshop shop=new Meatballshop(pos,geom,facing);
         
         return shop;

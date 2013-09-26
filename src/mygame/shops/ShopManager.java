@@ -20,13 +20,14 @@ import mygame.terrain.Direction;
 public class ShopManager {
 
     public Basicshops selectedShop= Basicshops.NULL;
-    ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
+    public ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
     ShopFactory shopFactory;
     Direction facing = Direction.DOWN;
     private final AssetManager assetManager;
     public Node shopNode;
     public Node rootNode;
     BasicShop boughtshop;
+    int shopID=1;
 
     public ShopManager(AssetManager assetManager,Node rootNode) {
         shopFactory = new ShopFactory(assetManager);
@@ -62,12 +63,11 @@ public class ShopManager {
                 System.out.println("You just tried to buy null shop!");
                 break;
         }
+        boughtshop.shopID=shopID;
+        boughtshop.getGeometry().setUserData("shopID",shopID);
         shops.add(boughtshop);
         shopNode.attachChild(boughtshop.getGeometry());
         resetShopdata();
-        System.out.println("SHOP BOUGHT AT "+loc.x+" "+loc.y+" "+loc.z);
-        Vector3f tempshit=boughtshop.object.getWorldTranslation();
-        System.out.println("SHOP IS AT "+tempshit.x+" "+tempshit.y+" "+tempshit.z);
         
        
         

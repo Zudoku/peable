@@ -12,6 +12,7 @@ public class ShopDescriptionManager {
     public String shopName="Name:";
     public String shopDescription="Description: ";
     public String shopPrice="Price: ";
+    public String bigpic="";
     public ShopDescriptionManager(){
         
     }

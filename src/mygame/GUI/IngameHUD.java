@@ -12,12 +12,13 @@ import de.lessvoid.nifty.controls.ImageSelectSelectionChangedEvent;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
 import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.layout.align.HorizontalAlign;
 import de.lessvoid.nifty.layout.align.VerticalAlign;
+import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
-import de.lessvoid.nifty.tools.SizeValue;
 import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
@@ -241,25 +242,31 @@ public class IngameHUD implements ScreenController {
     }
 
     public void closeWindows(String elementname) {
+        Element niftyElement;
         if (!elementname.equals("roadWindow")) {
-            Element niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
+            niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
             niftyElement.setVisible(false);
             niftyElement = nifty.getCurrentScreen().findElementByName("shopWindow");
             niftyElement.setVisible(false);
         }
         if (!elementname.equals("shovelWindow")) {
-            Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
+            niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
             niftyElement.setVisible(false);
             niftyElement = nifty.getCurrentScreen().findElementByName("shopWindow");
             niftyElement.setVisible(false);
         }
         if (!elementname.equals("shopWindow")) {
-            Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
+            niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
             niftyElement.setVisible(false);
             niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
             niftyElement.setVisible(false);
         }
-
+        if(elementname.equals("")){
+        niftyElement = nifty.getCurrentScreen().findElementByName("guesttemplate");
+        niftyElement.setVisible(false);
+        niftyElement = nifty.getCurrentScreen().findElementByName("shoptemplate");
+        niftyElement.setVisible(false);
+        }
 
     }
 
@@ -331,6 +338,12 @@ public class IngameHUD implements ScreenController {
         niftyElement.getRenderer(TextRenderer.class).setText(getshopdesc());
         niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
         niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
+        
+        //NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Images/face2.png", false);
+       
+        //niftyElement = nifty.getCurrentScreen().findElementByName("playerhealth");
+
+        //niftyElement.getRenderer(ImageRenderer.class).setImage(img);
 
     }
 }

@@ -54,7 +54,7 @@ public class GuestSpawner {
         float money = r.nextInt(30);
         money = money + 35;
         Spatial geom = assetManager.loadModel("Models/Human/guest.j3o");
-        geom.setName("thisiswatwerlukinfor");
+        geom.setName("guest");
         geom.setUserData("guestnum", guestNum);
         Guest g = new Guest(name, money, guestNum, geom);
         guestNum++;

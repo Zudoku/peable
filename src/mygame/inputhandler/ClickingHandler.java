@@ -6,9 +6,10 @@ package mygame.inputhandler;
 
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
+import com.jme3.scene.Node;
 import mygame.Main;
-import mygame.npc.BasicNPC;
 import mygame.npc.Guest;
+import mygame.shops.BasicShop;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.WorldHandler;
 
@@ -42,20 +43,34 @@ public class ClickingHandler {
 
             case NOTHING:
                 System.out.println(target.getGeometry().getName());
+                
+                
                 if(target.getGeometry().getParent()==null){
                     return;
                 }
                 if(target.getGeometry().getParent().getParent()==null){
                     return;
                 }
-                if(target.getGeometry().getParent().getParent().getUserData("guestnum")!=null){
+                
+                Node rootTarget=target.getGeometry().getParent().getParent();
+                
+                if(rootTarget.getUserData("guestnum")!=null){
                     for(Guest g:Main.npcManager.guests){
-                        if(g.getGuestNum()==target.getGeometry().getParent().getParent().getUserData("guestnum")){
+                        if(g.getGuestNum()==rootTarget.getUserData("guestnum")){
                             Main.windowMaker.createGuestWindow(g);
                             return;
                         }
                     }
-                }    
+                }
+                if(rootTarget.getUserData("shopID")!=null){
+                    for(BasicShop g:Main.shopManager.shops){
+                        if(g.shopID==rootTarget.getUserData("shopID")){
+                            Main.windowMaker.createShopWindow(g);
+                            return;
+                        }
+                    }
+                }
+                
                 break;
 
             case ROAD:

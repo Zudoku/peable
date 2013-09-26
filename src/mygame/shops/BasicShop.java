@@ -16,13 +16,15 @@ import mygame.terrain.Direction;
  */
 public class BasicShop {
     public Direction facing;
-    Vector3f position;
-    Spatial object;
+    public Vector3f position;
+    private Spatial object;
+    public int shopID=0;
     public float constructionmoney=0;
     public String productname="productname";
     public String shopName="SHOPNAME";
     public float price=0;
-    ArrayList<Employee> employees=new ArrayList<Employee>();
+    public ArrayList<Employee> employees=new ArrayList<Employee>();
+    public ShopReputation reputation= ShopReputation.NEW;
     
     public BasicShop(Vector3f position,Spatial object,float cost,Direction facing){
         this.position=position;

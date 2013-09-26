@@ -11,6 +11,7 @@ import de.lessvoid.nifty.layout.align.HorizontalAlign;
 import de.lessvoid.nifty.layout.align.VerticalAlign;
 import mygame.npc.Guest;
 import mygame.shops.BasicShop;
+import mygame.shops.Employee;
 
 /**
  *
@@ -78,11 +79,20 @@ public class WindowMaker {
       niftyElement= temppanel.findElementByName("shopproduct");
       updateText(niftyElement,shop.productname );
       niftyElement= temppanel.findElementByName("shoplocation");
-      updateText(niftyElement, "no location specified");
+      String location=Float.toString(shop.position. x)+" "+Float.toString(shop.position.y)+" "+Float.toString(shop.position.z);
+      updateText(niftyElement,location);
       niftyElement= temppanel.findElementByName("shopreputation");
-      updateText(niftyElement, "bad");
+      updateText(niftyElement, shop.reputation.toString());
       niftyElement= temppanel.findElementByName("shopemployees");
-      updateText(niftyElement, "template name name template");
+      String employees="No employees";
+      for(Employee e:shop.employees){
+          if(employees.equals("No employees")){
+              employees="";
+          }
+          employees=employees+" "+e.toString();
+      }
+      
+      updateText(niftyElement,employees);
       
       
       
