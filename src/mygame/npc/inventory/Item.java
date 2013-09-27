@@ -15,4 +15,10 @@ public class Item {
         this.name=name;
         this.itemtype=itemtype;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+    
 }

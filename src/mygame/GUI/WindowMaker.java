@@ -10,6 +10,7 @@ import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.layout.align.HorizontalAlign;
 import de.lessvoid.nifty.layout.align.VerticalAlign;
 import mygame.npc.Guest;
+import mygame.npc.inventory.Item;
 import mygame.shops.BasicShop;
 import mygame.shops.Employee;
 
@@ -52,6 +53,17 @@ public class WindowMaker {
       niftyElement= temppanel.findElementByName("guesthappyness");
       updateText(niftyElement, Integer.toString(guest.stats.happyness));
       
+      temppanel=temppanel.getParent().getParent().findElementByName("tab_4").findElementByName("tab_4_panel");
+      int counter=1;
+      for(Item item:guest.inventory){
+          String elementname="guestinventory"+Integer.toString(counter);
+          niftyElement= temppanel.findElementByName(elementname);
+          updateText(niftyElement,item.toString());
+          counter++;
+          if(counter==10){
+              break;
+          }
+      }
       
       guestwindow.setVisible(true);
        

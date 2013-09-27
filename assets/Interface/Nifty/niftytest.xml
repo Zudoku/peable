@@ -385,8 +385,23 @@
                                     
                                 </panel>
                             </control>
-                            <control id="tab_4" name="tab" caption="More.."x="0"y="0"> 
+                            <control id="tab_4" name="tab" caption="Inventory"x="0"y="0"> 
                                 <panel id="tab_4_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    <control id="guestinventoryprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Inventory: " x="0"y="10" color="ffffff"/>
+                                    <control id="guestinventory1"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="40" color="ffffff"/>
+                                    <control id="guestinventory2"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="70" color="ffffff"/>
+                                    <control id="guestinventory3"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="100" color="ffffff"/>
+                                    <control id="guestinventory4"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="130" color="ffffff"/>
+                                    <control id="guestinventory5"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="160" color="ffffff"/>
+                                    <control id="guestinventory6"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="190" color="ffffff"/>
+                                    <control id="guestinventory7"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="220" color="ffffff"/>
+                                    <control id="guestinventory8"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="250" color="ffffff"/>
+                                    <control id="guestinventory9"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="280" color="ffffff"/>
+                                    
+                                </panel>
+                            </control>
+                            <control id="tab_5" name="tab" caption="More.."x="0"y="0"> 
+                                <panel id="tab_5_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
 
                                 </panel>
                             </control>
