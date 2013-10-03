@@ -5,6 +5,7 @@
 package mygame.npc;
 
 import com.jme3.math.Vector3f;
+import mygame.Main;
 import mygame.shops.BasicShop;
 
 /**
@@ -31,11 +32,25 @@ public class NPCAction {
 
             case BUY:
                 if(shop==null||guest==null){
-                    System.out.println("null shop or guest in action");
+                    System.out.println("null shop or guest in buyaction");
                     return;
                 }
                 shop.interact(guest);
+                Main.windowMaker.updateGuestWindow(guest);
                 break;
+                
+            case CONSUME:
+                if(shop==null||guest==null){
+                    System.out.println("null shop or guest in consumeaction");
+                    return;
+                }
+                if(guest.inventory.isEmpty()==true){
+                    return;
+                }
+                guest.inventory.get(0).consume(guest.stats);
+                guest.inventory.remove(0);
+                Main.windowMaker.updateGuestWindow(guest);
+                
         }
     }
 

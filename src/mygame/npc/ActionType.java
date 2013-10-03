@@ -9,5 +9,5 @@ package mygame.npc;
  * @author arska
  */
 public enum ActionType {
-    NOTHING,BUY,SIT,WATCH,CLEAN,FIX
+    NOTHING,BUY,SIT,WATCH,CLEAN,FIX,CONSUME
 }

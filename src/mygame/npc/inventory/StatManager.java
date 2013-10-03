@@ -39,6 +39,9 @@ public class StatManager {
                         return;
                     }
                     thirst++;
+                    
+                        
+                    
                 }
             case 2:
                 if(r.nextInt(9)==1&&happyness!=100){
@@ -51,6 +54,9 @@ public class StatManager {
                         
                     }
                     happyness--;
+                    if(happyness<0){
+                        happyness=0;
+                    }
                 }
         }
     }

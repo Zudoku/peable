@@ -20,6 +20,7 @@ import mygame.shops.Employee;
  */
 public class WindowMaker {
     Nifty nifty;
+    private int guestnumber;
     public WindowMaker(Nifty nifty){
         this.nifty=nifty;
       
@@ -40,6 +41,7 @@ public class WindowMaker {
       updateText(niftyElement, guest.wallet.toString());
       niftyElement= temppanel.findElementByName("guestnumber");
       updateText(niftyElement, Integer.toString(guest.getGuestNum()));
+      guestnumber=guest.getGuestNum();
       niftyElement= temppanel.findElementByName("gueststatus");
       updateText(niftyElement, guest.getWalkingState().toString());
       niftyElement= temppanel.findElementByName("guestreputation");
@@ -112,6 +114,10 @@ public class WindowMaker {
        
        nifty.getCurrentScreen().getLayerElements().get(2).add(shopwindow);
     }
-    
+    public void updateGuestWindow(Guest guest){
+        if(guest.getGuestNum()==guestnumber&&nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("guesttemplate").isVisible()){
+            createGuestWindow(guest);
+        }
+    }
     
 }

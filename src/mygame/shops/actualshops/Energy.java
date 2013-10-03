@@ -33,7 +33,7 @@ public class Energy extends BasicShop{
     @Override
     public void interact(Guest guest) {
         if(guest.wallet.canAfford(price)){
-            guest.inventory.add(new Item(productname, Itemtypes.DRINK));
+            guest.inventory.add(new Item(productname, Itemtypes.DRINK,10));
             guest.wallet.pay(price);
         }
     }
