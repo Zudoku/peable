@@ -19,9 +19,16 @@ public class NPCAction {
     private Guest guest;
     private BasicShop shop;
 
-    public NPCAction(Vector3f movePoint, ActionType action) {
+    public NPCAction(Vector3f movePoint, ActionType action,Guest owner) {
         this.movepoint = movePoint;
         this.action = action;
+        this.guest=owner;
+    }
+    public NPCAction(Vector3f movePoint, ActionType action,BasicShop basicshop,Guest guest) {
+        this.movepoint = movePoint;
+        this.action = action;
+        this.shop=basicshop;
+        this.guest=guest;
     }
 
     public void onAction() {
@@ -40,15 +47,16 @@ public class NPCAction {
                 break;
                 
             case CONSUME:
-                if(shop==null||guest==null){
-                    System.out.println("null shop or guest in consumeaction");
+                if(guest==null){
+                    System.out.println("null guest in consumeaction");
                     return;
                 }
                 if(guest.inventory.isEmpty()==true){
+                    System.out.println("inventory empty in consumeaction");
                     return;
                 }
                 guest.inventory.get(0).consume(guest.stats);
-                guest.inventory.remove(0);
+                guest.inventory.remove(guest.inventory.get(0));
                 Main.windowMaker.updateGuestWindow(guest);
                 
         }

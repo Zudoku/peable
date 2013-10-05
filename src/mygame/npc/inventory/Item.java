@@ -20,12 +20,12 @@ public class Item {
     public void consume(StatManager parentstats){
         switch(itemtype){
             case DRINK:
-                parentstats.thirst=parentstats.thirst+consumevalue;
+                parentstats.thirst=parentstats.thirst-consumevalue;
                 
                 break;
                 
             case FOOD:
-                parentstats.hunger=parentstats.hunger+consumevalue;
+                parentstats.hunger=parentstats.hunger-consumevalue;
                 break;
                 
             case FUN:

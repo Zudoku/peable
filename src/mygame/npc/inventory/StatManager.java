@@ -25,7 +25,7 @@ public class StatManager {
         //0hu1th2ha
         switch(emote){
             case 0:
-                if(r.nextInt(9)==1){
+                if(r.nextInt(90)==1){
                     if(hunger==100){
                         currentEmote= GuestEmotions.HUNGRY;
                         return;
@@ -33,7 +33,7 @@ public class StatManager {
                     hunger++;
                 }
             case 1:
-                if(r.nextInt(9)==1&&thirst!=100){
+                if(r.nextInt(90)==1&&thirst!=100){
                     if(thirst==100){
                         currentEmote= GuestEmotions.THIRSTY;
                         return;
@@ -44,7 +44,7 @@ public class StatManager {
                     
                 }
             case 2:
-                if(r.nextInt(9)==1&&happyness!=100){
+                if(r.nextInt(90)==1&&happyness!=100){
                     if(happyness<25){
                         currentEmote= GuestEmotions.MAD;
                         

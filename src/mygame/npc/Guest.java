@@ -72,100 +72,98 @@ public class Guest extends BasicNPC {
         if (suunta == 0) {
             if (roads[x + 1][y][z] != null) {
                 if (roads[x + 1][y+1][z] != null && roads[x + 2][y+1][z] != null) {
-                    actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype));
-                    actions.add(new NPCAction(new Vector3f(x + 1f, y + 1.1f, z), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype,this));
+                    actions.add(new NPCAction(new Vector3f(x + 1f, y + 1.1f, z), actiontype,this));
                     x = x + 1;
                     y = y + 1;
                 } else if (roads[x + 1][y-1][z] != null && roads[x + 2][y-1][z] != null) {
-                    actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype));
-                    actions.add(new NPCAction(new Vector3f(x + 1f, y - 0.9f, z), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype,this));
+                    actions.add(new NPCAction(new Vector3f(x + 1f, y - 0.9f, z), actiontype,this));
                     x = x + 1;
                     y = y - 1;
                 } else {
-                    actions.add(new NPCAction(new Vector3f(x + 1f, y + 0.1f, z), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x + 1f, y + 0.1f, z), actiontype,this));
                     x = x + 1;
                 }
             }
             BasicShop foundshop=Main.shopManager.isthereshop(x+1, y, z);
             if(foundshop!=null){
                 
-                NPCAction buy=new NPCAction(new Vector3f(x + 0.7f, y + 0.1f, z), ActionType.BUY);
-                buy.buyAction(foundshop, this);
+                NPCAction buy=new NPCAction(new Vector3f(x + 0.7f, y + 0.1f, z), ActionType.BUY,foundshop, this);
+                
                 actions.add(buy);
-                actions.add(new NPCAction(new Vector3f(x , y + 0.1f, z), ActionType.NOTHING));
+                actions.add(new NPCAction(new Vector3f(x , y + 0.1f, z), ActionType.NOTHING,this));
             }
         }
         if (suunta == 1) {
             if (roads[x - 1][y][z] != null) {
                 if (roads[x - 1][y+1][z] !=null && roads[x - 2][y+1][z] != null) {
-                    actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype));
-                    actions.add(new NPCAction(new Vector3f(x - 1f, y + 1.1f, z), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype,this));
+                    actions.add(new NPCAction(new Vector3f(x - 1f, y + 1.1f, z), actiontype,this));
                     x = x - 1;
                     y=y+1;
                 } else if (roads[x - 1][y-1][z] !=null && roads[x - 2][y-1][z] != null) {
-                    actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype));
-                    actions.add(new NPCAction(new Vector3f(x - 1f, y - 0.9f, z), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype,this));
+                    actions.add(new NPCAction(new Vector3f(x - 1f, y - 0.9f, z), actiontype,this));
                     x = x-1;
                     y=y-1;
                 } else {
-                    actions.add(new NPCAction(new Vector3f(x - 1, y + 0.1f, z), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x - 1, y + 0.1f, z), actiontype,this));
                     x = x - 1;
                 }
             }
             BasicShop foundshop=Main.shopManager.isthereshop(x-1, y, z);
             if(foundshop!=null){
                 
-                NPCAction buy=new NPCAction(new Vector3f(x - 0.7f, y + 0.1f, z), ActionType.BUY);
-                buy.buyAction(foundshop, this);
+                NPCAction buy=new NPCAction(new Vector3f(x - 0.7f, y + 0.1f, z), ActionType.BUY,foundshop, this);
                 actions.add(buy);
-                actions.add(new NPCAction(new Vector3f(x , y + 0.1f, z), ActionType.NOTHING));
+                actions.add(new NPCAction(new Vector3f(x , y + 0.1f, z), ActionType.NOTHING,this));
             }
         }
         if (suunta == 2) {
             if (roads[x][y][z + 1] != null) {
                 if(roads[x][y+1][z + 1] != null && roads[x][y+1][z + 2] != null){
-                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype));
-                    actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z + 1f), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype,this));
+                    actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z + 1f), actiontype,this));
                     z=z+1;
                     y=y+1;
                 }
                 else if (roads[x][y-1][z + 1] != null && roads[x][y-1][z + 2] != null){
-                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype));
-                    actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z + 1f), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype,this));
+                    actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z + 1f), actiontype,this));
                     z=z+1;
                     y=y-1;
                     
                 }
                 else{
-                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 1), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 1), actiontype,this));
                     z = z + 1;
                 }
             }
             BasicShop foundshop=Main.shopManager.isthereshop(x, y, z+1);
             if(foundshop!=null){
                 
-                NPCAction buy=new NPCAction(new Vector3f(x, y + 0.1f, z+ 0.7f), ActionType.BUY);
-                buy.buyAction(foundshop, this);
+                NPCAction buy=new NPCAction(new Vector3f(x, y + 0.1f, z+ 0.7f), ActionType.BUY,foundshop, this);
                 actions.add(buy);
-                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING));
+                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING,this));
             }
         }
         if (suunta == 3) {
             if (roads[x][y][z - 1] != null) {
                 if(roads[x][y+1][z - 1] != null && roads[x][y+1][z - 2] != null){
-                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype));
-                    actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z - 1), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype,this));
+                    actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z - 1), actiontype,this));
                     z=z-1;
                     y=y+1;
                 }
                 else if (roads[x][y-1][z - 1] != null && roads[x][y-1][z - 2] != null){
-                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype));
-                    actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z - 1), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype,this));
+                    actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z - 1), actiontype,this));
                     z=z-1;
                     y=y-1;
                 }
                 else{
-                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 1), actiontype));
+                    actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 1), actiontype,this));
                     z = z - 1;
                 }
                
@@ -173,10 +171,9 @@ public class Guest extends BasicNPC {
             BasicShop foundshop=Main.shopManager.isthereshop(x, y, z-1);
             if(foundshop!=null){
                 
-                NPCAction buy=new NPCAction(new Vector3f(x, y + 0.1f, z- 0.7f), ActionType.BUY);
-                buy.buyAction(foundshop, this);
+                NPCAction buy=new NPCAction(new Vector3f(x, y + 0.1f, z- 0.7f), ActionType.BUY,foundshop, this);
                 actions.add(buy);
-                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING));
+                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING,this));
             }
 
         }

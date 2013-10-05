@@ -57,6 +57,26 @@ public class WindowMaker {
       
       temppanel=temppanel.getParent().getParent().findElementByName("tab_4").findElementByName("tab_4_panel");
       int counter=1;
+      niftyElement= temppanel.findElementByName("guestinventory1");
+      updateText(niftyElement,"");
+      niftyElement= temppanel.findElementByName("guestinventory2");
+      updateText(niftyElement,"");
+      niftyElement= temppanel.findElementByName("guestinventory3");
+      updateText(niftyElement,"");
+      niftyElement= temppanel.findElementByName("guestinventory4");
+      updateText(niftyElement,"");
+      niftyElement= temppanel.findElementByName("guestinventory5");
+      updateText(niftyElement,"");
+      niftyElement= temppanel.findElementByName("guestinventory6");
+      updateText(niftyElement,"");
+      niftyElement= temppanel.findElementByName("guestinventory7");
+      updateText(niftyElement,"");
+      niftyElement= temppanel.findElementByName("guestinventory8");
+      updateText(niftyElement,"");
+      niftyElement= temppanel.findElementByName("guestinventory9");
+      updateText(niftyElement,"");
+      
+      
       for(Item item:guest.inventory){
           String elementname="guestinventory"+Integer.toString(counter);
           niftyElement= temppanel.findElementByName(elementname);
@@ -66,6 +86,7 @@ public class WindowMaker {
               break;
           }
       }
+      
       
       guestwindow.setVisible(true);
        
