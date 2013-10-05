@@ -93,9 +93,13 @@ public class Main extends SimpleApplication {
       selectionEmitter.initSelection();
       
         DirectionalLight sun = new DirectionalLight();
-        sun.setDirection((new Vector3f(0.5f, 0.5f, 0.5f)));
+        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f)));
         sun.setColor(ColorRGBA.White);
-        rootNode.addLight(sun); 
+        rootNode.addLight(sun);
+        DirectionalLight sun2 = new DirectionalLight();
+        sun2.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)));
+        sun2.setColor(ColorRGBA.White);
+        rootNode.addLight(sun2); 
         
        windowMaker=new WindowMaker(nifty);
         

@@ -19,62 +19,42 @@ public class RoadFactory {
         this.assetManager=assetManager;
     }
     public Spatial roadStraight() {
-        Spatial teapot = assetManager.loadModel("Models/roadStraight.j3o");
-        Material mat_default = new Material(
-                assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
-        teapot.setMaterial(mat_default);
-        teapot.scale(0.5f, 0.5f, 0.5f);
-        return teapot;
+        Spatial road = assetManager.loadModel("Models/Roads/roadStraight.j3o");
+        road.scale(0.5f, 0.5f, 0.5f);
+        return road;
     }
 
     public Spatial roadUpHill() {
-        Spatial teapot = assetManager.loadModel("Models/roadUpHill.j3o");
-        Material mat_default = new Material(
-                assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
-        teapot.setMaterial(mat_default);
-        //teapot.scale(0.5f, 0.5f, 0.5f);
-        teapot.setLocalTranslation(0, +0.50f, 0);
-        teapot.setName("upHill");
-        return teapot;
+        Spatial road = assetManager.loadModel("Models/Roads/roadUpHill.j3o");
+        road.setLocalTranslation(0, +0.50f, 0);
+        road.setName("upHill");
+        return road;
     }
 
     public Spatial roadDownHill() {
-        Spatial teapot = assetManager.loadModel("Models/roadUpHill.j3o");
-        Material mat_default = new Material(
-                assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
-        teapot.setMaterial(mat_default);
-        //teapot.scale(0.5f, 0.5f, 0.5f);
+        Spatial road = assetManager.loadModel("Models/Roads/roadUpHill.j3o");
         float angle = (float) Math.toRadians(180);
-        teapot.setLocalTranslation(0, -0.50f, 0);
-        teapot.rotate(0, angle, 0);
-        teapot.setName("downHill");
-        return teapot;
+        road.setLocalTranslation(0, -0.50f, 0);
+        road.rotate(0, angle, 0);
+        road.setName("downHill");
+        return road;
     }
 
     public Spatial centerRoad() {
-        Spatial teapot = assetManager.loadModel("Models/roadCenter.j3o");
-        Material mat_default = new Material(
-                assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
-        teapot.setMaterial(mat_default);
-        teapot.scale(0.5f, 0.5f, 0.5f);
-        return teapot;
+        Spatial road = assetManager.loadModel("Models/Roads/roadCenter.j3o");
+        road.scale(0.5f, 0.5f, 0.5f);
+        return road;
     }
 
     public Spatial bendingRoad() {
-        Spatial teapot = assetManager.loadModel("Models/roadBending.j3o");
-        Material mat_default = new Material(
-                assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
-        teapot.setMaterial(mat_default);
-        teapot.scale(0.5f, 0.5f, 0.5f);
-        return teapot;
+        Spatial road = assetManager.loadModel("Models/Roads/roadBending.j3o");
+        road.scale(0.5f, 0.5f, 0.5f);
+        return road;
     }
 
     public Spatial tRoad() {
-        Spatial teapot = assetManager.loadModel("Models/roadT.j3o");
-        Material mat_default = new Material(
-                assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
-        teapot.setMaterial(mat_default);
-        teapot.scale(0.5f, 0.5f, 0.5f);
-        return teapot;
+        Spatial road = assetManager.loadModel("Models/Roads/roadT.j3o");
+        road.scale(0.5f, 0.5f, 0.5f);
+        return road;
     }
 }
