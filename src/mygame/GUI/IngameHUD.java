@@ -8,20 +8,25 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.ButtonClickedEvent;
 import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
+import de.lessvoid.nifty.controls.DropDown;
+import de.lessvoid.nifty.controls.DropDownSelectionChangedEvent;
 import de.lessvoid.nifty.controls.ImageSelectSelectionChangedEvent;
+import de.lessvoid.nifty.controls.ListBoxSelectionChangedEvent;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
+import de.lessvoid.nifty.controls.dropdown.DropDownListBoxSelectionChangedEventSubscriber;
 import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
-import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.layout.align.HorizontalAlign;
 import de.lessvoid.nifty.layout.align.VerticalAlign;
-import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import java.util.ArrayList;
+import java.util.List;
 import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
+import mygame.npc.Guest;
 import mygame.shops.Basicshops;
 import mygame.terrain.Direction;
 import mygame.terrain.RoadHill;
@@ -87,7 +92,31 @@ public class IngameHUD implements ScreenController {
     public void onTextureChange(String id, ImageSelectSelectionChangedEvent event) {
         Main.worldHandler.textureindex = event.getImageSelect().getSelectedImageIndex() + 1;
     }
-
+    @NiftyEventSubscriber(id="guests")
+    public void DropDownSelectionChangedEvent(String id,DropDownSelectionChangedEvent event)  {
+        
+        int index=event.getSelectionItemIndex();
+        if(index==0){
+            return;
+        }
+        else{
+            Guest guest = null;
+            for(Guest g:Main.npcManager.guests){
+                if(g.getGuestNum()==index-1){
+                    guest=g;
+                    break;
+                }
+            }
+            if(guest==null){
+                System.out.println("Did not find guest with that index");
+                return;
+            }
+            Main.windowMaker.createGuestWindow(guest);
+            Element element = nifty.getCurrentScreen().findElementByName("NPCWindow");
+            element.setVisible(false);
+        }
+        
+    }
     public void givefields(ClickingHandler clickingHandler, WorldHandler worldHandler) {
         this.clickingHandler = clickingHandler;
         this.worldHandler = worldHandler;
@@ -144,6 +173,29 @@ public class IngameHUD implements ScreenController {
 
             Main.clickingHandler.clickMode = ClickingModes.NOTHING;
         }
+    }
+    
+    public void toggleNPCListWindow(){
+        closeWindows("NPCWindow");
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("NPCWindow");
+
+        niftyElement.setVisible(!niftyElement.isVisible());
+        
+        if(niftyElement.isVisible()==true){
+            updateNPCBox();
+        }
+    }
+    public void updateNPCBox(){
+        ArrayList<Guest> guests=Main.npcManager.guests;
+    DropDown drop= screen.findNiftyControl("guests",DropDown.class);
+    drop.clear();
+    drop.addItem("default");
+    for(Guest g:guests){
+        String guest=Integer.toString(g.getGuestNum())+"- "+g.getName();
+        drop.addItem(guest);
+    }
+    drop.getElement().setConstraintHorizontalAlign(HorizontalAlign.left);
+    drop.getElement().setConstraintVerticalAlign(VerticalAlign.top);
     }
 
     public void roadDirectionUp() {
@@ -255,6 +307,11 @@ public class IngameHUD implements ScreenController {
         }
         if (!elementname.equals("shopWindow")) {
             niftyElement = nifty.getCurrentScreen().findElementByName("shopWindow");
+            niftyElement.setVisible(false);
+            
+        }
+        if (!elementname.equals("NPCWindow")) {
+            niftyElement = nifty.getCurrentScreen().findElementByName("NPCWindow");
             niftyElement.setVisible(false);
             
         }

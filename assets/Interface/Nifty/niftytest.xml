@@ -29,6 +29,18 @@
                 <image filename="Interface/Rides/Icon.png"x="130"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick="toggleShopWindow()"/>
                 </image>
+                <image filename="Interface/Shops/Nopic.png"x="195"y="0" childLayout="absolute" width="64" height="64">
+                    <interact onClick=""/>
+                </image>
+                <image filename="Interface/Shops/Nopic.png"x="260"y="0" childLayout="absolute" width="64" height="64">
+                    <interact onClick=""/>
+                </image>
+                <image filename="Interface/Shops/Nopic.png"x="325"y="0" childLayout="absolute" width="64" height="64">
+                    <interact onClick=""/>
+                </image>
+                <image filename="Interface/NPC/Icon.png"x="390"y="0" childLayout="absolute" width="64" height="64">
+                    <interact onClick="toggleNPCListWindow()"/>
+                </image>
                 
             </panel>
         </layer>
@@ -448,6 +460,11 @@
                             </control>
                         </control>
                     </panel>
+                </panel>
+            </control>
+            <control id="NPCWindow" name="window"title="NPCS"width="400"height="560"x="200"y="200"hideOnClose="true"closeable="true"visibleToMouse="true">
+                <panel id="rootpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true"x="0"y="0">
+                    <control id="guests" name="dropDown"x="40"y="10"displayItems="20" align="left" valign="top"visibleToMouse="true"height="28" width="300"/>
                 </panel>
             </control>
         </layer>
