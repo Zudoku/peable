@@ -57,7 +57,7 @@ public class ClickingHandler {
                 if(rootTarget.getUserData("guestnum")!=null){
                     for(Guest g:Main.npcManager.guests){
                         if(g.getGuestNum()==rootTarget.getUserData("guestnum")){
-                            Main.windowMaker.createGuestWindow(g);
+                            Main.windowMaker.createGuestWindow(g,true);
                             return;
                         }
                     }

@@ -11,9 +11,8 @@ import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
 import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.DropDownSelectionChangedEvent;
 import de.lessvoid.nifty.controls.ImageSelectSelectionChangedEvent;
-import de.lessvoid.nifty.controls.ListBoxSelectionChangedEvent;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
-import de.lessvoid.nifty.controls.dropdown.DropDownListBoxSelectionChangedEventSubscriber;
+import de.lessvoid.nifty.controls.TextFieldChangedEvent;
 import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
@@ -22,7 +21,6 @@ import de.lessvoid.nifty.layout.align.VerticalAlign;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import java.util.ArrayList;
-import java.util.List;
 import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
@@ -97,7 +95,8 @@ public class IngameHUD implements ScreenController {
         
         int index=event.getSelectionItemIndex();
         if(index==0){
-            return;
+            //selected default
+           
         }
         else{
             Guest guest = null;
@@ -111,11 +110,19 @@ public class IngameHUD implements ScreenController {
                 System.out.println("Did not find guest with that index");
                 return;
             }
-            Main.windowMaker.createGuestWindow(guest);
+            Main.windowMaker.createGuestWindow(guest,true);
             Element element = nifty.getCurrentScreen().findElementByName("NPCWindow");
             element.setVisible(false);
         }
         
+    }
+    @NiftyEventSubscriber(id = "guestnametextfield")
+    public void onguestnameChanged(final String id, final TextFieldChangedEvent event) {
+        if(!event.getText().equals("")) {
+            Guest guest=Main.windowMaker.getCurrentGuestWindowGuest();
+            guest.setName(event.getText());
+            Main.windowMaker.updateGuestWindow(guest);
+        }
     }
     public void givefields(ClickingHandler clickingHandler, WorldHandler worldHandler) {
         this.clickingHandler = clickingHandler;

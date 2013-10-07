@@ -394,7 +394,8 @@
                             </control>
                             <control id="tab_3" name="tab" caption="Actions"x="0"y="0"> 
                                 <panel id="tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    
+                                    <control id="guestnametextfieldprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Change name:" x="10"y="10" color="ffffff"/>
+                                    <control id="guestnametextfield"name="textfield" maxLength="50" x="120"y="10"height="24" width="200" />
                                 </panel>
                             </control>
                             <control id="tab_4" name="tab" caption="Inventory"x="0"y="0"> 

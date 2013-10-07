@@ -5,10 +5,12 @@
 package mygame.GUI;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.layout.align.HorizontalAlign;
 import de.lessvoid.nifty.layout.align.VerticalAlign;
+import mygame.Main;
 import mygame.npc.Guest;
 import mygame.npc.inventory.Item;
 import mygame.shops.BasicShop;
@@ -25,7 +27,17 @@ public class WindowMaker {
         this.nifty=nifty;
       
     }
-    public void createGuestWindow(Guest guest){
+    public Guest getCurrentGuestWindowGuest(){
+        Guest guest =null;
+        for(Guest g:Main.npcManager.guests){
+            if(g.getGuestNum()==guestnumber){
+                guest=g;
+                break;        
+            }
+        }
+        return guest;
+    }
+    public void createGuestWindow(Guest guest,boolean updateTextField){
         if(guest==null){
             System.out.println("Error Guest null!!!!");
             return;
@@ -54,6 +66,13 @@ public class WindowMaker {
       updateText(niftyElement, Integer.toString(guest.stats.thirst));
       niftyElement= temppanel.findElementByName("guesthappyness");
       updateText(niftyElement, Integer.toString(guest.stats.happyness));
+      
+      temppanel=temppanel.getParent().getParent().findElementByName("tab_3").findElementByName("tab_3_panel");
+      if(updateTextField==true){
+        TextField textfield=nifty.getCurrentScreen().findNiftyControl("guestnametextfield",TextField.class);
+        textfield.setText(guest.getName());
+      }
+      
       
       temppanel=temppanel.getParent().getParent().findElementByName("tab_4").findElementByName("tab_4_panel");
       int counter=1;
@@ -137,7 +156,7 @@ public class WindowMaker {
     }
     public void updateGuestWindow(Guest guest){
         if(guest.getGuestNum()==guestnumber&&nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("guesttemplate").isVisible()){
-            createGuestWindow(guest);
+            createGuestWindow(guest,false);
         }
     }
     
