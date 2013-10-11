@@ -15,9 +15,11 @@ import de.lessvoid.nifty.controls.SliderChangedEvent;
 import de.lessvoid.nifty.controls.TextFieldChangedEvent;
 import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.layout.align.HorizontalAlign;
 import de.lessvoid.nifty.layout.align.VerticalAlign;
+import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.npc.Guest;
-import mygame.shops.Basicshops;
+import mygame.shops.BasicBuildables;
 import mygame.terrain.Direction;
 import mygame.terrain.RoadHill;
 import mygame.terrain.RoadMakerStatus;
@@ -43,7 +45,7 @@ public class IngameHUD implements ScreenController {
     public ClickingHandler clickingHandler;
     public int brushsize = 3;
     private WorldHandler worldHandler;
-    public Basicshops selectedShop = Basicshops.NULL;
+    public BasicBuildables selectedShop = BasicBuildables.NULL;
     private ShopDescriptionManager descriptionManager = new ShopDescriptionManager();
     
 
@@ -332,8 +334,8 @@ public class IngameHUD implements ScreenController {
     }
 
     public void shopSelectmball() {
-        selectedShop = Basicshops.MBALL;
-        if (selectedShop == Main.shopManager.selectedShop) {
+        selectedShop = BasicBuildables.MBALL;
+        if (selectedShop == Main.shopManager.selectedBuilding) {
             closeWindows(" ");
             Main.shopManager.activateplace();
 
@@ -349,26 +351,26 @@ public class IngameHUD implements ScreenController {
     }
 
     public void shopSelecttoilet() {
-        selectedShop = Basicshops.TOILET;
-        if (selectedShop == Main.shopManager.selectedShop) {
+        selectedShop = BasicBuildables.TOILET;
+        if (selectedShop == Main.shopManager.selectedBuilding) {
             closeWindows(" ");
             Main.shopManager.activateplace();
 
         } else {
-            Main.shopManager.selectedShop = Basicshops.TOILET;
+            Main.shopManager.selectedBuilding = BasicBuildables.TOILET;
             descriptionManager.setDescriptionToilet();
             updateshopdesc();
         }
     }
 
     public void shopSelectenergy() {
-        selectedShop = Basicshops.ENERGY;
-        if (selectedShop == Main.shopManager.selectedShop) {
+        selectedShop = BasicBuildables.ENERGY;
+        if (selectedShop == Main.shopManager.selectedBuilding) {
             closeWindows(" ");
             Main.shopManager.activateplace();
 
         } else {
-            Main.shopManager.selectedShop = Basicshops.ENERGY;
+            Main.shopManager.selectedBuilding = BasicBuildables.ENERGY;
             descriptionManager.setDescriptionEnergy();
             updateshopdesc();
         }
@@ -399,12 +401,11 @@ public class IngameHUD implements ScreenController {
         niftyElement.getRenderer(TextRenderer.class).setText(getshopdesc());
         niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
         niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
+        String bigshoppic=descriptionManager.bigpic;
         
-        //NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Images/face2.png", false);
-       
-        //niftyElement = nifty.getCurrentScreen().findElementByName("playerhealth");
-
-        //niftyElement.getRenderer(ImageRenderer.class).setImage(img);
+        NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),bigshoppic, false);
+        niftyElement = nifty.getCurrentScreen().findElementByName("shopbigpic");
+        niftyElement.getRenderer(ImageRenderer.class).setImage(img);
 
     }
 }

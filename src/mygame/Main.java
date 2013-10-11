@@ -16,6 +16,7 @@ import mygame.GUI.WindowMaker;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.UserInput;
 import mygame.npc.NPCManager;
+import mygame.ride.RideManager;
 import mygame.shops.HolomodelDrawer;
 import mygame.shops.ShopManager;
 import mygame.terrain.RoadMaker;
@@ -39,18 +40,16 @@ public class Main extends SimpleApplication {
     SelectionParticleEmitter selectionEmitter;
     public static NPCManager npcManager;
     public static WindowMaker windowMaker;
+    private UserInput userInput;
+    public static RideManager rideManager;
     
-    
-
     public static void main(String[] args) {
         
         Main app = new Main();
         app.start();
         
     }
-    private UserInput userInput;
-    
-
+  
     @Override
     public void simpleInitApp() {
         ingameHUD=new IngameHUD();
@@ -68,6 +67,7 @@ public class Main extends SimpleApplication {
          ingameHUD.givefields(clickingHandler,worldHandler);
         npcManager=new NPCManager(rootNode,assetManager);
         shopManager=new ShopManager(assetManager,rootNode);
+        rideManager=new RideManager(assetManager, rootNode);
         
         
         Camera camera =getCamera();

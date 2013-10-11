@@ -8,6 +8,6 @@ package mygame.shops;
  *
  * @author arska
  */
-public enum Basicshops {
-    MBALL,TOILET,ENERGY,NULL
+public enum BasicBuildables {
+    MBALL,TOILET,ENERGY,CHESSCENTER,NULL
 }

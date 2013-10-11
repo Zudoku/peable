@@ -19,7 +19,7 @@ import mygame.terrain.Direction;
  */
 public class ShopManager {
 
-    public Basicshops selectedShop= Basicshops.NULL;
+    public BasicBuildables selectedBuilding= BasicBuildables.NULL;
     public ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
     ShopFactory shopFactory;
     Direction facing = Direction.DOWN;
@@ -46,7 +46,7 @@ public class ShopManager {
         
         
         
-        switch (selectedShop) {
+        switch (selectedBuilding) {
             case MBALL:
                 boughtshop=shopFactory.meatBallShop(loc, facing);
                 break;
@@ -62,6 +62,12 @@ public class ShopManager {
             case NULL:
                 System.out.println("You just tried to buy null shop!");
                 break;
+                
+            default: 
+                //eteenpäin shopmanagerille
+                Main.rideManager.buy(facing,selectedBuilding);
+                return;
+               
         }
         boughtshop.shopID=shopID;
         boughtshop.getGeometry().setUserData("shopID",shopID);
@@ -74,7 +80,7 @@ public class ShopManager {
     }
     public void activateplace(){
         Spatial geom;
-        switch(selectedShop){
+        switch(selectedBuilding){
             case MBALL:
                 geom =assetManager.loadModel("Models/shops/mball.j3o");
                 Main.holoDrawer.loadSpatial(geom);
@@ -101,16 +107,16 @@ public class ShopManager {
         
         
     }
-    public void setSelection(Basicshops select) {
+    public void setSelection(BasicBuildables select) {
         if (select == null) {
             return;
         }
-        this.selectedShop = select;
+        this.selectedBuilding = select;
         
     }
 
     public void resetShopdata() {
-        selectedShop = Basicshops.NULL;
+        selectedBuilding = BasicBuildables.NULL;
         facing = Direction.DOWN;
         Main.clickingHandler.clickMode= ClickingModes.NOTHING;
     }
