@@ -20,12 +20,15 @@ public class BasicRide {
     public Direction facing;
     public Vector3f position;
     private Spatial object;
+    
     public int rideID=0;
+    public float price=0;
     public float constructionmoney=0;
     public String rideName="RIDENAME";
-    public float price=0;
+    
     public ArrayList<Employee> employees=new ArrayList<Employee>();
     public ShopReputation reputation= ShopReputation.NEW;
+    
     private boolean[][] occupySpace={
         {false,false,false,false},
         {false,false,false,false},

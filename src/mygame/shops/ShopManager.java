@@ -66,6 +66,7 @@ public class ShopManager {
             default: 
                 //eteenpäin shopmanagerille
                 Main.rideManager.buy(facing,selectedBuilding);
+                resetShopdata();
                 return;
                
         }
@@ -93,6 +94,11 @@ public class ShopManager {
                 
             case TOILET:
                 geom =assetManager.loadModel("Models/shops/toilet.j3o");
+                Main.holoDrawer.loadSpatial(geom);
+                break;
+      
+            case CHESSCENTER:
+                geom =assetManager.loadModel("Models/Rides/chesshouse.j3o");
                 Main.holoDrawer.loadSpatial(geom);
                 break;
                 

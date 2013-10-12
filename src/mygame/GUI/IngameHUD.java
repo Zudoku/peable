@@ -45,7 +45,7 @@ public class IngameHUD implements ScreenController {
     public ClickingHandler clickingHandler;
     public int brushsize = 3;
     private WorldHandler worldHandler;
-    public BasicBuildables selectedShop = BasicBuildables.NULL;
+    public BasicBuildables selectedBuilding = BasicBuildables.NULL;
     private ShopDescriptionManager descriptionManager = new ShopDescriptionManager();
     
 
@@ -333,9 +333,9 @@ public class IngameHUD implements ScreenController {
 
     }
 
-    public void shopSelectmball() {
-        selectedShop = BasicBuildables.MBALL;
-        if (selectedShop == Main.shopManager.selectedBuilding) {
+    public void buildingSelectmball() {
+        selectedBuilding = BasicBuildables.MBALL;
+        if (selectedBuilding == Main.shopManager.selectedBuilding) {
             closeWindows(" ");
             Main.shopManager.activateplace();
 
@@ -343,16 +343,16 @@ public class IngameHUD implements ScreenController {
 
 
         } else {
-            Main.shopManager.setSelection(selectedShop);
-            System.out.println("YOU SELECTED SHOP");
+            Main.shopManager.setSelection(selectedBuilding);
+            System.out.println("YOU SELECTED BUILDING");
             descriptionManager.setDescriptionMBall();
             updateshopdesc();
         }
     }
 
-    public void shopSelecttoilet() {
-        selectedShop = BasicBuildables.TOILET;
-        if (selectedShop == Main.shopManager.selectedBuilding) {
+    public void buildingSelecttoilet() {
+        selectedBuilding = BasicBuildables.TOILET;
+        if (selectedBuilding == Main.shopManager.selectedBuilding) {
             closeWindows(" ");
             Main.shopManager.activateplace();
 
@@ -363,15 +363,31 @@ public class IngameHUD implements ScreenController {
         }
     }
 
-    public void shopSelectenergy() {
-        selectedShop = BasicBuildables.ENERGY;
-        if (selectedShop == Main.shopManager.selectedBuilding) {
+    public void buildingSelectenergy() {
+        selectedBuilding = BasicBuildables.ENERGY;
+        if (selectedBuilding == Main.shopManager.selectedBuilding) {
             closeWindows(" ");
             Main.shopManager.activateplace();
 
         } else {
             Main.shopManager.selectedBuilding = BasicBuildables.ENERGY;
             descriptionManager.setDescriptionEnergy();
+            updateshopdesc();
+        }
+    }
+    public void buildingSelectchess() {
+        selectedBuilding = BasicBuildables.CHESSCENTER;
+        if (selectedBuilding == Main.shopManager.selectedBuilding) {
+            closeWindows(" ");
+            Main.shopManager.activateplace();
+
+
+
+
+        } else {
+            Main.shopManager.setSelection(selectedBuilding);
+            System.out.println("YOU SELECTED BUILDING");
+            descriptionManager.setDescriptionChess();
             updateshopdesc();
         }
     }

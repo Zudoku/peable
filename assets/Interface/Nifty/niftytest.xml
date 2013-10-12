@@ -124,15 +124,15 @@
                             <image filename="Interface/Shops/Shops.png"x="0"y="0" childLayout="absolute" height="64"width="128"visibleToMouse="true">
                             </image>
                             <image filename="Interface/Shops/Smallicons/mballsmall.png"x="10"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="shopSelectmball()">   
+                                <interact onClick="buildingSelectmball()">   
                                 </interact>
                             </image>
                             <image filename="Interface/Shops/Smallicons/toiletsmall.png"x="84"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="shopSelecttoilet()">   
+                                <interact onClick="buildingSelecttoilet()">   
                                 </interact>
                             </image>
                             <image filename="Interface/Shops/Smallicons/energysmall.png"x="158"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="shopSelectenergy()">   
+                                <interact onClick="buildingSelectenergy()">   
                                 </interact>
                             </image>
                             <image filename="Interface/Shops/Nopic.png"x="232"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
@@ -209,8 +209,8 @@
                             </image>
                             <image filename="Interface/Shops/Rides.png"x="0"y="306" childLayout="absolute" height="64"width="128"visibleToMouse="true">
                             </image>
-                            <image filename="Interface/Shops/Nopic.png"x="10"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
+                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="10"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="buildingSelectchess()">   
                                 </interact>
                             </image>
                             <image filename="Interface/Shops/Nopic.png"x="84"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
