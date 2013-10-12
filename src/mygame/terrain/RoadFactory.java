@@ -5,7 +5,6 @@
 package mygame.terrain;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.material.Material;
 import com.jme3.scene.Spatial;
 
 /**
@@ -21,13 +20,17 @@ public class RoadFactory {
     public Spatial roadStraight() {
         Spatial road = assetManager.loadModel("Models/Roads/roadStraight.j3o");
         road.scale(0.5f, 0.5f, 0.5f);
+        road.setUserData("roadHill","flat");
+        road.setUserData("type","road");
         return road;
     }
 
     public Spatial roadUpHill() {
         Spatial road = assetManager.loadModel("Models/Roads/roadUpHill.j3o");
         road.setLocalTranslation(0, +0.50f, 0);
-        road.setName("upHill");
+        road.setUserData("roadHill","upHill");
+        road.setUserData("type","road");
+        
         return road;
     }
 
@@ -36,25 +39,33 @@ public class RoadFactory {
         float angle = (float) Math.toRadians(180);
         road.setLocalTranslation(0, -0.50f, 0);
         road.rotate(0, angle, 0);
-        road.setName("downHill");
+        road.setUserData("roadHill","downHill");
+        road.setUserData("type","road");
+        
         return road;
     }
 
     public Spatial centerRoad() {
         Spatial road = assetManager.loadModel("Models/Roads/roadCenter.j3o");
         road.scale(0.5f, 0.5f, 0.5f);
+        road.setUserData("roadHill","flat");
+        road.setUserData("type","road");
         return road;
     }
 
     public Spatial bendingRoad() {
         Spatial road = assetManager.loadModel("Models/Roads/roadBending.j3o");
         road.scale(0.5f, 0.5f, 0.5f);
+        road.setUserData("roadHill","flat");
+        road.setUserData("type","road");
         return road;
     }
 
     public Spatial tRoad() {
         Spatial road = assetManager.loadModel("Models/Roads/roadT.j3o");
         road.scale(0.5f, 0.5f, 0.5f);
+        road.setUserData("roadHill","flat");
+        road.setUserData("type","road");
         return road;
     }
 }

@@ -66,13 +66,15 @@ public class ShopManager {
             default: 
                 //eteenpäin shopmanagerille
                 Main.rideManager.buy(facing,selectedBuilding);
-                resetShopdata();
+                
                 return;
                
         }
         boughtshop.shopID=shopID;
         boughtshop.getGeometry().setUserData("shopID",shopID);
         shops.add(boughtshop);
+        boughtshop.getGeometry().setUserData("type","shop");
+        Main.roadMaker.map[(int)loc.x][(int)loc.y][(int)loc.z]=boughtshop.getGeometry();
         shopNode.attachChild(boughtshop.getGeometry());
         resetShopdata();
         

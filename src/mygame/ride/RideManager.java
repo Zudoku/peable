@@ -37,7 +37,7 @@ public class RideManager {
         
 
     }
-
+    
     public void buy(Direction facing,BasicBuildables selectedBuilding) {
         Vector3f loc = Main.holoDrawer.pyorista(Main.holoDrawer.getLocation());
         BasicRide boughtride = null;
@@ -65,13 +65,14 @@ public class RideManager {
         boughtride.getGeometry().setUserData("rideID",rideID);
         rides.add(boughtride);
         rideNode.attachChild(boughtride.getGeometry());
-        
+        resetRidedata();
     }
 
     public void resetRidedata() {
         
-        
         Main.shopManager.resetShopdata();
+        Main.clickingHandler.clickMode= ClickingModes.RIDE;
+        
     }
     @Deprecated
     public BasicRide isthereRide(int x,int y ,int z){
@@ -90,5 +91,15 @@ public class RideManager {
             }
         }
         return b;
+    }
+    public void placeEnterance(Vector3f pos){
+        
+        
+        float x = pos.x - 0.4999f + 1;
+        float y = pos.y - 0.4999f + 1;
+        float z = pos.z - 0.4999f + 1;
+        
+        
+        
     }
 }

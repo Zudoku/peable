@@ -183,7 +183,7 @@ public class Guest extends BasicNPC {
         this.x = x;
         this.y = y;
         this.z = z;
-        roads = Main.roadMaker.roads;
+        roads = Main.roadMaker.map;
     }
     public int getGuestNum(){
         return guestnum;

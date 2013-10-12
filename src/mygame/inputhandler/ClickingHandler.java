@@ -84,7 +84,7 @@ public class ClickingHandler {
                 break;
 
             case RIDE:
-                
+                Main.rideManager.placeEnterance(target.getContactPoint());
                 break;
                 
             case PLACE:
