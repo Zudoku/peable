@@ -7,6 +7,7 @@ package mygame.ride;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import mygame.Main;
 import mygame.inputhandler.ClickingModes;
@@ -25,6 +26,7 @@ public class RideManager {
     public Node rideNode;
     public Node rootNode;
     int rideID=1;
+    int enterancecount=0;
     
 
     public RideManager(AssetManager assetManager,Node rootNode) {
@@ -47,24 +49,28 @@ public class RideManager {
         switch (selectedBuilding) {
             case CHESSCENTER:
                 boughtride=rideFactory.chessCenter(loc, facing);
+                
                 break;
 
-            case MBALL:
-               //change
-                break;
-                
-            case ENERGY:
-                //change
-                break;
-                
             case NULL:
                 System.out.println("You just tried to buy null ride!");
                 break;
         }
+        int tx=(int)loc.x;
+        int ty=(int)loc.y;
+        int tz=(int)loc.z;
+        Spatial[][][]map=Main.roadMaker.map;
         boughtride.rideID=rideID;
         boughtride.getGeometry().setUserData("rideID",rideID);
+        boughtride.getGeometry().setUserData("type","ride");
         rides.add(boughtride);
         rideNode.attachChild(boughtride.getGeometry());
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                map[tx+i-1][ty][tz+j-1]=boughtride.getGeometry();
+            }
+        }
+        rideID++;
         resetRidedata();
     }
 
@@ -94,12 +100,101 @@ public class RideManager {
     }
     public void placeEnterance(Vector3f pos){
         
+        int x =(int) ( pos.x - 0.4999f + 1);
+        int y =(int) ( pos.y - 0.4999f + 1);
+        int z =(int) ( pos.z - 0.4999f + 1);
         
-        float x = pos.x - 0.4999f + 1;
-        float y = pos.y - 0.4999f + 1;
-        float z = pos.z - 0.4999f + 1;
+        Spatial[][][] map=Main.roadMaker.map;
         
+        boolean enterancetype=true;
+        if(enterancecount==0){
+            enterancetype=false;
+        }
         
+        if(map[x][y][z]!=null){
+            return;    
+        }
+        if(map[x+1][y][z]!=null){
+            Spatial s=map[x+1][y][z];
+            if(!s.getUserData("type").equals("ride")){
+                return;
+            }
+            int rideidArvo=s.getUserData("rideID");
+            if(rideidArvo==rideID-1){
+                
+                
+                Enterance e = new Enterance(enterancetype,new Vector3f(x, y, z), Direction.UP, assetManager);
+                e.connectedRide=rides.get(rideID-2);
+                e.object.setUserData("type","enterance");
+                map[x][y][z]=e.object;
+                rideNode.attachChild(e.object);
+                enterancecount++;
+                if(enterancecount>1){
+                    enterancecount=0;
+                    Main.clickingHandler.clickMode= ClickingModes.NOTHING;
+                }
+                return;
+            }
+        }
+        if(map[x-1][y][z]!=null){
+            Spatial s=map[x-1][y][z];
+            if(!s.getUserData("type").equals("ride")){
+                return;
+            }
+            int rideidArvo=s.getUserData("rideID");
+            if(rideidArvo==rideID-1){
+                Enterance e = new Enterance(enterancetype,new Vector3f(x, y, z), Direction.UP, assetManager);
+                e.connectedRide=rides.get(rideID-2);
+                e.object.setUserData("type","enterance");
+                map[x][y][z]=e.object;
+                rideNode.attachChild(e.object);
+                enterancecount++;
+                if(enterancecount>1){
+                    enterancecount=0;
+                    Main.clickingHandler.clickMode= ClickingModes.NOTHING;
+                }
+                return;
+            }
+        }
+        if(map[x][y][z+1]!=null){
+            Spatial s=map[x][y][z+1];
+            if(!s.getUserData("type").equals("ride")){
+                return;
+            }
+            int rideidArvo=s.getUserData("rideID");
+            if(rideidArvo==rideID-1){
+                Enterance e = new Enterance(enterancetype,new Vector3f(x, y, z), Direction.UP, assetManager);
+                e.connectedRide=rides.get(rideID-2);
+                e.object.setUserData("type","enterance");
+                map[x][y][z]=e.object;
+                rideNode.attachChild(e.object);
+                enterancecount++;
+                if(enterancecount>1){
+                    enterancecount=0;
+                    Main.clickingHandler.clickMode= ClickingModes.NOTHING;
+                }
+                return;
+            }
+        }
+        if(map[x][y][z-1]!=null){
+            Spatial s=map[x][y][z-1];
+            if(!s.getUserData("type").equals("ride")){
+                return;
+            }
+            int rideidArvo=s.getUserData("rideID");
+            if(rideidArvo==rideID-1){
+                Enterance e = new Enterance(enterancetype,new Vector3f(x, y, z), Direction.UP, assetManager);
+                e.connectedRide=rides.get(rideID-2);
+                e.object.setUserData("type","enterance");
+                map[x][y][z]=e.object;
+                rideNode.attachChild(e.object);
+                if(enterancecount>1){
+                    enterancecount=0;
+                    Main.clickingHandler.clickMode= ClickingModes.NOTHING;
+                }
+                enterancecount++;
+            }
+        }
         
     }
 }

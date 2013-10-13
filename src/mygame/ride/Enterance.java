@@ -32,6 +32,7 @@ public class Enterance {
         else{
             object=assetManager.loadModel("Models/Rides/enterace.j3o");
         }
+        object.setLocalTranslation(location);
     }
   
   
