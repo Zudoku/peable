@@ -25,10 +25,11 @@ public class BasicRide {
     public float price=0;
     public float constructionmoney=0;
     public String rideName="RIDENAME";
-    
+    public Enterance enterance;
+    public Enterance exit;
     public ArrayList<Employee> employees=new ArrayList<Employee>();
     public ShopReputation reputation= ShopReputation.NEW;
-    
+    //TODO!! turha
     private boolean[][] occupySpace={
         {false,false,false,false},
         {false,false,false,false},

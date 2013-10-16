@@ -115,6 +115,7 @@
                         <interact onClick="selectionButton()">   
                         </interact>
                     </image>
+                    <control id="queroad" name="checkbox" x="10"y="20"/>
                 </panel>
             </control>
             <control id="shopWindow" name="window"title="Shops"width="1000"height="600"x="200"y="200"hideOnClose="true"closeable="false">

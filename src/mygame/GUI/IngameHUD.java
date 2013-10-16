@@ -87,7 +87,11 @@ public class IngameHUD implements ScreenController {
     public void useTextureChange(String id, CheckBoxStateChangedEvent event) {
         Main.worldHandler.useTexture = event.isChecked();
     }
-
+    @NiftyEventSubscriber(id = "queroad")
+    public void queCheckboxChange(String id, CheckBoxStateChangedEvent event) {
+        Main.roadMaker.queroad = event.isChecked();
+        
+    }
     @NiftyEventSubscriber(id = "textureforshovel")
     public void onTextureChange(String id, ImageSelectSelectionChangedEvent event) {
         Main.worldHandler.textureindex = event.getImageSelect().getSelectedImageIndex() + 1;

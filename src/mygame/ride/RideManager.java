@@ -124,9 +124,15 @@ public class RideManager {
                 
                 
                 Enterance e = new Enterance(enterancetype,new Vector3f(x, y, z), Direction.UP, assetManager);
-                e.connectedRide=rides.get(rideID-2);
+                e.connectedRide=rides.get(rideID-2);  
                 e.object.setUserData("type","enterance");
                 map[x][y][z]=e.object;
+                if(enterancetype==false){
+                    rides.get(rideID-2).enterance=e;
+                }else{
+                    rides.get(rideID-2).exit=e;
+                }
+                
                 rideNode.attachChild(e.object);
                 enterancecount++;
                 if(enterancecount>1){

@@ -5,6 +5,7 @@
 package mygame.terrain;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.material.Material;
 import com.jme3.scene.Spatial;
 
 /**
@@ -16,6 +17,13 @@ public class RoadFactory {
     
     public RoadFactory(AssetManager assetManager){
         this.assetManager=assetManager;
+    }
+    private Material getTempMaterial(){
+        Material m=new Material(assetManager, 
+        "Common/MatDefs/Misc/Unshaded.j3md");
+        m.setTexture("ColorMap", 
+        assetManager.loadTexture("Textures/rocktexturesmall.png"));
+        return m;
     }
     public Spatial roadStraight() {
         Spatial road = assetManager.loadModel("Models/Roads/roadStraight.j3o");
@@ -68,4 +76,37 @@ public class RoadFactory {
         road.setUserData("type","road");
         return road;
     }
+    public Spatial queroadStraight() {
+        Spatial road = assetManager.loadModel("Models/Roads/roadStraight.j3o");
+        road.setMaterial(getTempMaterial());
+       
+        road.scale(0.5f, 0.5f, 0.5f);
+        road.setUserData("roadHill","flat");
+        road.setUserData("type","queroad");
+        return road;
+    }
+
+    public Spatial queroadUpHill() {
+        Spatial road = assetManager.loadModel("Models/Roads/roadUpHill.j3o");
+        road.setMaterial(getTempMaterial());
+        road.setLocalTranslation(0, +0.50f, 0);
+        road.setUserData("roadHill","upHill");
+        road.setUserData("type","queroad");
+        
+        return road;
+    }
+
+    public Spatial queroadDownHill() {
+        Spatial road = assetManager.loadModel("Models/Roads/roadUpHill.j3o");
+        road.setMaterial(getTempMaterial());
+        float angle = (float) Math.toRadians(180);
+        road.setLocalTranslation(0, -0.50f, 0);
+        road.rotate(0, angle, 0);
+        road.setUserData("roadHill","downHill");
+        road.setUserData("type","queroad");
+        
+        return road;
+    }
+
+   
 }
