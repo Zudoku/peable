@@ -84,8 +84,7 @@ public class RoadMaker {
                     road = roadF.roadUpHill();
                     break;
             }
-        }
-        else{
+        } else {
             switch (hill) {
 
                 case FLAT:
@@ -101,7 +100,7 @@ public class RoadMaker {
                     road = roadF.queroadUpHill();
                     break;
             }
-            
+
         }
 
         if (change = true) {
@@ -141,14 +140,13 @@ public class RoadMaker {
          * katsoo jos siinä kohdassa johon tietä rakennetaan on jotain mapissa
          * jos se on tienpala niin se poistaa sen
          */
-        
         if (map[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z] != null) {
             Spatial test = map[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z];
-            if(queroad==false){
+            if (queroad == false) {
                 if (!test.getUserData("type").equals("road")) {
                     return;
                 }
-            }else{
+            } else {
                 if (!test.getUserData("type").equals("queroad")) {
                     return;
                 }
@@ -208,12 +206,11 @@ public class RoadMaker {
         int tempx = (int) pyorista(startingPosition).x;
         int tempz = (int) pyorista(startingPosition).z;
         int tempy = (int) (startingPosition).y;
-        if(queroad==false){
-        updateroads(tempx, tempy, tempz);
-        lastqueroad=null;
-        }
-        else{
-            updateQueroad(tempx,tempy,tempz,road);
+        if (queroad == false) {
+            updateroads(tempx, tempy, tempz);
+            lastqueroad = null;
+        } else {
+            updateQueroad(tempx, tempy, tempz, road);
         }
 
 
@@ -250,7 +247,7 @@ public class RoadMaker {
         Vector3f vec = new Vector3f((int) x, (int) y, (int) z);
         startingPosition = vec;
         status = RoadMakerStatus.BUILDING;
-        lastqueroad=null;
+        lastqueroad = null;
     }
 
     private boolean roadtypeCondition(int x, int z, int y, boolean con1, boolean con2, boolean con3, boolean con4) {
@@ -574,56 +571,292 @@ public class RoadMaker {
 
     }
 
-    private void updateQueroad(int x,int y,int z,Spatial road) {
+    private void updateQueroad(int x, int y, int z, Spatial road) {
         Spatial connectedroad = null;
+        int x2 = 0;
+        int y2 = 0;
+        int z2 = 0;
+
         /**
          * Etsitään quetienpalasia jos tie on katkennut
          */
-        if(lastqueroad==null){
-            //TODO check jos connectedroad connected = true
-            if(map[x+1][y][z]!=null){
-                Spatial isthisEnterance= map[x + 1][y][z];
-                if(isthisEnterance.getUserData("type").equals("queroad")){
-                    connectedroad=isthisEnterance;
-                }
-            }else if(map[x-1][y][z]!=null){
-                Spatial isthisEnterance= map[x - 1][y][z];
-                if(isthisEnterance.getUserData("type").equals("queroad")){
-                    connectedroad=isthisEnterance;
-                }
-            }else if(map[x][y][z+1]!=null){
-                Spatial isthisEnterance= map[x][y][z + 1];
-                if(isthisEnterance.getUserData("type").equals("queroad")){
-                    connectedroad=isthisEnterance;
-                }
-            }
-            else if(map[x][y][z-1]!=null){
-                Spatial isthisEnterance= map[x][y][z - 1];
-                if(isthisEnterance.getUserData("type").equals("queroad")){
-                    connectedroad=isthisEnterance;
+        if (lastqueroad == null) {
+
+            boolean found = false;
+
+            if (map[x + 1][y][z] != null) {
+                Spatial isthisEnterance = map[x + 1][y][z];
+                if (isthisEnterance.getUserData("type").equals("queroad")) {
+                    boolean connected = true;
+                    if (isthisEnterance.getUserData("connected") != null) {
+                        connected = isthisEnterance.getUserData("connected");
+                    }
+                    if (connected == false) {
+                        found = true;
+                        connectedroad = isthisEnterance;
+
+                    }
                 }
             }
-            
-        }else{
-            connectedroad=lastqueroad;
+            if (map[x - 1][y][z] != null && found == false) {
+                Spatial isthisEnterance = map[x - 1][y][z];
+                if (isthisEnterance.getUserData("type").equals("queroad")) {
+                    boolean connected = true;
+                    if (isthisEnterance.getUserData("connected") != null) {
+                        connected = isthisEnterance.getUserData("connected");
+                    }
+                    if (connected == false) {
+                        found = true;
+                        connectedroad = isthisEnterance;
+                    }
+                }
+            }
+            if (map[x][y][z + 1] != null && found == false) {
+                Spatial isthisEnterance = map[x][y][z + 1];
+                if (isthisEnterance.getUserData("type").equals("queroad")) {
+                    boolean connected = true;
+                    if (isthisEnterance.getUserData("connected") != null) {
+                        connected = isthisEnterance.getUserData("connected");
+                    }
+                    if (connected == false) {
+                        found = true;
+                        connectedroad = isthisEnterance;
+                    }
+                }
+            }
+            if (map[x][y][z - 1] != null && found == false) {
+                Spatial isthisEnterance = map[x][y][z - 1];
+                if (isthisEnterance.getUserData("type").equals("queroad")) {
+                    boolean connected = true;
+                    if (isthisEnterance.getUserData("connected") != null) {
+                        connected = isthisEnterance.getUserData("connected");
+                    }
+                    if (connected == false) {
+                        connectedroad = isthisEnterance;
+                    }
+                }
+            }
+
+        } else {
+            connectedroad = lastqueroad;
         }
-        
-        //käännä tiet
-        
+
+
+
         /**
          * Yhdistä tiet
          */
-        
-        if(connectedroad!=null){
-            road.setUserData("queconnect1",connectedroad);
-            connectedroad.setUserData("queconnect2",road);
+        if (connectedroad != null) {
+            x2 = (int) connectedroad.getLocalTranslation().x;
+            y2 = (int) connectedroad.getLocalTranslation().y;
+            z2 = (int) connectedroad.getLocalTranslation().z;
+
+
+            road.setUserData("queconnect1", connectedroad);
+            road.setUserData("connected", false);
+            connectedroad.setUserData("queconnect2", road);
             System.out.println(road.getUserData("queconnect1").toString());
             System.out.println(connectedroad.getUserData("queconnect2").toString());
-            //connectedroad.setUserData("connected",true);
+            if (connectedroad.getUserData("queconnect1") != null) {
+                connectedroad.setUserData("connected", true);
+            }
+
+
         }
+        turnqueroads(connectedroad, x2, y2, z2, road, x, y, z);
+        //käännä tiet
+
+        lastqueroad = road;
         //jos löytyy enterance yhdistä siihen jos ei niin 
-        
-        lastqueroad=road;
+
+
+
+    }
+    //real shitty code
+
+    private void turnqueroads(Spatial connectedroad, int x1, int y1, int z1, Spatial road, int x2, int y2, int z2) {
+        if (connectedroad == null) {
+            return;
+        }
+        //connectedroad
+        boolean connected = false;
+        if (connectedroad.getUserData("connected") != null) {
+            connected = connectedroad.getUserData("connected");
+        }
+        if (connected == true) {
+            Spatial connected1 = connectedroad.getUserData("queconnect1");
+            Spatial connected2 = road;
+
+            Vector3f connected1loc = connected1.getLocalTranslation();
+            Vector3f connected2loc = connected2.getLocalTranslation();
+
+            if (connected1loc.x > connected2loc.x && connected1loc.z == connected2loc.z) {
+                Spatial temp = map[x1][y1][z1];
+                rootNode.detachChild(temp);
+                temp = roadF.queroadStraight();
+                temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                temp.setUserData("connected", true);
+                temp.setUserData("queconnect1", connected1);
+                temp.setUserData("queconnect2", connected2);
+                map[x1][y1][z1] = temp;
+                rootNode.attachChild(temp);
+                return;
+            }
+            if (connected1loc.x < connected2loc.x && connected1loc.z == connected2loc.z) {
+                Spatial temp = map[x1][y1][z1];
+                rootNode.detachChild(temp);
+                temp = roadF.queroadStraight();
+                temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                temp.setUserData("connected", true);
+                temp.setUserData("queconnect1", connected1);
+                temp.setUserData("queconnect2", connected2);
+                map[x1][y1][z1] = temp;
+                rootNode.attachChild(temp);
+                return;
+            }
+            if (connected1loc.x == connected2loc.x && connected1loc.z < connected2loc.z) {
+                Spatial temp = map[x1][y1][z1];
+                rootNode.detachChild(temp);
+                temp = roadF.queroadStraight();
+                float angle = (float) Math.toRadians(90);
+                temp.rotate(0, angle, 0);
+                temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                temp.setUserData("connected", true);
+                temp.setUserData("queconnect1", connected1);
+                temp.setUserData("queconnect2", connected2);
+                map[x1][y1][z1] = temp;
+                rootNode.attachChild(temp);
+                return;
+            }
+            if (connected1loc.x == connected2loc.x && connected1loc.z > connected2loc.z) {
+                Spatial temp = map[x1][y1][z1];
+                rootNode.detachChild(temp);
+                temp = roadF.queroadStraight();
+                float angle = (float) Math.toRadians(90);
+                temp.rotate(0, angle, 0);
+                temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                temp.setUserData("connected", true);
+                temp.setUserData("queconnect1", connected1);
+                temp.setUserData("queconnect2", connected2);
+                map[x1][y1][z1] = temp;
+                rootNode.attachChild(temp);
+                return;
+            }
+            if (connected1loc.x > connected2loc.x && connected1loc.z > connected2loc.z) {
+                if (connectedroad.getLocalTranslation().z < connected1loc.z) {
+                    Spatial temp = map[x1][y1][z1];
+                    rootNode.detachChild(temp);
+                    temp = roadF.quebendingRoad();
+                    float angle = (float) Math.toRadians(-90);
+                    temp.rotate(0, angle, 0);
+                    temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                    temp.setUserData("connected", true);
+                    temp.setUserData("queconnect1", connected1);
+                    temp.setUserData("queconnect2", connected2);
+                    map[x1][y1][z1] = temp;
+                    rootNode.attachChild(temp);
+                } else {
+                    Spatial temp = map[x1][y1][z1];
+                    rootNode.detachChild(temp);
+                    temp = roadF.quebendingRoad();
+                    float angle = (float) Math.toRadians(90);
+                    temp.rotate(0, angle, 0);
+                    temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                    temp.setUserData("connected", true);
+                    temp.setUserData("queconnect1", connected1);
+                    temp.setUserData("queconnect2", connected2);
+                    map[x1][y1][z1] = temp;
+                    rootNode.attachChild(temp);
+                }
+
+                return;
+            }
+            if (connected1loc.x < connected2loc.x && connected1loc.z > connected2loc.z) {
+                if (connectedroad.getLocalTranslation().z < connected1loc.z) {
+                    Spatial temp = map[x1][y1][z1];
+                    rootNode.detachChild(temp);
+                    temp = roadF.quebendingRoad();
+                    
+                    temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                    temp.setUserData("connected", true);
+                    temp.setUserData("queconnect1", connected1);
+                    temp.setUserData("queconnect2", connected2);
+                    map[x1][y1][z1] = temp;
+                    rootNode.attachChild(temp);
+                }else{
+                    Spatial temp = map[x1][y1][z1];
+                    rootNode.detachChild(temp);
+                    temp = roadF.quebendingRoad();
+                    float angle = (float) Math.toRadians(180);
+                    temp.rotate(0, angle, 0);
+                    temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                    temp.setUserData("connected", true);
+                    temp.setUserData("queconnect1", connected1);
+                    temp.setUserData("queconnect2", connected2);
+                    map[x1][y1][z1] = temp;
+                    rootNode.attachChild(temp);
+                }
+               
+                return;
+            }
+            if (connected1loc.x > connected2loc.x && connected1loc.z < connected2loc.z) {
+                if (connectedroad.getLocalTranslation().x < connected1loc.x) {
+                    Spatial temp = map[x1][y1][z1];
+                    rootNode.detachChild(temp);
+                    temp = roadF.quebendingRoad();
+                    
+                    temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                    temp.setUserData("connected", true);
+                    temp.setUserData("queconnect1", connected1);
+                    temp.setUserData("queconnect2", connected2);
+                    map[x1][y1][z1] = temp;
+                    rootNode.attachChild(temp);
+                }else{
+                    Spatial temp = map[x1][y1][z1];
+                    rootNode.detachChild(temp);
+                    temp = roadF.quebendingRoad();
+                    float angle = (float) Math.toRadians(-180);
+                    temp.rotate(0, angle, 0);
+                    temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                    temp.setUserData("connected", true);
+                    temp.setUserData("queconnect1", connected1);
+                    temp.setUserData("queconnect2", connected2);
+                    map[x1][y1][z1] = temp;
+                    rootNode.attachChild(temp);
+                }
+                return;
+            }
+            if (connected1loc.x < connected2loc.x && connected1loc.z < connected2loc.z) {
+               if (connectedroad.getLocalTranslation().z > connected1loc.z) {
+                    Spatial temp = map[x1][y1][z1];
+                    rootNode.detachChild(temp);
+                    temp = roadF.quebendingRoad();
+                    float angle = (float) Math.toRadians(90);
+                    temp.rotate(0, angle, 0);
+                    temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                    temp.setUserData("connected", true);
+                    temp.setUserData("queconnect1", connected1);
+                    temp.setUserData("queconnect2", connected2);
+                    map[x1][y1][z1] = temp;
+                    rootNode.attachChild(temp);
+                }else{//this
+                    Spatial temp = map[x1][y1][z1];
+                    rootNode.detachChild(temp);
+                    temp = roadF.quebendingRoad();
+                    float angle = (float) Math.toRadians(-90);
+                    temp.rotate(0, angle, 0);
+                    temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                    temp.setUserData("connected", true);
+                    temp.setUserData("queconnect1", connected1);
+                    temp.setUserData("queconnect2", connected2);
+                    map[x1][y1][z1] = temp;
+                    rootNode.attachChild(temp);
+                }
+                
+            }
+
+        }
+
         
     }
 }

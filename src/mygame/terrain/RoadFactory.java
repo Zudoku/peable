@@ -76,19 +76,19 @@ public class RoadFactory {
         road.setUserData("type","road");
         return road;
     }
+    //älä käytä vielä
     public Spatial queroadStraight() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadStraight.j3o");
-        road.setMaterial(getTempMaterial());
-       
+        Spatial road = assetManager.loadModel("Models/Roads/roadStraightblue.j3o");
+        
         road.scale(0.5f, 0.5f, 0.5f);
         road.setUserData("roadHill","flat");
         road.setUserData("type","queroad");
         return road;
     }
-
+    //älä käytä vielä
     public Spatial queroadUpHill() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadUpHill.j3o");
-        road.setMaterial(getTempMaterial());
+        Spatial road = assetManager.loadModel("Models/Roads/roadUpHillblue.j3o");
+        
         road.setLocalTranslation(0, +0.50f, 0);
         road.setUserData("roadHill","upHill");
         road.setUserData("type","queroad");
@@ -97,8 +97,8 @@ public class RoadFactory {
     }
 
     public Spatial queroadDownHill() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadUpHill.j3o");
-        road.setMaterial(getTempMaterial());
+        Spatial road = assetManager.loadModel("Models/Roads/roadUpHillblue.j3o");
+        
         float angle = (float) Math.toRadians(180);
         road.setLocalTranslation(0, -0.50f, 0);
         road.rotate(0, angle, 0);
@@ -108,5 +108,15 @@ public class RoadFactory {
         return road;
     }
 
-   
+
+    public Spatial quebendingRoad() {
+        Spatial road = assetManager.loadModel("Models/Roads/roadBendingblue.j3o");
+        
+        road.scale(0.5f, 0.5f, 0.5f);
+        road.setUserData("roadHill","flat");
+        road.setUserData("type","queroad");
+        return road;
+    }
+
+    
 }
