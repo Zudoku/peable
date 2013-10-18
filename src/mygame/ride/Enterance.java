@@ -33,6 +33,23 @@ public class Enterance {
             object=assetManager.loadModel("Models/Rides/enterace.j3o");
         }
         object.setLocalTranslation(location);
+        float angle;
+        switch(facing){
+            case UP:
+                
+                break;
+            case DOWN:
+                angle = (float) Math.toRadians(180);
+                this.object.rotate(0, angle, 0);
+                break;
+            case LEFT:
+                angle = (float) Math.toRadians(90);
+                this.object.rotate(0, angle, 0);
+                break;
+            case RIGHT:
+                angle = (float) Math.toRadians(-90);
+                this.object.rotate(0, angle, 0);
+        }
     }
   
   

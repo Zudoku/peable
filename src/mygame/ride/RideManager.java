@@ -123,7 +123,7 @@ public class RideManager {
             if(rideidArvo==rideID-1){
                 
                 
-                Enterance e = new Enterance(enterancetype,new Vector3f(x, y, z), Direction.UP, assetManager);
+                Enterance e = new Enterance(enterancetype,new Vector3f(x, y, z), Direction.DOWN, assetManager);
                 e.connectedRide=rides.get(rideID-2);  
                 e.object.setUserData("type","enterance");
                 map[x][y][z]=e.object;
@@ -169,7 +169,7 @@ public class RideManager {
             }
             int rideidArvo=s.getUserData("rideID");
             if(rideidArvo==rideID-1){
-                Enterance e = new Enterance(enterancetype,new Vector3f(x, y, z), Direction.UP, assetManager);
+                Enterance e = new Enterance(enterancetype,new Vector3f(x, y, z), Direction.LEFT, assetManager);
                 e.connectedRide=rides.get(rideID-2);
                 e.object.setUserData("type","enterance");
                 map[x][y][z]=e.object;
@@ -189,7 +189,7 @@ public class RideManager {
             }
             int rideidArvo=s.getUserData("rideID");
             if(rideidArvo==rideID-1){
-                Enterance e = new Enterance(enterancetype,new Vector3f(x, y, z), Direction.UP, assetManager);
+                Enterance e = new Enterance(enterancetype,new Vector3f(x, y, z), Direction.RIGHT, assetManager);
                 e.connectedRide=rides.get(rideID-2);
                 e.object.setUserData("type","enterance");
                 map[x][y][z]=e.object;
