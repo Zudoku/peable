@@ -29,7 +29,7 @@ public class BasicRide {
     public Enterance exit;
     public ArrayList<Employee> employees=new ArrayList<Employee>();
     public ShopReputation reputation= ShopReputation.NEW;
-    //TODO!! turha
+    //TODO!! 
     private boolean[][] occupySpace={
         {false,false,false,false},
         {false,false,false,false},

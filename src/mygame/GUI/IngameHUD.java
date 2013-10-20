@@ -410,22 +410,21 @@ public class IngameHUD implements ScreenController {
 
     public void updateshopdesc() {
         Element niftyElement = nifty.getCurrentScreen().findElementByName("shopname");
-        niftyElement.getRenderer(TextRenderer.class).setText(getshopname());
-        niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
-        niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
+        setelementText(niftyElement,getshopname());
         niftyElement = nifty.getCurrentScreen().findElementByName("shopprice");
-        niftyElement.getRenderer(TextRenderer.class).setText(getshopprice());
-        niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
-        niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
+        setelementText(niftyElement,getshopprice());
         niftyElement = nifty.getCurrentScreen().findElementByName("shopdesc");
-        niftyElement.getRenderer(TextRenderer.class).setText(getshopdesc());
-        niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
-        niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
+        setelementText(niftyElement,getshopprice());
         String bigshoppic=descriptionManager.bigpic;
         
         NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),bigshoppic, false);
         niftyElement = nifty.getCurrentScreen().findElementByName("shopbigpic");
         niftyElement.getRenderer(ImageRenderer.class).setImage(img);
 
+    }
+    private void setelementText(Element element,String text){
+        element.getRenderer(TextRenderer.class).setText(text);
+        element.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
+        element.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
     }
 }

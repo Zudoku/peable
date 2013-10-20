@@ -8,6 +8,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import mygame.ride.Enterance;
 
 /**
  *
@@ -89,15 +90,18 @@ public class RoadMaker {
 
                 case FLAT:
                     road = roadF.queroadStraight();
+                    road.setUserData("connected",false);
 
                     break;
 
                 case DOWN:
                     road = roadF.queroadDownHill();
+                    road.setUserData("connected",false);
                     break;
 
                 case UP:
                     road = roadF.queroadUpHill();
+                    road.setUserData("connected",false);
                     break;
             }
 
@@ -268,6 +272,13 @@ public class RoadMaker {
                     condition1 = true;
 
                 }
+                if(temp.getUserData("type").equals("queroad")){
+                    boolean connected=true;
+                    connected=temp.getUserData("connected");
+                    if(connected==false){
+                        condition1=true;
+                    }
+                }
             }
         } else {
             if (map[x + 1][z][y] == null) {
@@ -294,6 +305,13 @@ public class RoadMaker {
                     condition2 = true;
 
                 }
+                if(temp.getUserData("type").equals("queroad")){
+                    boolean connected=true;
+                    connected=temp.getUserData("connected");
+                    if(connected==false){
+                        condition2=true;
+                    }
+                }
             }
         } else {
             if (map[x - 1][z][y] == null) {
@@ -318,6 +336,13 @@ public class RoadMaker {
                     condition3 = true;
 
                 }
+                if(temp.getUserData("type").equals("queroad")){
+                    boolean connected=true;
+                    connected=temp.getUserData("connected");
+                    if(connected==false){
+                        condition3=true;
+                    }
+                }
             }
         } else {
             if (map[x][z][y + 1] == null) {
@@ -340,6 +365,13 @@ public class RoadMaker {
                 if (temp.getUserData("type").equals("shop")) {
                     condition1 = true;
 
+                }
+                if(temp.getUserData("type").equals("queroad")){
+                    boolean connected=true;
+                    connected=temp.getUserData("connected");
+                    if(connected==false){
+                        condition4=true;
+                    }
                 }
             }
         } else {
@@ -664,25 +696,83 @@ public class RoadMaker {
 
         }
         turnqueroads(connectedroad, x2, y2, z2, road, x, y, z);
-        //käännä tiet
-
-        lastqueroad = road;
-        //jos löytyy enterance yhdistä siihen jos ei niin 
-
+        
+        if(!checkforEnterance(x, y, z, road)){
+            lastqueroad = road;
+        }else{
+            lastqueroad =null;
+        }
+ 
 
 
     }
+    private boolean checkforEnterance(int x,int y,int z,Spatial road){
+        Spatial temp=map[x+1][y][z];
+        if(temp!=null){
+            if(temp.getUserData("type").equals("enterance")){
+                Enterance enterance=temp.getUserData("enterance");
+                if(enterance.facing==Direction.DOWN&&enterance.connected==false){
+                    enterance.connectedRoad=road;
+                    enterance.connected=true;
+                    road.setUserData("connectedEnterance",enterance);
+                    road.setUserData("connected",true);
+                    return true;
+                }
+            }
+        }
+        temp=map[x-1][y][z];
+        if(temp!=null){
+            if(temp.getUserData("type").equals("enterance")){
+                Enterance enterance=temp.getUserData("enterance");
+                if(enterance.facing==Direction.UP&&enterance.connected==false){
+                    enterance.connectedRoad=road;
+                    enterance.connected=true;
+                    road.setUserData("connectedEnterance",enterance);
+                    road.setUserData("connected",true);
+                    return true;
+                }
+            }
+        }
+        temp=map[x][y][z+1];
+        if(temp!=null){
+            if(temp.getUserData("type").equals("enterance")){
+                Enterance enterance=temp.getUserData("enterance");
+                if(enterance.facing==Direction.RIGHT&&enterance.connected==false){
+                    enterance.connectedRoad=road;
+                    enterance.connected=true;
+                    road.setUserData("connectedEnterance",enterance);
+                    road.setUserData("connected",true);
+                    return true;
+                }
+            }
+        }
+        temp=map[x][y][z-1];
+        if(temp!=null){
+            if(temp.getUserData("type").equals("enterance")){
+                Enterance enterance=temp.getUserData("enterance");
+                if(enterance.facing==Direction.LEFT&&enterance.connected==false){
+                    enterance.connectedRoad=road;
+                    enterance.connected=true;
+                    road.setUserData("connectedEnterance",enterance);
+                    road.setUserData("connected",true);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     //real shitty code
-
     private void turnqueroads(Spatial connectedroad, int x1, int y1, int z1, Spatial road, int x2, int y2, int z2) {
         if (connectedroad == null) {
             return;
         }
-        //connectedroad
+        
         boolean connected = false;
         if (connectedroad.getUserData("connected") != null) {
             connected = connectedroad.getUserData("connected");
         }
+        
         if (connected == true) {
             Spatial connected1 = connectedroad.getUserData("queconnect1");
             Spatial connected2 = road;
@@ -855,6 +945,37 @@ public class RoadMaker {
                 
             }
 
+        }
+        else{
+            Vector3f connected1loc = connectedroad.getLocalTranslation();
+            Vector3f recentroadloc = road.getLocalTranslation();
+            int x3=(int)connected1loc.x;
+            int y3=(int)connected1loc.y;
+            int z3=(int)connected1loc.z;
+            if (connected1loc.x > recentroadloc.x && connected1loc.z == recentroadloc.z || connected1loc.x < recentroadloc.x && connected1loc.z == recentroadloc.z) {
+                Spatial temp = map[x3][y3][z3];
+                rootNode.detachChild(temp);
+                temp = roadF.queroadStraight();
+                temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                temp.setUserData("connected", false);
+                temp.setUserData("queconnect1", road);
+                map[x3][y3][z3] = temp;
+                rootNode.attachChild(temp);
+                return;
+            }
+            if (connected1loc.x == recentroadloc.x && connected1loc.z < recentroadloc.z || connected1loc.x < recentroadloc.x && connected1loc.z == recentroadloc.z) {
+                Spatial temp = map[x3][y3][z3];
+                rootNode.detachChild(temp);
+                temp = roadF.queroadStraight();
+                temp.setLocalTranslation(connectedroad.getLocalTranslation());
+                float angle = (float) Math.toRadians(90);
+                temp.rotate(0, angle, 0);
+                temp.setUserData("connected", false);
+                temp.setUserData("queconnect1", road);
+                map[x3][y3][z3] = temp;
+                rootNode.attachChild(temp);
+                
+            }
         }
 
         

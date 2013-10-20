@@ -50,7 +50,6 @@ public class WorldHandler {
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setTexture("ColorMap", grass);
-
         geom.setMaterial(mat);
         return geom;
     }
@@ -179,7 +178,6 @@ public class WorldHandler {
         Geometry deleted = Terrain[x][z];
         TerrainMap[x][z]++;
 
-
         Geometry geomclone = TerrainBox();
         if (useTexture == true) {
             if (textureindex == 1) {
@@ -195,8 +193,8 @@ public class WorldHandler {
 
             }
         }
+        
         geomclone.setLocalScale((new Vector3f(1, TerrainMap[x][z], 1)));
-
         geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().z + ((float) TerrainMap[x][z] / 2), 1);
         geomclone.move(x, 1, z);
         Terrain[x][z] = geomclone;
@@ -210,7 +208,6 @@ public class WorldHandler {
         Geometry deleted = Terrain[x][z];
         TerrainMap[x][z]--;
 
-
         Geometry geomclone = TerrainBox();
         if (useTexture == true) {
             if (textureindex == 1) {
@@ -227,7 +224,6 @@ public class WorldHandler {
             }
         }
         geomclone.setLocalScale((new Vector3f(1, TerrainMap[x][z], 1)));
-
         geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().z + ((float) TerrainMap[x][z] / 2), 1);
         geomclone.move(x, 1, z);
         Terrain[x][z] = geomclone;
