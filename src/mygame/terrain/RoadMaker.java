@@ -8,6 +8,8 @@ import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.ArrayList;
+import mygame.npc.Guest;
 import mygame.ride.Enterance;
 
 /**
@@ -716,6 +718,7 @@ public class RoadMaker {
                     enterance.connected=true;
                     road.setUserData("connectedEnterance",enterance);
                     road.setUserData("connected",true);
+                    refreshqueroadarray(road);
                     return true;
                 }
             }
@@ -729,6 +732,7 @@ public class RoadMaker {
                     enterance.connected=true;
                     road.setUserData("connectedEnterance",enterance);
                     road.setUserData("connected",true);
+                    refreshqueroadarray(road);
                     return true;
                 }
             }
@@ -742,6 +746,7 @@ public class RoadMaker {
                     enterance.connected=true;
                     road.setUserData("connectedEnterance",enterance);
                     road.setUserData("connected",true);
+                    refreshqueroadarray(road);
                     return true;
                 }
             }
@@ -755,6 +760,7 @@ public class RoadMaker {
                     enterance.connected=true;
                     road.setUserData("connectedEnterance",enterance);
                     road.setUserData("connected",true);
+                    refreshqueroadarray(road);
                     return true;
                 }
             }
@@ -978,6 +984,112 @@ public class RoadMaker {
             }
         }
 
+        
+    }
+
+    private void refreshqueroadarray(Spatial road) {
+        System.out.println("Refreshing..");
+        
+        ArrayList<Spatial> queroads =getlinkedqueroads(road);
+        System.out.println("Refresh size "+queroads.size());
+        for(int i=0;i<(queroads.size()-2);i++){
+            Spatial cur=queroads.get(i);
+            Spatial second=queroads.get(i+1);
+            
+            int curx=(int)cur.getLocalTranslation().x;
+            int cury=(int)cur.getLocalTranslation().y;
+            int curz=(int)cur.getLocalTranslation().z;
+            
+            int secondx=(int)second.getLocalTranslation().x;
+            int secondy=(int)second.getLocalTranslation().y;
+            int secondz=(int)second.getLocalTranslation().z;
+            
+            turnqueroads(cur, curx, cury, curz, road, secondx, secondy, secondz);
+            System.out.println("Refreshing road");
+            
+        }
+        System.out.println("Refresh done");
+        
+    }
+    //this is copied from guest CARE
+    public ArrayList<Spatial> getlinkedqueroads(Spatial firstroad){
+        ArrayList<Spatial> list=new ArrayList<Spatial>();
+        Spatial curRoad=firstroad;
+        if(firstroad==null){
+            System.out.println("firstroad = null !! WTF");
+            return list;
+        }
+        //lisää eka pala
+        list.add(curRoad);
+        boolean end=false;
+        int max=0;
+        while(end==false){
+            
+            max++;
+            boolean connected=false;
+            if(curRoad.getUserData("connected")!=null){
+                connected=curRoad.getUserData("connected");
+            }
+            boolean added=false;
+            if(connected==true){ 
+                if(curRoad.getUserData("queconnect1")!=null){
+                    Spatial locatedroad=curRoad.getUserData("queconnect1");
+                    System.out.println("queconnect1 found...");
+                    
+                    //onko tie jo listassa
+                    boolean old=false;
+                    for(Spatial s:list){
+                        if(s.equals(locatedroad)){
+                            old = true;
+                            
+                            System.out.println("queconnect1 was already on the list");
+                            break;
+                        }
+                    }
+                    //jos ei niin lisää se 
+                    if(old==false){
+                        added=true;
+                        curRoad=locatedroad;
+                        list.add(curRoad);
+                        System.out.println("queconnect1 added to the list ");
+                        
+                    }
+                    
+                }
+                if (curRoad.getUserData("queconnect2")!=null&&added==false){
+                    Spatial locatedroad=curRoad.getUserData("queconnect2");
+                    System.out.println("queconnect2 found...");
+                    
+                    //onko tie jo listassa
+                    boolean old=false;
+                    for(Spatial s:list){
+                        if(s.equals(locatedroad)){
+                            old = true;
+                            System.out.println("queconnect2 was already on the list");
+                            break;
+                        }
+                    }
+                    //jos ei niin lisää se 
+                    if(old==false){
+                        curRoad=locatedroad;
+                        list.add(curRoad);
+                        System.out.println("queconnect2 added to the list ");
+                        
+                    }
+                }
+                
+            }
+            else{
+                end=true;
+                System.out.println("finding connect ended because connected was false");
+            }
+            if(max>100){
+                end=true;
+                System.out.println("Gettin linked queroads looped for 100 times. Quitting...");
+            }
+        }
+        
+        return list;
         
     }
 }

@@ -102,6 +102,14 @@ public class Guest extends BasicNPC {
 
                 }
                 if (temp.getUserData("type").equals("queroad")) {
+                    System.out.println("guest found queroad");
+                    ArrayList<Spatial> queroads=getlinkedqueroads(temp);
+                    System.out.println("queroads are linked to "+queroads.size());
+                    if(queroads==null){
+                        System.out.println("something went wrong when gettin linked roads");
+                        return;
+                    }
+                    
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
@@ -149,6 +157,7 @@ public class Guest extends BasicNPC {
 
                 }
                 if (temp.getUserData("type").equals("queroad")) {
+                    System.out.println("guest found queroad");
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
@@ -195,6 +204,13 @@ public class Guest extends BasicNPC {
 
                 }
                 if (temp.getUserData("type").equals("queroad")) {
+                    System.out.println("guest found queroad");
+                    ArrayList<Spatial> queroads=getlinkedqueroads(temp);
+                    System.out.println("queroads are linked to "+queroads.size());
+                    if(queroads==null){
+                        System.out.println("something went wrong when gettin linked roads");
+                        return;
+                    }
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
@@ -243,6 +259,13 @@ public class Guest extends BasicNPC {
 
                 }
                 if (temp.getUserData("type").equals("queroad")) {
+                    System.out.println("guest found queroad");
+                    ArrayList<Spatial> queroads=getlinkedqueroads(temp);
+                    System.out.println("queroads are linked to "+queroads.size());
+                    if(queroads==null){
+                        System.out.println("something went wrong when gettin linked roads");
+                        return;
+                    }
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
@@ -258,7 +281,33 @@ public class Guest extends BasicNPC {
             }
         }
     }
-
+    public ArrayList<Spatial> getlinkedqueroads(Spatial firstroad){
+        ArrayList<Spatial> list=new ArrayList<Spatial>();
+        Spatial nextroad=firstroad;
+        boolean end=false;
+        int max=0;
+        while(end){
+            max++;
+            boolean connected=nextroad.getUserData("connected");
+            if(connected==true){
+                if(nextroad.getUserData("connectedEnterance")!=null){
+                    end=true;
+                }
+                list.add(nextroad);
+                nextroad=nextroad.getUserData("connected2");
+            }
+            else{
+                end=true;
+            }
+            if(max>100){
+                end=true;
+                System.out.println("Gettin linked queroads looped for 100 times. Quitting...");
+            }
+        }
+        
+        return list;
+        
+    }
     public void initXYZ(int x, int y, int z) {
         this.x = x;
         this.y = y;
