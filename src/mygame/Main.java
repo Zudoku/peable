@@ -114,6 +114,7 @@ public class Main extends SimpleApplication {
         nifty.update();
         selectionEmitter.updateSelection(rootNode, inputManager, cam);
         npcManager.update();
+        rideManager.updateRideQueues();
     }
 
     @Override

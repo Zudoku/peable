@@ -12,6 +12,7 @@ import mygame.Main;
 import mygame.npc.inventory.Item;
 import mygame.npc.inventory.StatManager;
 import mygame.npc.inventory.Wallet;
+import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
 import mygame.terrain.Direction;
 
@@ -33,6 +34,8 @@ public class Guest extends BasicNPC {
     ArrayList<NPCAction> actions = new ArrayList<NPCAction>();
     public ArrayList<Item> inventory = new ArrayList<Item>();
     public StatManager stats = new StatManager();
+    boolean active=true;
+    public Spatial currentQueRoad;
 
     public Guest(String name, float money, int guestNum, Spatial geom) {
         super(name, geom);
@@ -46,7 +49,7 @@ public class Guest extends BasicNPC {
 
     @Override
     public void update() {
-        if (actions.size() < 1) {
+        if (actions.size() < 1&&active) {
 
             calcMovePoints();
         }
@@ -102,12 +105,44 @@ public class Guest extends BasicNPC {
 
                 }
                 if (temp.getUserData("type").equals("queroad")) {
-                    System.out.println("guest found queroad");
-                    ArrayList<Spatial> queroads=getlinkedqueroads(temp);
-                    System.out.println("queroads are linked to "+queroads.size());
-                    if(queroads==null){
-                        System.out.println("something went wrong when gettin linked roads");
-                        return;
+                    boolean found=false;
+                    System.out.println("Found queroad testing..");
+                    int fRideID=0;
+                    Spatial trueroad = null;
+                    BasicRide foundRide = null;
+                    for(BasicRide s:Main.rideManager.rides){
+                        if(s.enterance!=null){
+                            if(s.enterance.connectedRoad!=null){
+                                ArrayList<Spatial> a=Main.roadMaker.getlinkedqueroads(s.enterance.connectedRoad);
+                                trueroad=temp.getUserData("queconnect1");
+                                if(a.contains(trueroad)){
+                                    System.out.println("Found the ride witch the road is connected to");
+                                    found=true;
+                                    fRideID=s.rideID;
+                                    break;
+                                }
+                                System.out.println("Didnt find the ride witch the road is connected to");
+                            }
+                            
+                        }
+                    }
+                    
+                    if(found){
+                        for(BasicRide a:Main.rideManager.rides){
+                            if(a.rideID==fRideID){
+                                foundRide=a;
+                            }
+                        }
+                        // haluaako guesti mennä laitteeseen
+                        if(true){
+                            if(foundRide.tryToQueGuest(this)){
+                                System.out.println("Accepted and now in que"); 
+                                active=false;
+                                this.currentQueRoad=trueroad;
+                            }
+                            
+                            
+                        }
                     }
                     
                 }
@@ -321,5 +356,8 @@ public class Guest extends BasicNPC {
 
     public GuestWalkingStates getWalkingState() {
         return walkState;
+    }
+    public void callToQueRoad(NPCAction action){
+        actions.add(action);
     }
 }

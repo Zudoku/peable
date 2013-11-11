@@ -7,7 +7,10 @@ package mygame.ride;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import mygame.Main;
+import mygame.npc.ActionType;
 import mygame.npc.Guest;
+import mygame.npc.NPCAction;
 import mygame.shops.Employee;
 import mygame.shops.ShopReputation;
 import mygame.terrain.Direction;
@@ -29,6 +32,8 @@ public class BasicRide {
     public Enterance exit;
     public ArrayList<Employee> employees=new ArrayList<Employee>();
     public ShopReputation reputation= ShopReputation.NEW;
+    public ArrayList<Guest> guestsInRide=new ArrayList<Guest>();
+    public ArrayList<Guest> guestsInQue=new ArrayList<Guest>();
     //TODO!! 
     private boolean[][] occupySpace={
         {false,false,false,false},
@@ -54,5 +59,44 @@ public class BasicRide {
     }
     public boolean[][] getOccupySpace() {
         return occupySpace;
+    }
+    public boolean tryToQueGuest(Guest guest){
+        guestsInQue.add(guest);
+        
+        return true;
+    }
+    public void updateQueLine(){
+        if(guestsInQue.isEmpty()){
+            return;
+        }
+        
+        for(int i=0;i<guestsInQue.size();i++){
+            Guest handledguest=guestsInQue.get(i);
+            Spatial testedroad=handledguest.currentQueRoad;
+            if(testedroad==null){
+                System.out.println("Road from guest null :(");
+            }
+            ArrayList<Spatial> linkedroads=Main.roadMaker.getlinkedqueroads(enterance.connectedRoad);
+            if(!linkedroads.contains(testedroad)){
+                System.out.println("Error");
+                continue;
+            }
+            int a=linkedroads.indexOf(testedroad);
+            if(i==a){
+                //System.out.println("Guest is where he is supposed to be");
+                Vector3f newpos=linkedroads.get(i).getLocalTranslation();
+                handledguest.callToQueRoad(new NPCAction(newpos, ActionType.QUE, handledguest));
+                if(i==0){
+                    //ota sisään laitteeseen
+                }
+                continue;
+            }
+            if(i<a){
+                //anna käsky eteenpoäin
+                Vector3f newpos=linkedroads.get(i).getLocalTranslation();
+                handledguest.callToQueRoad(new NPCAction(newpos, ActionType.QUE, handledguest));
+                handledguest.currentQueRoad=linkedroads.get(i);
+            }
+        }
     }
 }

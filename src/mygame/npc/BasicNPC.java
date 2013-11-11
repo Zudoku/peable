@@ -32,7 +32,7 @@ public class BasicNPC {
 
     public void setName(String name) {
         if (name == null) {
-            System.out.println("Guest name is empty");
+            System.out.println("NPC name is empty");
             return;
 
         }

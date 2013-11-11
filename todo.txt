@@ -15,17 +15,17 @@ CORE 0.1
 3. Kun NPC klikkaa avautuu ikkuna DONE!
 4. Sama Kaupoille DONE!
 5.
-6.Ensimmäinen laite
-7.Sisäänkäynti ja uloskäynti laitteeseen
-8.Que tietä
-9.Koristeita
+6.Ensimmäinen laite DONE!
+7.Sisäänkäynti ja uloskäynti laitteeseen DONE ! 
+8.Que tietä DONE! 
+9.Guestit jonottamaan ja olemaan laitteissa josta saa happinessia
 10. Siisti UI!
 ALPHA 0.2
-1. 
+1. Guestit menee vain joihinkin laitteisiin 
 2.
 3.
 4.
-5.
+5.Koristeita
 6.Raha
 7.
 8.Tallentaminen

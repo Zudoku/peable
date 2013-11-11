@@ -30,6 +30,7 @@ public class NPCAction {
         this.shop=basicshop;
         this.guest=guest;
     }
+    
 
     public void onAction() {
         switch (action) {
@@ -58,7 +59,11 @@ public class NPCAction {
                 guest.inventory.get(0).consume(guest.stats);
                 guest.inventory.remove(guest.inventory.get(0));
                 Main.windowMaker.updateGuestWindow(guest);
+                break;
                 
+            case QUE:
+                
+                break;
         }
     }
 

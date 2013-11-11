@@ -9,7 +9,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
-import mygame.npc.Guest;
 import mygame.ride.Enterance;
 
 /**
@@ -92,18 +91,18 @@ public class RoadMaker {
 
                 case FLAT:
                     road = roadF.queroadStraight();
-                    road.setUserData("connected",false);
+                    road.setUserData("connected", false);
 
                     break;
 
                 case DOWN:
                     road = roadF.queroadDownHill();
-                    road.setUserData("connected",false);
+                    road.setUserData("connected", false);
                     break;
 
                 case UP:
                     road = roadF.queroadUpHill();
-                    road.setUserData("connected",false);
+                    road.setUserData("connected", false);
                     break;
             }
 
@@ -274,11 +273,11 @@ public class RoadMaker {
                     condition1 = true;
 
                 }
-                if(temp.getUserData("type").equals("queroad")){
-                    boolean connected=true;
-                    connected=temp.getUserData("connected");
-                    if(connected==false){
-                        condition1=true;
+                if (temp.getUserData("type").equals("queroad")) {
+                    boolean connected = true;
+                    connected = temp.getUserData("connected");
+                    if (connected == false) {
+                        condition1 = true;
                     }
                 }
             }
@@ -307,11 +306,11 @@ public class RoadMaker {
                     condition2 = true;
 
                 }
-                if(temp.getUserData("type").equals("queroad")){
-                    boolean connected=true;
-                    connected=temp.getUserData("connected");
-                    if(connected==false){
-                        condition2=true;
+                if (temp.getUserData("type").equals("queroad")) {
+                    boolean connected = true;
+                    connected = temp.getUserData("connected");
+                    if (connected == false) {
+                        condition2 = true;
                     }
                 }
             }
@@ -338,11 +337,11 @@ public class RoadMaker {
                     condition3 = true;
 
                 }
-                if(temp.getUserData("type").equals("queroad")){
-                    boolean connected=true;
-                    connected=temp.getUserData("connected");
-                    if(connected==false){
-                        condition3=true;
+                if (temp.getUserData("type").equals("queroad")) {
+                    boolean connected = true;
+                    connected = temp.getUserData("connected");
+                    if (connected == false) {
+                        condition3 = true;
                     }
                 }
             }
@@ -368,11 +367,11 @@ public class RoadMaker {
                     condition1 = true;
 
                 }
-                if(temp.getUserData("type").equals("queroad")){
-                    boolean connected=true;
-                    connected=temp.getUserData("connected");
-                    if(connected==false){
-                        condition4=true;
+                if (temp.getUserData("type").equals("queroad")) {
+                    boolean connected = true;
+                    connected = temp.getUserData("connected");
+                    if (connected == false) {
+                        condition4 = true;
                     }
                 }
             }
@@ -631,6 +630,7 @@ public class RoadMaker {
 
                     }
                 }
+
             }
             if (map[x - 1][y][z] != null && found == false) {
                 Spatial isthisEnterance = map[x - 1][y][z];
@@ -698,68 +698,69 @@ public class RoadMaker {
 
         }
         turnqueroads(connectedroad, x2, y2, z2, road, x, y, z);
-        
-        if(!checkforEnterance(x, y, z, road)){
+
+        if (!checkforEnterance(x, y, z, road)) {
             lastqueroad = road;
-        }else{
-            lastqueroad =null;
+        } else {
+            lastqueroad = null;
         }
- 
+
 
 
     }
-    private boolean checkforEnterance(int x,int y,int z,Spatial road){
-        Spatial temp=map[x+1][y][z];
-        if(temp!=null){
-            if(temp.getUserData("type").equals("enterance")){
-                Enterance enterance=temp.getUserData("enterance");
-                if(enterance.facing==Direction.DOWN&&enterance.connected==false){
-                    enterance.connectedRoad=road;
-                    enterance.connected=true;
-                    road.setUserData("connectedEnterance",enterance);
-                    road.setUserData("connected",true);
+
+    private boolean checkforEnterance(int x, int y, int z, Spatial road) {
+        Spatial temp = map[x + 1][y][z];
+        if (temp != null) {
+            if (temp.getUserData("type").equals("enterance")) {
+                Enterance enterance = temp.getUserData("enterance");
+                if (enterance.facing == Direction.DOWN && enterance.connected == false) {
+                    enterance.connectedRoad = road;
+                    enterance.connected = true;
+                    road.setUserData("connectedEnterance", enterance);
+                    road.setUserData("connected", true);
                     refreshqueroadarray(road);
                     return true;
                 }
             }
         }
-        temp=map[x-1][y][z];
-        if(temp!=null){
-            if(temp.getUserData("type").equals("enterance")){
-                Enterance enterance=temp.getUserData("enterance");
-                if(enterance.facing==Direction.UP&&enterance.connected==false){
-                    enterance.connectedRoad=road;
-                    enterance.connected=true;
-                    road.setUserData("connectedEnterance",enterance);
-                    road.setUserData("connected",true);
+        temp = map[x - 1][y][z];
+        if (temp != null) {
+            if (temp.getUserData("type").equals("enterance")) {
+                Enterance enterance = temp.getUserData("enterance");
+                if (enterance.facing == Direction.UP && enterance.connected == false) {
+                    enterance.connectedRoad = road;
+                    enterance.connected = true;
+                    road.setUserData("connectedEnterance", enterance);
+                    road.setUserData("connected", true);
                     refreshqueroadarray(road);
                     return true;
                 }
             }
         }
-        temp=map[x][y][z+1];
-        if(temp!=null){
-            if(temp.getUserData("type").equals("enterance")){
-                Enterance enterance=temp.getUserData("enterance");
-                if(enterance.facing==Direction.RIGHT&&enterance.connected==false){
-                    enterance.connectedRoad=road;
-                    enterance.connected=true;
-                    road.setUserData("connectedEnterance",enterance);
-                    road.setUserData("connected",true);
+        temp = map[x][y][z + 1];
+        if (temp != null) {
+            if (temp.getUserData("type").equals("enterance")) {
+                Enterance enterance = temp.getUserData("enterance");
+                if (enterance.facing == Direction.RIGHT && enterance.connected == false) {
+                    enterance.connectedRoad = road;
+                    enterance.connected = true;
+                    road.setUserData("connectedEnterance", enterance);
+                    road.setUserData("connected", true);
                     refreshqueroadarray(road);
                     return true;
                 }
             }
         }
-        temp=map[x][y][z-1];
-        if(temp!=null){
-            if(temp.getUserData("type").equals("enterance")){
-                Enterance enterance=temp.getUserData("enterance");
-                if(enterance.facing==Direction.LEFT&&enterance.connected==false){
-                    enterance.connectedRoad=road;
-                    enterance.connected=true;
-                    road.setUserData("connectedEnterance",enterance);
-                    road.setUserData("connected",true);
+        temp = map[x][y][z - 1];
+        if (temp != null) {
+            if (temp.getUserData("type").equals("enterance")) {
+                Enterance enterance = temp.getUserData("enterance");
+                if (enterance.facing == Direction.LEFT && enterance.connected == false) {
+                    enterance.connectedRoad = road;
+                    enterance.connected = true;
+                    road.setUserData("connectedEnterance", enterance);
+                    road.setUserData("connected", true);
                     refreshqueroadarray(road);
                     return true;
                 }
@@ -767,18 +768,18 @@ public class RoadMaker {
         }
         return false;
     }
-    
+
     //real shitty code
     private void turnqueroads(Spatial connectedroad, int x1, int y1, int z1, Spatial road, int x2, int y2, int z2) {
         if (connectedroad == null) {
             return;
         }
-        
+
         boolean connected = false;
         if (connectedroad.getUserData("connected") != null) {
             connected = connectedroad.getUserData("connected");
         }
-        
+
         if (connected == true) {
             Spatial connected1 = connectedroad.getUserData("queconnect1");
             Spatial connected2 = road;
@@ -872,14 +873,14 @@ public class RoadMaker {
                     Spatial temp = map[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
-                    
+
                     temp.setLocalTranslation(connectedroad.getLocalTranslation());
                     temp.setUserData("connected", true);
                     temp.setUserData("queconnect1", connected1);
                     temp.setUserData("queconnect2", connected2);
                     map[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
-                }else{
+                } else {
                     Spatial temp = map[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
@@ -892,7 +893,7 @@ public class RoadMaker {
                     map[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 }
-               
+
                 return;
             }
             if (connected1loc.x > connected2loc.x && connected1loc.z < connected2loc.z) {
@@ -900,14 +901,14 @@ public class RoadMaker {
                     Spatial temp = map[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
-                    
+
                     temp.setLocalTranslation(connectedroad.getLocalTranslation());
                     temp.setUserData("connected", true);
                     temp.setUserData("queconnect1", connected1);
                     temp.setUserData("queconnect2", connected2);
                     map[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
-                }else{
+                } else {
                     Spatial temp = map[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
@@ -923,7 +924,7 @@ public class RoadMaker {
                 return;
             }
             if (connected1loc.x < connected2loc.x && connected1loc.z < connected2loc.z) {
-               if (connectedroad.getLocalTranslation().z > connected1loc.z) {
+                if (connectedroad.getLocalTranslation().z > connected1loc.z) {
                     Spatial temp = map[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
@@ -935,7 +936,7 @@ public class RoadMaker {
                     temp.setUserData("queconnect2", connected2);
                     map[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
-                }else{//this
+                } else {//this
                     Spatial temp = map[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
@@ -948,16 +949,15 @@ public class RoadMaker {
                     map[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 }
-                
+
             }
 
-        }
-        else{
+        } else {
             Vector3f connected1loc = connectedroad.getLocalTranslation();
             Vector3f recentroadloc = road.getLocalTranslation();
-            int x3=(int)connected1loc.x;
-            int y3=(int)connected1loc.y;
-            int z3=(int)connected1loc.z;
+            int x3 = (int) connected1loc.x;
+            int y3 = (int) connected1loc.y;
+            int z3 = (int) connected1loc.z;
             if (connected1loc.x > recentroadloc.x && connected1loc.z == recentroadloc.z || connected1loc.x < recentroadloc.x && connected1loc.z == recentroadloc.z) {
                 Spatial temp = map[x3][y3][z3];
                 rootNode.detachChild(temp);
@@ -980,116 +980,172 @@ public class RoadMaker {
                 temp.setUserData("queconnect1", road);
                 map[x3][y3][z3] = temp;
                 rootNode.attachChild(temp);
-                
+
             }
         }
 
-        
+
     }
 
     private void refreshqueroadarray(Spatial road) {
         System.out.println("Refreshing..");
-        
-        ArrayList<Spatial> queroads =getlinkedqueroads(road);
-        System.out.println("Refresh size "+queroads.size());
-        for(int i=0;i<(queroads.size()-2);i++){
-            Spatial cur=queroads.get(i);
-            Spatial second=queroads.get(i+1);
-            
-            int curx=(int)cur.getLocalTranslation().x;
-            int cury=(int)cur.getLocalTranslation().y;
-            int curz=(int)cur.getLocalTranslation().z;
-            
-            int secondx=(int)second.getLocalTranslation().x;
-            int secondy=(int)second.getLocalTranslation().y;
-            int secondz=(int)second.getLocalTranslation().z;
-            
+
+        ArrayList<Spatial> queroads = getlinkedqueroads(road);
+        System.out.println("Refresh size " + queroads.size());
+        for (int i = 0; i < (queroads.size() - 2); i++) {
+            Spatial cur = queroads.get(i);
+            Spatial second = queroads.get(i + 1);
+
+            int curx = (int) cur.getLocalTranslation().x;
+            int cury = (int) cur.getLocalTranslation().y;
+            int curz = (int) cur.getLocalTranslation().z;
+
+            int secondx = (int) second.getLocalTranslation().x;
+            int secondy = (int) second.getLocalTranslation().y;
+            int secondz = (int) second.getLocalTranslation().z;
+
             turnqueroads(cur, curx, cury, curz, road, secondx, secondy, secondz);
             System.out.println("Refreshing road");
-            
+
         }
         System.out.println("Refresh done");
-        
+
     }
-    //this is copied from guest CARE
-    public ArrayList<Spatial> getlinkedqueroads(Spatial firstroad){
-        ArrayList<Spatial> list=new ArrayList<Spatial>();
-        Spatial curRoad=firstroad;
-        if(firstroad==null){
+
+    public ArrayList<Spatial> getlinkedqueroads(Spatial firstroad) {
+        ArrayList<Spatial> list = new ArrayList<Spatial>();
+        Spatial curRoad = firstroad;
+        if (firstroad == null) {
             System.out.println("firstroad = null !! WTF");
             return list;
         }
         //lisää eka pala
         list.add(curRoad);
-        boolean end=false;
-        int max=0;
-        while(end==false){
-            
+        boolean end = false;
+        int max = 0;
+        while (end == false) {
+
             max++;
-            boolean connected=false;
-            if(curRoad.getUserData("connected")!=null){
-                connected=curRoad.getUserData("connected");
+            boolean connected = false;
+            if (curRoad.getUserData("connected") != null) {
+                connected = curRoad.getUserData("connected");
             }
-            boolean added=false;
-            if(connected==true){ 
-                if(curRoad.getUserData("queconnect1")!=null){
-                    Spatial locatedroad=curRoad.getUserData("queconnect1");
-                    System.out.println("queconnect1 found...");
+            boolean added = false;
+            if (connected == true) {
+                if (curRoad.getUserData("queconnect1") != null) {
+                    Spatial locatedroad = curRoad.getUserData("queconnect1");
                     
+
                     //onko tie jo listassa
-                    boolean old=false;
-                    for(Spatial s:list){
-                        if(s.equals(locatedroad)){
+                    boolean old = false;
+                    for (Spatial s : list) {
+                        if (s.equals(locatedroad)) {
+                            old = true;
+
+                            //System.out.println("queconnect1 was already on the list");
+                            break;
+                        }
+                    }
+                    //jos ei niin lisää se 
+                    if (old == false) {
+                        added = true;
+                        curRoad = locatedroad;
+                        list.add(curRoad);
+                        
+
+                    }
+
+                }
+                if (curRoad.getUserData("queconnect2") != null && added == false) {
+                    Spatial locatedroad = curRoad.getUserData("queconnect2");
+                    
+
+                    //onko tie jo listassa
+                    boolean old = false;
+                    for (Spatial s : list) {
+                        if (s.equals(locatedroad)) {
                             old = true;
                             
-                            System.out.println("queconnect1 was already on the list");
                             break;
                         }
                     }
                     //jos ei niin lisää se 
-                    if(old==false){
-                        added=true;
-                        curRoad=locatedroad;
+                    if (old == false) {
+                        curRoad = locatedroad;
                         list.add(curRoad);
-                        System.out.println("queconnect1 added to the list ");
-                        
+                        //System.out.println("queconnect2 added to the list ");
+
                     }
-                    
                 }
-                if (curRoad.getUserData("queconnect2")!=null&&added==false){
-                    Spatial locatedroad=curRoad.getUserData("queconnect2");
-                    System.out.println("queconnect2 found...");
-                    
+
+            } else {
+                end = true;
+                //System.out.println("finding connect ended because connected was false");
+                //System.out.println("Still looking for the last one...");
+
+                Spatial locatedroad = curRoad.getUserData("queconnect1");
+                if (locatedroad != null) {
+                    //System.out.println("queconnect1 found...");
+
                     //onko tie jo listassa
-                    boolean old=false;
-                    for(Spatial s:list){
-                        if(s.equals(locatedroad)){
+                    boolean old = false;
+                    for (Spatial s : list) {
+                        if (s.equals(locatedroad)) {
                             old = true;
-                            System.out.println("queconnect2 was already on the list");
+
+                            //System.out.println("queconnect1 was already on the list");
                             break;
                         }
                     }
                     //jos ei niin lisää se 
-                    if(old==false){
-                        curRoad=locatedroad;
+                    if (old == false) {
+                        added = true;
+                        curRoad = locatedroad;
                         list.add(curRoad);
-                        System.out.println("queconnect2 added to the list ");
-                        
+                        //System.out.println("queconnect1 added to the list  NOW FINISHING");
+
                     }
                 }
-                
+
+
+                if (added == false) {
+                    locatedroad=null;
+                    locatedroad = curRoad.getUserData("queconnect2");
+                    if(locatedroad!=null){
+                        //System.out.println("queconnect2 found...");
+
+                        //onko tie jo listassa
+                        boolean old = false;
+                        for (Spatial s : list) {
+                            if (s.equals(locatedroad)) {
+                                old = true;
+                                //System.out.println("queconnect2 was already on the list");
+                                break;
+                            }
+                        }
+                        //jos ei niin lisää se 
+                        if (old == false) {
+                            curRoad = locatedroad;
+                            list.add(curRoad);
+                            //System.out.println("queconnect2 added to the list NOW FINISHING");
+                        }
+                    }
+                    
+                }
+
+
+
+
+
+
             }
-            else{
-                end=true;
-                System.out.println("finding connect ended because connected was false");
-            }
-            if(max>100){
-                end=true;
+            if (max > 100) {
+                end = true;
                 System.out.println("Gettin linked queroads looped for 100 times. Quitting...");
             }
         }
-        
+
         return list;
-        
+
     }
 }
