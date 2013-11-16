@@ -34,8 +34,9 @@ public class Guest extends BasicNPC {
     ArrayList<NPCAction> actions = new ArrayList<NPCAction>();
     public ArrayList<Item> inventory = new ArrayList<Item>();
     public StatManager stats = new StatManager();
-    boolean active = true;
+    public boolean active = true;
     public Spatial currentQueRoad;
+    public long joinedRide;
 
     public Guest(String name, float money, int guestNum, Spatial geom) {
         super(name, geom);
@@ -45,6 +46,15 @@ public class Guest extends BasicNPC {
         r = new Random();
         stats.randomize();
 
+    }
+    public void deleteActions(){
+        actions.clear();
+    }
+    public boolean isEmptyActions(){
+        if(actions.isEmpty()){
+            return true;
+        }
+        return false;
     }
 
     @Override

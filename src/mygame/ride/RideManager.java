@@ -164,6 +164,7 @@ public class RideManager {
     public void updateRideQueues() {
         for (BasicRide ride : rides) {
             ride.updateQueLine();
+            ride.updateRide();
         }
     }
 
