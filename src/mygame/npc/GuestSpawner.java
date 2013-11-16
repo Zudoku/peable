@@ -45,22 +45,26 @@ public class GuestSpawner {
             System.out.println("No or too little spawnpoints");
             return;
         }
-        
-
+        //valitaan nimi
         int num = r.nextInt(firstName.size() - 1);
         int num2 = r.nextInt(surName.size() - 1);
+        
         String name = firstName.get(num) + " " + surName.get(num2);
-        //nimi raha numero
+        //raha
         float money = r.nextInt(30);
         money = money + 35;
+        //ladataan modeö ja laitetaan sille nimi raha ja id
         Spatial geom = assetManager.loadModel("Models/Human/guest.j3o");
         geom.setName("guest");
         geom.setUserData("guestnum", guestNum);
         Guest g = new Guest(name, money, guestNum, geom);
         guestNum++;
+        //arvotaan spawnpoint
         int spp = r.nextInt(spawnpoints.size() - 1);
         g.getGeometry().move(spawnpoints.get(spp));
+        //laitetaan guestille x,z,y että hän osaa liikkua
         g.initXYZ((int) spawnpoints.get(spp).x, (int) spawnpoints.get(spp).y, (int) spawnpoints.get(spp).z);
+        //lisätään guesti listaan ja addataan se rootnodeen
         npcs.add(g);
         guests.add(g);
         nPCNode.attachChild(g.getGeometry());

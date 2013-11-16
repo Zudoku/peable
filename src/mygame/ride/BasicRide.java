@@ -83,9 +83,8 @@ public class BasicRide {
             }
             int a=linkedroads.indexOf(testedroad);
             if(i==a){
-                //System.out.println("Guest is where he is supposed to be");
-                Vector3f newpos=linkedroads.get(i).getLocalTranslation();
-                handledguest.callToQueRoad(new NPCAction(newpos, ActionType.QUE, handledguest));
+                //Guest is where he is supposed to be
+                
                 if(i==0){
                     //ota sisään laitteeseen
                 }

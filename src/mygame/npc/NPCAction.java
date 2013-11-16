@@ -53,7 +53,7 @@ public class NPCAction {
                     return;
                 }
                 if(guest.inventory.isEmpty()==true){
-                    System.out.println("inventory empty in consumeaction");
+                    
                     return;
                 }
                 guest.inventory.get(0).consume(guest.stats);
