@@ -57,64 +57,77 @@
                 </panel>
             </control>
             <control id="roadWindow" name="window"title="Roads"width="200"height="500"x="500"y="200"hideOnClose="true"closeable="false">
+                
                 <panel id="roadpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true">
-                    <image id="roadupimg"filename="Interface/Roads/up.png"x="6"y="100" childLayout="absolute" width="64" height="64">
+                    <image id="roadkehikkoimg"filename="Interface/Roads/kehikko.png"x="10"y="90" childLayout="absolute" width="159" height="159"> 
+                    </image>
+                    <image id="roadupimg"filename="Interface/Roads/up.png"x="14"y="94" childLayout="absolute" width="72" height="72">
                         <interact onClick="roadDirectionUp()">   
                         </interact>
                         <effect>
-                            <onCustom name="border" border="5px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
+                            <onCustom name="border" border="2px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
                         </effect>
                     </image>
-                    <image id="roadrightimg"filename="Interface/Roads/right.png"x="78"y="100" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                    <image id="roadrightimg"filename="Interface/Roads/right.png"x="93"y="94" childLayout="absolute" width="72" height="72"visibleToMouse="true">
                         <interact onClick="roadDirectionRight()">   
                         </interact>
                         <effect>
-                            <onCustom name="border" border="5px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
+                            <onCustom name="border" border="2px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
                         </effect>
                     </image>
-                    <image id="roadleftimg"filename="Interface/Roads/left.png"x="6"y="176" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                    <image id="roadleftimg"filename="Interface/Roads/left.png"x="14"y="173" childLayout="absolute" width="72" height="72"visibleToMouse="true">
                         <interact onClick="roadDirectionLeft()">   
                         </interact>
                         <effect>
-                            <onCustom name="border" border="5px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
+                            <onCustom name="border" border="2px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
                         </effect>
                     </image>
-                    <image id="roaddownimg"filename="Interface/Roads/down.png"x="78"y="176" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                    <image id="roaddownimg"filename="Interface/Roads/down.png"x="93"y="173" childLayout="absolute" width="72" height="72"visibleToMouse="true">
                         <interact onClick="roadDirectionDown()">   
                         </interact>
                         <effect>
-                            <onCustom name="border" border="5px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
+                            <onCustom name="border" border="2px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
                         </effect>
                     </image>
-                    <image id="roaddownhillimg"filename="Interface/Roads/downhill.png"x="6"y="260" childLayout="absolute" width="48" height="48"visibleToMouse="true">
+                    
+                    <image id="roadkehikkosmallimg"filename="Interface/Roads/kehikkosmall.png"x="8"y="256" childLayout="absolute" width="166" height="56"visibleToMouse="true">
+                    </image>
+                    <image id="roaddownhillimg"filename="Interface/Roads/downhill.png"x="12"y="260" childLayout="absolute" width="48" height="48"visibleToMouse="true">
                         <interact onClick="roadDownHill()">   
                         </interact>
                         <effect>
-                            <onCustom name="border" border="5px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
+                            <onCustom name="border" border="2px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
                         </effect>
                     </image>
-                    <image id="roadflatimg"filename="Interface/Roads/flat.png"x="60"y="260" childLayout="absolute" width="48" height="48"visibleToMouse="true">
+                    <image id="roadflatimg"filename="Interface/Roads/flat.png"x="67"y="260" childLayout="absolute" width="48" height="48"visibleToMouse="true">
                         <interact onClick="roadFlatHill()">   
                         </interact>
                         <effect>
-                            <onCustom name="border" border="5px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
+                            <onCustom name="border" border="2px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
                         </effect>
                     </image>
-                    <image id="roaduphillimg"filename="Interface/Roads/uphill.png"x="110"y="260" childLayout="absolute" width="48" height="48"visibleToMouse="true">
+                    <image id="roaduphillimg"filename="Interface/Roads/uphill.png"x="122"y="260" childLayout="absolute" width="48" height="48"visibleToMouse="true">
                         <interact onClick="roadUpHill()">   
                         </interact>
                         <effect>
-                            <onCustom name="border" border="5px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
+                            <onCustom name="border" border="2px" color="#ffff" timeType="infinite"length="infinite"oneShot="true"/>
                         </effect>
                     </image>
                     <image filename="Interface/Roads/build.png"x="6"y="320" childLayout="absolute" height="64"width="170"visibleToMouse="true">
                         <interact onClick="buildButton()">   
                         </interact>
                     </image>
-                    <image filename="Interface/Roads/selectspot.png"x="6"y="390" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                    <image filename="Interface/Roads/kehikkoala.png"x="20"y="388" childLayout="absolute" width="143" height="72"visibleToMouse="true">
+                        
+                    </image>
+                    <image filename="Interface/Roads/selectspot.png"x="24"y="392" childLayout="absolute" width="64" height="64"visibleToMouse="true">
                         <interact onClick="selectionButton()">   
                         </interact>
                     </image>
+                    <image filename="Interface/Roads/mode.png"x="95"y="392" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                    </image>
+                    
+                    
                     <control id="queroad" name="checkbox" x="10"y="20"/>
                 </panel>
             </control>

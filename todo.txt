@@ -18,7 +18,7 @@ CORE 0.1
 6.Ensimmäinen laite DONE!
 7.Sisäänkäynti ja uloskäynti laitteeseen DONE ! 
 8.Que tietä DONE! 
-9.Guestit jonottamaan ja olemaan laitteissa josta saa happinessia
+9.Guestit jonottamaan ja olemaan laitteissa josta saa happinessia DONE!
 10. Siisti UI!
 ALPHA 0.2
 1. Guestit menee vain joihinkin laitteisiin 
