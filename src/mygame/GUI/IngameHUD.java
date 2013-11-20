@@ -65,17 +65,21 @@ public class IngameHUD implements ScreenController {
 
     }
     public void updateMoneytextbar(){
-        Element a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneytext");
+        nifty=Main.nifty;
+        Element a=nifty.getCurrentScreen().findElementByName("moneytext");
         a.getRenderer(TextRenderer.class).setText(Main.currentPark.getParkWallet().getMoneyString());
         a.setConstraintHorizontalAlign(HorizontalAlign.left);
+        a.setId("moneytext");
         
-        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("loantext");
+        a=nifty.getCurrentScreen().findElementByName("loantext");
         a.getRenderer(TextRenderer.class).setText(Main.currentPark.getParkWallet().getLoanString());
         a.setConstraintHorizontalAlign(HorizontalAlign.left);
+        a.setId("loantext");
         
-        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("guestnumtext");
+        a=nifty.getCurrentScreen().findElementByName("guestnumtext");
         a.getRenderer(TextRenderer.class).setText(Main.currentPark.getGuestSizeString());
         a.setConstraintHorizontalAlign(HorizontalAlign.left);
+        a.setId("guestnumtext");
     }
 
     public void onStartScreen() {
@@ -104,6 +108,7 @@ public class IngameHUD implements ScreenController {
         a.setConstraintX(new SizeValue(b));
         
         updateMoneytextbar();
+        
     }
 
     public void onEndScreen() {

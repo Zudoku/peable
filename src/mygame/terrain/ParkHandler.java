@@ -62,12 +62,14 @@ public class ParkHandler {
         this.npcs = npcs;
         
         Main.npcManager.npcs=npcs;
+        Main.npcManager.guestSpawner.setNpcs(npcs);
     }
 
     public void setGuests(ArrayList<Guest> guests) {
         this.guests = guests;
         
-        Main.npcManager.guests=guests;
+        Main.npcManager.guests=this.guests;
+        Main.npcManager.guestSpawner.setGuests(guests);
     }
 
     public void setShops(ArrayList<BasicShop> shops) {

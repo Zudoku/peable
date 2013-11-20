@@ -38,7 +38,7 @@ public class Main extends SimpleApplication {
     public static IngameHUD ingameHUD;
     public static ParkHandler currentPark;
     StartScreen startScreen;
-    Nifty nifty;
+    public static Nifty nifty;
     SelectionParticleEmitter selectionEmitter;
     public static NPCManager npcManager;
     public static WindowMaker windowMaker;
@@ -51,7 +51,7 @@ public class Main extends SimpleApplication {
         app.start();
         
     }
-  
+    
     @Override
     public void simpleInitApp() {
         //ei peliin kuuluvat
@@ -77,38 +77,18 @@ public class Main extends SimpleApplication {
         //lataa map DEBUG ONLY CHANGE LATER
         currentPark.loadDebugPlain();
         //laita kamera ok
-        Camera camera =getCamera();
-        camera.setLocation(new Vector3f(-11.696763f, 30.377302f, -13.492211f));
-        camera.setFrame(new Vector3f(-11.696763f, 30.377302f, -13.492211f),new Vector3f(0.2f,0,0),new Vector3f(0,0,0),new Vector3f(0.48968115f, -0.65352046f, 0.57716846f));
-        camera.setRotation(new Quaternion(0.32836914f, 0.32047316f, -0.06872874f, 0.8858595f));
-       
-        //disable kamera
-        flyCam.setEnabled(false);
-       
+        setCamera();
+
         //nifty
-        NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(
-        assetManager, inputManager, audioRenderer, guiViewPort);
-        /** Create a new NiftyGUI object */
-        nifty = niftyDisplay.getNifty();
-        /** Read your XML and initialize your custom ScreenController */
-        nifty.fromXml("Interface/Nifty/niftytest.xml", "start");
-        // attach the Nifty display to the gui view port as a processor
-        guiViewPort.addProcessor(niftyDisplay);
+        initNifty();
 
         //valo
-        DirectionalLight sun = new DirectionalLight();
-        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f)));
-        sun.setColor(ColorRGBA.White);
-        rootNode.addLight(sun);
-        DirectionalLight sun2 = new DirectionalLight();
-        sun2.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)));
-        sun2.setColor(ColorRGBA.White);
-        rootNode.addLight(sun2); 
+        lightsOn();
         
         windowMaker=new WindowMaker(nifty);
         setDisplayStatView(false);
         
-        
+        setPauseOnLostFocus(false);
         
     }
 
@@ -127,6 +107,35 @@ public class Main extends SimpleApplication {
     public int getMoneyslotX(){
         int p=settings.getWidth()-300;
         return p;
+    }
+    private void lightsOn(){
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f)));
+        sun.setColor(ColorRGBA.White);
+        rootNode.addLight(sun);
+        DirectionalLight sun2 = new DirectionalLight();
+        sun2.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)));
+        sun2.setColor(ColorRGBA.White);
+        rootNode.addLight(sun2); 
+    }
+    
+    private void setCamera(){
+        Camera camera =getCamera();
+        camera.setLocation(new Vector3f(-11.696763f, 30.377302f, -13.492211f));
+        camera.setFrame(new Vector3f(-11.696763f, 30.377302f, -13.492211f),new Vector3f(0.2f,0,0),new Vector3f(0,0,0),new Vector3f(0.48968115f, -0.65352046f, 0.57716846f));
+        camera.setRotation(new Quaternion(0.32836914f, 0.32047316f, -0.06872874f, 0.8858595f));
+        flyCam.setEnabled(false);
+    }
+    
+    private void initNifty(){
+        NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(
+        assetManager, inputManager, audioRenderer, guiViewPort);
+        /** Create a new NiftyGUI object */
+        nifty = niftyDisplay.getNifty();
+        /** Read your XML and initialize your custom ScreenController */
+        nifty.fromXml("Interface/Nifty/niftytest.xml", "start");
+        // attach the Nifty display to the gui view port as a processor
+        guiViewPort.addProcessor(niftyDisplay);
     }
     
     

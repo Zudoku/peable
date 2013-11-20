@@ -10,6 +10,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
+import mygame.Main;
 
 /**
  *
@@ -28,19 +29,23 @@ public class GuestSpawner {
     Random r;
     private final AssetManager assetManager;
 
-    public GuestSpawner(Node nPCNode, Node rootNode, AssetManager assetManager, ArrayList<BasicNPC> npcs,ArrayList<Guest>guests) {
+    public GuestSpawner(Node nPCNode, Node rootNode, AssetManager assetManager) {
         this.nPCNode = nPCNode;
         this.rootNode = rootNode;
         this.assetManager = assetManager;
-        this.npcs = npcs;
-        this.guests=guests;
+        
         r = new Random();
         addNames();
-        spawnpoints.add(new Vector3f(5, 6, 5));
-        spawnpoints.add(new Vector3f(5, 6, 5));
+        spawnpoints.add(new Vector3f(1, 6, 5));
+        spawnpoints.add(new Vector3f(5, 6, 1));
     }
-
-    public void forceSpawnGuest() {
+    public void setNpcs(ArrayList<BasicNPC> npcs){
+        this.npcs=npcs;
+    }
+    public void setGuests(ArrayList<Guest> guests){
+        this.guests=guests;
+    }
+    public void forceSpawnGuest(int n) {
         if (spawnpoints.isEmpty() == true) {
             System.out.println("No or too little spawnpoints");
             return;
@@ -60,7 +65,7 @@ public class GuestSpawner {
         Guest g = new Guest(name, money, guestNum, geom);
         guestNum++;
         //arvotaan spawnpoint
-        int spp = r.nextInt(spawnpoints.size() - 1);
+        int spp = r.nextInt(spawnpoints.size());
         g.getGeometry().move(spawnpoints.get(spp));
         //laitetaan guestille x,z,y että hän osaa liikkua
         g.initXYZ((int) spawnpoints.get(spp).x, (int) spawnpoints.get(spp).y, (int) spawnpoints.get(spp).z);
@@ -69,7 +74,10 @@ public class GuestSpawner {
         guests.add(g);
         nPCNode.attachChild(g.getGeometry());
         System.out.println("Guest " + Integer.toString(guestNum) + " Named: " + name + " has entered the world");
-
+        if(n!=1){
+            Main.ingameHUD.updateMoneytextbar();
+        }
+        
     }
 
     public void guestLeave(int guestnum) {

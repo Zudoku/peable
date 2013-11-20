@@ -13,18 +13,18 @@ import java.util.ArrayList;
  * @author arska
  */
 public class NPCManager {
-    public ArrayList<BasicNPC> npcs=new ArrayList();
+    public ArrayList<BasicNPC> npcs=new ArrayList<BasicNPC>();
     public ArrayList<Guest> guests=new ArrayList<Guest>();
-    Node rootNode;
-    Node NPCNode;
-    GuestSpawner guestSpawner;
+    private Node rootNode;
+    private Node NPCNode;
+    public GuestSpawner guestSpawner;
     public boolean NPCVisible=true;
     int updatenum=0;
     
     public NPCManager(Node rootNode,AssetManager assetManager){
         this.rootNode=rootNode;
         NPCNode=new Node("NPCNode");
-        guestSpawner=new GuestSpawner(NPCNode,rootNode,assetManager,npcs,guests);
+        guestSpawner=new GuestSpawner(NPCNode,rootNode,assetManager);
         rootNode.attachChild(NPCNode);
         
     }
@@ -40,7 +40,7 @@ public class NPCManager {
         updatenum++;
         
         if(updatenum%900==1){
-            guestSpawner.forceSpawnGuest();
+            guestSpawner.forceSpawnGuest(updatenum);
         }
         if(npcs.isEmpty()==true){
             return;
