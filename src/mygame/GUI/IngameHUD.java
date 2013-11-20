@@ -4,6 +4,7 @@
  */
 package mygame.GUI;
 
+import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.ButtonClickedEvent;
@@ -31,7 +32,7 @@ import mygame.shops.BasicBuildables;
 import mygame.terrain.Direction;
 import mygame.terrain.RoadHill;
 import mygame.terrain.RoadMakerStatus;
-import mygame.terrain.WorldHandler;
+import mygame.terrain.TerrainHandler;
 
 /**
  *
@@ -44,12 +45,15 @@ public class IngameHUD implements ScreenController {
     public boolean shovel = false;
     public ClickingHandler clickingHandler;
     public int brushsize = 3;
-    private WorldHandler worldHandler;
+    private TerrainHandler worldHandler;
     public BasicBuildables selectedBuilding = BasicBuildables.NULL;
     private ShopDescriptionManager descriptionManager = new ShopDescriptionManager();
     
-
+    
+    
+    
     public IngameHUD() {
+        
     }
 
     public void bind(Nifty nifty, Screen screen) {
@@ -58,10 +62,12 @@ public class IngameHUD implements ScreenController {
         
 
     }
+    
 
     public void onStartScreen() {
         
         closeWindows("");
+        
     }
 
     public void onEndScreen() {
@@ -130,7 +136,8 @@ public class IngameHUD implements ScreenController {
             Main.windowMaker.updateGuestWindow(guest);
         }
     }
-    public void givefields(ClickingHandler clickingHandler, WorldHandler worldHandler) {
+    public void givefields(ClickingHandler clickingHandler, TerrainHandler worldHandler) {
+        
         this.clickingHandler = clickingHandler;
         this.worldHandler = worldHandler;
     }

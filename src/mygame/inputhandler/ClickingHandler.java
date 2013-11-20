@@ -11,7 +11,7 @@ import mygame.Main;
 import mygame.npc.Guest;
 import mygame.shops.BasicShop;
 import mygame.terrain.RoadMakerStatus;
-import mygame.terrain.WorldHandler;
+import mygame.terrain.TerrainHandler;
 
 /**
  *
@@ -19,11 +19,11 @@ import mygame.terrain.WorldHandler;
  */
 public class ClickingHandler {
 
-    public final WorldHandler worldHandler;
+    public final TerrainHandler worldHandler;
     public ClickingModes clickMode = ClickingModes.NOTHING;
     public int buffer=0;
 
-    public ClickingHandler(WorldHandler worldHandler) {
+    public ClickingHandler(TerrainHandler worldHandler) {
         this.worldHandler = worldHandler;
         
     }

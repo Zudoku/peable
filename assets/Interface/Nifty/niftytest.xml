@@ -41,6 +41,9 @@
                 <image filename="Interface/NPC/Icon.png"x="390"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick="toggleNPCListWindow()"/>
                 </image>
+                <image id="moneyicon" filename="Interface/money/Icon.png"x="600"y="0" childLayout="absolute" width="300" height="64">
+                    
+                </image>
                 
             </panel>
         </layer>
@@ -383,15 +386,27 @@
                                     <image filename="Interface/Shops/Nopic.png"x="10"y="30" childLayout="absolute" height="200"width="130"visibleToMouse="true">
                                     </image>
                                     <control id="guestnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="150"y="30" color="ffffff"/>
+                                    <image filename="Interface/NPC/raja.png"x="150"y="53" childLayout="absolute" height="10"width="300"visibleToMouse="true">
+                                    </image>
                                     <control id="guestname"name="label" font="Interface/Fonts/Impact.fnt"text="Template name " x="200"y="30" color="ffffff"/>
                                     <control id="guestwalletprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Money: " x="150"y="60" color="ffffff"/>
+                                    <image filename="Interface/NPC/raja.png"x="150"y="83" childLayout="absolute" height="10"width="300"visibleToMouse="true">
+                                    </image>
                                     <control id="guestwallet"name="label" font="Interface/Fonts/Impact.fnt"text="90€" x="210"y="60" color="ffffff"/>
                                     <control id="guestnumberprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Number:" x="150"y="90" color="ffffff"/>
+                                    <image filename="Interface/NPC/raja.png"x="150"y="113" childLayout="absolute" height="10"width="300"visibleToMouse="true">
+                                    </image>
                                     <control id="guestnumber"name="label" font="Interface/Fonts/Impact.fnt"text="252" x="220"y="90" color="ffffff"/>
                                     <control id="gueststatusprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Status:" x="150"y="120" color="ffffff"/>
+                                    <image filename="Interface/NPC/raja.png"x="150"y="143" childLayout="absolute" height="10"width="300"visibleToMouse="true">
+                                    </image>
                                     <control id="gueststatus"name="label" font="Interface/Fonts/Impact.fnt"text="Walking" x="210"y="120" color="ffffff"/>
                                     <control id="guestreputationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Reputation:" x="150"y="150" color="ffffff"/>
+                                    <image filename="Interface/NPC/raja.png"x="150"y="173" childLayout="absolute" height="10"width="300"visibleToMouse="true">
+                                    </image>
                                     <control id="guestreputation"name="label" font="Interface/Fonts/Impact.fnt"text="Good" x="236"y="150" color="ffffff"/>
+                                    <image filename="Interface/NPC/raja.png"x="150"y="203" childLayout="absolute" height="10"width="300"visibleToMouse="true">
+                                    </image>
                                     <control id="gueststaffprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Class:" x="150"y="180" color="ffffff"/>
                                     <control id="gueststaff"name="label" font="Interface/Fonts/Impact.fnt"text="Guest" x="200"y="180" color="ffffff"/>
                                 </panel>
@@ -399,11 +414,21 @@
                             <control id="tab_2" name="tab" caption="Emotions"x="0"y="0">
                                 <panel id="tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <control id="guesthungerprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Hunger: " x="10"y="30" color="ffffff"/>
+                                    <image filename="Interface/NPC/raja.png"x="10"y="53" childLayout="absolute" height="10"width="300"visibleToMouse="true">
+                                    </image>
                                     <control id="guesthunger"name="label" font="Interface/Fonts/Impact.fnt"text="50" x="70"y="30" color="ffffff"/>
                                     <control id="guestthirstprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Thirst: " x="10"y="60" color="ffffff"/>
+                                    <image filename="Interface/NPC/raja.png"x="10"y="83" childLayout="absolute" height="10"width="300"visibleToMouse="true">
+                                    </image>
                                     <control id="guestthirst"name="label" font="Interface/Fonts/Impact.fnt"text="50" x="60"y="60" color="ffffff"/>
                                     <control id="guesthappynessprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Happyness: " x="10"y="90" color="ffffff"/>
+                                    <image filename="Interface/NPC/raja.png"x="10"y="113" childLayout="absolute" height="10"width="300"visibleToMouse="true">
+                                    </image>
                                     <control id="guesthappyness"name="label" font="Interface/Fonts/Impact.fnt"text="50" x="100"y="90" color="ffffff"/>
+                                    <image filename="Interface/NPC/raja.png"x="10"y="143" childLayout="absolute" height="10"width="300"visibleToMouse="true">
+                                    </image>
+                                    <image filename="Interface/NPC/raja.png"x="10"y="173" childLayout="absolute" height="10"width="300"visibleToMouse="true">
+                                    </image>
                                 </panel>
                             </control>
                             <control id="tab_3" name="tab" caption="Actions"x="0"y="0"> 

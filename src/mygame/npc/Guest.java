@@ -30,7 +30,7 @@ public class Guest extends BasicNPC {
     private int z;
     private Random r;
     private GuestWalkingStates walkState = GuestWalkingStates.WALK;
-    Spatial[][][] roads;
+    Spatial[][][] roads=Main.currentPark.getMap();
     ArrayList<NPCAction> actions = new ArrayList<NPCAction>();
     public ArrayList<Item> inventory = new ArrayList<Item>();
     public StatManager stats = new StatManager();
@@ -80,7 +80,7 @@ public class Guest extends BasicNPC {
         //0 p 1 e 2 i 3 l
         int suunta = r.nextInt(4);
         ActionType actiontype = ActionType.NOTHING;
-        if (r.nextInt(10) == 5) {
+        if (r.nextInt(100) == 5) {
             actiontype = ActionType.CONSUME;
         }
         if (suunta == 0) {

@@ -19,8 +19,9 @@ import mygame.npc.NPCManager;
 import mygame.ride.RideManager;
 import mygame.shops.HolomodelDrawer;
 import mygame.shops.ShopManager;
+import mygame.terrain.ParkHandler;
 import mygame.terrain.RoadMaker;
-import mygame.terrain.WorldHandler;
+import mygame.terrain.TerrainHandler;
 
 /**
  * test
@@ -28,13 +29,14 @@ import mygame.terrain.WorldHandler;
  */
 public class Main extends SimpleApplication {
     
-    public static  WorldHandler worldHandler;
+    public static  TerrainHandler worldHandler;
     
     public static ClickingHandler clickingHandler;
     public static RoadMaker roadMaker;
     public static HolomodelDrawer holoDrawer;
     public static ShopManager shopManager;
     public static IngameHUD ingameHUD;
+    public static ParkHandler currentPark;
     StartScreen startScreen;
     Nifty nifty;
     SelectionParticleEmitter selectionEmitter;
@@ -52,46 +54,48 @@ public class Main extends SimpleApplication {
   
     @Override
     public void simpleInitApp() {
+        //ei peliin kuuluvat
         ingameHUD=new IngameHUD();
         startScreen=new StartScreen();
-        
-        holoDrawer=new HolomodelDrawer(assetManager, rootNode);
+        currentPark=new ParkHandler(rootNode);
         userInput=new UserInput(rootNode,inputManager,cam);
-        rootNode.setName("gamenode");
-        worldHandler = new WorldHandler(rootNode,assetManager,ingameHUD);
+        
+        //peliin kuuluvat
+        holoDrawer=new HolomodelDrawer(assetManager, rootNode);
+        worldHandler = new TerrainHandler(rootNode,assetManager,ingameHUD);
         selectionEmitter=new SelectionParticleEmitter(assetManager, rootNode,worldHandler);
         clickingHandler=new ClickingHandler(worldHandler);
         roadMaker=new RoadMaker(assetManager, rootNode);
-        worldHandler.makeGround();
+        
          userInput.giveClickHandler(clickingHandler);
          ingameHUD.givefields(clickingHandler,worldHandler);
+         
         npcManager=new NPCManager(rootNode,assetManager);
         shopManager=new ShopManager(assetManager,rootNode);
         rideManager=new RideManager(assetManager, rootNode);
-        
-        
+        selectionEmitter.initSelection();
+        //lataa map DEBUG ONLY CHANGE LATER
+        currentPark.loadDebugPlain();
+        //laita kamera ok
         Camera camera =getCamera();
         camera.setLocation(new Vector3f(-11.696763f, 30.377302f, -13.492211f));
         camera.setFrame(new Vector3f(-11.696763f, 30.377302f, -13.492211f),new Vector3f(0.2f,0,0),new Vector3f(0,0,0),new Vector3f(0.48968115f, -0.65352046f, 0.57716846f));
         camera.setRotation(new Quaternion(0.32836914f, 0.32047316f, -0.06872874f, 0.8858595f));
        
-       flyCam.setEnabled(false);
+        //disable kamera
+        flyCam.setEnabled(false);
        
-       
-      
-       
-       NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(
-    assetManager, inputManager, audioRenderer, guiViewPort);
-    /** Create a new NiftyGUI object */
-    nifty = niftyDisplay.getNifty();
-    /** Read your XML and initialize your custom ScreenController */
-    nifty.fromXml("Interface/Nifty/niftytest.xml", "start");
-    
-  
-    // attach the Nifty display to the gui view port as a processor
-    guiViewPort.addProcessor(niftyDisplay);
-      selectionEmitter.initSelection();
-      
+        //nifty
+        NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(
+        assetManager, inputManager, audioRenderer, guiViewPort);
+        /** Create a new NiftyGUI object */
+        nifty = niftyDisplay.getNifty();
+        /** Read your XML and initialize your custom ScreenController */
+        nifty.fromXml("Interface/Nifty/niftytest.xml", "start");
+        // attach the Nifty display to the gui view port as a processor
+        guiViewPort.addProcessor(niftyDisplay);
+
+        //valo
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f)));
         sun.setColor(ColorRGBA.White);
@@ -101,9 +105,8 @@ public class Main extends SimpleApplication {
         sun2.setColor(ColorRGBA.White);
         rootNode.addLight(sun2); 
         
-       windowMaker=new WindowMaker(nifty);
-        
-
+        windowMaker=new WindowMaker(nifty);
+        setDisplayStatView(false);
         
         
         
@@ -121,5 +124,10 @@ public class Main extends SimpleApplication {
     public void simpleRender(RenderManager rm) {
       ;
     }
+    public int getMoneyslotX(){
+        int p=settings.getWidth()-300;
+        return p;
+    }
+    
     
 }

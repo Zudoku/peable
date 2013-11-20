@@ -10,6 +10,7 @@ import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import mygame.GUI.IngameHUD;
@@ -18,27 +19,24 @@ import mygame.GUI.IngameHUD;
  *
  * @author arska
  */
-public class WorldHandler {
+public class TerrainHandler {
 
     public static final float HALFTILE = 0.4999f;
-    public static final int TERRAINHEIGHT = 101;
-    public static final int TERRAINWIDTH = 101;
+    
     Node gameNode;
     AssetManager assetManager;
-    int TerrainMap[][] = new int[TERRAINHEIGHT][TERRAINWIDTH];
-    Geometry Terrain[][] = new Geometry[TERRAINHEIGHT][TERRAINWIDTH];
+    int TerrainMap[][];
+    public Spatial[][][] map;
     public int brush = 3;
     public int mode = 2;
     private final IngameHUD ingameHUD;
     public int textureindex = 1;
     public boolean useTexture = false;
 
-    public WorldHandler(Node rootNode, AssetManager assetManager, IngameHUD ingameHUD) {
+    public TerrainHandler(Node rootNode, AssetManager assetManager, IngameHUD ingameHUD) {
         this.gameNode = rootNode;
         this.assetManager = assetManager;
         this.ingameHUD = ingameHUD;
-
-
     }
 
     public Geometry TerrainBox() {
@@ -52,37 +50,6 @@ public class WorldHandler {
         mat.setTexture("ColorMap", grass);
         geom.setMaterial(mat);
         return geom;
-    }
-
-    public void makeGround() {
-
-
-
-
-        for (int x = 0; x < 101; x++) {
-            for (int y = 0; y < 101; y++) {
-
-                TerrainMap[x][y] = 5;
-            }
-        }
-
-
-        for (int x = 0; x < 100; x++) {
-            for (int y = 0; y < 100; y++) {
-
-                Geometry geomclone = TerrainBox();
-                geomclone.setLocalScale((new Vector3f(1, (int) TerrainMap[x][y], 1)));
-
-                geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().y + ((float) TerrainMap[x][y] / 2), 1);
-                geomclone.move(x, 1, y);
-                geomclone.setName("Terrain");
-
-                Terrain[x][y] = geomclone;
-                gameNode.attachChild(geomclone);
-
-            }
-
-        }
     }
 
     public void lowerland(CollisionResult target) {
@@ -175,7 +142,10 @@ public class WorldHandler {
     }
 
     public void reloadRaisedLand(int x, int z) {
-        Geometry deleted = Terrain[x][z];
+        if(x<0||z<0||x>99||z>99){
+            return;
+        }
+        Spatial deleted = map[x][0][z];
         TerrainMap[x][z]++;
 
         Geometry geomclone = TerrainBox();
@@ -196,8 +166,9 @@ public class WorldHandler {
         
         geomclone.setLocalScale((new Vector3f(1, TerrainMap[x][z], 1)));
         geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().z + ((float) TerrainMap[x][z] / 2), 1);
-        geomclone.move(x, 1, z);
-        Terrain[x][z] = geomclone;
+        geomclone.move(x, 0, z);
+        //laita mappiin terraini
+        map[x][0][z] = geomclone;
         gameNode.detachChild(deleted);
         gameNode.attachChild(geomclone);
 
@@ -205,7 +176,10 @@ public class WorldHandler {
     }
 
     public void reloadLoweredLand(int x, int z) {
-        Geometry deleted = Terrain[x][z];
+        if(x<0||z<0||x>99||z>99){
+            return;
+        }
+        Spatial deleted = map[x][0][z];
         TerrainMap[x][z]--;
 
         Geometry geomclone = TerrainBox();
@@ -225,8 +199,8 @@ public class WorldHandler {
         }
         geomclone.setLocalScale((new Vector3f(1, TerrainMap[x][z], 1)));
         geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().z + ((float) TerrainMap[x][z] / 2), 1);
-        geomclone.move(x, 1, z);
-        Terrain[x][z] = geomclone;
+        geomclone.move(x, 0, z);
+        map[x][0][z] = geomclone;
         gameNode.detachChild(deleted);
         gameNode.attachChild(geomclone);
 

@@ -19,7 +19,7 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import mygame.Main;
 import mygame.terrain.RoadMakerStatus;
-import mygame.terrain.WorldHandler;
+import mygame.terrain.TerrainHandler;
 
 /**
  *
@@ -31,12 +31,12 @@ public class SelectionParticleEmitter {
     private final Node rootNode;
     ParticleEmitter brush[][] = new ParticleEmitter[3][3];
     private Vector3f Vector3f;
-    private final WorldHandler worldHandler;
+    private final TerrainHandler worldHandler;
     private InputManager inputManager;
     private Camera cam;
     CollisionResult last;
 
-    public SelectionParticleEmitter(AssetManager assetManager, Node rootNode, WorldHandler worldHandler) {
+    public SelectionParticleEmitter(AssetManager assetManager, Node rootNode, TerrainHandler worldHandler) {
         this.assetManager = assetManager;
         this.rootNode = rootNode;
         this.worldHandler = worldHandler;
