@@ -57,7 +57,7 @@ public class Main extends SimpleApplication {
         //ei peliin kuuluvat
         ingameHUD=new IngameHUD();
         startScreen=new StartScreen();
-        currentPark=new ParkHandler(rootNode);
+        currentPark=new ParkHandler(rootNode,settings);
         userInput=new UserInput(rootNode,inputManager,cam);
         
         //peliin kuuluvat

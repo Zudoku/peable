@@ -6,6 +6,7 @@ package mygame.terrain;
 
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.system.AppSettings;
 import java.util.ArrayList;
 import mygame.Main;
 import mygame.npc.BasicNPC;
@@ -26,16 +27,21 @@ public class ParkHandler {
     ArrayList<BasicNPC> npcs;
     ArrayList<BasicShop> shops;
     ArrayList<Guest> guests;
+    public AppSettings settings;
 
-    public ParkHandler(Node rootNode) {
+    public ParkHandler(Node rootNode,AppSettings settings) {
         mapfactory = new MapFactory(rootNode);
+        this.settings=settings;
     }
+
+   
 
     public void loadDebugPlain() {
         mapfactory.setCurrentMapPlain();
     }
 
     public void setMap(Spatial[][][] map,int[][] mapdata) {
+        
         this.map = map;
         //anna kaikille map joka sitä tarvii
         Main.roadMaker.map=map;

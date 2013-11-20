@@ -23,6 +23,8 @@ import de.lessvoid.nifty.layout.align.VerticalAlign;
 import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import de.lessvoid.nifty.tools.Color;
+import de.lessvoid.nifty.tools.SizeValue;
 import java.util.ArrayList;
 import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
@@ -48,7 +50,7 @@ public class IngameHUD implements ScreenController {
     private TerrainHandler worldHandler;
     public BasicBuildables selectedBuilding = BasicBuildables.NULL;
     private ShopDescriptionManager descriptionManager = new ShopDescriptionManager();
-    
+    NiftyImage newImage;
     
     
     
@@ -67,7 +69,13 @@ public class IngameHUD implements ScreenController {
     public void onStartScreen() {
         
         closeWindows("");
+        //laita raha kuva oikeaan asentoon
+        Element a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneyicon");
         
+        int j=Main.currentPark.settings.getWidth();
+        int u=j-300;
+        String b=Integer.toString(u); 
+        a.setConstraintX(new SizeValue(b));
     }
 
     public void onEndScreen() {
@@ -161,6 +169,7 @@ public class IngameHUD implements ScreenController {
 
     public void toggleShovelWindow() {
         closeWindows("shovelWindow");
+        
         Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
 
         niftyElement.setVisible(!niftyElement.isVisible());
