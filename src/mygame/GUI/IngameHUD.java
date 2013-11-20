@@ -64,18 +64,46 @@ public class IngameHUD implements ScreenController {
         
 
     }
-    
+    public void updateMoneytextbar(){
+        Element a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneytext");
+        a.getRenderer(TextRenderer.class).setText(Main.currentPark.getParkWallet().getMoneyString());
+        a.setConstraintHorizontalAlign(HorizontalAlign.left);
+        
+        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("loantext");
+        a.getRenderer(TextRenderer.class).setText(Main.currentPark.getParkWallet().getLoanString());
+        a.setConstraintHorizontalAlign(HorizontalAlign.left);
+        
+        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("guestnumtext");
+        a.getRenderer(TextRenderer.class).setText(Main.currentPark.getGuestSizeString());
+        a.setConstraintHorizontalAlign(HorizontalAlign.left);
+    }
 
     public void onStartScreen() {
         
         closeWindows("");
         //laita raha kuva oikeaan asentoon
         Element a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneyicon");
-        
         int j=Main.currentPark.settings.getWidth();
         int u=j-300;
         String b=Integer.toString(u); 
         a.setConstraintX(new SizeValue(b));
+        //tekstit
+        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneytext");
+        u=j-170;
+        b=Integer.toString(u);
+        a.setConstraintX(new SizeValue(b));
+        
+        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("loantext");
+        u=j-170;
+        b=Integer.toString(u);
+        a.setConstraintX(new SizeValue(b));
+        
+        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("guestnumtext");
+        u=j-280;
+        b=Integer.toString(u);
+        a.setConstraintX(new SizeValue(b));
+        
+        updateMoneytextbar();
     }
 
     public void onEndScreen() {

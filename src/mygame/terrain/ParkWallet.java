@@ -29,5 +29,12 @@ public class ParkWallet {
     public float getMoney(){
         return money;
     }
+
+    public String getMoneyString() {
+        return Float.toString(money);
+    }
+    public String getLoanString() {
+        return Float.toString(loan);
+    }
     
 }

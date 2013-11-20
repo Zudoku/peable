@@ -34,7 +34,9 @@ public class ParkHandler {
         this.settings=settings;
     }
 
-   
+   public String getGuestSizeString(){
+       return Integer.toString(guests.size());
+   }
 
     public void loadDebugPlain() {
         mapfactory.setCurrentMapPlain();

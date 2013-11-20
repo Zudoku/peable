@@ -41,10 +41,11 @@
                 <image filename="Interface/NPC/Icon.png"x="390"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick="toggleNPCListWindow()"/>
                 </image>
-                <image id="moneyicon" filename="Interface/money/Icon.png"x="600"y="0" childLayout="absolute" width="300" height="64">
-                    
+                <image id="moneyicon" filename="Interface/money/Icon.png"x="600"y="0" childLayout="absolute" width="300" height="64">  
                 </image>
-                
+                <control id="guestnumtext"name="label" font="Interface/Fonts/Impact.fnt"text="10000" x="650"y="4"/>
+                <control id="moneytext"name="label" font="Interface/Fonts/Impact.fnt"text="10000000.00" x="650"y="4"/>
+                <control id="loantext"name="label" font="Interface/Fonts/Impact.fnt"text="1000000.00" x="650"y="38"/>
             </panel>
         </layer>
         <layer id="windows" width="200"height="300"childLayout="absolute">
