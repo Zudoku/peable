@@ -15,7 +15,7 @@ public class StatManager {
     public int hunger=0;
     public int thirst=0;
     public int happyness=0;
-    private PreferredRides preferredRide;
+    public PreferredRides preferredRide;
     private Random r = new Random();
     
     public StatManager(){

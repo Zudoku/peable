@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import mygame.Main;
 import mygame.npc.inventory.Item;
+import mygame.npc.inventory.PreferredRides;
 import mygame.npc.inventory.StatManager;
 import mygame.npc.inventory.Wallet;
 import mygame.ride.BasicRide;
@@ -353,7 +354,7 @@ public class Guest extends BasicNPC {
                 }
             }
             // haluaako guesti mennä laitteeseen
-            if (true) {
+            if (doIWantToGoThere(foundRide)) {
                 if (foundRide.tryToQueGuest(this)) {
                     System.out.println("Accepted and now in que");
                     active = false;
@@ -364,5 +365,76 @@ public class Guest extends BasicNPC {
             }
         }
 
+    }
+    public boolean doIWantToGoThere(BasicRide ride){
+        /**
+         * happyness+laitteen hyvyys+preferredride +40>100**
+         */
+        int h=stats.happyness/5; //0-20
+        int e=ride.exitement;   //0-80
+        int p=0;                //0-20
+        switch(stats.preferredRide){
+            case LOW:
+                if(ride.rideType==PreferredRides.LOW){
+                    p=20;
+                }
+                if(ride.rideType==PreferredRides.MEDIUM){
+                    p=10;
+                }
+                break;
+                
+            case MEDIUM:
+                if(ride.rideType==PreferredRides.MEDIUM){
+                    p=20;
+                }
+                if(ride.rideType==PreferredRides.LOW){
+                    p=10;
+                }
+                if(ride.rideType==PreferredRides.HIGH){
+                    p=10;
+                }
+                
+                break;
+                
+            case HIGH:
+                if(ride.rideType==PreferredRides.MEDIUM){
+                    p=10;
+                }
+                if(ride.rideType==PreferredRides.CRAZY){
+                    p=5;
+                }
+                if(ride.rideType==PreferredRides.HIGH){
+                    p=20;
+                }
+                break;
+                
+            case CRAZY:
+                if(ride.rideType==PreferredRides.CRAZY){
+                    p=20;
+                }
+                if(ride.rideType==PreferredRides.NAUSEA){
+                    p=10;
+                }
+                
+                break;
+                
+            case NAUSEA:
+                if(ride.rideType==PreferredRides.NAUSEA){
+                    p=20;
+                }
+                if(ride.rideType==PreferredRides.CRAZY){
+                    p=10;
+                }
+                
+                break;
+               
+        }
+        //happyness+exitement+preference+40
+        int rating=h+e+p+40;
+        System.out.println("Guest got rating of "+rating);
+        if(rating>100){
+            return true;
+        }
+        return false;
     }
 }

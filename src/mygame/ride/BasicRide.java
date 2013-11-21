@@ -37,6 +37,7 @@ public class BasicRide {
     public ArrayList<Guest> guestsInQue = new ArrayList<Guest>();
     private int rideLength = 10000; //ms = 10s
     public PreferredRides rideType;
+    public int exitement =80;
     //TODO!! 
     private boolean[][] occupySpace = {
         {false, false, false, false},
