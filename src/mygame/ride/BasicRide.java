@@ -11,6 +11,7 @@ import mygame.Main;
 import mygame.npc.ActionType;
 import mygame.npc.Guest;
 import mygame.npc.NPCAction;
+import mygame.npc.inventory.PreferredRides;
 import mygame.shops.Employee;
 import mygame.shops.ShopReputation;
 import mygame.terrain.Direction;
@@ -35,6 +36,7 @@ public class BasicRide {
     public ArrayList<Guest> guestsInRide = new ArrayList<Guest>();
     public ArrayList<Guest> guestsInQue = new ArrayList<Guest>();
     private int rideLength = 10000; //ms = 10s
+    public PreferredRides rideType;
     //TODO!! 
     private boolean[][] occupySpace = {
         {false, false, false, false},

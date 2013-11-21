@@ -12,6 +12,7 @@ public class Item {
     String name;
     Itemtypes itemtype;
     int consumevalue;
+    int durability=10;
     public Item(String name,Itemtypes itemtype,int consumevalue){
         this.name=name;
         this.itemtype=itemtype;

@@ -15,6 +15,7 @@ public class StatManager {
     public int hunger=0;
     public int thirst=0;
     public int happyness=0;
+    private PreferredRides preferredRide;
     private Random r = new Random();
     
     public StatManager(){
@@ -64,6 +65,28 @@ public class StatManager {
         hunger=r.nextInt(100);
         thirst=r.nextInt(100);
         happyness=r.nextInt(100);
+        int u=r.nextInt(2);
+        switch(u){
+            case 0:
+                preferredRide= PreferredRides.MEDIUM;
+                break;
+                
+            case 1:
+                if(r.nextInt(1)==1){
+                    preferredRide= PreferredRides.HIGH;
+                }else{
+                    preferredRide= PreferredRides.LOW;
+                }
+                break;
+                
+            case 2:
+                if(r.nextInt(1)==1){
+                    preferredRide= PreferredRides.CRAZY;
+                }else{
+                    preferredRide= PreferredRides.NAUSEA;
+                }
+                break;
+        }
         
     }
     
