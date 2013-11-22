@@ -13,6 +13,7 @@ import de.lessvoid.nifty.layout.align.VerticalAlign;
 import mygame.Main;
 import mygame.npc.Guest;
 import mygame.npc.inventory.Item;
+import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
 import mygame.shops.Employee;
 
@@ -159,5 +160,59 @@ public class WindowMaker {
             createGuestWindow(guest,false);
         }
     }
+    public void CreateRideWindow(BasicRide ride){
+       if(ride==null){
+           return;
+       }
+       Element rideWindow=nifty.getCurrentScreen().findElementByName("ridetemplate");
+       updateRidePriceText(rideWindow, ride.price);
+       updateRideNameText(rideWindow, ride.rideName);
+       updateRideTypeText(rideWindow,"Chess-lair");
+       updateRideExitementText(rideWindow, ride.exitement);
+       updateRideNauseaText(rideWindow, ride.nausea);
+       updateRideStatusText(rideWindow,ride.status);
+       updateRideBrokenText(rideWindow, ride.broken);
+       
+       rideWindow.setVisible(true);
+       
+    }
+    
+    private void updateRidePriceText(Element rideWindow,float price){
+        
+        Element updatedText=rideWindow.findElementByName("rideprice");
+        updateText(updatedText,Float.toString(price));
+    }
+    private void updateRideNameText(Element rideWindow,String name){
+        Element updatedText=rideWindow.findElementByName("ridename");
+        updateText(updatedText,name);
+    }
+    private void updateRideTypeText(Element rideWindow,String type){
+        Element updatedText=rideWindow.findElementByName("ridetype");
+        updateText(updatedText,type);
+    }
+    private void updateRideExitementText(Element rideWindow,float exitement){
+        Element updatedText=rideWindow.findElementByName("rideexitement");
+        updateText(updatedText,Float.toString(exitement));
+    }
+    private void updateRideNauseaText(Element rideWindow,float nausea){
+        Element updatedText=rideWindow.findElementByName("ridenausea");
+        updateText(updatedText,Float.toString(nausea));
+    }
+    private void updateRideStatusText(Element rideWindow,boolean status){
+        Element updatedText=rideWindow.findElementByName("ridestatus");
+        if(status==true){
+            updateText(updatedText,"Open!");
+        }
+        else{
+            updateText(updatedText,"Closed");
+        }
+        
+    }
+    private void updateRideBrokenText(Element rideWindow,float broken){
+        Element updatedText=rideWindow.findElementByName("ridebroken");
+        updateText(updatedText,Float.toString(broken));
+    }
+    
+    
     
 }

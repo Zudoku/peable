@@ -9,6 +9,7 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Node;
 import mygame.Main;
 import mygame.npc.Guest;
+import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.TerrainHandler;
@@ -67,6 +68,13 @@ public class ClickingHandler {
                         if(g.shopID==rootTarget.getUserData("shopID")){
                             Main.windowMaker.createShopWindow(g);
                             return;
+                        }
+                    }
+                }
+                if(rootTarget.getUserData("type")=="ride"){
+                    for(BasicRide r:Main.rideManager.rides){
+                        if(r.rideID==rootTarget.getUserData("rideID")){
+                            Main.windowMaker.CreateRideWindow(r);
                         }
                     }
                 }

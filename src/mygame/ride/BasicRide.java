@@ -38,6 +38,10 @@ public class BasicRide {
     private int rideLength = 10000; //ms = 10s
     public PreferredRides rideType;
     public int exitement =80;
+    public int nausea = 10;
+    public boolean status=true; //true=open
+    public int broken=0; 
+    
     //TODO!! 
     private boolean[][] occupySpace = {
         {false, false, false, false},
