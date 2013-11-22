@@ -73,7 +73,7 @@ public class ClickingHandler {
                 }
                 if(rootTarget.getUserData("type")=="ride"){
                     for(BasicRide r:Main.rideManager.rides){
-                        if(r.rideID==rootTarget.getUserData("rideID")){
+                        if(r.getRideID()==rootTarget.getUserData("rideID")){
                             Main.windowMaker.CreateRideWindow(r);
                         }
                     }

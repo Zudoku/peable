@@ -168,20 +168,20 @@ public class WindowMaker {
        /**
         * tab 2
         */
-       updateRidePriceText(rideWindow, ride.price);
-       updateRideNameText(rideWindow, ride.rideName);
+       updateRidePriceText(rideWindow, ride.getPrice());
+       updateRideNameText(rideWindow, ride.getName());
        updateRideTypeText(rideWindow,"Chess-lair");
-       updateRideExitementText(rideWindow, ride.exitement);
-       updateRideNauseaText(rideWindow, ride.nausea);
-       updateRideStatusText(rideWindow,ride.status);
-       updateRideBrokenText(rideWindow, ride.broken);
+       updateRideExitementText(rideWindow, ride.getExitement());
+       updateRideNauseaText(rideWindow, ride.getNausea());
+       updateRideStatusText(rideWindow,ride.getStatus());
+       updateRideBrokenText(rideWindow, ride.getBroken());
        /**
         * tab 3
         */
        updateRideCustomersText(rideWindow, ride.customers());
-       updateRideCustomersLifeText(rideWindow, ride.customerstotal);
+       updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
        updateRideCustomersHourText(rideWindow,1); //todo
-       updateRideMoneyGainedText(rideWindow, ride.moneytotal);
+       updateRideMoneyGainedText(rideWindow, ride.getMoneyGainedTotal());
        updateRideMoneyHourText(rideWindow, 1); //todo
        updateRideCostHourText(rideWindow, 1); //todo
        

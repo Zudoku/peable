@@ -59,7 +59,7 @@ public class RideManager {
         int ty = (int) loc.y;
         int tz = (int) loc.z;
         Spatial[][][] map = Main.roadMaker.map;
-        boughtride.rideID = rideID;
+        boughtride.setRideID(rideID);
         boughtride.getGeometry().setUserData("rideID", rideID);
         boughtride.getGeometry().setUserData("type", "ride");
         rides.add(boughtride);
@@ -85,9 +85,9 @@ public class RideManager {
         BasicRide b = null;
         if (rides.isEmpty() == false) {
             for (BasicRide p : rides) {
-                int tx = (int) Main.holoDrawer.pyorista(p.position).x;
-                int ty = (int) Main.holoDrawer.pyorista(p.position).y;
-                int tz = (int) Main.holoDrawer.pyorista(p.position).z;
+                int tx = (int) Main.holoDrawer.pyorista(p.getPosition()).x;
+                int ty = (int) Main.holoDrawer.pyorista(p.getPosition()).y;
+                int tz = (int) Main.holoDrawer.pyorista(p.getPosition()).z;
                 if (tx == x && ty == y && tz == z) {
                     b = p;
                     System.out.println("RIDE IS LOCATED!");

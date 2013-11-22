@@ -22,27 +22,27 @@ import mygame.terrain.Direction;
  */
 public class BasicRide {
 
-    public Direction facing;
-    public Vector3f position;
+    private Direction facing;
+    private Vector3f position;
     private Spatial object;
-    public int rideID = 0;
-    public float price = 0;
+    private int rideID = 0;
+    private float price = 0;
     public float constructionmoney = 0;
-    public String rideName = "RIDENAME";
+    private String rideName = "RIDENAME";
     public Enterance enterance;
     public Enterance exit;
-    public ArrayList<Employee> employees = new ArrayList<Employee>();
-    public ShopReputation reputation = ShopReputation.NEW;
-    public ArrayList<Guest> guestsInRide = new ArrayList<Guest>();
-    public ArrayList<Guest> guestsInQue = new ArrayList<Guest>();
+    private ArrayList<Employee> employees = new ArrayList<Employee>();
+    private ShopReputation reputation = ShopReputation.NEW;
+    private ArrayList<Guest> guestsInRide = new ArrayList<Guest>();
+    private ArrayList<Guest> guestsInQue = new ArrayList<Guest>();
     private int rideLength = 10000; //ms = 10s
     public PreferredRides rideType;
-    public int exitement =80;
-    public int nausea = 10;
-    public boolean status=true; //true=open
-    public int broken=0;
-    public int customerstotal=0;
-    public float moneytotal=0;
+    private int exitement =80;
+    private int nausea = 10;
+    private boolean status=true; //true=open
+    private int broken=0;
+    private int customerstotal=0;
+    private float moneytotal=0;
     
     //TODO!! 
     private boolean[][] occupySpace = {
@@ -60,15 +60,9 @@ public class BasicRide {
     }
 
     public void interact(Guest guest) {
+        
     }
-
-    public Spatial getGeometry() {
-        return object;
-    }
-
-    public boolean[][] getOccupySpace() {
-        return occupySpace;
-    }
+    
 
     public boolean tryToQueGuest(Guest guest) {
         guestsInQue.add(guest);
@@ -145,5 +139,45 @@ public class BasicRide {
     }
     public int customers(){
         return guestsInRide.size();
+    }
+    public Vector3f getPosition(){
+        return position;
+    }
+    public Spatial getGeometry() {
+        return object;
+    }
+    public void setRideID(int rideID){
+        this.rideID=rideID;
+    }
+    public int getRideID(){
+        return rideID;
+    }
+
+    public boolean[][] getOccupySpace() {
+        return occupySpace;
+    }
+    public float getPrice(){
+        return price;
+    }
+    public String getName(){
+        return rideName;
+    }
+    public int getExitement(){
+        return exitement;
+    }
+    public int getNausea(){
+        return nausea;
+    }
+    public boolean getStatus(){
+        return status;
+    }
+    public int getBroken(){
+        return broken;
+    }
+    public int getCustomersTotal(){
+        return customerstotal;
+    }
+    public float getMoneyGainedTotal(){
+        return moneytotal;
     }
 }

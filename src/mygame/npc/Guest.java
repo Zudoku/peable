@@ -338,7 +338,7 @@ public class Guest extends BasicNPC {
                     if (a.contains(trueroad)) {
                         System.out.println("Found the ride witch the road is connected to");
                         found = true;
-                        fRideID = s.rideID;
+                        fRideID = s.getRideID();
                         break;
                     }
                     System.out.println("Didnt find the ride witch the road is connected to");
@@ -349,7 +349,7 @@ public class Guest extends BasicNPC {
 
         if (found) {
             for (BasicRide a : Main.rideManager.rides) {
-                if (a.rideID == fRideID) {
+                if (a.getRideID() == fRideID) {
                     foundRide = a;
                 }
             }
@@ -371,7 +371,7 @@ public class Guest extends BasicNPC {
          * happyness+laitteen hyvyys+preferredride +40>100**
          */
         int h=stats.happyness/5; //0-20
-        int e=ride.exitement;   //0-80
+        int e=ride.getExitement();   //0-80
         int p=0;                //0-20
         switch(stats.preferredRide){
             case LOW:
