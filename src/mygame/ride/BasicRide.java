@@ -26,7 +26,7 @@ public class BasicRide {
     private Vector3f position;
     private Spatial object;
     private int rideID = 0;
-    private float price = 0;
+    private float price = 1;
     public float constructionmoney = 0;
     private String rideName = "RIDENAME";
     public Enterance enterance;
@@ -43,14 +43,23 @@ public class BasicRide {
     private int broken=0;
     private int customerstotal=0;
     private float moneytotal=0;
+    private long lastGuestVisitTime=0;
+    private double guestRateHour=0;
+    private int repairCost=100;
     
     //TODO!! 
     private boolean[][] occupySpace = {
         {false, false, false, false},
         {false, false, false, false},
         {false, false, false, false},
-        {false, false, false, false},};
-
+        {false, false, false, false},
+    };
+    private void calculateguestRate(){
+        double a=System.currentTimeMillis()-lastGuestVisitTime; //aika jolloin laitteeseen tuli tybä
+        double u=3600000/a; //tunti / a
+        guestRateHour=u;
+        lastGuestVisitTime=System.currentTimeMillis();
+    }
     public BasicRide(Vector3f position, Spatial object, float cost, Direction facing) {
         this.position = position;
         this.object = object;
@@ -121,11 +130,16 @@ public class BasicRide {
         guestsInRide.add(g);
         g.joinedRide = System.currentTimeMillis();
         g.getGeometry().setLocalTranslation(position);
+        g.wallet.pay(price);
+        moneytotal += price;
         g.deleteActions();
+        calculateguestRate();
+        customerstotal++;
     }
 
     private void leaveRide(Guest g) {
         //poista guesti listoilta
+        interact(g);
         guestsInRide.remove(g);
         //laita guesti enterancen positioniin
         int x1 = (int) (exit.location.x + 0.4999);
@@ -179,5 +193,14 @@ public class BasicRide {
     }
     public float getMoneyGainedTotal(){
         return moneytotal;
+    }
+    public double getGuestRateHour(){
+        return guestRateHour;
+    }
+    public double getMoneyRateHour(){
+        return guestRateHour*price;
+    }
+    public float getRepairCost(){
+        return repairCost;
     }
 }

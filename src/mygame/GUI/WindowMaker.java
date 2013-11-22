@@ -180,10 +180,10 @@ public class WindowMaker {
         */
        updateRideCustomersText(rideWindow, ride.customers());
        updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
-       updateRideCustomersHourText(rideWindow,1); //todo
+       updateRideCustomersHourText(rideWindow,ride.getGuestRateHour()); 
        updateRideMoneyGainedText(rideWindow, ride.getMoneyGainedTotal());
-       updateRideMoneyHourText(rideWindow, 1); //todo
-       updateRideCostHourText(rideWindow, 1); //todo
+       updateRideMoneyHourText(rideWindow, ride.getMoneyRateHour()); 
+       updateRideCostHourText(rideWindow, ride.getRepairCost()); 
        
        
        //laita näkyviin
@@ -236,21 +236,21 @@ public class WindowMaker {
         Element updatedText=rideWindow.findElementByName("ridecustomerslife");
         updateText(updatedText,Float.toString(customers));
     }
-    private void updateRideCustomersHourText(Element rideWindow,float customers){
+    private void updateRideCustomersHourText(Element rideWindow,double customers){
         Element updatedText=rideWindow.findElementByName("ridecustomershour");
-        updateText(updatedText,Float.toString(customers));
+        updateText(updatedText,Double.toString(customers));
     }
     private void updateRideMoneyGainedText(Element rideWindow,float moneytotal){
         Element updatedText=rideWindow.findElementByName("ridemoneygained");
         updateText(updatedText,Float.toString(moneytotal));
     }
-    private void updateRideMoneyHourText(Element rideWindow,float moneyhour){
+    private void updateRideMoneyHourText(Element rideWindow,double moneyhour){
         Element updatedText=rideWindow.findElementByName("ridemoneyhour");
-        updateText(updatedText,Float.toString(moneyhour));
+        updateText(updatedText,Double.toString(moneyhour));
     }
-    private void updateRideCostHourText(Element rideWindow,float moneyhour){
+    private void updateRideCostHourText(Element rideWindow,float moneycost){
         Element updatedText=rideWindow.findElementByName("ridehourcost");
-        updateText(updatedText,Float.toString(moneyhour));
+        updateText(updatedText,Float.toString(moneycost));
     }
     
     

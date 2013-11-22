@@ -355,13 +355,13 @@ public class Guest extends BasicNPC {
             }
             // haluaako guesti mennä laitteeseen
             if (doIWantToGoThere(foundRide)) {
-                if (foundRide.tryToQueGuest(this)) {
-                    System.out.println("Accepted and now in que");
-                    active = false;
-                    this.currentQueRoad = trueroad;
+                if (foundRide.tryToQueGuest(this)) { 
+                    if(wallet.canAfford(foundRide.getPrice())){
+                        System.out.println("Accepted and now in que");
+                        active = false;
+                        this.currentQueRoad = trueroad;
+                    } 
                 }
-
-
             }
         }
 
