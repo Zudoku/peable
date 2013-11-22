@@ -165,6 +165,9 @@ public class WindowMaker {
            return;
        }
        Element rideWindow=nifty.getCurrentScreen().findElementByName("ridetemplate");
+       /**
+        * tab 2
+        */
        updateRidePriceText(rideWindow, ride.price);
        updateRideNameText(rideWindow, ride.rideName);
        updateRideTypeText(rideWindow,"Chess-lair");
@@ -172,7 +175,18 @@ public class WindowMaker {
        updateRideNauseaText(rideWindow, ride.nausea);
        updateRideStatusText(rideWindow,ride.status);
        updateRideBrokenText(rideWindow, ride.broken);
+       /**
+        * tab 3
+        */
+       updateRideCustomersText(rideWindow, ride.customers());
+       updateRideCustomersLifeText(rideWindow, ride.customerstotal);
+       updateRideCustomersHourText(rideWindow,1); //todo
+       updateRideMoneyGainedText(rideWindow, ride.moneytotal);
+       updateRideMoneyHourText(rideWindow, 1); //todo
+       updateRideCostHourText(rideWindow, 1); //todo
        
+       
+       //laita näkyviin
        rideWindow.setVisible(true);
        
     }
@@ -211,6 +225,32 @@ public class WindowMaker {
     private void updateRideBrokenText(Element rideWindow,float broken){
         Element updatedText=rideWindow.findElementByName("ridebroken");
         updateText(updatedText,Float.toString(broken));
+    }
+    
+    
+    private void updateRideCustomersText(Element rideWindow,float customers){
+        Element updatedText=rideWindow.findElementByName("ridecustomers");
+        updateText(updatedText,Float.toString(customers));
+    }
+    private void updateRideCustomersLifeText(Element rideWindow,float customers){
+        Element updatedText=rideWindow.findElementByName("ridecustomerslife");
+        updateText(updatedText,Float.toString(customers));
+    }
+    private void updateRideCustomersHourText(Element rideWindow,float customers){
+        Element updatedText=rideWindow.findElementByName("ridecustomershour");
+        updateText(updatedText,Float.toString(customers));
+    }
+    private void updateRideMoneyGainedText(Element rideWindow,float moneytotal){
+        Element updatedText=rideWindow.findElementByName("ridemoneygained");
+        updateText(updatedText,Float.toString(moneytotal));
+    }
+    private void updateRideMoneyHourText(Element rideWindow,float moneyhour){
+        Element updatedText=rideWindow.findElementByName("ridemoneyhour");
+        updateText(updatedText,Float.toString(moneyhour));
+    }
+    private void updateRideCostHourText(Element rideWindow,float moneyhour){
+        Element updatedText=rideWindow.findElementByName("ridehourcost");
+        updateText(updatedText,Float.toString(moneyhour));
     }
     
     

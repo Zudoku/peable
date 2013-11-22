@@ -40,7 +40,9 @@ public class BasicRide {
     public int exitement =80;
     public int nausea = 10;
     public boolean status=true; //true=open
-    public int broken=0; 
+    public int broken=0;
+    public int customerstotal=0;
+    public float moneytotal=0;
     
     //TODO!! 
     private boolean[][] occupySpace = {
@@ -140,5 +142,8 @@ public class BasicRide {
         g.active = true;
         
 
+    }
+    public int customers(){
+        return guestsInRide.size();
     }
 }
