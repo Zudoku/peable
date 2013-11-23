@@ -515,7 +515,15 @@
                         <control id="tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
                             <control id="tab_1" name="tab" caption="Actions"x="0"y="0"> 
                                 <panel id="tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    
+                                    <control id="ridenametextfieldprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Change name:" x="10"y="10" color="ffffff"/>
+                                    <control id="ridenametextfield"name="textfield" maxLength="50" x="120"y="10"height="24" width="200" />
+                                    <image id="ridestatusbutton"filename="Interface/Rides/statusoff.png"x="360"y="0" childLayout="absolute" height="48"width="48"visibleToMouse="true">
+                                        <interact onClick="rideStatusToggle()">   
+                                        </interact>
+                                    </image>
+                                    <control id="ridepricechangeprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Current price:" x="10"y="46" color="ffffff"/>
+                                    <control id="ridepricechange"name="label" font="Interface/Fonts/Impact.fnt"text="100.0" x="120"y="46" color="ffffff"/>
+                                    <control id="ridepriceslider" max="20" name="horizontalSlider" stepSize="0.1" buttonStepSize="0.1" initial="2.0"width="400px" x="10"y="70"/>
                                 </panel>
                             </control>
                             <control id="tab_2" name="tab" caption="Information"x="0"y="0">

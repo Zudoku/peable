@@ -20,6 +20,7 @@ import mygame.terrain.Direction;
  *
  * @author arska
  */
+
 public class BasicRide {
 
     private Direction facing;
@@ -28,7 +29,7 @@ public class BasicRide {
     private int rideID = 0;
     private float price = 1;
     public float constructionmoney = 0;
-    private String rideName = "RIDENAME";
+    private String rideName = "You found a bug";
     public Enterance enterance;
     public Enterance exit;
     private ArrayList<Employee> employees = new ArrayList<Employee>();
@@ -39,13 +40,14 @@ public class BasicRide {
     public PreferredRides rideType;
     private int exitement =80;
     private int nausea = 10;
-    private boolean status=true; //true=open
+    private boolean status=false; //true=open
     private int broken=0;
     private int customerstotal=0;
     private float moneytotal=0;
     private long lastGuestVisitTime=0;
     private double guestRateHour=0;
     private int repairCost=100;
+    private String ride="you found a bug";
     
     //TODO!! 
     private boolean[][] occupySpace = {
@@ -54,17 +56,19 @@ public class BasicRide {
         {false, false, false, false},
         {false, false, false, false},
     };
+    
     private void calculateguestRate(){
         double a=System.currentTimeMillis()-lastGuestVisitTime; //aika jolloin laitteeseen tuli tybä
         double u=3600000/a; //tunti / a
         guestRateHour=u;
         lastGuestVisitTime=System.currentTimeMillis();
     }
-    public BasicRide(Vector3f position, Spatial object, float cost, Direction facing) {
+    public BasicRide(Vector3f position, Spatial object, float cost, Direction facing,String ride) {
         this.position = position;
         this.object = object;
         this.constructionmoney = cost;
         this.facing = facing;
+        this.ride=ride;
         object.setLocalTranslation(position);
     }
 
@@ -203,4 +207,23 @@ public class BasicRide {
     public float getRepairCost(){
         return repairCost;
     }
+
+    public void setName(String text) {
+        this.rideName=text;
+    }
+
+    public String getRide() {
+        return ride;
+    }
+
+    public void setPrice(float value) {
+        this.price=value;
+    }
+    public boolean toggleStatus(){
+        status=!status;
+        return status;
+    }
+    
+
+    
 }

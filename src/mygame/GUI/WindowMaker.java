@@ -5,11 +5,14 @@
 package mygame.GUI;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.layout.align.HorizontalAlign;
 import de.lessvoid.nifty.layout.align.VerticalAlign;
+import de.lessvoid.nifty.render.NiftyImage;
 import mygame.Main;
 import mygame.npc.Guest;
 import mygame.npc.inventory.Item;
@@ -24,6 +27,7 @@ import mygame.shops.Employee;
 public class WindowMaker {
     Nifty nifty;
     private int guestnumber;
+    private int rideID;
     public WindowMaker(Nifty nifty){
         this.nifty=nifty;
       
@@ -160,17 +164,35 @@ public class WindowMaker {
             createGuestWindow(guest,false);
         }
     }
+    public BasicRide getCurrentRide(){
+        BasicRide u=null;
+        for(BasicRide o:Main.rideManager.rides){
+            if(o.getRideID()==rideID){
+                u=o;
+                break;
+            }
+        }
+        return u;
+    }
+    
     public void CreateRideWindow(BasicRide ride){
        if(ride==null){
            return;
        }
        Element rideWindow=nifty.getCurrentScreen().findElementByName("ridetemplate");
+       rideID=ride.getRideID();
+       /**
+        * tab 1
+        */
+       updateRideNameTextfield(ride.getName());
+       updateRidePriceTextTab1(rideWindow,ride.getPrice(),true);
+       updateRideStatusText(rideWindow, ride.getStatus());
        /**
         * tab 2
         */
        updateRidePriceText(rideWindow, ride.getPrice());
        updateRideNameText(rideWindow, ride.getName());
-       updateRideTypeText(rideWindow,"Chess-lair");
+       updateRideTypeText(rideWindow,ride.getRide());
        updateRideExitementText(rideWindow, ride.getExitement());
        updateRideNauseaText(rideWindow, ride.getNausea());
        updateRideStatusText(rideWindow,ride.getStatus());
@@ -251,6 +273,73 @@ public class WindowMaker {
     private void updateRideCostHourText(Element rideWindow,float moneycost){
         Element updatedText=rideWindow.findElementByName("ridehourcost");
         updateText(updatedText,Float.toString(moneycost));
+    }
+    private void updateRideNameTextfield(String name){
+        TextField textfield=nifty.getCurrentScreen().findNiftyControl("ridenametextfield",TextField.class);
+        textfield.setText(name);
+    }
+    private void updateRidePriceTextTab1(Element rideWindow,float price,boolean updateSlider){
+        Element updatedText=rideWindow.findElementByName("ridepricechange");
+        updateText(updatedText,Float.toString(price));
+        Slider slider=nifty.getCurrentScreen().findNiftyControl("ridepriceslider",Slider.class);
+        if(updateSlider){
+            slider.setValue(price);
+        }
+        
+    }
+
+    public void updateRideWindow(boolean updateNameTextField) {
+        BasicRide ride=getCurrentRide();
+        Element rideWindow=nifty.getCurrentScreen().findElementByName("ridetemplate");
+        /**
+        * tab 1
+        */
+        if(updateNameTextField){
+            updateRideNameTextfield(ride.getName());
+        }
+       updateRidePriceTextTab1(rideWindow,ride.getPrice(),false);
+       updateRideStatusText(rideWindow, ride.getStatus());
+       /**
+        * tab 2
+        */
+       updateRidePriceText(rideWindow, ride.getPrice());
+       updateRideNameText(rideWindow, ride.getName());
+       updateRideTypeText(rideWindow,ride.getRide());
+       updateRideExitementText(rideWindow, ride.getExitement());
+       updateRideNauseaText(rideWindow, ride.getNausea());
+       updateRideStatusText(rideWindow,ride.getStatus());
+       updateRideBrokenText(rideWindow, ride.getBroken());
+       /**
+        * tab 3
+        */
+       updateRideCustomersText(rideWindow, ride.customers());
+       updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
+       updateRideCustomersHourText(rideWindow,ride.getGuestRateHour()); 
+       updateRideMoneyGainedText(rideWindow, ride.getMoneyGainedTotal());
+       updateRideMoneyHourText(rideWindow, ride.getMoneyRateHour()); 
+       updateRideCostHourText(rideWindow, ride.getRepairCost()); 
+        
+    }
+
+   public void handleRideStatusToggle() {
+        
+            updateRideToggleImage(getCurrentRide().toggleStatus());
+            updateRideWindow(false);
+    }
+
+    private void updateRideToggleImage(boolean toggleStatus) {
+        if(toggleStatus){
+            NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Rides/statuson.png", false);
+            Element changedImg = nifty.getCurrentScreen().findElementByName("ridestatusbutton");
+            changedImg.getRenderer(ImageRenderer.class).setImage(img); 
+        }
+        else{
+            NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Rides/statusoff.png", false);
+            Element changedImg = nifty.getCurrentScreen().findElementByName("ridestatusbutton");
+            changedImg.getRenderer(ImageRenderer.class).setImage(img); 
+        }
+        
+        
     }
     
     

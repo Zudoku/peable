@@ -28,6 +28,7 @@ import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.npc.Guest;
+import mygame.ride.BasicRide;
 import mygame.shops.BasicBuildables;
 import mygame.terrain.Direction;
 import mygame.terrain.RoadHill;
@@ -175,12 +176,30 @@ public class IngameHUD implements ScreenController {
             Main.windowMaker.updateGuestWindow(guest);
         }
     }
+    @NiftyEventSubscriber(id = "ridenametextfield")
+    public void onRideNameChanged(final String id, final TextFieldChangedEvent event) {
+        if(!event.getText().equals("")) {
+            BasicRide ride=Main.windowMaker.getCurrentRide();
+            ride.setName(event.getText());
+            Main.windowMaker.updateRideWindow(false);
+        }
+    }
+    @NiftyEventSubscriber(id = "ridepriceslider")
+    public void onRidePriceChanged(final String id, final SliderChangedEvent event) {
+        
+            BasicRide ride=Main.windowMaker.getCurrentRide();
+            ride.setPrice(event.getValue());
+            Main.windowMaker.updateRideWindow(false);
+        
+    }
     public void givefields(ClickingHandler clickingHandler, TerrainHandler worldHandler) {
         
         this.clickingHandler = clickingHandler;
         this.worldHandler = worldHandler;
     }
-
+    public void rideStatusToggle(){
+        Main.windowMaker.handleRideStatusToggle();
+    }
     public int getBrushSize() {
         return Main.worldHandler.brush;
     }
@@ -379,6 +398,8 @@ public class IngameHUD implements ScreenController {
         niftyElement = nifty.getCurrentScreen().findElementByName("guesttemplate");
         niftyElement.setVisible(false);
         niftyElement = nifty.getCurrentScreen().findElementByName("shoptemplate");
+        niftyElement.setVisible(false);
+        niftyElement = nifty.getCurrentScreen().findElementByName("ridetemplate");
         niftyElement.setVisible(false);
         }
 
