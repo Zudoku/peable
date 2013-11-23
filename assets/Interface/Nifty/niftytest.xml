@@ -14,6 +14,7 @@
                 <control id="settings" name="button" label="Settings" x="10"y="640"width="30%"height="3%"visibleToMouse="true">
                 
                 </control>
+                <control id="alphatestmessage"name="label" font="Interface/Fonts/Impact.fnt"text="PLEASE NOTE THAT THIS IS PRE ALPHA!  ART IS PLACEHOLDER AND WILL BE IMPROVED   Made by: Arttu Siren" x="300"y="50" color="#003f"/>
             </panel>
         </layer>
     </screen>

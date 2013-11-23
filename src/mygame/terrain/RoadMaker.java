@@ -9,6 +9,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import mygame.Gamestate;
+import mygame.Main;
 import mygame.ride.Enterance;
 
 /**
@@ -68,7 +70,9 @@ public class RoadMaker {
         if (status == RoadMakerStatus.CHOOSING) {
             return;
         }
-
+        if(!Main.currentPark.getParkWallet().canAfford(10)){
+           return; 
+        }
         Spatial road = null;
         if (queroad == false) {
             switch (hill) {
@@ -205,7 +209,8 @@ public class RoadMaker {
                 break;
 
         }
-
+        Main.currentPark.getParkWallet().remove(10);
+        Gamestate.ingameHUD.updateMoneytextbar();
         rootNode.attachChild(road);
 
         int tempx = (int) pyorista(startingPosition).x;

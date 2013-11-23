@@ -14,6 +14,8 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import mygame.GUI.IngameHUD;
+import mygame.Gamestate;
+import mygame.Main;
 
 /**
  *
@@ -145,6 +147,9 @@ public class TerrainHandler {
         if(x<0||z<0||x>99||z>99){
             return;
         }
+        if(!Main.currentPark.getParkWallet().canAfford(10)){
+           return; 
+        }
         Spatial deleted = map[x][0][z];
         TerrainMap[x][z]++;
 
@@ -171,13 +176,17 @@ public class TerrainHandler {
         map[x][0][z] = geomclone;
         gameNode.detachChild(deleted);
         gameNode.attachChild(geomclone);
-
+        Main.currentPark.getParkWallet().remove(10);
+        Gamestate.ingameHUD.updateMoneytextbar();
 
     }
 
     public void reloadLoweredLand(int x, int z) {
         if(x<0||z<0||x>99||z>99){
             return;
+        }
+        if(!Main.currentPark.getParkWallet().canAfford(10)){
+           return; 
         }
         Spatial deleted = map[x][0][z];
         TerrainMap[x][z]--;
@@ -203,7 +212,8 @@ public class TerrainHandler {
         map[x][0][z] = geomclone;
         gameNode.detachChild(deleted);
         gameNode.attachChild(geomclone);
-
+        Main.currentPark.getParkWallet().remove(10);
+        Gamestate.ingameHUD.updateMoneytextbar();
 
     }
 

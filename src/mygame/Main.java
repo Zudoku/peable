@@ -3,6 +3,7 @@ package mygame;
 import com.jme3.app.SimpleApplication;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
+import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
 import mygame.GUI.IngameHUD;
 import mygame.GUI.StartScreen;
@@ -21,7 +22,10 @@ public class Main extends SimpleApplication {
     public static int startgame=0;
     public static void main(String[] args) {
         
+        
+        
         Main app = new Main();
+        
         app.start();
         
     }
@@ -37,13 +41,12 @@ public class Main extends SimpleApplication {
         ingameHUD=new IngameHUD();
         startScreen=new StartScreen();
         currentPark=new ParkHandler(rootNode,settings);
-
         //nifty
         initNifty();
         setDisplayStatView(false);
         inputManager.setCursorVisible(true);
         flyCam.setEnabled(false);
-        
+        //settings.setTitle("THEMEPARK TYCOON MADE BY ARTTU SIREN      please dont steal :");
     }
 
     @Override
@@ -75,6 +78,10 @@ public class Main extends SimpleApplication {
         nifty.fromXml("Interface/Nifty/niftytest.xml", "start");
         // attach the Nifty display to the gui view port as a processor
         guiViewPort.addProcessor(niftyDisplay);
+    }
+
+    public Nifty getNifty() {
+        return nifty;
     }
     
     

@@ -9,6 +9,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import mygame.Gamestate;
 import mygame.Main;
 import mygame.inputhandler.ClickingModes;
 import mygame.shops.BasicBuildables;
@@ -55,6 +56,9 @@ public class RideManager {
                 System.out.println("You just tried to buy null ride!");
                 break;
         }
+        if(!Main.currentPark.getParkWallet().canAfford(boughtride.constructionmoney)){
+           return; 
+        }
         int tx = (int) loc.x;
         int ty = (int) loc.y;
         int tz = (int) loc.z;
@@ -64,6 +68,8 @@ public class RideManager {
         boughtride.getGeometry().setUserData("type", "ride");
         rides.add(boughtride);
         rideNode.attachChild(boughtride.getGeometry());
+        Main.currentPark.getParkWallet().remove(boughtride.constructionmoney);
+        Gamestate.ingameHUD.updateMoneytextbar();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 map[tx + i - 1][ty][tz + j - 1] = boughtride.getGeometry();

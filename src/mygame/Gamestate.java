@@ -65,6 +65,7 @@ public class Gamestate extends AbstractAppState {
         this.inputManager = this.app.getInputManager();
         this.cam = this.app.getCamera();
         this.flyCam = this.app.getFlyByCamera();
+        this.nifty=this.app.getNifty();
         
         currentPark=this.app.currentPark;
         userInput = new UserInput(rootNode, inputManager, cam);

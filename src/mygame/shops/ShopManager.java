@@ -9,6 +9,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import mygame.Gamestate;
 import mygame.Main;
 import mygame.inputhandler.ClickingModes;
 import mygame.terrain.Direction;
@@ -42,6 +43,7 @@ public class ShopManager {
 
     public void buy() {
         
+        
         Vector3f loc = Main.gamestate.holoDrawer.pyorista(Main.gamestate.holoDrawer.getLocation());
         
         
@@ -70,10 +72,15 @@ public class ShopManager {
                 return;
                
         }
+        if(!Main.currentPark.getParkWallet().canAfford(boughtshop.constructionmoney)){
+           return; 
+        }
         boughtshop.shopID=shopID;
         boughtshop.getGeometry().setUserData("shopID",shopID);
         shops.add(boughtshop);
         boughtshop.getGeometry().setUserData("type","shop");
+        Main.currentPark.getParkWallet().remove(boughtshop.constructionmoney);
+        Gamestate.ingameHUD.updateMoneytextbar();
         Main.gamestate.roadMaker.map[(int)loc.x][(int)loc.y][(int)loc.z]=boughtshop.getGeometry();
         shopNode.attachChild(boughtshop.getGeometry());
         resetShopdata();
