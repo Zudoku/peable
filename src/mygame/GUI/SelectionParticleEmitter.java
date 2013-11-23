@@ -164,7 +164,7 @@ public class SelectionParticleEmitter {
 
         rootNode.collideWith(ray, results);
         CollisionResult target = results.getClosestCollision();
-        switch (Main.clickingHandler.clickMode) {
+        switch (Main.gamestate.clickingHandler.clickMode) {
             case TERRAIN:
                 if (target == null) {
                     return;
@@ -175,7 +175,7 @@ public class SelectionParticleEmitter {
                 last = target;
                 break;
             case ROAD:
-                if(Main.roadMaker.status==RoadMakerStatus.CHOOSING){
+                if(Main.gamestate.roadMaker.status==RoadMakerStatus.CHOOSING){
                     worldHandler.brush=1;
                     if (target == null) {
                     return;
@@ -194,7 +194,7 @@ public class SelectionParticleEmitter {
                     if(target==null){
                         return;
                     }
-                        Main.holoDrawer.updateLocation(target);
+                        Main.gamestate.holoDrawer.updateLocation(target);
                     break;
                     
         }

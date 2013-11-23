@@ -56,25 +56,25 @@ public class ClickingHandler {
                 Node rootTarget=target.getGeometry().getParent().getParent();
                 
                 if(rootTarget.getUserData("guestnum")!=null){
-                    for(Guest g:Main.npcManager.guests){
+                    for(Guest g:Main.gamestate.npcManager.guests){
                         if(g.getGuestNum()==rootTarget.getUserData("guestnum")){
-                            Main.windowMaker.createGuestWindow(g,true);
+                            Main.gamestate.windowMaker.createGuestWindow(g,true);
                             return;
                         }
                     }
                 }
                 if(rootTarget.getUserData("shopID")!=null){
-                    for(BasicShop g:Main.shopManager.shops){
+                    for(BasicShop g:Main.gamestate.shopManager.shops){
                         if(g.shopID==rootTarget.getUserData("shopID")){
-                            Main.windowMaker.createShopWindow(g);
+                            Main.gamestate.windowMaker.createShopWindow(g);
                             return;
                         }
                     }
                 }
                 if(rootTarget.getUserData("type")=="ride"){
-                    for(BasicRide r:Main.rideManager.rides){
+                    for(BasicRide r:Main.gamestate.rideManager.rides){
                         if(r.getRideID()==rootTarget.getUserData("rideID")){
-                            Main.windowMaker.CreateRideWindow(r);
+                            Main.gamestate.windowMaker.CreateRideWindow(r);
                         }
                     }
                 }
@@ -82,8 +82,8 @@ public class ClickingHandler {
                 break;
 
             case ROAD:
-                    if(Main.roadMaker.status== RoadMakerStatus.CHOOSING){
-                        Main.roadMaker.startingPosition(target.getContactPoint());
+                    if(Main.gamestate.roadMaker.status== RoadMakerStatus.CHOOSING){
+                        Main.gamestate.roadMaker.startingPosition(target.getContactPoint());
                     }
                 break;
 
@@ -92,13 +92,13 @@ public class ClickingHandler {
                 break;
 
             case RIDE:
-                Main.rideManager.placeEnterance(target.getContactPoint());
+                Main.gamestate.rideManager.placeEnterance(target.getContactPoint());
                 break;
                 
             case PLACE:
                 if(buffer==0){
-                    Main.shopManager.buy();
-                    Main.holoDrawer.toggleDrawSpatial();
+                    Main.gamestate.shopManager.buy();
+                    Main.gamestate.holoDrawer.toggleDrawSpatial();
                 }
                 else{
                     buffer=buffer-1;

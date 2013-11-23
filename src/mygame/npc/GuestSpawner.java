@@ -75,7 +75,7 @@ public class GuestSpawner {
         nPCNode.attachChild(g.getGeometry());
         System.out.println("Guest " + Integer.toString(guestNum) + " Named: " + name + " has entered the world");
         if(n!=1){
-            Main.ingameHUD.updateMoneytextbar();
+            Main.gamestate.ingameHUD.updateMoneytextbar();
         }
         
     }

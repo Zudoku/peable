@@ -34,7 +34,7 @@ public class WindowMaker {
     }
     public Guest getCurrentGuestWindowGuest(){
         Guest guest =null;
-        for(Guest g:Main.npcManager.guests){
+        for(Guest g:Main.gamestate.npcManager.guests){
             if(g.getGuestNum()==guestnumber){
                 guest=g;
                 break;        
@@ -166,7 +166,7 @@ public class WindowMaker {
     }
     public BasicRide getCurrentRide(){
         BasicRide u=null;
-        for(BasicRide o:Main.rideManager.rides){
+        for(BasicRide o:Main.gamestate.rideManager.rides){
             if(o.getRideID()==rideID){
                 u=o;
                 break;

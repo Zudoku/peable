@@ -121,7 +121,7 @@ public class Guest extends BasicNPC {
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = Main.shopManager.isthereshop(x + 1, y, z);
+                    BasicShop foundshop = Main.gamestate.shopManager.isthereshop(x + 1, y, z);
                     if (foundshop != null) {
                         NPCAction buy = new NPCAction(new Vector3f(x + 0.7f, y + 0.1f, z), ActionType.BUY, foundshop, this);
                         actions.add(buy);
@@ -169,7 +169,7 @@ public class Guest extends BasicNPC {
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = Main.shopManager.isthereshop(x - 1, y, z);
+                    BasicShop foundshop = Main.gamestate.shopManager.isthereshop(x - 1, y, z);
                     if (foundshop != null) {
                         NPCAction buy = new NPCAction(new Vector3f(x - 0.7f, y + 0.1f, z), ActionType.BUY, foundshop, this);
                         actions.add(buy);
@@ -216,7 +216,7 @@ public class Guest extends BasicNPC {
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = Main.shopManager.isthereshop(x, y, z + 1);
+                    BasicShop foundshop = Main.gamestate.shopManager.isthereshop(x, y, z + 1);
                     if (foundshop != null) {
                         NPCAction buy = new NPCAction(new Vector3f(x, y + 0.1f, z + 0.7f), ActionType.BUY, foundshop, this);
                         actions.add(buy);
@@ -265,7 +265,7 @@ public class Guest extends BasicNPC {
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = Main.shopManager.isthereshop(x, y, z - 1);
+                    BasicShop foundshop = Main.gamestate.shopManager.isthereshop(x, y, z - 1);
                     if (foundshop != null) {
                         NPCAction buy = new NPCAction(new Vector3f(x, y + 0.1f, z - 0.7f), ActionType.BUY, foundshop, this);
                         actions.add(buy);
@@ -309,7 +309,7 @@ public class Guest extends BasicNPC {
         this.x = x;
         this.y = y;
         this.z = z;
-        roads = Main.roadMaker.map;
+        roads = Main.gamestate.roadMaker.map;
     }
 
     public int getGuestNum() {
@@ -330,10 +330,10 @@ public class Guest extends BasicNPC {
         int fRideID = 0;
         Spatial trueroad = null;
         BasicRide foundRide = null;
-        for (BasicRide s : Main.rideManager.rides) {
+        for (BasicRide s : Main.gamestate.rideManager.rides) {
             if (s.enterance != null) {
                 if (s.enterance.connectedRoad != null) {
-                    ArrayList<Spatial> a = Main.roadMaker.getlinkedqueroads(s.enterance.connectedRoad);
+                    ArrayList<Spatial> a = Main.gamestate.roadMaker.getlinkedqueroads(s.enterance.connectedRoad);
                     trueroad = temp.getUserData("queconnect1");
                     if (a.contains(trueroad)) {
                         System.out.println("Found the ride witch the road is connected to");
@@ -348,7 +348,7 @@ public class Guest extends BasicNPC {
         }
 
         if (found) {
-            for (BasicRide a : Main.rideManager.rides) {
+            for (BasicRide a : Main.gamestate.rideManager.rides) {
                 if (a.getRideID() == fRideID) {
                     foundRide = a;
                 }

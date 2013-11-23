@@ -94,7 +94,7 @@ public class BasicRide {
             if (testedroad == null) {
                 System.out.println("Road from guest null :(");
             }
-            ArrayList<Spatial> linkedroads = Main.roadMaker.getlinkedqueroads(enterance.connectedRoad);
+            ArrayList<Spatial> linkedroads = Main.gamestate.roadMaker.getlinkedqueroads(enterance.connectedRoad);
             if (!linkedroads.contains(testedroad)) {
                 System.out.println("Error");
                 continue;

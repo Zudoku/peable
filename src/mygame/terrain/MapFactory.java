@@ -49,7 +49,7 @@ public class MapFactory {
         for (int x = 0; x < 100; x++) {
             for (int y = 0; y < 100; y++) {
 
-                Geometry geomclone = Main.worldHandler.TerrainBox();
+                Geometry geomclone = Main.gamestate.worldHandler.TerrainBox();
                 geomclone.setLocalScale((new Vector3f(1, (int) TerrainMap[x][y], 1)));
 
                 geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().y + ((float) TerrainMap[x][y] / 2), 1);

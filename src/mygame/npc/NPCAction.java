@@ -44,7 +44,7 @@ public class NPCAction {
                     return;
                 }
                 shop.interact(guest);
-                Main.windowMaker.updateGuestWindow(guest);
+                Main.gamestate.windowMaker.updateGuestWindow(guest);
                 break;
                 
             case CONSUME:
@@ -58,7 +58,7 @@ public class NPCAction {
                 }
                 guest.inventory.get(0).consume(guest.stats);
                 guest.inventory.remove(guest.inventory.get(0));
-                Main.windowMaker.updateGuestWindow(guest);
+                Main.gamestate.windowMaker.updateGuestWindow(guest);
                 break;
                 
             case QUE:

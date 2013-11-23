@@ -5,8 +5,11 @@
 package mygame.GUI;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.NiftyEventSubscriber;
+import de.lessvoid.nifty.controls.ButtonClickedEvent;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import mygame.Main;
 
 /**
  *
@@ -15,9 +18,13 @@ import de.lessvoid.nifty.screen.ScreenController;
 public class StartScreen implements ScreenController {
     private Nifty nifty;
     private Screen screen;
+    public int startgame=0;
+ 
    
 
- 
+    public StartScreen(){
+        
+    }
   /** custom methods */ 
   public void startGame(String nextScreen) {
     nifty.gotoScreen(nextScreen);  // switch to another screen
@@ -37,6 +44,14 @@ public class StartScreen implements ScreenController {
 
     public void onEndScreen() {
        
+    }
+   
+  
+    public void startGame() {
+        Main.startgame=1;
+        startGame("hud");
+        
+        
     }
  
 

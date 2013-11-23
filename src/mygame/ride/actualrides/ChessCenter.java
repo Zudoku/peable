@@ -19,6 +19,7 @@ public class ChessCenter extends BasicRide{
     public ChessCenter(Vector3f position, Spatial object, float cost, Direction facing) {
         super(position, object, cost, facing,"Chesslair");
         rideType= PreferredRides.LOW;
+        setName("My Chesscentre1");
         
     }
     

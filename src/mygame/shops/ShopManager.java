@@ -42,7 +42,7 @@ public class ShopManager {
 
     public void buy() {
         
-        Vector3f loc = Main.holoDrawer.pyorista(Main.holoDrawer.getLocation());
+        Vector3f loc = Main.gamestate.holoDrawer.pyorista(Main.gamestate.holoDrawer.getLocation());
         
         
         
@@ -65,7 +65,7 @@ public class ShopManager {
                 
             default: 
                 //eteenpäin shopmanagerille
-                Main.rideManager.buy(facing,selectedBuilding);
+                Main.gamestate.rideManager.buy(facing,selectedBuilding);
                 
                 return;
                
@@ -74,7 +74,7 @@ public class ShopManager {
         boughtshop.getGeometry().setUserData("shopID",shopID);
         shops.add(boughtshop);
         boughtshop.getGeometry().setUserData("type","shop");
-        Main.roadMaker.map[(int)loc.x][(int)loc.y][(int)loc.z]=boughtshop.getGeometry();
+        Main.gamestate.roadMaker.map[(int)loc.x][(int)loc.y][(int)loc.z]=boughtshop.getGeometry();
         shopNode.attachChild(boughtshop.getGeometry());
         resetShopdata();
         
@@ -86,31 +86,31 @@ public class ShopManager {
         switch(selectedBuilding){
             case MBALL:
                 geom =assetManager.loadModel("Models/shops/mball.j3o");
-                Main.holoDrawer.loadSpatial(geom);
+                Main.gamestate.holoDrawer.loadSpatial(geom);
                 break; 
                        
             case ENERGY:
                 geom =assetManager.loadModel("Models/shops/energyshop.j3o");
-                Main.holoDrawer.loadSpatial(geom);
+                Main.gamestate.holoDrawer.loadSpatial(geom);
                 break;
                 
             case TOILET:
                 geom =assetManager.loadModel("Models/shops/toilet.j3o");
-                Main.holoDrawer.loadSpatial(geom);
+                Main.gamestate.holoDrawer.loadSpatial(geom);
                 break;
       
             case CHESSCENTER:
                 geom =assetManager.loadModel("Models/Rides/chesshouse.j3o");
-                Main.holoDrawer.loadSpatial(geom);
+                Main.gamestate.holoDrawer.loadSpatial(geom);
                 break;
                 
             case NULL:
                 System.out.println("BUG IN SHOPMANAGER LINE 64!");
                 break;
         }
-        Main.holoDrawer.toggleDrawSpatial();
-        Main.clickingHandler.clickMode= ClickingModes.PLACE;
-        Main.clickingHandler.buffer=1;
+        Main.gamestate.holoDrawer.toggleDrawSpatial();
+        Main.gamestate.clickingHandler.clickMode= ClickingModes.PLACE;
+        Main.gamestate.clickingHandler.buffer=1;
         
         
         
@@ -126,7 +126,7 @@ public class ShopManager {
     public void resetShopdata() {
         selectedBuilding = BasicBuildables.NULL;
         facing = Direction.DOWN;
-        Main.clickingHandler.clickMode= ClickingModes.NOTHING;
+        Main.gamestate.clickingHandler.clickMode= ClickingModes.NOTHING;
     }
     public void rotateShop(){
         switch(facing){
@@ -146,15 +146,15 @@ public class ShopManager {
                 facing= Direction.RIGHT;
             
         }
-        Main.holoDrawer.rotateDrawed(facing);
+        Main.gamestate.holoDrawer.rotateDrawed(facing);
     }
     public BasicShop isthereshop(int x,int y ,int z){
         BasicShop b=null;
         if(shops.isEmpty()==false){
             for(BasicShop p:shops){
-                int tx=(int)Main.holoDrawer.pyorista(p.position).x;
-                int ty=(int)Main.holoDrawer.pyorista(p.position).y;
-                int tz=(int)Main.holoDrawer.pyorista(p.position).z;
+                int tx=(int)Main.gamestate.holoDrawer.pyorista(p.position).x;
+                int ty=(int)Main.gamestate.holoDrawer.pyorista(p.position).y;
+                int tz=(int)Main.gamestate.holoDrawer.pyorista(p.position).z;
                 if(tx==x&&ty==y&&tz==z){
                     b=p;
                     System.out.println("SHOP IS LOCATED!");

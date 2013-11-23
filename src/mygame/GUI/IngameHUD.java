@@ -115,32 +115,32 @@ public class IngameHUD implements ScreenController {
 
     @NiftyEventSubscriber(id = "sliderbrushsize")
     public void onSliderChange(String id, SliderChangedEvent event) {
-        Main.worldHandler.setBrush((int) event.getValue());
+        Main.gamestate.worldHandler.setBrush((int) event.getValue());
         updateBrushSize();
     }
 
     @NiftyEventSubscriber(id = "brushmodebutton")
     public void onModeButtonChange(String id, ButtonClickedEvent event) {
-        if (Main.worldHandler.mode == 2) {
-            Main.worldHandler.mode = 1;
+        if (Main.gamestate.worldHandler.mode == 2) {
+            Main.gamestate.worldHandler.mode = 1;
         } else {
-            Main.worldHandler.mode = 2;
+            Main.gamestate.worldHandler.mode = 2;
         }
         event.getButton().setText(getBrushMode());
     }
 
     @NiftyEventSubscriber(id = "usetexture")
     public void useTextureChange(String id, CheckBoxStateChangedEvent event) {
-        Main.worldHandler.useTexture = event.isChecked();
+        Main.gamestate.worldHandler.useTexture = event.isChecked();
     }
     @NiftyEventSubscriber(id = "queroad")
     public void queCheckboxChange(String id, CheckBoxStateChangedEvent event) {
-        Main.roadMaker.queroad = event.isChecked();
+        Main.gamestate.roadMaker.queroad = event.isChecked();
         
     }
     @NiftyEventSubscriber(id = "textureforshovel")
     public void onTextureChange(String id, ImageSelectSelectionChangedEvent event) {
-        Main.worldHandler.textureindex = event.getImageSelect().getSelectedImageIndex() + 1;
+        Main.gamestate.worldHandler.textureindex = event.getImageSelect().getSelectedImageIndex() + 1;
     }
     @NiftyEventSubscriber(id="guests")
     public void DropDownSelectionChangedEvent(String id,DropDownSelectionChangedEvent event)  {
@@ -152,7 +152,7 @@ public class IngameHUD implements ScreenController {
         }
         else{
             Guest guest = null;
-            for(Guest g:Main.npcManager.guests){
+            for(Guest g:Main.gamestate.npcManager.guests){
                 if(g.getGuestNum()==index-1){
                     guest=g;
                     break;
@@ -162,7 +162,7 @@ public class IngameHUD implements ScreenController {
                 System.out.println("Did not find guest with that index");
                 return;
             }
-            Main.windowMaker.createGuestWindow(guest,true);
+            Main.gamestate.windowMaker.createGuestWindow(guest,true);
             Element element = nifty.getCurrentScreen().findElementByName("NPCWindow");
             element.setVisible(false);
         }
@@ -171,25 +171,25 @@ public class IngameHUD implements ScreenController {
     @NiftyEventSubscriber(id = "guestnametextfield")
     public void onguestnameChanged(final String id, final TextFieldChangedEvent event) {
         if(!event.getText().equals("")) {
-            Guest guest=Main.windowMaker.getCurrentGuestWindowGuest();
+            Guest guest=Main.gamestate.windowMaker.getCurrentGuestWindowGuest();
             guest.setName(event.getText());
-            Main.windowMaker.updateGuestWindow(guest);
+            Main.gamestate.windowMaker.updateGuestWindow(guest);
         }
     }
     @NiftyEventSubscriber(id = "ridenametextfield")
     public void onRideNameChanged(final String id, final TextFieldChangedEvent event) {
         if(!event.getText().equals("")) {
-            BasicRide ride=Main.windowMaker.getCurrentRide();
+            BasicRide ride=Main.gamestate.windowMaker.getCurrentRide();
             ride.setName(event.getText());
-            Main.windowMaker.updateRideWindow(false);
+            Main.gamestate.windowMaker.updateRideWindow(false);
         }
     }
     @NiftyEventSubscriber(id = "ridepriceslider")
     public void onRidePriceChanged(final String id, final SliderChangedEvent event) {
         
-            BasicRide ride=Main.windowMaker.getCurrentRide();
+            BasicRide ride=Main.gamestate.windowMaker.getCurrentRide();
             ride.setPrice(event.getValue());
-            Main.windowMaker.updateRideWindow(false);
+            Main.gamestate.windowMaker.updateRideWindow(false);
         
     }
     public void givefields(ClickingHandler clickingHandler, TerrainHandler worldHandler) {
@@ -198,14 +198,14 @@ public class IngameHUD implements ScreenController {
         this.worldHandler = worldHandler;
     }
     public void rideStatusToggle(){
-        Main.windowMaker.handleRideStatusToggle();
+        Main.gamestate.windowMaker.handleRideStatusToggle();
     }
     public int getBrushSize() {
-        return Main.worldHandler.brush;
+        return Main.gamestate.worldHandler.brush;
     }
 
     public String getBrushMode() {
-        if (Main.worldHandler.mode == 2) {
+        if (Main.gamestate.worldHandler.mode == 2) {
             return "Raise Land";
         } else {
             return "Lower Land";
@@ -224,10 +224,10 @@ public class IngameHUD implements ScreenController {
 
         niftyElement.setVisible(!niftyElement.isVisible());
         if (niftyElement.isVisible() == true) {
-            Main.clickingHandler.clickMode = ClickingModes.TERRAIN;
+            Main.gamestate.clickingHandler.clickMode = ClickingModes.TERRAIN;
 
         } else {
-            Main.clickingHandler.clickMode = ClickingModes.NOTHING;
+            Main.gamestate.clickingHandler.clickMode = ClickingModes.NOTHING;
         }
     }
 
@@ -245,12 +245,12 @@ public class IngameHUD implements ScreenController {
 
         niftyElement.setVisible(!niftyElement.isVisible());
         if (niftyElement.isVisible() == true) {
-            Main.clickingHandler.clickMode = ClickingModes.ROAD;
+            Main.gamestate.clickingHandler.clickMode = ClickingModes.ROAD;
 
 
         } else {
 
-            Main.clickingHandler.clickMode = ClickingModes.NOTHING;
+            Main.gamestate.clickingHandler.clickMode = ClickingModes.NOTHING;
         }
     }
     
@@ -265,7 +265,7 @@ public class IngameHUD implements ScreenController {
         }
     }
     public void updateNPCBox(){
-        ArrayList<Guest> guests=Main.npcManager.guests;
+        ArrayList<Guest> guests=Main.gamestate.npcManager.guests;
     DropDown drop= screen.findNiftyControl("guests",DropDown.class);
     drop.clear();
     drop.addItem("default");
@@ -278,7 +278,7 @@ public class IngameHUD implements ScreenController {
     }
 
     public void roadDirectionUp() {
-        Main.roadMaker.direction = Direction.UP;
+        Main.gamestate.roadMaker.direction = Direction.UP;
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
         niftyElement.startEffect(EffectEventId.onCustom);
         //resettaa muitten effectit
@@ -293,7 +293,7 @@ public class IngameHUD implements ScreenController {
     }
 
     public void roadDirectionDown() {
-        Main.roadMaker.direction = Direction.DOWN;
+        Main.gamestate.roadMaker.direction = Direction.DOWN;
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
         niftyElement.startEffect(EffectEventId.onCustom);
         niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
@@ -305,7 +305,7 @@ public class IngameHUD implements ScreenController {
     }
 
     public void roadDirectionRight() {
-        Main.roadMaker.direction = Direction.RIGHT;
+        Main.gamestate.roadMaker.direction = Direction.RIGHT;
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
         niftyElement.startEffect(EffectEventId.onCustom);
         niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
@@ -317,7 +317,7 @@ public class IngameHUD implements ScreenController {
     }
 
     public void roadDirectionLeft() {
-        Main.roadMaker.direction = Direction.LEFT;
+        Main.gamestate.roadMaker.direction = Direction.LEFT;
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
         niftyElement.startEffect(EffectEventId.onCustom);
         niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
@@ -329,7 +329,7 @@ public class IngameHUD implements ScreenController {
     }
 
     public void roadUpHill() {
-        Main.roadMaker.hill = RoadHill.UP;
+        Main.gamestate.roadMaker.hill = RoadHill.UP;
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
         //resettaa muitten effectit
@@ -341,7 +341,7 @@ public class IngameHUD implements ScreenController {
     }
 
     public void roadFlatHill() {
-        Main.roadMaker.hill = RoadHill.FLAT;
+        Main.gamestate.roadMaker.hill = RoadHill.FLAT;
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
         niftyElement.startEffect(EffectEventId.onCustom);
         //resettaa muitten effectit
@@ -353,7 +353,7 @@ public class IngameHUD implements ScreenController {
     }
 
     public void roadDownHill() {
-        Main.roadMaker.hill = RoadHill.DOWN;
+        Main.gamestate.roadMaker.hill = RoadHill.DOWN;
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
         //resettaa muitten effectit
@@ -365,11 +365,11 @@ public class IngameHUD implements ScreenController {
     }
 
     public void buildButton() {
-        Main.roadMaker.buildRoad();
+        Main.gamestate.roadMaker.buildRoad();
     }
 
     public void selectionButton() {
-        Main.roadMaker.status = RoadMakerStatus.CHOOSING;
+        Main.gamestate.roadMaker.status = RoadMakerStatus.CHOOSING;
     }
 
     public void closeWindows(String elementname) {
@@ -407,15 +407,15 @@ public class IngameHUD implements ScreenController {
 
     public void buildingSelectmball() {
         selectedBuilding = BasicBuildables.MBALL;
-        if (selectedBuilding == Main.shopManager.selectedBuilding) {
+        if (selectedBuilding == Main.gamestate.shopManager.selectedBuilding) {
             closeWindows(" ");
-            Main.shopManager.activateplace();
+            Main.gamestate.shopManager.activateplace();
 
 
 
 
         } else {
-            Main.shopManager.setSelection(selectedBuilding);
+            Main.gamestate.shopManager.setSelection(selectedBuilding);
             System.out.println("YOU SELECTED BUILDING");
             descriptionManager.setDescriptionMBall();
             updateshopdesc();
@@ -424,12 +424,12 @@ public class IngameHUD implements ScreenController {
 
     public void buildingSelecttoilet() {
         selectedBuilding = BasicBuildables.TOILET;
-        if (selectedBuilding == Main.shopManager.selectedBuilding) {
+        if (selectedBuilding == Main.gamestate.shopManager.selectedBuilding) {
             closeWindows(" ");
-            Main.shopManager.activateplace();
+            Main.gamestate.shopManager.activateplace();
 
         } else {
-            Main.shopManager.selectedBuilding = BasicBuildables.TOILET;
+            Main.gamestate.shopManager.selectedBuilding = BasicBuildables.TOILET;
             descriptionManager.setDescriptionToilet();
             updateshopdesc();
         }
@@ -437,27 +437,27 @@ public class IngameHUD implements ScreenController {
 
     public void buildingSelectenergy() {
         selectedBuilding = BasicBuildables.ENERGY;
-        if (selectedBuilding == Main.shopManager.selectedBuilding) {
+        if (selectedBuilding == Main.gamestate.shopManager.selectedBuilding) {
             closeWindows(" ");
-            Main.shopManager.activateplace();
+            Main.gamestate.shopManager.activateplace();
 
         } else {
-            Main.shopManager.selectedBuilding = BasicBuildables.ENERGY;
+            Main.gamestate.shopManager.selectedBuilding = BasicBuildables.ENERGY;
             descriptionManager.setDescriptionEnergy();
             updateshopdesc();
         }
     }
     public void buildingSelectchess() {
         selectedBuilding = BasicBuildables.CHESSCENTER;
-        if (selectedBuilding == Main.shopManager.selectedBuilding) {
+        if (selectedBuilding == Main.gamestate.shopManager.selectedBuilding) {
             closeWindows(" ");
-            Main.shopManager.activateplace();
+            Main.gamestate.shopManager.activateplace();
 
 
 
 
         } else {
-            Main.shopManager.setSelection(selectedBuilding);
+            Main.gamestate.shopManager.setSelection(selectedBuilding);
             System.out.println("YOU SELECTED BUILDING");
             descriptionManager.setDescriptionChess();
             updateshopdesc();

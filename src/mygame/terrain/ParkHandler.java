@@ -35,6 +35,9 @@ public class ParkHandler {
     }
 
    public String getGuestSizeString(){
+       if(guests==null){
+           return Integer.toString(1);
+       }
        return Integer.toString(guests.size());
    }
 
@@ -46,36 +49,36 @@ public class ParkHandler {
         
         this.map = map;
         //anna kaikille map joka sitä tarvii
-        Main.roadMaker.map=map;
+        Main.gamestate.roadMaker.map=map;
         //managerilla joka muokkaa maata
-        Main.worldHandler.map=map;
-        Main.worldHandler.TerrainMap=mapdata;
+        Main.gamestate.worldHandler.map=map;
+        Main.gamestate.worldHandler.TerrainMap=mapdata;
     }
 
     public void setRides(ArrayList<BasicRide> rides) {
         this.rides = rides;
         
-        Main.rideManager.rides=rides;
+        Main.gamestate.rideManager.rides=rides;
     }
 
     public void setNpcs(ArrayList<BasicNPC> npcs) {
         this.npcs = npcs;
         
-        Main.npcManager.npcs=npcs;
-        Main.npcManager.guestSpawner.setNpcs(npcs);
+        Main.gamestate.npcManager.npcs=npcs;
+        Main.gamestate.npcManager.guestSpawner.setNpcs(npcs);
     }
 
     public void setGuests(ArrayList<Guest> guests) {
         this.guests = guests;
         
-        Main.npcManager.guests=this.guests;
-        Main.npcManager.guestSpawner.setGuests(guests);
+        Main.gamestate.npcManager.guests=this.guests;
+        Main.gamestate.npcManager.guestSpawner.setGuests(guests);
     }
 
     public void setShops(ArrayList<BasicShop> shops) {
         this.shops = shops;
         
-        Main.shopManager.shops=shops;
+        Main.gamestate.shopManager.shops=shops;
     }
     /**
      * käytä vain tilanteissa jossa map ei voida antaa suoraan sen luodessa

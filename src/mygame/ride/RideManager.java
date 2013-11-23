@@ -40,7 +40,7 @@ public class RideManager {
     }
 
     public void buy(Direction facing, BasicBuildables selectedBuilding) {
-        Vector3f loc = Main.holoDrawer.pyorista(Main.holoDrawer.getLocation());
+        Vector3f loc = Main.gamestate.holoDrawer.pyorista(Main.gamestate.holoDrawer.getLocation());
         BasicRide boughtride = null;
 
 
@@ -58,7 +58,7 @@ public class RideManager {
         int tx = (int) loc.x;
         int ty = (int) loc.y;
         int tz = (int) loc.z;
-        Spatial[][][] map = Main.roadMaker.map;
+        Spatial[][][] map = Main.gamestate.roadMaker.map;
         boughtride.setRideID(rideID);
         boughtride.getGeometry().setUserData("rideID", rideID);
         boughtride.getGeometry().setUserData("type", "ride");
@@ -75,8 +75,8 @@ public class RideManager {
 
     public void resetRidedata() {
 
-        Main.shopManager.resetShopdata();
-        Main.clickingHandler.clickMode = ClickingModes.RIDE;
+        Main.gamestate.shopManager.resetShopdata();
+        Main.gamestate.clickingHandler.clickMode = ClickingModes.RIDE;
 
     }
 
@@ -85,9 +85,9 @@ public class RideManager {
         BasicRide b = null;
         if (rides.isEmpty() == false) {
             for (BasicRide p : rides) {
-                int tx = (int) Main.holoDrawer.pyorista(p.getPosition()).x;
-                int ty = (int) Main.holoDrawer.pyorista(p.getPosition()).y;
-                int tz = (int) Main.holoDrawer.pyorista(p.getPosition()).z;
+                int tx = (int) Main.gamestate.holoDrawer.pyorista(p.getPosition()).x;
+                int ty = (int) Main.gamestate.holoDrawer.pyorista(p.getPosition()).y;
+                int tz = (int) Main.gamestate.holoDrawer.pyorista(p.getPosition()).z;
                 if (tx == x && ty == y && tz == z) {
                     b = p;
                     System.out.println("RIDE IS LOCATED!");
@@ -105,7 +105,7 @@ public class RideManager {
         int y = (int) (pos.y - 0.4999f + 1);
         int z = (int) (pos.z - 0.4999f + 1);
 
-        Spatial[][][] map = Main.roadMaker.map;
+        Spatial[][][] map = Main.gamestate.roadMaker.map;
 
         boolean enterancetype = true;
         if (enterancecount == 0) {
@@ -183,7 +183,7 @@ public class RideManager {
         enterancecount++;
         if (enterancecount > 1) {
             enterancecount = 0;
-            Main.clickingHandler.clickMode = ClickingModes.NOTHING;
+            Main.gamestate.clickingHandler.clickMode = ClickingModes.NOTHING;
         }
     }
 }
