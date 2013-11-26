@@ -34,14 +34,16 @@
                 <image filename="Interface/Rides/Icon.png"x="130"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick="toggleShopWindow()"/>
                 </image>
-                <image filename="Interface/Shops/Nopic.png"x="195"y="0" childLayout="absolute" width="64" height="64">
-                    <interact onClick=""/>
+                <image filename="Interface/money/bulldozer.png"x="195"y="0" childLayout="absolute" width="64" height="64">
+                    <interact onClick="clickDemolishbutton()"/>
                 </image>
                 <image filename="Interface/Shops/Nopic.png"x="260"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick=""/>
                 </image>
                 <image filename="Interface/Shops/Nopic.png"x="325"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick=""/>
+                </image>
+                <image id="clickmodeindicator"filename="Interface/money/bulldozer.png"x="500"y="0" childLayout="absolute" width="64" height="64">   
                 </image>
                 <image filename="Interface/NPC/Icon.png"x="390"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick="toggleNPCListWindow()"/>

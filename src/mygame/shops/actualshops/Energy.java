@@ -24,7 +24,7 @@ public class Energy extends BasicShop{
     
     public Energy(Vector3f position,Spatial geom,Direction facing){
         super(position,geom,300,facing);
-        productname="ES";
+        productname="Energy Drink";
         constructionmoney=300;
         price=20;
         shopName="Energydrink shop";

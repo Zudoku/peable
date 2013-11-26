@@ -24,6 +24,7 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.SizeValue;
 import java.util.ArrayList;
+import mygame.Gamestate;
 import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
@@ -80,6 +81,42 @@ public class IngameHUD implements ScreenController {
         a.setConstraintHorizontalAlign(HorizontalAlign.left);
         a.setId("guestnumtext");
     }
+    public void updateClickingIndicator(){
+        nifty=Main.nifty;
+        Element a=nifty.getCurrentScreen().findElementByName("clickmodeindicator");
+        NiftyImage img = null;
+        
+        switch(Gamestate.clickingHandler.clickMode){
+            case NOTHING:
+                img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Nifty/nothingmode.png", false);
+                break;
+                
+            case DECORATION:
+                img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Nifty/decorationmode.png", false);
+                break;
+                
+            case DEMOLITION:
+                img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Nifty/demolitionmode.png", false);
+                break;
+                
+            case PLACE:
+                img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Nifty/placemode.png", false);
+                break;
+                
+            case RIDE:
+                img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Nifty/ridemode.png", false);
+                break;
+                
+            case ROAD:
+                img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Nifty/roadmode.png", false);
+                break;
+                
+            case TERRAIN:
+                img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Nifty/diggingmode.png", false);
+                
+        }
+        a.getRenderer(ImageRenderer.class).setImage(img);
+    }
 
     public void onStartScreen() {
         
@@ -106,13 +143,27 @@ public class IngameHUD implements ScreenController {
         b=Integer.toString(u);
         a.setConstraintX(new SizeValue(b));
         
+        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("clickmodeindicator");
+        u=j-364;
+        b=Integer.toString(u);
+        a.setConstraintX(new SizeValue(b));
+        
         updateMoneytextbar();
+        
         
     }
 
     public void onEndScreen() {
     }
-
+    public void clickDemolishbutton(){
+        if(Gamestate.clickingHandler.clickMode==ClickingModes.DEMOLITION){
+            Gamestate.clickingHandler.clickMode=ClickingModes.NOTHING;
+        }
+        else{
+           Gamestate.clickingHandler.clickMode=ClickingModes.DEMOLITION; 
+        }
+        updateClickingIndicator();
+    }
     @NiftyEventSubscriber(id = "sliderbrushsize")
     public void onSliderChange(String id, SliderChangedEvent event) {
         Main.gamestate.worldHandler.setBrush((int) event.getValue());
@@ -127,6 +178,7 @@ public class IngameHUD implements ScreenController {
             Main.gamestate.worldHandler.mode = 2;
         }
         event.getButton().setText(getBrushMode());
+        updateClickingIndicator();
     }
 
     @NiftyEventSubscriber(id = "usetexture")
@@ -201,7 +253,7 @@ public class IngameHUD implements ScreenController {
         Main.gamestate.windowMaker.handleRideStatusToggle();
     }
     public int getBrushSize() {
-        return Main.gamestate.worldHandler.brush;
+        return Gamestate.worldHandler.brush;
     }
 
     public String getBrushMode() {
@@ -229,6 +281,7 @@ public class IngameHUD implements ScreenController {
         } else {
             Main.gamestate.clickingHandler.clickMode = ClickingModes.NOTHING;
         }
+        updateClickingIndicator();
     }
 
     public void toggleShopWindow() {
@@ -252,6 +305,7 @@ public class IngameHUD implements ScreenController {
 
             Main.gamestate.clickingHandler.clickMode = ClickingModes.NOTHING;
         }
+        updateClickingIndicator();
     }
     
     public void toggleNPCListWindow(){
@@ -407,9 +461,9 @@ public class IngameHUD implements ScreenController {
 
     public void buildingSelectmball() {
         selectedBuilding = BasicBuildables.MBALL;
-        if (selectedBuilding == Main.gamestate.shopManager.selectedBuilding) {
+        if (selectedBuilding == Gamestate.shopManager.selectedBuilding) {
             closeWindows(" ");
-            Main.gamestate.shopManager.activateplace();
+            Gamestate.shopManager.activateplace();
 
 
 
@@ -482,7 +536,7 @@ public class IngameHUD implements ScreenController {
         niftyElement = nifty.getCurrentScreen().findElementByName("shopprice");
         setelementText(niftyElement,getshopprice());
         niftyElement = nifty.getCurrentScreen().findElementByName("shopdesc");
-        setelementText(niftyElement,getshopprice());
+        setelementText(niftyElement,getshopdesc());
         String bigshoppic=descriptionManager.bigpic;
         
         NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),bigshoppic, false);

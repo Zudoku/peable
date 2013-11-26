@@ -7,6 +7,7 @@ package mygame.inputhandler;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Node;
+import mygame.Gamestate;
 import mygame.Main;
 import mygame.npc.Guest;
 import mygame.ride.BasicRide;
@@ -40,6 +41,7 @@ public class ClickingHandler {
                         
                         worldHandler.raiseland(target);
                     }
+                    Gamestate.ingameHUD.updateClickingIndicator();
                 break;
 
             case NOTHING:
@@ -84,21 +86,24 @@ public class ClickingHandler {
             case ROAD:
                     if(Main.gamestate.roadMaker.status== RoadMakerStatus.CHOOSING){
                         Main.gamestate.roadMaker.startingPosition(target.getContactPoint());
+                        Gamestate.ingameHUD.updateClickingIndicator();
                     }
                 break;
 
             case DECORATION:
-
+                Gamestate.ingameHUD.updateClickingIndicator();
                 break;
 
             case RIDE:
                 Main.gamestate.rideManager.placeEnterance(target.getContactPoint());
+                Gamestate.ingameHUD.updateClickingIndicator();
                 break;
                 
             case PLACE:
                 if(buffer==0){
                     Main.gamestate.shopManager.buy();
                     Main.gamestate.holoDrawer.toggleDrawSpatial();
+                    Gamestate.ingameHUD.updateClickingIndicator();
                 }
                 else{
                     buffer=buffer-1;

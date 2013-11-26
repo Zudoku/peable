@@ -18,19 +18,19 @@ public class ShopDescriptionManager {
     }
     public void setDescriptionMBall(){
         shopName="Name: Meatball Shop";
-        shopDescription="Description: test description";
+        shopDescription="Description: Lovely meatballs! Yum!";
         shopPrice="Price: 300";
         bigpic="Interface/Shops/Icon.png";
     }
     public void setDescriptionToilet(){
         shopName="Name: Toilet";
-        shopDescription="Description: test description";
+        shopDescription="Description: Old toilet ";
         shopPrice="Price: 300";
         bigpic="Interface/Shops/Icon.png";
     }
     public void setDescriptionEnergy(){
         shopName="Name: EnergyDrink shop";
-        shopDescription="Description: test description";
+        shopDescription="Description: adasjdh";
         shopPrice="Price: 300";
         bigpic="Interface/Shops/Icon.png";
         
