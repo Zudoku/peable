@@ -28,7 +28,7 @@ public class ShopManager {
     public Node shopNode;
     public Node rootNode;
     BasicShop boughtshop;
-    int shopID=1;
+    int shopID;
 
     public ShopManager(AssetManager assetManager,Node rootNode) {
         shopFactory = new ShopFactory(assetManager);
@@ -171,5 +171,8 @@ public class ShopManager {
             }
         }
         return b;
+    }
+    public void setShopID(int shopID){
+        this.shopID=shopID;
     }
 }

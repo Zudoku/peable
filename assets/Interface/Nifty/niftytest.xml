@@ -38,7 +38,7 @@
                     <interact onClick="clickDemolishbutton()"/>
                 </image>
                 <image filename="Interface/Shops/Nopic.png"x="260"y="0" childLayout="absolute" width="64" height="64">
-                    <interact onClick=""/>
+                    <interact onClick="testSave()"/>
                 </image>
                 <image filename="Interface/Shops/Nopic.png"x="325"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick=""/>

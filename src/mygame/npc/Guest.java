@@ -437,4 +437,29 @@ public class Guest extends BasicNPC {
         }
         return false;
     }
+    
+    public Direction getmoveDirection(){
+        return moving;
+    }
+    /**
+     * Use only when accessing save data!
+     * @return 
+     */
+    public int getX(){
+        return x;
+    }
+    /**
+     * Use only when accessing save data!
+     * @return 
+     */
+    public int getY(){
+        return y;
+    }
+    /**
+     * Use only when accessing save data!
+     * @return 
+     */
+    public int getZ(){
+        return z;
+    }
 }

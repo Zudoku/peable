@@ -155,6 +155,9 @@ public class IngameHUD implements ScreenController {
 
     public void onEndScreen() {
     }
+    public void testSave(){
+        Main.saveManager.Save("testfilexd", Main.currentPark);
+    }
     public void clickDemolishbutton(){
         if(Gamestate.clickingHandler.clickMode==ClickingModes.DEMOLITION){
             Gamestate.clickingHandler.clickMode=ClickingModes.NOTHING;

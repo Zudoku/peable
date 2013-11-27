@@ -26,7 +26,7 @@ public class RideManager {
     private AssetManager assetManager;
     public Node rideNode;
     public Node rootNode;
-    int rideID = 1;
+    int rideID;
     int enterancecount = 0;
 
     public RideManager(AssetManager assetManager, Node rootNode) {
@@ -191,5 +191,8 @@ public class RideManager {
             enterancecount = 0;
             Main.gamestate.clickingHandler.clickMode = ClickingModes.NOTHING;
         }
+    }
+    public void setRideID(int rideID){
+        this.rideID=rideID;
     }
 }

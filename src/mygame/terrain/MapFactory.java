@@ -28,12 +28,15 @@ public class MapFactory {
     }
     public void setCurrentMapPlain(){
         Main.currentPark.setMap(getPlainMap(Mapheight, Mapwidth),getPlainMapData(Mapheight, Mapwidth,6));
-        //todo later SAVING AND READING TO THIS CLASS
+        //todo later SAVING AND READING TO HERE
         Main.currentPark.setNpcs(new ArrayList<BasicNPC>());
         Main.currentPark.setGuests(new ArrayList<Guest>());
         Main.currentPark.setRides(new ArrayList<BasicRide>());
         Main.currentPark.setShops(new ArrayList<BasicShop>());
-    
+        Main.currentPark.setRideID(1);
+        Main.currentPark.setShopID(1);
+        Main.currentPark.setMapSize(Mapheight, Mapwidth);
+        Main.currentPark.setParkWallet(new ParkWallet(10000));
     }
     
     public Spatial[][][] getPlainMap(int height,int width){

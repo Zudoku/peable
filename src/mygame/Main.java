@@ -20,6 +20,7 @@ public class Main extends SimpleApplication {
     public static Nifty nifty;
     public static Gamestate gamestate;
     public static int startgame=0;
+    public static SaveManager saveManager;
     public static void main(String[] args) {
         
         
@@ -37,7 +38,7 @@ public class Main extends SimpleApplication {
         
         
         
-        
+        saveManager=new SaveManager();
         ingameHUD=new IngameHUD();
         startScreen=new StartScreen();
         currentPark=new ParkHandler(rootNode,settings);
