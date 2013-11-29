@@ -28,8 +28,7 @@ public class Energy extends BasicShop{
         constructionmoney=300;
         price=20;
         shopName="Energydrink shop";
-        
-        
+        type="energyshop"; 
     }
 
     @Override

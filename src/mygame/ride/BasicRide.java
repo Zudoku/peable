@@ -12,8 +12,6 @@ import mygame.Main;
 import mygame.npc.ActionType;
 import mygame.npc.Guest;
 import mygame.npc.NPCAction;
-import mygame.npc.inventory.Item;
-import mygame.npc.inventory.Itemtypes;
 import mygame.npc.inventory.PreferredRides;
 import mygame.shops.Employee;
 import mygame.shops.ShopReputation;

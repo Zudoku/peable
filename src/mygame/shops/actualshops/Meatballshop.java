@@ -28,7 +28,7 @@ public class Meatballshop extends BasicShop{
         shopName="MeatBallShop";
         productname="Herggu MeatBalls";
         price=20;
-        
+        type="meatballshop";
         
         
     }

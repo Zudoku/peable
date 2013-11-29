@@ -25,6 +25,7 @@ public class BasicShop {
     public float price=0;
     public ArrayList<Employee> employees=new ArrayList<Employee>();
     public ShopReputation reputation= ShopReputation.NEW;
+    public String type;
     
     public BasicShop(Vector3f position,Spatial object,float cost,Direction facing){
         this.position=position;
@@ -40,5 +41,6 @@ public class BasicShop {
     public Spatial getGeometry() {
         return object;
     }
+    
     
 }

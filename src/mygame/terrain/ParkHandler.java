@@ -23,7 +23,7 @@ public class ParkHandler {
 
     private Spatial[][][] map;
     public MapFactory mapfactory;
-    private ParkWallet parkwallet;
+    private ParkWallet parkwallet=new ParkWallet(10000);
     private ArrayList<BasicRide> rides;
     private ArrayList<BasicNPC> npcs;
     private ArrayList<BasicShop> shops;

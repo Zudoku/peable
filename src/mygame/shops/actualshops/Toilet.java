@@ -28,6 +28,7 @@ public class Toilet extends BasicShop{
         constructionmoney=300;
         productname="Toilet usage";
         shopName="Dirty ol' toilet";
+        type="toilet";
     }
 
     @Override
