@@ -8,8 +8,11 @@
     <screen id="start" controller="mygame.GUI.StartScreen">
         <layer id="layer" height="100%" width="100%" backgroundColor="#003f" childLayout="absolute"visibleToMouse="true">
             <panel id="buttones"x="0"y="0"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true">
-                <control id="alphatest" name="button" label="Alha test!" x="10"y="600"width="30%"height="3%"visibleToMouse="true">
+                <control id="alphatest" name="button" label="test!" x="10"y="600"width="30%"height="3%"visibleToMouse="true">
                     <interact onClick="startGame()"/>
+                </control>
+                <control id="loadtest" name="button" label="load test!" x="10"y="560"width="30%"height="3%"visibleToMouse="true">
+                    <interact onClick="startGameLoad()"/>
                 </control>
                 <control id="settings" name="button" label="Settings" x="10"y="640"width="30%"height="3%"visibleToMouse="true">
                 

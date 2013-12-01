@@ -28,7 +28,7 @@ public class MapFactory {
     }
     public void setCurrentMapPlain(){
         Main.currentPark.setMap(getPlainMap(Mapheight, Mapwidth),getPlainMapData(Mapheight, Mapwidth,6));
-        //todo later SAVING AND READING TO HERE
+
         Main.currentPark.setNpcs(new ArrayList<BasicNPC>());
         Main.currentPark.setGuests(new ArrayList<Guest>());
         Main.currentPark.setRides(new ArrayList<BasicRide>());
@@ -38,6 +38,7 @@ public class MapFactory {
         Main.currentPark.setMapSize(Mapheight, Mapwidth);
         Main.currentPark.setParkWallet(new ParkWallet(10000));
     }
+   
     
     public Spatial[][][] getPlainMap(int height,int width){
         Spatial[][][] map=new Spatial[height][25][width];

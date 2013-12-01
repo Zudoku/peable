@@ -4,23 +4,33 @@
  */
 package mygame;
 
+import com.jme3.export.binary.BinaryExporter;
+import com.jme3.scene.Spatial;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mygame.npc.Guest;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
 import mygame.terrain.ParkHandler;
+import mygame.terrain.QueRoad;
+import mygame.terrain.Road;
 
 /**
  *
  * @author arska
  */
 public class SaveManager {
-
+    private final LoadManager loadManager;
+    public SaveManager(LoadManager loadmanager){
+        this.loadManager=loadmanager;
+    }
     public void Save(String filename, ParkHandler parkHandler) {
         Writer writer = null;
 
@@ -33,12 +43,15 @@ public class SaveManager {
             writeShopData(writer, parkHandler);
             writeGuests(guests, writer);
             writeRideData(writer, parkHandler);
+            writeRoadData(writer);
+            writeQueRoads(writer);
         } catch (IOException ex) {
             // report
         } finally {
             try {
                 writer.close();
                 System.out.println("Game saved!");
+                loadManager.load("testfilexd");
             } catch (Exception ex) {
             }
         }
@@ -200,76 +213,188 @@ public class SaveManager {
 
         }
     }
-    
-    
-    private void writeEnteranceData(BasicRide r,Writer writer) throws IOException{
+
+    private void writeEnteranceData(BasicRide r, Writer writer) throws IOException {
         String enteranceX = Integer.toString((int) r.enterance.location.x);
-                String enteranceZ = Integer.toString((int) r.enterance.location.z);
-                String enteranceY = Integer.toString((int) r.enterance.location.y);
-                String exit;
-                if (r.enterance.exit) {
-                    exit = "TRUE";
-                } else {
-                    exit = "FALSE";
-                }
-                String enterancedirection = null;
-                switch (r.enterance.facing) {
-                    case UP:
-                        enterancedirection = "UP";
-                        break;
+        String enteranceZ = Integer.toString((int) r.enterance.location.z);
+        String enteranceY = Integer.toString((int) r.enterance.location.y);
+        String exit;
+        if (r.enterance.exit) {
+            exit = "TRUE";
+        } else {
+            exit = "FALSE";
+        }
+        String enterancedirection = null;
+        switch (r.enterance.facing) {
+            case UP:
+                enterancedirection = "UP";
+                break;
 
-                    case DOWN:
-                        enterancedirection = "DOWN";
-                        break;
+            case DOWN:
+                enterancedirection = "DOWN";
+                break;
 
-                    case RIGHT:
-                        enterancedirection = "RIGHT";
-                        break;
+            case RIGHT:
+                enterancedirection = "RIGHT";
+                break;
 
-                    case LEFT:
-                        enterancedirection = "LEFT";
-                }
-                String connected;
-                if (r.enterance.connected) {
-                    connected = "TRUE";
-                } else {
-                    connected = "FALSE";
-                }
-                writer.write(enteranceX + ":" + enteranceZ + ":" + enteranceY + ":" + enterancedirection + ":"+connected+":");
+            case LEFT:
+                enterancedirection = "LEFT";
+        }
+        String connected;
+        if (r.enterance.connected) {
+            connected = "TRUE";
+        } else {
+            connected = "FALSE";
+        }
+        writer.write(enteranceX + ":" + enteranceZ + ":" + enteranceY + ":" + enterancedirection + ":" + connected + ":");
     }
-    private void writeExitData(BasicRide r,Writer writer) throws IOException{
+
+    private void writeExitData(BasicRide r, Writer writer) throws IOException {
         String exitX = Integer.toString((int) r.exit.location.x);
-                String exitZ = Integer.toString((int) r.exit.location.z);
-                String exitY = Integer.toString((int) r.exit.location.y);
-                String exit;
-                if (r.exit.exit) {
-                    exit = "TRUE";
-                } else {
-                    exit = "FALSE";
-                }
-                String exitdirection = null;
-                switch (r.exit.facing) {
-                    case UP:
-                        exitdirection = "UP";
-                        break;
+        String exitZ = Integer.toString((int) r.exit.location.z);
+        String exitY = Integer.toString((int) r.exit.location.y);
+        String exit;
+        if (r.exit.exit) {
+            exit = "TRUE";
+        } else {
+            exit = "FALSE";
+        }
+        String exitdirection = null;
+        switch (r.exit.facing) {
+            case UP:
+                exitdirection = "UP";
+                break;
 
-                    case DOWN:
-                        exitdirection = "DOWN";
-                        break;
+            case DOWN:
+                exitdirection = "DOWN";
+                break;
 
-                    case RIGHT:
-                        exitdirection = "RIGHT";
-                        break;
+            case RIGHT:
+                exitdirection = "RIGHT";
+                break;
 
-                    case LEFT:
-                        exitdirection = "LEFT";
+            case LEFT:
+                exitdirection = "LEFT";
+        }
+        String connected;
+        if (r.exit.connected) {
+            connected = "TRUE";
+        } else {
+            connected = "FALSE";
+        }
+        writer.write(exitX + ":" + exitZ + ":" + exitY + ":" + exitdirection + ":" + connected + ":");
+    }
+
+    private ArrayList<Road> getRoadstoClasses() {
+        ArrayList<Spatial> roads = new ArrayList<Spatial>(); //tänne kerätään roadit 
+        ArrayList<Road> roadListTrue = new ArrayList<Road>();  //tänne tehdään objektit
+        Spatial[][][] map = Main.currentPark.getMap();
+        for (int xi = 0; xi < Main.currentPark.getMapHeight(); xi++) {
+            for (int zi = 0; zi < Main.currentPark.getMapWidth(); zi++) {
+                for (int yi = 0; yi < 15; yi++) {
+                    Spatial tested = map[xi][yi][zi];
+                    if (tested != null) {
+                        if (tested.getUserData("type").equals("road")) {
+                            roads.add(tested);
+                        }
+                    }
                 }
-                String connected;
-                if (r.exit.connected) {
-                    connected = "TRUE";
-                } else {
-                    connected = "FALSE";
+            }
+        }
+        for (Spatial s : roads) {
+            String x = Integer.toString((int) s.getWorldTranslation().x);
+            String z = Integer.toString((int) s.getWorldTranslation().z);
+            String y = Integer.toString((int) s.getWorldTranslation().y);
+            String roadhill = s.getUserData("roadHill");
+            Road created = new Road(x, z, y, roadhill, "0");
+            roadListTrue.add(created);
+        }
+        return roadListTrue;
+    }
+
+    private void writeRoadData(Writer writer) throws IOException {
+        ArrayList<Road> roads = getRoadstoClasses();
+        writer.write("roads size:" + roads.size() + ":");
+        for (Road r : roads) {
+            writer.write(r.x + ":" + r.z + ":" + r.y + ":" + r.roadhill + ":" + r.ID + ":");
+
+        }
+    }
+
+    private ArrayList<QueRoad> getQueRoads() {
+        ArrayList<Spatial> queroads = new ArrayList<Spatial>(); //tänne kerätään roadit 
+        ArrayList<QueRoad> queroadListTrue = new ArrayList<QueRoad>();  //tänne tehdään objektit
+        Spatial[][][] map = Main.currentPark.getMap();
+        for (int xi = 0; xi < Main.currentPark.getMapHeight(); xi++) {
+            for (int zi = 0; zi < Main.currentPark.getMapWidth(); zi++) {
+                for (int yi = 0; yi < 15; yi++) {
+                    Spatial tested = map[xi][yi][zi];
+                    if (tested != null) {
+                        if (tested.getUserData("type").equals("queroad")) {
+                            queroads.add(tested);
+                        }
+                    }
                 }
-                writer.write(exitX + ":" + exitZ + ":" + exitY + ":" + exitdirection + ":"+connected+":");
+            }
+        }
+        for (Spatial s : queroads) {
+            String x = Integer.toString((int) s.getWorldTranslation().x);
+            String z = Integer.toString((int) s.getWorldTranslation().z);
+            String y = Integer.toString((int) s.getWorldTranslation().y);
+            String roadhill = s.getUserData("roadHill");
+            int ID=s.getUserData("roadID");
+            String rideID=Integer.toString(ID);
+            String queconnect1 = null;
+            String queconnect2 = null;
+            if(s.getUserData("queconnect1")!=null){
+                Spatial o=s.getUserData("queconnect1");
+                Integer que1=(Integer) o.getUserData("roadID");
+                if(que1!=null){
+                    
+                    queconnect1=Integer.toString(que1);
+                }
+                
+                
+            }
+            if(s.getUserData("queconnect2")!=null){
+                Spatial o=s.getUserData("queconnect2");
+                Integer que2=(Integer) o.getUserData("roadID");
+                if(que2!=null){
+                    
+                    queconnect2=Integer.toString(que2); 
+                }
+                
+            }
+            
+            String connected;
+            if(s.getUserData("connected")==null){
+                connected="nullerino";
+            }
+            else{
+                if(s.getUserData("connected")){
+                    connected="TRUE";
+                }else{
+                    connected="FALSE";
+                }
+            }
+            QueRoad created = new QueRoad(x, z, y, roadhill,rideID,queconnect1,queconnect2,connected);
+            queroadListTrue.add(created);
+        }
+        return queroadListTrue;
+    }
+    private void writeQueRoads(Writer writer) throws IOException {
+        ArrayList<QueRoad>queroads=getQueRoads();
+        writer.write("queroads size:"+queroads.size()+":");
+        for(QueRoad q:queroads){
+            String x=q.x;
+            String z=q.z;
+            String y=q.y;
+            String roadhill=q.roadhill;
+            String connected=q.connected;
+            String queconnect1=q.queconnect1;
+            String queconnect2=q.queconnect2;
+            writer.write(x+":"+z+":"+y+":"+roadhill+":"+q.ID+":"+connected+":"+queconnect1+":"+queconnect2+":");
+        }
     }
 }

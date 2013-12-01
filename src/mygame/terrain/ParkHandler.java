@@ -23,127 +23,149 @@ public class ParkHandler {
 
     private Spatial[][][] map;
     public MapFactory mapfactory;
-    private ParkWallet parkwallet=new ParkWallet(10000);
+    private ParkWallet parkwallet = new ParkWallet(10000);
     private ArrayList<BasicRide> rides;
     private ArrayList<BasicNPC> npcs;
     private ArrayList<BasicShop> shops;
     private ArrayList<Guest> guests;
-    private String parkName="defaultparkname";
+    private String parkName = "defaultparkname";
     public AppSettings settings;
     private int rideID;
     private int shopID;
     private int mapHeight;
     private int mapWidth;
-    private int[][]mapData;
+    private int[][] mapData;
 
-    public ParkHandler(Node rootNode,AppSettings settings) {
+    public ParkHandler(Node rootNode, AppSettings settings) {
         mapfactory = new MapFactory(rootNode);
-        this.settings=settings;
+        this.settings = settings;
     }
-
-   public String getGuestSizeString(){
-       if(guests==null){
-           return Integer.toString(1);
-       }
-       return Integer.toString(guests.size());
-   }
+    public void setUp(String parkname,int rideID,int shopID,ParkWallet wallet){
+        this.parkName=parkname;
+        this.rideID=rideID;
+        this.shopID=shopID;
+        this.parkwallet=wallet;
+    }
+    public String getGuestSizeString() {
+        if (guests == null) {
+            return Integer.toString(1);
+        }
+        return Integer.toString(guests.size());
+    }
 
     public void loadDebugPlain() {
         mapfactory.setCurrentMapPlain();
     }
-    public String getParkName(){
+
+    public String getParkName() {
         return parkName;
     }
 
-    public void setMap(Spatial[][][] map,int[][] mapdata) {
-        
+    public void setMap(Spatial[][][] map, int[][] mapdata) {
+
         this.map = map;
-        this.mapData=mapdata;
+        this.mapData = mapdata;
         //anna kaikille map joka sitä tarvii
-        Gamestate.roadMaker.map=map;
+        Gamestate.roadMaker.map = map;
         //managerilla joka muokkaa maata
-        Gamestate.worldHandler.map=map;
-        Gamestate.worldHandler.TerrainMap=mapdata;
+        Gamestate.worldHandler.map = map;
+        Gamestate.worldHandler.TerrainMap = mapdata;
     }
-    public void setParkWallet(ParkWallet wallet){
-        this.parkwallet=wallet;
+
+    public void setParkWallet(ParkWallet wallet) {
+        this.parkwallet = wallet;
     }
+
     public void setRides(ArrayList<BasicRide> rides) {
         this.rides = rides;
-        
-        Main.gamestate.rideManager.rides=rides;
+
+        Main.gamestate.rideManager.rides = rides;
     }
 
     public void setNpcs(ArrayList<BasicNPC> npcs) {
         this.npcs = npcs;
-        
-        Main.gamestate.npcManager.npcs=npcs;
+
+        Main.gamestate.npcManager.npcs = npcs;
         Main.gamestate.npcManager.guestSpawner.setNpcs(npcs);
     }
 
     public void setGuests(ArrayList<Guest> guests) {
         this.guests = guests;
-        
-        Main.gamestate.npcManager.guests=this.guests;
+
+        Main.gamestate.npcManager.guests = this.guests;
         Main.gamestate.npcManager.guestSpawner.setGuests(guests);
     }
 
     public void setShops(ArrayList<BasicShop> shops) {
         this.shops = shops;
-        
-        Main.gamestate.shopManager.shops=shops;
+
+        Main.gamestate.shopManager.shops = shops;
     }
-    public void setRideID(int rideID){
-        this.rideID=rideID;
-        
+
+    public void setRideID(int rideID) {
+        this.rideID = rideID;
+
         Gamestate.rideManager.setRideID(rideID);
     }
-    public void setShopID(int shopID){
-        this.shopID=shopID;
+
+    public void setShopID(int shopID) {
+        this.shopID = shopID;
         Gamestate.shopManager.setShopID(shopID);
     }
-    public void setMapSize(int height,int width){
-        this.mapHeight=height;
-        this.mapWidth=width;
-        
-        
+
+    public void setMapSize(int height, int width) {
+        this.mapHeight = height;
+        this.mapWidth = width;
+
+
     }
+
     /**
      * käytä vain tilanteissa jossa map ei voida antaa suoraan sen luodessa
+     *
      * @return mapin
      */
-    public Spatial[][][]getMap(){
+    public Spatial[][][] getMap() {
         return map;
     }
-    public ParkWallet getParkWallet(){
+
+    public ParkWallet getParkWallet() {
         return parkwallet;
     }
-    public ArrayList<BasicNPC> getNpcs(){
+
+    public ArrayList<BasicNPC> getNpcs() {
         return npcs;
     }
-    public ArrayList<Guest> getGuests(){
+
+    public ArrayList<Guest> getGuests() {
         return guests;
     }
-    public ArrayList<BasicShop> getShops(){
+
+    public ArrayList<BasicShop> getShops() {
         return shops;
     }
-    public ArrayList<BasicRide> getRides(){
+
+    public ArrayList<BasicRide> getRides() {
         return rides;
     }
-    public int getRideID(){
+
+    public int getRideID() {
         return rideID;
     }
-    public int getShopID(){
+
+    public int getShopID() {
         return shopID;
     }
-    public int getMapHeight(){
+
+    public int getMapHeight() {
         return mapHeight;
     }
-    public int getMapWidth(){
+
+    public int getMapWidth() {
         return mapWidth;
     }
-    public int[][] getMapData(){
+
+    public int[][] getMapData() {
         return mapData;
     }
-    
 }
