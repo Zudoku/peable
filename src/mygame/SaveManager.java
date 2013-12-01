@@ -59,7 +59,7 @@ public class SaveManager {
 
     private void writeGuests(ArrayList<Guest> guests, Writer writer) throws IOException {
         int size = guests.size();
-        writer.write("Guest size " + Integer.toString(size) + ":");
+        writer.write("guest size:" + Integer.toString(size) + ":");
         for (Guest g : guests) {
             String name = g.getName();
             String money = Float.toString(g.wallet.getmoney());
@@ -385,7 +385,7 @@ public class SaveManager {
     }
     private void writeQueRoads(Writer writer) throws IOException {
         ArrayList<QueRoad>queroads=getQueRoads();
-        writer.write("queroads size:"+queroads.size()+":");
+        writer.write("queroad size:"+queroads.size()+":");
         for(QueRoad q:queroads){
             String x=q.x;
             String z=q.z;

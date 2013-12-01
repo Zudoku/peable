@@ -40,12 +40,14 @@ public class ParkHandler {
         mapfactory = new MapFactory(rootNode);
         this.settings = settings;
     }
-    public void setUp(String parkname,int rideID,int shopID,ParkWallet wallet){
-        this.parkName=parkname;
-        this.rideID=rideID;
-        this.shopID=shopID;
-        this.parkwallet=wallet;
+
+    public void setUp(String parkname, int rideID, int shopID, ParkWallet wallet) {
+        this.parkName = parkname;
+        this.rideID = rideID;
+        this.shopID = shopID;
+        this.parkwallet = wallet;
     }
+
     public String getGuestSizeString() {
         if (guests == null) {
             return Integer.toString(1);
@@ -61,15 +63,27 @@ public class ParkHandler {
         return parkName;
     }
 
-    public void setMap(Spatial[][][] map, int[][] mapdata) {
-
-        this.map = map;
-        this.mapData = mapdata;
+    public void onStartup() {
         //anna kaikille map joka sitä tarvii
         Gamestate.roadMaker.map = map;
         //managerilla joka muokkaa maata
         Gamestate.worldHandler.map = map;
-        Gamestate.worldHandler.TerrainMap = mapdata;
+        Gamestate.worldHandler.TerrainMap = mapData;
+        Main.gamestate.rideManager.rides = rides;
+        Main.gamestate.npcManager.npcs = npcs;
+        Main.gamestate.npcManager.guestSpawner.setNpcs(npcs);
+        Main.gamestate.npcManager.guests = this.guests;
+        Main.gamestate.npcManager.guestSpawner.setGuests(guests);
+        Main.gamestate.shopManager.shops = shops;
+        Gamestate.rideManager.setRideID(rideID);
+        Gamestate.shopManager.setShopID(shopID);
+    }
+
+    public void setMap(Spatial[][][] map, int[][] mapdata) {
+
+        this.map = map;
+        this.mapData = mapdata;
+
     }
 
     public void setParkWallet(ParkWallet wallet) {
@@ -79,38 +93,36 @@ public class ParkHandler {
     public void setRides(ArrayList<BasicRide> rides) {
         this.rides = rides;
 
-        Main.gamestate.rideManager.rides = rides;
+
     }
 
     public void setNpcs(ArrayList<BasicNPC> npcs) {
         this.npcs = npcs;
 
-        Main.gamestate.npcManager.npcs = npcs;
-        Main.gamestate.npcManager.guestSpawner.setNpcs(npcs);
+
     }
 
     public void setGuests(ArrayList<Guest> guests) {
         this.guests = guests;
 
-        Main.gamestate.npcManager.guests = this.guests;
-        Main.gamestate.npcManager.guestSpawner.setGuests(guests);
+
     }
 
     public void setShops(ArrayList<BasicShop> shops) {
         this.shops = shops;
 
-        Main.gamestate.shopManager.shops = shops;
+
     }
 
     public void setRideID(int rideID) {
         this.rideID = rideID;
 
-        Gamestate.rideManager.setRideID(rideID);
+
     }
 
     public void setShopID(int shopID) {
         this.shopID = shopID;
-        Gamestate.shopManager.setShopID(shopID);
+
     }
 
     public void setMapSize(int height, int width) {

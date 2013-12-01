@@ -1,9 +1,14 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.material.Material;
+import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
+import com.jme3.texture.Texture;
 import de.lessvoid.nifty.Nifty;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -36,13 +41,19 @@ public class Main extends SimpleApplication {
         
     }
     public IngameHUD ingameHUD;
+    public boolean startDebug(){
+        if(startgame==1){
+            return true;
+        }
+        return false;
+    }
     
     @Override
     public void simpleInitApp() {
         gamestate=new Gamestate();
         
         
-        loadManager=new LoadManager(rootNode,settings);
+        loadManager=new LoadManager(rootNode,settings,this);
         saveManager=new SaveManager(loadManager);
         
         ingameHUD=new IngameHUD();
@@ -104,6 +115,18 @@ public class Main extends SimpleApplication {
 
     public Nifty getNifty() {
         return nifty;
+    }
+    public Geometry TerrainBox() {
+
+        Box b = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
+        Geometry geom = new Geometry("Terrain", b);
+        Texture grass = assetManager.loadTexture(
+                "Textures/grasstexture.png");
+        Material mat = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setTexture("ColorMap", grass);
+        geom.setMaterial(mat);
+        return geom;
     }
     
     

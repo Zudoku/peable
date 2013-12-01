@@ -39,5 +39,8 @@ public class ParkWallet {
     public String getLoanString() {
         return Float.toString(loan);
     }
+    public void setLoan(Float loan){
+        this.loan=loan;
+    }
     
 }
