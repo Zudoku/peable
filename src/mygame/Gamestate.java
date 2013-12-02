@@ -4,6 +4,7 @@
  */
 package mygame;
 
+import com.google.inject.Inject;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
@@ -54,12 +55,9 @@ public class Gamestate extends AbstractAppState {
     public static WindowMaker windowMaker;
     private UserInput userInput;
     public static RideManager rideManager;
-    private Node rootNode;
-    private AssetManager assetManager;
-    private InputManager inputManager;
-    private Camera cam;
-    private FlyByCamera flyCam;
+
     private final LoadManager loadManager;
+    @Inject
     public Gamestate(LoadManager loadManager){
         this.loadManager=loadManager;
     }
@@ -67,11 +65,6 @@ public class Gamestate extends AbstractAppState {
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         this.appm = (Main) app;
-        this.rootNode = this.appm.getRootNode();
-        this.assetManager = this.appm.getAssetManager();
-        this.inputManager = this.appm.getInputManager();
-        this.cam = this.appm.getCamera();
-        this.flyCam = this.appm.getFlyByCamera();
         this.nifty=this.appm.getNifty();
         
         
@@ -83,15 +76,15 @@ public class Gamestate extends AbstractAppState {
         holoDrawer = appm.getInjector().getInstance(HolomodelDrawer.class);
         worldHandler = appm.getInjector().getInstance(TerrainHandler.class);
         selectionEmitter =appm.getInjector().getInstance(SelectionParticleEmitter.class);
-        clickingHandler = new ClickingHandler(worldHandler);
-        roadMaker = new RoadMaker(assetManager, rootNode);
+        clickingHandler =appm.getInjector().getInstance(ClickingHandler.class);
+        roadMaker =appm.getInjector().getInstance(RoadMaker.class);
 
         userInput.giveClickHandler(clickingHandler);
         ingameHUD.givefields(clickingHandler, worldHandler);
 
-        npcManager = new NPCManager(rootNode, assetManager);
-        shopManager = new ShopManager(assetManager, rootNode);
-        rideManager = new RideManager(assetManager, rootNode);
+        npcManager =appm.getInjector().getInstance(NPCManager.class);
+        shopManager =appm.getInjector().getInstance(ShopManager.class);
+        rideManager =appm.getInjector().getInstance(RideManager.class);
         selectionEmitter.initSelection();
         //lataa map DEBUG ONLY CHANGE LATER
         if(appm.startDebug()){
@@ -109,8 +102,8 @@ public class Gamestate extends AbstractAppState {
         
         //laita kamera ok
         setCamera();
-        //valo
-        lightsOn();
+
+        
 
         windowMaker = new WindowMaker(nifty);
         this.appm.setDisplayStatView(false);
@@ -124,16 +117,7 @@ public class Gamestate extends AbstractAppState {
         return p;
     }
 
-    private void lightsOn() {
-        DirectionalLight sun = new DirectionalLight();
-        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f)));
-        sun.setColor(ColorRGBA.White);
-        rootNode.addLight(sun);
-        DirectionalLight sun2 = new DirectionalLight();
-        sun2.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)));
-        sun2.setColor(ColorRGBA.White);
-        rootNode.addLight(sun2);
-    }
+    
 
     private void setCamera() {
         Camera camera = appm.getCamera();
@@ -159,7 +143,7 @@ public class Gamestate extends AbstractAppState {
     // Note that update is only called while the state is both attached and enabled.
     @Override
     public void update(float tpf) {
-        selectionEmitter.updateSelection(rootNode, inputManager, cam);
+        selectionEmitter.updateSelection();
         npcManager.update();
         //System.out.println(cam.getRotation()+"   "+cam.getLocation());
 //        rideManager.updateRideQueues();

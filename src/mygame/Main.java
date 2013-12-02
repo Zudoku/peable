@@ -3,7 +3,9 @@ package mygame;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.jme3.app.SimpleApplication;
+import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
@@ -55,17 +57,18 @@ public class Main extends SimpleApplication {
     public void simpleInitApp() {
         injector = Guice.createInjector(new GameModule(rootNode,assetManager,settings,cam,inputManager));
         loadManager=injector.getInstance(LoadManager.class);
-        saveManager=new SaveManager(loadManager);
-        gamestate=new Gamestate(loadManager);
+        saveManager=injector.getInstance(SaveManager.class);
+        gamestate=injector.getInstance(Gamestate.class);
 
         ingameHUD=injector.getInstance(IngameHUD.class);
         startScreen=new StartScreen();
-        currentPark=new ParkHandler(rootNode,settings);
+        currentPark=injector.getInstance(ParkHandler.class);
         //nifty
         initNifty();
         setDisplayStatView(false);
         inputManager.setCursorVisible(true);
         flyCam.setEnabled(false);
+        lightsOn();
         //settings.setTitle("THEMEPARK TYCOON MADE BY ARTTU SIREN      please dont steal :");
     }
 
@@ -117,7 +120,16 @@ public class Main extends SimpleApplication {
     public Injector getInjector(){
         return injector;
     }
-    
+    private void lightsOn() {
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f)));
+        sun.setColor(ColorRGBA.White);
+        rootNode.addLight(sun);
+        DirectionalLight sun2 = new DirectionalLight();
+        sun2.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)));
+        sun2.setColor(ColorRGBA.White);
+        rootNode.addLight(sun2);
+    }
     
     
 }

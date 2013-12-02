@@ -4,6 +4,7 @@
  */
 package mygame.inputhandler;
 
+import com.google.inject.Inject;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Node;
@@ -24,7 +25,7 @@ public class ClickingHandler {
     public final TerrainHandler worldHandler;
     public ClickingModes clickMode = ClickingModes.NOTHING;
     public int buffer=0;
-
+    @Inject
     public ClickingHandler(TerrainHandler worldHandler) {
         this.worldHandler = worldHandler;
         

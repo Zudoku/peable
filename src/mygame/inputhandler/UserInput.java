@@ -4,6 +4,7 @@
  */
 package mygame.inputhandler;
 
+import com.google.inject.Inject;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
@@ -34,7 +35,7 @@ public class UserInput {
     CameraController cameraController;
  
 
-
+    @Inject
     public UserInput(Node rootNode, InputManager inputManager, Camera cam) {
         this.rootNode = rootNode;
         this.inputManager = inputManager;

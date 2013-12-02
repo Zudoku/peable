@@ -4,6 +4,7 @@
  */
 package mygame.GUI;
 
+import com.google.inject.Inject;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
@@ -35,11 +36,13 @@ public class SelectionParticleEmitter {
     private InputManager inputManager;
     private Camera cam;
     CollisionResult last;
-
-    public SelectionParticleEmitter(AssetManager assetManager, Node rootNode, TerrainHandler worldHandler) {
+    @Inject
+    public SelectionParticleEmitter(AssetManager assetManager, Node rootNode, TerrainHandler worldHandler, InputManager inputManager, Camera cam) {
         this.assetManager = assetManager;
         this.rootNode = rootNode;
         this.worldHandler = worldHandler;
+        this.inputManager=inputManager;
+        this.cam=cam;
         last = new CollisionResult();
     }
 
@@ -145,9 +148,8 @@ public class SelectionParticleEmitter {
         MakeSelectionEmitter(2, 2);
     }
 
-    public void updateSelection(Node rootNode, InputManager inputManager, Camera cam) {
-        this.inputManager = inputManager;
-        this.cam = cam;
+    public void updateSelection() {
+        
 
         CollisionResults results = new CollisionResults();
 

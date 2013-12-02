@@ -42,10 +42,7 @@ public class GameModule extends AbstractModule {
 
   }
   
-  @Provides
-  IngameHUD provideIngameHUD(){
-      return new IngameHUD();
-  }
+  
   @Provides
   ClickingHandler provideClickingHandler(){
       return new ClickingHandler(null);
@@ -74,20 +71,8 @@ public class GameModule extends AbstractModule {
   InputManager provideInputManager(){
       return input;
   }
-  @Provides
-  LoadManager provideLoadManager(Node node,AppSettings settings,AssetManager amanager){
-      return new LoadManager(node, settings, amanager);
-  }
-  @Provides
-  HolomodelDrawer provideLoadManager(Node node,AssetManager amanager){
-      return new HolomodelDrawer(amanager, node);
-  }
-  @Provides
-  UserInput provideInput(Node node,InputManager inputm,Camera cam){
-      return new UserInput(node,inputm,cam);
-  }
-  @Provides
-  SelectionParticleEmitter provideInput(Node node,AssetManager amanager,TerrainHandler terrainh){
-      return new SelectionParticleEmitter(amanager,node,terrainh);
-  }
+  
+  
+  
+  
 }

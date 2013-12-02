@@ -4,6 +4,7 @@
  */
 package mygame.terrain;
 
+import com.google.inject.Inject;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
@@ -35,10 +36,12 @@ public class ParkHandler {
     private int mapHeight;
     private int mapWidth;
     private int[][] mapData;
-
-    public ParkHandler(Node rootNode, AppSettings settings) {
-        mapfactory = new MapFactory(rootNode);
+    private final TerrainHandler worldHandler;
+    @Inject
+    public ParkHandler(Node rootNode, AppSettings settings,TerrainHandler terrainHandler,MapFactory mapFactory) {
+        mapfactory =mapFactory;
         this.settings = settings;
+        this.worldHandler=terrainHandler;
     }
 
     public void setUp(String parkname, int rideID, int shopID, ParkWallet wallet) {
@@ -67,8 +70,8 @@ public class ParkHandler {
         //anna kaikille map joka sitä tarvii
         Gamestate.roadMaker.map = map;
         //managerilla joka muokkaa maata
-        Gamestate.worldHandler.map = map;
-        Gamestate.worldHandler.TerrainMap = mapData;
+        worldHandler.map = map;
+        worldHandler.TerrainMap = mapData;
         Main.gamestate.rideManager.rides = rides;
         Main.gamestate.npcManager.npcs = npcs;
         Main.gamestate.npcManager.guestSpawner.setNpcs(npcs);

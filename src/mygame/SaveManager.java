@@ -4,6 +4,7 @@
  */
 package mygame;
 
+import com.google.inject.Inject;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.scene.Spatial;
 import java.io.BufferedWriter;
@@ -28,6 +29,7 @@ import mygame.terrain.Road;
  */
 public class SaveManager {
     private final LoadManager loadManager;
+    @Inject
     public SaveManager(LoadManager loadmanager){
         this.loadManager=loadmanager;
     }

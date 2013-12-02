@@ -4,6 +4,7 @@
  */
 package mygame.npc;
 
+import com.google.inject.Inject;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class NPCManager {
     public GuestSpawner guestSpawner;
     public boolean NPCVisible=true;
     int updatenum=0;
-    
+    @Inject
     public NPCManager(Node rootNode,AssetManager assetManager){
         this.rootNode=rootNode;
         NPCNode=new Node("NPCNode");

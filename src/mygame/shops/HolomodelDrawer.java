@@ -4,6 +4,7 @@
  */
 package mygame.shops;
 
+import com.google.inject.Inject;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResult;
 import com.jme3.math.Matrix3f;
@@ -25,7 +26,7 @@ public class HolomodelDrawer {
     Spatial drawed;
     boolean positionLocked=false;
     public Node holoNode;
-
+    @Inject
     public HolomodelDrawer(AssetManager assetManager, Node rootNode) {
         this.assetManager = assetManager;
         this.node = rootNode;

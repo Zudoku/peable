@@ -4,6 +4,7 @@
  */
 package mygame;
 
+import com.google.inject.Inject;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
@@ -40,7 +41,7 @@ public class LoadManager {
     private final AppSettings settings;
     private final AssetManager assetManager;
     
-
+    @Inject
     public LoadManager(Node rootNode, AppSettings settings,AssetManager assetManager) {
         this.rootNode = rootNode;
         this.settings = settings;

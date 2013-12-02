@@ -4,6 +4,7 @@
  */
 package mygame.terrain;
 
+import com.google.inject.Inject;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -23,8 +24,11 @@ public class MapFactory {
     int Mapheight=101; //-1 ==100
     int Mapwidth=101;  //-1 ==100
     private final Node rootNode;
-    public MapFactory(Node rootNode){
+    private final TerrainHandler worldHandler;
+    @Inject
+    public MapFactory(Node rootNode,TerrainHandler worldHandler){
         this.rootNode=rootNode;
+        this.worldHandler=worldHandler;
     }
     public void setCurrentMapPlain(){
         Main.currentPark.setMap(getPlainMap(Mapheight, Mapwidth),getPlainMapData(Mapheight, Mapwidth,6));
@@ -53,7 +57,7 @@ public class MapFactory {
         for (int x = 0; x < 100; x++) {
             for (int y = 0; y < 100; y++) {
 
-                Geometry geomclone = Main.gamestate.worldHandler.TerrainBox();
+                Geometry geomclone = worldHandler.TerrainBox();
                 geomclone.setLocalScale((new Vector3f(1, (int) TerrainMap[x][y], 1)));
 
                 geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().y + ((float) TerrainMap[x][y] / 2), 1);
