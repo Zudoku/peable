@@ -33,6 +33,7 @@ public class ClickingHandler {
     public void handleClicking(CollisionResult target, CollisionResults results) {
         switch (clickMode) {
             case TERRAIN:
+                
                     if(worldHandler.mode==1){
                         
                         worldHandler.lowerland(target);
@@ -45,7 +46,7 @@ public class ClickingHandler {
                 break;
 
             case NOTHING:
-                System.out.println(target.getGeometry().getName());
+                System.out.println(target.getGeometry().getName()+"   "+target.getGeometry().getLocalTranslation()+"   "+target.getContactPoint());
                 
                 
                 if(target.getGeometry().getParent()==null){

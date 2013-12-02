@@ -17,6 +17,10 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import de.lessvoid.nifty.Nifty;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mygame.GUI.IngameHUD;
 import mygame.GUI.SelectionParticleEmitter;
 import mygame.GUI.WindowMaker;
@@ -55,7 +59,10 @@ public class Gamestate extends AbstractAppState {
     private InputManager inputManager;
     private Camera cam;
     private FlyByCamera flyCam;
-
+    private final LoadManager loadManager;
+    public Gamestate(LoadManager loadManager){
+        this.loadManager=loadManager;
+    }
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
@@ -67,13 +74,15 @@ public class Gamestate extends AbstractAppState {
         this.flyCam = this.appm.getFlyByCamera();
         this.nifty=this.appm.getNifty();
         
+        
+        
         currentPark=this.appm.currentPark;
-        userInput = new UserInput(rootNode, inputManager, cam);
+        userInput =appm.getInjector().getInstance(UserInput.class);
         ingameHUD=this.appm.ingameHUD;
         //peliin kuuluvat
-        holoDrawer = new HolomodelDrawer(assetManager, rootNode);
-        worldHandler = new TerrainHandler(rootNode, assetManager, ingameHUD);
-        selectionEmitter = new SelectionParticleEmitter(assetManager, rootNode, worldHandler);
+        holoDrawer = appm.getInjector().getInstance(HolomodelDrawer.class);
+        worldHandler = appm.getInjector().getInstance(TerrainHandler.class);
+        selectionEmitter =appm.getInjector().getInstance(SelectionParticleEmitter.class);
         clickingHandler = new ClickingHandler(worldHandler);
         roadMaker = new RoadMaker(assetManager, rootNode);
 
@@ -87,6 +96,15 @@ public class Gamestate extends AbstractAppState {
         //lataa map DEBUG ONLY CHANGE LATER
         if(appm.startDebug()){
             currentPark.loadDebugPlain();
+        }else{
+            
+        try {
+            loadManager.load("testfilexd");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
         
         //laita kamera ok
@@ -122,6 +140,7 @@ public class Gamestate extends AbstractAppState {
         camera.setLocation(new Vector3f(-11.696763f, 30.377302f, -13.492211f));
         camera.setFrame(new Vector3f(-11.696763f, 30.377302f, -13.492211f), new Vector3f(0.2f, 0, 0), new Vector3f(0, 0, 0), new Vector3f(0.48968115f, -0.65352046f, 0.57716846f));
         camera.setRotation(new Quaternion(0.32836914f, 0.32047316f, -0.06872874f, 0.8858595f));
+        System.out.println(camera.getRotation());
         
     }
 
@@ -142,6 +161,7 @@ public class Gamestate extends AbstractAppState {
     public void update(float tpf) {
         selectionEmitter.updateSelection(rootNode, inputManager, cam);
         npcManager.update();
-        rideManager.updateRideQueues();
+        //System.out.println(cam.getRotation()+"   "+cam.getLocation());
+//        rideManager.updateRideQueues();
     }
 }

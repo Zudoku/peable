@@ -161,9 +161,10 @@ public class SelectionParticleEmitter {
                 subtractLocal(click3d);
 
         Ray ray = new Ray(cam.getLocation(), dir);
-
+        
         rootNode.collideWith(ray, results);
         CollisionResult target = results.getClosestCollision();
+        
         switch (Main.gamestate.clickingHandler.clickMode) {
             case TERRAIN:
                 if (target == null) {
@@ -171,6 +172,7 @@ public class SelectionParticleEmitter {
                 }
                 if (target != last) {
                     MoveSelectionEmitters((int) (target.getContactPoint().x - worldHandler.HALFTILE), (int) (target.getContactPoint().y - worldHandler.HALFTILE), (int) (target.getContactPoint().z - worldHandler.HALFTILE));
+                    System.out.println(target.getContactPoint());
                 }
                 last = target;
                 break;

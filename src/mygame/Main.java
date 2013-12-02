@@ -1,5 +1,7 @@
 package mygame;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
@@ -31,6 +33,7 @@ public class Main extends SimpleApplication {
     public static int startgame=0;
     public static SaveManager saveManager;
     public LoadManager loadManager;
+    private Injector injector;
     public static void main(String[] args) {
         
         
@@ -50,13 +53,12 @@ public class Main extends SimpleApplication {
     
     @Override
     public void simpleInitApp() {
-        gamestate=new Gamestate();
-        
-        
-        loadManager=new LoadManager(rootNode,settings,this);
+        injector = Guice.createInjector(new GameModule(rootNode,assetManager,settings,cam,inputManager));
+        loadManager=injector.getInstance(LoadManager.class);
         saveManager=new SaveManager(loadManager);
-        
-        ingameHUD=new IngameHUD();
+        gamestate=new Gamestate(loadManager);
+
+        ingameHUD=injector.getInstance(IngameHUD.class);
         startScreen=new StartScreen();
         currentPark=new ParkHandler(rootNode,settings);
         //nifty
@@ -75,6 +77,7 @@ public class Main extends SimpleApplication {
         }
         if(startgame==5){
             startLoadGame();
+            startgame=0;
         }
         
     }
@@ -83,19 +86,14 @@ public class Main extends SimpleApplication {
     public void simpleRender(RenderManager rm) {
       ;
     }
+    
     public void startGame(){
         stateManager.attach(gamestate);
         gamestate.setEnabled(true);
         
     }
     public void startLoadGame(){
-        try {
-            loadManager.load("testfilexd");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         stateManager.attach(gamestate);
         gamestate.setEnabled(true);
         
@@ -116,18 +114,10 @@ public class Main extends SimpleApplication {
     public Nifty getNifty() {
         return nifty;
     }
-    public Geometry TerrainBox() {
-
-        Box b = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
-        Geometry geom = new Geometry("Terrain", b);
-        Texture grass = assetManager.loadTexture(
-                "Textures/grasstexture.png");
-        Material mat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setTexture("ColorMap", grass);
-        geom.setMaterial(mat);
-        return geom;
+    public Injector getInjector(){
+        return injector;
     }
+    
     
     
 }

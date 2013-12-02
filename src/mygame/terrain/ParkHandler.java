@@ -24,10 +24,10 @@ public class ParkHandler {
     private Spatial[][][] map;
     public MapFactory mapfactory;
     private ParkWallet parkwallet = new ParkWallet(10000);
-    private ArrayList<BasicRide> rides;
-    private ArrayList<BasicNPC> npcs;
-    private ArrayList<BasicShop> shops;
-    private ArrayList<Guest> guests;
+    private ArrayList<BasicRide> rides=new ArrayList<BasicRide>();
+    private ArrayList<BasicNPC> npcs=new ArrayList<BasicNPC>();
+    private ArrayList<BasicShop> shops=new ArrayList<BasicShop>();
+    private ArrayList<Guest> guests=new ArrayList<Guest>();
     private String parkName = "defaultparkname";
     public AppSettings settings;
     private int rideID;

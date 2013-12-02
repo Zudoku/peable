@@ -31,14 +31,14 @@ public class TerrainHandler {
     public Spatial[][][] map;
     public int brush = 3;
     public int mode = 2;
-    private final IngameHUD ingameHUD;
+    
     public int textureindex = 1;
     public boolean useTexture = false;
 
-    public TerrainHandler(Node rootNode, AssetManager assetManager, IngameHUD ingameHUD) {
+    public TerrainHandler(Node rootNode, AssetManager assetManager) {
         this.gameNode = rootNode;
         this.assetManager = assetManager;
-        this.ingameHUD = ingameHUD;
+        
     }
 
     public Geometry TerrainBox() {

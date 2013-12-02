@@ -51,7 +51,7 @@ public class SaveManager {
             try {
                 writer.close();
                 System.out.println("Game saved!");
-                loadManager.load("testfilexd");
+                
             } catch (Exception ex) {
             }
         }
@@ -87,6 +87,7 @@ public class SaveManager {
             String thrist = Integer.toString(g.stats.thirst);
             String happyness = Integer.toString(g.stats.happyness);
             String preferredRide = "";
+            String guestnum=Integer.toString(g.getGuestNum());
             switch (g.stats.preferredRide) {
                 case CRAZY:
                     preferredRide = "CRAZY";
@@ -108,7 +109,7 @@ public class SaveManager {
                     preferredRide = "NAUSEA";
 
             }
-            writer.write(name + ":" + money + ":" + moving + ":" + x + ":" + z + ":" + y + ":" + hunger + ":" + thrist + ":" + happyness + ":" + preferredRide + ":");
+            writer.write(name + ":" + money + ":" + moving + ":" + x + ":" + z + ":" + y + ":" + hunger + ":" + thrist + ":" + happyness + ":" + preferredRide + ":"+guestnum+":");
 
         }
 

@@ -38,7 +38,18 @@ public class Guest extends BasicNPC {
     public boolean active = true;
     public Spatial currentQueRoad;
     public long joinedRide;
+    public Guest(Wallet wallet, int guestNum,Direction moving,int x1,int y1,int z1,StatManager stats, Spatial geom,String name) {
+        super(name, geom);
+        initXYZ(x1, y1, z1);
+        this.moving=moving;
+        this.stats=stats;
+        this.wallet = wallet;
+        this.guestnum = guestNum;
+        r = new Random();
+        super.getGeometry().setLocalTranslation(x, y, z);
 
+    }
+    
     public Guest(String name, float money, int guestNum, Spatial geom) {
         super(name, geom);
 
@@ -309,7 +320,7 @@ public class Guest extends BasicNPC {
         this.x = x;
         this.y = y;
         this.z = z;
-        roads = Main.gamestate.roadMaker.map;
+        roads = Main.currentPark.getMap();
     }
 
     public int getGuestNum() {
