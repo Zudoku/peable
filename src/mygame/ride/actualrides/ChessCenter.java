@@ -20,6 +20,7 @@ public class ChessCenter extends BasicRide{
         super(position, object, cost, facing,"Chesslair");
         rideType= PreferredRides.LOW;
         setName("My Chesscentre1");
+        setRideType("chess");
         
     }
     

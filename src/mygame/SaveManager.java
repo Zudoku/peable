@@ -381,7 +381,8 @@ public class SaveManager {
                     connected="FALSE";
                 }
             }
-            QueRoad created = new QueRoad(x, z, y, roadhill,rideID,queconnect1,queconnect2,connected);
+            String direction=s.getUserData("direction");
+            QueRoad created = new QueRoad(x, z, y, roadhill,rideID,queconnect1,queconnect2,connected,direction);
             queroadListTrue.add(created);
         }
         return queroadListTrue;
@@ -397,7 +398,8 @@ public class SaveManager {
             String connected=q.connected;
             String queconnect1=q.queconnect1;
             String queconnect2=q.queconnect2;
-            writer.write(x+":"+z+":"+y+":"+roadhill+":"+q.ID+":"+connected+":"+queconnect1+":"+queconnect2+":");
+            String direction=q.direction;
+            writer.write(x+":"+z+":"+y+":"+roadhill+":"+q.ID+":"+connected+":"+queconnect1+":"+queconnect2+":"+direction+":");
         }
     }
 }

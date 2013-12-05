@@ -25,11 +25,15 @@ import mygame.npc.inventory.PreferredRides;
 import mygame.npc.inventory.StatManager;
 import mygame.npc.inventory.Wallet;
 import mygame.ride.BasicRide;
+import mygame.ride.Enterance;
+import mygame.ride.actualrides.ChessCenter;
 import mygame.shops.BasicShop;
 import mygame.terrain.Direction;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.ParkWallet;
 import mygame.terrain.Road;
+import mygame.terrain.RoadFactory;
+import mygame.terrain.RoadMaker;
 
 /**
  *
@@ -40,13 +44,17 @@ public class LoadManager {
     private final Node rootNode;
     private final AppSettings settings;
     private final AssetManager assetManager;
-    
+    RoadFactory roadF;
+    private final RoadMaker roadMaker;
+
     @Inject
-    public LoadManager(Node rootNode, AppSettings settings,AssetManager assetManager) {
+    public LoadManager(Node rootNode, AppSettings settings, AssetManager assetManager,RoadMaker roadMaker) {
         this.rootNode = rootNode;
         this.settings = settings;
-        this.assetManager=assetManager;
-        
+        this.assetManager = assetManager;
+        this.roadMaker=roadMaker;
+        roadF = new RoadFactory(assetManager);
+
     }
 
     public void load(String filename) throws FileNotFoundException, IOException {
@@ -71,9 +79,9 @@ public class LoadManager {
         loadTerrainData(parkhandler, lines[1]);
         loadShopData(parkhandler, lines[2]);
         loadGuestData(parkhandler, lines[3]);
-        //loadRideData(parkhandler,lines[4]);
-        //loadRoadData(parkhandler,lines[5]);
-        //loadQueRoadData(parkhandler,lines[6]);
+        loadRideData(parkhandler, lines[4]);
+        loadRoadData(parkhandler, lines[5]);
+        loadQueRoadData(parkhandler,lines[6]);
 
         return null;
     }
@@ -232,8 +240,8 @@ public class LoadManager {
             stats.thirst = thrist;
             stats.preferredRide = preference;
             Spatial geom = assetManager.loadModel("Models/Human/guest.j3o");
-            
-            Guest g = new Guest(new Wallet(money), guestnum, direction, x, y, z, stats,geom , name);
+
+            Guest g = new Guest(new Wallet(money), guestnum, direction, x, y, z, stats, geom, name);
             guests.add(g);
 
 
@@ -245,18 +253,255 @@ public class LoadManager {
 
     private void loadRideData(ParkHandler parkhandler, String string) {
         ArrayList<BasicRide> asd = new ArrayList<BasicRide>();
+        String worked = string;
+        String[] values = worked.split(":");
+        int quantity = Integer.parseInt(values[0]);
+        int counter = 1;
+        for (int i = 0; i < quantity; i++) {
+            String name = values[counter];
+            counter += 1;
+            String type = values[counter];
+            counter += 1;
+            float price = Float.parseFloat(values[counter]);
+            counter += 1;
+            float x = Float.parseFloat(values[counter]);
+            counter += 1;
+            float z = Float.parseFloat(values[counter]);
+            counter += 1;
+            float y = Float.parseFloat(values[counter]);
+            counter += 1;
+            int rideID = Integer.parseInt(values[counter]);
+            counter += 1;
+            int exitement = Integer.parseInt(values[counter]);
+            counter += 1;
+            int nausea = Integer.parseInt(values[counter]);
+            counter += 1;
+            int broken = Integer.parseInt(values[counter]);
+            counter += 1;
+            boolean status;
+            if (values[counter].equals("ON")) {
+                status = true;
+            } else {
+                status = false;
+            }
+            counter += 1;
+            if (type.equals("chess")) {
+                ChessCenter a = new ChessCenter(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/chesshouse.j3o"), price, Direction.UP);
+                a.setName(name);
+                a.setRideID(rideID);
+                a.setStats(broken, exitement, nausea, status);
+                a.getGeometry().setUserData("rideID", rideID);
+                a.getGeometry().setUserData("type", "ride");
+                rootNode.attachChild(a.getGeometry());
+                asd.add(a);
+            }
+            String result = values[counter];
+            String resulta = result.substring(1);
+            String resultb = result.substring(0, 1);
+            counter++;
+            if (resulta.equals("1")) {
+                Float eX = Float.parseFloat(values[counter]);
+                counter++;
+                Float eZ = Float.parseFloat(values[counter]);
+                counter++;
+                Float eY = Float.parseFloat(values[counter]);
+                counter++;
+                Direction direction = null;
+                if (values[counter].equals("UP")) {
+                    direction = Direction.UP;
+                }
+                if (values[counter].equals("DOWN")) {
+                    direction = Direction.DOWN;
+                }
+                if (values[counter].equals("RIGHT")) {
+                    direction = Direction.RIGHT;
+                }
+                if (values[counter].equals("LEFT")) {
+                    direction = Direction.LEFT;
+                }
+                counter++;
+                boolean connected;
+                if (values[counter].equals("TRUE")) {
+                    connected = true;
+                } else {
+                    connected = false;
+                }
+                counter++;
+                Enterance e = new Enterance(false, new Vector3f(eX, eY, eZ), direction, assetManager);
+                e.connected = connected;
+                rootNode.attachChild(e.object);
+                e.connectedRide = asd.get(asd.size() - 1);
+                asd.get(asd.size() - 1).enterance = e;
+
+            }
+            if (resultb.equals("1")) {
+                Float eX = Float.parseFloat(values[counter]);
+                counter++;
+                Float eZ = Float.parseFloat(values[counter]);
+                counter++;
+                Float eY = Float.parseFloat(values[counter]);
+                counter++;
+                Direction direction = null;
+                if (values[counter].equals("UP")) {
+                    direction = Direction.UP;
+                }
+                if (values[counter].equals("DOWN")) {
+                    direction = Direction.DOWN;
+                }
+                if (values[counter].equals("RIGHT")) {
+                    direction = Direction.RIGHT;
+                }
+                if (values[counter].equals("LEFT")) {
+                    direction = Direction.LEFT;
+                }
+                counter++;
+                boolean connected;
+                if (values[counter].equals("TRUE")) {
+                    connected = true;
+                } else {
+                    connected = false;
+                }
+
+                counter++;
+                Enterance e = new Enterance(true, new Vector3f(eX, eY, eZ), direction, assetManager);
+                rootNode.attachChild(e.object);
+                e.connectedRide = asd.get(asd.size() - 1);
+                e.connected = connected;
+                asd.get(asd.size() - 1).exit = e;
+            }
+
+
+
+        }
         parkhandler.setRides(asd);
     }
 
     private void loadRoadData(ParkHandler parkhandler, String string) {
         ArrayList<Road> asd = new ArrayList<Road>();
-        //parkhandler.set(asd);
+        String worked = string;
+        String[] values = worked.split(":");
+        int quantity = Integer.parseInt(values[0]);
+        for (int i = 0; i < quantity; i++) {
+            int a = i * 5;
+            float x = Float.parseFloat(values[a + 1]);
+            float z = Float.parseFloat(values[a + 2]);
+            float y = Float.parseFloat(values[a + 3]);
+            y +=0.1;
+            String roadHill = values[a + 4];
+            int id = Integer.parseInt(values[a + 5]);
+            if (roadHill.equals("flat")) {
+                Spatial road = roadF.roadStraight();
+                road.move(new Vector3f(x, y, z));
+                road.setUserData("roadID",id);
+                int ax=(int) x;
+                int ay=(int) y;
+                int az=(int) z;
+                parkhandler.getMap()[ax][ay][az] = road;
+                rootNode.attachChild(road);
+            } else {
+                //do the actual road
+            }
+
+        }
+        ArrayList <Vector3f> pos=new ArrayList<Vector3f>();
+        for (int xi = 0; xi < Main.currentPark.getMapHeight(); xi++) {
+            for (int zi = 0; zi < Main.currentPark.getMapWidth(); zi++) {
+                for (int yi = 0; yi < 15; yi++) {
+                    Spatial tested = parkhandler.getMap()[xi][yi][zi];
+                    if (tested != null) {
+                        if (tested.getUserData("type").equals("road")) {
+                            pos.add(new Vector3f(xi, yi, zi));
+                        }
+                    }
+                }
+            }
+        }
+        parkhandler.setUpdatedRoadsList(pos);
+
     }
 
     private void loadQueRoadData(ParkHandler parkhandler, String string) {
-        ArrayList<BasicShop> asd = new ArrayList<BasicShop>();
+        ArrayList<Spatial> queRoadstoUpdate = new ArrayList<Spatial>();
+        String worked = string;
+        String[] values = worked.split(":");
+        int quantity = Integer.parseInt(values[0]);
+        for(int i=0;i<quantity;i++){
+            int a=i*9;
+            float x = Float.parseFloat(values[a + 1]);
+            float z = Float.parseFloat(values[a + 2]);
+            float y = Float.parseFloat(values[a + 3]);
+            y +=0.1;
+            String roadHill = values[a + 4];
+            int roadID=Integer.parseInt(values[a+5]);
+            boolean connected;
+            if(values[a+6].equals("FALSE")){
+                connected=false;
+                
+            }
+            else{
+                connected=true;
+            }
+            int queconnect1 = 0;
+            boolean connec1;
+            boolean connec2;
+            if(!values[a+7].equals("null")){
+                queconnect1=Integer.parseInt(values[a+7]);
+                connec1=false;
+            }else{
+                connec1=true;
+            }
+            int queconnect2 = 0;
+            if(!values[a+8].equals("null")){
+                queconnect2=Integer.parseInt(values[a+8]);
+                connec2=false;
+            }else{
+                connec2=true;
+            }
+            
+            
+            String direction=values[a+9];
+            if(roadHill.equals("flat")){
+                Spatial qr=roadF.queroadStraight();
+                qr.setLocalTranslation(new Vector3f(x, y, z));
+                qr.setUserData("roadID", roadID);
+                if(connec1==false){
+                    qr.setUserData("qc1o",queconnect1);
+                }
+                if(connec2==false){
+                    qr.setUserData("qc2o",queconnect2);
+                }
+                
+                qr.setUserData("connected",connected);
+                qr.setUserData("direction",direction);
+                rootNode.attachChild(qr);
+                parkhandler.getMap()[(int)x][(int)y][(int)z]=qr;
+                queRoadstoUpdate.add(qr);
+            }
+        }
+        for(Spatial s:queRoadstoUpdate){
+            if(s.getUserData("qc1o")!=null){
+                int lookedID=s.getUserData("qc1o");
+                for(Spatial o:queRoadstoUpdate){
+                    int fID=o.getUserData("roadID");
+                    if(fID==lookedID){
+                        s.setUserData("queconnect1",o);
+                    }
+                }
+            }
+            if(s.getUserData("qc2o")!=null){
+                int lookedID=s.getUserData("qc2o");
+                for(Spatial o:queRoadstoUpdate){
+                    int fID=o.getUserData("roadID");
+                    if(fID==lookedID){
+                        s.setUserData("queconnect2",o);
+                    }
+                }
+            }
+        }
+        parkhandler.setUpdatedQueRoadsList(queRoadstoUpdate);
         //parkhandler.setShops(asd);
     }
+
     private Geometry TerrainBox() {
 
         Box b = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);

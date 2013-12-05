@@ -5,6 +5,7 @@
 package mygame.terrain;
 
 import com.google.inject.Inject;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
@@ -36,7 +37,9 @@ public class ParkHandler {
     private int mapHeight;
     private int mapWidth;
     private int[][] mapData;
+    private ArrayList<Vector3f>RoadtoUpdatePositions=new ArrayList<Vector3f>();
     private final TerrainHandler worldHandler;
+    private ArrayList<Spatial> queRoadsToUpdate=new ArrayList<Spatial>();
     @Inject
     public ParkHandler(Node rootNode, AppSettings settings,TerrainHandler terrainHandler,MapFactory mapFactory) {
         mapfactory =mapFactory;
@@ -69,9 +72,12 @@ public class ParkHandler {
     public void onStartup() {
         //anna kaikille map joka sitä tarvii
         Gamestate.roadMaker.map = map;
+        
         //managerilla joka muokkaa maata
         worldHandler.map = map;
         worldHandler.TerrainMap = mapData;
+        Gamestate.roadMaker.roadsToUpdate(RoadtoUpdatePositions);
+        Gamestate.roadMaker.queRoadsToUpdate(queRoadsToUpdate);
         Main.gamestate.rideManager.rides = rides;
         Main.gamestate.npcManager.npcs = npcs;
         Main.gamestate.npcManager.guestSpawner.setNpcs(npcs);
@@ -182,5 +188,13 @@ public class ParkHandler {
 
     public int[][] getMapData() {
         return mapData;
+    }
+
+    public void setUpdatedRoadsList(ArrayList<Vector3f> pos) {
+        this.RoadtoUpdatePositions=pos;
+    }
+
+    public void setUpdatedQueRoadsList(ArrayList<Spatial> queRoadstoUpdate) {
+        this.queRoadsToUpdate=queRoadstoUpdate;
     }
 }

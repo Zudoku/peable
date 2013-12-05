@@ -146,6 +146,6 @@ public class Gamestate extends AbstractAppState {
         selectionEmitter.updateSelection();
         npcManager.update();
         //System.out.println(cam.getRotation()+"   "+cam.getLocation());
-//        rideManager.updateRideQueues();
+        rideManager.updateRideQueues();
     }
 }

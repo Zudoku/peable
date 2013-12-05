@@ -57,6 +57,9 @@ public class BasicRide {
         {false, false, false, false},
         {false, false, false, false},
     };
+    public void setRideType(String ride){
+        this.ride=ride;
+    }
     
     private void calculateguestRate(){
         double a=System.currentTimeMillis()-lastGuestVisitTime; //aika jolloin laitteeseen tuli tybä
@@ -225,6 +228,12 @@ public class BasicRide {
     public boolean toggleStatus(){
         status=!status;
         return status;
+    }
+    public void setStats(int broken,int exitement,int nausea,boolean status){
+        this.broken=broken;
+        this.exitement=exitement;
+        this.nausea=nausea;
+        this.status=status;
     }
     
 

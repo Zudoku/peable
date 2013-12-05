@@ -17,7 +17,7 @@ import mygame.terrain.Direction;
  *
  * @author arska
  */
-public class Enterance  implements Savable{
+public class Enterance {
   public boolean exit=false;
   //tiepala johon kiinni
   public Vector3f location;
@@ -39,7 +39,8 @@ public class Enterance  implements Savable{
             object=assetManager.loadModel("Models/Rides/enterace.j3o");
         }
         object.setLocalTranslation(location);
-        object.setUserData("enterance",this);
+        //object.setUserData("enterance",this);
+        object.setUserData("type","enterance");
         float angle;
         switch(facing){
             case UP:
@@ -59,13 +60,7 @@ public class Enterance  implements Savable{
         }
     }
 
-    public void write(JmeExporter ex) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void read(JmeImporter im) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    
   
   
 }

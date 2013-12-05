@@ -12,11 +12,13 @@ public class QueRoad extends Road{
     public String queconnect1;
     public String queconnect2;
     public String connected;
-    public QueRoad(String x, String z, String y, String roadhill, String ID,String queconnect1,String queconnect2,String connected) {
+    public String direction;
+    public QueRoad(String x, String z, String y, String roadhill, String ID,String queconnect1,String queconnect2,String connected,String direction) {
         super(x, z, y, roadhill, ID);
         this.queconnect1=queconnect1;
         this.queconnect2=queconnect2;
         this.connected=connected;
+        this.direction=direction;
     }
     
 }
