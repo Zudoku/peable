@@ -5,6 +5,7 @@
 package mygame.inputhandler;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Node;
@@ -20,6 +21,7 @@ import mygame.terrain.TerrainHandler;
  *
  * @author arska
  */
+@Singleton
 public class ClickingHandler {
 
     public final TerrainHandler worldHandler;

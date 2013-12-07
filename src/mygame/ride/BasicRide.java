@@ -4,6 +4,8 @@
  */
 package mygame.ride;
 
+import com.google.inject.Inject;
+import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
@@ -57,6 +59,7 @@ public class BasicRide {
         {false, false, false, false},
         {false, false, false, false},
     };
+    
     public void setRideType(String ride){
         this.ride=ride;
     }
@@ -67,12 +70,14 @@ public class BasicRide {
         guestRateHour=u;
         lastGuestVisitTime=System.currentTimeMillis();
     }
+    
     public BasicRide(Vector3f position, Spatial object, float cost, Direction facing,String ride) {
         this.position = position;
         this.object = object;
         this.constructionmoney = cost;
         this.facing = facing;
         this.ride=ride;
+        
         object.setLocalTranslation(position);
     }
 

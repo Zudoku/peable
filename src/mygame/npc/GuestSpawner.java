@@ -70,7 +70,7 @@ public class GuestSpawner {
         //laitetaan guestille x,z,y että hän osaa liikkua
         g.initXYZ((int) spawnpoints.get(spp).x, (int) spawnpoints.get(spp).y, (int) spawnpoints.get(spp).z);
         //lisätään guesti listaan ja addataan se rootnodeen
-        //npcs.add(g);
+        npcs.add(g);
         guests.add(g);
         nPCNode.attachChild(g.getGeometry());
         System.out.println("Guest " + Integer.toString(guestNum) + " Named: " + name + " has entered the world");

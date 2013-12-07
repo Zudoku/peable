@@ -5,17 +5,14 @@
 package mygame;
 
 import com.google.inject.Inject;
-import com.jme3.export.binary.BinaryExporter;
+import com.google.inject.Singleton;
 import com.jme3.scene.Spatial;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mygame.npc.Guest;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
@@ -27,6 +24,7 @@ import mygame.terrain.Road;
  *
  * @author arska
  */
+@Singleton
 public class SaveManager {
     private final LoadManager loadManager;
     @Inject
@@ -153,7 +151,7 @@ public class SaveManager {
             String type = b.type;
             String productname = b.productname;
             String shopID = Integer.toString(b.shopID);
-            String direction;
+            String direction = null;
             switch (b.facing) {
                 case UP:
                     direction = "UP";
@@ -170,7 +168,7 @@ public class SaveManager {
                 case LEFT:
                     direction = "LEFT";
             }
-            writer.write(name + ":" + x + ":" + z + ":" + y + ":" + price + ":" + type + ":" + productname + ":" + shopID + ":");
+            writer.write(name + ":" + x + ":" + z + ":" + y + ":" + price + ":" + type + ":" + productname + ":" + shopID + ":"+direction+":");
         }
 
     }

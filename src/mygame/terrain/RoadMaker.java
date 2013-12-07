@@ -5,6 +5,7 @@
 package mygame.terrain;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -18,6 +19,7 @@ import mygame.ride.Enterance;
  *
  * @author arska
  */
+@Singleton
 public class RoadMaker {
 
     public Direction direction = Direction.UP;

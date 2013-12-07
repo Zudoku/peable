@@ -5,6 +5,7 @@
 package mygame.ride;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -20,6 +21,7 @@ import mygame.terrain.Direction;
  *
  * @author arska
  */
+@Singleton
 public class RideManager {
 
     public ArrayList<BasicRide> rides = new ArrayList<BasicRide>();

@@ -5,6 +5,7 @@
 package mygame.terrain;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -14,6 +15,7 @@ import mygame.Gamestate;
 import mygame.Main;
 import mygame.npc.BasicNPC;
 import mygame.npc.Guest;
+import mygame.npc.NPCManager;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
 
@@ -21,6 +23,7 @@ import mygame.shops.BasicShop;
  *
  * @author arska
  */
+@Singleton
 public class ParkHandler {
 
     private Spatial[][][] map;
@@ -40,11 +43,13 @@ public class ParkHandler {
     private ArrayList<Vector3f>RoadtoUpdatePositions=new ArrayList<Vector3f>();
     private final TerrainHandler worldHandler;
     private ArrayList<Spatial> queRoadsToUpdate=new ArrayList<Spatial>();
+    private final NPCManager npcManager;
     @Inject
-    public ParkHandler(Node rootNode, AppSettings settings,TerrainHandler terrainHandler,MapFactory mapFactory) {
+    public ParkHandler(Node rootNode, AppSettings settings,TerrainHandler terrainHandler,MapFactory mapFactory,NPCManager npcManager) {
         mapfactory =mapFactory;
         this.settings = settings;
         this.worldHandler=terrainHandler;
+        this.npcManager=npcManager;
     }
 
     public void setUp(String parkname, int rideID, int shopID, ParkWallet wallet) {
@@ -79,10 +84,10 @@ public class ParkHandler {
         Gamestate.roadMaker.roadsToUpdate(RoadtoUpdatePositions);
         Gamestate.roadMaker.queRoadsToUpdate(queRoadsToUpdate);
         Main.gamestate.rideManager.rides = rides;
-        Main.gamestate.npcManager.npcs = npcs;
-        Main.gamestate.npcManager.guestSpawner.setNpcs(npcs);
-        Main.gamestate.npcManager.guests = this.guests;
-        Main.gamestate.npcManager.guestSpawner.setGuests(guests);
+        npcManager.npcs = npcs;
+        npcManager.guestSpawner.setNpcs(npcs);
+        npcManager.guests = this.guests;
+        npcManager.guestSpawner.setGuests(guests);
         Main.gamestate.shopManager.shops = shops;
         Gamestate.rideManager.setRideID(rideID);
         Gamestate.shopManager.setShopID(shopID);

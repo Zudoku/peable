@@ -5,6 +5,7 @@
 package mygame.inputhandler;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
@@ -25,6 +26,7 @@ import com.jme3.scene.Node;
  *
  * @author arska
  */
+@Singleton
 public class UserInput {
 
     InputManager inputManager;

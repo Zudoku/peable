@@ -5,6 +5,7 @@
 package mygame.GUI;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
@@ -26,6 +27,7 @@ import mygame.terrain.TerrainHandler;
  *
  * @author arska
  */
+@Singleton
 public class SelectionParticleEmitter {
 
     private final AssetManager assetManager;

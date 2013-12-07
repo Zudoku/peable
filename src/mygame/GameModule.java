@@ -11,11 +11,7 @@ import com.jme3.input.InputManager;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
-import mygame.GUI.IngameHUD;
-import mygame.GUI.SelectionParticleEmitter;
 import mygame.inputhandler.ClickingHandler;
-import mygame.inputhandler.UserInput;
-import mygame.shops.HolomodelDrawer;
 import mygame.terrain.TerrainHandler;
 
 /**

@@ -4,6 +4,7 @@
  */
 package mygame.terrain;
 
+import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResult;
 import com.jme3.material.Material;
@@ -13,7 +14,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
-import mygame.GUI.IngameHUD;
 import mygame.Gamestate;
 import mygame.Main;
 
@@ -21,6 +21,7 @@ import mygame.Main;
  *
  * @author arska
  */
+@Singleton
 public class TerrainHandler {
 
     public static final float HALFTILE = 0.4999f;

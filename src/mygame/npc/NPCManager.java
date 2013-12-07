@@ -5,6 +5,7 @@
 package mygame.npc;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
@@ -13,8 +14,9 @@ import java.util.ArrayList;
  *
  * @author arska
  */
+@Singleton
 public class NPCManager {
-    public ArrayList<BasicNPC> npcs=new ArrayList<BasicNPC>();
+    public ArrayList<BasicNPC> npcs;
     public ArrayList<Guest> guests=new ArrayList<Guest>();
     private Node rootNode;
     private Node NPCNode;
@@ -27,6 +29,7 @@ public class NPCManager {
         NPCNode=new Node("NPCNode");
         guestSpawner=new GuestSpawner(NPCNode,rootNode,assetManager);
         rootNode.attachChild(NPCNode);
+        System.out.println("new NPCMANAGER made!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         
     }
     public void addtoList(BasicNPC npc){
@@ -44,6 +47,7 @@ public class NPCManager {
             guestSpawner.forceSpawnGuest(updatenum);
         }
         if(npcs.isEmpty()==true){
+            System.out.println("NPCS EMPTY!!!!");
             return;
         }
         for(BasicNPC npc:npcs){

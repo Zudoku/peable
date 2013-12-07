@@ -5,6 +5,7 @@
 package mygame;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
@@ -28,6 +29,9 @@ import mygame.ride.BasicRide;
 import mygame.ride.Enterance;
 import mygame.ride.actualrides.ChessCenter;
 import mygame.shops.BasicShop;
+import mygame.shops.actualshops.Energy;
+import mygame.shops.actualshops.Meatballshop;
+import mygame.shops.actualshops.Toilet;
 import mygame.terrain.Direction;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.ParkWallet;
@@ -39,6 +43,7 @@ import mygame.terrain.RoadMaker;
  *
  * @author arska
  */
+@Singleton
 public class LoadManager {
 
     private final Node rootNode;
@@ -184,12 +189,90 @@ public class LoadManager {
     }
 
     private void loadShopData(ParkHandler parkhandler, String string) {
-        ArrayList<BasicShop> asd = new ArrayList<BasicShop>();
-        parkhandler.setShops(asd);
+        ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
+        String worked = string;
+        String[] values = worked.split(":");
+        int quantity = Integer.parseInt(values[0]);
+        for(int i=0;i<quantity;i++){
+            int a=i*9;
+            String name = values[a+1];
+            float x = Float.parseFloat(values[a+2]);
+            float z = Float.parseFloat(values[a+3]);
+            float y = Float.parseFloat(values[a+4]);
+            Float price = Float.parseFloat(values[a+5]);
+            String type = values[a+6];
+            String productname = values[a+7];
+            int shopID =Integer.parseInt(values[a+8]);
+            Direction direction = null;
+            if(values[a+9].equals("UP")){
+                direction= Direction.UP;
+            }
+            if(values[a+9].equals("DOWN")){
+                direction= Direction.DOWN;
+            }
+            if(values[a+9].equals("RIGHT")){
+                direction= Direction.RIGHT;
+            }
+            if(values[a+9].equals("LEFT")){
+                direction= Direction.LEFT;
+            }
+ 
+            if(type.equals("energyshop")){
+                Spatial geom=assetManager.loadModel("Models/shops/energyshop.j3o");
+                Energy e=new Energy(new Vector3f(x, y, z),geom , direction);
+                e.getGeometry().setUserData("type","shop");
+                e.getGeometry().setUserData("shopID",shopID);
+                e.shopName=name;
+                e.price=price;
+                e.productname=productname;
+                e.shopID=shopID;
+                shops.add(e);
+                rootNode.attachChild(e.getGeometry());
+                int ax=(int) x;
+                int ay=(int) y;
+                int az=(int) z;
+                parkhandler.getMap()[ax][ay][az]=e.getGeometry();
+            }
+            if(type.equals("meatballshop")){
+                Spatial geom=assetManager.loadModel("Models/shops/mball.j3o");
+                Meatballshop e=new Meatballshop(new Vector3f(x, y, z),geom , direction);
+                e.getGeometry().setUserData("type","shop");
+                e.getGeometry().setUserData("shopID",shopID);
+                e.shopName=name;
+                e.price=price;
+                e.productname=productname;
+                e.shopID=shopID;
+                shops.add(e);
+                rootNode.attachChild(e.getGeometry());
+                int ax=(int) x;
+                int ay=(int) y;
+                int az=(int) z;
+                parkhandler.getMap()[ax][ay][az]=e.getGeometry();
+            }
+            if(type.equals("toilet")){
+                Spatial geom=assetManager.loadModel("Models/shops/toilet.j3o");
+                Toilet e=new Toilet(new Vector3f(x, y, z),geom , direction);
+                e.getGeometry().setUserData("type","shop");
+                e.getGeometry().setUserData("shopID",shopID);
+                e.shopName=name;
+                e.price=price;
+                e.productname=productname;
+                e.shopID=shopID;
+                shops.add(e);
+                rootNode.attachChild(e.getGeometry());
+                int ax=(int) x;
+                int ay=(int) y;
+                int az=(int) z;
+                parkhandler.getMap()[ax][ay][az]=e.getGeometry();
+            }
+            
+        }
+        parkhandler.setShops(shops);
     }
 
     private void loadGuestData(ParkHandler parkhandler, String string) {
         ArrayList<Guest> guests = new ArrayList<Guest>();
+        ArrayList<BasicNPC>npcs=new ArrayList<BasicNPC>();
         String worked = string;
         String[] values = worked.split(":");
         int quantity = Integer.parseInt(values[0]);
@@ -242,13 +325,15 @@ public class LoadManager {
             Spatial geom = assetManager.loadModel("Models/Human/guest.j3o");
 
             Guest g = new Guest(new Wallet(money), guestnum, direction, x, y, z, stats, geom, name);
+            rootNode.attachChild(g.getGeometry());
             guests.add(g);
+            npcs.add(g);
 
 
 
         }
         Main.currentPark.setGuests(guests);
-        Main.currentPark.setNpcs(new ArrayList<BasicNPC>());
+        Main.currentPark.setNpcs(npcs);
     }
 
     private void loadRideData(ParkHandler parkhandler, String string) {

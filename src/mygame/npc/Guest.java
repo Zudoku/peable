@@ -31,25 +31,26 @@ public class Guest extends BasicNPC {
     private int z;
     private Random r;
     private GuestWalkingStates walkState = GuestWalkingStates.WALK;
-    Spatial[][][] roads=Main.currentPark.getMap();
+    Spatial[][][] roads = Main.currentPark.getMap();
     ArrayList<NPCAction> actions = new ArrayList<NPCAction>();
     public ArrayList<Item> inventory = new ArrayList<Item>();
     public StatManager stats = new StatManager();
     public boolean active = true;
     public Spatial currentQueRoad;
     public long joinedRide;
-    public Guest(Wallet wallet, int guestNum,Direction moving,int x1,int y1,int z1,StatManager stats, Spatial geom,String name) {
+
+    public Guest(Wallet wallet, int guestNum, Direction moving, int x1, int y1, int z1, StatManager stats, Spatial geom, String name) {
         super(name, geom);
         initXYZ(x1, y1, z1);
-        this.moving=moving;
-        this.stats=stats;
+        this.moving = moving;
+        this.stats = stats;
         this.wallet = wallet;
         this.guestnum = guestNum;
         r = new Random();
         super.getGeometry().setLocalTranslation(x, y, z);
 
     }
-    
+
     public Guest(String name, float money, int guestNum, Spatial geom) {
         super(name, geom);
 
@@ -59,11 +60,13 @@ public class Guest extends BasicNPC {
         stats.randomize();
 
     }
-    public void deleteActions(){
+
+    public void deleteActions() {
         actions.clear();
     }
-    public boolean isEmptyActions(){
-        if(actions.isEmpty()){
+
+    public boolean isEmptyActions() {
+        if (actions.isEmpty()) {
             return true;
         }
         return false;
@@ -105,20 +108,28 @@ public class Guest extends BasicNPC {
                 }
                 Spatial temp = roads[x + 1][y][z];
                 if (temp.getUserData("type").equals("road")) {
-                    if (temp.getUserData("roadHill").equals("uphill")) {
-                        actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype, this));
-                        actions.add(new NPCAction(new Vector3f(x + 1f, y + 1.1f, z), actiontype, this));
-                        x = x + 1;
-                        y = y + 1;
-                        moving = Direction.UP;
+                    if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
+                        if (temp.getUserData("direction").equals("UP") || temp.getUserData("direction").equals("DOWN")) {
+                            if (temp == roads[x + 1][y - 1][z]) {
+                                actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype, this));
+                                actions.add(new NPCAction(new Vector3f(x + 1f, y - 0.9f, z), actiontype, this));
+                                x = x + 1;
+                                y = y - 1;
+                                moving = Direction.UP;
+                            }
+                            if (temp == roads[x + 1][y + 1][z]) {
+                                actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype, this));
+                                actions.add(new NPCAction(new Vector3f(x + 1f, y + 1.1f, z), actiontype, this));
+                                x = x + 1;
+                                y = y + 1;
+                                moving = Direction.UP;
+                            }
+
+                        }
+
+
                     }
-                    if (temp.getUserData("roadHill").equals("downhill")) {
-                        actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype, this));
-                        actions.add(new NPCAction(new Vector3f(x + 1f, y - 0.9f, z), actiontype, this));
-                        x = x + 1;
-                        y = y - 1;
-                        moving = Direction.UP;
-                    }
+
                     if (temp.getUserData("roadHill").equals("flat")) {
                         actions.add(new NPCAction(new Vector3f(x + 1f, y + 0.1f, z), actiontype, this));
                         x = x + 1;
@@ -154,19 +165,23 @@ public class Guest extends BasicNPC {
                     }
                 }
                 if (temp.getUserData("type").equals("road")) {
-                    if (temp.getUserData("roadHill").equals("uphill")) {
-                        actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype, this));
-                        actions.add(new NPCAction(new Vector3f(x - 1f, y + 1.1f, z), actiontype, this));
-                        x = x - 1;
-                        y = y + 1;
-                        moving = Direction.DOWN;
-                    }
-                    if (temp.getUserData("roadHill").equals("downhill")) {
-                        actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype, this));
-                        actions.add(new NPCAction(new Vector3f(x - 1f, y - 0.9f, z), actiontype, this));
-                        x = x - 1;
-                        y = y - 1;
-                        moving = Direction.DOWN;
+                    if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
+                        if (temp.getUserData("direction").equals("UP") || temp.getUserData("direction").equals("DOWN")) {
+                            if (temp == roads[x - 1][y - 1][z]) {
+                                actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype, this));
+                                actions.add(new NPCAction(new Vector3f(x - 1f, y - 0.9f, z), actiontype, this));
+                                x = x - 1;
+                                y = y - 1;
+                                moving = Direction.DOWN;
+                            }
+                            if (temp == roads[x - 1][y + 1][z]) {
+                                actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype, this));
+                                actions.add(new NPCAction(new Vector3f(x - 1f, y + 1.1f, z), actiontype, this));
+                                x = x - 1;
+                                y = y + 1;
+                                moving = Direction.DOWN;
+                            }
+                        }
                     }
                     if (temp.getUserData("roadHill").equals("flat")) {
                         actions.add(new NPCAction(new Vector3f(x - 1, y + 0.1f, z), actiontype, this));
@@ -201,19 +216,23 @@ public class Guest extends BasicNPC {
                     }
                 }
                 if (temp.getUserData("type").equals("road")) {
-                    if (temp.getUserData("roadHill").equals("uphill")) {
-                        actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype, this));
-                        actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z + 1f), actiontype, this));
-                        z = z + 1;
-                        y = y + 1;
-                        moving = Direction.RIGHT;
-                    }
-                    if (temp.getUserData("roadHill").equals("downhill")) {
-                        actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype, this));
-                        actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z + 1f), actiontype, this));
-                        z = z + 1;
-                        y = y - 1;
-                        moving = Direction.RIGHT;
+                    if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
+                        if (temp.getUserData("direction").equals("LEFT") || temp.getUserData("direction").equals("RIGHT")) {
+                            if (temp == roads[x][y - 1][z + 1]) {
+                                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype, this));
+                                actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z + 1f), actiontype, this));
+                                z = z + 1;
+                                y = y - 1;
+                                moving = Direction.RIGHT;
+                            }
+                            if (temp == roads[x][y + 1][z + 1]) {
+                                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype, this));
+                                actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z + 1f), actiontype, this));
+                                z = z + 1;
+                                y = y + 1;
+                                moving = Direction.RIGHT;
+                            }
+                        }
                     }
                     if (temp.getUserData("roadHill").equals("flat")) {
                         actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 1), actiontype, this));
@@ -250,19 +269,23 @@ public class Guest extends BasicNPC {
                     }
                 }
                 if (temp.getUserData("type").equals("road")) {
-                    if (temp.getUserData("roadHill").equals("uphill")) {
-                        actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype, this));
-                        actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z - 1), actiontype, this));
-                        z = z - 1;
-                        y = y + 1;
-                        moving = Direction.LEFT;
-                    }
-                    if (temp.getUserData("roadHill").equals("downhill")) {
-                        actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype, this));
-                        actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z - 1), actiontype, this));
-                        z = z - 1;
-                        y = y - 1;
-                        moving = Direction.LEFT;
+                    if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
+                        if (temp.getUserData("direction").equals("LEFT") || temp.getUserData("direction").equals("RIGHT")) {
+                            if (temp == roads[x][y - 1][z - 1]) {
+                                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype, this));
+                                actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z - 1), actiontype, this));
+                                z = z - 1;
+                                y = y - 1;
+                                moving = Direction.LEFT;
+                            }
+                            if (temp == roads[x][y + 1][z - 1]) {
+                                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype, this));
+                                actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z - 1), actiontype, this));
+                                z = z - 1;
+                                y = y + 1;
+                                moving = Direction.LEFT;
+                            }
+                        }
                     }
                     if (temp.getUserData("roadHill").equals("flat")) {
                         actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 1), actiontype, this));
@@ -366,111 +389,118 @@ public class Guest extends BasicNPC {
             }
             // haluaako guesti mennä laitteeseen
             if (doIWantToGoThere(foundRide)) {
-                if (foundRide.tryToQueGuest(this)) { 
-                    if(wallet.canAfford(foundRide.getPrice())){
+                if (foundRide.tryToQueGuest(this)) {
+                    if (wallet.canAfford(foundRide.getPrice())) {
                         System.out.println("Accepted and now in que");
                         active = false;
                         this.currentQueRoad = trueroad;
-                    } 
+                    }
                 }
             }
         }
 
     }
-    public boolean doIWantToGoThere(BasicRide ride){
+
+    public boolean doIWantToGoThere(BasicRide ride) {
         /**
          * happyness+laitteen hyvyys+preferredride +40>100**
          */
-        int h=stats.happyness/5; //0-20
-        int e=ride.getExitement();   //0-80
-        int p=0;                //0-20
-        switch(stats.preferredRide){
+        int h = stats.happyness / 5; //0-20
+        int e = ride.getExitement();   //0-80
+        int p = 0;                //0-20
+        switch (stats.preferredRide) {
             case LOW:
-                if(ride.rideType==PreferredRides.LOW){
-                    p=20;
+                if (ride.rideType == PreferredRides.LOW) {
+                    p = 20;
                 }
-                if(ride.rideType==PreferredRides.MEDIUM){
-                    p=10;
+                if (ride.rideType == PreferredRides.MEDIUM) {
+                    p = 10;
                 }
                 break;
-                
+
             case MEDIUM:
-                if(ride.rideType==PreferredRides.MEDIUM){
-                    p=20;
+                if (ride.rideType == PreferredRides.MEDIUM) {
+                    p = 20;
                 }
-                if(ride.rideType==PreferredRides.LOW){
-                    p=10;
+                if (ride.rideType == PreferredRides.LOW) {
+                    p = 10;
                 }
-                if(ride.rideType==PreferredRides.HIGH){
-                    p=10;
+                if (ride.rideType == PreferredRides.HIGH) {
+                    p = 10;
                 }
-                
+
                 break;
-                
+
             case HIGH:
-                if(ride.rideType==PreferredRides.MEDIUM){
-                    p=10;
+                if (ride.rideType == PreferredRides.MEDIUM) {
+                    p = 10;
                 }
-                if(ride.rideType==PreferredRides.CRAZY){
-                    p=5;
+                if (ride.rideType == PreferredRides.CRAZY) {
+                    p = 5;
                 }
-                if(ride.rideType==PreferredRides.HIGH){
-                    p=20;
+                if (ride.rideType == PreferredRides.HIGH) {
+                    p = 20;
                 }
                 break;
-                
+
             case CRAZY:
-                if(ride.rideType==PreferredRides.CRAZY){
-                    p=20;
+                if (ride.rideType == PreferredRides.CRAZY) {
+                    p = 20;
                 }
-                if(ride.rideType==PreferredRides.NAUSEA){
-                    p=10;
+                if (ride.rideType == PreferredRides.NAUSEA) {
+                    p = 10;
                 }
-                
+
                 break;
-                
+
             case NAUSEA:
-                if(ride.rideType==PreferredRides.NAUSEA){
-                    p=20;
+                if (ride.rideType == PreferredRides.NAUSEA) {
+                    p = 20;
                 }
-                if(ride.rideType==PreferredRides.CRAZY){
-                    p=10;
+                if (ride.rideType == PreferredRides.CRAZY) {
+                    p = 10;
                 }
-                
+
                 break;
-               
+
         }
         //happyness+exitement+preference+40
-        int rating=h+e+p+40;
-        System.out.println("Guest got rating of "+rating);
-        if(rating>100){
+        int rating = h + e + p + 40;
+        System.out.println("Guest got rating of " + rating);
+        if (rating > 100) {
             return true;
         }
         return false;
     }
-    
-    public Direction getmoveDirection(){
+
+    public Direction getmoveDirection() {
         return moving;
     }
+
     /**
      * Use only when accessing save data!
-     * @return 
+     *
+     * @return
      */
-    public int getX(){
+    public int getX() {
         return x;
     }
+
     /**
      * Use only when accessing save data!
-     * @return 
+     *
+     * @return
      */
-    public int getY(){
+    public int getY() {
         return y;
     }
+
     /**
      * Use only when accessing save data!
-     * @return 
+     *
+     * @return
      */
-    public int getZ(){
+    public int getZ() {
         return z;
     }
 }

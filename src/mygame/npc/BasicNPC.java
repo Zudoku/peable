@@ -70,6 +70,7 @@ public class BasicNPC {
         
         object.move(tarx,tary,tarz);
         
+        
         if(action.getMovePoint().distance(object.getWorldTranslation())<0.2){
             action.onAction();
             
