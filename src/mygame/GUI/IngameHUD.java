@@ -117,6 +117,16 @@ public class IngameHUD implements ScreenController {
         }
         a.getRenderer(ImageRenderer.class).setImage(img);
     }
+    public void rideDemolishToggle(){
+        for(BasicRide r:Main.currentPark.getRides()){
+            if(r.getRideID()==Gamestate.windowMaker.getRideID()){
+                r.demolish();
+                break;
+            }
+        }
+        
+        
+    }
 
     public void onStartScreen() {
         
@@ -217,7 +227,7 @@ public class IngameHUD implements ScreenController {
                 System.out.println("Did not find guest with that index");
                 return;
             }
-            Main.gamestate.windowMaker.createGuestWindow(guest,true);
+            Gamestate.windowMaker.createGuestWindow(guest,true);
             Element element = nifty.getCurrentScreen().findElementByName("NPCWindow");
             element.setVisible(false);
         }

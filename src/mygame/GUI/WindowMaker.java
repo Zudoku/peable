@@ -341,6 +341,12 @@ public class WindowMaker {
         
         
     }
+
+    public int getRideID() {
+        return rideID;
+    }
+
+    
     
     
     

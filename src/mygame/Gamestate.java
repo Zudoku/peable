@@ -8,15 +8,9 @@ import com.google.inject.Inject;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.asset.AssetManager;
-import com.jme3.input.FlyByCamera;
-import com.jme3.input.InputManager;
-import com.jme3.light.DirectionalLight;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.Node;
 import de.lessvoid.nifty.Nifty;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -148,4 +142,5 @@ public class Gamestate extends AbstractAppState {
         //System.out.println(cam.getRotation()+"   "+cam.getLocation());
         rideManager.updateRideQueues();
     }
+    
 }

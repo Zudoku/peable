@@ -7,6 +7,7 @@ package mygame.ride;
 import com.google.inject.Inject;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import mygame.Gamestate;
@@ -18,6 +19,7 @@ import mygame.npc.inventory.PreferredRides;
 import mygame.shops.Employee;
 import mygame.shops.ShopReputation;
 import mygame.terrain.Direction;
+import mygame.terrain.ParkHandler;
 
 /**
  *
@@ -59,6 +61,7 @@ public class BasicRide {
         {false, false, false, false},
         {false, false, false, false},
     };
+    private final Node rootNode;
     
     public void setRideType(String ride){
         this.ride=ride;
@@ -71,12 +74,13 @@ public class BasicRide {
         lastGuestVisitTime=System.currentTimeMillis();
     }
     
-    public BasicRide(Vector3f position, Spatial object, float cost, Direction facing,String ride) {
+    public BasicRide(Vector3f position, Spatial object, float cost, Direction facing,String ride,Node rootNode) {
         this.position = position;
         this.object = object;
         this.constructionmoney = cost;
         this.facing = facing;
         this.ride=ride;
+        this.rootNode=rootNode;
         
         object.setLocalTranslation(position);
     }
@@ -103,7 +107,7 @@ public class BasicRide {
             if (testedroad == null) {
                 System.out.println("Road from guest null :(");
             }
-            ArrayList<Spatial> linkedroads = Main.gamestate.roadMaker.getlinkedqueroads(enterance.connectedRoad);
+            ArrayList<Spatial> linkedroads = Gamestate.roadMaker.getlinkedqueroads(enterance.connectedRoad);
             if (!linkedroads.contains(testedroad)) {
                 System.out.println("Error");
                 continue;
@@ -239,6 +243,31 @@ public class BasicRide {
         this.exitement=exitement;
         this.nausea=nausea;
         this.status=status;
+    }
+
+    public void demolish() {
+        
+        
+        ParkHandler parkHandler=Main.currentPark;
+        Spatial[][][] map=parkHandler.getMap();
+        Node rideNode=(Node)rootNode.getChild("rideNode");
+        rideNode.detachChild(object);
+        rideNode.detachChild(exit.object);
+        rideNode.detachChild(enterance.object);
+        
+        for(int y=0;y<25;y++){
+            for(int x=0;x<parkHandler.getMapHeight();x++){
+                for(int z=0;z<parkHandler.getMapWidth();z++){
+                    if(map[x][y][z]!=null){
+                        if(map[x][y][z]==object||map[x][y][z]==enterance.object||map[x][y][z]==exit.object){
+                            map[x][y][z]=null;
+                        }
+                    }
+                }
+            }
+        }
+        Main.currentPark.getRides().remove(this);
+    
     }
     
 

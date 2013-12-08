@@ -371,7 +371,7 @@ public class LoadManager {
             }
             counter += 1;
             if (type.equals("chess")) {
-                ChessCenter a = new ChessCenter(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/chesshouse.j3o"), price, Direction.UP);
+                ChessCenter a = new ChessCenter(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/chesshouse.j3o"), price, Direction.UP,rootNode);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);

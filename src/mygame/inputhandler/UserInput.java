@@ -92,6 +92,30 @@ public class UserInput {
 
             }
             if (name.equals("mouserightclick")) {
+                if (System.currentTimeMillis() - lastclicked > 100) {
+                    lastclicked = System.currentTimeMillis();
+                   
+                    CollisionResults results = new CollisionResults();
+
+
+                    Vector2f click2d = inputManager.getCursorPosition();
+                    Vector3f click3d = cam.getWorldCoordinates(
+                            new Vector2f(click2d.getX(), click2d.getY()), 0f);
+
+                    Vector3f dir = cam.getWorldCoordinates(
+                            new Vector2f(click2d.getX(), click2d.getY()), 1f).
+                            subtractLocal(click3d);
+
+                    Ray ray = new Ray(cam.getLocation(), dir);
+
+                    rootNode.collideWith(ray, results);
+
+                    if (results.size() > 0) {
+                        CollisionResult target = results.getClosestCollision();
+                        clickingHandler.handleRightClicking(target, results);
+                        
+                    }
+                }
             }
         }
     };

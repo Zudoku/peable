@@ -8,10 +8,10 @@
     <screen id="start" controller="mygame.GUI.StartScreen">
         <layer id="layer" height="100%" width="100%" backgroundColor="#003f" childLayout="absolute"visibleToMouse="true">
             <panel id="buttones"x="0"y="0"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true">
-                <control id="alphatest" name="button" label="test!" x="10"y="600"width="30%"height="3%"visibleToMouse="true">
+                <control id="alphatest" name="button" label="Start new game!" x="10"y="600"width="30%"height="3%"visibleToMouse="true">
                     <interact onClick="startGame()"/>
                 </control>
-                <control id="loadtest" name="button" label="load test!" x="10"y="560"width="30%"height="3%"visibleToMouse="true">
+                <control id="loadtest" name="button" label="Load old game!" x="10"y="560"width="30%"height="3%"visibleToMouse="true">
                     <interact onClick="startGameLoad()"/>
                 </control>
                 <control id="settings" name="button" label="Settings" x="10"y="640"width="30%"height="3%"visibleToMouse="true">
@@ -526,8 +526,12 @@
                                 <panel id="tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <control id="ridenametextfieldprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Change name:" x="10"y="10" color="ffffff"/>
                                     <control id="ridenametextfield"name="textfield" maxLength="50" x="120"y="10"height="24" width="200" />
-                                    <image id="ridestatusbutton"filename="Interface/Rides/statusoff.png"x="360"y="0" childLayout="absolute" height="48"width="48"visibleToMouse="true">
+                                    <image id="ridestatusbutton"filename="Interface/Rides/statusoff.png"x="340"y="0" childLayout="absolute" height="48"width="48"visibleToMouse="true">
                                         <interact onClick="rideStatusToggle()">   
+                                        </interact>
+                                    </image>
+                                    <image id="ridedemolishbutton"filename="Interface/Rides/destroy.png"x="390"y="0" childLayout="absolute" height="48"width="48"visibleToMouse="true">
+                                        <interact onClick="rideDemolishToggle()">   
                                         </interact>
                                     </image>
                                     <control id="ridepricechangeprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Current price:" x="10"y="46" color="ffffff"/>

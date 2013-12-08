@@ -32,8 +32,8 @@ public class RideManager {
     int rideID;
     int enterancecount = 0;
     @Inject
-    public RideManager(AssetManager assetManager, Node rootNode) {
-        this.rideFactory = new RideFactory(assetManager);
+    public RideManager(AssetManager assetManager, Node rootNode,RideFactory rideFactory) {
+        this.rideFactory =rideFactory;
         this.assetManager = assetManager;
         this.rootNode = rootNode;
         rideNode = new Node("rideNode");
