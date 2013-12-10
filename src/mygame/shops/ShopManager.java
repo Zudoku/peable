@@ -33,8 +33,8 @@ public class ShopManager {
     BasicShop boughtshop;
     int shopID;
     @Inject
-    public ShopManager(AssetManager assetManager,Node rootNode) {
-        shopFactory = new ShopFactory(assetManager);
+    public ShopManager(AssetManager assetManager,Node rootNode,ShopFactory shopFactory) {
+        this.shopFactory =shopFactory;
         this.assetManager=assetManager;
         this.rootNode=rootNode;
         shopNode=new Node("shopNode");

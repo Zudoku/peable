@@ -189,6 +189,7 @@ public class LoadManager {
     }
 
     private void loadShopData(ParkHandler parkhandler, String string) {
+        Node shopNode=(Node)rootNode.getChild("shopNode");
         ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
         String worked = string;
         String[] values = worked.split(":");
@@ -219,7 +220,7 @@ public class LoadManager {
  
             if(type.equals("energyshop")){
                 Spatial geom=assetManager.loadModel("Models/shops/energyshop.j3o");
-                Energy e=new Energy(new Vector3f(x, y, z),geom , direction);
+                Energy e=new Energy(new Vector3f(x, y, z),geom , direction,rootNode);
                 e.getGeometry().setUserData("type","shop");
                 e.getGeometry().setUserData("shopID",shopID);
                 e.shopName=name;
@@ -227,7 +228,7 @@ public class LoadManager {
                 e.productname=productname;
                 e.shopID=shopID;
                 shops.add(e);
-                rootNode.attachChild(e.getGeometry());
+                shopNode.attachChild(e.getGeometry());
                 int ax=(int) x;
                 int ay=(int) y;
                 int az=(int) z;
@@ -235,7 +236,7 @@ public class LoadManager {
             }
             if(type.equals("meatballshop")){
                 Spatial geom=assetManager.loadModel("Models/shops/mball.j3o");
-                Meatballshop e=new Meatballshop(new Vector3f(x, y, z),geom , direction);
+                Meatballshop e=new Meatballshop(new Vector3f(x, y, z),geom , direction,rootNode);
                 e.getGeometry().setUserData("type","shop");
                 e.getGeometry().setUserData("shopID",shopID);
                 e.shopName=name;
@@ -243,7 +244,7 @@ public class LoadManager {
                 e.productname=productname;
                 e.shopID=shopID;
                 shops.add(e);
-                rootNode.attachChild(e.getGeometry());
+                shopNode.attachChild(e.getGeometry());
                 int ax=(int) x;
                 int ay=(int) y;
                 int az=(int) z;
@@ -251,7 +252,7 @@ public class LoadManager {
             }
             if(type.equals("toilet")){
                 Spatial geom=assetManager.loadModel("Models/shops/toilet.j3o");
-                Toilet e=new Toilet(new Vector3f(x, y, z),geom , direction);
+                Toilet e=new Toilet(new Vector3f(x, y, z),geom , direction,rootNode);
                 e.getGeometry().setUserData("type","shop");
                 e.getGeometry().setUserData("shopID",shopID);
                 e.shopName=name;
@@ -259,7 +260,7 @@ public class LoadManager {
                 e.productname=productname;
                 e.shopID=shopID;
                 shops.add(e);
-                rootNode.attachChild(e.getGeometry());
+                shopNode.attachChild(e.getGeometry());
                 int ax=(int) x;
                 int ay=(int) y;
                 int az=(int) z;
@@ -337,6 +338,7 @@ public class LoadManager {
     }
 
     private void loadRideData(ParkHandler parkhandler, String string) {
+        Node rideNode=(Node)rootNode.getChild("rideNode");
         ArrayList<BasicRide> asd = new ArrayList<BasicRide>();
         String worked = string;
         String[] values = worked.split(":");
@@ -377,7 +379,7 @@ public class LoadManager {
                 a.setStats(broken, exitement, nausea, status);
                 a.getGeometry().setUserData("rideID", rideID);
                 a.getGeometry().setUserData("type", "ride");
-                rootNode.attachChild(a.getGeometry());
+                rideNode.attachChild(a.getGeometry());
                 asd.add(a);
             }
             String result = values[counter];
@@ -414,7 +416,7 @@ public class LoadManager {
                 counter++;
                 Enterance e = new Enterance(false, new Vector3f(eX, eY, eZ), direction, assetManager);
                 e.connected = connected;
-                rootNode.attachChild(e.object);
+                rideNode.attachChild(e.object);
                 e.connectedRide = asd.get(asd.size() - 1);
                 asd.get(asd.size() - 1).enterance = e;
 
@@ -449,7 +451,7 @@ public class LoadManager {
 
                 counter++;
                 Enterance e = new Enterance(true, new Vector3f(eX, eY, eZ), direction, assetManager);
-                rootNode.attachChild(e.object);
+                rideNode.attachChild(e.object);
                 e.connectedRide = asd.get(asd.size() - 1);
                 e.connected = connected;
                 asd.get(asd.size() - 1).exit = e;
@@ -462,7 +464,7 @@ public class LoadManager {
     }
 
     private void loadRoadData(ParkHandler parkhandler, String string) {
-        ArrayList<Road> asd = new ArrayList<Road>();
+        
         String worked = string;
         String[] values = worked.split(":");
         int quantity = Integer.parseInt(values[0]);

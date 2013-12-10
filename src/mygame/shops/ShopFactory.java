@@ -4,8 +4,10 @@
  */
 package mygame.shops;
 
+import com.google.inject.Inject;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import mygame.shops.actualshops.Energy;
 import mygame.shops.actualshops.Meatballshop;
@@ -18,26 +20,28 @@ import mygame.terrain.Direction;
  */
 public class ShopFactory {
     private final AssetManager assetManager;
-    
-    public ShopFactory(AssetManager assetManager){
+    private final Node rootNode;
+    @Inject
+    public ShopFactory(AssetManager assetManager,Node rootNode){
         this.assetManager=assetManager;
+        this.rootNode=rootNode;
     }
     public Meatballshop meatBallShop(Vector3f pos,Direction facing){
         Spatial geom =assetManager.loadModel("Models/shops/mball.j3o");
         
-        Meatballshop shop=new Meatballshop(pos,geom,facing);
+        Meatballshop shop=new Meatballshop(pos,geom,facing,rootNode);
         
         return shop;
     }
     public Energy energyShop(Vector3f pos,Direction facing){
         Spatial geom =assetManager.loadModel("Models/shops/energyshop.j3o");
-        Energy shop=new Energy(pos,geom,facing);
+        Energy shop=new Energy(pos,geom,facing,rootNode);
         
         return shop;
     }
     public Toilet toilet(Vector3f pos,Direction facing){
         Spatial geom =assetManager.loadModel("Models/shops/toilet.j3o");
-        Toilet shop=new Toilet(pos,geom,facing);
+        Toilet shop=new Toilet(pos,geom,facing,rootNode);
         
         return shop;
     }

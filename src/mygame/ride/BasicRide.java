@@ -254,6 +254,9 @@ public class BasicRide {
         rideNode.detachChild(object);
         rideNode.detachChild(exit.object);
         rideNode.detachChild(enterance.object);
+        rootNode.detachChild(object);
+        rootNode.detachChild(exit.object);
+        rootNode.detachChild(enterance.object);
         
         for(int y=0;y<25;y++){
             for(int x=0;x<parkHandler.getMapHeight();x++){
@@ -266,8 +269,10 @@ public class BasicRide {
                 }
             }
         }
-        Main.currentPark.getRides().remove(this);
-    
+        parkHandler.getParkWallet().add(0.5f*constructionmoney);
+        Gamestate.ingameHUD.updateMoneytextbar();
+        parkHandler.getRides().remove(this);
+        
     }
     
 

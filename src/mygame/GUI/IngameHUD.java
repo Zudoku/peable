@@ -31,6 +31,7 @@ import mygame.inputhandler.ClickingModes;
 import mygame.npc.Guest;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicBuildables;
+import mygame.shops.BasicShop;
 import mygame.terrain.Direction;
 import mygame.terrain.RoadHill;
 import mygame.terrain.RoadMakerStatus;
@@ -121,11 +122,21 @@ public class IngameHUD implements ScreenController {
         for(BasicRide r:Main.currentPark.getRides()){
             if(r.getRideID()==Gamestate.windowMaker.getRideID()){
                 r.demolish();
+                closeWindows("");
                 break;
             }
         }
         
         
+    }
+    public void shopDemolishToggle(){
+        for(BasicShop s:Main.currentPark.getShops()){
+            if(s.shopID==Gamestate.windowMaker.getShopID()){
+                s.demolish();
+                closeWindows("");
+                break;
+            }
+        }
     }
 
     public void onStartScreen() {

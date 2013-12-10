@@ -5,6 +5,7 @@
 package mygame.shops.actualshops;
 
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import mygame.Gamestate;
 import mygame.Main;
@@ -22,8 +23,8 @@ public class Energy extends BasicShop{
     
     
     
-    public Energy(Vector3f position,Spatial geom,Direction facing){
-        super(position,geom,300,facing);
+    public Energy(Vector3f position,Spatial geom,Direction facing,Node rootNode){
+        super(position,geom,300,facing,rootNode);
         productname="Energy Drink";
         constructionmoney=300;
         price=20;

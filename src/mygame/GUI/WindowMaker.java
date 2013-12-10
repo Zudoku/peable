@@ -28,6 +28,7 @@ public class WindowMaker {
     Nifty nifty;
     private int guestnumber;
     private int rideID;
+    private int shopID;
     public WindowMaker(Nifty nifty){
         this.nifty=nifty;
       
@@ -126,6 +127,7 @@ public class WindowMaker {
             System.out.println("Error shop null!!!!");
             return;
         }
+       shopID=shop.shopID;
        Element shopwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("shoptemplate");
        
      
@@ -344,6 +346,10 @@ public class WindowMaker {
 
     public int getRideID() {
         return rideID;
+    }
+
+    int getShopID() {
+        return shopID;
     }
 
     

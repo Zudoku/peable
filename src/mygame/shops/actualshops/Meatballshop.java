@@ -5,6 +5,7 @@
 package mygame.shops.actualshops;
 
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import mygame.Gamestate;
 import mygame.Main;
@@ -23,8 +24,8 @@ public class Meatballshop extends BasicShop{
 
     
     
-    public Meatballshop(Vector3f position,Spatial geom,Direction facing){
-        super(position,geom,300,facing);
+    public Meatballshop(Vector3f position,Spatial geom,Direction facing,Node rootNode){
+        super(position,geom,300,facing,rootNode);
         shopName="MeatBallShop";
         productname="Herggu MeatBalls";
         price=20;

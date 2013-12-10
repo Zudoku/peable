@@ -5,6 +5,7 @@
 package mygame.shops.actualshops;
 
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import mygame.Gamestate;
 import mygame.Main;
@@ -22,8 +23,8 @@ public class Toilet extends BasicShop{
     
     
     
-    public Toilet(Vector3f position,Spatial geom,Direction facing){
-        super(position,geom,300,facing);
+    public Toilet(Vector3f position,Spatial geom,Direction facing,Node rootNode){
+        super(position,geom,300,facing,rootNode);
         price=5;
         constructionmoney=300;
         productname="Toilet usage";

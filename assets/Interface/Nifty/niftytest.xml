@@ -501,7 +501,10 @@
                             </control>
                             <control id="tab_2" name="tab" caption="Actions"x="0"y="0">
                                 <panel id="tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    
+                                    <image id="shopdemolishbutton"filename="Interface/Rides/destroy.png"x="390"y="0" childLayout="absolute" height="48"width="48"visibleToMouse="true">
+                                        <interact onClick="shopDemolishToggle()">   
+                                        </interact>
+                                    </image>
                                 </panel>
                             </control>
                             <control id="tab_3" name="tab" caption="Employees"x="0"y="0"> 
