@@ -612,6 +612,17 @@
                     <control id="guests" name="dropDown"x="40"y="10"displayItems="20" align="left" valign="top"visibleToMouse="true"height="28" width="300"/>
                 </panel>
             </control>
+            <control id="decorationWindow" name="window"title="DECORATIONS"width="800"height="400"x="200"y="200"hideOnClose="true"closeable="false">
+                <panel id="decorationpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true"childClip="true">
+                    <control id="scrollbarPanelId" name="scrollPanel" horizontal="false" height="240" x="60"y="120"pageSizeY="4"stepSizeY="2">
+                        <panel id="dscrollpanel"valign="top"align="left"height="600" width="100%" backgroundColor="#999999" childLayout="absolute"visibleToMouse="true"x="0"y="0">
+                            
+                            
+                        </panel>
+                    </control>
+                </panel>
+            </control>
+            
         </layer>
     </screen>
 </nifty>
