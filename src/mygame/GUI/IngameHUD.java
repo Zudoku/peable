@@ -322,12 +322,27 @@ public class IngameHUD implements ScreenController {
 
         niftyElement.setVisible(!niftyElement.isVisible());
         if (niftyElement.isVisible() == true) {
-            Main.gamestate.clickingHandler.clickMode = ClickingModes.ROAD;
+            Gamestate.clickingHandler.clickMode = ClickingModes.ROAD;
 
 
         } else {
 
-            Main.gamestate.clickingHandler.clickMode = ClickingModes.NOTHING;
+            Gamestate.clickingHandler.clickMode = ClickingModes.NOTHING;
+        }
+        updateClickingIndicator();
+    }
+    public void toggleDecorationWindow(){
+        closeWindows("decorationWindow");
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("decorationWindow");
+
+        niftyElement.setVisible(!niftyElement.isVisible());
+        if (niftyElement.isVisible() == true) {
+            Gamestate.clickingHandler.clickMode = ClickingModes.DECORATION;
+
+
+        } else {
+
+            Gamestate.clickingHandler.clickMode = ClickingModes.NOTHING;
         }
         updateClickingIndicator();
     }
@@ -343,12 +358,12 @@ public class IngameHUD implements ScreenController {
         }
     }
     public void updateNPCBox(){
-        ArrayList<Guest> guests=Main.gamestate.npcManager.guests;
+        ArrayList<Guest> guests=Main.currentPark.getGuests();
     DropDown drop= screen.findNiftyControl("guests",DropDown.class);
     drop.clear();
     drop.addItem("default");
     for(Guest g:guests){
-        String guest=Integer.toString(g.getGuestNum())+"- "+g.getName();
+        String guest=Integer.toString(g.getGuestNum())+" - "+g.getName();
         drop.addItem(guest);
     }
     drop.getElement().setConstraintHorizontalAlign(HorizontalAlign.left);
@@ -479,6 +494,9 @@ public class IngameHUD implements ScreenController {
         niftyElement.setVisible(false);
         niftyElement = nifty.getCurrentScreen().findElementByName("ridetemplate");
         niftyElement.setVisible(false);
+        niftyElement = nifty.getCurrentScreen().findElementByName("decorationWindow");
+        niftyElement.setVisible(false);
+        
         }
 
     }

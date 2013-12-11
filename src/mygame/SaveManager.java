@@ -19,6 +19,7 @@ import mygame.shops.BasicShop;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.QueRoad;
 import mygame.terrain.Road;
+import mygame.terrain.decoration.Decoration;
 
 /**
  *
@@ -45,6 +46,7 @@ public class SaveManager {
             writeRideData(writer, parkHandler);
             writeRoadData(writer);
             writeQueRoads(writer);
+            //writeDecorations(writer, parkHandler);
         } catch (IOException ex) {
             // report
         } finally {
@@ -399,5 +401,41 @@ public class SaveManager {
             String direction=q.direction;
             writer.write(x+":"+z+":"+y+":"+roadhill+":"+q.ID+":"+connected+":"+queconnect1+":"+queconnect2+":"+direction+":");
         }
+    }
+    private void writeDecorations(Writer writer,ParkHandler parkhandler) throws IOException{
+        ArrayList<Decoration>decorations=getDecorations(parkhandler);
+        writer.write("decoration size:"+decorations.size()+":");
+        for(Decoration d:decorations){
+            String x=d.x;
+            String y=d.y;
+            String z=d.z;
+            String type=d.type;
+            String direction=d.direction;
+            writer.write(x+":"+y+":"+z+":"+type+":"+direction+":");
+        }
+        
+    }
+    private ArrayList<Decoration> getDecorations(ParkHandler parkhandler){
+        ArrayList<Decoration>decorations=new ArrayList<Decoration>();
+        Spatial[][][]map=parkhandler.getMap();
+        for (int xi = 0; xi < Main.currentPark.getMapHeight(); xi++) {
+            for (int zi = 0; zi < Main.currentPark.getMapWidth(); zi++) {
+                for (int yi = 0; yi < 15; yi++) {
+                    if(map[xi][yi][zi]!=null){
+                        Spatial test=map[xi][yi][zi];
+                        if(test.getUserData("type").equals("decoration")){
+                            String x=Float.toString(test.getLocalTranslation().x);
+                            String y=Float.toString(test.getLocalTranslation().y);
+                            String z=Float.toString(test.getLocalTranslation().z);
+                            String direction=test.getUserData("direction").toString();
+                            String type=test.getUserData("decoration");
+                            Decoration d=new Decoration(x, y, z,type,direction);
+                            decorations.add(d);
+                        }
+                    }
+                }
+            }
+        }
+        return decorations;
     }
 }

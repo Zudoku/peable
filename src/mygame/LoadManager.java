@@ -38,6 +38,7 @@ import mygame.terrain.ParkWallet;
 import mygame.terrain.Road;
 import mygame.terrain.RoadFactory;
 import mygame.terrain.RoadMaker;
+import mygame.terrain.decoration.DecorationFactory;
 
 /**
  *
@@ -87,7 +88,7 @@ public class LoadManager {
         loadRideData(parkhandler, lines[4]);
         loadRoadData(parkhandler, lines[5]);
         loadQueRoadData(parkhandler,lines[6]);
-
+        //loadDecorationData(parkhandler,lines[7]);
         return null;
     }
 
@@ -140,8 +141,13 @@ public class LoadManager {
         working = workingString.split("queroad size:");
         //roads info
         lines[5] = working[0];
+        workingString = working[1];
+        working = workingString.split("decoration size:");
         //queroads info
-        lines[6] = working[1];
+        lines[6] = working[0];
+        //decorations
+        lines[7] = working[1];
+        
         return lines;
     }
 
@@ -600,5 +606,49 @@ public class LoadManager {
         mat.setTexture("ColorMap", grass);
         geom.setMaterial(mat);
         return geom;
+    }
+
+    private void loadDecorationData(ParkHandler parkhandler, String string) {
+        DecorationFactory dFactory=new DecorationFactory(assetManager);
+        String worked = string;
+        String[] values = worked.split(":");
+        Node decorationNode=(Node)rootNode.getChild("decorationNode");
+        int quantity = Integer.parseInt(values[0]);
+        for(int i=0;i<quantity;i++){
+            int a=i*5;
+            float x=Float.parseFloat(values[a+1]);
+            float y=Float.parseFloat(values[a+2]);
+            float z=Float.parseFloat(values[a+3]);
+            String type=values[a+4];
+            String direction=values[a+5];
+            if(type.equals("test")){
+                Spatial decoration=dFactory.getTestDecor();
+                decoration.setUserData("type","decoration");
+                decoration.setLocalTranslation(x, y, z);
+                Float angle;
+                if(direction.equals("UP")){
+                    angle = (float) Math.toRadians(90);
+                    decoration.rotate(0, angle, 0);
+                }
+                if(direction.equals("DOWN")){
+                    angle = (float) Math.toRadians(90);
+                    decoration.rotate(0, angle, 0);
+                }
+                if(direction.equals("RIGHT")){
+                    angle = (float) Math.toRadians(90);
+                    decoration.rotate(0, angle, 0);
+                }
+                if(direction.equals("LEFT")){
+                    angle = (float) Math.toRadians(90);
+                    decoration.rotate(0, angle, 0);
+                }
+                decoration.setUserData("direction",direction);
+                int xi=(int)x;
+                int yi=(int)y;
+                int zi=(int)z;
+                parkhandler.getMap()[xi][yi][zi]=decoration;
+                decorationNode.attachChild(decoration);
+            }
+        }
     }
 }

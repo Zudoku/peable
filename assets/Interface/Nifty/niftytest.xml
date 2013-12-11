@@ -40,11 +40,11 @@
                 <image filename="Interface/money/bulldozer.png"x="195"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick="clickDemolishbutton()"/>
                 </image>
-                <image filename="Interface/Shops/Nopic.png"x="260"y="0" childLayout="absolute" width="64" height="64">
-                    <interact onClick="testSave()"/>
+                <image filename="Interface/Decoration/Icon.png"x="260"y="0" childLayout="absolute" width="64" height="64">
+                    <interact onClick="toggleDecorationWindow()"/>
                 </image>
-                <image filename="Interface/Shops/Nopic.png"x="325"y="0" childLayout="absolute" width="64" height="64">
-                    <interact onClick=""/>
+                <image filename="Interface/Nifty/Save.png"x="325"y="0" childLayout="absolute" width="64" height="64">
+                    <interact onClick="testSave()"/>
                 </image>
                 <image id="clickmodeindicator"filename="Interface/money/bulldozer.png"x="500"y="0" childLayout="absolute" width="64" height="64">   
                 </image>
@@ -612,15 +612,76 @@
                     <control id="guests" name="dropDown"x="40"y="10"displayItems="20" align="left" valign="top"visibleToMouse="true"height="28" width="300"/>
                 </panel>
             </control>
-            <control id="decorationWindow" name="window"title="DECORATIONS"width="800"height="400"x="200"y="200"hideOnClose="true"closeable="false">
-                <panel id="decorationpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true"childClip="true">
-                    <control id="scrollbarPanelId" name="scrollPanel" horizontal="false" height="240" x="60"y="120"pageSizeY="4"stepSizeY="2">
-                        <panel id="dscrollpanel"valign="top"align="left"height="600" width="100%" backgroundColor="#999999" childLayout="absolute"visibleToMouse="true"x="0"y="0">
+            <control id="decorationWindow" name="window"title="DECORATIONS"width="800"height="400"x="200"y="200"hideOnClose="true"closeable="true">
+                <panel x="0"y="0"id="decorationtaustapanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#000000" childLayout="absolute"visibleToMouse="true">
+                    
+                
+                <panel x="0"y="0"id="decorationuppanel"valign="top"align="left"height="120" width="100%" backgroundColor="#808080" childLayout="absolute"visibleToMouse="true"childClip="false">
+                    
+                </panel>
+                
+                <panel x="0"y="120"id="decorationdownpanel"valign="top"align="left"height="250" width="100%" backgroundColor="#ffffff" childLayout="absolute"visibleToMouse="true"childClip="true">
+                    <control id="decorationscrollbar" name="scrollPanel" horizontal="false" height="240" x="30"y="0"pageSizeY="4"stepSizeY="2"childClip="false">
+                        <panel id="dscrollpanel"valign="top"align="left"height="600" width="740" backgroundColor="#FFF0D1" childLayout="absolute"visibleToMouse="true"x="0"y="0">
+                            <image filename="Interface/Shops/Nopic.png"x="10"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="79"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="148"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="217"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="286"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="355"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="424"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="493"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="562"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="631"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            
+                            <image filename="Interface/Shops/Nopic.png"x="10"y="89" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
+                            <image filename="Interface/Shops/Nopic.png"x="79"y="89" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="">   
+                                </interact>
+                            </image>
                             
                             
                         </panel>
+                        <panel id="decorationuppanel"valign="top"align="left"height="120" width="100%" backgroundColor="#808080" childLayout="absolute"visibleToMouse="true"childClip="false">
+                    
+                        </panel>
                     </control>
                 </panel>
+                </panel>
+                
             </control>
             
         </layer>
