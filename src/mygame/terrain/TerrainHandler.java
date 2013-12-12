@@ -4,6 +4,7 @@
  */
 package mygame.terrain;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResult;
@@ -15,7 +16,6 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import mygame.Gamestate;
-import mygame.Main;
 
 /**
  *
@@ -35,10 +35,12 @@ public class TerrainHandler {
     
     public int textureindex = 1;
     public boolean useTexture = false;
-
-    public TerrainHandler(Node rootNode, AssetManager assetManager) {
+    private final ParkHandler parkHandler;
+    @Inject
+    public TerrainHandler(Node rootNode, AssetManager assetManager,ParkHandler parkHandler) {
         this.gameNode = rootNode;
         this.assetManager = assetManager;
+        this.parkHandler=parkHandler;
         
     }
 
@@ -148,7 +150,7 @@ public class TerrainHandler {
         if(x<0||z<0||x>99||z>99){
             return;
         }
-        if(!Main.currentPark.getParkWallet().canAfford(10)){
+        if(!parkHandler.getParkWallet().canAfford(10)){
            return; 
         }
         Spatial deleted = map[x][0][z];
@@ -177,7 +179,7 @@ public class TerrainHandler {
         map[x][0][z] = geomclone;
         gameNode.detachChild(deleted);
         gameNode.attachChild(geomclone);
-        Main.currentPark.getParkWallet().remove(10);
+        parkHandler.getParkWallet().remove(10);
         Gamestate.ingameHUD.updateMoneytextbar();
 
     }
@@ -186,7 +188,7 @@ public class TerrainHandler {
         if(x<0||z<0||x>99||z>99){
             return;
         }
-        if(!Main.currentPark.getParkWallet().canAfford(10)){
+        if(!parkHandler.getParkWallet().canAfford(10)){
            return; 
         }
         Spatial deleted = map[x][0][z];
@@ -213,7 +215,7 @@ public class TerrainHandler {
         map[x][0][z] = geomclone;
         gameNode.detachChild(deleted);
         gameNode.attachChild(geomclone);
-        Main.currentPark.getParkWallet().remove(10);
+        parkHandler.getParkWallet().remove(10);
         Gamestate.ingameHUD.updateMoneytextbar();
 
     }

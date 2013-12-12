@@ -9,12 +9,12 @@ import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import mygame.Gamestate;
 import mygame.Main;
 import mygame.npc.Guest;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
+import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.RoadMaker;
 import mygame.terrain.RoadMakerStatus;
@@ -27,19 +27,21 @@ import mygame.terrain.TerrainHandler;
 @Singleton
 public class ClickingHandler {
 
-    public final TerrainHandler worldHandler;
+    @Inject private TerrainHandler worldHandler;
     public ClickingModes clickMode = ClickingModes.NOTHING;
     public int buffer = 0;
     private final Node rootNode;
     private final ParkHandler parkHandler;
     private final RoadMaker roadMaker;
+    private final MapContainer map;
 
     @Inject
-    public ClickingHandler(TerrainHandler worldHandler,Node rootNode,ParkHandler parkHandler,RoadMaker roadMaker) {
-        this.worldHandler = worldHandler;
+    public ClickingHandler(Node rootNode,ParkHandler parkHandler,RoadMaker roadMaker,MapContainer map) {
+        
         this.rootNode=rootNode;
         this.parkHandler=parkHandler;
         this.roadMaker=roadMaker;
+        this.map=map;
     }
 
     public void handleClicking(CollisionResult target, CollisionResults results) {
@@ -114,7 +116,7 @@ public class ClickingHandler {
 
             case PLACE:
                 if (buffer == 0) {
-                    Main.gamestate.shopManager.buy();
+                    Main.gamestate.shopManager.buy(parkHandler);
                     Main.gamestate.holoDrawer.toggleDrawSpatial();
                     Gamestate.ingameHUD.updateClickingIndicator();
                 } else {
@@ -167,13 +169,13 @@ public class ClickingHandler {
     }
 
     private void deleteFromMap(Node rootTarget) {
-        Spatial[][][] map=parkHandler.getMap();
+        
         for(int y=0;y<25;y++){
             for(int x=0;x<parkHandler.getMapHeight();x++){
                 for(int z=0;z<parkHandler.getMapWidth();z++){
-                    if(map[x][y][z]!=null){
-                        if(map[x][y][z]==rootTarget){
-                            map[x][y][z]=null;
+                    if(map.getMap()[x][y][z]!=null){
+                        if(map.getMap()[x][y][z]==rootTarget){
+                            map.getMap()[x][y][z]=null;
                             if(rootTarget.getUserData("type")!=null){
                                 if (rootTarget.getUserData("type").equals("road")) {
                                     roadMaker.updateroads(x, y, z);

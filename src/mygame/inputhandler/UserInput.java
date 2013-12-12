@@ -38,10 +38,11 @@ public class UserInput {
  
 
     @Inject
-    public UserInput(Node rootNode, InputManager inputManager, Camera cam) {
+    public UserInput(Node rootNode, InputManager inputManager, Camera cam,ClickingHandler clickingHandler) {
         this.rootNode = rootNode;
         this.inputManager = inputManager;
         this.cam = cam;
+        this.clickingHandler=clickingHandler;
         cameraController=new CameraController(cam);
         inputManager.setCursorVisible(true);
         inputManager.addMapping("mouseleftclick", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
@@ -120,10 +121,7 @@ public class UserInput {
         }
     };
 
-    public void giveClickHandler(ClickingHandler clickingHandler) {
-        this.clickingHandler=clickingHandler;
-
-    }
+    
     private AnalogListener analogListener = new AnalogListener() {
        
         public void onAnalog(String name, float value, float tpf) {

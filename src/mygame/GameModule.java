@@ -11,10 +11,6 @@ import com.jme3.input.InputManager;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
-import mygame.inputhandler.ClickingHandler;
-import mygame.terrain.ParkHandler;
-import mygame.terrain.RoadMaker;
-import mygame.terrain.TerrainHandler;
 
 /**
  *
@@ -41,14 +37,9 @@ public class GameModule extends AbstractModule {
   }
   
   
-  @Provides
-  ClickingHandler provideClickingHandler(TerrainHandler worldHandler,Node node,ParkHandler parkHandler,RoadMaker roadMaker){
-      return new ClickingHandler(worldHandler,node,parkHandler,roadMaker);
-  }
-  @Provides
-  TerrainHandler provideTerrainHandler(Node node,AssetManager amanager){
-      return new TerrainHandler(node, amanager);
-  }
+  
+  
+  
   @Provides
   Node provideRootNode(){
       return rootNode;

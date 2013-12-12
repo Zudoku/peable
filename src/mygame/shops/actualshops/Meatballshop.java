@@ -39,7 +39,7 @@ public class Meatballshop extends BasicShop{
         if(guest.wallet.canAfford(price)){
             guest.inventory.add(new Item(productname, Itemtypes.FOOD,10));
             guest.wallet.pay(price);
-            Main.currentPark.getParkWallet().add(price);
+            parkHandler.getParkWallet().add(price);
             Gamestate.ingameHUD.updateMoneytextbar();
         }
     }

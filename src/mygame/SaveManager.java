@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import mygame.npc.Guest;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
+import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.QueRoad;
 import mygame.terrain.Road;
@@ -28,11 +29,15 @@ import mygame.terrain.decoration.Decoration;
 @Singleton
 public class SaveManager {
     private final LoadManager loadManager;
+    private final ParkHandler parkHandler;
+    private final MapContainer map;
     @Inject
-    public SaveManager(LoadManager loadmanager){
+    public SaveManager(LoadManager loadmanager,ParkHandler parkHandler,MapContainer map){
         this.loadManager=loadmanager;
+        this.parkHandler=parkHandler;
+        this.map=map;
     }
-    public void Save(String filename, ParkHandler parkHandler) {
+    public void Save(String filename) {
         Writer writer = null;
 
         try {
@@ -292,11 +297,11 @@ public class SaveManager {
     private ArrayList<Road> getRoadstoClasses() {
         ArrayList<Spatial> roads = new ArrayList<Spatial>(); //tänne kerätään roadit 
         ArrayList<Road> roadListTrue = new ArrayList<Road>();  //tänne tehdään objektit
-        Spatial[][][] map = Main.currentPark.getMap();
-        for (int xi = 0; xi < Main.currentPark.getMapHeight(); xi++) {
-            for (int zi = 0; zi < Main.currentPark.getMapWidth(); zi++) {
+        
+        for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
+            for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {
                 for (int yi = 0; yi < 15; yi++) {
-                    Spatial tested = map[xi][yi][zi];
+                    Spatial tested = map.getMap()[xi][yi][zi];
                     if (tested != null) {
                         if (tested.getUserData("type").equals("road")) {
                             roads.add(tested);
@@ -328,11 +333,11 @@ public class SaveManager {
     private ArrayList<QueRoad> getQueRoads() {
         ArrayList<Spatial> queroads = new ArrayList<Spatial>(); //tänne kerätään roadit 
         ArrayList<QueRoad> queroadListTrue = new ArrayList<QueRoad>();  //tänne tehdään objektit
-        Spatial[][][] map = Main.currentPark.getMap();
-        for (int xi = 0; xi < Main.currentPark.getMapHeight(); xi++) {
-            for (int zi = 0; zi < Main.currentPark.getMapWidth(); zi++) {
+        
+        for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
+            for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {
                 for (int yi = 0; yi < 15; yi++) {
-                    Spatial tested = map[xi][yi][zi];
+                    Spatial tested = map.getMap()[xi][yi][zi];
                     if (tested != null) {
                         if (tested.getUserData("type").equals("queroad")) {
                             queroads.add(tested);
@@ -417,12 +422,12 @@ public class SaveManager {
     }
     private ArrayList<Decoration> getDecorations(ParkHandler parkhandler){
         ArrayList<Decoration>decorations=new ArrayList<Decoration>();
-        Spatial[][][]map=parkhandler.getMap();
-        for (int xi = 0; xi < Main.currentPark.getMapHeight(); xi++) {
-            for (int zi = 0; zi < Main.currentPark.getMapWidth(); zi++) {
+        
+        for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
+            for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {
                 for (int yi = 0; yi < 15; yi++) {
-                    if(map[xi][yi][zi]!=null){
-                        Spatial test=map[xi][yi][zi];
+                    if(map.getMap()[xi][yi][zi]!=null){
+                        Spatial test=map.getMap()[xi][yi][zi];
                         if(test.getUserData("type").equals("decoration")){
                             String x=Float.toString(test.getLocalTranslation().x);
                             String y=Float.toString(test.getLocalTranslation().y);

@@ -19,14 +19,14 @@ import mygame.terrain.ParkHandler;
  */
 public class Main extends SimpleApplication {
 
-    public static ParkHandler currentPark;
+    public ParkHandler currentPark;
     StartScreen startScreen;
     public static Nifty nifty;
     public static Gamestate gamestate;
     public static int startgame=0;
-    public static SaveManager saveManager;
+    public SaveManager saveManager;
     public LoadManager loadManager;
-    private Injector injector;
+    public static Injector injector;
     public static void main(String[] args) {
         
         

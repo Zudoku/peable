@@ -5,10 +5,14 @@
 package mygame.terrain;
 
 import com.google.inject.Inject;
+import com.jme3.asset.AssetManager;
+import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
+import com.jme3.texture.Texture;
 import java.util.ArrayList;
 import mygame.Main;
 import mygame.npc.BasicNPC;
@@ -24,23 +28,28 @@ public class MapFactory {
     int Mapheight=101; //-1 ==100
     int Mapwidth=101;  //-1 ==100
     private final Node rootNode;
-    private final TerrainHandler worldHandler;
+    
+    private final ParkHandler parkHandler;
+    private final MapContainer map;
+    private final AssetManager assetManager;
     @Inject
-    public MapFactory(Node rootNode,TerrainHandler worldHandler){
+    public MapFactory(Node rootNode,ParkHandler parkHandler,MapContainer map,AssetManager assetManager){
         this.rootNode=rootNode;
-        this.worldHandler=worldHandler;
+        this.assetManager=assetManager;
+        this.parkHandler=parkHandler;
+        this.map=map;
     }
     public void setCurrentMapPlain(){
-        Main.currentPark.setMap(getPlainMap(Mapheight, Mapwidth),getPlainMapData(Mapheight, Mapwidth,6));
+        parkHandler.setMap(getPlainMap(Mapheight, Mapwidth),getPlainMapData(Mapheight, Mapwidth,6));
 
-        Main.currentPark.setNpcs(new ArrayList<BasicNPC>());
-        Main.currentPark.setGuests(new ArrayList<Guest>());
-        Main.currentPark.setRides(new ArrayList<BasicRide>());
-        Main.currentPark.setShops(new ArrayList<BasicShop>());
-        Main.currentPark.setRideID(1);
-        Main.currentPark.setShopID(1);
-        Main.currentPark.setMapSize(Mapheight, Mapwidth);
-        Main.currentPark.setParkWallet(new ParkWallet(10000));
+        parkHandler.setNpcs(new ArrayList<BasicNPC>());
+        parkHandler.setGuests(new ArrayList<Guest>());
+        parkHandler.setRides(new ArrayList<BasicRide>());
+        parkHandler.setShops(new ArrayList<BasicShop>());
+        parkHandler.setRideID(1);
+        parkHandler.setShopID(1);
+        parkHandler.setMapSize(Mapheight, Mapwidth);
+        parkHandler.setParkWallet(new ParkWallet(10000));
     }
    
     
@@ -57,7 +66,7 @@ public class MapFactory {
         for (int x = 0; x < 100; x++) {
             for (int y = 0; y < 100; y++) {
 
-                Geometry geomclone = worldHandler.TerrainBox();
+                Geometry geomclone =TerrainBox();
                 geomclone.setLocalScale((new Vector3f(1, (int) TerrainMap[x][y], 1)));
 
                 geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().y + ((float) TerrainMap[x][y] / 2), 1);
@@ -84,5 +93,18 @@ public class MapFactory {
             }
         }
         return data;
+    }
+    //TODO DELETE THIS
+    private Geometry TerrainBox() {
+
+        Box b = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
+        Geometry geom = new Geometry("Terrain", b);
+        Texture grass = assetManager.loadTexture(
+                "Textures/grasstexture.png");
+        Material mat = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setTexture("ColorMap", grass);
+        geom.setMaterial(mat);
+        return geom;
     }
 }

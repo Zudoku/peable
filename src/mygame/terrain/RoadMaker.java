@@ -30,16 +30,19 @@ public class RoadMaker {
     private final Node rootNode;
     public boolean queroad = false;
     //X,Y,Z
-    public Spatial map[][][] = new Spatial[100][100][100];
+    private MapContainer map;
     public boolean change = true;
     public RoadFactory roadF;
     private Spatial lastqueroad;
     public ArrayList<Spatial>roads=new ArrayList<Spatial>();
     public int ID=1;
+    @Inject private ParkHandler parkHandler;
     @Inject
-    public RoadMaker(AssetManager assetManager, Node rootNode) {
+    public RoadMaker(AssetManager assetManager, Node rootNode ,MapContainer map) {
         this.assetManager = assetManager;
         this.rootNode = rootNode;
+        
+        this.map=map;
         roadF = new RoadFactory(assetManager);
     }
 
@@ -75,7 +78,7 @@ public class RoadMaker {
         if (status == RoadMakerStatus.CHOOSING) {
             return;
         }
-        if(!Main.currentPark.getParkWallet().canAfford(10)){
+        if(!parkHandler.getParkWallet().canAfford(10)){
            return; 
         }
         Spatial road = null;
@@ -157,8 +160,8 @@ public class RoadMaker {
          * katsoo jos siinä kohdassa johon tietä rakennetaan on jotain mapissa
          * jos se on tienpala niin se poistaa sen
          */
-        if (map[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z] != null) {
-            Spatial test = map[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z];
+        if (map.getMap()[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z] != null) {
+            Spatial test = map.getMap()[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z];
             if (queroad == false) {
                 if (!test.getUserData("type").equals("road")) {
                     return;
@@ -169,29 +172,29 @@ public class RoadMaker {
                 }
             }
 
-            Spatial temproad = map[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z];
+            Spatial temproad = map.getMap()[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z];
 
             if (temproad.getUserData("roadHill").equals("upHill")) {
-                map[(int) calcRoadPosition().x][(int) calcRoadPosition().y + 1][(int) calcRoadPosition().z] = null;
+                map.getMap()[(int) calcRoadPosition().x][(int) calcRoadPosition().y + 1][(int) calcRoadPosition().z] = null;
             }
 
             if (temproad.getUserData("roadHill").equals("downHill")) {
-                map[(int) calcRoadPosition().x][(int) calcRoadPosition().y - 1][(int) calcRoadPosition().z] = null;
+                map.getMap()[(int) calcRoadPosition().x][(int) calcRoadPosition().y - 1][(int) calcRoadPosition().z] = null;
             }
 
             rootNode.detachChild(temproad);
         }
 
-        map[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z] = road;
+        map.getMap()[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z] = road;
 
         if (road.getUserData("roadHill").equals("upHill")) {
 
-            map[(int) calcRoadPosition().x][(int) calcRoadPosition().y + 1][(int) calcRoadPosition().z] = road;
+            map.getMap()[(int) calcRoadPosition().x][(int) calcRoadPosition().y + 1][(int) calcRoadPosition().z] = road;
         }
 
         if (road.getUserData("roadHill").equals("downHill")) {
 
-            map[(int) calcRoadPosition().x][(int) calcRoadPosition().y - 1][(int) calcRoadPosition().z] = road;
+            map.getMap()[(int) calcRoadPosition().x][(int) calcRoadPosition().y - 1][(int) calcRoadPosition().z] = road;
         }
 
         /**
@@ -217,7 +220,7 @@ public class RoadMaker {
                 break;
 
         }
-        Main.currentPark.getParkWallet().remove(10);
+        parkHandler.getParkWallet().remove(10);
         Gamestate.ingameHUD.updateMoneytextbar();
         rootNode.attachChild(road);
         //roads.add(road);
@@ -279,8 +282,8 @@ public class RoadMaker {
 
         //1 condition
         if (con1 == true) {
-            if (map[x + 1][z][y] != null) {
-                Spatial temp = map[x + 1][z][y];
+            if (map.getMap()[x + 1][z][y] != null) {
+                Spatial temp = map.getMap()[x + 1][z][y];
                 if (temp.getUserData("type").equals("road")) {
                     condition1 = true;
 
@@ -298,10 +301,10 @@ public class RoadMaker {
                 }
             }
         } else {
-            if (map[x + 1][z][y] == null) {
+            if (map.getMap()[x + 1][z][y] == null) {
                 condition1 = true;
             } else {
-                Spatial temp = map[x + 1][z][y];
+                Spatial temp = map.getMap()[x + 1][z][y];
                 if (!temp.getUserData("type").equals("road")) {
                     condition1 = true;
                 }
@@ -312,8 +315,8 @@ public class RoadMaker {
 
         //2 condition
         if (con2 == true) {
-            if (map[x - 1][z][y] != null) {
-                Spatial temp = map[x - 1][z][y];
+            if (map.getMap()[x - 1][z][y] != null) {
+                Spatial temp = map.getMap()[x - 1][z][y];
                 if (temp.getUserData("type").equals("road")) {
                     condition2 = true;
 
@@ -331,10 +334,10 @@ public class RoadMaker {
                 }
             }
         } else {
-            if (map[x - 1][z][y] == null) {
+            if (map.getMap()[x - 1][z][y] == null) {
                 condition2 = true;
             } else {
-                Spatial temp = map[x - 1][z][y];
+                Spatial temp = map.getMap()[x - 1][z][y];
                 if (!temp.getUserData("type").equals("road")) {
                     condition2 = true;
                 }
@@ -343,8 +346,8 @@ public class RoadMaker {
         }
         //3 condition
         if (con3 == true) {
-            if (map[x][z][y + 1] != null) {
-                Spatial temp = map[x][z][y + 1];
+            if (map.getMap()[x][z][y + 1] != null) {
+                Spatial temp = map.getMap()[x][z][y + 1];
                 if (temp.getUserData("type").equals("road")) {
                     condition3 = true;
 
@@ -362,10 +365,10 @@ public class RoadMaker {
                 }
             }
         } else {
-            if (map[x][z][y + 1] == null) {
+            if (map.getMap()[x][z][y + 1] == null) {
                 condition3 = true;
             } else {
-                Spatial temp = map[x][z][y + 1];
+                Spatial temp = map.getMap()[x][z][y + 1];
                 if (!temp.getUserData("type").equals("road")) {
                     condition3 = true;
                 }
@@ -373,8 +376,8 @@ public class RoadMaker {
         }
         //4 condition
         if (con4 == true) {
-            if (map[x][z][y - 1] != null) {
-                Spatial temp = map[x][z][y - 1];
+            if (map.getMap()[x][z][y - 1] != null) {
+                Spatial temp = map.getMap()[x][z][y - 1];
                 if (temp.getUserData("type").equals("road")) {
                     condition4 = true;
 
@@ -392,10 +395,10 @@ public class RoadMaker {
                 }
             }
         } else {
-            if (map[x][z][y - 1] == null) {
+            if (map.getMap()[x][z][y - 1] == null) {
                 condition4 = true;
             } else {
-                Spatial temp = map[x][z][y - 1];
+                Spatial temp = map.getMap()[x][z][y - 1];
                 if (!temp.getUserData("type").equals("road")) {
                     condition4 = true;
                 }
@@ -409,25 +412,25 @@ public class RoadMaker {
 
     private void updateRoad(int x, int z, int y) {
 
-        if (map[x][z][y] == null || !map[x][z][y].getUserData("type").equals("road") || map[x][z][y].getUserData("roadHill").equals("upHill") || map[x][z][y].getUserData("roadHill").equals("downHill")) {
+        if (map.getMap()[x][z][y] == null || !map.getMap()[x][z][y].getUserData("type").equals("road") || map.getMap()[x][z][y].getUserData("roadHill").equals("upHill") || map.getMap()[x][z][y].getUserData("roadHill").equals("downHill")) {
             return;
         }
 
         if (roadtypeCondition(x, z, y, true, true, true, true)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.centerRoad();
             roadp.move(x, z + 0.1f, y);
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
             return;
         }
 
         if (roadtypeCondition(x, z, y, true, true, true, false)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
@@ -435,7 +438,7 @@ public class RoadMaker {
             roadp.move(x, z + 0.1f, y);
             float angle = (float) Math.toRadians(90);
             roadp.rotate(0, angle, 0);
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -444,14 +447,14 @@ public class RoadMaker {
         }
 
         if (roadtypeCondition(x, z, y, false, true, true, true)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.tRoad();
             roadp.move(x, z + 0.1f, y);
 
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -460,7 +463,7 @@ public class RoadMaker {
         }
 
         if (roadtypeCondition(x, z, y, true, true, false, true)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
@@ -468,7 +471,7 @@ public class RoadMaker {
             roadp.move(x, z + 0.1f, y);
             float angle = (float) Math.toRadians(-90);
             roadp.rotate(0, angle, 0);
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -477,7 +480,7 @@ public class RoadMaker {
         }
 
         if (roadtypeCondition(x, z, y, true, false, true, true)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
@@ -485,7 +488,7 @@ public class RoadMaker {
             roadp.move(x, z + 0.1f, y);
             float angle = (float) Math.toRadians(180);
             roadp.rotate(0, angle, 0);
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -493,7 +496,7 @@ public class RoadMaker {
             return;
         }
         if (roadtypeCondition(x, z, y, false, true, false, true)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
@@ -501,7 +504,7 @@ public class RoadMaker {
             roadp.move(x, z + 0.1f, y);
             float angle = (float) Math.toRadians(180);
             roadp.rotate(0, angle, 0);
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -510,7 +513,7 @@ public class RoadMaker {
         }
         
         if (roadtypeCondition(x, z, y, true, false, false, true)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
@@ -518,7 +521,7 @@ public class RoadMaker {
             roadp.move(x, z + 0.1f, y);
             float angle = (float) Math.toRadians(90);
             roadp.rotate(0, angle, 0);
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -526,14 +529,14 @@ public class RoadMaker {
             return;
         }
         if (roadtypeCondition(x, z, y, true, false, true, false)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.bendingRoad();
             roadp.move(x, z + 0.1f, y);
 
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -541,7 +544,7 @@ public class RoadMaker {
             return;
         }
         if (roadtypeCondition(x, z, y, false, true, true, false)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
@@ -549,7 +552,7 @@ public class RoadMaker {
             roadp.move(x, z + 0.1f, y);
             float angle = (float) Math.toRadians(-90);
             roadp.rotate(0, angle, 0);
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -557,14 +560,14 @@ public class RoadMaker {
             return;
         }
         if (roadtypeCondition(x, z, y, true, false, false, false)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.roadStraight();
             roadp.move(x, z + 0.1f, y);
 
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -572,7 +575,7 @@ public class RoadMaker {
             return;
         }
         if (roadtypeCondition(x, z, y, false, false, true, false)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
@@ -580,7 +583,7 @@ public class RoadMaker {
             roadp.move(x, z + 0.1f, y);
             float angle = (float) Math.toRadians(90);
             roadp.rotate(0, angle, 0);
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -588,13 +591,13 @@ public class RoadMaker {
             return;
         }
         if (roadtypeCondition(x, z, y, false, true, false, false)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
             Spatial roadp = roadF.roadStraight();
             roadp.move(x, z + 0.1f, y);
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -602,7 +605,7 @@ public class RoadMaker {
             return;
         }
         if (roadtypeCondition(x, z, y, false, false, false, true)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
@@ -610,7 +613,7 @@ public class RoadMaker {
             roadp.move(x, z + 0.1f, y);
             float angle = (float) Math.toRadians(90);
             roadp.rotate(0, angle, 0);
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -618,7 +621,7 @@ public class RoadMaker {
 
         }
         if (roadtypeCondition(x, z, y, false, false,true, true)) {
-            Spatial temp = map[x][z][y];
+            Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
             }
@@ -626,7 +629,7 @@ public class RoadMaker {
             roadp.move(x, z + 0.1f, y);
             float angle = (float) Math.toRadians(90);
             roadp.rotate(0, angle, 0);
-            map[x][z][y] = roadp;
+            map.getMap()[x][z][y] = roadp;
             rootNode.attachChild(roadp);
 
 
@@ -650,8 +653,8 @@ public class RoadMaker {
 
             boolean found = false;
 
-            if (map[x + 1][y][z] != null) {
-                Spatial isthisEnterance = map[x + 1][y][z];
+            if (map.getMap()[x + 1][y][z] != null) {
+                Spatial isthisEnterance = map.getMap()[x + 1][y][z];
                 if (isthisEnterance.getUserData("type").equals("queroad")) {
                     boolean connected = true;
                     if (isthisEnterance.getUserData("connected") != null) {
@@ -665,8 +668,8 @@ public class RoadMaker {
                 }
 
             }
-            if (map[x - 1][y][z] != null && found == false) {
-                Spatial isthisEnterance = map[x - 1][y][z];
+            if (map.getMap()[x - 1][y][z] != null && found == false) {
+                Spatial isthisEnterance = map.getMap()[x - 1][y][z];
                 if (isthisEnterance.getUserData("type").equals("queroad")) {
                     boolean connected = true;
                     if (isthisEnterance.getUserData("connected") != null) {
@@ -678,8 +681,8 @@ public class RoadMaker {
                     }
                 }
             }
-            if (map[x][y][z + 1] != null && found == false) {
-                Spatial isthisEnterance = map[x][y][z + 1];
+            if (map.getMap()[x][y][z + 1] != null && found == false) {
+                Spatial isthisEnterance = map.getMap()[x][y][z + 1];
                 if (isthisEnterance.getUserData("type").equals("queroad")) {
                     boolean connected = true;
                     if (isthisEnterance.getUserData("connected") != null) {
@@ -691,8 +694,8 @@ public class RoadMaker {
                     }
                 }
             }
-            if (map[x][y][z - 1] != null && found == false) {
-                Spatial isthisEnterance = map[x][y][z - 1];
+            if (map.getMap()[x][y][z - 1] != null && found == false) {
+                Spatial isthisEnterance = map.getMap()[x][y][z - 1];
                 if (isthisEnterance.getUserData("type").equals("queroad")) {
                     boolean connected = true;
                     if (isthisEnterance.getUserData("connected") != null) {
@@ -743,7 +746,7 @@ public class RoadMaker {
     }
 
     private boolean checkforEnterance(int x, int y, int z, Spatial road) {
-        Spatial temp = map[x + 1][y][z];
+        Spatial temp = map.getMap()[x + 1][y][z];
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
                 Enterance enterance = temp.getUserData("enterance");
@@ -757,7 +760,7 @@ public class RoadMaker {
                 }
             }
         }
-        temp = map[x - 1][y][z];
+        temp = map.getMap()[x - 1][y][z];
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
                 Enterance enterance = temp.getUserData("enterance");
@@ -771,7 +774,7 @@ public class RoadMaker {
                 }
             }
         }
-        temp = map[x][y][z + 1];
+        temp = map.getMap()[x][y][z + 1];
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
                 Enterance enterance = temp.getUserData("enterance");
@@ -785,7 +788,7 @@ public class RoadMaker {
                 }
             }
         }
-        temp = map[x][y][z - 1];
+        temp = map.getMap()[x][y][z - 1];
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
                 Enterance enterance = temp.getUserData("enterance");
@@ -837,7 +840,7 @@ public class RoadMaker {
             Vector3f connected2loc = connected2.getLocalTranslation();
 
             if (connected1loc.x > connected2loc.x && connected1loc.z == connected2loc.z) {
-                Spatial temp = map[x1][y1][z1];
+                Spatial temp = map.getMap()[x1][y1][z1];
                 rootNode.detachChild(temp);
                 temp = roadF.queroadStraight();
                 temp.setLocalTranslation(connectedroad.getLocalTranslation());
@@ -846,12 +849,12 @@ public class RoadMaker {
                 temp.setUserData("queconnect2", connected2);
                 temp.setUserData("roadID",IDr);
                 temp.setUserData("direction",direction0);
-                map[x1][y1][z1] = temp;
+                map.getMap()[x1][y1][z1] = temp;
                 rootNode.attachChild(temp);
                 return;
             }
             if (connected1loc.x < connected2loc.x && connected1loc.z == connected2loc.z) {
-                Spatial temp = map[x1][y1][z1];
+                Spatial temp = map.getMap()[x1][y1][z1];
                 rootNode.detachChild(temp);
                 temp = roadF.queroadStraight();
                 temp.setLocalTranslation(connectedroad.getLocalTranslation());
@@ -860,12 +863,12 @@ public class RoadMaker {
                 temp.setUserData("queconnect2", connected2);
                 temp.setUserData("roadID",IDr);
                 temp.setUserData("direction",direction0);
-                map[x1][y1][z1] = temp;
+                map.getMap()[x1][y1][z1] = temp;
                 rootNode.attachChild(temp);
                 return;
             }
             if (connected1loc.x == connected2loc.x && connected1loc.z < connected2loc.z) {
-                Spatial temp = map[x1][y1][z1];
+                Spatial temp = map.getMap()[x1][y1][z1];
                 rootNode.detachChild(temp);
                 temp = roadF.queroadStraight();
                 float angle = (float) Math.toRadians(90);
@@ -876,12 +879,12 @@ public class RoadMaker {
                 temp.setUserData("queconnect2", connected2);
                 temp.setUserData("roadID",IDr);
                 temp.setUserData("direction",direction0);
-                map[x1][y1][z1] = temp;
+                map.getMap()[x1][y1][z1] = temp;
                 rootNode.attachChild(temp);
                 return;
             }
             if (connected1loc.x == connected2loc.x && connected1loc.z > connected2loc.z) {
-                Spatial temp = map[x1][y1][z1];
+                Spatial temp = map.getMap()[x1][y1][z1];
                 rootNode.detachChild(temp);
                 temp = roadF.queroadStraight();
                 float angle = (float) Math.toRadians(90);
@@ -892,13 +895,13 @@ public class RoadMaker {
                 temp.setUserData("queconnect2", connected2);
                 temp.setUserData("roadID",IDr);
                 temp.setUserData("direction",direction0);
-                map[x1][y1][z1] = temp;
+                map.getMap()[x1][y1][z1] = temp;
                 rootNode.attachChild(temp);
                 return;
             }
             if (connected1loc.x > connected2loc.x && connected1loc.z > connected2loc.z) {
                 if (connectedroad.getLocalTranslation().z < connected1loc.z) {
-                    Spatial temp = map[x1][y1][z1];
+                    Spatial temp = map.getMap()[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
                     float angle = (float) Math.toRadians(-90);
@@ -909,10 +912,10 @@ public class RoadMaker {
                     temp.setUserData("queconnect2", connected2);
                     temp.setUserData("roadID",IDr);
                     temp.setUserData("direction",direction0);
-                    map[x1][y1][z1] = temp;
+                    map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 } else {
-                    Spatial temp = map[x1][y1][z1];
+                    Spatial temp = map.getMap()[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
                     float angle = (float) Math.toRadians(90);
@@ -923,7 +926,7 @@ public class RoadMaker {
                     temp.setUserData("queconnect2", connected2);
                     temp.setUserData("roadID",IDr);
                     temp.setUserData("direction",direction0);
-                    map[x1][y1][z1] = temp;
+                    map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 }
 
@@ -931,7 +934,7 @@ public class RoadMaker {
             }
             if (connected1loc.x < connected2loc.x && connected1loc.z > connected2loc.z) {
                 if (connectedroad.getLocalTranslation().z < connected1loc.z) {
-                    Spatial temp = map[x1][y1][z1];
+                    Spatial temp = map.getMap()[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
 
@@ -941,10 +944,10 @@ public class RoadMaker {
                     temp.setUserData("queconnect2", connected2);
                     temp.setUserData("roadID",IDr);
                     temp.setUserData("direction",direction0);
-                    map[x1][y1][z1] = temp;
+                    map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 } else {
-                    Spatial temp = map[x1][y1][z1];
+                    Spatial temp = map.getMap()[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
                     float angle = (float) Math.toRadians(180);
@@ -955,7 +958,7 @@ public class RoadMaker {
                     temp.setUserData("queconnect2", connected2);
                     temp.setUserData("roadID",IDr);
                     temp.setUserData("direction",direction0);
-                    map[x1][y1][z1] = temp;
+                    map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 }
 
@@ -963,7 +966,7 @@ public class RoadMaker {
             }
             if (connected1loc.x > connected2loc.x && connected1loc.z < connected2loc.z) {
                 if (connectedroad.getLocalTranslation().x < connected1loc.x) {
-                    Spatial temp = map[x1][y1][z1];
+                    Spatial temp = map.getMap()[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
 
@@ -973,10 +976,10 @@ public class RoadMaker {
                     temp.setUserData("queconnect2", connected2);
                     temp.setUserData("roadID",IDr);
                     temp.setUserData("direction",direction0);
-                    map[x1][y1][z1] = temp;
+                    map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 } else {
-                    Spatial temp = map[x1][y1][z1];
+                    Spatial temp = map.getMap()[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
                     float angle = (float) Math.toRadians(-180);
@@ -987,14 +990,14 @@ public class RoadMaker {
                     temp.setUserData("queconnect2", connected2);
                     temp.setUserData("roadID",IDr);
                     temp.setUserData("direction",direction0);
-                    map[x1][y1][z1] = temp;
+                    map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 }
                 return;
             }
             if (connected1loc.x < connected2loc.x && connected1loc.z < connected2loc.z) {
                 if (connectedroad.getLocalTranslation().z > connected1loc.z) {
-                    Spatial temp = map[x1][y1][z1];
+                    Spatial temp = map.getMap()[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
                     float angle = (float) Math.toRadians(90);
@@ -1005,11 +1008,11 @@ public class RoadMaker {
                     temp.setUserData("queconnect2", connected2);
                     temp.setUserData("roadID",IDr);
                     temp.setUserData("direction",direction0);
-                    map[x1][y1][z1] = temp;
+                    map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 } else {
                     
-                    Spatial temp = map[x1][y1][z1];
+                    Spatial temp = map.getMap()[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
                     float angle = (float) Math.toRadians(-90);
@@ -1020,7 +1023,7 @@ public class RoadMaker {
                     temp.setUserData("queconnect2", connected2);
                     temp.setUserData("roadID",IDr);
                     temp.setUserData("direction",direction0);
-                    map[x1][y1][z1] = temp;
+                    map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 }
 
@@ -1033,7 +1036,7 @@ public class RoadMaker {
             int y3 = (int) connected1loc.y;
             int z3 = (int) connected1loc.z;
             if (connected1loc.x > recentroadloc.x && connected1loc.z == recentroadloc.z || connected1loc.x < recentroadloc.x && connected1loc.z == recentroadloc.z) {
-                Spatial temp = map[x3][y3][z3];
+                Spatial temp = map.getMap()[x3][y3][z3];
                 rootNode.detachChild(temp);
                 temp = roadF.queroadStraight();
                 temp.setLocalTranslation(connectedroad.getLocalTranslation());
@@ -1041,12 +1044,12 @@ public class RoadMaker {
                 temp.setUserData("queconnect1", road);
                 temp.setUserData("roadID",ID);
                 temp.setUserData("direction",direction0);
-                map[x3][y3][z3] = temp;
+                map.getMap()[x3][y3][z3] = temp;
                 rootNode.attachChild(temp);
                 return;
             }
             if (connected1loc.x == recentroadloc.x && connected1loc.z < recentroadloc.z || connected1loc.x < recentroadloc.x && connected1loc.z == recentroadloc.z) {
-                Spatial temp = map[x3][y3][z3];
+                Spatial temp = map.getMap()[x3][y3][z3];
                 rootNode.detachChild(temp);
                 temp = roadF.queroadStraight();
                 temp.setLocalTranslation(connectedroad.getLocalTranslation());
@@ -1056,7 +1059,7 @@ public class RoadMaker {
                 temp.setUserData("queconnect1", road);
                 temp.setUserData("roadID",ID);
                 temp.setUserData("direction",direction0);
-                map[x3][y3][z3] = temp;
+                map.getMap()[x3][y3][z3] = temp;
                 rootNode.attachChild(temp);
 
             }

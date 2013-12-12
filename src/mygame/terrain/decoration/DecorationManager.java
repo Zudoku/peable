@@ -10,7 +10,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import mygame.terrain.Direction;
-import mygame.terrain.ParkHandler;
+import mygame.terrain.MapContainer;
 
 /**
  *
@@ -23,12 +23,14 @@ public class DecorationManager {
     Direction direction = Direction.UP;
     Decorations decoration = Decorations.ROCK;
     DecorationFactory decoFactory;
-    private final ParkHandler parkHandler;
+    private final MapContainer map;
+    
 
     @Inject
-    public DecorationManager(Node rootNode, AssetManager assetManager,ParkHandler parkHandler) {
+    public DecorationManager(Node rootNode, AssetManager assetManager,MapContainer map) {
         this.rootNode = rootNode;
-        this.parkHandler=parkHandler;
+        this.map=map;
+        
         decorationNode = new Node("decorationNode");
         rootNode.attachChild(decorationNode);
         decoFactory = new DecorationFactory(assetManager);
@@ -70,7 +72,7 @@ public class DecorationManager {
         int x1=(int)loc.x;
         int y1=(int)loc.y;
         int z1=(int)loc.z;
-        parkHandler.getMap()[x1][y1][z1]=decobject;
+        map.getMap()[x1][y1][z1]=decobject;
         decorationNode.attachChild(decobject);
     }
 }

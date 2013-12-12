@@ -13,9 +13,15 @@ import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import mygame.Gamestate;
 import mygame.Main;
+import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.shops.BasicBuildables;
+import mygame.shops.HolomodelDrawer;
+import mygame.shops.ShopManager;
 import mygame.terrain.Direction;
+import mygame.terrain.MapContainer;
+import mygame.terrain.ParkHandler;
+import mygame.terrain.RoadMaker;
 
 /**
  *
@@ -31,11 +37,24 @@ public class RideManager {
     public Node rootNode;
     int rideID;
     int enterancecount = 0;
+    private final HolomodelDrawer holoDrawer;
+    private final ParkHandler parkHandler;
+    private final RoadMaker roadMaker;
+    private final ClickingHandler clickingHandler;
+    private final MapContainer map;
+    
     @Inject
-    public RideManager(AssetManager assetManager, Node rootNode,RideFactory rideFactory) {
+    public RideManager(AssetManager assetManager, Node rootNode,RideFactory rideFactory,HolomodelDrawer holoDrawer,ParkHandler parkHandler,
+    RoadMaker roadMaker,ClickingHandler clickingHandler,MapContainer map) {
         this.rideFactory =rideFactory;
         this.assetManager = assetManager;
         this.rootNode = rootNode;
+        this.holoDrawer=holoDrawer;
+        this.parkHandler=parkHandler;
+        this.roadMaker=roadMaker;
+        this.clickingHandler=clickingHandler;
+        this.map=map;
+        
         rideNode = new Node("rideNode");
         rootNode.attachChild(rideNode);
 
@@ -44,7 +63,8 @@ public class RideManager {
     }
 
     public void buy(Direction facing, BasicBuildables selectedBuilding) {
-        Vector3f loc = Main.gamestate.holoDrawer.pyorista(Main.gamestate.holoDrawer.getLocation());
+        Vector3f loc = holoDrawer.pyorista(holoDrawer.getLocation());
+        
         BasicRide boughtride = null;
 
 
@@ -59,33 +79,33 @@ public class RideManager {
                 System.out.println("You just tried to buy null ride!");
                 break;
         }
-        if(!Main.currentPark.getParkWallet().canAfford(boughtride.constructionmoney)){
+        if(!parkHandler.getParkWallet().canAfford(boughtride.constructionmoney)){
            return; 
         }
         int tx = (int) loc.x;
         int ty = (int) loc.y;
         int tz = (int) loc.z;
-        Spatial[][][] map = Main.gamestate.roadMaker.map;
+        
         boughtride.setRideID(rideID);
         boughtride.getGeometry().setUserData("rideID", rideID);
         boughtride.getGeometry().setUserData("type", "ride");
         rides.add(boughtride);
         rideNode.attachChild(boughtride.getGeometry());
-        Main.currentPark.getParkWallet().remove(boughtride.constructionmoney);
+        parkHandler.getParkWallet().remove(boughtride.constructionmoney);
         Gamestate.ingameHUD.updateMoneytextbar();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                map[tx + i - 1][ty][tz + j - 1] = boughtride.getGeometry();
+                map.getMap()[tx + i - 1][ty][tz + j - 1] = boughtride.getGeometry();
             }
         }
         rideID++;
         resetRidedata();
     }
 
-    public void resetRidedata() {
+    private void resetRidedata() {
 
-        Main.gamestate.shopManager.resetShopdata();
-        Main.gamestate.clickingHandler.clickMode = ClickingModes.RIDE;
+        
+        clickingHandler.clickMode = ClickingModes.RIDE;
 
     }
 
@@ -94,9 +114,9 @@ public class RideManager {
         BasicRide b = null;
         if (rides.isEmpty() == false) {
             for (BasicRide p : rides) {
-                int tx = (int) Main.gamestate.holoDrawer.pyorista(p.getPosition()).x;
-                int ty = (int) Main.gamestate.holoDrawer.pyorista(p.getPosition()).y;
-                int tz = (int) Main.gamestate.holoDrawer.pyorista(p.getPosition()).z;
+                int tx = (int) holoDrawer.pyorista(p.getPosition()).x;
+                int ty = (int) holoDrawer.pyorista(p.getPosition()).y;
+                int tz = (int) holoDrawer.pyorista(p.getPosition()).z;
                 if (tx == x && ty == y && tz == z) {
                     b = p;
                     System.out.println("RIDE IS LOCATED!");
@@ -114,57 +134,56 @@ public class RideManager {
         int y = (int) (pos.y - 0.4999f + 1);
         int z = (int) (pos.z - 0.4999f + 1);
 
-        Spatial[][][] map = Main.gamestate.roadMaker.map;
 
         boolean enterancetype = true;
         if (enterancecount == 0) {
             enterancetype = false;
         }
 
-        if (map[x][y][z] != null) {
+        if (map.getMap()[x][y][z] != null) {
             return;
         }
-        if (map[x + 1][y][z] != null) {
-            Spatial s = map[x + 1][y][z];
+        if (map.getMap()[x + 1][y][z] != null) {
+            Spatial s = map.getMap()[x + 1][y][z];
             if (!s.getUserData("type").equals("ride")) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z, map,Direction.DOWN);
+                placeEnterancetrue(enterancetype, x, y, z,Direction.DOWN);
                 return;
             }
         }
-        if (map[x - 1][y][z] != null) {
-            Spatial s = map[x - 1][y][z];
+        if (map.getMap()[x - 1][y][z] != null) {
+            Spatial s = map.getMap()[x - 1][y][z];
             if (!s.getUserData("type").equals("ride")) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z, map,Direction.UP);
+                placeEnterancetrue(enterancetype, x, y, z,Direction.UP);
                 return;
             }
         }
-        if (map[x][y][z + 1] != null) {
-            Spatial s = map[x][y][z + 1];
+        if (map.getMap()[x][y][z + 1] != null) {
+            Spatial s = map.getMap()[x][y][z + 1];
             if (!s.getUserData("type").equals("ride")) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z, map,Direction.RIGHT);
+                placeEnterancetrue(enterancetype, x, y, z,Direction.RIGHT);
                 return;
             }
         }
-        if (map[x][y][z - 1] != null) {
-            Spatial s = map[x][y][z - 1];
+        if (map.getMap()[x][y][z - 1] != null) {
+            Spatial s = map.getMap()[x][y][z - 1];
             if (!s.getUserData("type").equals("ride")) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z, map,Direction.LEFT);
+                placeEnterancetrue(enterancetype, x, y, z,Direction.LEFT);
             }
         }
 
@@ -177,11 +196,11 @@ public class RideManager {
         }
     }
 
-    private void placeEnterancetrue(boolean enterancetype, int x, int y, int z, Spatial[][][] map,Direction suunta) {
+    private void placeEnterancetrue(boolean enterancetype, int x, int y, int z,Direction suunta) {
         Enterance e = new Enterance(enterancetype, new Vector3f(x, y, z), suunta, assetManager);
         e.connectedRide = rides.get(rideID - 2);
         e.object.setUserData("type", "enterance");
-        map[x][y][z] = e.object;
+        map.getMap()[x][y][z] = e.object;
         if (enterancetype == false) {
             rides.get(rideID - 2).enterance = e;
         } else {
@@ -192,7 +211,7 @@ public class RideManager {
         enterancecount++;
         if (enterancecount > 1) {
             enterancecount = 0;
-            Main.gamestate.clickingHandler.clickMode = ClickingModes.NOTHING;
+            clickingHandler.clickMode = ClickingModes.NOTHING;
         }
     }
     public void setRideID(int rideID){

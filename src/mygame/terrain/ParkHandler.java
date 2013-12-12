@@ -11,13 +11,13 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import java.util.ArrayList;
-import mygame.Gamestate;
-import mygame.Main;
 import mygame.npc.BasicNPC;
 import mygame.npc.Guest;
 import mygame.npc.NPCManager;
 import mygame.ride.BasicRide;
+import mygame.ride.RideManager;
 import mygame.shops.BasicShop;
+import mygame.shops.ShopManager;
 
 /**
  *
@@ -26,8 +26,8 @@ import mygame.shops.BasicShop;
 @Singleton
 public class ParkHandler {
 
-    private Spatial[][][] map;
-    public MapFactory mapfactory;
+    private MapContainer map;
+    
     private ParkWallet parkwallet = new ParkWallet(10000);
     private ArrayList<BasicRide> rides=new ArrayList<BasicRide>();
     private ArrayList<BasicNPC> npcs=new ArrayList<BasicNPC>();
@@ -41,15 +41,18 @@ public class ParkHandler {
     private int mapWidth;
     private int[][] mapData;
     private ArrayList<Vector3f>RoadtoUpdatePositions=new ArrayList<Vector3f>();
-    private final TerrainHandler worldHandler;
+    
+    
     private ArrayList<Spatial> queRoadsToUpdate=new ArrayList<Spatial>();
-    private final NPCManager npcManager;
+    @Inject private NPCManager npcManager;
+    @Inject private RoadMaker roadMaker;
+    @Inject private ShopManager shopManager;
+    @Inject private RideManager rideManager;
     @Inject
-    public ParkHandler(Node rootNode, AppSettings settings,TerrainHandler terrainHandler,MapFactory mapFactory,NPCManager npcManager) {
-        mapfactory =mapFactory;
+    public ParkHandler(Node rootNode, AppSettings settings,MapContainer map) {
+        
         this.settings = settings;
-        this.worldHandler=terrainHandler;
-        this.npcManager=npcManager;
+        this.map=map;
     }
 
     public void setUp(String parkname, int rideID, int shopID, ParkWallet wallet) {
@@ -66,37 +69,32 @@ public class ParkHandler {
         return Integer.toString(guests.size());
     }
 
-    public void loadDebugPlain() {
-        mapfactory.setCurrentMapPlain();
-    }
+    
 
     public String getParkName() {
         return parkName;
     }
 
     public void onStartup() {
-        //anna kaikille map joka sitä tarvii
-        Gamestate.roadMaker.map = map;
         
-        //managerilla joka muokkaa maata
-        worldHandler.map = map;
-        worldHandler.TerrainMap = mapData;
-        Gamestate.roadMaker.roadsToUpdate(RoadtoUpdatePositions);
-        Gamestate.roadMaker.queRoadsToUpdate(queRoadsToUpdate);
-        Main.gamestate.rideManager.rides = rides;
+        System.out.println("Setting Map!");
+        
+        roadMaker.roadsToUpdate(RoadtoUpdatePositions);
+        roadMaker.queRoadsToUpdate(queRoadsToUpdate);
+        rideManager.rides = rides;
         npcManager.npcs = npcs;
         npcManager.guestSpawner.setNpcs(npcs);
         npcManager.guests = this.guests;
         npcManager.guestSpawner.setGuests(guests);
-        Main.gamestate.shopManager.shops = shops;
-        Gamestate.rideManager.setRideID(rideID);
-        Gamestate.shopManager.setShopID(shopID);
+        shopManager.shops = shops;
+        rideManager.setRideID(rideID);
+        shopManager.setShopID(shopID);
     }
 
-    public void setMap(Spatial[][][] map, int[][] mapdata) {
+    public void setMap(Spatial[][][] mapu, int[][] mapdata) {
 
-        this.map = map;
-        this.mapData = mapdata;
+        map.setMap(mapu);
+        map.setMapData(mapdata);
 
     }
 
@@ -146,14 +144,6 @@ public class ParkHandler {
 
     }
 
-    /**
-     * käytä vain tilanteissa jossa map ei voida antaa suoraan sen luodessa
-     *
-     * @return mapin
-     */
-    public Spatial[][][] getMap() {
-        return map;
-    }
 
     public ParkWallet getParkWallet() {
         return parkwallet;

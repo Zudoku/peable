@@ -4,6 +4,7 @@
  */
 package mygame.shops;
 
+import com.google.inject.Inject;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -12,6 +13,7 @@ import mygame.Gamestate;
 import mygame.Main;
 import mygame.npc.Guest;
 import mygame.terrain.Direction;
+import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
 
 /**
@@ -27,6 +29,8 @@ public class BasicShop {
     public String productname="productname";
     public String shopName="SHOPNAME";
     public float price=0;
+    @Inject private MapContainer map;
+    @Inject public ParkHandler parkHandler;
     public ArrayList<Employee> employees=new ArrayList<Employee>();
     public ShopReputation reputation= ShopReputation.NEW;
     public String type;
@@ -39,6 +43,7 @@ public class BasicShop {
         this.facing=facing;
         this.rootNode=rootNode;
         object.setLocalTranslation(position);
+        Main.injector.injectMembers(this);
     }
     
     public void interact(Guest guest){
@@ -49,8 +54,8 @@ public class BasicShop {
     }
     public void demolish(){
         
-        ParkHandler parkHandler=Main.currentPark;
-        Spatial[][][] map=parkHandler.getMap();
+        
+        
         Node shopNode=(Node)rootNode.getChild("shopNode");
         shopNode.detachChild(object);
         rootNode.detachChild(object);
@@ -58,9 +63,9 @@ public class BasicShop {
         for(int y=0;y<25;y++){
             for(int x=0;x<parkHandler.getMapHeight();x++){
                 for(int z=0;z<parkHandler.getMapWidth();z++){
-                    if(map[x][y][z]!=null){
-                        if(map[x][y][z]==object){
-                            map[x][y][z]=null;
+                    if(map.getMap()[x][y][z]!=null){
+                        if(map.getMap()[x][y][z]==object){
+                            map.getMap()[x][y][z]=null;
                         }
                     }
                 }

@@ -25,6 +25,7 @@ import mygame.npc.NPCManager;
 import mygame.ride.RideManager;
 import mygame.shops.HolomodelDrawer;
 import mygame.shops.ShopManager;
+import mygame.terrain.MapFactory;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.RoadMaker;
 import mygame.terrain.TerrainHandler;
@@ -36,21 +37,22 @@ import mygame.terrain.TerrainHandler;
 public class Gamestate extends AbstractAppState {
 
     private Main appm;
-    public static TerrainHandler worldHandler;
-    public static ClickingHandler clickingHandler;
-    public static RoadMaker roadMaker;
-    public static HolomodelDrawer holoDrawer;
-    public static ShopManager shopManager;
+    public  TerrainHandler worldHandler;
+    public  ClickingHandler clickingHandler;
+    public  RoadMaker roadMaker;
+    public  HolomodelDrawer holoDrawer;
+    public  ShopManager shopManager;
     public static IngameHUD ingameHUD;
-    public static ParkHandler currentPark;
-    public static Nifty nifty;
+    public  ParkHandler currentPark;
+    public  Nifty nifty;
     SelectionParticleEmitter selectionEmitter;
-    public static NPCManager npcManager;
-    public static WindowMaker windowMaker;
+    public  NPCManager npcManager;
+    public  WindowMaker windowMaker;
     private UserInput userInput;
-    public static RideManager rideManager;
+    public  RideManager rideManager;
 
     private final LoadManager loadManager;
+    private MapFactory mapFactory;
     @Inject
     public Gamestate(LoadManager loadManager){
         this.loadManager=loadManager;
@@ -72,17 +74,15 @@ public class Gamestate extends AbstractAppState {
         selectionEmitter =appm.getInjector().getInstance(SelectionParticleEmitter.class);
         clickingHandler =appm.getInjector().getInstance(ClickingHandler.class);
         roadMaker =appm.getInjector().getInstance(RoadMaker.class);
-
-        userInput.giveClickHandler(clickingHandler);
-        ingameHUD.givefields(clickingHandler, worldHandler);
-
         npcManager =appm.getInjector().getInstance(NPCManager.class);
         shopManager =appm.getInjector().getInstance(ShopManager.class);
         rideManager =appm.getInjector().getInstance(RideManager.class);
+        mapFactory=appm.getInjector().getInstance(MapFactory.class);
         selectionEmitter.initSelection();
         //lataa map DEBUG ONLY CHANGE LATER
         if(appm.startDebug()){
-            currentPark.loadDebugPlain();
+            
+            mapFactory.setCurrentMapPlain();
         }else{
             
         try {
@@ -99,7 +99,7 @@ public class Gamestate extends AbstractAppState {
 
         
 
-        windowMaker = new WindowMaker(nifty);
+        
         this.appm.setDisplayStatView(false);
 
         this.appm.setPauseOnLostFocus(false);

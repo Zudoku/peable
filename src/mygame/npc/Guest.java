@@ -4,6 +4,7 @@
  */
 package mygame.npc;
 
+import com.google.inject.Inject;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
@@ -14,8 +15,13 @@ import mygame.npc.inventory.PreferredRides;
 import mygame.npc.inventory.StatManager;
 import mygame.npc.inventory.Wallet;
 import mygame.ride.BasicRide;
+import mygame.ride.RideManager;
 import mygame.shops.BasicShop;
+import mygame.shops.ShopManager;
 import mygame.terrain.Direction;
+import mygame.terrain.MapContainer;
+import mygame.terrain.ParkHandler;
+import mygame.terrain.RoadMaker;
 
 /**
  *
@@ -31,7 +37,12 @@ public class Guest extends BasicNPC {
     private int z;
     private Random r;
     private GuestWalkingStates walkState = GuestWalkingStates.WALK;
-    Spatial[][][] roads = Main.currentPark.getMap();
+    
+    @Inject ParkHandler currentPark;
+    @Inject ShopManager shopManager;
+    @Inject RideManager rideManager;
+    @Inject RoadMaker roadMaker;
+    @Inject MapContainer map;
     ArrayList<NPCAction> actions = new ArrayList<NPCAction>();
     public ArrayList<Item> inventory = new ArrayList<Item>();
     public StatManager stats = new StatManager();
@@ -41,6 +52,7 @@ public class Guest extends BasicNPC {
 
     public Guest(Wallet wallet, int guestNum, Direction moving, int x1, int y1, int z1, StatManager stats, Spatial geom, String name) {
         super(name, geom);
+        Main.injector.injectMembers(this);
         initXYZ(x1, y1, z1);
         this.moving = moving;
         this.stats = stats;
@@ -48,12 +60,13 @@ public class Guest extends BasicNPC {
         this.guestnum = guestNum;
         r = new Random();
         super.getGeometry().setLocalTranslation(x, y, z);
+        
 
     }
 
     public Guest(String name, float money, int guestNum, Spatial geom) {
         super(name, geom);
-
+        Main.injector.injectMembers(this);
         this.wallet = new Wallet(money);
         this.guestnum = guestNum;
         r = new Random();
@@ -79,7 +92,7 @@ public class Guest extends BasicNPC {
             calcMovePoints();
         }
         if (walkState == GuestWalkingStates.WALK) {
-            if (roads[x][y][z] == null) {
+            if (map.getMap()[x][y][z] == null) {
                 return;
             }
             if (actions.isEmpty() == true) {
@@ -99,25 +112,25 @@ public class Guest extends BasicNPC {
             actiontype = ActionType.CONSUME;
         }
         if (suunta == 0) {
-            if (roads[x + 1][y][z] != null) {
+            if (map.getMap()[x + 1][y][z] != null) {
                 if (moving == Direction.DOWN) {
                     int pass = r.nextInt(10);
                     if (pass != 1) {
                         return;
                     }
                 }
-                Spatial temp = roads[x + 1][y][z];
+                Spatial temp = map.getMap()[x + 1][y][z];
                 if (temp.getUserData("type").equals("road")) {
                     if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
                         if (temp.getUserData("direction").equals("UP") || temp.getUserData("direction").equals("DOWN")) {
-                            if (temp == roads[x + 1][y - 1][z]) {
+                            if (temp == map.getMap()[x + 1][y - 1][z]) {
                                 actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x + 1f, y - 0.9f, z), actiontype, this));
                                 x = x + 1;
                                 y = y - 1;
                                 moving = Direction.UP;
                             }
-                            if (temp == roads[x + 1][y + 1][z]) {
+                            if (temp == map.getMap()[x + 1][y + 1][z]) {
                                 actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x + 1f, y + 1.1f, z), actiontype, this));
                                 x = x + 1;
@@ -143,7 +156,7 @@ public class Guest extends BasicNPC {
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = Main.gamestate.shopManager.isthereshop(x + 1, y, z);
+                    BasicShop foundshop = shopManager.isthereshop(x + 1, y, z);
                     if (foundshop != null) {
                         NPCAction buy = new NPCAction(new Vector3f(x + 0.7f, y + 0.1f, z), ActionType.BUY, foundshop, this);
                         actions.add(buy);
@@ -156,8 +169,8 @@ public class Guest extends BasicNPC {
 
         }
         if (suunta == 1) {
-            if (roads[x - 1][y][z] != null) {
-                Spatial temp = roads[x - 1][y][z];
+            if (map.getMap()[x - 1][y][z] != null) {
+                Spatial temp = map.getMap()[x - 1][y][z];
                 if (moving == Direction.UP) {
                     int pass = r.nextInt(10);
                     if (pass != 1) {
@@ -167,14 +180,14 @@ public class Guest extends BasicNPC {
                 if (temp.getUserData("type").equals("road")) {
                     if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
                         if (temp.getUserData("direction").equals("UP") || temp.getUserData("direction").equals("DOWN")) {
-                            if (temp == roads[x - 1][y - 1][z]) {
+                            if (temp == map.getMap()[x - 1][y - 1][z]) {
                                 actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x - 1f, y - 0.9f, z), actiontype, this));
                                 x = x - 1;
                                 y = y - 1;
                                 moving = Direction.DOWN;
                             }
-                            if (temp == roads[x - 1][y + 1][z]) {
+                            if (temp == map.getMap()[x - 1][y + 1][z]) {
                                 actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x - 1f, y + 1.1f, z), actiontype, this));
                                 x = x - 1;
@@ -195,7 +208,7 @@ public class Guest extends BasicNPC {
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = Main.gamestate.shopManager.isthereshop(x - 1, y, z);
+                    BasicShop foundshop = shopManager.isthereshop(x - 1, y, z);
                     if (foundshop != null) {
                         NPCAction buy = new NPCAction(new Vector3f(x - 0.7f, y + 0.1f, z), ActionType.BUY, foundshop, this);
                         actions.add(buy);
@@ -207,8 +220,8 @@ public class Guest extends BasicNPC {
             }
         }
         if (suunta == 2) {
-            if (roads[x][y][z + 1] != null) {
-                Spatial temp = roads[x][y][z + 1];
+            if (map.getMap()[x][y][z + 1] != null) {
+                Spatial temp = map.getMap()[x][y][z + 1];
                 if (moving == Direction.LEFT) {
                     int pass = r.nextInt(10);
                     if (pass != 1) {
@@ -218,14 +231,14 @@ public class Guest extends BasicNPC {
                 if (temp.getUserData("type").equals("road")) {
                     if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
                         if (temp.getUserData("direction").equals("LEFT") || temp.getUserData("direction").equals("RIGHT")) {
-                            if (temp == roads[x][y - 1][z + 1]) {
+                            if (temp == map.getMap()[x][y - 1][z + 1]) {
                                 actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z + 1f), actiontype, this));
                                 z = z + 1;
                                 y = y - 1;
                                 moving = Direction.RIGHT;
                             }
-                            if (temp == roads[x][y + 1][z + 1]) {
+                            if (temp == map.getMap()[x][y + 1][z + 1]) {
                                 actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z + 1f), actiontype, this));
                                 z = z + 1;
@@ -246,7 +259,7 @@ public class Guest extends BasicNPC {
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = Main.gamestate.shopManager.isthereshop(x, y, z + 1);
+                    BasicShop foundshop = shopManager.isthereshop(x, y, z + 1);
                     if (foundshop != null) {
                         NPCAction buy = new NPCAction(new Vector3f(x, y + 0.1f, z + 0.7f), ActionType.BUY, foundshop, this);
                         actions.add(buy);
@@ -259,9 +272,9 @@ public class Guest extends BasicNPC {
 
         }
         if (suunta == 3) {
-            if (roads[x][y][z - 1] != null) {
+            if (map.getMap()[x][y][z - 1] != null) {
 
-                Spatial temp = roads[x][y][z - 1];
+                Spatial temp = map.getMap()[x][y][z - 1];
                 if (moving == Direction.RIGHT) {
                     int pass = r.nextInt(10);
                     if (pass != 1) {
@@ -271,14 +284,14 @@ public class Guest extends BasicNPC {
                 if (temp.getUserData("type").equals("road")) {
                     if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
                         if (temp.getUserData("direction").equals("LEFT") || temp.getUserData("direction").equals("RIGHT")) {
-                            if (temp == roads[x][y - 1][z - 1]) {
+                            if (temp == map.getMap()[x][y - 1][z - 1]) {
                                 actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z - 1), actiontype, this));
                                 z = z - 1;
                                 y = y - 1;
                                 moving = Direction.LEFT;
                             }
-                            if (temp == roads[x][y + 1][z - 1]) {
+                            if (temp == map.getMap()[x][y + 1][z - 1]) {
                                 actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z - 1), actiontype, this));
                                 z = z - 1;
@@ -299,7 +312,7 @@ public class Guest extends BasicNPC {
                 }
 
                 if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = Main.gamestate.shopManager.isthereshop(x, y, z - 1);
+                    BasicShop foundshop = shopManager.isthereshop(x, y, z - 1);
                     if (foundshop != null) {
                         NPCAction buy = new NPCAction(new Vector3f(x, y + 0.1f, z - 0.7f), ActionType.BUY, foundshop, this);
                         actions.add(buy);
@@ -343,7 +356,7 @@ public class Guest extends BasicNPC {
         this.x = x;
         this.y = y;
         this.z = z;
-        roads = Main.currentPark.getMap();
+        
     }
 
     public int getGuestNum() {
@@ -364,10 +377,10 @@ public class Guest extends BasicNPC {
         int fRideID = 0;
         Spatial trueroad = null;
         BasicRide foundRide = null;
-        for (BasicRide s : Main.gamestate.rideManager.rides) {
+        for (BasicRide s : rideManager.rides) {
             if (s.enterance != null) {
                 if (s.enterance.connectedRoad != null) {
-                    ArrayList<Spatial> a = Main.gamestate.roadMaker.getlinkedqueroads(s.enterance.connectedRoad);
+                    ArrayList<Spatial> a = roadMaker.getlinkedqueroads(s.enterance.connectedRoad);
                     trueroad = temp.getUserData("queconnect1");
                     if (a.contains(trueroad)) {
                         System.out.println("Found the ride witch the road is connected to");
@@ -382,7 +395,7 @@ public class Guest extends BasicNPC {
         }
 
         if (found) {
-            for (BasicRide a : Main.gamestate.rideManager.rides) {
+            for (BasicRide a : rideManager.rides) {
                 if (a.getRideID() == fRideID) {
                     foundRide = a;
                 }

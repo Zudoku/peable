@@ -5,7 +5,6 @@
 package mygame.ride;
 
 import com.google.inject.Inject;
-import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -19,7 +18,9 @@ import mygame.npc.inventory.PreferredRides;
 import mygame.shops.Employee;
 import mygame.shops.ShopReputation;
 import mygame.terrain.Direction;
+import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
+import mygame.terrain.RoadMaker;
 
 /**
  *
@@ -27,7 +28,9 @@ import mygame.terrain.ParkHandler;
  */
 
 public class BasicRide {
-
+    @Inject ParkHandler parkHandler;
+    @Inject RoadMaker roadMaker;
+    @Inject MapContainer map;
     private Direction facing;
     private Vector3f position;
     private Spatial object;
@@ -81,8 +84,10 @@ public class BasicRide {
         this.facing = facing;
         this.ride=ride;
         this.rootNode=rootNode;
+        Main.injector.injectMembers(this);
         
         object.setLocalTranslation(position);
+        
     }
 
     public void interact(Guest guest) {
@@ -107,7 +112,7 @@ public class BasicRide {
             if (testedroad == null) {
                 System.out.println("Road from guest null :(");
             }
-            ArrayList<Spatial> linkedroads = Gamestate.roadMaker.getlinkedqueroads(enterance.connectedRoad);
+            ArrayList<Spatial> linkedroads = roadMaker.getlinkedqueroads(enterance.connectedRoad);
             if (!linkedroads.contains(testedroad)) {
                 System.out.println("Error");
                 continue;
@@ -148,7 +153,7 @@ public class BasicRide {
         g.joinedRide = System.currentTimeMillis();
         g.getGeometry().setLocalTranslation(position);
         g.wallet.pay(price);
-        Main.currentPark.getParkWallet().add(price);
+        parkHandler.getParkWallet().add(price);
         Gamestate.ingameHUD.updateMoneytextbar();
         moneytotal += price;
         g.deleteActions();
@@ -248,8 +253,8 @@ public class BasicRide {
     public void demolish() {
         
         
-        ParkHandler parkHandler=Main.currentPark;
-        Spatial[][][] map=parkHandler.getMap();
+        
+        
         Node rideNode=(Node)rootNode.getChild("rideNode");
         rideNode.detachChild(object);
         rideNode.detachChild(exit.object);
@@ -261,9 +266,9 @@ public class BasicRide {
         for(int y=0;y<25;y++){
             for(int x=0;x<parkHandler.getMapHeight();x++){
                 for(int z=0;z<parkHandler.getMapWidth();z++){
-                    if(map[x][y][z]!=null){
-                        if(map[x][y][z]==object||map[x][y][z]==enterance.object||map[x][y][z]==exit.object){
-                            map[x][y][z]=null;
+                    if(map.getMap()[x][y][z]!=null){
+                        if(map.getMap()[x][y][z]==object||map.getMap()[x][y][z]==enterance.object||map.getMap()[x][y][z]==exit.object){
+                            map.getMap()[x][y][z]=null;
                         }
                     }
                 }
