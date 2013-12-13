@@ -4,6 +4,7 @@
  */
 package mygame;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.jme3.asset.AssetManager;
@@ -22,6 +23,7 @@ public class GameModule extends AbstractModule {
     private final AppSettings appSettings;
     private final Camera camera;
     private final InputManager input;
+    private final EventBus eventBus=new EventBus();
     
   public GameModule(Node rootNode,AssetManager assetManager,AppSettings appSettings,Camera cam,InputManager input){
       this.rootNode=rootNode;
@@ -59,6 +61,10 @@ public class GameModule extends AbstractModule {
   @Provides
   InputManager provideInputManager(){
       return input;
+  }
+  @Provides
+  EventBus provideEventBus(){
+      return eventBus;
   }
   
   

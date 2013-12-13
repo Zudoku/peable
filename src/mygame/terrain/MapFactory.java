@@ -14,7 +14,6 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import java.util.ArrayList;
-import mygame.Main;
 import mygame.npc.BasicNPC;
 import mygame.npc.Guest;
 import mygame.ride.BasicRide;

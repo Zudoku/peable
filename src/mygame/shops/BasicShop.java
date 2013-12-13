@@ -4,17 +4,19 @@
  */
 package mygame.shops;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
-import mygame.Gamestate;
+import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.Main;
 import mygame.npc.Guest;
 import mygame.terrain.Direction;
 import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
+import mygame.terrain.PayParkEvent;
 
 /**
  *
@@ -29,8 +31,9 @@ public class BasicShop {
     public String productname="productname";
     public String shopName="SHOPNAME";
     public float price=0;
-    @Inject private MapContainer map;
-    @Inject public ParkHandler parkHandler;
+    
+    
+    @Inject protected EventBus eventBus;
     public ArrayList<Employee> employees=new ArrayList<Employee>();
     public ShopReputation reputation= ShopReputation.NEW;
     public String type;
@@ -53,27 +56,11 @@ public class BasicShop {
         return object;
     }
     public void demolish(){
+
+        eventBus.post(new ShopDemolishEvent(this));
+        eventBus.post(new PayParkEvent(0.5f*constructionmoney));
+        eventBus.post(new UpdateMoneyTextBarEvent());
         
-        
-        
-        Node shopNode=(Node)rootNode.getChild("shopNode");
-        shopNode.detachChild(object);
-        rootNode.detachChild(object);
-        
-        for(int y=0;y<25;y++){
-            for(int x=0;x<parkHandler.getMapHeight();x++){
-                for(int z=0;z<parkHandler.getMapWidth();z++){
-                    if(map.getMap()[x][y][z]!=null){
-                        if(map.getMap()[x][y][z]==object){
-                            map.getMap()[x][y][z]=null;
-                        }
-                    }
-                }
-            }
-        }
-        parkHandler.getParkWallet().add(0.5f*constructionmoney);
-        Gamestate.ingameHUD.updateMoneytextbar();
-        parkHandler.getShops().remove(this);
     }
     
 }

@@ -4,6 +4,7 @@
  */
 package mygame.ride;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -11,13 +12,11 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
-import mygame.Gamestate;
-import mygame.Main;
+import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.shops.BasicBuildables;
 import mygame.shops.HolomodelDrawer;
-import mygame.shops.ShopManager;
 import mygame.terrain.Direction;
 import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
@@ -42,10 +41,11 @@ public class RideManager {
     private final RoadMaker roadMaker;
     private final ClickingHandler clickingHandler;
     private final MapContainer map;
+    private final EventBus eventBus;
     
     @Inject
     public RideManager(AssetManager assetManager, Node rootNode,RideFactory rideFactory,HolomodelDrawer holoDrawer,ParkHandler parkHandler,
-    RoadMaker roadMaker,ClickingHandler clickingHandler,MapContainer map) {
+    RoadMaker roadMaker,ClickingHandler clickingHandler,MapContainer map,EventBus eventBus) {
         this.rideFactory =rideFactory;
         this.assetManager = assetManager;
         this.rootNode = rootNode;
@@ -54,6 +54,7 @@ public class RideManager {
         this.roadMaker=roadMaker;
         this.clickingHandler=clickingHandler;
         this.map=map;
+        this.eventBus=eventBus;
         
         rideNode = new Node("rideNode");
         rootNode.attachChild(rideNode);
@@ -92,7 +93,7 @@ public class RideManager {
         rides.add(boughtride);
         rideNode.attachChild(boughtride.getGeometry());
         parkHandler.getParkWallet().remove(boughtride.constructionmoney);
-        Gamestate.ingameHUD.updateMoneytextbar();
+        eventBus.post(new UpdateMoneyTextBarEvent());
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 map.getMap()[tx + i - 1][ty][tz + j - 1] = boughtride.getGeometry();

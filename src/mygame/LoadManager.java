@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import mygame.npc.BasicNPC;
 import mygame.npc.Guest;
 import mygame.npc.inventory.PreferredRides;
@@ -46,7 +47,7 @@ import mygame.terrain.decoration.DecorationFactory;
  */
 @Singleton
 public class LoadManager {
-
+    private static final Logger logger = Logger.getLogger(LoadManager.class.getName());
     private final Node rootNode;
     private final AppSettings settings;
     private final AssetManager assetManager;
@@ -82,9 +83,8 @@ public class LoadManager {
     }
 
     private ParkHandler createParkHandler(String line) {
-        
+        logger.finest("Starting to build map!");
         String lines[] = splitStrings(line);
-        //park data 
         loadParkData(parkHandler, lines[0]);
         loadTerrainData(parkHandler, lines[1]);
         loadShopData(parkHandler, lines[2]);
@@ -93,6 +93,7 @@ public class LoadManager {
         loadRoadData(parkHandler, lines[5]);
         loadQueRoadData(parkHandler,lines[6]);
         //loadDecorationData(parkhandler,lines[7]);
+        logger.finest("Map Done!");
         return null;
     }
 
@@ -170,7 +171,7 @@ public class LoadManager {
                 }
                 //mapData[i][o]=Integer.parseInt(values[i*o+o+2]);
                 mapData[i][o] = 6;
-                System.out.println(values[i * o + o + 2]);
+                
             }
         }
         Spatial[][][] map = new Spatial[mapHeight][25][mapWidth];
@@ -183,7 +184,7 @@ public class LoadManager {
                 geomclone.setLocalScale((new Vector3f(1, (int) mapData[x][y], 1)));
 
                 geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().y + ((float) mapData[x][y] / 2), 1);
-                System.out.println(geomclone.getLocalScale());
+                
                 geomclone.move(x, 0, y);
                 geomclone.setName("Terrain");
                 geomclone.setUserData("type", "terrain");

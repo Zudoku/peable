@@ -4,6 +4,8 @@
  */
 package mygame.GUI;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import de.lessvoid.nifty.Nifty;
@@ -26,6 +28,7 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.SizeValue;
 import java.util.ArrayList;
+
 import mygame.Gamestate;
 import mygame.Main;
 import mygame.SaveManager;
@@ -59,6 +62,7 @@ public class IngameHUD implements ScreenController {
     @Inject private ClickingHandler clickingHandler;
     @Inject private RoadMaker roadMaker;
     @Inject ShopManager shopManager;
+    @Inject EventBus eventBus;
     private WindowMaker windowMaker;
     @Inject NPCManager npcManager;
     @Inject SaveManager saveManager;
@@ -72,6 +76,7 @@ public class IngameHUD implements ScreenController {
         Injector i=Main.injector;
         windowMaker=new WindowMaker(nifty);
         i.injectMembers(this);
+        eventBus.register(this);
     }
 
     public void bind(Nifty nifty, Screen screen) {
@@ -80,7 +85,10 @@ public class IngameHUD implements ScreenController {
         
 
     }
-    public void updateMoneytextbar(){
+    @Subscribe public void processMoneyTextBarUpdate(UpdateMoneyTextBarEvent e) {
+        updateMoneytextbar();
+    }
+    private void updateMoneytextbar(){
         nifty=Main.nifty;
         Element a=nifty.getCurrentScreen().findElementByName("moneytext");
         a.getRenderer(TextRenderer.class).setText(currentPark.getParkWallet().getMoneyString());

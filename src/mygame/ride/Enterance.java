@@ -5,12 +5,8 @@
 package mygame.ride;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.export.JmeExporter;
-import com.jme3.export.JmeImporter;
-import com.jme3.export.Savable;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
-import java.io.IOException;
 import mygame.terrain.Direction;
 
 /**

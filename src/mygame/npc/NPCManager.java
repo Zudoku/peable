@@ -4,6 +4,7 @@
  */
 package mygame.npc;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -24,10 +25,10 @@ public class NPCManager {
     public boolean NPCVisible=true;
     int updatenum=0;
     @Inject
-    public NPCManager(Node rootNode,AssetManager assetManager){
+    public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus){
         this.rootNode=rootNode;
         NPCNode=new Node("NPCNode");
-        guestSpawner=new GuestSpawner(NPCNode,rootNode,assetManager);
+        guestSpawner=new GuestSpawner(NPCNode,rootNode,assetManager,eventBus);
         rootNode.attachChild(NPCNode);
         System.out.println("new NPCMANAGER made!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         

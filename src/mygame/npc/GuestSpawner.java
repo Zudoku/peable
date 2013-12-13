@@ -4,12 +4,14 @@
  */
 package mygame.npc;
 
+import com.google.common.eventbus.EventBus;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
+import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.Main;
 
 /**
@@ -28,12 +30,13 @@ public class GuestSpawner {
     private final Node rootNode;
     Random r;
     private final AssetManager assetManager;
+    private final EventBus eventBus;
 
-    public GuestSpawner(Node nPCNode, Node rootNode, AssetManager assetManager) {
+    public GuestSpawner(Node nPCNode, Node rootNode, AssetManager assetManager,EventBus eventBus) {
         this.nPCNode = nPCNode;
         this.rootNode = rootNode;
         this.assetManager = assetManager;
-        
+        this.eventBus=eventBus;
         r = new Random();
         addNames();
         spawnpoints.add(new Vector3f(1, 6, 5));
@@ -75,7 +78,7 @@ public class GuestSpawner {
         nPCNode.attachChild(g.getGeometry());
         System.out.println("Guest " + Integer.toString(guestNum) + " Named: " + name + " has entered the world");
         if(n!=1){
-            Main.gamestate.ingameHUD.updateMoneytextbar();
+            eventBus.post(new UpdateMoneyTextBarEvent());
         }
         
     }

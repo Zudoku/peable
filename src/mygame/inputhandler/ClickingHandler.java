@@ -4,11 +4,13 @@
  */
 package mygame.inputhandler;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Node;
+import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.Gamestate;
 import mygame.Main;
 import mygame.npc.Guest;
@@ -16,6 +18,7 @@ import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
 import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
+import mygame.terrain.PayParkEvent;
 import mygame.terrain.RoadMaker;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.TerrainHandler;
@@ -28,6 +31,7 @@ import mygame.terrain.TerrainHandler;
 public class ClickingHandler {
 
     @Inject private TerrainHandler worldHandler;
+    @Inject EventBus eventBus;
     public ClickingModes clickMode = ClickingModes.NOTHING;
     public int buffer = 0;
     private final Node rootNode;
@@ -42,6 +46,7 @@ public class ClickingHandler {
         this.parkHandler=parkHandler;
         this.roadMaker=roadMaker;
         this.map=map;
+        
     }
 
     public void handleClicking(CollisionResult target, CollisionResults results) {
@@ -161,8 +166,8 @@ public class ClickingHandler {
                 if (rootTarget.getUserData("type").equals("road")) {
                     rootNode.detachChild(rootTarget);
                     deleteFromMap(rootTarget);
-                    parkHandler.getParkWallet().add(5); //tien hinnasta osa takasin
-                    Gamestate.ingameHUD.updateMoneytextbar();
+                    eventBus.post(new PayParkEvent(5f)); //tien hinnasta osa takasin
+                    eventBus.post(new UpdateMoneyTextBarEvent());
                 }
 
         }

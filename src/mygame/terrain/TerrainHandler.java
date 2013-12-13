@@ -4,6 +4,7 @@
  */
 package mygame.terrain;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -15,6 +16,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
+import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.Gamestate;
 
 /**
@@ -36,11 +38,13 @@ public class TerrainHandler {
     public int textureindex = 1;
     public boolean useTexture = false;
     private final ParkHandler parkHandler;
+    private final EventBus eventBus;
     @Inject
-    public TerrainHandler(Node rootNode, AssetManager assetManager,ParkHandler parkHandler) {
+    public TerrainHandler(Node rootNode, AssetManager assetManager,ParkHandler parkHandler,EventBus eventBus) {
         this.gameNode = rootNode;
         this.assetManager = assetManager;
         this.parkHandler=parkHandler;
+        this.eventBus=eventBus;
         
     }
 
@@ -180,7 +184,7 @@ public class TerrainHandler {
         gameNode.detachChild(deleted);
         gameNode.attachChild(geomclone);
         parkHandler.getParkWallet().remove(10);
-        Gamestate.ingameHUD.updateMoneytextbar();
+        eventBus.post(new UpdateMoneyTextBarEvent());
 
     }
 
@@ -216,7 +220,7 @@ public class TerrainHandler {
         gameNode.detachChild(deleted);
         gameNode.attachChild(geomclone);
         parkHandler.getParkWallet().remove(10);
-        Gamestate.ingameHUD.updateMoneytextbar();
+        eventBus.post(new UpdateMoneyTextBarEvent());
 
     }
 

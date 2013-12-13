@@ -4,12 +4,13 @@
  */
 package mygame.ride;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
-import mygame.Gamestate;
+import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.Main;
 import mygame.npc.ActionType;
 import mygame.npc.Guest;
@@ -18,8 +19,8 @@ import mygame.npc.inventory.PreferredRides;
 import mygame.shops.Employee;
 import mygame.shops.ShopReputation;
 import mygame.terrain.Direction;
-import mygame.terrain.MapContainer;
-import mygame.terrain.ParkHandler;
+import mygame.terrain.PayParkEvent;
+import mygame.terrain.RideDemolishEvent;
 import mygame.terrain.RoadMaker;
 
 /**
@@ -28,9 +29,10 @@ import mygame.terrain.RoadMaker;
  */
 
 public class BasicRide {
-    @Inject ParkHandler parkHandler;
+    
     @Inject RoadMaker roadMaker;
-    @Inject MapContainer map;
+    
+    @Inject EventBus eventBus;
     private Direction facing;
     private Vector3f position;
     private Spatial object;
@@ -153,8 +155,8 @@ public class BasicRide {
         g.joinedRide = System.currentTimeMillis();
         g.getGeometry().setLocalTranslation(position);
         g.wallet.pay(price);
-        parkHandler.getParkWallet().add(price);
-        Gamestate.ingameHUD.updateMoneytextbar();
+        eventBus.post(new PayParkEvent(price));
+        eventBus.post(new UpdateMoneyTextBarEvent());
         moneytotal += price;
         g.deleteActions();
         calculateguestRate();
@@ -251,33 +253,11 @@ public class BasicRide {
     }
 
     public void demolish() {
-        
-        
-        
-        
-        Node rideNode=(Node)rootNode.getChild("rideNode");
-        rideNode.detachChild(object);
-        rideNode.detachChild(exit.object);
-        rideNode.detachChild(enterance.object);
-        rootNode.detachChild(object);
-        rootNode.detachChild(exit.object);
-        rootNode.detachChild(enterance.object);
-        
-        for(int y=0;y<25;y++){
-            for(int x=0;x<parkHandler.getMapHeight();x++){
-                for(int z=0;z<parkHandler.getMapWidth();z++){
-                    if(map.getMap()[x][y][z]!=null){
-                        if(map.getMap()[x][y][z]==object||map.getMap()[x][y][z]==enterance.object||map.getMap()[x][y][z]==exit.object){
-                            map.getMap()[x][y][z]=null;
-                        }
-                    }
-                }
-            }
-        }
-        parkHandler.getParkWallet().add(0.5f*constructionmoney);
-        Gamestate.ingameHUD.updateMoneytextbar();
-        parkHandler.getRides().remove(this);
-        
+
+        eventBus.post(new PayParkEvent(0.5f*constructionmoney));
+        eventBus.post(new RideDemolishEvent(this));
+        eventBus.post(new UpdateMoneyTextBarEvent());
+
     }
     
 

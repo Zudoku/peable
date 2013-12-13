@@ -4,6 +4,7 @@
  */
 package mygame.shops;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -11,6 +12,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.Gamestate;
 import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
@@ -43,12 +45,15 @@ public class ShopManager {
     @Inject private RoadMaker roadMaker;
     @Inject private RideManager rideManager;
     private final MapContainer map;
+    private final EventBus eventBus;
     @Inject
-    public ShopManager(AssetManager assetManager,Node rootNode,ShopFactory shopFactory,HolomodelDrawer holoDrawer,MapContainer map) {
+    public ShopManager(AssetManager assetManager,Node rootNode,ShopFactory shopFactory,HolomodelDrawer holoDrawer,MapContainer map,
+            EventBus eventBus) {
         this.shopFactory =shopFactory;
         this.assetManager=assetManager;
         this.rootNode=rootNode;
         this.holoDrawer=holoDrawer;
+        this.eventBus=eventBus;
         
        
         this.map=map;
@@ -98,7 +103,7 @@ public class ShopManager {
         shops.add(boughtshop);
         boughtshop.getGeometry().setUserData("type","shop");
         parkHandler.getParkWallet().remove(boughtshop.constructionmoney);
-        Gamestate.ingameHUD.updateMoneytextbar();
+        eventBus.post(new UpdateMoneyTextBarEvent());
         map.getMap()[(int)loc.x][(int)loc.y][(int)loc.z]=boughtshop.getGeometry();
         shopNode.attachChild(boughtshop.getGeometry());
         resetShopdata();

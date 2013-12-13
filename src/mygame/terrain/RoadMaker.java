@@ -4,6 +4,7 @@
  */
 package mygame.terrain;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -11,6 +12,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.Gamestate;
 import mygame.Main;
 import mygame.ride.Enterance;
@@ -37,10 +39,12 @@ public class RoadMaker {
     public ArrayList<Spatial>roads=new ArrayList<Spatial>();
     public int ID=1;
     @Inject private ParkHandler parkHandler;
+    private final EventBus eventBus;
     @Inject
-    public RoadMaker(AssetManager assetManager, Node rootNode ,MapContainer map) {
+    public RoadMaker(AssetManager assetManager, Node rootNode ,MapContainer map,EventBus eventBus) {
         this.assetManager = assetManager;
         this.rootNode = rootNode;
+        this.eventBus=eventBus;
         
         this.map=map;
         roadF = new RoadFactory(assetManager);
@@ -221,7 +225,7 @@ public class RoadMaker {
 
         }
         parkHandler.getParkWallet().remove(10);
-        Gamestate.ingameHUD.updateMoneytextbar();
+        eventBus.post(new UpdateMoneyTextBarEvent());
         rootNode.attachChild(road);
         //roads.add(road);
 

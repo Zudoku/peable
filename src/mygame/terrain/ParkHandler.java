@@ -4,6 +4,9 @@
  */
 package mygame.terrain;
 
+import com.google.common.eventbus.DeadEvent;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.math.Vector3f;
@@ -11,12 +14,14 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import mygame.npc.BasicNPC;
 import mygame.npc.Guest;
 import mygame.npc.NPCManager;
 import mygame.ride.BasicRide;
 import mygame.ride.RideManager;
 import mygame.shops.BasicShop;
+import mygame.shops.ShopDemolishEvent;
 import mygame.shops.ShopManager;
 
 /**
@@ -27,7 +32,7 @@ import mygame.shops.ShopManager;
 public class ParkHandler {
 
     private MapContainer map;
-    
+    private static final Logger logger = Logger.getLogger(ParkHandler.class.getName());
     private ParkWallet parkwallet = new ParkWallet(10000);
     private ArrayList<BasicRide> rides=new ArrayList<BasicRide>();
     private ArrayList<BasicNPC> npcs=new ArrayList<BasicNPC>();
@@ -48,11 +53,17 @@ public class ParkHandler {
     @Inject private RoadMaker roadMaker;
     @Inject private ShopManager shopManager;
     @Inject private RideManager rideManager;
+    private final EventBus eventBus;
+    private final Node rootNode;
     @Inject
-    public ParkHandler(Node rootNode, AppSettings settings,MapContainer map) {
+    public ParkHandler(Node rootNode, AppSettings settings,MapContainer map,EventBus eventBus) {
         
         this.settings = settings;
+        this.rootNode=rootNode;
         this.map=map;
+        this.eventBus=eventBus;
+        eventBus.register(this);
+        
     }
 
     public void setUp(String parkname, int rideID, int shopID, ParkWallet wallet) {
@@ -77,7 +88,8 @@ public class ParkHandler {
 
     public void onStartup() {
         
-        System.out.println("Setting Map!");
+        
+        logger.finest("Setting Map");
         
         roadMaker.roadsToUpdate(RoadtoUpdatePositions);
         roadMaker.queRoadsToUpdate(queRoadsToUpdate);
@@ -192,4 +204,54 @@ public class ParkHandler {
     public void setUpdatedQueRoadsList(ArrayList<Spatial> queRoadstoUpdate) {
         this.queRoadsToUpdate=queRoadstoUpdate;
     }
+    @Subscribe public void listenDeadEvents(DeadEvent event){
+        logger.warning(String.format("%s was NOT delivered to its correct destination!",event.getEvent().toString()));
+        
+    }
+    @Subscribe public void listenRideDemolishEvent(RideDemolishEvent event){
+        Node rideNode=(Node)rootNode.getChild("rideNode");
+        rideNode.detachChild(event.getRide().getGeometry());
+        rideNode.detachChild(event.getRide().exit.object);
+        rideNode.detachChild(event.getRide().enterance.object);
+        rootNode.detachChild(event.getRide().getGeometry());
+        rootNode.detachChild(event.getRide().exit.object);
+        rootNode.detachChild(event.getRide().enterance.object);
+        
+        for(int y=0;y<25;y++){
+            for(int x=0;x<getMapHeight();x++){
+                for(int z=0;z<getMapWidth();z++){
+                    if(map.getMap()[x][y][z]!=null){
+                        if(map.getMap()[x][y][z]==event.getRide().getGeometry()||map.getMap()[x][y][z]==event.getRide().enterance.object||map.getMap()[x][y][z]==event.getRide().exit.object){
+                            map.getMap()[x][y][z]=null;
+                        }
+                    }
+                }
+            }
+        }
+        rides.remove(event.getRide());
+    }
+    @Subscribe public void listenShopDemolishEvent(ShopDemolishEvent event){
+        Node shopNode=(Node)rootNode.getChild("shopNode");
+        shopNode.detachChild(event.getShop().getGeometry());
+        rootNode.detachChild(event.getShop().getGeometry());
+        
+        for(int y=0;y<25;y++){
+            for(int x=0;x<getMapHeight();x++){
+                for(int z=0;z<getMapWidth();z++){
+                    if(map.getMap()[x][y][z]!=null){
+                        if(map.getMap()[x][y][z]==event.getShop().getGeometry()){
+                            map.getMap()[x][y][z]=null;
+                        }
+                    }
+                }
+            }
+        }
+        
+        getShops().remove(event.getShop());
+    }
+    @Subscribe public void listenPayParkEvents(PayParkEvent event){
+        parkwallet.add(event.getAmount());
+        logger.finest(String.format("%s Added to your parks account!", event.getAmount()));
+    }
+    
 }
