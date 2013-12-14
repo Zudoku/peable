@@ -51,7 +51,7 @@ public class SaveManager {
             writeRideData(writer, parkHandler);
             writeRoadData(writer);
             writeQueRoads(writer);
-            //writeDecorations(writer, parkHandler);
+            writeDecorations(writer, parkHandler);
         } catch (IOException ex) {
             // report
         } finally {
@@ -134,7 +134,7 @@ public class SaveManager {
     }
 
     private void writeTerrainData(Writer writer, ParkHandler parkhandler) throws IOException {
-        int[][] mapdata = parkhandler.getMapData();
+        int[][] mapdata = map.getMapData();
         int height = parkhandler.getMapHeight();
         int width = parkhandler.getMapWidth();
         writer.write("map size:" + Integer.toString(height) + ":" + Integer.toString(width) + ":");

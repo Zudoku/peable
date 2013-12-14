@@ -17,7 +17,6 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import mygame.GUI.UpdateMoneyTextBarEvent;
-import mygame.Gamestate;
 
 /**
  *

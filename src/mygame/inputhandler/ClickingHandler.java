@@ -11,6 +11,7 @@ import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Node;
 import mygame.GUI.UpdateMoneyTextBarEvent;
+import mygame.GUI.WindowMaker;
 import mygame.Gamestate;
 import mygame.Main;
 import mygame.npc.Guest;
@@ -22,6 +23,7 @@ import mygame.terrain.PayParkEvent;
 import mygame.terrain.RoadMaker;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.TerrainHandler;
+import mygame.terrain.decoration.DecorationManager;
 
 /**
  *
@@ -32,20 +34,23 @@ public class ClickingHandler {
 
     @Inject private TerrainHandler worldHandler;
     @Inject EventBus eventBus;
+    @Inject WindowMaker windowMaker;
     public ClickingModes clickMode = ClickingModes.NOTHING;
     public int buffer = 0;
     private final Node rootNode;
     private final ParkHandler parkHandler;
     private final RoadMaker roadMaker;
     private final MapContainer map;
+    private final DecorationManager decorationManager;
 
     @Inject
-    public ClickingHandler(Node rootNode,ParkHandler parkHandler,RoadMaker roadMaker,MapContainer map) {
+    public ClickingHandler(Node rootNode,ParkHandler parkHandler,RoadMaker roadMaker,MapContainer map,DecorationManager decorationManager) {
         
         this.rootNode=rootNode;
         this.parkHandler=parkHandler;
         this.roadMaker=roadMaker;
         this.map=map;
+        this.decorationManager=decorationManager;
         
     }
 
@@ -80,7 +85,7 @@ public class ClickingHandler {
                 if (rootTarget.getUserData("guestnum") != null) {
                     for (Guest g : Main.gamestate.npcManager.guests) {
                         if (g.getGuestNum() == rootTarget.getUserData("guestnum")) {
-                            Main.gamestate.windowMaker.createGuestWindow(g, true);
+                            windowMaker.createGuestWindow(g, true);
                             return;
                         }
                     }
@@ -88,7 +93,7 @@ public class ClickingHandler {
                 if (rootTarget.getUserData("shopID") != null) {
                     for (BasicShop g : Main.gamestate.shopManager.shops) {
                         if (g.shopID == rootTarget.getUserData("shopID")) {
-                            Main.gamestate.windowMaker.createShopWindow(g);
+                            windowMaker.createShopWindow(g);
                             return;
                         }
                     }
@@ -96,7 +101,7 @@ public class ClickingHandler {
                 if (rootTarget.getUserData("type") == "ride") {
                     for (BasicRide r : Main.gamestate.rideManager.rides) {
                         if (r.getRideID() == rootTarget.getUserData("rideID")) {
-                            Main.gamestate.windowMaker.CreateRideWindow(r);
+                            windowMaker.CreateRideWindow(r);
                         }
                     }
                 }
@@ -111,6 +116,7 @@ public class ClickingHandler {
                 break;
 
             case DECORATION:
+                decorationManager.build(target.getContactPoint());
                 Gamestate.ingameHUD.updateClickingIndicator();
                 break;
 

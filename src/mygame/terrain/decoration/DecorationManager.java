@@ -4,45 +4,56 @@
  */
 package mygame.terrain.decoration;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import mygame.GUI.UpdateMoneyTextBarEvent;
+import mygame.terrain.AddObjectToMapEvent;
 import mygame.terrain.Direction;
-import mygame.terrain.MapContainer;
+import mygame.terrain.PayParkEvent;
 
 /**
  *
  * @author arska
  */
+@Singleton
 public class DecorationManager {
 
     Node rootNode;
     Node decorationNode;
-    Direction direction = Direction.UP;
+    Direction direction = Direction.RIGHT;
     Decorations decoration = Decorations.ROCK;
     DecorationFactory decoFactory;
-    private final MapContainer map;
+    float price=0;
+    private final EventBus eventBus;
+    
+    public static final float HALFTILE = 0.4999f;
+    
     
 
     @Inject
-    public DecorationManager(Node rootNode, AssetManager assetManager,MapContainer map) {
+    public DecorationManager(Node rootNode, AssetManager assetManager,EventBus eventBus) {
         this.rootNode = rootNode;
-        this.map=map;
+        this.eventBus=eventBus;
+        
         
         decorationNode = new Node("decorationNode");
         rootNode.attachChild(decorationNode);
         decoFactory = new DecorationFactory(assetManager);
 
     }
-
+    
     public void build(Vector3f loc) {
         Spatial decobject = null;
         float angle;
         switch (decoration) {
             case ROCK:
-
+                decobject=decoFactory.getRock();
+                price=25;
                 break;
         }
         switch (direction) {
@@ -67,12 +78,68 @@ public class DecorationManager {
 
         }
         decobject.setUserData("type", "decoration");
-        decobject.setUserData("direction",direction);
-        decobject.setLocalTranslation(loc);
-        int x1=(int)loc.x;
-        int y1=(int)loc.y;
-        int z1=(int)loc.z;
-        map.getMap()[x1][y1][z1]=decobject;
+        decobject.setUserData("direction",direction.toString());
+        
+        int x1=(int)(loc.x+HALFTILE);
+        int y1=(int)(loc.y+HALFTILE);
+        int z1=(int)(loc.z+HALFTILE);
+        decobject.setLocalTranslation(x1,y1,z1);
+        eventBus.post(new AddObjectToMapEvent(x1, y1, z1, decobject));
+        eventBus.post(new PayParkEvent(price));
+        eventBus.post(new UpdateMoneyTextBarEvent());
         decorationNode.attachChild(decobject);
+    }
+
+    public String getArrow() {
+        if(direction==Direction.UP){
+            return "Interface/Roads/up.png";
+        }
+        if(direction==Direction.RIGHT){
+            return "Interface/Roads/right.png";
+        }
+        if(direction==Direction.LEFT){
+            return "Interface/Roads/left.png";
+        }
+        if(direction==Direction.DOWN){
+            return "Interface/Roads/down.png";
+        }
+        else{
+            return "";
+        }
+    }
+
+    public void turnLeft() {
+        if(direction==Direction.UP){
+            direction=Direction.LEFT;
+            return;
+        }
+        if(direction==Direction.LEFT){
+            direction=Direction.DOWN;
+            return;
+        }
+        if(direction==Direction.DOWN){
+            direction=Direction.RIGHT;
+            return;
+        }
+        if(direction==Direction.RIGHT){
+            direction=Direction.UP;
+        }
+    }
+    public void turnRight(){
+        if(direction==Direction.UP){
+            direction=Direction.RIGHT;
+            return;
+        }
+        if(direction==Direction.RIGHT){
+            direction=Direction.DOWN;
+            return;
+        }
+        if(direction==Direction.DOWN){
+            direction=Direction.LEFT;
+            return;
+        }
+        if(direction==Direction.LEFT){
+            direction=Direction.UP;
+        }
     }
 }

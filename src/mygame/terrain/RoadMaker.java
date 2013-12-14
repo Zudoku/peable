@@ -13,8 +13,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import mygame.GUI.UpdateMoneyTextBarEvent;
-import mygame.Gamestate;
-import mygame.Main;
 import mygame.ride.Enterance;
 
 /**

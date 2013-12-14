@@ -612,12 +612,12 @@
                     <control id="guests" name="dropDown"x="40"y="10"displayItems="20" align="left" valign="top"visibleToMouse="true"height="28" width="300"/>
                 </panel>
             </control>
-            <control id="decorationWindow" name="window"title="DECORATIONS"width="800"height="400"x="200"y="200"hideOnClose="true"closeable="true">
+            <control id="decorationWindow" name="window"title="DECORATIONS"width="800"height="400"x="200"y="200"hideOnClose="true"closeable="false">
                 <panel x="0"y="0"id="decorationtaustapanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#000000" childLayout="absolute"visibleToMouse="true">
                     
                 
                     <panel x="0"y="0"id="decorationuppanel"valign="top"align="left"height="120" width="100%" backgroundColor="#808080" childLayout="absolute"visibleToMouse="true"childClip="false">
-                        <image filename="Interface/Roads/right.png"x="48"y="10" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                        <image id="decorationdirectionimg"filename="Interface/Roads/right.png"x="48"y="10" childLayout="absolute" height="64"width="64"visibleToMouse="true">
                             
                         </image>
                         <image filename="Interface/Decoration/left.png"x="30"y="76" childLayout="absolute" height="48"width="48"visibleToMouse="true">

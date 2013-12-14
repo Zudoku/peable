@@ -92,7 +92,7 @@ public class LoadManager {
         loadRideData(parkHandler, lines[4]);
         loadRoadData(parkHandler, lines[5]);
         loadQueRoadData(parkHandler,lines[6]);
-        //loadDecorationData(parkhandler,lines[7]);
+        loadDecorationData(lines[7]);
         logger.finest("Map Done!");
         return null;
     }
@@ -118,7 +118,7 @@ public class LoadManager {
     private String[] splitStrings(String line) {
         String[] working = line.split("map size:");
         String workingString;
-        String[] lines = new String[7];
+        String[] lines = new String[8];
         //park info
         lines[0] = working[0];
 
@@ -148,6 +148,7 @@ public class LoadManager {
         lines[5] = working[0];
         workingString = working[1];
         working = workingString.split("decoration size:");
+        
         //queroads info
         lines[6] = working[0];
         //decorations
@@ -613,7 +614,7 @@ public class LoadManager {
         return geom;
     }
 
-    private void loadDecorationData(ParkHandler parkhandler, String string) {
+    private void loadDecorationData( String string) {
         DecorationFactory dFactory=new DecorationFactory(assetManager);
         String worked = string;
         String[] values = worked.split(":");
@@ -626,8 +627,8 @@ public class LoadManager {
             float z=Float.parseFloat(values[a+3]);
             String type=values[a+4];
             String direction=values[a+5];
-            if(type.equals("test")){
-                Spatial decoration=dFactory.getTestDecor();
+            if(type.equals("rock")){
+                Spatial decoration=dFactory.getRock();
                 decoration.setUserData("type","decoration");
                 decoration.setLocalTranslation(x, y, z);
                 Float angle;

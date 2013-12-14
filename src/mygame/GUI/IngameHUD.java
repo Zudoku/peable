@@ -28,8 +28,6 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.SizeValue;
 import java.util.ArrayList;
-
-import mygame.Gamestate;
 import mygame.Main;
 import mygame.SaveManager;
 import mygame.inputhandler.ClickingHandler;
@@ -46,6 +44,7 @@ import mygame.terrain.RoadHill;
 import mygame.terrain.RoadMaker;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.TerrainHandler;
+import mygame.terrain.decoration.DecorationManager;
 
 /**
  *
@@ -63,9 +62,10 @@ public class IngameHUD implements ScreenController {
     @Inject private RoadMaker roadMaker;
     @Inject ShopManager shopManager;
     @Inject EventBus eventBus;
-    private WindowMaker windowMaker;
+    @Inject private WindowMaker windowMaker;
     @Inject NPCManager npcManager;
     @Inject SaveManager saveManager;
+    @Inject private DecorationManager decorationManager;
     public BasicBuildables selectedBuilding = BasicBuildables.NULL;
     private ShopDescriptionManager descriptionManager = new ShopDescriptionManager();
     NiftyImage newImage;
@@ -74,7 +74,6 @@ public class IngameHUD implements ScreenController {
     
     public IngameHUD() {
         Injector i=Main.injector;
-        windowMaker=new WindowMaker(nifty);
         i.injectMembers(this);
         eventBus.register(this);
     }
@@ -506,6 +505,10 @@ public class IngameHUD implements ScreenController {
             niftyElement.setVisible(false);
             
         }
+        if(!elementname.equals("decorationWindow")){
+            niftyElement = nifty.getCurrentScreen().findElementByName("decorationWindow");
+            niftyElement.setVisible(false);
+        }
         if(elementname.equals("")){
         niftyElement = nifty.getCurrentScreen().findElementByName("guesttemplate");
         niftyElement.setVisible(false);
@@ -513,8 +516,7 @@ public class IngameHUD implements ScreenController {
         niftyElement.setVisible(false);
         niftyElement = nifty.getCurrentScreen().findElementByName("ridetemplate");
         niftyElement.setVisible(false);
-        niftyElement = nifty.getCurrentScreen().findElementByName("decorationWindow");
-        niftyElement.setVisible(false);
+        
         
         }
 
@@ -611,9 +613,20 @@ public class IngameHUD implements ScreenController {
         element.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
     }
     public void turnDecorationLeft(){
-        
+        decorationManager.turnLeft();
+        NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),getDecorationArrow(), false);
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("decorationdirectionimg");
+        niftyElement.getRenderer(ImageRenderer.class).setImage(img);
+        niftyElement.setId("decorationdirectionimg");
     }
     public void turnDecorationRight(){
-        
+        decorationManager.turnRight();
+        NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),getDecorationArrow(), false);
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("decorationdirectionimg");
+        niftyElement.getRenderer(ImageRenderer.class).setImage(img);
+        niftyElement.setId("decorationdirectionimg");
+    }
+    private String getDecorationArrow(){
+        return decorationManager.getArrow();
     }
 }

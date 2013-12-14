@@ -253,5 +253,9 @@ public class ParkHandler {
         parkwallet.add(event.getAmount());
         logger.finest(String.format("%s Added to your parks account!", event.getAmount()));
     }
+    @Subscribe public void listenAddSpatialToMap(AddObjectToMapEvent event){
+        
+        map.getMap()[event.getX()][event.getY()][event.getZ()]=event.getO();
+    }
     
 }

@@ -21,4 +21,10 @@ public class DecorationFactory {
         object.setUserData("decoration","test");
         return object;
     }
+    public Spatial getRock() {
+        Spatial object=assetManager.loadModel("Models/Decorations/rock.j3o");
+        object.setUserData("decoration","rock");
+        object.scale(0.5f);
+        return object;
+    }
 }
