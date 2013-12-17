@@ -46,6 +46,9 @@ public class DecorationManager {
         decoFactory = new DecorationFactory(assetManager);
 
     }
+    public void select(Decorations decoratios){
+        this.decoration=decoratios;
+    }
     
     public void build(Vector3f loc) {
         Spatial decobject = null;
@@ -58,12 +61,12 @@ public class DecorationManager {
         }
         switch (direction) {
             case UP:
-                angle = (float) Math.toRadians(90);
+                angle = (float) Math.toRadians(0);
                 decobject.rotate(0, angle, 0);
                 break;
 
             case DOWN:
-                angle = (float) Math.toRadians(90);
+                angle = (float) Math.toRadians(180);
                 decobject.rotate(0, angle, 0);
                 break;
 
@@ -73,7 +76,7 @@ public class DecorationManager {
                 break;
 
             case LEFT:
-                angle = (float) Math.toRadians(90);
+                angle = (float) Math.toRadians(270);
                 decobject.rotate(0, angle, 0);
 
         }
@@ -104,7 +107,7 @@ public class DecorationManager {
             return "Interface/Roads/down.png";
         }
         else{
-            return "";
+            return "bug !";
         }
     }
 
@@ -141,5 +144,30 @@ public class DecorationManager {
         if(direction==Direction.LEFT){
             direction=Direction.UP;
         }
+    }
+
+    public String getDecorationName() {
+        switch(decoration){
+            case BUSH:
+                return "Bush";
+                
+                
+            case ROCK:
+                return "Rock";
+    
+        }
+        return "bug !";
+    }
+    public String getDecorationDescription(){
+        switch(decoration){
+            case BUSH:
+                
+                return "Nice Bush";
+                
+            case ROCK:
+                
+                return "Big rock. Its hard!";
+        }
+        return "bug !";
     }
 }

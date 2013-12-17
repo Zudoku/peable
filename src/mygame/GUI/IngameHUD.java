@@ -45,6 +45,7 @@ import mygame.terrain.RoadMaker;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.TerrainHandler;
 import mygame.terrain.decoration.DecorationManager;
+import mygame.terrain.decoration.Decorations;
 
 /**
  *
@@ -352,7 +353,7 @@ public class IngameHUD implements ScreenController {
     public void toggleDecorationWindow(){
         closeWindows("decorationWindow");
         Element niftyElement = nifty.getCurrentScreen().findElementByName("decorationWindow");
-
+        updateDecorationWindow();
         niftyElement.setVisible(!niftyElement.isVisible());
         if (niftyElement.isVisible() == true) {
             clickingHandler.clickMode = ClickingModes.DECORATION;
@@ -614,19 +615,31 @@ public class IngameHUD implements ScreenController {
     }
     public void turnDecorationLeft(){
         decorationManager.turnLeft();
-        NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),getDecorationArrow(), false);
-        Element niftyElement = nifty.getCurrentScreen().findElementByName("decorationdirectionimg");
-        niftyElement.getRenderer(ImageRenderer.class).setImage(img);
-        niftyElement.setId("decorationdirectionimg");
+        updateDecorationWindow();
+        
     }
     public void turnDecorationRight(){
         decorationManager.turnRight();
+        updateDecorationWindow();
+    }
+    private String getDecorationArrow(){
+        return decorationManager.getArrow();
+    }
+    private void selectRock(){
+        decorationManager.select(Decorations.ROCK);
+        updateDecorationWindow();
+    }
+
+    private void updateDecorationWindow() {
+        Element element=nifty.getCurrentScreen().findElementByName("decorationname");
+        String text=decorationManager.getDecorationName();
+        setelementText(element,text);
+        element=nifty.getCurrentScreen().findElementByName("decorationdescription");
+        text=decorationManager.getDecorationDescription();
+        setelementText(element,text);
         NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),getDecorationArrow(), false);
         Element niftyElement = nifty.getCurrentScreen().findElementByName("decorationdirectionimg");
         niftyElement.getRenderer(ImageRenderer.class).setImage(img);
         niftyElement.setId("decorationdirectionimg");
-    }
-    private String getDecorationArrow(){
-        return decorationManager.getArrow();
     }
 }

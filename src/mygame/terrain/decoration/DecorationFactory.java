@@ -16,15 +16,11 @@ public class DecorationFactory {
     public DecorationFactory(AssetManager assetManager){
         this.assetManager=assetManager;
     }
-    public Spatial getTestDecor(){
-        Spatial object=assetManager.loadModel("Models/Roads/roadStraightblue.j3o");
-        object.setUserData("decoration","test");
-        return object;
-    }
+    
     public Spatial getRock() {
         Spatial object=assetManager.loadModel("Models/Decorations/rock.j3o");
         object.setUserData("decoration","rock");
-        object.scale(0.5f);
+        object.scale(0.3f);
         return object;
     }
 }

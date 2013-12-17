@@ -17,6 +17,7 @@ import mygame.Main;
 import mygame.npc.Guest;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
+import mygame.terrain.DeleteSpatialFromMapEvent;
 import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.PayParkEvent;
@@ -174,6 +175,12 @@ public class ClickingHandler {
                     deleteFromMap(rootTarget);
                     eventBus.post(new PayParkEvent(5f)); //tien hinnasta osa takasin
                     eventBus.post(new UpdateMoneyTextBarEvent());
+                }
+                if (rootTarget.getUserData("type").equals("decoration")) {
+                    Node decorationnode=(Node)rootNode.getChild("decorationNode");
+                    decorationnode.detachChild(rootTarget);
+                    eventBus.post(new DeleteSpatialFromMapEvent(rootTarget));
+                    
                 }
 
         }

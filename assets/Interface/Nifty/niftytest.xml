@@ -6,20 +6,61 @@
     <useStyles filename="nifty-default-styles.xml" />
     <useControls filename="nifty-default-controls.xml" />
     <screen id="start" controller="mygame.GUI.StartScreen">
-        <layer id="layer" height="100%" width="100%" backgroundColor="#003f" childLayout="absolute"visibleToMouse="true">
-            <panel id="buttones"x="0"y="0"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true">
-                <control id="alphatest" name="button" label="Start new game!" x="10"y="600"width="30%"height="3%"visibleToMouse="true">
-                    <interact onClick="startGame()"/>
+        <layer id="background2" height="100%" width="100%" childLayout="center">
+            <image filename="Interface/Nifty/Transparent.png"  width="100%" height="100%"></image>
+        </layer>
+        <layer id="layer" height="100%" width="100%" backgroundColor="#fff0" childLayout="absolute"visibleToMouse="true">
+            
+            <panel id="buttones"x="0"y="0"height="100%" width="100%" backgroundColor="#323f" childLayout="absolute"visibleToMouse="true">
+                <control id="alphatest" name="button" label="Start new game!" x="500"y="600"width="30%"height="3%"visibleToMouse="true">
+                    <interact onClick="toggle()"/>
                 </control>
-                <control id="loadtest" name="button" label="Load old game!" x="10"y="560"width="30%"height="3%"visibleToMouse="true">
+                <control id="loadtest" name="button" label="Load old game!" x="500"y="560"width="30%"height="3%"visibleToMouse="true">
                     <interact onClick="startGameLoad()"/>
                 </control>
-                <control id="settings" name="button" label="Settings" x="10"y="640"width="30%"height="3%"visibleToMouse="true">
+                <control id="settings" name="button" label="Settings" x="500"y="640"width="30%"height="3%"visibleToMouse="true">
                 
                 </control>
                 <control id="alphatestmessage"name="label" font="Interface/Fonts/Impact.fnt"text="PLEASE NOTE THAT THIS IS PRE ALPHA!  ART IS PLACEHOLDER AND WILL BE IMPROVED   Made by: Arttu Siren" x="300"y="50" color="#003f"/>
             </panel>
+            
+            <control id="newgamewindow" name="window"title=" "width="400"height="500"x="10"y="100"hideOnClose="true"closeable="true">
+            
+                <panel x="0"y="0"id="negamepanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#C4F590" childLayout="absolute"visibleToMouse="true">
+                    <panel x="1%"y="10"id="newgame1"valign="top"align="left"height="120" width="98%" backgroundColor="#8FBF5C" childLayout="absolute"visibleToMouse="true">
+                        <control id="newgamename1"name="label" font="Interface/Fonts/Impact.fnt"text="Green Golly" x="5"y="5" color="#FF4D88"/>
+                        <control id="newgamedesc11"name="label" font="Interface/Fonts/Impact.fnt"text="Small local field where you and " x="5"y="30"color="#960233"/>
+                        <control id="newgamedesc12"name="label" font="Interface/Fonts/Impact.fnt"text="your park have just arrived!" x="5"y="55"color="#960233"/>
+                        <interact onClick="startGame()"/>
+                    </panel>
+                    <panel x="1%"y="140"id="newgame2"valign="top"align="left"height="120" width="98%" backgroundColor="#8FBF5C" childLayout="absolute"visibleToMouse="true">
+                            <control id="newgamename2"name="label" font="Interface/Fonts/Impact.fnt"text="Mighty Yral Mountains" x="5"y="5" color="#FF4D88"/>
+                        <control id="newgamedesc21"name="label" font="Interface/Fonts/Impact.fnt"text="Very hilly area with trees" x="5"y="30"color="#960233"/>
+                        <control id="newgamedesc22"name="label" font="Interface/Fonts/Impact.fnt"text="and nearly nothing else in sight" x="5"y="55"color="#960233"/>
+                        <control id="newgamedesc2Availability"name="label" font="Interface/Fonts/Impact.fnt"text="SOON!" x="305"y="55"color="#FF0000"/>
+                        <image filename="Interface/Nifty/cross.png"x="0"y="0" childLayout="absolute" width="100%" height="100%">
+                            <interact onClick=""/>
+                        </image>
+                        <interact onClick=""/>
+                    </panel>
+                    <panel x="1%"y="270"id="newgame3"valign="top"align="left"height="120" width="98%" backgroundColor="#8FBF5C" childLayout="absolute"visibleToMouse="true">
+                            <control id="newgamename3"name="label" font="Interface/Fonts/Impact.fnt"text="UNKNOWN" x="5"y="5" color="#FF4D88"/>
+                        <control id="newgamedesc31"name="label" font="Interface/Fonts/Impact.fnt"text="Unexplored land" x="5"y="30"color="#960233"/>
+                        <control id="newgamedesc32"name="label" font="Interface/Fonts/Impact.fnt"text="what will it be?" x="5"y="55"color="#960233"/>
+                        <control id="newgamedesc3Availability"name="label" font="Interface/Fonts/Impact.fnt"text="SOON!" x="305"y="55"color="#FF0000"/>
+                        <image filename="Interface/Nifty/cross.png"x="0"y="0" childLayout="absolute" width="100%" height="100%">
+                            <interact onClick=""/>
+                        </image>
+                        <interact onClick=""/>
+                    </panel>
+                        
+                </panel>     
+                
+            </control>
+        
+            
         </layer>
+        
     </screen>
 
     <screen id="hud"controller="mygame.GUI.IngameHUD">
@@ -628,17 +669,22 @@
                             <interact onClick="turnDecorationRight()">   
                             </interact>
                         </image>
-                        <control x="184"y="26"id="#imageSelect" name="imageSelect" width="126px" imageWidth="80px" imageHeight="80px" imageList="Interface/Shops/Nopic.png,Interface/Decoration/Icon.png" />
-                        <panel x="500"y="10"id="decoration123114123"valign="top"align="left"height="100" width="280" backgroundColor="#BFAD77" childLayout="absolute"visibleToMouse="true">
-                                
+                        <image filename="Interface/Decoration/rock.png"x="380"y="26" childLayout="absolute" height="72"width="72"visibleToMouse="true">
+                            <interact onClick="">   
+                            </interact>
+                        </image>
+                        
+                        <panel x="500"y="10"id="decoration123114123"valign="top"align="left"height="100" width="280" backgroundColor="#BFAD77" childLayout="absolute"visibleToMouse="true"wrap="true">
+                            <control id="decorationname"name="label" font="Interface/Fonts/Impact.fnt"text="DefaultName" x="10"y="0" color="ffffff"/>
+                            <control id="decorationdescription"name="label" font="Interface/Fonts/Impact.fnt"text="deded00000000000000000000000000" x="10"y="40" color="ffffff"/>
                         </panel>
                     </panel>
                 
                     <panel x="0"y="120"id="decorationdownpanel"valign="top"align="left"height="250" width="100%" backgroundColor="#ffffff" childLayout="absolute"visibleToMouse="true"childClip="true">
                         <control id="decorationscrollbar" name="scrollPanel" horizontal="false" height="240" x="30"y="0"pageSizeY="4"stepSizeY="2"childClip="false">
                             <panel id="dscrollpanel"valign="top"align="left"height="600" width="740" backgroundColor="#FFF0D1" childLayout="absolute"visibleToMouse="true"x="0"y="0">
-                                <image filename="Interface/Shops/Nopic.png"x="10"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                    <interact onClick="">   
+                                <image filename="Interface/Decoration/rock.png"x="10"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                    <interact onClick="selectRock()">   
                                     </interact>
                                 </image>
                                 <image filename="Interface/Shops/Nopic.png"x="79"y="20" childLayout="absolute" height="64"width="64"visibleToMouse="true">

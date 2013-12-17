@@ -257,5 +257,18 @@ public class ParkHandler {
         
         map.getMap()[event.getX()][event.getY()][event.getZ()]=event.getO();
     }
+    @Subscribe public void listenDeleteSpatialFromMapEvent(DeleteSpatialFromMapEvent event){
+        for(int y=0;y<25;y++){
+            for(int x=0;x<getMapHeight();x++){
+                for(int z=0;z<getMapWidth();z++){
+                    if(map.getMap()[x][y][z]!=null){
+                        if(map.getMap()[x][y][z]==event.getO()){
+                            map.getMap()[x][y][z]=null;
+                        }
+                    }
+                }
+            }
+        }
+    }
     
 }

@@ -5,6 +5,7 @@
 package mygame.GUI;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import mygame.Main;
@@ -37,7 +38,12 @@ public class StartScreen implements ScreenController {
   }
 
     public void onStartScreen() {
-       
+        toggle();
+    }
+    public void toggle(){
+        Element e=nifty.getCurrentScreen().findElementByName("newgamewindow");
+        e.setVisible(!e.isVisible());
+        e.setId("newgamewindow");
     }
 
     public void onEndScreen() {
