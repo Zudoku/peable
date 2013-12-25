@@ -37,10 +37,45 @@ public class ShopDescriptionManager {
     }
     public void setDescriptionChess(){
         shopName="Name: ChessCenter";
-        shopDescription="Description: test description";
+        shopDescription="Description: Building to play Chess. Smart!";
         shopPrice="Price: 500";
         bigpic="Interface/Shops/Icon.png";
         
+    }
+
+    public void setDescriptionArchery() {
+        shopName="Name: Archery Range";
+        shopDescription="Description: Test your archery skills";
+        shopPrice="Price: 500";
+        bigpic="Interface/Shops/Icon.png";
+    }
+
+    public void setDescriptionBlender() {
+        shopName="Name: Blender";
+        shopDescription="Description: Get yourself Blended ! Barf";
+        shopPrice="Price: 500";
+        bigpic="Interface/Shops/Icon.png";
+    }
+
+    public void setDescriptionHHouse() {
+        shopName="Name: HauntedHouse";
+        shopDescription="Description: This place is haunted oh no";
+        shopPrice="Price: 500";
+        bigpic="Interface/Shops/Icon.png";
+    }
+
+    public void setDescriptionPirateShip() {
+        shopName="Name: Pirate Ship";
+        shopDescription="Description: Prepare to be boarded!";
+        shopPrice="Price: 500";
+        bigpic="Interface/Shops/Icon.png";
+    }
+
+    public void setDescriptionRotor() {
+        shopName="Name: Rotor";
+        shopDescription="Description: I have no idea";
+        shopPrice="Price: 500";
+        bigpic="Interface/Shops/Icon.png";
     }
     
 }

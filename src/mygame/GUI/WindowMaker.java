@@ -5,6 +5,7 @@
 package mygame.GUI;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.controls.TextField;
@@ -18,6 +19,7 @@ import mygame.Main;
 import mygame.npc.Guest;
 import mygame.npc.inventory.Item;
 import mygame.ride.BasicRide;
+import mygame.ride.RideManager;
 import mygame.shops.BasicShop;
 import mygame.shops.Employee;
 
@@ -25,13 +27,15 @@ import mygame.shops.Employee;
  *
  * @author arska
  */
+@Singleton
 public class WindowMaker {
 
     Nifty nifty;
     private int guestnumber;
     private int rideID;
     private int shopID;
-
+    @Inject RideManager rideManager;
+    
     public WindowMaker() {
         nifty = Main.nifty;
 
@@ -184,7 +188,7 @@ public class WindowMaker {
 
     public BasicRide getCurrentRide() {
         BasicRide u = null;
-        for (BasicRide o : Main.gamestate.rideManager.rides) {
+        for (BasicRide o : rideManager.rides) {
             if (o.getRideID() == rideID) {
                 u = o;
                 break;

@@ -5,15 +5,19 @@
 package mygame.ride;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.Savable;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import java.io.IOException;
 import mygame.terrain.Direction;
 
 /**
  *
  * @author arska
  */
-public class Enterance {
+public class Enterance implements Savable{
   public boolean exit=false;
   //tiepala johon kiinni
   public Vector3f location;
@@ -54,6 +58,14 @@ public class Enterance {
                 angle = (float) Math.toRadians(-90);
                 this.object.rotate(0, angle, 0);
         }
+    }
+
+    public void write(JmeExporter ex) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void read(JmeImporter im) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     

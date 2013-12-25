@@ -21,7 +21,9 @@
                 <control id="settings" name="button" label="Settings" x="500"y="640"width="30%"height="3%"visibleToMouse="true">
                 
                 </control>
-                <control id="alphatestmessage"name="label" font="Interface/Fonts/Impact.fnt"text="PLEASE NOTE THAT THIS IS PRE ALPHA!  ART IS PLACEHOLDER AND WILL BE IMPROVED   Made by: Arttu Siren" x="300"y="50" color="#003f"/>
+                <control id="alphatestmessage"name="label" font="Interface/Fonts/Impact.fnt"text="PLEASE NOTE THAT THIS IS ALPHA! MODELS / TEXTURES ARE NOT FINAL ! THIS RELEASE IS JUST TO HELP ME FIND BUGS AND TEST!" x="300"y="50" color="#003f"/>
+                <control id="Author"name="label" font="Interface/Fonts/Impact.fnt"text="Made by Arttu Siren" x="5"y="10" color="#003f"/>
+                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.01a" x="180"y="10" color="#EBB9C2"/>
             </panel>
             
             <control id="newgamewindow" name="window"title=" "width="400"height="500"x="10"y="100"hideOnClose="true"closeable="true">
@@ -281,24 +283,24 @@
                                 <interact onClick="buildingSelectchess()">   
                                 </interact>
                             </image>
-                            <image filename="Interface/Shops/Nopic.png"x="84"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
+                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="84"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="buildingSelectArchery()">   
                                 </interact>
                             </image>
-                            <image filename="Interface/Shops/Nopic.png"x="158"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
+                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="158"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="buildingSelectBlender()">   
                                 </interact>
                             </image>
-                            <image filename="Interface/Shops/Nopic.png"x="232"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
+                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="232"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="buildingSelectHauntedHouse()">   
                                 </interact>
                             </image>
-                            <image filename="Interface/Shops/Nopic.png"x="306"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
+                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="306"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="buildingSelectPirateShip()">   
                                 </interact>
                             </image>
-                            <image filename="Interface/Shops/Nopic.png"x="380"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
+                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="380"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                <interact onClick="buildingSelectRotor()">   
                                 </interact>
                             </image>
                             <image filename="Interface/Shops/Nopic.png"x="454"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">

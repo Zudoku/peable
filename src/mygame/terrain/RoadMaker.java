@@ -15,7 +15,9 @@ import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.GUI.UpdateRoadDirectionEvent;
+import mygame.ride.BasicRide;
 import mygame.ride.Enterance;
+import mygame.ride.RideManager;
 import mygame.terrain.decoration.RotationEvent;
 
 /**
@@ -37,17 +39,21 @@ public class RoadMaker {
     public boolean change = true;
     public RoadFactory roadF;
     private Spatial lastqueroad;
-    public ArrayList<Spatial>roads=new ArrayList<Spatial>();
-    public int ID=1;
-    @Inject private ParkHandler parkHandler;
-    private final EventBus eventBus;
+    public ArrayList<Spatial> roads = new ArrayList<Spatial>();
+    public int ID = 1;
     @Inject
-    public RoadMaker(AssetManager assetManager, Node rootNode ,MapContainer map,EventBus eventBus) {
+    private ParkHandler parkHandler;
+    @Inject
+    RideManager rideManager;
+    private final EventBus eventBus;
+
+    @Inject
+    public RoadMaker(AssetManager assetManager, Node rootNode, MapContainer map, EventBus eventBus) {
         this.assetManager = assetManager;
         this.rootNode = rootNode;
-        this.eventBus=eventBus;
+        this.eventBus = eventBus;
         eventBus.register(this);
-        this.map=map;
+        this.map = map;
         roadF = new RoadFactory(assetManager);
     }
 
@@ -83,8 +89,8 @@ public class RoadMaker {
         if (status == RoadMakerStatus.CHOOSING) {
             return;
         }
-        if(!parkHandler.getParkWallet().canAfford(10)){
-           return; 
+        if (!parkHandler.getParkWallet().canAfford(10)) {
+            return;
         }
         Spatial road = null;
         if (queroad == false) {
@@ -132,14 +138,14 @@ public class RoadMaker {
                     if (hill == RoadHill.UP || hill == RoadHill.DOWN) {
                         float angle = (float) Math.toRadians(180);
                         road.rotate(0, angle, 0);
-                        road.setUserData("direction","UP");
+                        road.setUserData("direction", "UP");
 
                     }
 
                     break;
 
                 case DOWN:
-                    road.setUserData("direction","DOWN");
+                    road.setUserData("direction", "DOWN");
 
                     break;
 
@@ -147,14 +153,14 @@ public class RoadMaker {
 
                     float angle = (float) Math.toRadians(90);
                     road.rotate(0, angle, 0);
-                    road.setUserData("direction","RIGHT");
+                    road.setUserData("direction", "RIGHT");
                     break;
 
                 case LEFT:
 
                     float anglet = (float) Math.toRadians(-90);
                     road.rotate(0, anglet, 0);
-                    road.setUserData("direction","LEFT");
+                    road.setUserData("direction", "LEFT");
                     break;
             }
         }
@@ -237,7 +243,7 @@ public class RoadMaker {
             updateroads(tempx, tempy, tempz);
             lastqueroad = null;
         } else {
-            road.setUserData("roadID",ID);
+            road.setUserData("roadID", ID);
             ID++;
             updateQueroad(tempx, tempy, tempz, road);
         }
@@ -516,7 +522,7 @@ public class RoadMaker {
 
             return;
         }
-        
+
         if (roadtypeCondition(x, z, y, true, false, false, true)) {
             Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
@@ -625,7 +631,7 @@ public class RoadMaker {
 
 
         }
-        if (roadtypeCondition(x, z, y, false, false,true, true)) {
+        if (roadtypeCondition(x, z, y, false, false, true, true)) {
             Spatial temp = map.getMap()[x][z][y];
             if (temp != null) {
                 rootNode.detachChild(temp);
@@ -754,7 +760,14 @@ public class RoadMaker {
         Spatial temp = map.getMap()[x + 1][y][z];
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
-                Enterance enterance = temp.getUserData("enterance");
+                Enterance enterance = null;
+                int id = temp.getUserData("rideID");
+                for (BasicRide r : rideManager.rides) {
+                    if (r.getRideID() == id) {
+                        enterance = r.enterance;
+                    }
+                }
+
                 if (enterance.facing == Direction.DOWN && enterance.connected == false) {
                     enterance.connectedRoad = road;
                     enterance.connected = true;
@@ -768,7 +781,15 @@ public class RoadMaker {
         temp = map.getMap()[x - 1][y][z];
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
-                Enterance enterance = temp.getUserData("enterance");
+
+                Enterance enterance = null;
+                int id = temp.getUserData("rideID");
+                for (BasicRide r : rideManager.rides) {
+                    if (r.getRideID() == id) {
+                        enterance = r.enterance;
+                    }
+                }
+
                 if (enterance.facing == Direction.UP && enterance.connected == false) {
                     enterance.connectedRoad = road;
                     enterance.connected = true;
@@ -782,7 +803,13 @@ public class RoadMaker {
         temp = map.getMap()[x][y][z + 1];
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
-                Enterance enterance = temp.getUserData("enterance");
+                Enterance enterance = null;
+                int id = temp.getUserData("rideID");
+                for (BasicRide r : rideManager.rides) {
+                    if (r.getRideID() == id) {
+                        enterance = r.enterance;
+                    }
+                }
                 if (enterance.facing == Direction.RIGHT && enterance.connected == false) {
                     enterance.connectedRoad = road;
                     enterance.connected = true;
@@ -796,7 +823,13 @@ public class RoadMaker {
         temp = map.getMap()[x][y][z - 1];
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
-                Enterance enterance = temp.getUserData("enterance");
+                Enterance enterance = null;
+                int id = temp.getUserData("rideID");
+                for (BasicRide r : rideManager.rides) {
+                    if (r.getRideID() == id) {
+                        enterance = r.enterance;
+                    }
+                }
                 if (enterance.facing == Direction.LEFT && enterance.connected == false) {
                     enterance.connectedRoad = road;
                     enterance.connected = true;
@@ -820,26 +853,25 @@ public class RoadMaker {
         if (connectedroad.getUserData("connected") != null) {
             connected = connectedroad.getUserData("connected");
         }
-        String direction0="UP";
-        if(connectedroad.getUserData("direction")!=null){
-            direction0=connectedroad.getUserData("direction");
+        String direction0 = "UP";
+        if (connectedroad.getUserData("direction") != null) {
+            direction0 = connectedroad.getUserData("direction");
         }
-        
+
         if (connected == true) {
             Spatial connected1 = null;
-            if(connectedroad.getUserData("queconnect1")!=null){
+            if (connectedroad.getUserData("queconnect1") != null) {
                 connected1 = connectedroad.getUserData("queconnect1");
-            }
-            else if(connectedroad.getUserData("queconnect2")!=null){
-                connected1=connectedroad.getUserData("queconnect2");
-            }else{
+            } else if (connectedroad.getUserData("queconnect2") != null) {
+                connected1 = connectedroad.getUserData("queconnect2");
+            } else {
                 //BUG
                 System.out.println("BUG");
             }
-            
+
             Spatial connected2 = road;
-            int IDr=connectedroad.getUserData("roadID");
-            
+            int IDr = connectedroad.getUserData("roadID");
+
 
             Vector3f connected1loc = connected1.getLocalTranslation();
             Vector3f connected2loc = connected2.getLocalTranslation();
@@ -852,8 +884,8 @@ public class RoadMaker {
                 temp.setUserData("connected", true);
                 temp.setUserData("queconnect1", connected1);
                 temp.setUserData("queconnect2", connected2);
-                temp.setUserData("roadID",IDr);
-                temp.setUserData("direction",direction0);
+                temp.setUserData("roadID", IDr);
+                temp.setUserData("direction", direction0);
                 map.getMap()[x1][y1][z1] = temp;
                 rootNode.attachChild(temp);
                 return;
@@ -866,8 +898,8 @@ public class RoadMaker {
                 temp.setUserData("connected", true);
                 temp.setUserData("queconnect1", connected1);
                 temp.setUserData("queconnect2", connected2);
-                temp.setUserData("roadID",IDr);
-                temp.setUserData("direction",direction0);
+                temp.setUserData("roadID", IDr);
+                temp.setUserData("direction", direction0);
                 map.getMap()[x1][y1][z1] = temp;
                 rootNode.attachChild(temp);
                 return;
@@ -882,8 +914,8 @@ public class RoadMaker {
                 temp.setUserData("connected", true);
                 temp.setUserData("queconnect1", connected1);
                 temp.setUserData("queconnect2", connected2);
-                temp.setUserData("roadID",IDr);
-                temp.setUserData("direction",direction0);
+                temp.setUserData("roadID", IDr);
+                temp.setUserData("direction", direction0);
                 map.getMap()[x1][y1][z1] = temp;
                 rootNode.attachChild(temp);
                 return;
@@ -898,8 +930,8 @@ public class RoadMaker {
                 temp.setUserData("connected", true);
                 temp.setUserData("queconnect1", connected1);
                 temp.setUserData("queconnect2", connected2);
-                temp.setUserData("roadID",IDr);
-                temp.setUserData("direction",direction0);
+                temp.setUserData("roadID", IDr);
+                temp.setUserData("direction", direction0);
                 map.getMap()[x1][y1][z1] = temp;
                 rootNode.attachChild(temp);
                 return;
@@ -915,8 +947,8 @@ public class RoadMaker {
                     temp.setUserData("connected", true);
                     temp.setUserData("queconnect1", connected1);
                     temp.setUserData("queconnect2", connected2);
-                    temp.setUserData("roadID",IDr);
-                    temp.setUserData("direction",direction0);
+                    temp.setUserData("roadID", IDr);
+                    temp.setUserData("direction", direction0);
                     map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 } else {
@@ -929,8 +961,8 @@ public class RoadMaker {
                     temp.setUserData("connected", true);
                     temp.setUserData("queconnect1", connected1);
                     temp.setUserData("queconnect2", connected2);
-                    temp.setUserData("roadID",IDr);
-                    temp.setUserData("direction",direction0);
+                    temp.setUserData("roadID", IDr);
+                    temp.setUserData("direction", direction0);
                     map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 }
@@ -947,8 +979,8 @@ public class RoadMaker {
                     temp.setUserData("connected", true);
                     temp.setUserData("queconnect1", connected1);
                     temp.setUserData("queconnect2", connected2);
-                    temp.setUserData("roadID",IDr);
-                    temp.setUserData("direction",direction0);
+                    temp.setUserData("roadID", IDr);
+                    temp.setUserData("direction", direction0);
                     map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 } else {
@@ -961,8 +993,8 @@ public class RoadMaker {
                     temp.setUserData("connected", true);
                     temp.setUserData("queconnect1", connected1);
                     temp.setUserData("queconnect2", connected2);
-                    temp.setUserData("roadID",IDr);
-                    temp.setUserData("direction",direction0);
+                    temp.setUserData("roadID", IDr);
+                    temp.setUserData("direction", direction0);
                     map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 }
@@ -979,8 +1011,8 @@ public class RoadMaker {
                     temp.setUserData("connected", true);
                     temp.setUserData("queconnect1", connected1);
                     temp.setUserData("queconnect2", connected2);
-                    temp.setUserData("roadID",IDr);
-                    temp.setUserData("direction",direction0);
+                    temp.setUserData("roadID", IDr);
+                    temp.setUserData("direction", direction0);
                     map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 } else {
@@ -993,8 +1025,8 @@ public class RoadMaker {
                     temp.setUserData("connected", true);
                     temp.setUserData("queconnect1", connected1);
                     temp.setUserData("queconnect2", connected2);
-                    temp.setUserData("roadID",IDr);
-                    temp.setUserData("direction",direction0);
+                    temp.setUserData("roadID", IDr);
+                    temp.setUserData("direction", direction0);
                     map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 }
@@ -1011,12 +1043,12 @@ public class RoadMaker {
                     temp.setUserData("connected", true);
                     temp.setUserData("queconnect1", connected1);
                     temp.setUserData("queconnect2", connected2);
-                    temp.setUserData("roadID",IDr);
-                    temp.setUserData("direction",direction0);
+                    temp.setUserData("roadID", IDr);
+                    temp.setUserData("direction", direction0);
                     map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 } else {
-                    
+
                     Spatial temp = map.getMap()[x1][y1][z1];
                     rootNode.detachChild(temp);
                     temp = roadF.quebendingRoad();
@@ -1026,8 +1058,8 @@ public class RoadMaker {
                     temp.setUserData("connected", true);
                     temp.setUserData("queconnect1", connected1);
                     temp.setUserData("queconnect2", connected2);
-                    temp.setUserData("roadID",IDr);
-                    temp.setUserData("direction",direction0);
+                    temp.setUserData("roadID", IDr);
+                    temp.setUserData("direction", direction0);
                     map.getMap()[x1][y1][z1] = temp;
                     rootNode.attachChild(temp);
                 }
@@ -1047,8 +1079,8 @@ public class RoadMaker {
                 temp.setLocalTranslation(connectedroad.getLocalTranslation());
                 temp.setUserData("connected", false);
                 temp.setUserData("queconnect1", road);
-                temp.setUserData("roadID",ID);
-                temp.setUserData("direction",direction0);
+                temp.setUserData("roadID", ID);
+                temp.setUserData("direction", direction0);
                 map.getMap()[x3][y3][z3] = temp;
                 rootNode.attachChild(temp);
                 return;
@@ -1062,8 +1094,8 @@ public class RoadMaker {
                 temp.rotate(0, angle, 0);
                 temp.setUserData("connected", false);
                 temp.setUserData("queconnect1", road);
-                temp.setUserData("roadID",ID);
-                temp.setUserData("direction",direction0);
+                temp.setUserData("roadID", ID);
+                temp.setUserData("direction", direction0);
                 map.getMap()[x3][y3][z3] = temp;
                 rootNode.attachChild(temp);
 
@@ -1120,7 +1152,7 @@ public class RoadMaker {
             if (connected == true) {
                 if (curRoad.getUserData("queconnect1") != null) {
                     Spatial locatedroad = curRoad.getUserData("queconnect1");
-                    
+
 
                     //onko tie jo listassa
                     boolean old = false;
@@ -1137,21 +1169,21 @@ public class RoadMaker {
                         added = true;
                         curRoad = locatedroad;
                         list.add(curRoad);
-                        
+
 
                     }
 
                 }
                 if (curRoad.getUserData("queconnect2") != null && added == false) {
                     Spatial locatedroad = curRoad.getUserData("queconnect2");
-                    
+
 
                     //onko tie jo listassa
                     boolean old = false;
                     for (Spatial s : list) {
                         if (s.equals(locatedroad)) {
                             old = true;
-                            
+
                             break;
                         }
                     }
@@ -1195,9 +1227,9 @@ public class RoadMaker {
 
 
                 if (added == false) {
-                    locatedroad=null;
+                    locatedroad = null;
                     locatedroad = curRoad.getUserData("queconnect2");
-                    if(locatedroad!=null){
+                    if (locatedroad != null) {
                         //System.out.println("queconnect2 found...");
 
                         //onko tie jo listassa
@@ -1216,7 +1248,7 @@ public class RoadMaker {
                             //System.out.println("queconnect2 added to the list NOW FINISHING");
                         }
                     }
-                    
+
                 }
 
 
@@ -1236,65 +1268,69 @@ public class RoadMaker {
     }
 
     void roadsToUpdate(ArrayList<Vector3f> roadtoUpdatePositions) {
-        for(Vector3f a:roadtoUpdatePositions){
-            updateroads((int)a.x, (int)a.y,(int)a.z);
+        for (Vector3f a : roadtoUpdatePositions) {
+            updateroads((int) a.x, (int) a.y, (int) a.z);
         }
     }
 
     void queRoadsToUpdate(ArrayList<Spatial> queRoadsToUpdate) {
-        for(Spatial s:queRoadsToUpdate){
-            
+        for (Spatial s : queRoadsToUpdate) {
+
             refreshqueroadarray(s);
         }
     }
-    @Subscribe public void listenRotateEvent(RotationEvent event){
-        if(event.getWho()==1){
-            if(event.getValue()==1){
+
+    @Subscribe
+    public void listenRotateEvent(RotationEvent event) {
+        if (event.getWho() == 1) {
+            if (event.getValue() == 1) {
                 turnRight();
-            }else{
+            } else {
                 turnLeft();
             }
         }
     }
-    public void turnLeft(){
-        if(direction==Direction.UP){
-            direction=Direction.LEFT;
+
+    public void turnLeft() {
+        if (direction == Direction.UP) {
+            direction = Direction.LEFT;
             eventBus.post(new UpdateRoadDirectionEvent(direction));
             return;
         }
-        if(direction==Direction.LEFT){
-            direction=Direction.DOWN;
+        if (direction == Direction.LEFT) {
+            direction = Direction.DOWN;
             eventBus.post(new UpdateRoadDirectionEvent(direction));
             return;
         }
-        if(direction==Direction.DOWN){
-            direction=Direction.RIGHT;
+        if (direction == Direction.DOWN) {
+            direction = Direction.RIGHT;
             eventBus.post(new UpdateRoadDirectionEvent(direction));
             return;
         }
-        if(direction==Direction.RIGHT){
-            direction=Direction.UP;
+        if (direction == Direction.RIGHT) {
+            direction = Direction.UP;
             eventBus.post(new UpdateRoadDirectionEvent(direction));
         }
     }
-    public void turnRight(){
-        if(direction==Direction.UP){
-            direction=Direction.RIGHT;
+
+    public void turnRight() {
+        if (direction == Direction.UP) {
+            direction = Direction.RIGHT;
             eventBus.post(new UpdateRoadDirectionEvent(direction));
             return;
         }
-        if(direction==Direction.RIGHT){
-            direction=Direction.DOWN;
+        if (direction == Direction.RIGHT) {
+            direction = Direction.DOWN;
             eventBus.post(new UpdateRoadDirectionEvent(direction));
             return;
         }
-        if(direction==Direction.DOWN){
-            direction=Direction.LEFT;
+        if (direction == Direction.DOWN) {
+            direction = Direction.LEFT;
             eventBus.post(new UpdateRoadDirectionEvent(direction));
             return;
         }
-        if(direction==Direction.LEFT){
-            direction=Direction.UP;
+        if (direction == Direction.LEFT) {
+            direction = Direction.UP;
             eventBus.post(new UpdateRoadDirectionEvent(direction));
         }
     }

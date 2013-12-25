@@ -36,6 +36,6 @@ public class SpinWheel extends BasicRide{
     public void update(){
         curAngle += 0.1;
         float angle = (float) Math.toRadians(curAngle);
-        swing.rotate(0,0, angle);
+        swing.rotate(0,angle,0);
     }
 }

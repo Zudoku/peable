@@ -42,20 +42,20 @@ public class RideManager {
     private final ClickingHandler clickingHandler;
     private final MapContainer map;
     private final EventBus eventBus;
-    
+
     @Inject
-    public RideManager(AssetManager assetManager, Node rootNode,RideFactory rideFactory,HolomodelDrawer holoDrawer,ParkHandler parkHandler,
-    RoadMaker roadMaker,ClickingHandler clickingHandler,MapContainer map,EventBus eventBus) {
-        this.rideFactory =rideFactory;
+    public RideManager(AssetManager assetManager, Node rootNode, RideFactory rideFactory, HolomodelDrawer holoDrawer, ParkHandler parkHandler,
+            RoadMaker roadMaker, ClickingHandler clickingHandler, MapContainer map, EventBus eventBus) {
+        this.rideFactory = rideFactory;
         this.assetManager = assetManager;
         this.rootNode = rootNode;
-        this.holoDrawer=holoDrawer;
-        this.parkHandler=parkHandler;
-        this.roadMaker=roadMaker;
-        this.clickingHandler=clickingHandler;
-        this.map=map;
-        this.eventBus=eventBus;
-        
+        this.holoDrawer = holoDrawer;
+        this.parkHandler = parkHandler;
+        this.roadMaker = roadMaker;
+        this.clickingHandler = clickingHandler;
+        this.map = map;
+        this.eventBus = eventBus;
+
         rideNode = new Node("rideNode");
         rootNode.attachChild(rideNode);
 
@@ -65,7 +65,7 @@ public class RideManager {
 
     public void buy(Direction facing, BasicBuildables selectedBuilding) {
         Vector3f loc = holoDrawer.pyorista(holoDrawer.getLocation());
-        
+
         BasicRide boughtride = null;
 
 
@@ -76,17 +76,37 @@ public class RideManager {
 
                 break;
 
+            case ARCHERYRANGE:
+                boughtride=rideFactory.archeryRange(loc, facing);
+                break;
+
+            case BLENDER:
+                boughtride=rideFactory.blender(loc, facing);
+                break;
+
+            case HAUNTEDHOUSE:
+                boughtride=rideFactory.hauntedHouse(loc, facing);
+                break;
+
+            case PIRATESHIP:
+                boughtride=rideFactory.pirateShip(loc, facing);
+                break;
+
+            case ROTOR:
+                boughtride=rideFactory.rotor(loc, facing);
+                break;
+
             case NULL:
                 System.out.println("You just tried to buy null ride!");
                 break;
         }
-        if(!parkHandler.getParkWallet().canAfford(boughtride.constructionmoney)){
-           return; 
+        if (!parkHandler.getParkWallet().canAfford(boughtride.constructionmoney)) {
+            return;
         }
         int tx = (int) loc.x;
         int ty = (int) loc.y;
         int tz = (int) loc.z;
-        
+
         boughtride.setRideID(rideID);
         boughtride.getGeometry().setUserData("rideID", rideID);
         boughtride.getGeometry().setUserData("type", "ride");
@@ -105,7 +125,7 @@ public class RideManager {
 
     private void resetRidedata() {
 
-        
+
         clickingHandler.clickMode = ClickingModes.RIDE;
 
     }
@@ -151,7 +171,7 @@ public class RideManager {
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z,Direction.DOWN);
+                placeEnterancetrue(enterancetype, x, y, z, Direction.DOWN);
                 return;
             }
         }
@@ -162,7 +182,7 @@ public class RideManager {
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z,Direction.UP);
+                placeEnterancetrue(enterancetype, x, y, z, Direction.UP);
                 return;
             }
         }
@@ -173,7 +193,7 @@ public class RideManager {
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z,Direction.RIGHT);
+                placeEnterancetrue(enterancetype, x, y, z, Direction.RIGHT);
                 return;
             }
         }
@@ -184,7 +204,7 @@ public class RideManager {
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z,Direction.LEFT);
+                placeEnterancetrue(enterancetype, x, y, z, Direction.LEFT);
             }
         }
 
@@ -198,10 +218,11 @@ public class RideManager {
         }
     }
 
-    private void placeEnterancetrue(boolean enterancetype, int x, int y, int z,Direction suunta) {
+    private void placeEnterancetrue(boolean enterancetype, int x, int y, int z, Direction suunta) {
         Enterance e = new Enterance(enterancetype, new Vector3f(x, y, z), suunta, assetManager);
-        e.connectedRide = rides.get(rideID - 2);
+        e.connectedRide = rides.get(rideID - 2);//HERE!!!!!
         e.object.setUserData("type", "enterance");
+        e.object.setUserData("rideID", e.connectedRide.getRideID());
         map.getMap()[x][y][z] = e.object;
         if (enterancetype == false) {
             rides.get(rideID - 2).enterance = e;
@@ -216,7 +237,8 @@ public class RideManager {
             clickingHandler.clickMode = ClickingModes.NOTHING;
         }
     }
-    public void setRideID(int rideID){
-        this.rideID=rideID;
+
+    public void setRideID(int rideID) {
+        this.rideID = rideID;
     }
 }

@@ -566,8 +566,88 @@ public class IngameHUD implements ScreenController {
 
         } else {
             shopManager.setSelection(selectedBuilding);
-            System.out.println("YOU SELECTED BUILDING");
+            
             descriptionManager.setDescriptionChess();
+            updateshopdesc();
+        }
+    }
+    public void buildingSelectArchery(){
+        selectedBuilding = BasicBuildables.ARCHERYRANGE;
+        if (selectedBuilding == shopManager.selectedBuilding) {
+            closeWindows(" ");
+            shopManager.activateplace();
+
+
+
+
+        } else {
+            shopManager.setSelection(selectedBuilding);
+            
+            descriptionManager.setDescriptionArchery();
+            updateshopdesc();
+        }
+    }
+    public void buildingSelectBlender(){
+        selectedBuilding = BasicBuildables.BLENDER;
+        if (selectedBuilding == shopManager.selectedBuilding) {
+            closeWindows(" ");
+            shopManager.activateplace();
+
+
+
+
+        } else {
+            shopManager.setSelection(selectedBuilding);
+            
+            descriptionManager.setDescriptionBlender();
+            updateshopdesc();
+        }
+    }
+    public void buildingSelectHauntedHouse(){
+        selectedBuilding = BasicBuildables.HAUNTEDHOUSE;
+        if (selectedBuilding == shopManager.selectedBuilding) {
+            closeWindows(" ");
+            shopManager.activateplace();
+
+
+
+
+        } else {
+            shopManager.setSelection(selectedBuilding);
+            
+            descriptionManager.setDescriptionHHouse();
+            updateshopdesc();
+        }
+    }
+    public void buildingSelectPirateShip(){
+        selectedBuilding = BasicBuildables.PIRATESHIP;
+        if (selectedBuilding == shopManager.selectedBuilding) {
+            closeWindows(" ");
+            shopManager.activateplace();
+
+
+
+
+        } else {
+            shopManager.setSelection(selectedBuilding);
+            
+            descriptionManager.setDescriptionPirateShip();
+            updateshopdesc();
+        }
+    }
+    public void buildingSelectRotor(){
+        selectedBuilding = BasicBuildables.ROTOR;
+        if (selectedBuilding == shopManager.selectedBuilding) {
+            closeWindows(" ");
+            shopManager.activateplace();
+
+
+
+
+        } else {
+            shopManager.setSelection(selectedBuilding);
+            
+            descriptionManager.setDescriptionRotor();
             updateshopdesc();
         }
     }

@@ -13,8 +13,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import mygame.GUI.UpdateMoneyTextBarEvent;
-import mygame.Gamestate;
-import mygame.Main;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.ride.RideManager;
@@ -135,6 +133,38 @@ public class ShopManager {
             case CHESSCENTER:
                 geom =assetManager.loadModel("Models/Rides/Chesshouse/chesshouse.j3o");
                 holoDrawer.loadSpatial(geom);
+                clickingHandler.buffer=1;
+                break;
+                
+            case BLENDER:
+                geom =assetManager.loadModel("Models/Rides/Blender/blender.j3o");
+                holoDrawer.loadSpatial(geom);
+                clickingHandler.buffer=1;
+                break;
+                
+            case ARCHERYRANGE:
+                geom =assetManager.loadModel("Models/Rides/archeryrange/archeryrange.j3o");
+                holoDrawer.loadSpatial(geom);
+                clickingHandler.buffer=1;
+                break;
+                
+            case HAUNTEDHOUSE:
+                geom =assetManager.loadModel("Models/Rides/Hauntedhouse/hauntedhouse.j3o");
+                holoDrawer.loadSpatial(geom);
+                clickingHandler.buffer=1;
+                break;
+                
+            case PIRATESHIP:
+                geom =assetManager.loadModel("Models/Rides/PirateShip/core.j3o");
+                holoDrawer.loadSpatial(geom);
+                clickingHandler.buffer=1;
+                break;
+                
+                
+            case ROTOR:
+                geom =assetManager.loadModel("Models/Rides/Rotor/rotor.j3o");
+                holoDrawer.loadSpatial(geom);
+                clickingHandler.buffer=1;
                 break;
                 
             case NULL:
