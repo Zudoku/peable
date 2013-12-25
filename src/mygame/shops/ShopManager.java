@@ -91,7 +91,7 @@ public class ShopManager {
             default: 
                 //eteenpäin shopmanagerille
                 rideManager.buy(facing,selectedBuilding);
-                resetShopdata();
+                resetShopdataFromRide();
                 return;
                
         }
@@ -117,30 +117,33 @@ public class ShopManager {
             case MBALL:
                 geom =assetManager.loadModel("Models/shops/mball.j3o");
                 holoDrawer.loadSpatial(geom);
+                clickingHandler.buffer=1;
                 break; 
                        
             case ENERGY:
                 geom =assetManager.loadModel("Models/shops/energyshop.j3o");
                 holoDrawer.loadSpatial(geom);
+                clickingHandler.buffer=1;
                 break;
                 
             case TOILET:
                 geom =assetManager.loadModel("Models/shops/toilet.j3o");
                 holoDrawer.loadSpatial(geom);
+                clickingHandler.buffer=1;
                 break;
       
             case CHESSCENTER:
-                geom =assetManager.loadModel("Models/Rides/chesshouse.j3o");
+                geom =assetManager.loadModel("Models/Rides/Chesshouse/chesshouse.j3o");
                 holoDrawer.loadSpatial(geom);
                 break;
                 
             case NULL:
-                System.out.println("BUG IN SHOPMANAGER LINE 64!");
+                
                 break;
         }
         holoDrawer.toggleDrawSpatial();
         clickingHandler.clickMode= ClickingModes.PLACE;
-        clickingHandler.buffer=1;
+        
         
         
         
@@ -157,6 +160,11 @@ public class ShopManager {
         selectedBuilding = BasicBuildables.NULL;
         facing = Direction.DOWN;
         clickingHandler.clickMode= ClickingModes.NOTHING;
+    }
+    public void resetShopdataFromRide() {
+        selectedBuilding = BasicBuildables.NULL;
+        facing = Direction.DOWN;
+        
     }
     public void rotateShop(){
         switch(facing){

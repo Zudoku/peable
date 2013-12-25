@@ -4,6 +4,7 @@
  */
 package mygame.inputhandler;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResult;
@@ -20,7 +21,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
-
+import mygame.terrain.decoration.RotationEvent;
 
 /**
  *
@@ -35,26 +36,44 @@ public class UserInput {
     private ClickingHandler clickingHandler;
     long lastclicked = 0;
     CameraController cameraController;
- 
+    KeyTrigger moveCameraUp = new KeyTrigger(KeyInput.KEY_W);
+    KeyTrigger moveCameraDown = new KeyTrigger(KeyInput.KEY_S);
+    KeyTrigger moveCameraRight = new KeyTrigger(KeyInput.KEY_D);
+    KeyTrigger moveCameraLeft = new KeyTrigger(KeyInput.KEY_A);
+    KeyTrigger rotateRight = new KeyTrigger(KeyInput.KEY_E);
+    
+    KeyTrigger rotateLeft = new KeyTrigger(KeyInput.KEY_Q);
+    MouseButtonTrigger mouseLeftClick = new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
+    MouseButtonTrigger mouseRightClick = new MouseButtonTrigger(MouseInput.BUTTON_RIGHT);
+    private final EventBus eventBus;
 
     @Inject
-    public UserInput(Node rootNode, InputManager inputManager, Camera cam,ClickingHandler clickingHandler) {
+    public UserInput(Node rootNode, InputManager inputManager, Camera cam, ClickingHandler clickingHandler,EventBus eventBus) {
         this.rootNode = rootNode;
         this.inputManager = inputManager;
         this.cam = cam;
-        this.clickingHandler=clickingHandler;
-        cameraController=new CameraController(cam);
+        this.clickingHandler = clickingHandler;
+        this.eventBus=eventBus;
+        cameraController = new CameraController(cam);
         inputManager.setCursorVisible(true);
-        inputManager.addMapping("mouseleftclick", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-        inputManager.addMapping("mouserightclick", new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
-        inputManager.addMapping("test", new KeyTrigger(KeyInput.KEY_1));
-        inputManager.addMapping("movecameraup", new KeyTrigger(KeyInput.KEY_W));
-        inputManager.addMapping("movecameradown", new KeyTrigger(KeyInput.KEY_S));
-        inputManager.addMapping("movecameraright", new KeyTrigger(KeyInput.KEY_D));
-        inputManager.addMapping("movecameraleft", new KeyTrigger(KeyInput.KEY_A));
-        inputManager.addListener(actionListener, "mouseleftclick", "mouserightclick");
-        inputManager.addListener(analogListener,"movecameraup","movecameradown","movecameraright","movecameraleft" );
-      
+
+        //mouse input
+        inputManager.addMapping("mouseleftclick", mouseLeftClick);
+        inputManager.addMapping("mouserightclick", mouseRightClick);
+        //ingame Actions
+        inputManager.addMapping("rotateRight", rotateRight);
+        inputManager.addMapping("rotateLeft", rotateLeft);
+        //Camera input
+        inputManager.addMapping("movecameraup", moveCameraUp);
+        inputManager.addMapping("movecameradown", moveCameraDown);
+        inputManager.addMapping("movecameraright", moveCameraRight);
+        inputManager.addMapping("movecameraleft", moveCameraLeft);
+        
+
+        inputManager.addListener(actionListener, "mouseleftclick", "mouserightclick", "rotateRight", "rotateLeft");
+
+        inputManager.addListener(analogListener, "movecameraup", "movecameradown", "movecameraright", "movecameraleft");
+
     }
     private ActionListener actionListener = new ActionListener() {
         public void onAction(String name, boolean isPressed, float tpf) {
@@ -62,7 +81,7 @@ public class UserInput {
             if (name.equals("mouseleftclick")) {
                 if (System.currentTimeMillis() - lastclicked > 100) {
                     lastclicked = System.currentTimeMillis();
-                   
+
                     CollisionResults results = new CollisionResults();
 
 
@@ -81,7 +100,7 @@ public class UserInput {
                     if (results.size() > 0) {
                         CollisionResult target = results.getClosestCollision();
                         clickingHandler.handleClicking(target, results);
-                        
+
                     } else {
                         System.out.println("klikkasit huti");
                     }
@@ -93,9 +112,14 @@ public class UserInput {
 
             }
             if (name.equals("mouserightclick")) {
+                /**TODO!
+                 * if(isPressed){
+                    return;
+                }
+                 */
                 if (System.currentTimeMillis() - lastclicked > 100) {
                     lastclicked = System.currentTimeMillis();
-                   
+
                     CollisionResults results = new CollisionResults();
 
 
@@ -114,33 +138,66 @@ public class UserInput {
                     if (results.size() > 0) {
                         CollisionResult target = results.getClosestCollision();
                         clickingHandler.handleRightClicking(target, results);
-                        
+
                     }
+                }
+            }
+            if (name.equals("rotateRight")) {
+                if(isPressed){
+                    return;
+                }
+                switch (clickingHandler.clickMode) {
+                    case DECORATION:
+                        eventBus.post(new RotationEvent(1,0));
+                        break;
+
+                    case PLACE:
+                        eventBus.post(new RotationEvent(1,2));
+                        break;
+
+                    case ROAD:
+                        eventBus.post(new RotationEvent(1,1));
+                        break;
+
+
+                }
+            }
+            if (name.equals("rotateLeft")) {
+                if(isPressed){
+                    return;
+                }
+                switch (clickingHandler.clickMode) {
+                    case DECORATION:
+                        eventBus.post(new RotationEvent(0,0));
+                        break;
+
+                    case PLACE:
+                        eventBus.post(new RotationEvent(0,2));
+                        break;
+
+                    case ROAD:
+                        eventBus.post(new RotationEvent(0,1));
+                        break;
+
+
                 }
             }
         }
     };
-
-    
     private AnalogListener analogListener = new AnalogListener() {
-       
         public void onAnalog(String name, float value, float tpf) {
-            if(name.equals("movecameraup")){
+            if (name.equals("movecameraup")) {
                 cameraController.moveUp();
             }
-            if(name.equals("movecameradown")){
+            if (name.equals("movecameradown")) {
                 cameraController.moveDown();
             }
-            if(name.equals("movecameraright")){
+            if (name.equals("movecameraright")) {
                 cameraController.moveRight();
             }
-            if(name.equals("movecameraleft")){
+            if (name.equals("movecameraleft")) {
                 cameraController.moveLeft();
             }
         }
     };
-
-
-    
-    
 }

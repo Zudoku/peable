@@ -7,6 +7,8 @@ package mygame.ride.actualrides;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.Random;
+import mygame.npc.AddGuestLimitEvent;
 import mygame.npc.inventory.PreferredRides;
 import mygame.ride.BasicRide;
 import mygame.terrain.Direction;
@@ -22,7 +24,8 @@ public class ChessCenter extends BasicRide{
         rideType= PreferredRides.LOW;
         setName("My Chesscentre1");
         setRideType("chess");
-        
+        Random r =new Random();
+        eventBus.post(new AddGuestLimitEvent(r.nextInt(10)+10));
     }
     
 }

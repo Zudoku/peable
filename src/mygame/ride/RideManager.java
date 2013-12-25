@@ -190,10 +190,11 @@ public class RideManager {
 
     }
 
-    public void updateRideQueues() {
+    public void updateRide() {
         for (BasicRide ride : rides) {
             ride.updateQueLine();
             ride.updateRide();
+            ride.update();
         }
     }
 

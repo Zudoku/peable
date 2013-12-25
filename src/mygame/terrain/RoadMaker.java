@@ -5,6 +5,7 @@
 package mygame.terrain;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -13,7 +14,9 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import mygame.GUI.UpdateMoneyTextBarEvent;
+import mygame.GUI.UpdateRoadDirectionEvent;
 import mygame.ride.Enterance;
+import mygame.terrain.decoration.RotationEvent;
 
 /**
  *
@@ -43,7 +46,7 @@ public class RoadMaker {
         this.assetManager = assetManager;
         this.rootNode = rootNode;
         this.eventBus=eventBus;
-        
+        eventBus.register(this);
         this.map=map;
         roadF = new RoadFactory(assetManager);
     }
@@ -1242,6 +1245,57 @@ public class RoadMaker {
         for(Spatial s:queRoadsToUpdate){
             
             refreshqueroadarray(s);
+        }
+    }
+    @Subscribe public void listenRotateEvent(RotationEvent event){
+        if(event.getWho()==1){
+            if(event.getValue()==1){
+                turnRight();
+            }else{
+                turnLeft();
+            }
+        }
+    }
+    public void turnLeft(){
+        if(direction==Direction.UP){
+            direction=Direction.LEFT;
+            eventBus.post(new UpdateRoadDirectionEvent(direction));
+            return;
+        }
+        if(direction==Direction.LEFT){
+            direction=Direction.DOWN;
+            eventBus.post(new UpdateRoadDirectionEvent(direction));
+            return;
+        }
+        if(direction==Direction.DOWN){
+            direction=Direction.RIGHT;
+            eventBus.post(new UpdateRoadDirectionEvent(direction));
+            return;
+        }
+        if(direction==Direction.RIGHT){
+            direction=Direction.UP;
+            eventBus.post(new UpdateRoadDirectionEvent(direction));
+        }
+    }
+    public void turnRight(){
+        if(direction==Direction.UP){
+            direction=Direction.RIGHT;
+            eventBus.post(new UpdateRoadDirectionEvent(direction));
+            return;
+        }
+        if(direction==Direction.RIGHT){
+            direction=Direction.DOWN;
+            eventBus.post(new UpdateRoadDirectionEvent(direction));
+            return;
+        }
+        if(direction==Direction.DOWN){
+            direction=Direction.LEFT;
+            eventBus.post(new UpdateRoadDirectionEvent(direction));
+            return;
+        }
+        if(direction==Direction.LEFT){
+            direction=Direction.UP;
+            eventBus.post(new UpdateRoadDirectionEvent(direction));
         }
     }
 }

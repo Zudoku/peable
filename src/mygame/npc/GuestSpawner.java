@@ -12,7 +12,6 @@ import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
 import mygame.GUI.UpdateMoneyTextBarEvent;
-import mygame.Main;
 
 /**
  *
@@ -25,7 +24,7 @@ public class GuestSpawner {
     ArrayList<String> firstName = new ArrayList<String>();
     ArrayList<String> surName = new ArrayList<String>();
     ArrayList<Guest> guests=new ArrayList<Guest>();
-    int guestNum = 0;
+    int guestNum = 1;
     private final Node nPCNode;
     private final Node rootNode;
     Random r;

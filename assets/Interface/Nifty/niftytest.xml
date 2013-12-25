@@ -72,7 +72,7 @@
                 <image filename="Interface/Terrain/Icon.png"x="0"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick="toggleShovelWindow()"/>
                 </image>
-                <image filename="Interface/Roads/Icon.png"x="65"y="0" childLayout="absolute" width="64" height="64">
+                <image filename="Interface/Roads/uphill.png"x="65"y="0" childLayout="absolute" width="64" height="64">
                     <interact onClick="toggleRoadWindow()"/>
                 </image>
                 <image filename="Interface/Rides/Icon.png"x="130"y="0" childLayout="absolute" width="64" height="64">

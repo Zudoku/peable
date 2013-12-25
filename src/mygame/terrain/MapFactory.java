@@ -49,6 +49,7 @@ public class MapFactory {
         parkHandler.setShopID(1);
         parkHandler.setMapSize(Mapheight, Mapwidth);
         parkHandler.setParkWallet(new ParkWallet(10000));
+        parkHandler.setMaxGuests(20);
     }
    
     

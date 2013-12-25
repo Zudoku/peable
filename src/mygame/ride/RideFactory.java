@@ -28,7 +28,7 @@ public class RideFactory {
     
     public ChessCenter chessCenter(Vector3f position,Direction facing){
         
-        Spatial geom =assetManager.loadModel("Models/Rides/chesshouse.j3o");
+        Spatial geom =assetManager.loadModel("Models/Rides/Chesshouse/chesshouse.j3o");
         
         ChessCenter ride=new ChessCenter(position,geom,500,facing ,rootNode);
         return ride;

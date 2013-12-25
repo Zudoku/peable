@@ -5,11 +5,13 @@
 package mygame.npc;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -23,14 +25,14 @@ public class NPCManager {
     private Node NPCNode;
     public GuestSpawner guestSpawner;
     public boolean NPCVisible=true;
-    int updatenum=0;
+    int maxguests=20;
     @Inject
     public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus){
         this.rootNode=rootNode;
         NPCNode=new Node("NPCNode");
         guestSpawner=new GuestSpawner(NPCNode,rootNode,assetManager,eventBus);
         rootNode.attachChild(NPCNode);
-        System.out.println("new NPCMANAGER made!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        eventBus.register(this);
         
     }
     public void addtoList(BasicNPC npc){
@@ -42,19 +44,27 @@ public class NPCManager {
         npcs.remove(npc);
     }
     public void update(){
-        updatenum++;
         
-        if(updatenum%900==1){
-            guestSpawner.forceSpawnGuest(updatenum);
+        
+        if(maxguests>npcs.size()){
+            Random r =new Random();
+            if(r.nextInt(900)<=maxguests/guestSpawner.guestNum){
+                guestSpawner.forceSpawnGuest(2);
+            }
+            
         }
         if(npcs.isEmpty()==true){
             System.out.println("NPCS EMPTY!!!!");
+            
             return;
         }
         for(BasicNPC npc:npcs){
             
             npc.update();
         }
+    }
+    public void setMaxGuests(int a){
+        this.maxguests=a;
     }
     
     //MISC ÄLÄ KÄYTÄ
@@ -68,6 +78,9 @@ public class NPCManager {
     }
     public ArrayList<Guest> getGuests(){
         return guests;
+    }
+    @Subscribe public void listenAddGuestLimit(AddGuestLimitEvent event){
+        this.maxguests=maxguests+event.getM();
     }
     
 }

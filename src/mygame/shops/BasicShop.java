@@ -10,12 +10,12 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.Random;
 import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.Main;
+import mygame.npc.AddGuestLimitEvent;
 import mygame.npc.Guest;
 import mygame.terrain.Direction;
-import mygame.terrain.MapContainer;
-import mygame.terrain.ParkHandler;
 import mygame.terrain.PayParkEvent;
 
 /**
@@ -47,6 +47,8 @@ public class BasicShop {
         this.rootNode=rootNode;
         object.setLocalTranslation(position);
         Main.injector.injectMembers(this);
+        Random r =new Random();
+        eventBus.post(new AddGuestLimitEvent(r.nextInt(5)+5));
     }
     
     public void interact(Guest guest){

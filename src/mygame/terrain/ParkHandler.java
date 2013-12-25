@@ -45,6 +45,7 @@ public class ParkHandler {
     private int mapHeight;
     private int mapWidth;
     private int[][] mapData;
+    private int maxGuests;
     private ArrayList<Vector3f>RoadtoUpdatePositions=new ArrayList<Vector3f>();
     
     
@@ -66,11 +67,12 @@ public class ParkHandler {
         
     }
 
-    public void setUp(String parkname, int rideID, int shopID, ParkWallet wallet) {
+    public void setUp(String parkname, int rideID, int shopID, ParkWallet wallet,int maxGuests) {
         this.parkName = parkname;
         this.rideID = rideID;
         this.shopID = shopID;
         this.parkwallet = wallet;
+        this.maxGuests=maxGuests;
     }
 
     public String getGuestSizeString() {
@@ -98,6 +100,7 @@ public class ParkHandler {
         npcManager.guestSpawner.setNpcs(npcs);
         npcManager.guests = this.guests;
         npcManager.guestSpawner.setGuests(guests);
+        npcManager.setMaxGuests(maxGuests);
         shopManager.shops = shops;
         rideManager.setRideID(rideID);
         shopManager.setShopID(shopID);
@@ -147,6 +150,9 @@ public class ParkHandler {
     public void setShopID(int shopID) {
         this.shopID = shopID;
 
+    }
+    public void setMaxGuests(int maxGuests){
+        this.maxGuests=maxGuests;
     }
 
     public void setMapSize(int height, int width) {
@@ -269,6 +275,10 @@ public class ParkHandler {
                 }
             }
         }
+    }
+
+    public int getMaxGuests() {
+        return maxGuests;
     }
     
 }

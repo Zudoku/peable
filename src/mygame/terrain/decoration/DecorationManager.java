@@ -5,6 +5,7 @@
 package mygame.terrain.decoration;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -40,7 +41,7 @@ public class DecorationManager {
         this.rootNode = rootNode;
         this.eventBus=eventBus;
         
-        
+        eventBus.register(this);
         decorationNode = new Node("decorationNode");
         rootNode.attachChild(decorationNode);
         decoFactory = new DecorationFactory(assetManager);
@@ -169,5 +170,17 @@ public class DecorationManager {
                 return "Big rock. Its hard!";
         }
         return "bug !";
+    }
+    @Subscribe public void listenRotationEvents(RotationEvent event){
+        if(event.getWho()==0){
+            if(event.getValue()==1){
+                turnRight();
+            }
+            else{
+                turnLeft();
+            }
+            
+            
+        }
     }
 }

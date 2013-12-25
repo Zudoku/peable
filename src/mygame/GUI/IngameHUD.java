@@ -388,92 +388,82 @@ public class IngameHUD implements ScreenController {
     drop.getElement().setConstraintHorizontalAlign(HorizontalAlign.left);
     drop.getElement().setConstraintVerticalAlign(VerticalAlign.top);
     }
-
-    public void roadDirectionUp() {
-        roadMaker.direction = Direction.UP;
-        Element niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
-        niftyElement.startEffect(EffectEventId.onCustom);
-        //resettaa muitten effectit
-
+    private void roadDirectionReset(){
+        Element niftyElement;
         niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
         niftyElement.stopEffect(EffectEventId.onCustom);
         niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
         niftyElement.stopEffect(EffectEventId.onCustom);
         niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
         niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+    }
+    private void roadHillReset(){
+        Element niftyElement;
+        niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+        niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
+        niftyElement.stopEffect(EffectEventId.onCustom);
+    }
+    public void roadDirectionUp() {
+        roadMaker.direction = Direction.UP;
+        roadDirectionReset();
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
+        niftyElement.startEffect(EffectEventId.onCustom);
+        //resettaa muitten effectit
+
 
     }
 
     public void roadDirectionDown() {
         roadMaker.direction = Direction.DOWN;
+        roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
+        
     }
 
     public void roadDirectionRight() {
         roadMaker.direction = Direction.RIGHT;
+        roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
+        
     }
 
     public void roadDirectionLeft() {
         roadMaker.direction = Direction.LEFT;
+        roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
+        
     }
 
     public void roadUpHill() {
         roadMaker.hill = RoadHill.UP;
+        roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        //resettaa muitten effectit
-
-        niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
+        
     }
 
     public void roadFlatHill() {
         roadMaker.hill = RoadHill.FLAT;
+        roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        //resettaa muitten effectit
-
-        niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
+        
     }
 
     public void roadDownHill() {
         roadMaker.hill = RoadHill.DOWN;
+        roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        //resettaa muitten effectit
-
-        niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
-        niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
-        niftyElement.stopEffect(EffectEventId.onCustom);
+        
     }
 
     public void buildButton() {
@@ -641,5 +631,24 @@ public class IngameHUD implements ScreenController {
         Element niftyElement = nifty.getCurrentScreen().findElementByName("decorationdirectionimg");
         niftyElement.getRenderer(ImageRenderer.class).setImage(img);
         niftyElement.setId("decorationdirectionimg");
+    }
+    @Subscribe public void listenUpdateRoadDirectionEvent(UpdateRoadDirectionEvent event){
+        switch(event.getD()){
+            case DOWN:
+                roadDirectionDown();
+                break;
+                
+            case LEFT:
+                roadDirectionLeft();
+                break;
+                
+            case RIGHT:
+                roadDirectionRight();
+                break;
+                
+            case UP:
+                roadDirectionUp();
+                
+        }
     }
 }

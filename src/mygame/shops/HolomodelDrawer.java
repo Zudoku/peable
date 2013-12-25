@@ -5,9 +5,9 @@
 package mygame.shops;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResult;
-import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -18,12 +18,13 @@ import mygame.terrain.Direction;
  *
  * @author arska
  */
+@Singleton
 public class HolomodelDrawer {
 
     AssetManager assetManager;
     private final Node node;
     boolean activated = false;
-    Spatial drawed;
+    private Spatial drawed;
     boolean positionLocked=false;
     public Node holoNode;
     @Inject
@@ -47,8 +48,8 @@ public class HolomodelDrawer {
     public void loadSpatial(Spatial geom) {
         if (geom != null) {
             
-            drawed = geom;
-            drawed.setName("bob");
+            this.drawed = geom;
+            
         }
         else{
             return;
@@ -66,6 +67,12 @@ public class HolomodelDrawer {
             return;
         }
         if(!target.getGeometry().getName().equals("Terrain")){
+            return;
+        }
+        if(target==null){
+            return;
+        }
+        if(drawed==null){
             return;
         }
         Vector3f loc = target.getContactPoint();

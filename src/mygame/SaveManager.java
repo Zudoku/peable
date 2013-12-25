@@ -130,6 +130,7 @@ public class SaveManager {
         String shopID = Integer.toString(parkhandler.getShopID());
         String mapheight = Integer.toString(parkhandler.getMapHeight());
         String mapwidth = Integer.toString(parkhandler.getMapWidth());
+        String maxGuests = Integer.toString(parkhandler.getMaxGuests());
         writer.write("park:" + parkname + ":" + parkmoney + ":" + parkloan + ":" + rideID + ":" + shopID + ":" + mapheight + ":" + mapwidth + ":");
     }
 

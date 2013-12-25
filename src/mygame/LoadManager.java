@@ -107,11 +107,12 @@ public class LoadManager {
         String rideID = parkinfo[5];
         String mapHeight = parkinfo[6];
         String mapWidth = parkinfo[7];
+        String maxGuests= parkinfo[8];
 
         ParkWallet wallet = new ParkWallet(Float.parseFloat(money));
         wallet.setLoan(Float.parseFloat(loan));
 
-        parkHandler.setUp(parkname, Integer.parseInt(rideID), Integer.parseInt(shopID), wallet);
+        parkHandler.setUp(parkname, Integer.parseInt(rideID), Integer.parseInt(shopID), wallet,Integer.parseInt(maxGuests));
         parkHandler.setMapSize(Integer.parseInt(mapHeight), Integer.parseInt(mapWidth));
     }
 
@@ -385,7 +386,7 @@ public class LoadManager {
             }
             counter += 1;
             if (type.equals("chess")) {
-                ChessCenter a = new ChessCenter(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/chesshouse.j3o"), price, Direction.UP,rootNode);
+                ChessCenter a = new ChessCenter(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/Chesshouse/chesshouse.j3o"), price, Direction.UP,rootNode);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);

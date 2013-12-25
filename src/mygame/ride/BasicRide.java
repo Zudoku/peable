@@ -32,7 +32,7 @@ public class BasicRide {
     
     @Inject RoadMaker roadMaker;
     
-    @Inject EventBus eventBus;
+    @Inject protected EventBus eventBus;
     private Direction facing;
     private Vector3f position;
     private Spatial object;
@@ -258,6 +258,9 @@ public class BasicRide {
         eventBus.post(new RideDemolishEvent(this));
         eventBus.post(new UpdateMoneyTextBarEvent());
 
+    }
+    public void update(){
+        
     }
     
 
