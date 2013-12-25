@@ -131,7 +131,7 @@ public class SaveManager {
         String mapheight = Integer.toString(parkhandler.getMapHeight());
         String mapwidth = Integer.toString(parkhandler.getMapWidth());
         String maxGuests = Integer.toString(parkhandler.getMaxGuests());
-        writer.write("park:" + parkname + ":" + parkmoney + ":" + parkloan + ":" + rideID + ":" + shopID + ":" + mapheight + ":" + mapwidth + ":");
+        writer.write("park:" + parkname + ":" + parkmoney + ":" + parkloan + ":" + rideID + ":" + shopID + ":" + mapheight + ":" + mapwidth + ":"+maxGuests+":");
     }
 
     private void writeTerrainData(Writer writer, ParkHandler parkhandler) throws IOException {

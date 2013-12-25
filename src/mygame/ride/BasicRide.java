@@ -98,9 +98,13 @@ public class BasicRide {
     
 
     public boolean tryToQueGuest(Guest guest) {
-        guestsInQue.add(guest);
+        if(status){
+            guestsInQue.add(guest);
+            return true;
+        }
+        
 
-        return true;
+        return false;
     }
 
     public void updateQueLine() {

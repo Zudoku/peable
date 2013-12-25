@@ -433,9 +433,9 @@
             <control id="guesttemplate" name="window"title="Guest"width="496"height="400"x="200"y="200"closeable="true"hideOnClose="true">
                 <panel id="rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                     <panel id="tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
-                        <control id="tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
-                            <control id="tab_1" name="tab" caption="Information"x="0"y="0"> 
-                                <panel id="tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                        <control id="guest_tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
+                            <control id="g_tab_1" name="tab" caption="Information"x="0"y="0"> 
+                                <panel id="g_tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <image filename="Interface/Shops/Nopic.png"x="10"y="30" childLayout="absolute" height="200"width="130"visibleToMouse="true">
                                     </image>
                                     <control id="guestnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="150"y="30" color="ffffff"/>
@@ -464,8 +464,8 @@
                                     <control id="gueststaff"name="label" font="Interface/Fonts/Impact.fnt"text="Guest" x="200"y="180" color="ffffff"/>
                                 </panel>
                             </control>
-                            <control id="tab_2" name="tab" caption="Emotions"x="0"y="0">
-                                <panel id="tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <control id="g_tab_2" name="tab" caption="Emotions"x="0"y="0">
+                                <panel id="g_tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <control id="guesthungerprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Hunger: " x="10"y="30" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="53" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
@@ -488,16 +488,16 @@
                                     <control id="guestpref"name="label" font="Interface/Fonts/Impact.fnt"text="CRAZY" x="100"y="150" color="ffffff"/>
                                 </panel>
                             </control>
-                            <control id="tab_3" name="tab" caption="Actions"x="0"y="0"> 
-                                <panel id="tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <control id="g_tab_3" name="tab" caption="Actions"x="0"y="0"> 
+                                <panel id="g_tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <control id="guestnametextfieldprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Change name:" x="10"y="10" color="ffffff"/>
                                     <control id="guestnametextfield"name="textfield" maxLength="50" x="120"y="10"height="24" width="200" />
                                     <image filename="Interface/NPC/raja.png"x="4"y="40" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
                                 </panel>
                             </control>
-                            <control id="tab_4" name="tab" caption="Inventory"x="0"y="0"> 
-                                <panel id="tab_4_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <control id="g_tab_4" name="tab" caption="Inventory"x="0"y="0"> 
+                                <panel id="g_tab_4_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <control id="guestinventoryprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Inventory: " x="0"y="10" color="ffffff"/>
                                     <control id="guestinventory1"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="40" color="ffffff"/>
                                     <control id="guestinventory2"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="70" color="ffffff"/>
@@ -511,8 +511,8 @@
                                     
                                 </panel>
                             </control>
-                            <control id="tab_5" name="tab" caption="More.."x="0"y="0"> 
-                                <panel id="tab_5_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <control id="g_tab_5" name="tab" caption="More.."x="0"y="0"> 
+                                <panel id="g_tab_5_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
 
                                 </panel>
                             </control>
@@ -523,9 +523,9 @@
             <control id="shoptemplate" name="window"title="Shop"width="496"height="400"x="200"y="200"closeable="true"hideOnClose="true">
                 <panel id="rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                     <panel id="tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
-                        <control id="tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
-                            <control id="tab_1" name="tab" caption="Information"x="0"y="0"> 
-                                <panel id="tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                        <control id="s_tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
+                            <control id="s_tab_1" name="tab" caption="Information"x="0"y="0"> 
+                                <panel id="s_tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <image filename="Interface/Shops/Nopic.png"x="10"y="10" childLayout="absolute" height="130"width="130"visibleToMouse="true">
                                     </image>
                                     <control id="shopnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="150"y="30" color="ffffff"/>
@@ -542,21 +542,21 @@
                                     <control id="shopemployees"name="label" font="Interface/Fonts/Impact.fnt"text="Bob lorenz, Carl bobson" x="96"y="180" color="ffffff"/>
                                 </panel>
                             </control>
-                            <control id="tab_2" name="tab" caption="Actions"x="0"y="0">
-                                <panel id="tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <control id="s_tab_2" name="tab" caption="Actions"x="0"y="0">
+                                <panel id="s_tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <image id="shopdemolishbutton"filename="Interface/Rides/destroy.png"x="390"y="0" childLayout="absolute" height="48"width="48"visibleToMouse="true">
                                         <interact onClick="shopDemolishToggle()">   
                                         </interact>
                                     </image>
                                 </panel>
                             </control>
-                            <control id="tab_3" name="tab" caption="Employees"x="0"y="0"> 
-                                <panel id="tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <control id="s_tab_3" name="tab" caption="Employees"x="0"y="0"> 
+                                <panel id="s_tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     
                                 </panel>
                             </control>
-                            <control id="tab_4" name="tab" caption="More.."x="0"y="0"> 
-                                <panel id="tab_4_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <control id="s_tab_4" name="tab" caption="More.."x="0"y="0"> 
+                                <panel id="s_tab_4_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
 
                                 </panel>
                             </control>
@@ -566,10 +566,10 @@
             </control>
             <control id="ridetemplate" name="window"title="Ride"width="496"height="400"x="200"y="200"closeable="true"hideOnClose="true">
                 <panel id="rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                    <panel id="tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
-                        <control id="tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
-                            <control id="tab_1" name="tab" caption="Actions"x="0"y="0"> 
-                                <panel id="tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                    <panel id="r_tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
+                        <control id="r_tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
+                            <control id="r_tab_1" name="tab" caption="Actions"x="0"y="0"> 
+                                <panel id="r_tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <control id="ridenametextfieldprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Change name:" x="10"y="10" color="ffffff"/>
                                     <control id="ridenametextfield"name="textfield" maxLength="50" x="120"y="10"height="24" width="200" />
                                     <image id="ridestatusbutton"filename="Interface/Rides/statusoff.png"x="340"y="0" childLayout="absolute" height="48"width="48"visibleToMouse="true">
@@ -585,8 +585,8 @@
                                     <control id="ridepriceslider" max="20" name="horizontalSlider" stepSize="0.1" buttonStepSize="0.1" initial="2.0"width="400px" x="10"y="70"/>
                                 </panel>
                             </control>
-                            <control id="tab_2" name="tab" caption="Information"x="0"y="0">
-                                <panel id="tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <control id="r_tab_2" name="tab" caption="Information"x="0"y="0">
+                                <panel id="r_tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <control id="ridepriceprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Price: " x="10"y="0" color="ffffff"/>
                                     <control id="rideprice"name="label" font="Interface/Fonts/Impact.fnt"text="10000" x="58"y="0" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="23" childLayout="absolute" height="10"width="300"visibleToMouse="true">
@@ -617,7 +617,7 @@
                                     <control id="ridebroken"name="label" font="Interface/Fonts/Impact.fnt"text="Broken" x="86"y="180" color="ffffff"/>
                                 </panel>
                             </control>
-                            <control id="tab_3" name="tab" caption="Information"x="0"y="0"> 
+                            <control id="r_tab_3" name="tab" caption="Information"x="0"y="0"> 
                                 <panel id="tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <control id="ridecustomersprefix"name="label" font="Interface/Fonts/Impact.fnt"text="In Ride: " x="10"y="0" color="ffffff"/>
                                     <control id="ridecustomers"name="label" font="Interface/Fonts/Impact.fnt"text="10000" x="68"y="0" color="ffffff"/>

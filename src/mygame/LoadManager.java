@@ -28,7 +28,12 @@ import mygame.npc.inventory.StatManager;
 import mygame.npc.inventory.Wallet;
 import mygame.ride.BasicRide;
 import mygame.ride.Enterance;
+import mygame.ride.actualrides.Archeryrange;
+import mygame.ride.actualrides.Blender;
 import mygame.ride.actualrides.ChessCenter;
+import mygame.ride.actualrides.HauntedHouse;
+import mygame.ride.actualrides.PirateShip;
+import mygame.ride.actualrides.Rotor;
 import mygame.shops.BasicShop;
 import mygame.shops.actualshops.Energy;
 import mygame.shops.actualshops.Meatballshop;
@@ -387,6 +392,56 @@ public class LoadManager {
             counter += 1;
             if (type.equals("chess")) {
                 ChessCenter a = new ChessCenter(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/Chesshouse/chesshouse.j3o"), price, Direction.UP,rootNode);
+                a.setName(name);
+                a.setRideID(rideID);
+                a.setStats(broken, exitement, nausea, status);
+                a.getGeometry().setUserData("rideID", rideID);
+                a.getGeometry().setUserData("type", "ride");
+                rideNode.attachChild(a.getGeometry());
+                asd.add(a);
+            }
+            if (type.equals("archery")) {
+                Archeryrange a = new Archeryrange(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/archeryrange/archeryrange.j3o"), Direction.UP,rootNode);
+                a.setName(name);
+                a.setRideID(rideID);
+                a.setStats(broken, exitement, nausea, status);
+                a.getGeometry().setUserData("rideID", rideID);
+                a.getGeometry().setUserData("type", "ride");
+                rideNode.attachChild(a.getGeometry());
+                asd.add(a);
+            }
+            if (type.equals("blender")) {
+                Blender a = new Blender(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/Blender/blender.j3o"), Direction.UP,rootNode);
+                a.setName(name);
+                a.setRideID(rideID);
+                a.setStats(broken, exitement, nausea, status);
+                a.getGeometry().setUserData("rideID", rideID);
+                a.getGeometry().setUserData("type", "ride");
+                rideNode.attachChild(a.getGeometry());
+                asd.add(a);
+            }
+            if (type.equals("hhouse")) {
+                HauntedHouse a = new HauntedHouse(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/Hauntedhouse/hauntedhouse.j3o"),price, Direction.UP,rootNode);
+                a.setName(name);
+                a.setRideID(rideID);
+                a.setStats(broken, exitement, nausea, status);
+                a.getGeometry().setUserData("rideID", rideID);
+                a.getGeometry().setUserData("type", "ride");
+                rideNode.attachChild(a.getGeometry());
+                asd.add(a);
+            }
+            if (type.equals("rotor")) {
+                Rotor a = new Rotor(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/Rotor/rotor.j3o"), Direction.UP,rootNode);
+                a.setName(name);
+                a.setRideID(rideID);
+                a.setStats(broken, exitement, nausea, status);
+                a.getGeometry().setUserData("rideID", rideID);
+                a.getGeometry().setUserData("type", "ride");
+                rideNode.attachChild(a.getGeometry());
+                asd.add(a);
+            }
+            if (type.equals("pirateship")) {
+                PirateShip a = new PirateShip(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/PirateShip/core.j3o"), Direction.UP,rootNode,assetManager.loadModel("Models/Rides/PirateShip/swing.j3o"));
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);

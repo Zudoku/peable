@@ -65,8 +65,8 @@ public class WindowMaker {
         Element guestwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("guesttemplate");
 
 
-        Element temppanel = guestwindow.findElementByName("rootpanel").findElementByName("tabspanel")
-                .findElementByName("tabs").findElementByName("tab_1").findElementByName("tab_1_panel");
+        Element temppanel = guestwindow.findElementByName("rootpanel").findElementByName("tabspanel");
+                
         Element niftyElement = temppanel.findElementByName("guestname");
         updateText(niftyElement, guest.getName());
         niftyElement = temppanel.findElementByName("guestwallet");
@@ -79,7 +79,7 @@ public class WindowMaker {
         niftyElement = temppanel.findElementByName("guestreputation");
         updateText(niftyElement, "good");
 
-        temppanel = temppanel.getParent().getParent().findElementByName("tab_2").findElementByName("tab_2_panel");
+        //panel 2
         niftyElement = temppanel.findElementByName("guesthunger");
         updateText(niftyElement, Integer.toString(guest.stats.hunger));
         niftyElement = temppanel.findElementByName("guestthirst");
@@ -87,14 +87,14 @@ public class WindowMaker {
         niftyElement = temppanel.findElementByName("guesthappyness");
         updateText(niftyElement, Integer.toString(guest.stats.happyness));
 
-        temppanel = temppanel.getParent().getParent().findElementByName("tab_3").findElementByName("tab_3_panel");
+        //panel3 
         if (updateTextField == true) {
             TextField textfield = nifty.getCurrentScreen().findNiftyControl("guestnametextfield", TextField.class);
             textfield.setText(guest.getName());
         }
 
 
-        temppanel = temppanel.getParent().getParent().findElementByName("tab_4").findElementByName("tab_4_panel");
+        //panel 4
         int counter = 1;
         niftyElement = temppanel.findElementByName("guestinventory1");
         updateText(niftyElement, "");
@@ -148,8 +148,8 @@ public class WindowMaker {
         Element shopwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("shoptemplate");
 
 
-        Element temppanel = shopwindow.findElementByName("rootpanel").findElementByName("tabspanel")
-                .findElementByName("tabs").findElementByName("tab_1").findElementByName("tab_1_panel");
+        Element temppanel = shopwindow.findElementByName("rootpanel").findElementByName("tabspanel");
+                
         Element niftyElement = temppanel.findElementByName("shopname");
         updateText(niftyElement, shop.shopName);
         niftyElement = temppanel.findElementByName("shopprice");
@@ -210,6 +210,7 @@ public class WindowMaker {
         updateRideNameTextfield(ride.getName());
         updateRidePriceTextTab1(rideWindow, ride.getPrice(), true);
         updateRideStatusText(rideWindow, ride.getStatus());
+        updateRideToggleImage(ride.getStatus());
         /**
          * tab 2
          */
@@ -383,4 +384,6 @@ public class WindowMaker {
     int getShopID() {
         return shopID;
     }
+
+    
 }
