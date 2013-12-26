@@ -757,7 +757,7 @@ public class RoadMaker {
     }
 
     private boolean checkforEnterance(int x, int y, int z, Spatial road) {
-        Spatial temp = map.getMap()[x + 1][y][z];
+        Spatial temp =parkHandler.getSpatialAt(x+1, y, z);
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
                 Enterance enterance = null;
@@ -778,7 +778,7 @@ public class RoadMaker {
                 }
             }
         }
-        temp = map.getMap()[x - 1][y][z];
+        temp = parkHandler.getSpatialAt(x-1, y, z);
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
 
@@ -800,7 +800,7 @@ public class RoadMaker {
                 }
             }
         }
-        temp = map.getMap()[x][y][z + 1];
+        temp =parkHandler.getSpatialAt(x, y, z+1);
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
                 Enterance enterance = null;
@@ -820,7 +820,7 @@ public class RoadMaker {
                 }
             }
         }
-        temp = map.getMap()[x][y][z - 1];
+        temp =parkHandler.getSpatialAt(x, y, z-1);
         if (temp != null) {
             if (temp.getUserData("type").equals("enterance")) {
                 Enterance enterance = null;

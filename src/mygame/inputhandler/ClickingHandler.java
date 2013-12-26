@@ -172,7 +172,7 @@ public class ClickingHandler {
                 
                 if (rootTarget.getUserData("type").equals("road")) {
                     rootNode.detachChild(rootTarget);
-                    deleteFromMap(rootTarget);
+                    eventBus.post(new DeleteSpatialFromMapEvent(rootTarget));
                     eventBus.post(new PayParkEvent(5f)); //tien hinnasta osa takasin
                     eventBus.post(new UpdateMoneyTextBarEvent());
                 }
@@ -186,25 +186,5 @@ public class ClickingHandler {
         }
     }
 
-    private void deleteFromMap(Node rootTarget) {
-        
-        for(int y=0;y<25;y++){
-            for(int x=0;x<parkHandler.getMapHeight();x++){
-                for(int z=0;z<parkHandler.getMapWidth();z++){
-                    if(map.getMap()[x][y][z]!=null){
-                        if(map.getMap()[x][y][z]==rootTarget){
-                            map.getMap()[x][y][z]=null;
-                            if(rootTarget.getUserData("type")!=null){
-                                if (rootTarget.getUserData("type").equals("road")) {
-                                    roadMaker.updateroads(x, y, z);
-                                    roadMaker.updateroads(x, y+1, z);
-                                    roadMaker.updateroads(x, y-1, z);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+   
 }

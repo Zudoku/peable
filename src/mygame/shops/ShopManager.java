@@ -16,10 +16,9 @@ import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.ride.RideManager;
+import mygame.terrain.AddObjectToMapEvent;
 import mygame.terrain.Direction;
-import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
-import mygame.terrain.RoadMaker;
 
 /**
  *
@@ -40,21 +39,16 @@ public class ShopManager {
     private final HolomodelDrawer holoDrawer;
     
     @Inject private ClickingHandler clickingHandler;
-    @Inject private RoadMaker roadMaker;
     @Inject private RideManager rideManager;
-    private final MapContainer map;
     private final EventBus eventBus;
     @Inject
-    public ShopManager(AssetManager assetManager,Node rootNode,ShopFactory shopFactory,HolomodelDrawer holoDrawer,MapContainer map,
-            EventBus eventBus) {
+    public ShopManager(AssetManager assetManager,Node rootNode,ShopFactory shopFactory,HolomodelDrawer holoDrawer,EventBus eventBus) {
         this.shopFactory =shopFactory;
         this.assetManager=assetManager;
         this.rootNode=rootNode;
         this.holoDrawer=holoDrawer;
         this.eventBus=eventBus;
-        
-       
-        this.map=map;
+
         shopNode=new Node("shopNode");
         rootNode.attachChild(shopNode);
         
@@ -102,7 +96,10 @@ public class ShopManager {
         boughtshop.getGeometry().setUserData("type","shop");
         parkHandler.getParkWallet().remove(boughtshop.constructionmoney);
         eventBus.post(new UpdateMoneyTextBarEvent());
-        map.getMap()[(int)loc.x][(int)loc.y][(int)loc.z]=boughtshop.getGeometry();
+        int ax=(int)loc.x;
+        int ay=(int)loc.y;
+        int az=(int)loc.z;
+        eventBus.post(new AddObjectToMapEvent(ax, ay, az, boughtshop.getGeometry()));
         shopNode.attachChild(boughtshop.getGeometry());
         resetShopdata();
         

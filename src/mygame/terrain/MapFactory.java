@@ -5,6 +5,7 @@
 package mygame.terrain;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
@@ -23,6 +24,7 @@ import mygame.shops.BasicShop;
  *
  * @author arska
  */
+@Singleton
 public class MapFactory {
     int Mapheight=101; //-1 ==100
     int Mapwidth=101;  //-1 ==100

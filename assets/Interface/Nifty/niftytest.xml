@@ -436,7 +436,7 @@
                         <control id="guest_tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
                             <control id="g_tab_1" name="tab" caption="Information"x="0"y="0"> 
                                 <panel id="g_tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <image filename="Interface/Shops/Nopic.png"x="10"y="30" childLayout="absolute" height="200"width="130"visibleToMouse="true">
+                                    <image filename="Interface/NPC/face.png"x="10"y="30" childLayout="absolute" height="200"width="130"visibleToMouse="true">
                                     </image>
                                     <control id="guestnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="150"y="30" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="150"y="53" childLayout="absolute" height="10"width="300"visibleToMouse="true">

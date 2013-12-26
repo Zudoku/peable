@@ -4,6 +4,7 @@
  */
 package mygame;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -38,6 +39,7 @@ import mygame.shops.BasicShop;
 import mygame.shops.actualshops.Energy;
 import mygame.shops.actualshops.Meatballshop;
 import mygame.shops.actualshops.Toilet;
+import mygame.terrain.AddObjectToMapEvent;
 import mygame.terrain.Direction;
 import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
@@ -55,6 +57,7 @@ public class LoadManager {
     private static final Logger logger = Logger.getLogger(LoadManager.class.getName());
     private final Node rootNode;
     private final AppSettings settings;
+    private EventBus eventBus;
     private final AssetManager assetManager;
     RoadFactory roadF;
     private final RoadMaker roadMaker;
@@ -62,13 +65,14 @@ public class LoadManager {
     private final MapContainer map;
 
     @Inject
-    public LoadManager(Node rootNode, AppSettings settings, AssetManager assetManager,RoadMaker roadMaker,ParkHandler parkHandler,MapContainer map) {
+    public LoadManager(Node rootNode, AppSettings settings, AssetManager assetManager,RoadMaker roadMaker,ParkHandler parkHandler,MapContainer map,EventBus eventBus) {
         this.rootNode = rootNode;
         this.settings = settings;
         this.assetManager = assetManager;
         this.roadMaker=roadMaker;
         this.parkHandler=parkHandler;
         this.map=map;
+        this.eventBus=eventBus;
         roadF = new RoadFactory(assetManager);
 
     }
@@ -93,7 +97,7 @@ public class LoadManager {
         loadParkData(parkHandler, lines[0]);
         loadTerrainData(parkHandler, lines[1]);
         loadShopData(parkHandler, lines[2]);
-        loadGuestData(parkHandler, lines[3]);
+        loadGuestData(lines[3]);
         loadRideData(parkHandler, lines[4]);
         loadRoadData(parkHandler, lines[5]);
         loadQueRoadData(parkHandler,lines[6]);
@@ -250,7 +254,8 @@ public class LoadManager {
                 int ax=(int) x;
                 int ay=(int) y;
                 int az=(int) z;
-                map.getMap()[ax][ay][az]=e.getGeometry();
+                //map.getMap()[ax][ay][az]=e.getGeometry();
+                eventBus.post(new AddObjectToMapEvent(ax, ay, az, e.getGeometry()));
             }
             if(type.equals("meatballshop")){
                 Spatial geom=assetManager.loadModel("Models/shops/mball.j3o");
@@ -266,7 +271,8 @@ public class LoadManager {
                 int ax=(int) x;
                 int ay=(int) y;
                 int az=(int) z;
-                map.getMap()[ax][ay][az]=e.getGeometry();
+                //map.getMap()[ax][ay][az]=e.getGeometry();
+                eventBus.post(new AddObjectToMapEvent(ax, ay, az, e.getGeometry()));
             }
             if(type.equals("toilet")){
                 Spatial geom=assetManager.loadModel("Models/shops/toilet.j3o");
@@ -282,14 +288,15 @@ public class LoadManager {
                 int ax=(int) x;
                 int ay=(int) y;
                 int az=(int) z;
-                map.getMap()[ax][ay][az]=e.getGeometry();
+                //map.getMap()[ax][ay][az]=e.getGeometry();
+                eventBus.post(new AddObjectToMapEvent(ax, ay, az, e.getGeometry()));
             }
             
         }
         parkhandler.setShops(shops);
     }
 
-    private void loadGuestData(ParkHandler parkhandler, String string) {
+    private void loadGuestData(String string) {
         ArrayList<Guest> guests = new ArrayList<Guest>();
         ArrayList<BasicNPC>npcs=new ArrayList<BasicNPC>();
         String worked = string;
@@ -551,10 +558,11 @@ public class LoadManager {
                 int ax=(int) x;
                 int ay=(int) y;
                 int az=(int) z;
-                map.getMap()[ax][ay][az] = road;
+                //map.getMap()[ax][ay][az] = road;
+                eventBus.post(new AddObjectToMapEvent(ax, ay, az, road));
                 rootNode.attachChild(road);
             } else {
-                //do the actual road
+                //do the actual road TODO
             }
 
         }
@@ -629,7 +637,11 @@ public class LoadManager {
                 qr.setUserData("connected",connected);
                 qr.setUserData("direction",direction);
                 rootNode.attachChild(qr);
-                map.getMap()[(int)x][(int)y][(int)z]=qr;
+                int ax=(int) x;
+                int ay=(int) y;
+                int az=(int) z;
+                //map.getMap()[(int)x][(int)y][(int)z]=qr;
+                eventBus.post(new AddObjectToMapEvent(ax, ay, az, qr));
                 queRoadstoUpdate.add(qr);
             }
         }
@@ -708,7 +720,8 @@ public class LoadManager {
                 int xi=(int)x;
                 int yi=(int)y;
                 int zi=(int)z;
-                map.getMap()[xi][yi][zi]=decoration;
+                //map.getMap()[xi][yi][zi]=decoration;
+                eventBus.post(new AddObjectToMapEvent(xi, yi, zi, decoration));
                 decorationNode.attachChild(decoration);
             }
         }

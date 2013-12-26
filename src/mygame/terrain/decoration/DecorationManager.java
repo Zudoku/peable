@@ -15,6 +15,7 @@ import com.jme3.scene.Spatial;
 import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.terrain.AddObjectToMapEvent;
 import mygame.terrain.Direction;
+import mygame.terrain.ParkHandler;
 import mygame.terrain.PayParkEvent;
 
 /**
@@ -28,8 +29,9 @@ public class DecorationManager {
     Node decorationNode;
     Direction direction = Direction.RIGHT;
     Decorations decoration = Decorations.ROCK;
-    DecorationFactory decoFactory;
+    private DecorationFactory decoFactory;
     float price=0;
+    private ParkHandler parkHandler;
     private final EventBus eventBus;
     
     public static final float HALFTILE = 0.4999f;
@@ -37,9 +39,10 @@ public class DecorationManager {
     
 
     @Inject
-    public DecorationManager(Node rootNode, AssetManager assetManager,EventBus eventBus) {
+    public DecorationManager(Node rootNode, AssetManager assetManager,EventBus eventBus,ParkHandler parkHandler) {
         this.rootNode = rootNode;
         this.eventBus=eventBus;
+        this.parkHandler=parkHandler;
         
         eventBus.register(this);
         decorationNode = new Node("decorationNode");
@@ -52,6 +55,12 @@ public class DecorationManager {
     }
     
     public void build(Vector3f loc) {
+        if(loc.x<1||loc.x>parkHandler.getMapHeight()){
+            return;
+        }
+        if(loc.z<1||loc.x>parkHandler.getMapWidth()){
+            return;
+        }
         Spatial decobject = null;
         float angle;
         switch (decoration) {

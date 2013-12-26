@@ -92,7 +92,7 @@ public class ParkHandler {
         
         
         logger.finest("Setting Map");
-        
+        eventBus.post(new SetMapEvent(map.getMap()));
         roadMaker.roadsToUpdate(RoadtoUpdatePositions);
         roadMaker.queRoadsToUpdate(queRoadsToUpdate);
         rideManager.rides = rides;
@@ -270,6 +270,11 @@ public class ParkHandler {
                     if(map.getMap()[x][y][z]!=null){
                         if(map.getMap()[x][y][z]==event.getO()){
                             map.getMap()[x][y][z]=null;
+                            if (event.getO().getUserData("type").equals("road")) {
+                                    roadMaker.updateroads(x, y, z);
+                                    roadMaker.updateroads(x, y+1, z);
+                                    roadMaker.updateroads(x, y-1, z);
+                                }
                         }
                     }
                 }
@@ -279,6 +284,18 @@ public class ParkHandler {
 
     public int getMaxGuests() {
         return maxGuests;
+    }
+    public Spatial getSpatialAt(int x,int y,int z){
+        Spatial found;
+        found=map.getMap()[x][y][z];
+        return found;
+    }
+    public boolean testForEmptyTile(int x,int y,int z){
+        if(map.getMap()[x][y][z]!=null){
+            return false;
+        }else{
+            return true;
+        }
     }
     
 }

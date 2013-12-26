@@ -17,10 +17,9 @@ import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.shops.BasicBuildables;
 import mygame.shops.HolomodelDrawer;
+import mygame.terrain.AddObjectToMapEvent;
 import mygame.terrain.Direction;
-import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
-import mygame.terrain.RoadMaker;
 
 /**
  *
@@ -38,22 +37,20 @@ public class RideManager {
     int enterancecount = 0;
     private final HolomodelDrawer holoDrawer;
     private final ParkHandler parkHandler;
-    private final RoadMaker roadMaker;
+    
     private final ClickingHandler clickingHandler;
-    private final MapContainer map;
+    
     private final EventBus eventBus;
 
     @Inject
     public RideManager(AssetManager assetManager, Node rootNode, RideFactory rideFactory, HolomodelDrawer holoDrawer, ParkHandler parkHandler,
-            RoadMaker roadMaker, ClickingHandler clickingHandler, MapContainer map, EventBus eventBus) {
+                ClickingHandler clickingHandler, EventBus eventBus) {
         this.rideFactory = rideFactory;
         this.assetManager = assetManager;
         this.rootNode = rootNode;
         this.holoDrawer = holoDrawer;
         this.parkHandler = parkHandler;
-        this.roadMaker = roadMaker;
         this.clickingHandler = clickingHandler;
-        this.map = map;
         this.eventBus = eventBus;
 
         rideNode = new Node("rideNode");
@@ -116,7 +113,8 @@ public class RideManager {
         eventBus.post(new UpdateMoneyTextBarEvent());
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                map.getMap()[tx + i - 1][ty][tz + j - 1] = boughtride.getGeometry();
+                
+                eventBus.post(new AddObjectToMapEvent(tx+1-1, ty, tz+j-1, boughtride.getGeometry()));
             }
         }
         rideID++;
@@ -160,12 +158,12 @@ public class RideManager {
         if (enterancecount == 0) {
             enterancetype = false;
         }
-
-        if (map.getMap()[x][y][z] != null) {
+        
+        if (parkHandler.testForEmptyTile(x, y, z)) {
             return;
         }
-        if (map.getMap()[x + 1][y][z] != null) {
-            Spatial s = map.getMap()[x + 1][y][z];
+        if (!parkHandler.testForEmptyTile(x+1, y, z)) {
+            Spatial s = parkHandler.getSpatialAt(x+1, y, z);
             if (!s.getUserData("type").equals("ride")) {
                 return;
             }
@@ -175,8 +173,8 @@ public class RideManager {
                 return;
             }
         }
-        if (map.getMap()[x - 1][y][z] != null) {
-            Spatial s = map.getMap()[x - 1][y][z];
+        if (!parkHandler.testForEmptyTile(x-1, y, z)) {
+            Spatial s =parkHandler.getSpatialAt(x-1, y, z);
             if (!s.getUserData("type").equals("ride")) {
                 return;
             }
@@ -186,8 +184,8 @@ public class RideManager {
                 return;
             }
         }
-        if (map.getMap()[x][y][z + 1] != null) {
-            Spatial s = map.getMap()[x][y][z + 1];
+        if (!parkHandler.testForEmptyTile(x, y, z+1)) {
+            Spatial s = parkHandler.getSpatialAt(x, y, z+1);
             if (!s.getUserData("type").equals("ride")) {
                 return;
             }
@@ -197,8 +195,8 @@ public class RideManager {
                 return;
             }
         }
-        if (map.getMap()[x][y][z - 1] != null) {
-            Spatial s = map.getMap()[x][y][z - 1];
+        if (!parkHandler.testForEmptyTile(x, y, z-1)) {
+            Spatial s =parkHandler.getSpatialAt(x, y, z-1);
             if (!s.getUserData("type").equals("ride")) {
                 return;
             }
@@ -223,7 +221,8 @@ public class RideManager {
         e.connectedRide = rides.get(rideID - 2);//HERE!!!!!
         e.object.setUserData("type", "enterance");
         e.object.setUserData("rideID", e.connectedRide.getRideID());
-        map.getMap()[x][y][z] = e.object;
+        
+        eventBus.post(new AddObjectToMapEvent(x, y, z, e.object));
         if (enterancetype == false) {
             rides.get(rideID - 2).enterance = e;
         } else {
