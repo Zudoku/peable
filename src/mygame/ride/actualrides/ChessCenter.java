@@ -11,6 +11,7 @@ import java.util.Random;
 import mygame.npc.AddGuestLimitEvent;
 import mygame.npc.inventory.PreferredRides;
 import mygame.ride.BasicRide;
+import mygame.ride.CustomAnimation;
 import mygame.terrain.Direction;
 
 /**
@@ -20,7 +21,7 @@ import mygame.terrain.Direction;
 public class ChessCenter extends BasicRide{
     
     public ChessCenter(Vector3f position, Spatial object, float cost, Direction facing,Node rootNode) {
-        super(position, object, cost, facing,"Chesslair",rootNode);
+        super(position, new CustomAnimation(object), cost, facing,"Chesslair",rootNode);
         rideType= PreferredRides.LOW;
         setName("My Chesscentre1");
         setRideType("chess");

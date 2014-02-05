@@ -51,7 +51,7 @@ public class StartScreen implements ScreenController {
     }
    
   
-    public void startGame() {
+    public void startGametrue() {
         Main.startgame=1;
         startGame("hud");
         

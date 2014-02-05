@@ -30,6 +30,7 @@ import mygame.terrain.ParkHandler;
 import mygame.terrain.RoadMaker;
 import mygame.terrain.TerrainHandler;
 
+
 /**
  *
  * @author arska
@@ -104,6 +105,24 @@ public class Gamestate extends AbstractAppState {
 
         this.appm.setPauseOnLostFocus(false);
         currentPark.onStartup();
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
 
     public int getMoneyslotX() {

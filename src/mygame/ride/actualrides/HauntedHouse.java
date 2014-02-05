@@ -11,6 +11,7 @@ import java.util.Random;
 import mygame.npc.AddGuestLimitEvent;
 import mygame.npc.inventory.PreferredRides;
 import mygame.ride.BasicRide;
+import mygame.ride.CustomAnimation;
 import mygame.terrain.Direction;
 
 /**
@@ -19,7 +20,7 @@ import mygame.terrain.Direction;
  */
 public class HauntedHouse extends BasicRide{
     public HauntedHouse(Vector3f position, Spatial object, float cost, Direction facing,Node rootNode) {
-        super(position, object, cost, facing,"hauntedHouse",rootNode);
+        super(position,new CustomAnimation(object), cost, facing,"hauntedHouse",rootNode);
         rideType= PreferredRides.MEDIUM;
         setName("My HauntedHouse1");
         setRideType("hhouse");

@@ -11,6 +11,7 @@ import java.util.Random;
 import mygame.npc.AddGuestLimitEvent;
 import mygame.npc.inventory.PreferredRides;
 import mygame.ride.BasicRide;
+import mygame.ride.CustomAnimation;
 import mygame.terrain.Direction;
 
 /**
@@ -23,7 +24,7 @@ public class PirateShip extends BasicRide{
     float curAngle=0;
     
     public PirateShip(Vector3f pos,Spatial object,Direction facing,Node rootNode,Spatial swing){
-        super(pos,object,400,facing,"Pirate Ship",rootNode);
+        super(pos,new CustomAnimation(object),400,facing,"Pirate Ship",rootNode);
         this.swing=swing;
         rideType= PreferredRides.HIGH;
         setName("My PirateShip1");

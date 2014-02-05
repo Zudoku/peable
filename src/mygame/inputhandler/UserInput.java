@@ -21,6 +21,8 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mygame.terrain.decoration.RotationEvent;
 
 /**
@@ -29,7 +31,7 @@ import mygame.terrain.decoration.RotationEvent;
  */
 @Singleton
 public class UserInput {
-
+    private static final Logger logger = Logger.getLogger(UserInput.class.getName());
     InputManager inputManager;
     Camera cam;
     private final Node rootNode;
@@ -102,7 +104,7 @@ public class UserInput {
                         clickingHandler.handleClicking(target, results);
 
                     } else {
-                        System.out.println("klikkasit huti");
+                        logger.log(Level.FINE,"You clicked to VOID !");
                     }
                 }
 

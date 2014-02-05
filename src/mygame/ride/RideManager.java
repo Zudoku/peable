@@ -210,6 +210,7 @@ public class RideManager {
 
     public void updateRide() {
         for (BasicRide ride : rides) {
+            ride.runAnim();
             ride.updateQueLine();
             ride.updateRide();
             ride.update();

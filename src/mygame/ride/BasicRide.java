@@ -35,7 +35,8 @@ public class BasicRide {
     @Inject protected EventBus eventBus;
     private Direction facing;
     private Vector3f position;
-    private Spatial object;
+    private CustomAnimation animatedPart; //animated part
+    private ArrayList<Spatial> staticParts=new ArrayList<Spatial>(); // non-animated parts
     private int rideID = 0;
     private float price = 1;
     public float constructionmoney = 0;
@@ -79,16 +80,16 @@ public class BasicRide {
         lastGuestVisitTime=System.currentTimeMillis();
     }
     
-    public BasicRide(Vector3f position, Spatial object, float cost, Direction facing,String ride,Node rootNode) {
+    public BasicRide(Vector3f position,CustomAnimation object, float cost, Direction facing,String ride,Node rootNode) {
         this.position = position;
-        this.object = object;
+        this.animatedPart = object;
         this.constructionmoney = cost;
         this.facing = facing;
         this.ride=ride;
         this.rootNode=rootNode;
         Main.injector.injectMembers(this);
         
-        object.setLocalTranslation(position);
+        object.getObject().setLocalTranslation(position); //temp fix
         
     }
 
@@ -188,7 +189,7 @@ public class BasicRide {
         return position;
     }
     public Spatial getGeometry() {
-        return object;
+        return animatedPart.getObject();
     }
     public void setRideID(int rideID){
         this.rideID=rideID;
@@ -265,6 +266,9 @@ public class BasicRide {
     }
     public void update(){
         
+    }
+    public void runAnim(){
+        animatedPart.runAnimation();
     }
     
 

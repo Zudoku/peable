@@ -5,6 +5,8 @@
 package mygame.npc;
 
 import com.jme3.math.Vector3f;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mygame.Main;
 import mygame.shops.BasicShop;
 
@@ -13,17 +15,29 @@ import mygame.shops.BasicShop;
  * @author arska
  */
 public class NPCAction {
-
+    private static final Logger logger = Logger.getLogger(NPCAction.class.getName());
     private Vector3f movepoint;
     public ActionType action = ActionType.NOTHING;
     private Guest guest;
     private BasicShop shop;
-
+    /**
+     * NPCs consume these actions
+     * @param movePoint Where to move?
+     * @param action what kind of action?
+     * @param owner who completes this action?
+     */
     public NPCAction(Vector3f movePoint, ActionType action,Guest owner) {
         this.movepoint = movePoint;
         this.action = action;
         this.guest=owner;
     }
+    /**
+     * Buyaction constructor
+     * @param movePoint Where to move?
+     * @param action what kind of action?
+     * @param basicshop where to buy stuff?
+     * @param guest who completes this action?
+     */
     public NPCAction(Vector3f movePoint, ActionType action,BasicShop basicshop,Guest guest) {
         this.movepoint = movePoint;
         this.action = action;
@@ -31,16 +45,18 @@ public class NPCAction {
         this.guest=guest;
     }
     
-
+    /**
+     * What happens when NPC consumes this action?
+     */
     public void onAction() {
         switch (action) {
             case NOTHING:
-
+                //Probably move action
                 break;
 
             case BUY:
                 if(shop==null||guest==null){
-                    System.out.println("null shop or guest in buyaction");
+                    logger.log(Level.WARNING,"NPCAction was corrupted when trying to consume it !");
                     return;
                 }
                 shop.interact(guest);
@@ -49,7 +65,7 @@ public class NPCAction {
                 
             case CONSUME:
                 if(guest==null){
-                    System.out.println("null guest in consumeaction");
+                    logger.log(Level.WARNING,"NPCAction was corrupted when trying to consume it !");
                     return;
                 }
                 if(guest.inventory.isEmpty()==true){

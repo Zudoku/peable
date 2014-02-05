@@ -72,7 +72,6 @@ public class MapFactory {
                 geomclone.setLocalScale((new Vector3f(1, (int) TerrainMap[x][y], 1)));
 
                 geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().y + ((float) TerrainMap[x][y] / 2), 1);
-                System.out.println(geomclone.getLocalScale());
                 geomclone.move(x, 0, y);
                 geomclone.setName("Terrain");
                 geomclone.setUserData("type","terrain");

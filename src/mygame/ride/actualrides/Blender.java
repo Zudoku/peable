@@ -11,6 +11,7 @@ import java.util.Random;
 import mygame.npc.AddGuestLimitEvent;
 import mygame.npc.inventory.PreferredRides;
 import mygame.ride.BasicRide;
+import mygame.ride.CustomAnimation;
 import mygame.terrain.Direction;
 
 /**
@@ -19,7 +20,7 @@ import mygame.terrain.Direction;
  */
 public class Blender extends BasicRide{
     public Blender(Vector3f pos,Spatial object,Direction facing,Node rootNode){
-        super(pos,object,350,facing,"Blender",rootNode);
+        super(pos,new CustomAnimation(object),350,facing,"Blender",rootNode);
         rideType= PreferredRides.NAUSEA;
         setName("My blender1");
         setRideType("blender");

@@ -2,12 +2,16 @@ package mygame;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import de.lessvoid.nifty.Nifty;
 import mygame.GUI.IngameHUD;
 import mygame.GUI.StartScreen;
@@ -59,8 +63,7 @@ public class Main extends SimpleApplication {
         setDisplayStatView(false);
         inputManager.setCursorVisible(true);
         flyCam.setEnabled(false);
-        lightsOn();
-        //settings.setTitle("THEMEPARK TYCOON MADE BY ARTTU SIREN      please dont steal :");
+        lightsOn();   
     }
 
     @Override
@@ -78,7 +81,7 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleRender(RenderManager rm) {
-      ;
+     
     }
     
     public void startGame(){
@@ -121,6 +124,11 @@ public class Main extends SimpleApplication {
         sun2.setColor(ColorRGBA.White);
         rootNode.addLight(sun2);
     }
-    
+    private Spatial findNode(Node rootNode, String name) {
+        if (name.equals(rootNode.getName())) {
+            return rootNode;
+        }
+        return rootNode.getChild(name);
+    }
     
 }

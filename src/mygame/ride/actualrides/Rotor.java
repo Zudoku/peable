@@ -11,6 +11,7 @@ import java.util.Random;
 import mygame.npc.AddGuestLimitEvent;
 import mygame.npc.inventory.PreferredRides;
 import mygame.ride.BasicRide;
+import mygame.ride.CustomAnimation;
 import mygame.terrain.Direction;
 
 /**
@@ -19,7 +20,7 @@ import mygame.terrain.Direction;
  */
 public class Rotor extends BasicRide{
     public Rotor(Vector3f pos,Spatial object,Direction facing,Node rootNode){
-        super(pos,object,200,facing,"Rotor",rootNode);
+        super(pos,new CustomAnimation(object),200,facing,"Rotor",rootNode);
         rideType= PreferredRides.LOW;
         setName("My Rotor1");
         setRideType("rotor");

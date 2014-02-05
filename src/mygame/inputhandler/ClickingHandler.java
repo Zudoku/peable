@@ -71,7 +71,7 @@ public class ClickingHandler {
                 break;
 
             case NOTHING:
-                System.out.println(target.getGeometry().getName() + "   " + target.getGeometry().getLocalTranslation() + "   " + target.getContactPoint());
+                //System.out.println(target.getGeometry().getName() + "   " + target.getGeometry().getLocalTranslation() + "   " + target.getContactPoint());
 
 
                 if (target.getGeometry().getParent() == null) {
@@ -142,7 +142,7 @@ public class ClickingHandler {
     }
 
     void handleRightClicking(CollisionResult target, CollisionResults results) {
-        System.out.println(target.getGeometry().getName() + "   " + target.getGeometry().getLocalTranslation() + "   " + target.getContactPoint());
+        //System.out.println(target.getGeometry().getName() + "   " + target.getGeometry().getLocalTranslation() + "   " + target.getContactPoint());
 
 
         if (target.getGeometry().getParent() == null) {

@@ -12,6 +12,8 @@ import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,6 +21,7 @@ import java.util.Random;
  */
 @Singleton
 public class NPCManager {
+    private static final Logger logger = Logger.getLogger(NPCManager.class.getName());
     public ArrayList<BasicNPC> npcs;
     public ArrayList<Guest> guests=new ArrayList<Guest>();
     private Node rootNode;
@@ -26,6 +29,12 @@ public class NPCManager {
     public GuestSpawner guestSpawner;
     public boolean NPCVisible=true;
     int maxguests=20;
+    /**
+     * Handles NPCs ingame
+     * @param rootNode rootNode
+     * @param assetManager AssetManager
+     * @param eventBus EventBus
+     */
     @Inject
     public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus){
         this.rootNode=rootNode;
@@ -35,14 +44,27 @@ public class NPCManager {
         eventBus.register(this);
         
     }
+    /**
+     * Add a guest to park NOTICE: npc is attached to NPCNode here!
+     * @param npc guest to be added
+     */
     public void addtoList(BasicNPC npc){
         npcs.add(npc);
         NPCNode.attachChild(npc.getGeometry());
     }
+    /**
+     * If you want to delete npc
+     * @param npc npc to be deleted
+     */
     public void deleteNPC(BasicNPC npc){
         NPCNode.detachChild(npc.getGeometry());
         npcs.remove(npc);
+        logger.log(Level.FINEST, "Npc {0} has been deleted from the park!", npc.getName());
     }
+    /**
+     * Called every frame.
+     * Updates Npcs.
+     */
     public void update(){
         
         
@@ -54,7 +76,8 @@ public class NPCManager {
             
         }
         if(npcs.isEmpty()==true){
-            System.out.println("NPCS EMPTY!!!!");
+            //System.out.println("NPCS EMPTY!!!!");
+            logger.fine("There are no NPCs to update!");
             
             return;
         }
@@ -63,24 +86,39 @@ public class NPCManager {
             npc.update();
         }
     }
+    /**
+     * Used by LoadManager when loading a game.
+     * Sets GuestLimit.
+     * @param a Value which is assigned to guestlimit
+     */
     public void setMaxGuests(int a){
         this.maxguests=a;
     }
     
-    //MISC ÄLÄ KÄYTÄ
+    /**
+     * Toggles NPCs visible/invisible
+     */
     public void ToggleNPCVisible(){
         NPCVisible=!NPCVisible;
         if(NPCVisible==true){
             rootNode.attachChild(NPCNode);
+            logger.info("Toggled NPCs visible");
         }else{
             rootNode.detachChild(NPCNode);
+            logger.info("Toggled NPCs invisible");
         }
+        
     }
+    /**
+     * Get all guests in your park.
+     * @return guests
+     */
     public ArrayList<Guest> getGuests(){
         return guests;
     }
     @Subscribe public void listenAddGuestLimit(AddGuestLimitEvent event){
         this.maxguests=maxguests+event.getM();
+        logger.finest("GuestLimit raised!");
     }
     
 }

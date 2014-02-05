@@ -28,8 +28,8 @@ ALPHA 0.2
 5. Koristeita
 6. Raha
 7.
-8.Tallentaminen
-9.Main menu
+8.Tallentaminen DONE!
+9.Main menu DONE ! 
 10. Updater
 ALPHA 0.3
 

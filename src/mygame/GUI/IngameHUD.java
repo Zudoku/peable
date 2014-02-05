@@ -665,11 +665,11 @@ public class IngameHUD implements ScreenController {
     }
 
     public void updateshopdesc() {
-        Element niftyElement = nifty.getCurrentScreen().findElementByName("shopname");
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("shopdescname");
         setelementText(niftyElement,getshopname());
-        niftyElement = nifty.getCurrentScreen().findElementByName("shopprice");
+        niftyElement = nifty.getCurrentScreen().findElementByName("shopdescprice");
         setelementText(niftyElement,getshopprice());
-        niftyElement = nifty.getCurrentScreen().findElementByName("shopdesc");
+        niftyElement = nifty.getCurrentScreen().findElementByName("shopdescdesc");
         setelementText(niftyElement,getshopdesc());
         String bigshoppic=descriptionManager.bigpic;
         
