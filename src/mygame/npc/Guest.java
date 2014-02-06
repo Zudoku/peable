@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import mygame.Main;
 import mygame.npc.inventory.Item;
-import mygame.npc.inventory.PreferredRides;
+import mygame.npc.inventory.RideType;
 import mygame.npc.inventory.StatManager;
 import mygame.npc.inventory.Wallet;
 import mygame.ride.BasicRide;
@@ -423,54 +423,54 @@ public class Guest extends BasicNPC {
         int p = 0;                //0-20
         switch (stats.preferredRide) {
             case LOW:
-                if (ride.rideType == PreferredRides.LOW) {
+                if (ride.rideType == RideType.LOW) {
                     p = 20;
                 }
-                if (ride.rideType == PreferredRides.MEDIUM) {
+                if (ride.rideType == RideType.MEDIUM) {
                     p = 10;
                 }
                 break;
 
             case MEDIUM:
-                if (ride.rideType == PreferredRides.MEDIUM) {
+                if (ride.rideType == RideType.MEDIUM) {
                     p = 20;
                 }
-                if (ride.rideType == PreferredRides.LOW) {
+                if (ride.rideType == RideType.LOW) {
                     p = 10;
                 }
-                if (ride.rideType == PreferredRides.HIGH) {
+                if (ride.rideType == RideType.HIGH) {
                     p = 10;
                 }
 
                 break;
 
             case HIGH:
-                if (ride.rideType == PreferredRides.MEDIUM) {
+                if (ride.rideType == RideType.MEDIUM) {
                     p = 10;
                 }
-                if (ride.rideType == PreferredRides.CRAZY) {
+                if (ride.rideType == RideType.CRAZY) {
                     p = 5;
                 }
-                if (ride.rideType == PreferredRides.HIGH) {
+                if (ride.rideType == RideType.HIGH) {
                     p = 20;
                 }
                 break;
 
             case CRAZY:
-                if (ride.rideType == PreferredRides.CRAZY) {
+                if (ride.rideType == RideType.CRAZY) {
                     p = 20;
                 }
-                if (ride.rideType == PreferredRides.NAUSEA) {
+                if (ride.rideType == RideType.NAUSEA) {
                     p = 10;
                 }
 
                 break;
 
             case NAUSEA:
-                if (ride.rideType == PreferredRides.NAUSEA) {
+                if (ride.rideType == RideType.NAUSEA) {
                     p = 20;
                 }
-                if (ride.rideType == PreferredRides.CRAZY) {
+                if (ride.rideType == RideType.CRAZY) {
                     p = 10;
                 }
 

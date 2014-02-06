@@ -8,6 +8,6 @@ package mygame.npc.inventory;
  *
  * @author arska
  */
-public enum PreferredRides {
+public enum RideType {
     LOW,MEDIUM,HIGH,NAUSEA,CRAZY
 }

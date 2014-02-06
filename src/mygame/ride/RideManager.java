@@ -105,16 +105,17 @@ public class RideManager {
         int tz = (int) loc.z;
 
         boughtride.setRideID(rideID);
-        boughtride.getGeometry().setUserData("rideID", rideID);
+        boughtride.setAllSpatialsUserData("rideID",rideID);
         boughtride.getGeometry().setUserData("type", "ride");
         rides.add(boughtride);
-        rideNode.attachChild(boughtride.getGeometry());
+        boughtride.attachToNode(rideNode);
         parkHandler.getParkWallet().remove(boughtride.constructionmoney);
         eventBus.post(new UpdateMoneyTextBarEvent());
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 
-                eventBus.post(new AddObjectToMapEvent(tx+1-1, ty, tz+j-1, boughtride.getGeometry()));
+                eventBus.post(new AddObjectToMapEvent(tx+i-1, ty, tz+j-1, boughtride.getGeometry()));
+                System.out.println(" coords: "+(tx+i-1)+(ty)+(tz+j-1));
             }
         }
         rideID++;
@@ -128,24 +129,7 @@ public class RideManager {
 
     }
 
-    @Deprecated
-    public BasicRide isthereRide(int x, int y, int z) {
-        BasicRide b = null;
-        if (rides.isEmpty() == false) {
-            for (BasicRide p : rides) {
-                int tx = (int) holoDrawer.pyorista(p.getPosition()).x;
-                int ty = (int) holoDrawer.pyorista(p.getPosition()).y;
-                int tz = (int) holoDrawer.pyorista(p.getPosition()).z;
-                if (tx == x && ty == y && tz == z) {
-                    b = p;
-                    System.out.println("RIDE IS LOCATED!");
-                    return b;
 
-                }
-            }
-        }
-        return b;
-    }
 
     public void placeEnterance(Vector3f pos) {
 
@@ -164,7 +148,7 @@ public class RideManager {
         }
         if (!parkHandler.testForEmptyTile(x+1, y, z)) {
             Spatial s = parkHandler.getSpatialAt(x+1, y, z);
-            if (!s.getUserData("type").equals("ride")) {
+            if (s.getUserData("rideID")!=null) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");
@@ -175,7 +159,7 @@ public class RideManager {
         }
         if (!parkHandler.testForEmptyTile(x-1, y, z)) {
             Spatial s =parkHandler.getSpatialAt(x-1, y, z);
-            if (!s.getUserData("type").equals("ride")) {
+            if (s.getUserData("rideID")!=null) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");
@@ -186,7 +170,7 @@ public class RideManager {
         }
         if (!parkHandler.testForEmptyTile(x, y, z+1)) {
             Spatial s = parkHandler.getSpatialAt(x, y, z+1);
-            if (!s.getUserData("type").equals("ride")) {
+            if (s.getUserData("rideID")!=null) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");
@@ -197,7 +181,7 @@ public class RideManager {
         }
         if (!parkHandler.testForEmptyTile(x, y, z-1)) {
             Spatial s =parkHandler.getSpatialAt(x, y, z-1);
-            if (!s.getUserData("type").equals("ride")) {
+            if (s.getUserData("rideID")!=null) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");

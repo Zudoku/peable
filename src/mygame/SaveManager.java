@@ -188,9 +188,9 @@ public class SaveManager {
             String name = r.getName();
             String type = r.getRide();
             String price = Float.toString(r.getPrice());
-            String x = Float.toString(r.getPosition().x);
-            String z = Float.toString(r.getPosition().z);
-            String y = Float.toString(r.getPosition().y);
+            String x = Float.toString(r.getPositionVector().x);
+            String z = Float.toString(r.getPositionVector().z);
+            String y = Float.toString(r.getPositionVector().y);
             String rideid = Integer.toString(r.getRideID());
             String exitement = Integer.toString(r.getExitement());
             String nausea = Integer.toString(r.getNausea());

@@ -24,10 +24,12 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 import mygame.npc.BasicNPC;
 import mygame.npc.Guest;
-import mygame.npc.inventory.PreferredRides;
+import mygame.npc.inventory.RideType;
 import mygame.npc.inventory.StatManager;
 import mygame.npc.inventory.Wallet;
+import mygame.ride.AnimationType;
 import mygame.ride.BasicRide;
+import mygame.ride.CustomAnimation;
 import mygame.ride.Enterance;
 import mygame.ride.actualrides.Archeryrange;
 import mygame.ride.actualrides.Blender;
@@ -42,6 +44,7 @@ import mygame.shops.actualshops.Toilet;
 import mygame.terrain.AddObjectToMapEvent;
 import mygame.terrain.Direction;
 import mygame.terrain.MapContainer;
+import mygame.terrain.MapPosition;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.ParkWallet;
 import mygame.terrain.RoadFactory;
@@ -326,21 +329,21 @@ public class LoadManager {
             int hunger = Integer.parseInt(values[a + 7]);
             int thrist = Integer.parseInt(values[a + 8]);
             int happyness = Integer.parseInt(values[a + 9]);
-            PreferredRides preference = null;
+            RideType preference = null;
             if (values[a + 10].equals("LOW")) {
-                preference = PreferredRides.LOW;
+                preference = RideType.LOW;
             }
             if (values[a + 10].equals("MEDIUM")) {
-                preference = PreferredRides.MEDIUM;
+                preference = RideType.MEDIUM;
             }
             if (values[a + 10].equals("HIGH")) {
-                preference = PreferredRides.HIGH;
+                preference = RideType.HIGH;
             }
             if (values[a + 10].equals("CRAZY")) {
-                preference = PreferredRides.CRAZY;
+                preference = RideType.CRAZY;
             }
             if (values[a + 10].equals("NAUSEA")) {
-                preference = PreferredRides.NAUSEA;
+                preference = RideType.NAUSEA;
             }
             int guestnum = Integer.parseInt(values[a + 11]);
             StatManager stats = new StatManager();
@@ -368,127 +371,164 @@ public class LoadManager {
         String worked = string;
         String[] values = worked.split(":");
         int quantity = Integer.parseInt(values[0]);
-        int counter = 1;
+        int c = 1;
         for (int i = 0; i < quantity; i++) {
-            String name = values[counter];
-            counter += 1;
-            String type = values[counter];
-            counter += 1;
-            float price = Float.parseFloat(values[counter]);
-            counter += 1;
-            float x = Float.parseFloat(values[counter]);
-            counter += 1;
-            float z = Float.parseFloat(values[counter]);
-            counter += 1;
-            float y = Float.parseFloat(values[counter]);
-            counter += 1;
-            int rideID = Integer.parseInt(values[counter]);
-            counter += 1;
-            int exitement = Integer.parseInt(values[counter]);
-            counter += 1;
-            int nausea = Integer.parseInt(values[counter]);
-            counter += 1;
-            int broken = Integer.parseInt(values[counter]);
-            counter += 1;
+            String name = values[c];
+            c += 1;
+            String type = values[c];
+            c += 1;
+            float price = Float.parseFloat(values[c]);
+            c += 1;
+            float x = Float.parseFloat(values[c]);
+            c += 1;
+            float z = Float.parseFloat(values[c]);
+            c += 1;
+            float y = Float.parseFloat(values[c]);
+            c += 1;
+            int rideID = Integer.parseInt(values[c]);
+            c += 1;
+            int exitement = Integer.parseInt(values[c]);
+            c += 1;
+            int nausea = Integer.parseInt(values[c]);
+            c += 1;
+            int broken = Integer.parseInt(values[c]);
+            c += 1;
             boolean status;
-            if (values[counter].equals("ON")) {
+            if (values[c].equals("ON")) {
                 status = true;
             } else {
                 status = false;
             }
-            counter += 1;
+            c += 1;
             if (type.equals("chess")) {
-                ChessCenter a = new ChessCenter(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/Chesshouse/chesshouse.j3o"), price, Direction.UP,rootNode);
+                
+                CustomAnimation moving=new CustomAnimation();
+                ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+                staticContent.add(assetManager.loadModel("Models/Rides/Chesshouse/chesshouse.j3o"));
+                
+                
+                ChessCenter a = new ChessCenter(new MapPosition(new Vector3f(x, y, z)),moving,staticContent,Direction.UP,rootNode);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);
                 a.getGeometry().setUserData("rideID", rideID);
                 a.getGeometry().setUserData("type", "ride");
-                rideNode.attachChild(a.getGeometry());
+                a.setAllSpatialsUserData("rideID",rideID);
+                a.attachToNode(rideNode);
                 asd.add(a);
             }
             if (type.equals("archery")) {
-                Archeryrange a = new Archeryrange(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/archeryrange/archeryrange.j3o"), Direction.UP,rootNode);
+                
+                CustomAnimation moving=new CustomAnimation();
+                ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+                staticContent.add(assetManager.loadModel("Models/Rides/archeryrange/archeryrange.j3o"));
+                
+                Archeryrange a = new Archeryrange(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP,rootNode);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);
                 a.getGeometry().setUserData("rideID", rideID);
                 a.getGeometry().setUserData("type", "ride");
-                rideNode.attachChild(a.getGeometry());
+                a.setAllSpatialsUserData("rideID",rideID);
+                a.attachToNode(rideNode);
                 asd.add(a);
             }
             if (type.equals("blender")) {
-                Blender a = new Blender(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/Blender/blender.j3o"), Direction.UP,rootNode);
+                
+                CustomAnimation moving=new CustomAnimation();
+                ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+                staticContent.add(assetManager.loadModel("Models/Rides/Blender/blender.j3o"));
+                
+                Blender a = new Blender(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP,rootNode);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);
                 a.getGeometry().setUserData("rideID", rideID);
                 a.getGeometry().setUserData("type", "ride");
-                rideNode.attachChild(a.getGeometry());
+                a.setAllSpatialsUserData("rideID",rideID);
+                a.attachToNode(rideNode);
                 asd.add(a);
             }
             if (type.equals("hhouse")) {
-                HauntedHouse a = new HauntedHouse(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/Hauntedhouse/hauntedhouse.j3o"),price, Direction.UP,rootNode);
+                
+                CustomAnimation moving=new CustomAnimation();
+                ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+                staticContent.add(assetManager.loadModel("Models/Rides/Hauntedhouse/hauntedhouse.j3o"));
+                
+                HauntedHouse a = new HauntedHouse(new MapPosition(new Vector3f(x, y, z)),moving,staticContent,Direction.UP,rootNode);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);
                 a.getGeometry().setUserData("rideID", rideID);
                 a.getGeometry().setUserData("type", "ride");
-                rideNode.attachChild(a.getGeometry());
+                a.setAllSpatialsUserData("rideID",rideID);
+                a.attachToNode(rideNode);
                 asd.add(a);
             }
             if (type.equals("rotor")) {
-                Rotor a = new Rotor(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/Rotor/rotor.j3o"), Direction.UP,rootNode);
+                
+                CustomAnimation moving=new CustomAnimation();
+                ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+                staticContent.add(assetManager.loadModel("Models/Rides/Rotor/rotor.j3o"));
+                
+                Rotor a = new Rotor(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP,rootNode);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);
                 a.getGeometry().setUserData("rideID", rideID);
                 a.getGeometry().setUserData("type", "ride");
-                rideNode.attachChild(a.getGeometry());
+                a.setAllSpatialsUserData("rideID",rideID);
+                a.attachToNode(rideNode);
                 asd.add(a);
             }
             if (type.equals("pirateship")) {
-                PirateShip a = new PirateShip(new Vector3f(x, y, z), assetManager.loadModel("Models/Rides/PirateShip/core.j3o"), Direction.UP,rootNode,assetManager.loadModel("Models/Rides/PirateShip/swing.j3o"));
+                
+                CustomAnimation moving=new CustomAnimation(assetManager.loadModel("Models/Rides/PirateShip/swing.j3o"), AnimationType.ROLLH);
+                ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+                staticContent.add(assetManager.loadModel("Models/Rides/PirateShip/core.j3o"));
+                
+                PirateShip a = new PirateShip(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP,rootNode);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);
                 a.getGeometry().setUserData("rideID", rideID);
                 a.getGeometry().setUserData("type", "ride");
-                rideNode.attachChild(a.getGeometry());
+                a.setAllSpatialsUserData("rideID",rideID);
+                a.attachToNode(rideNode);
                 asd.add(a);
             }
-            String result = values[counter];
+            String result = values[c];
             String resulta = result.substring(1);
             String resultb = result.substring(0, 1);
-            counter++;
+            c++;
             if (resulta.equals("1")) {
-                Float eX = Float.parseFloat(values[counter]);
-                counter++;
-                Float eZ = Float.parseFloat(values[counter]);
-                counter++;
-                Float eY = Float.parseFloat(values[counter]);
-                counter++;
+                Float eX = Float.parseFloat(values[c]);
+                c++;
+                Float eZ = Float.parseFloat(values[c]);
+                c++;
+                Float eY = Float.parseFloat(values[c]);
+                c++;
                 Direction direction = null;
-                if (values[counter].equals("UP")) {
+                if (values[c].equals("UP")) {
                     direction = Direction.UP;
                 }
-                if (values[counter].equals("DOWN")) {
+                if (values[c].equals("DOWN")) {
                     direction = Direction.DOWN;
                 }
-                if (values[counter].equals("RIGHT")) {
+                if (values[c].equals("RIGHT")) {
                     direction = Direction.RIGHT;
                 }
-                if (values[counter].equals("LEFT")) {
+                if (values[c].equals("LEFT")) {
                     direction = Direction.LEFT;
                 }
-                counter++;
+                c++;
                 boolean connected;
-                if (values[counter].equals("TRUE")) {
+                if (values[c].equals("TRUE")) {
                     connected = true;
                 } else {
                     connected = false;
                 }
-                counter++;
+                c++;
                 Enterance e = new Enterance(false, new Vector3f(eX, eY, eZ), direction, assetManager);
                 e.connected = connected;
                 rideNode.attachChild(e.object);
@@ -497,34 +537,34 @@ public class LoadManager {
 
             }
             if (resultb.equals("1")) {
-                Float eX = Float.parseFloat(values[counter]);
-                counter++;
-                Float eZ = Float.parseFloat(values[counter]);
-                counter++;
-                Float eY = Float.parseFloat(values[counter]);
-                counter++;
+                Float eX = Float.parseFloat(values[c]);
+                c++;
+                Float eZ = Float.parseFloat(values[c]);
+                c++;
+                Float eY = Float.parseFloat(values[c]);
+                c++;
                 Direction direction = null;
-                if (values[counter].equals("UP")) {
+                if (values[c].equals("UP")) {
                     direction = Direction.UP;
                 }
-                if (values[counter].equals("DOWN")) {
+                if (values[c].equals("DOWN")) {
                     direction = Direction.DOWN;
                 }
-                if (values[counter].equals("RIGHT")) {
+                if (values[c].equals("RIGHT")) {
                     direction = Direction.RIGHT;
                 }
-                if (values[counter].equals("LEFT")) {
+                if (values[c].equals("LEFT")) {
                     direction = Direction.LEFT;
                 }
-                counter++;
+                c++;
                 boolean connected;
-                if (values[counter].equals("TRUE")) {
+                if (values[c].equals("TRUE")) {
                     connected = true;
                 } else {
                     connected = false;
                 }
 
-                counter++;
+                c++;
                 Enterance e = new Enterance(true, new Vector3f(eX, eY, eZ), direction, assetManager);
                 rideNode.attachChild(e.object);
                 e.connectedRide = asd.get(asd.size() - 1);

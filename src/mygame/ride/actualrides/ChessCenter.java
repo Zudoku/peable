@@ -7,12 +7,14 @@ package mygame.ride.actualrides;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.ArrayList;
 import java.util.Random;
 import mygame.npc.AddGuestLimitEvent;
-import mygame.npc.inventory.PreferredRides;
+import mygame.npc.inventory.RideType;
 import mygame.ride.BasicRide;
 import mygame.ride.CustomAnimation;
 import mygame.terrain.Direction;
+import mygame.terrain.MapPosition;
 
 /**
  *
@@ -20,9 +22,9 @@ import mygame.terrain.Direction;
  */
 public class ChessCenter extends BasicRide{
     
-    public ChessCenter(Vector3f position, Spatial object, float cost, Direction facing,Node rootNode) {
-        super(position, new CustomAnimation(object), cost, facing,"Chesslair",rootNode);
-        rideType= PreferredRides.LOW;
+    public ChessCenter(MapPosition position,CustomAnimation moving,ArrayList<Spatial> staticParts,Direction facing,Node rootNode) {
+        super(position,moving,staticParts,500, facing,"Chesslair",rootNode);
+        rideType= RideType.LOW;
         setName("My Chesscentre1");
         setRideType("chess");
         Random r =new Random();

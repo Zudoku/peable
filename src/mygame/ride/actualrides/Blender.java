@@ -7,21 +7,23 @@ package mygame.ride.actualrides;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.ArrayList;
 import java.util.Random;
 import mygame.npc.AddGuestLimitEvent;
-import mygame.npc.inventory.PreferredRides;
+import mygame.npc.inventory.RideType;
 import mygame.ride.BasicRide;
 import mygame.ride.CustomAnimation;
 import mygame.terrain.Direction;
+import mygame.terrain.MapPosition;
 
 /**
  *
  * @author arska
  */
 public class Blender extends BasicRide{
-    public Blender(Vector3f pos,Spatial object,Direction facing,Node rootNode){
-        super(pos,new CustomAnimation(object),350,facing,"Blender",rootNode);
-        rideType= PreferredRides.NAUSEA;
+    public Blender(MapPosition pos,CustomAnimation moving,ArrayList<Spatial> staticParts,Direction facing,Node rootNode){
+        super(pos,moving,staticParts,350,facing,"Blender",rootNode);
+        rideType= RideType.NAUSEA;
         setName("My blender1");
         setRideType("blender");
         Random r =new Random();

@@ -15,10 +15,11 @@ import mygame.Main;
 import mygame.npc.ActionType;
 import mygame.npc.Guest;
 import mygame.npc.NPCAction;
-import mygame.npc.inventory.PreferredRides;
+import mygame.npc.inventory.RideType;
 import mygame.shops.Employee;
 import mygame.shops.ShopReputation;
 import mygame.terrain.Direction;
+import mygame.terrain.MapPosition;
 import mygame.terrain.PayParkEvent;
 import mygame.terrain.RideDemolishEvent;
 import mygame.terrain.RoadMaker;
@@ -29,38 +30,39 @@ import mygame.terrain.RoadMaker;
  */
 
 public class BasicRide {
-    
+    //DEPENDENCIES
     @Inject RoadMaker roadMaker;
-    
     @Inject protected EventBus eventBus;
-    private Direction facing;
-    private Vector3f position;
+    //OWNS
     private CustomAnimation animatedPart; //animated part
     private ArrayList<Spatial> staticParts=new ArrayList<Spatial>(); // non-animated parts
-    private int rideID = 0;
-    private float price = 1;
-    public float constructionmoney = 0;
-    private String rideName = "You found a bug";
     public Enterance enterance;
     public Enterance exit;
     private ArrayList<Employee> employees = new ArrayList<Employee>();
-    private ShopReputation reputation = ShopReputation.NEW;
     private ArrayList<Guest> guestsInRide = new ArrayList<Guest>();
     private ArrayList<Guest> guestsInQue = new ArrayList<Guest>();
-    private int rideLength = 10000; //ms = 10s
-    public PreferredRides rideType;
-    private int exitement =80;
-    private int nausea = 10;
-    private boolean status=false; //true=open
-    private int broken=0;
-    private int customerstotal=0;
-    private float moneytotal=0;
-    private long lastGuestVisitTime=0;
-    private double guestRateHour=0;
-    private int repairCost=100;
-    private String ride="you found a bug";
+    //VARIABLES
+    private int rideID = 0; //every ride has its own id in parks
+    private float price = 1; //charged from the customers every time they visit your ride
+    private Direction facing; //not implemented yet
+    private MapPosition position;
+    public float constructionmoney = 0; //how much did it cost to build this building
+    private String rideName = "You found a bug"; //rides name
+    private ShopReputation reputation = ShopReputation.NEW; //not implemented yet
+    private int rideLength = 10000; //ms = 10s ! How long the ride last
+    public RideType rideType; //what type this ride is
+    private int exitement =80; //what exitement rate this ride has
+    private int nausea = 10; //what nausea rate this ride has
+    private boolean status=false; //is the ride open or not true=open
+    private int broken=0; //how broken it is  100=broken 0=full repaired
+    private int customerstotal=0; //how many customers total
+    private float moneytotal=0; //how much money gained total
+    private long lastGuestVisitTime=0; //how much time since last guest visited this ride
+    private double guestRateHour=0; //how many guests per hour
+    private int repairCost=100; //how much does it cost to repair this
+    private String ride="you found a bug"; //this is variable used in saving
     
-    //TODO!! 
+    //TODO:!! 
     private boolean[][] occupySpace = {
         {false, false, false, false},
         {false, false, false, false},
@@ -74,22 +76,28 @@ public class BasicRide {
     }
     
     private void calculateguestRate(){
+        //TODO updateguestRate method that does this and modify this to just calculate the rate
         double a=System.currentTimeMillis()-lastGuestVisitTime; //aika jolloin laitteeseen tuli tybä
         double u=3600000/a; //tunti / a
         guestRateHour=u;
         lastGuestVisitTime=System.currentTimeMillis();
     }
     
-    public BasicRide(Vector3f position,CustomAnimation object, float cost, Direction facing,String ride,Node rootNode) {
+    public BasicRide(MapPosition position,CustomAnimation object,ArrayList<Spatial> staticParts, float cost, Direction facing,String ride,Node rootNode) {
         this.position = position;
         this.animatedPart = object;
         this.constructionmoney = cost;
         this.facing = facing;
         this.ride=ride;
         this.rootNode=rootNode;
+        this.staticParts=staticParts;
         Main.injector.injectMembers(this);
-        
-        object.getObject().setLocalTranslation(position); //temp fix
+        //aseta oikeelle paikalle
+        object.getObject().setLocalTranslation(position.getVector()); //temp fix
+        for(Spatial s:staticParts){
+            s.setLocalTranslation(position.getVector());
+            System.out.println("Object "+s+" moved to "+s.getLocalTranslation());
+        }
         
     }
 
@@ -158,7 +166,7 @@ public class BasicRide {
         guestsInQue.remove(g);
         guestsInRide.add(g);
         g.joinedRide = System.currentTimeMillis();
-        g.getGeometry().setLocalTranslation(position);
+        g.getGeometry().setLocalTranslation(position.getVector());
         g.wallet.pay(price);
         eventBus.post(new PayParkEvent(price));
         eventBus.post(new UpdateMoneyTextBarEvent());
@@ -169,7 +177,7 @@ public class BasicRide {
     }
 
     private void leaveRide(Guest g) {
-        //poista guesti listoilta
+        //delete guest from the list
         interact(g);
         guestsInRide.remove(g);
         //laita guesti enterancen positioniin
@@ -179,18 +187,21 @@ public class BasicRide {
         g.getGeometry().setLocalTranslation(x1, y1, z1);
         g.initXYZ(x1, y1, z1);
         g.active = true;
-        
 
+    }
+    public Spatial getGeometry(){
+        return animatedPart.getObject();
     }
     public int customers(){
         return guestsInRide.size();
     }
-    public Vector3f getPosition(){
+    public Vector3f getPositionVector(){
+        return position.getVector();
+    }
+    public MapPosition getPosition(){
         return position;
     }
-    public Spatial getGeometry() {
-        return animatedPart.getObject();
-    }
+    
     public void setRideID(int rideID){
         this.rideID=rideID;
     }
@@ -270,7 +281,41 @@ public class BasicRide {
     public void runAnim(){
         animatedPart.runAnimation();
     }
-    
+    public void attachToNode(Node node){
+        node.attachChild(animatedPart.getObject());
+        for(Spatial s:staticParts){
+            node.attachChild(s);
+        }
+    }/**
+     * Should be called when deleting ride from map
+     * @param node 
+     */
+    public void detachFromNode(Node node){
+        node.detachChild(animatedPart.getObject());
+        node.detachChild(enterance.object);
+        node.detachChild(exit.object);
+        for(Spatial s: staticParts){
+            node.detachChild(s);
+        }
+    }
+    public ArrayList<Spatial> getAllSpatialsFromRide(){
+        ArrayList<Spatial> list=new ArrayList<Spatial>(staticParts);
+        if(exit!=null){
+            list.add(exit.object);
+        }
+        if(enterance!=null){
+            list.add(enterance.object);
+        }
+        if(animatedPart!=null){
+            list.add(animatedPart.getObject());
+        }
+        return list;
+    }
+    public void setAllSpatialsUserData(String key,Object data){
+        for(Spatial s:getAllSpatialsFromRide()){
+            s.setUserData(key, data);
+        }
+    }
 
     
 }

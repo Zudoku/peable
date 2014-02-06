@@ -216,20 +216,19 @@ public class ParkHandler {
     }
     @Subscribe public void listenRideDemolishEvent(RideDemolishEvent event){
         Node rideNode=(Node)rootNode.getChild("rideNode");
-        rideNode.detachChild(event.getRide().getGeometry());
-        rideNode.detachChild(event.getRide().exit.object);
-        rideNode.detachChild(event.getRide().enterance.object);
-        rootNode.detachChild(event.getRide().getGeometry());
-        rootNode.detachChild(event.getRide().exit.object);
-        rootNode.detachChild(event.getRide().enterance.object);
+
+        event.getRide().detachFromNode(rideNode);
+        event.getRide().detachFromNode(rootNode);
         
         for(int y=0;y<25;y++){
             for(int x=0;x<getMapHeight();x++){
                 for(int z=0;z<getMapWidth();z++){
                     if(map.getMap()[x][y][z]!=null){
-                        if(map.getMap()[x][y][z]==event.getRide().getGeometry()||map.getMap()[x][y][z]==event.getRide().enterance.object||map.getMap()[x][y][z]==event.getRide().exit.object){
-                            map.getMap()[x][y][z]=null;
-                        }
+                        for(Spatial s:event.getRide().getAllSpatialsFromRide()){
+                            if(map.getMap()[x][y][z]==s){
+                                map.getMap()[x][y][z]=null;
+                            }
+                        } 
                     }
                 }
             }

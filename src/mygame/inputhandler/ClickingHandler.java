@@ -99,7 +99,7 @@ public class ClickingHandler {
                         }
                     }
                 }
-                if (rootTarget.getUserData("type") == "ride") {
+                if(rootTarget.getUserData("rideID")!=null){
                     for (BasicRide r : Main.gamestate.rideManager.rides) {
                         if (r.getRideID() == rootTarget.getUserData("rideID")) {
                             windowMaker.CreateRideWindow(r);

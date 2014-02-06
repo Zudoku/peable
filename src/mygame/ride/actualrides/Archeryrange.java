@@ -7,21 +7,23 @@ package mygame.ride.actualrides;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.ArrayList;
 import java.util.Random;
 import mygame.npc.AddGuestLimitEvent;
-import mygame.npc.inventory.PreferredRides;
+import mygame.npc.inventory.RideType;
 import mygame.ride.BasicRide;
 import mygame.ride.CustomAnimation;
 import mygame.terrain.Direction;
+import mygame.terrain.MapPosition;
 
 /**
  *
  * @author arska
  */
 public class Archeryrange extends BasicRide{
-    public Archeryrange(Vector3f pos,Spatial object,Direction facing,Node rootNode){
-        super(pos,new CustomAnimation(object),200,facing,"Archeryrange",rootNode);
-        rideType= PreferredRides.LOW;
+    public Archeryrange(MapPosition pos,CustomAnimation moving,ArrayList<Spatial> staticParts,Direction facing,Node rootNode){
+        super(pos,moving,staticParts,200,facing,"Archeryrange",rootNode);
+        rideType= RideType.LOW;
         setName("My Archeryrange1");
         setRideType("archery");
         Random r =new Random();
