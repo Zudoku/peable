@@ -407,7 +407,7 @@ public class LoadManager {
                 staticContent.add(assetManager.loadModel("Models/Rides/Chesshouse/chesshouse.j3o"));
                 
                 
-                ChessCenter a = new ChessCenter(new MapPosition(new Vector3f(x, y, z)),moving,staticContent,Direction.UP,rootNode);
+                ChessCenter a = new ChessCenter(new MapPosition(new Vector3f(x, y, z)),moving,staticContent,Direction.UP);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);
@@ -423,7 +423,7 @@ public class LoadManager {
                 ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
                 staticContent.add(assetManager.loadModel("Models/Rides/archeryrange/archeryrange.j3o"));
                 
-                Archeryrange a = new Archeryrange(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP,rootNode);
+                Archeryrange a = new Archeryrange(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);
@@ -439,7 +439,7 @@ public class LoadManager {
                 ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
                 staticContent.add(assetManager.loadModel("Models/Rides/Blender/blender.j3o"));
                 
-                Blender a = new Blender(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP,rootNode);
+                Blender a = new Blender(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);
@@ -455,7 +455,7 @@ public class LoadManager {
                 ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
                 staticContent.add(assetManager.loadModel("Models/Rides/Hauntedhouse/hauntedhouse.j3o"));
                 
-                HauntedHouse a = new HauntedHouse(new MapPosition(new Vector3f(x, y, z)),moving,staticContent,Direction.UP,rootNode);
+                HauntedHouse a = new HauntedHouse(new MapPosition(new Vector3f(x, y, z)),moving,staticContent,Direction.UP);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);
@@ -471,7 +471,7 @@ public class LoadManager {
                 ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
                 staticContent.add(assetManager.loadModel("Models/Rides/Rotor/rotor.j3o"));
                 
-                Rotor a = new Rotor(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP,rootNode);
+                Rotor a = new Rotor(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);
@@ -487,7 +487,7 @@ public class LoadManager {
                 ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
                 staticContent.add(assetManager.loadModel("Models/Rides/PirateShip/core.j3o"));
                 
-                PirateShip a = new PirateShip(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP,rootNode);
+                PirateShip a = new PirateShip(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP);
                 a.setName(name);
                 a.setRideID(rideID);
                 a.setStats(broken, exitement, nausea, status);

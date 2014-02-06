@@ -22,8 +22,8 @@ import mygame.terrain.MapPosition;
  */
 public class SpinWheel extends BasicRide{
     
-    public SpinWheel(MapPosition pos,CustomAnimation moving,ArrayList<Spatial> staticParts,Direction facing,Node rootNode){
-        super(pos,moving,staticParts,400,facing,"SpinWheel",rootNode);
+    public SpinWheel(MapPosition pos,CustomAnimation moving,ArrayList<Spatial> staticParts,Direction facing){
+        super(pos,moving,staticParts,400,facing,"SpinWheel");
         rideType= RideType.HIGH;
         setName("My Spinwheel1");
         setRideType("spinwheel");

@@ -4,8 +4,6 @@
  */
 package mygame.ride.actualrides;
 
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,8 +19,8 @@ import mygame.terrain.MapPosition;
  * @author arska
  */
 public class Rotor extends BasicRide{
-    public Rotor(MapPosition pos,CustomAnimation moving,ArrayList<Spatial> staticParts,Direction facing,Node rootNode){
-        super(pos,moving,staticParts,200,facing,"Rotor",rootNode);
+    public Rotor(MapPosition pos,CustomAnimation moving,ArrayList<Spatial> staticParts,Direction facing){
+        super(pos,moving,staticParts,200,facing,"Rotor");
         rideType= RideType.LOW;
         setName("My Rotor1");
         setRideType("rotor");

@@ -42,7 +42,7 @@ public class RideFactory {
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
         staticContent.add(geom);
         
-        ChessCenter ride=new ChessCenter(new MapPosition(position),moving,staticContent,facing ,rootNode);
+        ChessCenter ride=new ChessCenter(new MapPosition(position),moving,staticContent,facing);
         return ride;
         
     }
@@ -54,7 +54,7 @@ public class RideFactory {
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
         staticContent.add(geom);
         
-        Archeryrange ride=new Archeryrange(new MapPosition(position),moving,staticContent,facing,rootNode);
+        Archeryrange ride=new Archeryrange(new MapPosition(position),moving,staticContent,facing);
         return ride;
     }
     public Rotor rotor(Vector3f position,Direction facing){
@@ -64,7 +64,7 @@ public class RideFactory {
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
         staticContent.add(geom);
         
-        Rotor ride=new Rotor(new MapPosition(position),moving,staticContent,facing,rootNode);
+        Rotor ride=new Rotor(new MapPosition(position),moving,staticContent,facing);
         return ride;
     }
     public PirateShip pirateShip(Vector3f position,Direction facing){
@@ -75,7 +75,7 @@ public class RideFactory {
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
         staticContent.add(geom);
         
-        PirateShip ride=new PirateShip(new MapPosition(position),moving,staticContent,facing,rootNode);
+        PirateShip ride=new PirateShip(new MapPosition(position),moving,staticContent,facing);
         return ride;
     }
     public SpinWheel spinWheel(Vector3f position,Direction facing){
@@ -86,7 +86,7 @@ public class RideFactory {
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
         staticContent.add(geom);
         
-        SpinWheel ride=new SpinWheel(new MapPosition(position),moving,staticContent,facing,rootNode);
+        SpinWheel ride=new SpinWheel(new MapPosition(position),moving,staticContent,facing);
         return ride;
     }
     public HauntedHouse hauntedHouse(Vector3f position,Direction facing){
@@ -96,7 +96,7 @@ public class RideFactory {
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
         staticContent.add(geom);
         
-        HauntedHouse ride=new HauntedHouse(new MapPosition(position),moving,staticContent,facing ,rootNode);
+        HauntedHouse ride=new HauntedHouse(new MapPosition(position),moving,staticContent,facing);
         return ride;
     }
     public Blender blender(Vector3f position,Direction facing){
@@ -106,7 +106,7 @@ public class RideFactory {
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
         staticContent.add(geom);
         
-        Blender ride=new Blender(new MapPosition(position),moving,staticContent,facing ,rootNode);
+        Blender ride=new Blender(new MapPosition(position),moving,staticContent,facing);
         return ride;
     }
     

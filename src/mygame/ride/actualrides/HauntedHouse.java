@@ -4,8 +4,6 @@
  */
 package mygame.ride.actualrides;
 
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,8 +19,8 @@ import mygame.terrain.MapPosition;
  * @author arska
  */
 public class HauntedHouse extends BasicRide{
-    public HauntedHouse(MapPosition position,CustomAnimation moving,ArrayList<Spatial> staticParts, Direction facing,Node rootNode) {
-        super(position,moving,staticParts,370, facing,"hauntedHouse",rootNode);
+    public HauntedHouse(MapPosition position,CustomAnimation moving,ArrayList<Spatial> staticParts, Direction facing) {
+        super(position,moving,staticParts,370, facing,"hauntedHouse");
         rideType= RideType.MEDIUM;
         setName("My HauntedHouse1");
         setRideType("hhouse");

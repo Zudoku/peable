@@ -69,7 +69,6 @@ public class BasicRide {
         {false, false, false, false},
         {false, false, false, false},
     };
-    private final Node rootNode;
     
     public void setRideType(String ride){
         this.ride=ride;
@@ -83,13 +82,12 @@ public class BasicRide {
         lastGuestVisitTime=System.currentTimeMillis();
     }
     
-    public BasicRide(MapPosition position,CustomAnimation object,ArrayList<Spatial> staticParts, float cost, Direction facing,String ride,Node rootNode) {
+    public BasicRide(MapPosition position,CustomAnimation object,ArrayList<Spatial> staticParts, float cost, Direction facing,String ride) {
         this.position = position;
         this.animatedPart = object;
         this.constructionmoney = cost;
         this.facing = facing;
         this.ride=ride;
-        this.rootNode=rootNode;
         this.staticParts=staticParts;
         Main.injector.injectMembers(this);
         //aseta oikeelle paikalle
