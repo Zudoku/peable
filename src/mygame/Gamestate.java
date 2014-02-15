@@ -98,31 +98,10 @@ public class Gamestate extends AbstractAppState {
         //laita kamera ok
         setCamera();
 
-        
-
-        
         this.appm.setDisplayStatView(false);
 
         this.appm.setPauseOnLostFocus(false);
-        currentPark.onStartup();
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        currentPark.onStartup(); 
     }
 
     public int getMoneyslotX() {
@@ -137,7 +116,6 @@ public class Gamestate extends AbstractAppState {
         camera.setLocation(new Vector3f(-11.696763f, 30.377302f, -13.492211f));
         camera.setFrame(new Vector3f(-11.696763f, 30.377302f, -13.492211f), new Vector3f(0.2f, 0, 0), new Vector3f(0, 0, 0), new Vector3f(0.48968115f, -0.65352046f, 0.57716846f));
         camera.setRotation(new Quaternion(0.32836914f, 0.32047316f, -0.06872874f, 0.8858595f));
-        System.out.println(camera.getRotation());
         
     }
 
@@ -158,7 +136,6 @@ public class Gamestate extends AbstractAppState {
     public void update(float tpf) {
         selectionEmitter.updateSelection();
         npcManager.update();
-        //System.out.println(cam.getRotation()+"   "+cam.getLocation());
         rideManager.updateRide();
     }
     

@@ -11,18 +11,21 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Logger;
 import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.Main;
 import mygame.npc.AddGuestLimitEvent;
 import mygame.npc.Guest;
+import mygame.ride.RideManager;
 import mygame.terrain.Direction;
-import mygame.terrain.PayParkEvent;
+import mygame.terrain.events.PayParkEvent;
 
 /**
  *
  * @author arska
  */
 public class BasicShop {
+    protected static final Logger logger = Logger.getLogger(BasicShop.class.getName());
     public Direction facing;
     public Vector3f position;
     private Spatial object;

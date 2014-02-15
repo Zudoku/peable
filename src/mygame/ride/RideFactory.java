@@ -102,9 +102,8 @@ public class RideFactory {
     public Blender blender(Vector3f position,Direction facing){
         Spatial geom =assetManager.loadModel("Models/Rides/Blender/blender.j3o");
         
-        CustomAnimation moving=new CustomAnimation();
+        CustomAnimation moving=new CustomAnimation(geom, AnimationType.ROLLV);
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
-        staticContent.add(geom);
         
         Blender ride=new Blender(new MapPosition(position),moving,staticContent,facing);
         return ride;

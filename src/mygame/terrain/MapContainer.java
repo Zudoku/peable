@@ -14,7 +14,7 @@ import com.jme3.scene.Spatial;
 @Singleton
 public class MapContainer {
     private Spatial[][][]map;
-    private int[][]mapData;
+    private float[] mapData;
     
     public Spatial[][][]getMap(){
         return map;
@@ -22,11 +22,10 @@ public class MapContainer {
     public void setMap(Spatial[][][]newMap){
         this.map=newMap;
     }
-    public void setMapData(int[][]a){
+    public void setMapData(float[]a){
         mapData=a;
     }
-    public int[][]getMapData(){
+    public float[]getMapData(){
         return mapData;
     }
-    
 }

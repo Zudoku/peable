@@ -4,6 +4,7 @@
     <!-- start screen -->
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <useStyles filename="nifty-default-styles.xml" />
+    <useStyles filename="Interface/Nifty/rctcstyle-basic.xml" />
     <useControls filename="nifty-default-controls.xml" />
     <screen id="start" controller="mygame.GUI.StartScreen">
         <layer id="background2" height="100%" width="100%" childLayout="center">
@@ -23,7 +24,7 @@
                 </control>
                 <control id="alphatestmessage"name="label" font="Interface/Fonts/Impact.fnt"text="PLEASE NOTE THAT THIS IS ALPHA! MODELS / TEXTURES ARE NOT FINAL ! THIS RELEASE IS JUST TO HELP ME FIND BUGS AND TEST!" x="300"y="50" color="#003f"/>
                 <control id="Author"name="label" font="Interface/Fonts/Impact.fnt"text="Made by Arttu Siren" x="5"y="10" color="#003f"/>
-                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.01b" x="180"y="10" color="#EBB9C2"/>
+                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.02a" x="180"y="10" color="#EBB9C2"/>
             </panel>
             
             <control id="newgamewindow" name="window"title=" "width="400"height="500"x="10"y="100"hideOnClose="true"closeable="true">
@@ -103,18 +104,16 @@
             </panel>
         </layer>
         <layer id="windows" width="200"height="300"childLayout="absolute">
-            <control id="shovelWindow" name="window"title="Shovel"width="190"height="300"x="200"y="200"hideOnClose="true"closeable="false">
-                <panel id="shovelpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true">
-                    <control id="shovelmodetext"name="label" font="Interface/Fonts/Impact.fnt"text="Mode: Classical" x="4"y="10"/>
-                    <control id="shovelmode" name="checkbox" x="136"y="10"/>
-                    
+            <control id="shovelWindow" name="window"title="Shovel"width="300"height="190"x="200"y="200"hideOnClose="true"closeable="false">
+                <panel id="shovelpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#555f" childLayout="absolute"visibleToMouse="true">
+                    <control id="shovelmodedrop" name="dropDown"x="10"y="10"displayItems="2" align="left" valign="top"visibleToMouse="true"width="160"/>
                     <control id="shoveltextures" x="10"y="40"name="imageSelect" width="92" imageWidth="48" imageHeight="48" imageList="Textures/grasstexture.png,Textures/rocktexture.png" />
                     <control id="shoveltexturemode" name="checkbox" x="136"y="50"/>
                     
-                    <image id="plusshovelsize"filename="Interface/NPC/Icon.png"x="20"y="80" childLayout="absolute" width="48" height="48">
+                    <image id="plusshovelsize"filename="Interface/NPC/Icon.png"x="20"y="80" childLayout="absolute" width="32" height="32">
                         <interact onClick="toggleShovelSizePlus()"/>
                     </image>
-                    <image id="minusshovelsize"filename="Interface/NPC/Icon.png"x="80"y="80" childLayout="absolute" width="48" height="48">
+                    <image id="minusshovelsize"filename="Interface/NPC/Icon.png"x="80"y="80" childLayout="absolute" width="32" height="32">
                         <interact onClick="toggleShovelSizeMinus()"/>
                     </image>
                     

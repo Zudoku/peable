@@ -5,18 +5,19 @@
 package mygame.terrain;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResult;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
+import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.texture.Texture;
-import mygame.GUI.UpdateMoneyTextBarEvent;
+import com.jme3.texture.Texture.WrapMode;
+import java.util.logging.Logger;
+import mygame.terrain.events.SetMapDataEvent;
 
 /**
  *
@@ -24,206 +25,114 @@ import mygame.GUI.UpdateMoneyTextBarEvent;
  */
 @Singleton
 public class TerrainHandler {
-
+    private static final Logger logger = Logger.getLogger(TerrainHandler.class.getName());
     public static final float HALFTILE = 0.4999f;
-    
-    Node gameNode;
+    private Node terrainNode=new Node("TerrainNode");
     AssetManager assetManager;
-    int TerrainMap[][];
-    public Spatial[][][] map;
-    public int brush = 3;
-    public int mode = 2;
     
-    public int textureindex = 1;
-    public boolean useTexture = false;
+    private final static int DEFAULT_MODE=0;
+    private final static int MODERN_MODE=1;
+    private final static int SIZE_BIG=4;
+    private final static int SIZE_MEDIUM=3;
+    private final static int SIZE_SMALL=2;
+    private final static int SIZE_MINIMAL=1;
+    
+    private int brushSize=SIZE_MEDIUM;
+    private int mode=DEFAULT_MODE;
+    private boolean useTexture=false;
+    private int textureID=1;
     private final ParkHandler parkHandler;
     private final EventBus eventBus;
+    
     @Inject
     public TerrainHandler(Node rootNode, AssetManager assetManager,ParkHandler parkHandler,EventBus eventBus) {
-        this.gameNode = rootNode;
+        rootNode.attachChild(terrainNode);
         this.assetManager = assetManager;
         this.parkHandler=parkHandler;
         this.eventBus=eventBus;
         
     }
-
-    public Geometry TerrainBox() {
-
-        Box b = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
-        Geometry geom = new Geometry("Terrain", b);
+    public void handleClicking(CollisionResult target){
+        Vector3f location=null;
+        if(target.getGeometry().getUserData("type").equals("Terrain")){
+            location=target.getContactPoint();
+            
+            
+        }
+    }
+    public TerrainQuad buildGround(){
         Texture grass = assetManager.loadTexture(
-                "Textures/grasstexture.png");
-        Material mat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setTexture("ColorMap", grass);
-        geom.setMaterial(mat);
-        return geom;
+            "Textures/grasstexture.png");
+        grass.setWrap(WrapMode.MirroredRepeat);
+        Material testmaterial = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
+        testmaterial.setTexture("Tex1", grass);
+        testmaterial.setFloat("Tex1Scale",128f);
+        int patchSize = 3;
+        TerrainQuad terrain;
+        terrain = new TerrainQuad("test", patchSize, 129,parkHandler.getMapData());
+        terrain.setMaterial(testmaterial);
+        
+        //terrain.setLocalScale(0.5f);
+        terrain.setLocalTranslation(64,0,64);
+        terrain.setUserData("type","Terrain");
+        return terrain;
     }
-
-    public void lowerland(CollisionResult target) {
-        float tarx = ((target.getContactPoint().x) - HALFTILE);
-        float tarz = ((target.getContactPoint().z) - HALFTILE);
-
-        switch (brush) {
-            case 1:
-                reloadLoweredLand((int) tarx, (int) tarz);
-
-                break;
-
-            case 2:
-                reloadLoweredLand((int) tarx, (int) tarz);
-                reloadLoweredLand((int) tarx + 1, (int) tarz);
-                reloadLoweredLand((int) tarx, (int) tarz + 1);
-                reloadLoweredLand((int) tarx + 1, (int) tarz + 1);
-                break;
-
-
-            case 3:
-                reloadLoweredLand((int) tarx + 1, (int) tarz - 1);
-                reloadLoweredLand((int) tarx + 1, (int) tarz);
-                reloadLoweredLand((int) tarx + 1, (int) tarz + 1);
-
-                reloadLoweredLand((int) tarx, (int) tarz - 1);
-                reloadLoweredLand((int) tarx, (int) tarz);
-                reloadLoweredLand((int) tarx, (int) tarz + 1);
-
-                reloadLoweredLand((int) tarx - 1, (int) tarz - 1);
-                reloadLoweredLand((int) tarx - 1, (int) tarz);
-                reloadLoweredLand((int) tarx - 1, (int) tarz + 1);
-                break;
-
-            case 4:
-
-                break;
-
-        }
-
-
-
-
+    public void refreshGround(){
+        terrainNode.detachAllChildren();
+        terrainNode.attachChild(buildGround());
     }
-
-    public void raiseland(CollisionResult target) {
-        float tarx = ((target.getContactPoint().x - HALFTILE));
-        float tarz = ((target.getContactPoint().z - HALFTILE));
-
-        switch (brush) {
-            case 1:
-                reloadRaisedLand((int) tarx, (int) tarz);
-
-                break;
-
-            case 2:
-                reloadRaisedLand((int) tarx, (int) tarz);
-                reloadRaisedLand((int) tarx + 1, (int) tarz);
-                reloadRaisedLand((int) tarx, (int) tarz + 1);
-                reloadRaisedLand((int) tarx + 1, (int) tarz + 1);
-                break;
-
-
-            case 3:
-                reloadRaisedLand((int) tarx + 1, (int) tarz - 1);
-                reloadRaisedLand((int) tarx + 1, (int) tarz);
-                reloadRaisedLand((int) tarx + 1, (int) tarz + 1);
-
-                reloadRaisedLand((int) tarx, (int) tarz - 1);
-                reloadRaisedLand((int) tarx, (int) tarz);
-                reloadRaisedLand((int) tarx, (int) tarz + 1);
-
-                reloadRaisedLand((int) tarx - 1, (int) tarz - 1);
-                reloadRaisedLand((int) tarx - 1, (int) tarz);
-                reloadRaisedLand((int) tarx - 1, (int) tarz + 1);
-                break;
-
-            case 4:
-
-                break;
-
-        }
-
-
-
-
-
-
-
+    public void resetGround(){
+        eventBus.post(new SetMapDataEvent(getHeightMap()));
     }
-
-    public void reloadRaisedLand(int x, int z) {
-        if(x<0||z<0||x>99||z>99){
-            return;
-        }
-        if(!parkHandler.getParkWallet().canAfford(10)){
-           return; 
-        }
-        Spatial deleted = map[x][0][z];
-        TerrainMap[x][z]++;
-
-        Geometry geomclone = TerrainBox();
-        if (useTexture == true) {
-            if (textureindex == 1) {
-                Texture grass = assetManager.loadTexture(
-                        "Textures/grasstexture.png");
-                geomclone.getMaterial().setTexture("ColorMap", grass);
-
-            }
-            if (textureindex == 2) {
-                Texture rock = assetManager.loadTexture(
-                        "Textures/rocktexture.png");
-                geomclone.getMaterial().setTexture("ColorMap", rock);
-
+    public float[] getHeightMap(){
+        final int totalsize=128;
+        final float[] heightMap=new float[totalsize*totalsize];
+        for(int h=0;h<totalsize;h++){
+            for(int w=0;w<totalsize;w++){
+                if(h%3!=0){
+                    heightMap[h*totalsize+w]=6;
+                }
+                else{
+                    heightMap[h*totalsize+w]=6;
+                }
             }
         }
         
-        geomclone.setLocalScale((new Vector3f(1, TerrainMap[x][z], 1)));
-        geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().z + ((float) TerrainMap[x][z] / 2), 1);
-        geomclone.move(x, 0, z);
-        //laita mappiin terraini
-        map[x][0][z] = geomclone;
-        gameNode.detachChild(deleted);
-        gameNode.attachChild(geomclone);
-        parkHandler.getParkWallet().remove(10);
-        eventBus.post(new UpdateMoneyTextBarEvent());
-
+     
+        
+        return heightMap;
     }
 
-    public void reloadLoweredLand(int x, int z) {
-        if(x<0||z<0||x>99||z>99){
-            return;
-        }
-        if(!parkHandler.getParkWallet().canAfford(10)){
-           return; 
-        }
-        Spatial deleted = map[x][0][z];
-        TerrainMap[x][z]--;
-
-        Geometry geomclone = TerrainBox();
-        if (useTexture == true) {
-            if (textureindex == 1) {
-                Texture grass = assetManager.loadTexture(
-                        "Textures/grasstexture.png");
-                geomclone.getMaterial().setTexture("ColorMap", grass);
-
-            }
-            if (textureindex == 2) {
-                Texture rock = assetManager.loadTexture(
-                        "Textures/rocktexture.png");
-                geomclone.getMaterial().setTexture("ColorMap", rock);
-
-            }
-        }
-        geomclone.setLocalScale((new Vector3f(1, TerrainMap[x][z], 1)));
-        geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().z + ((float) TerrainMap[x][z] / 2), 1);
-        geomclone.move(x, 0, z);
-        map[x][0][z] = geomclone;
-        gameNode.detachChild(deleted);
-        gameNode.attachChild(geomclone);
-        parkHandler.getParkWallet().remove(10);
-        eventBus.post(new UpdateMoneyTextBarEvent());
-
+    public int getBrushSize() {
+        return brushSize;
     }
 
-    public void setBrush(int s) {
-        brush = s;
+    public int getMode() {
+        return mode;
     }
+
+    public void setBrushSize(int brushSize) {
+        this.brushSize = brushSize;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+
+    public int getTextureID() {
+        return textureID;
+    }
+
+    public void setTextureID(int textureID) {
+        this.textureID = textureID;
+    }
+
+    public void setUseTexture(boolean useTexture) {
+        this.useTexture = useTexture;
+    }
+    public boolean getUseTexture(){
+        return useTexture;
+    }
+    
+   
 }

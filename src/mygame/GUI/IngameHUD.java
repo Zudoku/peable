@@ -57,8 +57,8 @@ public class IngameHUD implements ScreenController {
     public Screen screen;
     public boolean shovel = false;
     public int brushsize = 3;
-    @Inject private TerrainHandler worldHandler;
-    @Inject private ParkHandler currentPark;
+    @Inject private TerrainHandler terrainHandler;
+    @Inject private ParkHandler parkHandler;
     @Inject private ClickingHandler clickingHandler;
     @Inject private RoadMaker roadMaker;
     @Inject ShopManager shopManager;
@@ -91,17 +91,17 @@ public class IngameHUD implements ScreenController {
     private void updateMoneytextbar(){
         nifty=Main.nifty;
         Element a=nifty.getCurrentScreen().findElementByName("moneytext");
-        a.getRenderer(TextRenderer.class).setText(currentPark.getParkWallet().getMoneyString());
+        a.getRenderer(TextRenderer.class).setText(parkHandler.getParkWallet().getMoneyString());
         a.setConstraintHorizontalAlign(HorizontalAlign.left);
         a.setId("moneytext");
         
         a=nifty.getCurrentScreen().findElementByName("loantext");
-        a.getRenderer(TextRenderer.class).setText(currentPark.getParkWallet().getLoanString());
+        a.getRenderer(TextRenderer.class).setText(parkHandler.getParkWallet().getLoanString());
         a.setConstraintHorizontalAlign(HorizontalAlign.left);
         a.setId("loantext");
         
         a=nifty.getCurrentScreen().findElementByName("guestnumtext");
-        a.getRenderer(TextRenderer.class).setText(currentPark.getGuestSizeString());
+        a.getRenderer(TextRenderer.class).setText(parkHandler.getGuestSizeString());
         a.setConstraintHorizontalAlign(HorizontalAlign.left);
         a.setId("guestnumtext");
     }
@@ -142,7 +142,7 @@ public class IngameHUD implements ScreenController {
         a.getRenderer(ImageRenderer.class).setImage(img);
     }
     public void rideDemolishToggle(){
-        for(BasicRide r:currentPark.getRides()){
+        for(BasicRide r:parkHandler.getRides()){
             if(r.getRideID()==windowMaker.getRideID()){
                 r.demolish();
                 closeWindows("");
@@ -153,7 +153,7 @@ public class IngameHUD implements ScreenController {
         
     }
     public void shopDemolishToggle(){
-        for(BasicShop s:currentPark.getShops()){
+        for(BasicShop s:parkHandler.getShops()){
             if(s.shopID==windowMaker.getShopID()){
                 s.demolish();
                 closeWindows("");
@@ -167,7 +167,7 @@ public class IngameHUD implements ScreenController {
         closeWindows("");
         //laita raha kuva oikeaan asentoon
         Element a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneyicon");
-        int j=currentPark.settings.getWidth();
+        int j=parkHandler.settings.getWidth();
         int u=j-300;
         String b=Integer.toString(u); 
         a.setConstraintX(new SizeValue(b));
@@ -213,16 +213,16 @@ public class IngameHUD implements ScreenController {
     }
     @NiftyEventSubscriber(id = "sliderbrushsize")
     public void onSliderChange(String id, SliderChangedEvent event) {
-        worldHandler.setBrush((int) event.getValue());
+        terrainHandler.setBrushSize((int) event.getValue());
         updateBrushSize();
     }
 
     @NiftyEventSubscriber(id = "brushmodebutton")
     public void onModeButtonChange(String id, ButtonClickedEvent event) {
-        if (worldHandler.mode == 2) {
-            worldHandler.mode = 1;
+        if (terrainHandler.getMode() == 2) {
+            terrainHandler.setMode(1);
         } else {
-            worldHandler.mode = 2;
+            terrainHandler.setMode(2);
         }
         event.getButton().setText(getBrushMode());
         updateClickingIndicator();
@@ -230,7 +230,7 @@ public class IngameHUD implements ScreenController {
 
     @NiftyEventSubscriber(id = "usetexture")
     public void useTextureChange(String id, CheckBoxStateChangedEvent event) {
-        worldHandler.useTexture = event.isChecked();
+        terrainHandler.setUseTexture(event.isChecked());
     }
     @NiftyEventSubscriber(id = "queroad")
     public void queCheckboxChange(String id, CheckBoxStateChangedEvent event) {
@@ -239,7 +239,7 @@ public class IngameHUD implements ScreenController {
     }
     @NiftyEventSubscriber(id = "textureforshovel")
     public void onTextureChange(String id, ImageSelectSelectionChangedEvent event) {
-        worldHandler.textureindex = event.getImageSelect().getSelectedImageIndex() + 1;
+        terrainHandler.setTextureID(event.getImageSelect().getSelectedImageIndex() + 1);
     }
     @NiftyEventSubscriber(id="guests")
     public void DropDownSelectionChangedEvent(String id,DropDownSelectionChangedEvent event)  {
@@ -296,11 +296,11 @@ public class IngameHUD implements ScreenController {
         windowMaker.handleRideStatusToggle();
     }
     public int getBrushSize() {
-        return worldHandler.brush;
+        return terrainHandler.getBrushSize();
     }
 
     public String getBrushMode() {
-        if (worldHandler.mode == 2) {
+        if (terrainHandler.getMode() == 2) {
             return "Raise Land";
         } else {
             return "Lower Land";
@@ -311,12 +311,21 @@ public class IngameHUD implements ScreenController {
         Element niftyElement = nifty.getCurrentScreen().findElementByName("brushsizetextactual");
         niftyElement.getRenderer(TextRenderer.class).setText(Integer.toString(getBrushSize()));
     }
-
+    @NiftyEventSubscriber(id="shovelmodedrop")
+    public void OnShovelModeChange(String id,DropDownSelectionChangedEvent event)  {
+        if(event.getSelectionItemIndex()==0){
+            //default
+        }else{
+            //modern
+        }
+    }
     public void toggleShovelWindow() {
         closeWindows("shovelWindow");
-        
         Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
-
+        DropDown drop= screen.findNiftyControl("shovelmodedrop",DropDown.class);
+        drop.clear();
+        drop.addItem("MODE: default");
+        drop.addItem("MODE: modern");
         niftyElement.setVisible(!niftyElement.isVisible());
         if (niftyElement.isVisible() == true) {
             clickingHandler.clickMode = ClickingModes.TERRAIN;
@@ -377,7 +386,7 @@ public class IngameHUD implements ScreenController {
         }
     }
     public void updateNPCBox(){
-        ArrayList<Guest> guests=currentPark.getGuests();
+        ArrayList<Guest> guests=parkHandler.getGuests();
     DropDown drop= screen.findNiftyControl("guests",DropDown.class);
     drop.clear();
     drop.addItem("default");

@@ -22,6 +22,7 @@ import com.jme3.scene.Node;
 import mygame.Main;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.TerrainHandler;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  *
@@ -37,7 +38,7 @@ public class SelectionParticleEmitter {
     private final TerrainHandler worldHandler;
     private InputManager inputManager;
     private Camera cam;
-    CollisionResult last;
+    Vector3f last;
     @Inject
     public SelectionParticleEmitter(AssetManager assetManager, Node rootNode, TerrainHandler worldHandler, InputManager inputManager, Camera cam) {
         this.assetManager = assetManager;
@@ -45,7 +46,7 @@ public class SelectionParticleEmitter {
         this.worldHandler = worldHandler;
         this.inputManager=inputManager;
         this.cam=cam;
-        last = new CollisionResult();
+        last = new Vector3f(0,0,0);
     }
 
     public void MakeSelectionEmitter(int x, int z) {
@@ -90,7 +91,7 @@ public class SelectionParticleEmitter {
 
     public void MoveSelectionEmitters(int x, int y, int z) {
 
-        switch (worldHandler.brush) {
+        switch (worldHandler.getBrushSize()) {
             case 1:
                 brush[0][0].killAllParticles();
                 brush[0][1].killAllParticles();
@@ -162,27 +163,27 @@ public class SelectionParticleEmitter {
 
         Vector3f dir = cam.getWorldCoordinates(
                 new Vector2f(click2d.getX(), click2d.getY()), 1f).
-                subtractLocal(click3d);
+                subtractLocal(click3d).normalizeLocal();
 
         Ray ray = new Ray(cam.getLocation(), dir);
         
         rootNode.collideWith(ray, results);
         CollisionResult target = results.getClosestCollision();
-        
         switch (Main.gamestate.clickingHandler.clickMode) {
             case TERRAIN:
                 if (target == null) {
                     return;
                 }
-                if (target != last) {
-                    MoveSelectionEmitters((int) (target.getContactPoint().x - worldHandler.HALFTILE), (int) (target.getContactPoint().y - worldHandler.HALFTILE), (int) (target.getContactPoint().z - worldHandler.HALFTILE));
+                if (true) {
+                    MoveSelectionEmitters((int) (target.getContactPoint().x), (int) (target.getContactPoint().y), (int) (target.getContactPoint().z));
                     System.out.println(target.getContactPoint());
+                    last = target.getContactPoint();
                 }
-                last = target;
+                
                 break;
             case ROAD:
                 if(Main.gamestate.roadMaker.status==RoadMakerStatus.CHOOSING){
-                    worldHandler.brush=1;
+                    //worldHandler.brush=1;
                     if (target == null) {
                     return;
                     }

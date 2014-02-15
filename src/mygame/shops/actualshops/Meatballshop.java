@@ -13,7 +13,7 @@ import mygame.npc.inventory.Item;
 import mygame.npc.inventory.Itemtypes;
 import mygame.shops.BasicShop;
 import mygame.terrain.Direction;
-import mygame.terrain.PayParkEvent;
+import mygame.terrain.events.PayParkEvent;
 
 /**
  *

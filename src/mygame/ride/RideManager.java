@@ -12,12 +12,14 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.shops.BasicBuildables;
 import mygame.shops.HolomodelDrawer;
-import mygame.terrain.AddObjectToMapEvent;
+import mygame.terrain.events.AddObjectToMapEvent;
 import mygame.terrain.Direction;
 import mygame.terrain.ParkHandler;
 
@@ -27,7 +29,7 @@ import mygame.terrain.ParkHandler;
  */
 @Singleton
 public class RideManager {
-
+    private static final Logger logger = Logger.getLogger(RideManager.class.getName());
     public ArrayList<BasicRide> rides = new ArrayList<BasicRide>();
     RideFactory rideFactory;
     private AssetManager assetManager;
@@ -55,9 +57,6 @@ public class RideManager {
 
         rideNode = new Node("rideNode");
         rootNode.attachChild(rideNode);
-
-
-
     }
 
     public void buy(Direction facing, BasicBuildables selectedBuilding) {
@@ -94,7 +93,7 @@ public class RideManager {
                 break;
 
             case NULL:
-                System.out.println("You just tried to buy null ride!");
+                logger.log(Level.WARNING,"Could not identify your ride!");
                 break;
         }
         if (!parkHandler.getParkWallet().canAfford(boughtride.constructionmoney)) {
@@ -106,7 +105,7 @@ public class RideManager {
 
         boughtride.setRideID(rideID);
         boughtride.setAllSpatialsUserData("rideID",rideID);
-        boughtride.getGeometry().setUserData("type", "ride");
+        boughtride.setAllSpatialsUserData("type", "ride");
         rides.add(boughtride);
         boughtride.attachToNode(rideNode);
         parkHandler.getParkWallet().remove(boughtride.constructionmoney);
@@ -115,7 +114,7 @@ public class RideManager {
             for (int j = 0; j < 3; j++) {
                 
                 eventBus.post(new AddObjectToMapEvent(tx+i-1, ty, tz+j-1, boughtride.getGeometry()));
-                System.out.println(" coords: "+(tx+i-1)+(ty)+(tz+j-1));
+                logger.log(Level.WARNING, "{0} {1} {2}",new Object[]{tx+i-1,ty,tz+j-1});
             }
         }
         rideID++;
@@ -143,12 +142,12 @@ public class RideManager {
             enterancetype = false;
         }
         
-        if (parkHandler.testForEmptyTile(x, y, z)) {
+        if (!parkHandler.testForEmptyTile(x, y, z)) {
             return;
         }
         if (!parkHandler.testForEmptyTile(x+1, y, z)) {
             Spatial s = parkHandler.getSpatialAt(x+1, y, z);
-            if (s.getUserData("rideID")!=null) {
+            if (s.getUserData("rideID")==null) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");
@@ -159,7 +158,7 @@ public class RideManager {
         }
         if (!parkHandler.testForEmptyTile(x-1, y, z)) {
             Spatial s =parkHandler.getSpatialAt(x-1, y, z);
-            if (s.getUserData("rideID")!=null) {
+            if (s.getUserData("rideID")==null) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");
@@ -170,7 +169,7 @@ public class RideManager {
         }
         if (!parkHandler.testForEmptyTile(x, y, z+1)) {
             Spatial s = parkHandler.getSpatialAt(x, y, z+1);
-            if (s.getUserData("rideID")!=null) {
+            if (s.getUserData("rideID")==null) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");
@@ -181,7 +180,7 @@ public class RideManager {
         }
         if (!parkHandler.testForEmptyTile(x, y, z-1)) {
             Spatial s =parkHandler.getSpatialAt(x, y, z-1);
-            if (s.getUserData("rideID")!=null) {
+            if (s.getUserData("rideID")==null) {
                 return;
             }
             int rideidArvo = s.getUserData("rideID");
@@ -202,8 +201,12 @@ public class RideManager {
     }
 
     private void placeEnterancetrue(boolean enterancetype, int x, int y, int z, Direction suunta) {
+        if(!parkHandler.testForEmptyTile(x,y,z)){
+            logger.log(Level.FINE, "Enterance build cancelled because {0} {1} {2} was not empty", new Object[]{x, y, z});
+            return;
+        }
         Enterance e = new Enterance(enterancetype, new Vector3f(x, y, z), suunta, assetManager);
-        e.connectedRide = rides.get(rideID - 2);//HERE!!!!!
+        e.connectedRide = rides.get(rideID - 2);
         e.object.setUserData("type", "enterance");
         e.object.setUserData("rideID", e.connectedRide.getRideID());
         

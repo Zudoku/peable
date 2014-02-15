@@ -4,6 +4,7 @@
  */
 package mygame.inputhandler;
 
+import com.google.inject.Singleton;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 
@@ -11,23 +12,25 @@ import com.jme3.renderer.Camera;
  *
  * @author arska
  */
+@Singleton
 public class CameraController {
     private final Camera camera;
+    private static float MOVESPEED=0.04f;
     
     public CameraController(Camera camera){
         this.camera=camera;
     }
     public void moveUp(){
-        camera.setLocation(new Vector3f(camera.getLocation().x+0.4f, camera.getLocation().y, camera.getLocation().z+0.4f));
+        camera.setLocation(new Vector3f(camera.getLocation().x+MOVESPEED, camera.getLocation().y, camera.getLocation().z+MOVESPEED));
     }
     public void moveDown(){
-        camera.setLocation(new Vector3f(camera.getLocation().x-0.4f, camera.getLocation().y, camera.getLocation().z-0.4f));
+        camera.setLocation(new Vector3f(camera.getLocation().x-MOVESPEED, camera.getLocation().y, camera.getLocation().z-MOVESPEED));
     }
     public void moveRight(){
-        camera.setLocation(new Vector3f(camera.getLocation().x-0.4f, camera.getLocation().y, camera.getLocation().z+0.2f));
+        camera.setLocation(new Vector3f(camera.getLocation().x-MOVESPEED, camera.getLocation().y, camera.getLocation().z+MOVESPEED));
     }
     public void moveLeft(){
-        camera.setLocation(new Vector3f(camera.getLocation().x+0.4f, camera.getLocation().y, camera.getLocation().z-0.2f));
+        camera.setLocation(new Vector3f(camera.getLocation().x+MOVESPEED, camera.getLocation().y, camera.getLocation().z-MOVESPEED));
     }
     
 }

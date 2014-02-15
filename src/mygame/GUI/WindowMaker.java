@@ -65,7 +65,7 @@ public class WindowMaker {
         Element guestwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("guesttemplate");
 
 
-        Element temppanel = guestwindow.findElementByName("rootpanel").findElementByName("tabspanel");
+        Element temppanel = guestwindow.findElementByName("g_rootpanel").findElementByName("g_tabspanel");
                 
         Element niftyElement = temppanel.findElementByName("guestname");
         updateText(niftyElement, guest.getName());
@@ -148,7 +148,7 @@ public class WindowMaker {
         Element shopwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("shoptemplate");
 
 
-        Element temppanel = shopwindow.findElementByName("rootpanel").findElementByName("tabspanel");
+        Element temppanel = shopwindow.findElementByName("s_rootpanel").findElementByName("s_tabspanel");
                 
         Element niftyElement = temppanel.findElementByName("shopname");
         updateText(niftyElement, shop.shopName);
@@ -180,6 +180,9 @@ public class WindowMaker {
     }
 
     public void updateGuestWindow(Guest guest) {
+        if(guest==null){
+            return;
+        }
         updateNifty();
         if (guest.getGuestNum() == guestnumber && nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("guesttemplate").isVisible()) {
             createGuestWindow(guest, false);

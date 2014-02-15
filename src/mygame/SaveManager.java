@@ -135,14 +135,15 @@ public class SaveManager {
     }
 
     private void writeTerrainData(Writer writer, ParkHandler parkhandler) throws IOException {
-        int[][] mapdata = map.getMapData();
+        float[] mapdata = map.getMapData();
         int height = parkhandler.getMapHeight();
         int width = parkhandler.getMapWidth();
         writer.write("map size:" + Integer.toString(height) + ":" + Integer.toString(width) + ":");
+        final int mapsize=128;
         for (int o = 0; o < height; o++) {
             for (int u = 0; u < width; u++) {
-                int arvo = mapdata[o][u];
-                writer.write(Integer.toString(arvo) + ":");
+                float arvo = mapdata[o*mapsize+u];
+                writer.write(Float.toString(arvo) + ":");
             }
         }
     }

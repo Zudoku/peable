@@ -38,8 +38,8 @@ public class GuestSpawner {
         this.eventBus=eventBus;
         r = new Random();
         addNames();
-        spawnpoints.add(new Vector3f(1, 6, 5));
-        spawnpoints.add(new Vector3f(5, 6, 1));
+        spawnpoints.add(new Vector3f(3, 6, 2));
+        spawnpoints.add(new Vector3f(2, 6, 2));
     }
     public void setNpcs(ArrayList<BasicNPC> npcs){
         this.npcs=npcs;

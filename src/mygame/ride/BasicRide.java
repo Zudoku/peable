@@ -20,8 +20,8 @@ import mygame.shops.Employee;
 import mygame.shops.ShopReputation;
 import mygame.terrain.Direction;
 import mygame.terrain.MapPosition;
-import mygame.terrain.PayParkEvent;
-import mygame.terrain.RideDemolishEvent;
+import mygame.terrain.events.PayParkEvent;
+import mygame.terrain.events.RideDemolishEvent;
 import mygame.terrain.RoadMaker;
 
 /**

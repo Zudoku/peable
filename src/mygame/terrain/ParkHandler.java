@@ -4,6 +4,11 @@
  */
 package mygame.terrain;
 
+import mygame.terrain.events.PayParkEvent;
+import mygame.terrain.events.SetMapEvent;
+import mygame.terrain.events.RideDemolishEvent;
+import mygame.terrain.events.DeleteSpatialFromMapEvent;
+import mygame.terrain.events.AddObjectToMapEvent;
 import com.google.common.eventbus.DeadEvent;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -23,6 +28,7 @@ import mygame.ride.RideManager;
 import mygame.shops.BasicShop;
 import mygame.shops.ShopDemolishEvent;
 import mygame.shops.ShopManager;
+import mygame.terrain.events.SetMapDataEvent;
 
 /**
  *
@@ -44,7 +50,6 @@ public class ParkHandler {
     private int shopID;
     private int mapHeight;
     private int mapWidth;
-    private int[][] mapData;
     private int maxGuests;
     private ArrayList<Vector3f>RoadtoUpdatePositions=new ArrayList<Vector3f>();
     
@@ -54,6 +59,7 @@ public class ParkHandler {
     @Inject private RoadMaker roadMaker;
     @Inject private ShopManager shopManager;
     @Inject private RideManager rideManager;
+    @Inject private TerrainHandler terrainHandler;
     private final EventBus eventBus;
     private final Node rootNode;
     @Inject
@@ -89,10 +95,9 @@ public class ParkHandler {
     }
 
     public void onStartup() {
-        
-        
         logger.finest("Setting Map");
-        eventBus.post(new SetMapEvent(map.getMap()));
+        //eventBus.post(new SetMapEvent(map.getMap()));
+        terrainHandler.refreshGround();
         roadMaker.roadsToUpdate(RoadtoUpdatePositions);
         roadMaker.queRoadsToUpdate(queRoadsToUpdate);
         rideManager.rides = rides;
@@ -105,12 +110,15 @@ public class ParkHandler {
         rideManager.setRideID(rideID);
         shopManager.setShopID(shopID);
     }
-
-    public void setMap(Spatial[][][] mapu, int[][] mapdata) {
-
+    /**
+     * Called only once in start
+     * @param mapu
+     * @param mapdata 
+     */
+    public void setMap(Spatial[][][] mapu, float[] mapdata) {
         map.setMap(mapu);
         map.setMapData(mapdata);
-
+        
     }
 
     public void setParkWallet(ParkWallet wallet) {
@@ -199,8 +207,8 @@ public class ParkHandler {
         return mapWidth;
     }
 
-    public int[][] getMapData() {
-        return mapData;
+    public float[] getMapData() {
+        return map.getMapData();
     }
 
     public void setUpdatedRoadsList(ArrayList<Vector3f> pos) {
@@ -257,6 +265,10 @@ public class ParkHandler {
     @Subscribe public void listenPayParkEvents(PayParkEvent event){
         parkwallet.add(event.getAmount());
         logger.finest(String.format("%s Added to your parks account!", event.getAmount()));
+    }
+    @Subscribe public void listenSetMapData(SetMapDataEvent event){
+        map.setMapData(event.getMapData());
+        logger.finest("MapData have been modified!");
     }
     @Subscribe public void listenAddSpatialToMap(AddObjectToMapEvent event){
         

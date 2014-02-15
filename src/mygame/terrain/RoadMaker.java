@@ -31,7 +31,6 @@ public class RoadMaker {
     public RoadHill hill = RoadHill.FLAT;
     public RoadMakerStatus status = RoadMakerStatus.BUILDING;
     public Vector3f startingPosition;
-    private final AssetManager assetManager;
     private final Node rootNode;
     public boolean queroad = false;
     //X,Y,Z
@@ -48,8 +47,7 @@ public class RoadMaker {
     private final EventBus eventBus;
 
     @Inject
-    public RoadMaker(AssetManager assetManager, Node rootNode, MapContainer map, EventBus eventBus) {
-        this.assetManager = assetManager;
+    public RoadMaker(AssetManager assetManager,Node rootNode, MapContainer map, EventBus eventBus) {
         this.rootNode = rootNode;
         this.eventBus = eventBus;
         eventBus.register(this);

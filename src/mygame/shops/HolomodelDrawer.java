@@ -12,6 +12,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.logging.Logger;
 import mygame.terrain.Direction;
 
 /**
@@ -20,7 +21,7 @@ import mygame.terrain.Direction;
  */
 @Singleton
 public class HolomodelDrawer {
-
+    private static final Logger logger = Logger.getLogger(HolomodelDrawer.class.getName());
     AssetManager assetManager;
     private final Node node;
     boolean activated = false;

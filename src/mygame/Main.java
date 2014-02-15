@@ -2,17 +2,17 @@ package mygame;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.jme3.animation.AnimChannel;
-import com.jme3.animation.AnimControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
+import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import mygame.GUI.IngameHUD;
 import mygame.GUI.StartScreen;
 import mygame.terrain.ParkHandler;
@@ -33,12 +33,13 @@ public class Main extends SimpleApplication {
     public static Injector injector;
     public static void main(String[] args) {
         
-        
-        
+        AppSettings settings = new AppSettings(true);
+        settings.setFrameRate(60);
+        settings.setResolution(1600, 900);
         Main app = new Main();
-        
+        app.setSettings(settings);
         app.start();
-        
+        LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.FINEST); 
     }
     public IngameHUD ingameHUD;
     public boolean startDebug(){
@@ -54,7 +55,6 @@ public class Main extends SimpleApplication {
         loadManager=injector.getInstance(LoadManager.class);
         saveManager=injector.getInstance(SaveManager.class);
         gamestate=injector.getInstance(Gamestate.class);
-
         ingameHUD=injector.getInstance(IngameHUD.class);
         startScreen=new StartScreen();
         currentPark=injector.getInstance(ParkHandler.class);
@@ -64,6 +64,7 @@ public class Main extends SimpleApplication {
         inputManager.setCursorVisible(true);
         flyCam.setEnabled(false);
         lightsOn();   
+        
     }
 
     @Override
@@ -81,7 +82,7 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleRender(RenderManager rm) {
-     
+        
     }
     
     public void startGame(){
@@ -123,12 +124,6 @@ public class Main extends SimpleApplication {
         sun2.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)));
         sun2.setColor(ColorRGBA.White);
         rootNode.addLight(sun2);
-    }
-    private Spatial findNode(Node rootNode, String name) {
-        if (name.equals(rootNode.getName())) {
-            return rootNode;
-        }
-        return rootNode.getChild(name);
     }
     
 }

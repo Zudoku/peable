@@ -8,14 +8,12 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import mygame.GUI.UpdateMoneyTextBarEvent;
-import mygame.Gamestate;
-import mygame.Main;
 import mygame.npc.Guest;
 import mygame.npc.inventory.Item;
 import mygame.npc.inventory.Itemtypes;
 import mygame.shops.BasicShop;
 import mygame.terrain.Direction;
-import mygame.terrain.PayParkEvent;
+import mygame.terrain.events.PayParkEvent;
 
 /**
  *

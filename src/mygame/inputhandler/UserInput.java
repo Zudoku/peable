@@ -102,9 +102,9 @@ public class UserInput {
                     if (results.size() > 0) {
                         CollisionResult target = results.getClosestCollision();
                         clickingHandler.handleClicking(target, results);
-
+                        logger.log(Level.FINE,target.getContactPoint().toString());
                     } else {
-                        logger.log(Level.FINE,"You clicked to VOID !");
+                        logger.log(Level.FINE,"You clicked to VOID");
                     }
                 }
 

@@ -12,11 +12,12 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.ride.RideManager;
-import mygame.terrain.AddObjectToMapEvent;
+import mygame.terrain.events.AddObjectToMapEvent;
 import mygame.terrain.Direction;
 import mygame.terrain.ParkHandler;
 
@@ -26,7 +27,7 @@ import mygame.terrain.ParkHandler;
  */
 @Singleton
 public class ShopManager {
-
+    private static final Logger logger = Logger.getLogger(ShopManager.class.getName());
     public BasicBuildables selectedBuilding= BasicBuildables.NULL;
     public ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
     ShopFactory shopFactory;
@@ -57,12 +58,7 @@ public class ShopManager {
     }
 
     public void buy(ParkHandler parkHandler) {
-        
-        
         Vector3f loc = holoDrawer.pyorista(holoDrawer.getLocation());
-        
-        
-        
         switch (selectedBuilding) {
             case MBALL:
                 boughtshop=shopFactory.meatBallShop(loc, facing);

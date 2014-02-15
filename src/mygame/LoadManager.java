@@ -41,7 +41,7 @@ import mygame.shops.BasicShop;
 import mygame.shops.actualshops.Energy;
 import mygame.shops.actualshops.Meatballshop;
 import mygame.shops.actualshops.Toilet;
-import mygame.terrain.AddObjectToMapEvent;
+import mygame.terrain.events.AddObjectToMapEvent;
 import mygame.terrain.Direction;
 import mygame.terrain.MapContainer;
 import mygame.terrain.MapPosition;
@@ -49,6 +49,7 @@ import mygame.terrain.ParkHandler;
 import mygame.terrain.ParkWallet;
 import mygame.terrain.RoadFactory;
 import mygame.terrain.RoadMaker;
+import mygame.terrain.TerrainHandler;
 import mygame.terrain.decoration.DecorationFactory;
 
 /**
@@ -66,6 +67,8 @@ public class LoadManager {
     private final RoadMaker roadMaker;
     private final ParkHandler parkHandler;
     private final MapContainer map;
+
+    @Inject private TerrainHandler terrain;
 
     @Inject
     public LoadManager(Node rootNode, AppSettings settings, AssetManager assetManager,RoadMaker roadMaker,ParkHandler parkHandler,MapContainer map,EventBus eventBus) {
@@ -177,40 +180,14 @@ public class LoadManager {
         int mapWidth = Integer.parseInt(values[1]);
         //mapHeight -=1;
         //mapWidth -=1;
-        int[][] mapData = new int[mapHeight][mapWidth];
-        for (int i = 0; i < mapHeight; i++) {
-            for (int o = 0; o < mapWidth; o++) {
-                if (i * o + o + 2 >= 10304) {
-                    break;
-                }
-                //mapData[i][o]=Integer.parseInt(values[i*o+o+2]);
-                mapData[i][o] = 6;
-                
-            }
+        float[] mapData = new float[128*128];
+        for (int i = 0; i < 128*128; i++) {
+                mapData[i] = 6;
         }
+        
         Spatial[][][] map = new Spatial[mapHeight][25][mapWidth];
-        for (int x = 0; x < mapHeight - 1; x++) {
-            for (int y = 0; y < mapWidth - 1; y++) {
-
-                Geometry geomclone = TerrainBox();
-
-
-                geomclone.setLocalScale((new Vector3f(1, (int) mapData[x][y], 1)));
-
-                geomclone.setLocalTranslation(1, geomclone.getLocalTranslation().y + ((float) mapData[x][y] / 2), 1);
-                
-                geomclone.move(x, 0, y);
-                geomclone.setName("Terrain");
-                geomclone.setUserData("type", "terrain");
-
-                map[x][0][y] = geomclone;
-                rootNode.attachChild(geomclone);
-
-            }
-
-        }
-
         parkhandler.setMap(map, mapData);
+        
     }
 
     private void loadShopData(ParkHandler parkhandler, String string) {

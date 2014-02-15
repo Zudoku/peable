@@ -9,6 +9,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.logging.Logger;
 import mygame.shops.actualshops.Energy;
 import mygame.shops.actualshops.Meatballshop;
 import mygame.shops.actualshops.Toilet;
@@ -19,6 +20,7 @@ import mygame.terrain.Direction;
  * @author arska
  */
 public class ShopFactory {
+    private static final Logger logger = Logger.getLogger(ShopFactory.class.getName());
     private final AssetManager assetManager;
     private final Node rootNode;
     @Inject
