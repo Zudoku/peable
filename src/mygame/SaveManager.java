@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mygame.npc.Guest;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
@@ -28,6 +30,7 @@ import mygame.terrain.decoration.Decoration;
  */
 @Singleton
 public class SaveManager {
+    private static final Logger logger = Logger.getLogger(SaveManager.class.getName());
     private final LoadManager loadManager;
     private final ParkHandler parkHandler;
     private final MapContainer map;
@@ -57,7 +60,7 @@ public class SaveManager {
         } finally {
             try {
                 writer.close();
-                System.out.println("Game saved!");
+                logger.log(Level.INFO,"Game saved");
                 
             } catch (Exception ex) {
             }

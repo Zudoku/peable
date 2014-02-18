@@ -13,6 +13,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import mygame.GUI.UpdateMoneyTextBarEvent;
+import mygame.UtilityMethods;
 import mygame.terrain.events.AddObjectToMapEvent;
 import mygame.terrain.Direction;
 import mygame.terrain.ParkHandler;
@@ -33,8 +34,6 @@ public class DecorationManager {
     float price=0;
     private ParkHandler parkHandler;
     private final EventBus eventBus;
-    
-    public static final float HALFTILE = 0.4999f;
     
     
 
@@ -93,9 +92,9 @@ public class DecorationManager {
         decobject.setUserData("type", "decoration");
         decobject.setUserData("direction",direction.toString());
         
-        int x1=(int)(loc.x+HALFTILE);
-        int y1=(int)(loc.y+HALFTILE);
-        int z1=(int)(loc.z+HALFTILE);
+        int x1=(int)(loc.x+UtilityMethods.HALFTILE);
+        int y1=(int)(loc.y+UtilityMethods.HALFTILE);
+        int z1=(int)(loc.z+UtilityMethods.HALFTILE);
         decobject.setLocalTranslation(x1,y1,z1);
         eventBus.post(new AddObjectToMapEvent(x1, y1, z1, decobject));
         eventBus.post(new PayParkEvent(price));

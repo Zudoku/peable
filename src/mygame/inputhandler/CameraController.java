@@ -15,7 +15,7 @@ import com.jme3.renderer.Camera;
 @Singleton
 public class CameraController {
     private final Camera camera;
-    private static float MOVESPEED=0.04f;
+    private static float MOVESPEED=0.3f;
     
     public CameraController(Camera camera){
         this.camera=camera;

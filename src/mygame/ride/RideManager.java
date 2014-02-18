@@ -32,7 +32,6 @@ public class RideManager {
     private static final Logger logger = Logger.getLogger(RideManager.class.getName());
     public ArrayList<BasicRide> rides = new ArrayList<BasicRide>();
     RideFactory rideFactory;
-    private AssetManager assetManager;
     public Node rideNode;
     public Node rootNode;
     int rideID;
@@ -43,11 +42,12 @@ public class RideManager {
     private final ClickingHandler clickingHandler;
     
     private final EventBus eventBus;
+    private final AssetManager assetManager;
 
     @Inject
-    public RideManager(AssetManager assetManager, Node rootNode, RideFactory rideFactory, HolomodelDrawer holoDrawer, ParkHandler parkHandler,
+    public RideManager(AssetManager assetManager, Node rootNode, HolomodelDrawer holoDrawer, ParkHandler parkHandler,
                 ClickingHandler clickingHandler, EventBus eventBus) {
-        this.rideFactory = rideFactory;
+        this.rideFactory = new RideFactory(assetManager,rootNode);
         this.assetManager = assetManager;
         this.rootNode = rootNode;
         this.holoDrawer = holoDrawer;

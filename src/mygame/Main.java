@@ -31,15 +31,19 @@ public class Main extends SimpleApplication {
     public SaveManager saveManager;
     public LoadManager loadManager;
     public static Injector injector;
+    public static UtilityMethods utilityMethods;
+    public static Settings intosettings;
+    private static SettingsLoader settingsLoader;
     public static void main(String[] args) {
         
-        AppSettings settings = new AppSettings(true);
-        settings.setFrameRate(60);
-        settings.setResolution(1600, 900);
+        settingsLoader=new SettingsLoader();
+        intosettings=settingsLoader.load();
+        
         Main app = new Main();
-        app.setSettings(settings);
-        app.start();
+        app.setSettings(intosettings.getAppSettings());
+        app.setShowSettings(false);
         LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.FINEST); 
+        app.start(); 
     }
     public IngameHUD ingameHUD;
     public boolean startDebug(){
@@ -57,6 +61,7 @@ public class Main extends SimpleApplication {
         gamestate=injector.getInstance(Gamestate.class);
         ingameHUD=injector.getInstance(IngameHUD.class);
         startScreen=new StartScreen();
+        utilityMethods=injector.getInstance(UtilityMethods.class);
         currentPark=injector.getInstance(ParkHandler.class);
         //nifty
         initNifty();

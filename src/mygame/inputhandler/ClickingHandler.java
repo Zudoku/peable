@@ -16,11 +16,11 @@ import mygame.GUI.UpdateMoneyTextBarEvent;
 import mygame.GUI.WindowMaker;
 import mygame.Gamestate;
 import mygame.Main;
+import static mygame.inputhandler.ClickingModes.TERRAIN;
 import mygame.npc.Guest;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
 import mygame.terrain.events.DeleteSpatialFromMapEvent;
-import mygame.terrain.MapContainer;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.events.PayParkEvent;
 import mygame.terrain.RoadMaker;
@@ -36,25 +36,20 @@ import mygame.terrain.decoration.DecorationManager;
 public class ClickingHandler {
 
     private static final Logger logger = Logger.getLogger(ClickingHandler.class.getName());
-    @Inject
-    private TerrainHandler terrainHandler;
-    @Inject
-    EventBus eventBus;
-    @Inject
-    WindowMaker windowMaker;
+    @Inject private TerrainHandler terrainHandler;
+    @Inject EventBus eventBus;
+    @Inject WindowMaker windowMaker;
     public ClickingModes clickMode = ClickingModes.NOTHING;
     public int buffer = 0;
     private final Node rootNode;
     private final ParkHandler parkHandler;
-    private final RoadMaker roadMaker;
     private final DecorationManager decorationManager;
 
     @Inject
-    public ClickingHandler(Node rootNode, ParkHandler parkHandler, RoadMaker roadMaker, DecorationManager decorationManager) {
+    public ClickingHandler(Node rootNode, ParkHandler parkHandler, DecorationManager decorationManager) {
         
         this.rootNode = rootNode;
         this.parkHandler = parkHandler;
-        this.roadMaker = roadMaker;
         this.decorationManager = decorationManager;
 
     }
@@ -67,7 +62,7 @@ public class ClickingHandler {
         }
         switch (clickMode) {
             case TERRAIN:
-                terrainHandler.handleClicking(target);
+                terrainHandler.handleClicking(results);
                 Gamestate.ingameHUD.updateClickingIndicator();
                 break;
 
@@ -157,6 +152,21 @@ public class ClickingHandler {
         }
 
 
+    }
+    public void handleMouseDrag(float mouseYPos,long lastDragged){
+        switch (clickMode) {
+            case TERRAIN:
+                terrainHandler.handleDrag(mouseYPos,lastDragged);
+                break;
+        }
+    }
+    public void handleMouseDragRelease(){
+        switch (clickMode) {
+            case TERRAIN:
+                terrainHandler.releaseDrag();
+                break;
+        }
+            
     }
 
     void handleRightClicking(CollisionResult target, CollisionResults results) {

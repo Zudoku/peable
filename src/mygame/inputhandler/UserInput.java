@@ -23,6 +23,7 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mygame.UtilityMethods;
 import mygame.terrain.decoration.RotationEvent;
 
 /**
@@ -33,20 +34,23 @@ import mygame.terrain.decoration.RotationEvent;
 public class UserInput {
     private static final Logger logger = Logger.getLogger(UserInput.class.getName());
     InputManager inputManager;
-    Camera cam;
+    private Camera cam;
     private final Node rootNode;
     private ClickingHandler clickingHandler;
     long lastclicked = 0;
     CameraController cameraController;
+    private boolean isMouseDragging=false;
+    private long lastDragged;
+    
     KeyTrigger moveCameraUp = new KeyTrigger(KeyInput.KEY_W);
     KeyTrigger moveCameraDown = new KeyTrigger(KeyInput.KEY_S);
     KeyTrigger moveCameraRight = new KeyTrigger(KeyInput.KEY_D);
     KeyTrigger moveCameraLeft = new KeyTrigger(KeyInput.KEY_A);
     KeyTrigger rotateRight = new KeyTrigger(KeyInput.KEY_E);
-    
     KeyTrigger rotateLeft = new KeyTrigger(KeyInput.KEY_Q);
     MouseButtonTrigger mouseLeftClick = new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
     MouseButtonTrigger mouseRightClick = new MouseButtonTrigger(MouseInput.BUTTON_RIGHT);
+    MouseButtonTrigger mouseLeftDrag=new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
     private final EventBus eventBus;
 
     @Inject
@@ -62,7 +66,9 @@ public class UserInput {
         //mouse input
         inputManager.addMapping("mouseleftclick", mouseLeftClick);
         inputManager.addMapping("mouserightclick", mouseRightClick);
+        inputManager.addMapping("mouseleftdrag", mouseLeftDrag);
         //ingame Actions
+        
         inputManager.addMapping("rotateRight", rotateRight);
         inputManager.addMapping("rotateLeft", rotateLeft);
         //Camera input
@@ -71,33 +77,20 @@ public class UserInput {
         inputManager.addMapping("movecameraright", moveCameraRight);
         inputManager.addMapping("movecameraleft", moveCameraLeft);
         
+        inputManager.addListener(analogListener,"mouseleftdrag","movecameraup","movecameradown","movecameraright", "movecameraleft");
+        inputManager.addListener(actionListener,"mouseleftclick","mouserightclick","rotateRight","rotateLeft");
 
-        inputManager.addListener(actionListener, "mouseleftclick", "mouserightclick", "rotateRight", "rotateLeft");
-
-        inputManager.addListener(analogListener, "movecameraup", "movecameradown", "movecameraright", "movecameraleft");
+        
 
     }
     private ActionListener actionListener = new ActionListener() {
         public void onAction(String name, boolean isPressed, float tpf) {
-
             if (name.equals("mouseleftclick")) {
                 if (System.currentTimeMillis() - lastclicked > 100) {
                     lastclicked = System.currentTimeMillis();
 
                     CollisionResults results = new CollisionResults();
-
-
-                    Vector2f click2d = inputManager.getCursorPosition();
-                    Vector3f click3d = cam.getWorldCoordinates(
-                            new Vector2f(click2d.getX(), click2d.getY()), 0f);
-
-                    Vector3f dir = cam.getWorldCoordinates(
-                            new Vector2f(click2d.getX(), click2d.getY()), 1f).
-                            subtractLocal(click3d);
-
-                    Ray ray = new Ray(cam.getLocation(), dir);
-
-                    rootNode.collideWith(ray, results);
+                    UtilityMethods.rayCast(results, rootNode);
 
                     if (results.size() > 0) {
                         CollisionResult target = results.getClosestCollision();
@@ -107,11 +100,6 @@ public class UserInput {
                         logger.log(Level.FINE,"You clicked to VOID");
                     }
                 }
-
-
-
-
-
             }
             if (name.equals("mouserightclick")) {
                 /**TODO!
@@ -123,19 +111,7 @@ public class UserInput {
                     lastclicked = System.currentTimeMillis();
 
                     CollisionResults results = new CollisionResults();
-
-
-                    Vector2f click2d = inputManager.getCursorPosition();
-                    Vector3f click3d = cam.getWorldCoordinates(
-                            new Vector2f(click2d.getX(), click2d.getY()), 0f);
-
-                    Vector3f dir = cam.getWorldCoordinates(
-                            new Vector2f(click2d.getX(), click2d.getY()), 1f).
-                            subtractLocal(click3d);
-
-                    Ray ray = new Ray(cam.getLocation(), dir);
-
-                    rootNode.collideWith(ray, results);
+                    UtilityMethods.rayCast(results, rootNode);
 
                     if (results.size() > 0) {
                         CollisionResult target = results.getClosestCollision();
@@ -200,6 +176,27 @@ public class UserInput {
             if (name.equals("movecameraleft")) {
                 cameraController.moveLeft();
             }
+            if(name.equals("mouseleftdrag")){
+                if(isMouseDragging){
+                    lastDragged=System.currentTimeMillis();
+                    clickingHandler.handleMouseDrag(inputManager.getCursorPosition().y,lastDragged);
+                }else{
+                    lastDragged=System.currentTimeMillis();
+                    isMouseDragging=true;
+                    //System.out.println("MOUSE STARTED DRAGGING");
+                }
+            }
         }
+        
     };
+    
+    public void checkDragging(){
+        if(isMouseDragging){
+            if(System.currentTimeMillis()-lastDragged>200){
+                isMouseDragging=false;
+                clickingHandler.handleMouseDragRelease();
+                //System.out.println("MOUSE RELEASED"); //TEMP
+            }
+        }
+    }
 }

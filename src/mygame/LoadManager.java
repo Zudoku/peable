@@ -14,7 +14,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -43,13 +42,10 @@ import mygame.shops.actualshops.Meatballshop;
 import mygame.shops.actualshops.Toilet;
 import mygame.terrain.events.AddObjectToMapEvent;
 import mygame.terrain.Direction;
-import mygame.terrain.MapContainer;
 import mygame.terrain.MapPosition;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.ParkWallet;
 import mygame.terrain.RoadFactory;
-import mygame.terrain.RoadMaker;
-import mygame.terrain.TerrainHandler;
 import mygame.terrain.decoration.DecorationFactory;
 
 /**
@@ -60,24 +56,17 @@ import mygame.terrain.decoration.DecorationFactory;
 public class LoadManager {
     private static final Logger logger = Logger.getLogger(LoadManager.class.getName());
     private final Node rootNode;
-    private final AppSettings settings;
     private EventBus eventBus;
     private final AssetManager assetManager;
     RoadFactory roadF;
-    private final RoadMaker roadMaker;
     private final ParkHandler parkHandler;
-    private final MapContainer map;
 
-    @Inject private TerrainHandler terrain;
 
     @Inject
-    public LoadManager(Node rootNode, AppSettings settings, AssetManager assetManager,RoadMaker roadMaker,ParkHandler parkHandler,MapContainer map,EventBus eventBus) {
+    public LoadManager(Node rootNode, AssetManager assetManager,ParkHandler parkHandler,EventBus eventBus) {
         this.rootNode = rootNode;
-        this.settings = settings;
         this.assetManager = assetManager;
-        this.roadMaker=roadMaker;
         this.parkHandler=parkHandler;
-        this.map=map;
         this.eventBus=eventBus;
         roadF = new RoadFactory(assetManager);
 
@@ -86,12 +75,8 @@ public class LoadManager {
     public void load(String filename) throws FileNotFoundException, IOException {
         BufferedReader br = new BufferedReader(new FileReader(filename + ".IntoFile"));
         try {
-            StringBuilder sb = new StringBuilder();
             String line = br.readLine();
             createParkHandler(line);
-
-
-
         } finally {
             br.close();
         }
@@ -100,19 +85,19 @@ public class LoadManager {
     private ParkHandler createParkHandler(String line) {
         logger.finest("Starting to build map!");
         String lines[] = splitStrings(line);
-        loadParkData(parkHandler, lines[0]);
-        loadTerrainData(parkHandler, lines[1]);
-        loadShopData(parkHandler, lines[2]);
+        loadParkData(lines[0]);
+        loadTerrainData(lines[1]);
+        loadShopData(lines[2]);
         loadGuestData(lines[3]);
-        loadRideData(parkHandler, lines[4]);
-        loadRoadData(parkHandler, lines[5]);
-        loadQueRoadData(parkHandler,lines[6]);
+        loadRideData(lines[4]);
+        loadRoadData(lines[5]);
+        loadQueRoadData(lines[6]);
         loadDecorationData(lines[7]);
         logger.finest("Map Done!");
         return null;
     }
 
-    private void loadParkData(ParkHandler parkHandler, String line) {
+    private void loadParkData(String line) {
         String worked = line;
         String[] parkinfo = worked.split(":");
         String parkname = parkinfo[1];
@@ -173,7 +158,7 @@ public class LoadManager {
         return lines;
     }
 
-    private void loadTerrainData(ParkHandler parkhandler, String string) {
+    private void loadTerrainData(String string) {
         String worked = string;
         String[] values = worked.split(":");
         int mapHeight = Integer.parseInt(values[0]);
@@ -186,11 +171,11 @@ public class LoadManager {
         }
         
         Spatial[][][] map = new Spatial[mapHeight][25][mapWidth];
-        parkhandler.setMap(map, mapData);
+        parkHandler.setMap(map, mapData);
         
     }
 
-    private void loadShopData(ParkHandler parkhandler, String string) {
+    private void loadShopData(String string) {
         Node shopNode=(Node)rootNode.getChild("shopNode");
         ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
         String worked = string;
@@ -273,7 +258,7 @@ public class LoadManager {
             }
             
         }
-        parkhandler.setShops(shops);
+        parkHandler.setShops(shops);
     }
 
     private void loadGuestData(String string) {
@@ -342,7 +327,7 @@ public class LoadManager {
         parkHandler.setNpcs(npcs);
     }
 
-    private void loadRideData(ParkHandler parkhandler, String string) {
+    private void loadRideData( String string) {
         Node rideNode=(Node)rootNode.getChild("rideNode");
         ArrayList<BasicRide> asd = new ArrayList<BasicRide>();
         String worked = string;
@@ -552,10 +537,10 @@ public class LoadManager {
 
 
         }
-        parkhandler.setRides(asd);
+        parkHandler.setRides(asd);
     }
 
-    private void loadRoadData(ParkHandler parkhandler, String string) {
+    private void loadRoadData(String string) {
         
         String worked = string;
         String[] values = worked.split(":");
@@ -587,7 +572,7 @@ public class LoadManager {
         for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
             for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {
                 for (int yi = 0; yi < 15; yi++) {
-                    Spatial tested = map.getMap()[xi][yi][zi];
+                    Spatial tested = parkHandler.getSpatialAt(xi, yi, zi);
                     if (tested != null) {
                         if (tested.getUserData("type").equals("road")) {
                             pos.add(new Vector3f(xi, yi, zi));
@@ -596,11 +581,11 @@ public class LoadManager {
                 }
             }
         }
-        parkhandler.setUpdatedRoadsList(pos);
+        parkHandler.setUpdatedRoadsList(pos);
 
     }
 
-    private void loadQueRoadData(ParkHandler parkhandler, String string) {
+    private void loadQueRoadData(String string) {
         ArrayList<Spatial> queRoadstoUpdate = new ArrayList<Spatial>();
         String worked = string;
         String[] values = worked.split(":");
@@ -682,24 +667,10 @@ public class LoadManager {
                 }
             }
         }
-        parkhandler.setUpdatedQueRoadsList(queRoadstoUpdate);
+        parkHandler.setUpdatedQueRoadsList(queRoadstoUpdate);
         //parkhandler.setShops(asd);
     }
-
-    private Geometry TerrainBox() {
-
-        Box b = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
-        Geometry geom = new Geometry("Terrain", b);
-        Texture grass = assetManager.loadTexture(
-                "Textures/grasstexture.png");
-        Material mat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setTexture("ColorMap", grass);
-        geom.setMaterial(mat);
-        return geom;
-    }
-
-    private void loadDecorationData( String string) {
+    private void loadDecorationData(String string) {
         DecorationFactory dFactory=new DecorationFactory(assetManager);
         String worked = string;
         String[] values = worked.split(":");

@@ -20,9 +20,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import mygame.Main;
+import mygame.UtilityMethods;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.TerrainHandler;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  *
@@ -35,7 +35,7 @@ public class SelectionParticleEmitter {
     private final Node rootNode;
     ParticleEmitter brush[][] = new ParticleEmitter[3][3];
     private Vector3f Vector3f;
-    private final TerrainHandler worldHandler;
+    private final TerrainHandler terrainHandler;
     private InputManager inputManager;
     private Camera cam;
     Vector3f last;
@@ -43,7 +43,7 @@ public class SelectionParticleEmitter {
     public SelectionParticleEmitter(AssetManager assetManager, Node rootNode, TerrainHandler worldHandler, InputManager inputManager, Camera cam) {
         this.assetManager = assetManager;
         this.rootNode = rootNode;
-        this.worldHandler = worldHandler;
+        this.terrainHandler = worldHandler;
         this.inputManager=inputManager;
         this.cam=cam;
         last = new Vector3f(0,0,0);
@@ -77,21 +77,21 @@ public class SelectionParticleEmitter {
         rootNode.attachChild(selection);
     }
    
-    public void deleteParticles(){
-       brush[0][0].killAllParticles();
-                brush[0][1].killAllParticles();
-                brush[0][2].killAllParticles();
-                brush[1][0].killAllParticles();
-                brush[1][1].killAllParticles();
-                brush[1][2].killAllParticles();
-                brush[2][0].killAllParticles();
-                brush[2][1].killAllParticles();
-                brush[2][2].killAllParticles();
+    public void deleteParticles() {
+        brush[0][0].killAllParticles();
+        brush[0][1].killAllParticles();
+        brush[0][2].killAllParticles();
+        brush[1][0].killAllParticles();
+        brush[1][1].killAllParticles();
+        brush[1][2].killAllParticles();
+        brush[2][0].killAllParticles();
+        brush[2][1].killAllParticles();
+        brush[2][2].killAllParticles();
     }
 
     public void MoveSelectionEmitters(int x, int y, int z) {
-
-        switch (worldHandler.getBrushSize()) {
+        
+        switch (terrainHandler.getBrushSize()) {
             case 1:
                 brush[0][0].killAllParticles();
                 brush[0][1].killAllParticles();
@@ -134,7 +134,7 @@ public class SelectionParticleEmitter {
 
     public void moveEmitter(int num1, int num2, int x, int y, int z) {
         brush[num1][num2].killAllParticles();
-        brush[num1][num2].setLocalTranslation(x + 1, y + 1.01f, z + 1);
+        brush[num1][num2].setLocalTranslation(x + 1, y + 0.51f, z + 1);
         brush[num1][num2].emitAllParticles();
         brush[num1][num2].setEnabled(true);
     }
@@ -155,29 +155,16 @@ public class SelectionParticleEmitter {
         
 
         CollisionResults results = new CollisionResults();
-
-
-        Vector2f click2d = inputManager.getCursorPosition();
-        Vector3f click3d = cam.getWorldCoordinates(
-                new Vector2f(click2d.getX(), click2d.getY()), 0f);
-
-        Vector3f dir = cam.getWorldCoordinates(
-                new Vector2f(click2d.getX(), click2d.getY()), 1f).
-                subtractLocal(click3d).normalizeLocal();
-
-        Ray ray = new Ray(cam.getLocation(), dir);
+        UtilityMethods.rayCast(results, rootNode);
         
-        rootNode.collideWith(ray, results);
         CollisionResult target = results.getClosestCollision();
         switch (Main.gamestate.clickingHandler.clickMode) {
             case TERRAIN:
                 if (target == null) {
                     return;
                 }
-                if (true) {
-                    MoveSelectionEmitters((int) (target.getContactPoint().x), (int) (target.getContactPoint().y), (int) (target.getContactPoint().z));
-                    System.out.println(target.getContactPoint());
-                    last = target.getContactPoint();
+                if (!terrainHandler.getLocked()) {
+                    terrainHandler.drawBrush(target.getContactPoint().x,target.getContactPoint().z);
                 }
                 
                 break;
@@ -187,9 +174,9 @@ public class SelectionParticleEmitter {
                     if (target == null) {
                     return;
                     }
-                    int testx=(int) (target.getContactPoint().x - worldHandler.HALFTILE);
-                    int testy=(int) (target.getContactPoint().y - worldHandler.HALFTILE);
-                    int testz=(int) (target.getContactPoint().z - worldHandler.HALFTILE);
+                    int testx=(int) (target.getContactPoint().x - UtilityMethods.HALFTILE);
+                    int testy=(int) (target.getContactPoint().y - UtilityMethods.HALFTILE);
+                    int testz=(int) (target.getContactPoint().z - UtilityMethods.HALFTILE);
                     MoveSelectionEmitters(testx,testy,testz);
                 }
                 break;
