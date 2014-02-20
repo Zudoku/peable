@@ -32,15 +32,11 @@ public class TerrainHandler {
     private Node terrainNode=new Node("TerrainNode");
     AssetManager assetManager;
     
-    private final static int DEFAULT_MODE=0;
-    private final static int MODERN_MODE=1;
-    private final static int SIZE_BIG=4;
-    private final static int SIZE_MEDIUM=3;
+    private final static int SIZE_MEDIUM=4;
     private final static int SIZE_SMALL=2;
     private final static int SIZE_MINIMAL=1;
     
     private int brushSize=SIZE_MINIMAL;
-    private int mode=DEFAULT_MODE;
     private boolean useTexture=false;
     private int textureID=1;
     private boolean locked=false;
@@ -51,7 +47,7 @@ public class TerrainHandler {
     private final EventBus eventBus;
     private ByteBuffer buf;
     private ByteBuffer bufferReal;
-    private Texture a;
+    private Texture alphaTexture;
     
     private int lastBrushx=-1;
     private int lastBrushz=-1;
@@ -62,6 +58,7 @@ public class TerrainHandler {
         this.assetManager = assetManager;
         this.parkHandler=parkHandler;
         this.eventBus=eventBus;
+        alphaTexture=assetManager.loadTexture("Textures/alphamap.png");
         bufferReal = ByteBuffer.allocateDirect(128*128*3);
         for(int x=0;x<128*128;x++){
             bufferReal.put(x*3+2, (byte)128);
@@ -128,6 +125,7 @@ public class TerrainHandler {
         
     }
     public void drawBrush(float x,float z){
+        
         int x1=(int)(x);
         int z1=128-(int)(z)-1;
         
@@ -137,10 +135,8 @@ public class TerrainHandler {
             lastBrushz=z1;
             System.out.println("NEW BUFFER INC "+x1+" "+z1);
         }else{
-            noDifference=true;
-            
+            noDifference=true;    
         }
-        
         for (int j = 0; j < brushSize; j++) {
             
             for (int i = 0; i < brushSize; i++) {
@@ -150,7 +146,7 @@ public class TerrainHandler {
                     int index=((z1 + j) * 128 + x1) * 3 + 1;
                     if(index<128*128*3-1){
                         buf.put(index, (byte) 128);
-                        a.getImage().setData(buf);
+                        alphaTexture.getImage().setData(buf);
                     }else{
                         System.out.println("OVERBOARD "+ index);
                     }
@@ -187,35 +183,7 @@ public class TerrainHandler {
     
     public TerrainQuad buildGround(){
         final Material testmaterial = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
-        
-        a=assetManager.loadTexture("Textures/alphamap.png");
-        
-        /**
-        Runnable r = new Runnable() {
-            public void run() {
-                Random r = new Random();
-                
-                
-                while (true) {
-                    buf.put(r.nextInt(127)*r.nextInt(127)*3,(byte)r.nextInt(128));
-                    
-                    
-                    a.getImage().setData(buf);
-                    try {
-                        Thread.currentThread().sleep(10);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(TerrainHandler.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        };
-        Thread t = new Thread(r);
-        t.start();**/
-        
-        /**
-         * while(buf.hasRemaining()){ System.out.println((byte)buf.get()); } *
-         */
-        testmaterial.setTexture("Alpha", a);
+        testmaterial.setTexture("Alpha", alphaTexture);
         
         Texture grass = assetManager.loadTexture(
             "Textures/grasstexture.png");
@@ -274,17 +242,10 @@ public class TerrainHandler {
         return brushSize;
     }
 
-    public int getMode() {
-        return mode;
-    }
-
     public void setBrushSize(int brushSize) {
         this.brushSize = brushSize;
     }
 
-    public void setMode(int mode) {
-        this.mode = mode;
-    }
 
     public int getTextureID() {
         return textureID;
@@ -302,6 +263,28 @@ public class TerrainHandler {
     }
     public boolean getLocked(){
         return locked;
+    }
+    public void brushSizePlus(){
+        switch(brushSize){
+            case 1:
+                brushSize++;
+                break;
+                
+            case 2:
+                brushSize+=2;
+                break;
+        }
+    }
+    public void brushSizeMinus(){
+        switch(brushSize){
+            case 2:
+                brushSize--;
+                break;
+                
+            case 4:
+                brushSize-=2;
+                break;
+        }
     }
     
    

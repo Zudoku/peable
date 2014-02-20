@@ -21,6 +21,8 @@
     </effect>
   </style>
   
+  <!-- CHECKBOX -->
+  
     <style id="nifty-checkbox-style#panel">
     <attributes width="23px" height="23px" childLayout="center" backgroundColor="#666f" />
     <effect>
@@ -39,7 +41,7 @@
     </effect>
   </style>
   
-  
+  <!-- SCROLLBAR -->
   
   <style id="nifty-vertical-scrollbar#panel">
     <attributes childLayout="vertical" width="23px" align="center" focusable="true" />
@@ -83,9 +85,8 @@
       <onDisabled name="renderQuad" startColor="#2220" endColor="#2228" post="true" length="150" />
     </effect>
   </style>
-  
-  <!-- The Tabs require the Nifty-Panel to be displayed properly. -->
-  <useStyles filename="panel/nifty-panel.xml"/>
+
+    <!-- TABS -->
 
   <!-- This style is applied to the panel that holds the content of each tab. -->
   <style id="nifty-tabs#panel">
@@ -107,8 +108,8 @@
   <!-- The style of a tab button that is not the activated one. -->
   <style id="nifty-tab-button">
     <attributes backgroundImage="Interface/Nifty/GUI/tabs.png"
-                imageMode="sprite-resize:31,23,2,15,1,15,11,15,1,15,1,15,1,15,11" paddingLeft="11px"
-                paddingRight="11px" width="100px" height="23px" childLayout="center" visibleToMouse="true"/>
+                imageMode="sprite-resize:31,23,2,15,1,15,11,15,1,15,1,15,1,15,11" paddingLeft="20px"
+                paddingRight="20px"width="100px" height="40px" childLayout="center" visibleToMouse="true"/>
     <effect>
       <onHover name="imageOverlay" filename="Interface/Nifty/GUI/tabs.png"
                imageMode="sprite-resize:31,23,1,15,1,15,11,15,1,15,1,15,1,15,11" post="true"/>
@@ -118,24 +119,123 @@
   <!-- The style of the text on a tab button that is not the activated one. -->
   <style id="nifty-tab-button#text" base="tab-font">
     <attributes align="center" valign="center" textHAlign="center" textVAlign="center" visibleToMouse="false"
-                color="#000"/>
+                color="#ffff"/>
+    
   </style>
 
   <!-- The style of a tab button that is the activated one. -->
   <style id="nifty-tab-button-active">
     <attributes backgroundImage="Interface/Nifty/GUI/tabs.png"
-                imageMode="sprite-resize:31,23,0,15,1,15,11,15,1,15,1,15,1,15,11" paddingLeft="11px"
-                paddingRight="11px" width="100px" height="23px" childLayout="center" visibleToMouse="true"/>
-    <effect>
-      <!-- weiss noch net :)
-     <onHover name="imageOverlay" filename="tabs/tabs.png"
-              imageMode="sprite-resize:31,23,0,15,1,15,11,15,1,15,1,15,1,15,11" post="true"/>
-      -->
-    </effect>
+                imageMode="sprite-resize:31,23,0,15,1,15,11,15,1,15,1,15,1,15,11" paddingLeft="20px"
+                paddingRight="20px" width="100px" height="40px" childLayout="center" visibleToMouse="true"/>
+    
   </style>
 
   <!-- The style of the text on a tab button that is the activated one. -->
-  <style id="nifty-tab-button-active#text" base="nifty-tab-button#text"/>
+  <style id="nifty-tab-button-active#text" base="nifty-tab-button#text" color="#f22f"/>
+  
+  <!-- WINDOW -->
+    <style id="nifty-window#frame">
+    <attributes childLayout="vertical" valign="top" />
+    <effect>
+      <onActive name="border" post="true" color="#000f" border="1px" />
+    </effect>
+  </style>
+
+  <style id="nifty-window#bar">
+    <attributes width="100%" height="20px" padding="2px" backgroundColor="#112f" childLayout="horizontal" />
+  </style>
+  
+  <style id="nifty-window#title" base="base-font">
+    <attributes width="*" height="20px" align="center" valign="center" textHAlign="center" textVAlign="center" visibleToMouse="false" color="#f00f" />
+  </style>
+
+  <style id="nifty-window#content">
+    <attributes width="100%" height="*" backgroundColor="#9996" childLayout="center" />
+    
+  </style>
+
+  <style id="nifty-window#close-button">
+    <attributes backgroundImage="Interface/Nifty/GUI/window-close-button.png" width="16px" height="16px"  align="center" valign="center" />
+  </style>
+  
+  <!-- DROPDOWN -->
+  
+  <style id="nifty-drop-down#panel">
+    <attributes childLayout="horizontal" height="23px" focusable="true" visibleToMouse="true" color="#00ff"/>
+    <effect>
+	  <onHover name="border" color="#000f" post="true" />
+    </effect>
+  </style>
+
+  <style id="nifty-drop-down#panel-text">
+    <attributes childLayout="center" childClip="true" backgroundColor="#445f" padding="0px,2px" width="*" />
+    <effect>
+      <onActive name="border" color="#222f" post="true" inset="1px" />
+      <onEnabled name="renderQuad" startColor="#333f" endColor="#2220" post="true" length="150" />
+      <onDisabled name="renderQuad" startColor="#2220" endColor="#222f" post="true" length="150" />
+    </effect>
+  </style>
+
+  <style id="nifty-drop-down#text" base="base-font">
+    <attributes color="#ffff" selectionColor="#f00f" visibleToMouse="false" align="left" valign="center" textHAlign="left" height="23px" />
+  </style>
+  
+  <style id="nifty-drop-down#panel-icon">
+    <attributes childLayout="center" />
+  </style>
+
+  <style id="nifty-drop-down#icon">
+    <attributes filename="Interface/Nifty/GUI/scrollbar.png" width="23px" height="23px" imageMode="sprite:23,23,0" />
+    <effect>
+      <onClick name="focus" targetElement="#parent" />
+      <onClick name="imageOverlay" filename="Interface/Nifty/GUI/scrollbar.png" imageMode="sprite:23,23,2" post="true" />
+      <onFocus name="imageOverlay" filename="Interface/Nifty/GUI/scrollbar.png" imageMode="sprite:23,23,1" post="true" />
+    </effect>
+  </style>
+
+  <style id="nifty-drop-down#list-panel">
+    <attributes childLayout="vertical" width="*" />
+    <effect>
+      <onStartScreen name="clip" length="350" inherit="true" post="false" />
+      <onStartScreen name="move" length="350" timeType="exp" factor="2.5" mode="fromOffset" offsetY="-100" inherit="true" />
+      <onStartScreen name="fade" length="350" startColor="#0000" endColor="#000f" inherit="true"/>
+      <onEndScreen name="clip" length="350" inherit="true" post="false" />
+      <onEndScreen name="move" length="350" timeType="exp" factor="2.5" mode="toOffset" offsetY="-100" inherit="true"/>
+    </effect>
+  </style>
+
+  <style id="nifty-drop-down#text-item" base="base-font">
+    <attributes textHAlign="left" textVAlign="center" width="100%" />
+    <effect>
+      <onHover name="focus" />
+      <onFocus name="colorBar" color="#000f" post="false" />
+    </effect>
+  </style>
+  
+  <!-- LISTBOX INSIDE DROPDOWN -->
+  
+  <style id="nifty-listbox">
+    <attributes />
+  </style>
+  <style id="nifty-listbox#bottom-right">
+    <attributes width="23px" height="23px" />
+  </style>
+  <style id="nifty-listbox-item" base="nifty-label">
+    <attributes color="#000f" width="100%" align="left" textVAlign="center" textHAlign="left" />
+    <interact onClick="listBoxItemClicked()" />
+    <effect>
+      <onCustom customKey="focus" name="colorBar" post="false" color="#555f" neverStopRendering="true" timeType="infinite" />
+      <onCustom customKey="select" name="colorBar" post="false" color="#555f" neverStopRendering="true" timeType="infinite" />
+      <onCustom customKey="select" name="textColor" post="false" color="#000f" neverStopRendering="true" timeType="infinite" />
+      <onHover name="colorBar" color="#555f" post="false" neverStopRendering="true" timeType="infinite" inset="1px"/>
+      <onClick name="focus" targetElement="#parent#parent"/>
+    </effect>
+  </style>
+  
+  
+  
+  
   
   
   

@@ -10,7 +10,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
-import de.lessvoid.nifty.controls.ButtonClickedEvent;
 import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
 import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.DropDownSelectionChangedEvent;
@@ -56,7 +55,6 @@ public class IngameHUD implements ScreenController {
     public Nifty nifty;
     public Screen screen;
     public boolean shovel = false;
-    public int brushsize = 3;
     @Inject private TerrainHandler terrainHandler;
     @Inject private ParkHandler parkHandler;
     @Inject private ClickingHandler clickingHandler;
@@ -217,16 +215,7 @@ public class IngameHUD implements ScreenController {
         updateBrushSize();
     }
 
-    @NiftyEventSubscriber(id = "brushmodebutton")
-    public void onModeButtonChange(String id, ButtonClickedEvent event) {
-        if (terrainHandler.getMode() == 2) {
-            terrainHandler.setMode(1);
-        } else {
-            terrainHandler.setMode(2);
-        }
-        event.getButton().setText(getBrushMode());
-        updateClickingIndicator();
-    }
+    
 
     @NiftyEventSubscriber(id = "usetexture")
     public void useTextureChange(String id, CheckBoxStateChangedEvent event) {
@@ -285,7 +274,6 @@ public class IngameHUD implements ScreenController {
     }
     @NiftyEventSubscriber(id = "ridepriceslider")
     public void onRidePriceChanged(final String id, final SliderChangedEvent event) {
-        
             BasicRide ride=windowMaker.getCurrentRide();
             ride.setPrice(event.getValue());
             windowMaker.updateRideWindow(false);
@@ -299,33 +287,14 @@ public class IngameHUD implements ScreenController {
         return terrainHandler.getBrushSize();
     }
 
-    public String getBrushMode() {
-        if (terrainHandler.getMode() == 2) {
-            return "Raise Land";
-        } else {
-            return "Lower Land";
-        }
-    }
-
     public void updateBrushSize() {
-        Element niftyElement = nifty.getCurrentScreen().findElementByName("brushsizetextactual");
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelbrushsize");
         niftyElement.getRenderer(TextRenderer.class).setText(Integer.toString(getBrushSize()));
-    }
-    @NiftyEventSubscriber(id="shovelmodedrop")
-    public void OnShovelModeChange(String id,DropDownSelectionChangedEvent event)  {
-        if(event.getSelectionItemIndex()==0){
-            //default
-        }else{
-            //modern
-        }
     }
     public void toggleShovelWindow() {
         closeWindows("shovelWindow");
         Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
-        DropDown drop= screen.findNiftyControl("shovelmodedrop",DropDown.class);
-        drop.clear();
-        drop.addItem("MODE: default");
-        drop.addItem("MODE: modern");
+        updateShovelWindow();
         niftyElement.setVisible(!niftyElement.isVisible());
         if (niftyElement.isVisible() == true) {
             clickingHandler.clickMode = ClickingModes.TERRAIN;
@@ -739,5 +708,16 @@ public class IngameHUD implements ScreenController {
                 roadDirectionUp();
                 
         }
+    }
+    public void toggleShovelSizePlus(){
+        terrainHandler.brushSizePlus();
+        updateShovelWindow();
+    }
+    public void toggleShovelSizeMinus(){
+        terrainHandler.brushSizeMinus();
+        updateShovelWindow();
+    }
+    private void updateShovelWindow(){
+        updateBrushSize();
     }
 }

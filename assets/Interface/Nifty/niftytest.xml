@@ -104,19 +104,19 @@
             </panel>
         </layer>
         <layer id="windows" width="200"height="300"childLayout="absolute">
-            <control id="shovelWindow" name="window"title="Shovel"width="300"height="190"x="200"y="200"hideOnClose="true"closeable="false">
+            <control id="shovelWindow" name="window"title="Shovel"width="200"height="130"x="200"y="200"hideOnClose="true"closeable="false">
                 <panel id="shovelpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#555f" childLayout="absolute"visibleToMouse="true">
-                    <control id="shovelmodedrop" name="dropDown"x="10"y="10"displayItems="2" align="left" valign="top"visibleToMouse="true"width="160"/>
-                    <control id="shoveltextures" x="10"y="40"name="imageSelect" width="92" imageWidth="48" imageHeight="48" imageList="Textures/grasstexture.png,Textures/rocktexture.png" />
-                    <control id="shoveltexturemode" name="checkbox" x="136"y="50"/>
-                    
-                    <image id="plusshovelsize"filename="Interface/NPC/Icon.png"x="20"y="80" childLayout="absolute" width="32" height="32">
+                    <control id="shoveltextures" x="4"y="4"name="imageSelect" width="92" imageWidth="48" imageHeight="48" imageList="Textures/grasstexture.png,Textures/rocktexture.png" />
+                    <control id="shovelusetexture"name="label" font="Interface/Fonts/Impact.fnt"text="Texture" x="100"y="4"/>
+                    <control id="shoveltexturemode" name="checkbox" x="174"y="4"/>
+                    <image id="plusshovelsize"filename="Interface/Terrain/plus.png"x="4"y="56" childLayout="absolute" width="32" height="32">
                         <interact onClick="toggleShovelSizePlus()"/>
                     </image>
-                    <image id="minusshovelsize"filename="Interface/NPC/Icon.png"x="80"y="80" childLayout="absolute" width="32" height="32">
+                    <image id="minusshovelsize"filename="Interface/Terrain/minus.png"x="66"y="56" childLayout="absolute" width="32" height="32">
                         <interact onClick="toggleShovelSizeMinus()"/>
                     </image>
-                    
+                    <control id="shovelbrushsizeprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Brush size: " x="100"y="56"/>
+                    <control id="shovelbrushsize"name="label" font="Interface/Fonts/Impact.fnt"text="1" x="180"y="56"/>
                 </panel>
             </control>
             <control id="roadWindow" name="window"title="Roads"width="200"height="500"x="500"y="200"hideOnClose="true"closeable="false">
@@ -443,32 +443,44 @@
                         <control id="guest_tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
                             <control id="g_tab_1" name="tab" caption="Information"x="0"y="0"> 
                                 <panel id="g_tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <image filename="Interface/NPC/face.png"x="10"y="30" childLayout="absolute" height="200"width="130"visibleToMouse="true">
+                                    <image filename="Interface/NPC/face.png"x="0"y="10" childLayout="absolute" height="200"width="130"visibleToMouse="true">
                                     </image>
-                                    <control id="guestnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="150"y="30" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="150"y="53" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="guestname"name="label" font="Interface/Fonts/Impact.fnt"text="Template name " x="200"y="30" color="ffffff"/>
-                                    <control id="guestwalletprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Money: " x="150"y="60" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="150"y="83" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="guestwallet"name="label" font="Interface/Fonts/Impact.fnt"text="90€" x="210"y="60" color="ffffff"/>
-                                    <control id="guestnumberprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Number:" x="150"y="90" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="150"y="113" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="guestnumber"name="label" font="Interface/Fonts/Impact.fnt"text="252" x="220"y="90" color="ffffff"/>
-                                    <control id="gueststatusprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Status:" x="150"y="120" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="150"y="143" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="gueststatus"name="label" font="Interface/Fonts/Impact.fnt"text="Walking" x="210"y="120" color="ffffff"/>
-                                    <control id="guestreputationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Reputation:" x="150"y="150" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="150"y="173" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="guestreputation"name="label" font="Interface/Fonts/Impact.fnt"text="Good" x="236"y="150" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="150"y="203" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="gueststaffprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Class:" x="150"y="180" color="ffffff"/>
-                                    <control id="gueststaff"name="label" font="Interface/Fonts/Impact.fnt"text="Guest" x="200"y="180" color="ffffff"/>
+                                    <panel id="guestnamepanel" x="138"y="10"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="guestnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="2"y="3" color="ffffff"/>
+                                        <control id="guestname"name="label" font="Interface/Fonts/Impact.fnt"text="Template name " x="50"y="3" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                    <panel id="guestwalletpanel" x="138"y="46"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="guestwalletprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Money: " x="2"y="3" color="ffffff"/>
+                                        <control id="guestwallet"name="label" font="Interface/Fonts/Impact.fnt"text="90e" x="56"y="3" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                    <panel id="guestnumberpanel" x="138"y="82"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="guestnumberprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Number: " x="2"y="3" color="ffffff"/>
+                                        <control id="guestnumber"name="label" font="Interface/Fonts/Impact.fnt"text="252" x="64"y="3" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                    <panel id="gueststatuspanel" x="138"y="118"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="gueststatusprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Doing: " x="2"y="3" color="ffffff"/>
+                                        <control id="gueststatus"name="label" font="Interface/Fonts/Impact.fnt"text="the worm" x="56"y="3" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                    <panel id="guestreputationpanel" x="138"y="154"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="guestreputationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Reputation: " x="2"y="3" color="ffffff"/>
+                                        <control id="guestreputation"name="label" font="Interface/Fonts/Impact.fnt"text="New" x="90"y="3" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                   
                                 </panel>
                             </control>
                             <control id="g_tab_2" name="tab" caption="Emotions"x="0"y="0">
@@ -658,7 +670,7 @@
             </control>
             <control id="NPCWindow" name="window"title="NPCS"width="400"height="560"x="200"y="200"hideOnClose="true"closeable="true"visibleToMouse="true">
                 <panel id="n_rootpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true"x="0"y="0">
-                    <control id="guests" name="dropDown"x="40"y="10"displayItems="20" align="left" valign="top"visibleToMouse="true"height="28" width="300"/>
+                    <control id="guests" name="dropDown"x="40"y="10"displayItems="20" align="left" valign="top"visibleToMouse="true"height="23" width="300"/>
                 </panel>
             </control>
             <control id="decorationWindow" name="window"title="DECORATIONS"width="800"height="400"x="200"y="200"hideOnClose="true"closeable="false">

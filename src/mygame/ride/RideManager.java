@@ -54,7 +54,7 @@ public class RideManager {
         this.parkHandler = parkHandler;
         this.clickingHandler = clickingHandler;
         this.eventBus = eventBus;
-
+        eventBus.register(this);
         rideNode = new Node("rideNode");
         rootNode.attachChild(rideNode);
     }
