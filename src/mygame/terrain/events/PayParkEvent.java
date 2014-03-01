@@ -4,10 +4,13 @@
  */
 package mygame.terrain.events;
 
+import com.google.inject.Singleton;
+
 /**
  *
  * @author arska
  */
+@Singleton
 public class PayParkEvent {
     private final Float amount;
     public PayParkEvent(Float amount){

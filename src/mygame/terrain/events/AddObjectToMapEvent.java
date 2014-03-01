@@ -4,12 +4,14 @@
  */
 package mygame.terrain.events;
 
+import com.google.inject.Singleton;
 import com.jme3.scene.Spatial;
 
 /**
  *
  * @author arska
  */
+@Singleton
 public class AddObjectToMapEvent {
     private int x;
     private int y;

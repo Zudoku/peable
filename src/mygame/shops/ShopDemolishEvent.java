@@ -4,10 +4,13 @@
  */
 package mygame.shops;
 
+import com.google.inject.Singleton;
+
 /**
  *
  * @author arska
  */
+@Singleton
 public class ShopDemolishEvent {
     BasicShop b;
     public ShopDemolishEvent(BasicShop b){

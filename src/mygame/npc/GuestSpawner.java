@@ -11,7 +11,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
-import mygame.GUI.UpdateMoneyTextBarEvent;
+import mygame.GUI.events.UpdateMoneyTextBarEvent;
 
 /**
  *

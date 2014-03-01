@@ -4,10 +4,13 @@
  */
 package mygame.terrain.decoration;
 
+import com.google.inject.Singleton;
+
 /**
  *
  * @author arska
  */
+@Singleton
 public class RotationEvent {
     private int value;
     private final int who;

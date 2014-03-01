@@ -4,7 +4,9 @@
  */
 package mygame.shops;
 
+import mygame.GUI.events.UpdateBuildingUIEvent;
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -13,7 +15,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.logging.Logger;
-import mygame.GUI.UpdateMoneyTextBarEvent;
+import mygame.GUI.events.CloseWindowsEvent;
+import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.ride.RideManager;
@@ -27,17 +30,21 @@ import mygame.terrain.ParkHandler;
  */
 @Singleton
 public class ShopManager {
+    //MISC
     private static final Logger logger = Logger.getLogger(ShopManager.class.getName());
-    public BasicBuildables selectedBuilding= BasicBuildables.NULL;
-    public ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
+    //OWNS
     ShopFactory shopFactory;
-    Direction facing = Direction.DOWN;
+    public ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
     private final AssetManager assetManager;
     public Node shopNode;
     public Node rootNode;
-    BasicShop boughtshop;
-    int shopID;
     private final HolomodelDrawer holoDrawer;
+    //SELECTION PARAMETERS
+    int shopID;
+    Direction facing = Direction.DOWN;
+    BasicShop boughtshop;
+    public BasicBuildables selectedBuilding= BasicBuildables.NULL;
+    private boolean placeBuilding=false;
     
     @Inject private ClickingHandler clickingHandler;
     @Inject private RideManager rideManager;
@@ -52,9 +59,7 @@ public class ShopManager {
 
         shopNode=new Node("shopNode");
         rootNode.attachChild(shopNode);
-        
-        
-
+        eventBus.register(this);
     }
 
     public void buy(ParkHandler parkHandler) {
@@ -102,7 +107,7 @@ public class ShopManager {
        
         
     }
-    public void activateplace(){
+    private void activateplace(){
         Spatial geom;
         switch(selectedBuilding){
             case MBALL:
@@ -166,28 +171,19 @@ public class ShopManager {
         }
         holoDrawer.toggleDrawSpatial();
         clickingHandler.clickMode= ClickingModes.PLACE;
-        
-        
-        
-        
-    }
-    public void setSelection(BasicBuildables select) {
-        if (select == null) {
-            return;
-        }
-        this.selectedBuilding = select;
-        
+        eventBus.post(new CloseWindowsEvent("")); 
     }
 
     public void resetShopdata() {
         selectedBuilding = BasicBuildables.NULL;
         facing = Direction.DOWN;
         clickingHandler.clickMode= ClickingModes.NOTHING;
+        placeBuilding=false;
     }
     public void resetShopdataFromRide() {
         selectedBuilding = BasicBuildables.NULL;
         facing = Direction.DOWN;
-        
+        placeBuilding=false;
     }
     public void rotateShop(){
         switch(facing){
@@ -209,6 +205,7 @@ public class ShopManager {
         }
         holoDrawer.rotateDrawed(facing);
     }
+    @Deprecated
     public BasicShop isthereshop(int x,int y ,int z){
         BasicShop b=null;
         if(shops.isEmpty()==false){
@@ -228,5 +225,57 @@ public class ShopManager {
     }
     public void setShopID(int shopID){
         this.shopID=shopID;
+    }
+    @Subscribe
+    public void listenBuildingSelection(BuildingSelectionEvent event){
+        int tab=event.tab;
+        int index=event.index;
+        switch(tab){
+                case  1: //SHOPS
+                    switch(index){
+                        case 1:
+                            //SHOP1
+                            checkSelected(BasicBuildables.TOILET);
+                            break;
+                            
+                        case 2:
+                            //SHOP2
+                            break;
+                            
+                        case 3:
+                            //SHOP3
+                            
+                    }
+                    break;
+                    
+                case 2: //POOR RIDES
+                    
+                    break;
+                    
+                case 3: //MEDIOCRE RIDES
+                    
+                    break;
+                    
+                case 4: // COSTLY RIDES
+                    
+                    break;
+                    
+                case 5: // OTHER
+                    
+                    break;
+            }
+        if(placeBuilding){
+           activateplace();
+           eventBus.post(new CloseWindowsEvent(""));
+        }else{
+            eventBus.post(new UpdateBuildingUIEvent(selectedBuilding));
+        }
+    }
+    private void checkSelected(BasicBuildables b){
+        if(b==selectedBuilding){
+            placeBuilding=true;
+        }else{
+            selectedBuilding=b;
+        }
     }
 }

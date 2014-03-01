@@ -210,19 +210,19 @@
                                     </panel>
                                     <panel id="shope_tab_1_row_1"valign="top"align="left"height="66" width="90%" x="0"y="150"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
                                         <image id="shope_tab_1_item_1"filename="Interface/buildings/Icon.png"x="1"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
-                                            <interact onClick="selectbuilding(building1)"/>   
+                                            <interact onClick="selectbuilding(1:1)"/>  
                                             <effect>
                                                 <onHover name="border" border="1px" color="#822f"/>
                                             </effect>
                                         </image>
                                         <image id="shope_tab_1_item_2"filename="Interface/buildings/Icon.png"x="66"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
-                                            <interact onClick="selectbuilding(building2)"/>   
+                                            <interact onClick="selectbuilding(1:2)"/>   
                                             <effect>
                                                 <onHover name="border" border="1px" color="#822f"/>
                                             </effect>
                                         </image>
                                         <image id="shope_tab_1_item_3"filename="Interface/buildings/Icon.png"x="131"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
-                                            <interact onClick="selectbuilding(building3)"/>   
+                                            <interact onClick="selectbuilding(1:3)"/>   
                                             <effect>
                                                 <onHover name="border" border="1px" color="#822f"/>
                                             </effect>
@@ -317,11 +317,31 @@
                         </control>
                     </panel>
                     <panel id="shopdescpanel"valign="top"align="left"height="500" width="380" x="600"y="60"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                        <image id="shopbigpic"filename="Interface/Shops/Noshoppic.png"x="2"y="2" childLayout="absolute" height="300"width="376"visibleToMouse="true">
-                        </image>
-                        <control id="shopdescname"name="label" font="Interface/Fonts/Impact.fnt"text="${CALL.getshopname()}" x="6"y="320" color="ffffff"/>
-                        <control id="shopdescprice"name="label" font="Interface/Fonts/Impact.fnt"text="${CALL.getshopprice()}" x="6"y="370" color="ffffff"/>
-                        <control id="shopdescdesc"name="label" font="Interface/Fonts/Impact.fnt"text="${CALL.getshopdesc()}" x="6"y="400" color="ffffff"/>
+                        <panel id="buildingDescImagePanel"valign="top"align="left"height="302" width="378" x="2"y="2"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <image id="shopbigpic"filename="Interface/Shops/Noshoppic.png"x="1"y="1" childLayout="absolute" height="300"width="376"visibleToMouse="true"/>
+                            <effect>
+                                <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                            </effect> 
+                        </panel>
+                        <panel id="buildingDescNamePanel"valign="top"align="left"height="30" width="378" x="2"y="320"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <control id="buildingDescName"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
+                            <effect>
+                                <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                            </effect>
+                        </panel>
+                        <panel id="buildingDescPricePanel"valign="top"align="left"height="30" width="378" x="2"y="360"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <control id="buildingDescPrice"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
+                            <effect>
+                                <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                            </effect>
+                        </panel>
+                        <panel id="buildingDescDescPanel"valign="top"align="left"height="100" width="378" x="2"y="400"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                            <control id="buildingDescDesc"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
+                            <effect>
+                                <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                            </effect>
+                        </panel>
+                        
                     </panel>
                 </panel>
             </control>

@@ -53,5 +53,14 @@ public class UtilityMethods {
        //clone.flip();
        clone.position(original.position());
        return clone;
-}
+    }
+     public static boolean findIsTerrain(Node r){
+        if(r==null){
+            return false;
+        }
+        if("Terrain".equals(r.getUserData("type"))){
+            return true;
+        }
+        return findIsTerrain(r.getParent());  
+    }
 }

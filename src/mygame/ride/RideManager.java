@@ -14,7 +14,7 @@ import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mygame.GUI.UpdateMoneyTextBarEvent;
+import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.shops.BasicBuildables;

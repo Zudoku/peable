@@ -12,7 +12,7 @@ import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Logger;
-import mygame.GUI.UpdateMoneyTextBarEvent;
+import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.Main;
 import mygame.npc.AddGuestLimitEvent;
 import mygame.npc.Guest;

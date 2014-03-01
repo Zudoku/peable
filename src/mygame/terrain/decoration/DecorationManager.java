@@ -12,7 +12,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import mygame.GUI.UpdateMoneyTextBarEvent;
+import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.UtilityMethods;
 import mygame.terrain.events.AddObjectToMapEvent;
 import mygame.terrain.Direction;

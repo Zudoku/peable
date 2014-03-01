@@ -4,10 +4,14 @@
  */
 package mygame.GUI;
 
+import com.google.inject.Singleton;
+import mygame.shops.BasicBuildables;
+
 /**
  *
  * @author arska
  */
+@Singleton
 public class ShopDescriptionManager {
     public String shopName="Name:";
     public String shopDescription="Description: ";
@@ -16,26 +20,26 @@ public class ShopDescriptionManager {
     public ShopDescriptionManager(){
         
     }
-    public void setDescriptionMBall(){
+    private void setDescriptionMBall(){
         shopName="Name: Meatball Shop";
         shopDescription="Description: Lovely meatballs! Yum!";
         shopPrice="Price: 300";
         bigpic="Interface/Shops/Icon.png";
     }
-    public void setDescriptionToilet(){
+    private void setDescriptionToilet(){
         shopName="Name: Toilet";
         shopDescription="Description: Old toilet ";
         shopPrice="Price: 300";
         bigpic="Interface/Shops/Icon.png";
     }
-    public void setDescriptionEnergy(){
+    private void setDescriptionEnergy(){
         shopName="Name: EnergyDrink shop";
         shopDescription="Description: adasjdh";
         shopPrice="Price: 300";
         bigpic="Interface/Shops/Icon.png";
         
     }
-    public void setDescriptionChess(){
+    private void setDescriptionChess(){
         shopName="Name: ChessCenter";
         shopDescription="Description: Building to play Chess. Smart!";
         shopPrice="Price: 500";
@@ -43,39 +47,90 @@ public class ShopDescriptionManager {
         
     }
 
-    public void setDescriptionArchery() {
+    private void setDescriptionArchery() {
         shopName="Name: Archery Range";
         shopDescription="Description: Test your archery skills";
         shopPrice="Price: 500";
         bigpic="Interface/Shops/Icon.png";
     }
 
-    public void setDescriptionBlender() {
+    private void setDescriptionBlender() {
         shopName="Name: Blender";
         shopDescription="Description: Get yourself Blended ! Barf";
         shopPrice="Price: 500";
         bigpic="Interface/Shops/Icon.png";
     }
 
-    public void setDescriptionHHouse() {
+    private void setDescriptionHHouse() {
         shopName="Name: HauntedHouse";
         shopDescription="Description: This place is haunted oh no";
         shopPrice="Price: 500";
         bigpic="Interface/Shops/Icon.png";
     }
 
-    public void setDescriptionPirateShip() {
+    private void setDescriptionPirateShip() {
         shopName="Name: Pirate Ship";
         shopDescription="Description: Prepare to be boarded!";
         shopPrice="Price: 500";
         bigpic="Interface/Shops/Icon.png";
     }
 
-    public void setDescriptionRotor() {
+    private void setDescriptionRotor() {
         shopName="Name: Rotor";
         shopDescription="Description: I have no idea";
         shopPrice="Price: 500";
         bigpic="Interface/Shops/Icon.png";
     }
+    private void setDescriptionSpinW() {
+        shopName="Name: Spin Wheel";
+        shopDescription="Description: Spins faster than ever!";
+        shopPrice="Price: 500";
+        bigpic="Interface/Shops/Icon.png";
+    }
+    public void setDescription(BasicBuildables buildable) {
+        switch(buildable){
+            case ARCHERYRANGE:
+                setDescriptionArchery();
+                break;
+                
+            case BLENDER:
+                setDescriptionBlender();
+                break;
+                
+            case CHESSCENTER:
+                setDescriptionChess();
+                break;
+                
+            case ENERGY:
+                setDescriptionEnergy();
+                break;
+                
+            case HAUNTEDHOUSE:
+                setDescriptionHHouse();
+                break;
+                
+            case MBALL:
+                setDescriptionMBall();
+                break;
+            case PIRATESHIP:
+                setDescriptionPirateShip();
+                break;
+                
+            case ROTOR:
+                setDescriptionRotor();
+                break;
+                
+            case SPINWHEEL:
+                setDescriptionSpinW();
+                break;
+                
+            case TOILET:
+                setDescriptionToilet();
+                break;
+            case NULL:
+        }
+    }
+
+    
     
 }

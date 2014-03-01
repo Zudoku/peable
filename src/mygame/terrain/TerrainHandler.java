@@ -65,21 +65,11 @@ public class TerrainHandler {
         }
         
     }
-    private boolean findIsTerrain(Node r){
-        if(r==null){
-            return false;
-        }
-        if("Terrain".equals(r.getUserData("type"))){
-            return true;
-        }
-        return findIsTerrain(r.getParent());  
-    }
-
     public void handleClicking(CollisionResults results) {
         Vector3f location = null;
         CollisionResult result = null;
         for (CollisionResult r : results) {
-            if(findIsTerrain(r.getGeometry().getParent())){
+            if(UtilityMethods.findIsTerrain(r.getGeometry().getParent())){
                 result = r;
                 break;
             }

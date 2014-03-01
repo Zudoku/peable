@@ -12,7 +12,7 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Node;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mygame.GUI.UpdateMoneyTextBarEvent;
+import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.GUI.WindowMaker;
 import mygame.Gamestate;
 import mygame.Main;

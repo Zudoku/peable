@@ -4,6 +4,8 @@
  */
 package mygame.GUI;
 
+import mygame.GUI.events.UpdateMoneyTextBarEvent;
+import mygame.GUI.events.UpdateRoadDirectionEvent;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
@@ -27,6 +29,9 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.SizeValue;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import mygame.GUI.events.CloseWindowsEvent;
 import mygame.Main;
 import mygame.SaveManager;
 import mygame.inputhandler.ClickingHandler;
@@ -36,7 +41,9 @@ import mygame.npc.NPCManager;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicBuildables;
 import mygame.shops.BasicShop;
+import mygame.shops.BuildingSelectionEvent;
 import mygame.shops.ShopManager;
+import mygame.GUI.events.UpdateBuildingUIEvent;
 import mygame.terrain.Direction;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.RoadHill;
@@ -51,7 +58,7 @@ import mygame.terrain.decoration.Decorations;
  * @author arska
  */
 public class IngameHUD implements ScreenController {
-
+    private static final Logger logger = Logger.getLogger(IngameHUD.class.getName());
     public Nifty nifty;
     public Screen screen;
     public boolean shovel = false;
@@ -191,7 +198,7 @@ public class IngameHUD implements ScreenController {
         a.setConstraintX(new SizeValue(b));
         
         updateMoneytextbar();
-        
+        updateshopdesc();
         
     }
 
@@ -235,8 +242,7 @@ public class IngameHUD implements ScreenController {
         
         int index=event.getSelectionItemIndex();
         if(index==0){
-            //selected default
-           
+            //selected default  
         }
         else{
             Guest guest = null;
@@ -485,151 +491,11 @@ public class IngameHUD implements ScreenController {
         niftyElement.setVisible(false);
         niftyElement = nifty.getCurrentScreen().findElementByName("ridetemplate");
         niftyElement.setVisible(false);
-        
-        
         }
 
     }
 
-    public void buildingSelectmball() {
-        selectedBuilding = BasicBuildables.MBALL;
-        if (selectedBuilding == shopManager.selectedBuilding) {
-            closeWindows(" ");
-            shopManager.activateplace();
-
-
-
-
-        } else {
-            shopManager.setSelection(selectedBuilding);
-            System.out.println("YOU SELECTED BUILDING");
-            descriptionManager.setDescriptionMBall();
-            updateshopdesc();
-        }
-    }
-
-    public void buildingSelecttoilet() {
-        selectedBuilding = BasicBuildables.TOILET;
-        if (selectedBuilding == shopManager.selectedBuilding) {
-            closeWindows(" ");
-            shopManager.activateplace();
-
-        } else {
-            shopManager.selectedBuilding = BasicBuildables.TOILET;
-            descriptionManager.setDescriptionToilet();
-            updateshopdesc();
-        }
-    }
-
-    public void buildingSelectenergy() {
-        selectedBuilding = BasicBuildables.ENERGY;
-        if (selectedBuilding == shopManager.selectedBuilding) {
-            closeWindows(" ");
-            shopManager.activateplace();
-
-        } else {
-            shopManager.selectedBuilding = BasicBuildables.ENERGY;
-            descriptionManager.setDescriptionEnergy();
-            updateshopdesc();
-        }
-    }
-    public void buildingSelectchess() {
-        selectedBuilding = BasicBuildables.CHESSCENTER;
-        if (selectedBuilding == shopManager.selectedBuilding) {
-            closeWindows(" ");
-            shopManager.activateplace();
-
-
-
-
-        } else {
-            shopManager.setSelection(selectedBuilding);
-            
-            descriptionManager.setDescriptionChess();
-            updateshopdesc();
-        }
-    }
-    public void buildingSelectArchery(){
-        selectedBuilding = BasicBuildables.ARCHERYRANGE;
-        if (selectedBuilding == shopManager.selectedBuilding) {
-            closeWindows(" ");
-            shopManager.activateplace();
-
-
-
-
-        } else {
-            shopManager.setSelection(selectedBuilding);
-            
-            descriptionManager.setDescriptionArchery();
-            updateshopdesc();
-        }
-    }
-    public void buildingSelectBlender(){
-        selectedBuilding = BasicBuildables.BLENDER;
-        if (selectedBuilding == shopManager.selectedBuilding) {
-            closeWindows(" ");
-            shopManager.activateplace();
-
-
-
-
-        } else {
-            shopManager.setSelection(selectedBuilding);
-            
-            descriptionManager.setDescriptionBlender();
-            updateshopdesc();
-        }
-    }
-    public void buildingSelectHauntedHouse(){
-        selectedBuilding = BasicBuildables.HAUNTEDHOUSE;
-        if (selectedBuilding == shopManager.selectedBuilding) {
-            closeWindows(" ");
-            shopManager.activateplace();
-
-
-
-
-        } else {
-            shopManager.setSelection(selectedBuilding);
-            
-            descriptionManager.setDescriptionHHouse();
-            updateshopdesc();
-        }
-    }
-    public void buildingSelectPirateShip(){
-        selectedBuilding = BasicBuildables.PIRATESHIP;
-        if (selectedBuilding == shopManager.selectedBuilding) {
-            closeWindows(" ");
-            shopManager.activateplace();
-
-
-
-
-        } else {
-            shopManager.setSelection(selectedBuilding);
-            
-            descriptionManager.setDescriptionPirateShip();
-            updateshopdesc();
-        }
-    }
-    public void buildingSelectRotor(){
-        selectedBuilding = BasicBuildables.ROTOR;
-        if (selectedBuilding == shopManager.selectedBuilding) {
-            closeWindows(" ");
-            shopManager.activateplace();
-
-
-
-
-        } else {
-            shopManager.setSelection(selectedBuilding);
-            
-            descriptionManager.setDescriptionRotor();
-            updateshopdesc();
-        }
-    }
-
+  
     public String getshopname() {
         return descriptionManager.shopName;
     }
@@ -643,11 +509,11 @@ public class IngameHUD implements ScreenController {
     }
 
     public void updateshopdesc() {
-        Element niftyElement = nifty.getCurrentScreen().findElementByName("shopdescname");
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescName");
         setelementText(niftyElement,getshopname());
-        niftyElement = nifty.getCurrentScreen().findElementByName("shopdescprice");
+        niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescPrice");
         setelementText(niftyElement,getshopprice());
-        niftyElement = nifty.getCurrentScreen().findElementByName("shopdescdesc");
+        niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescDesc");
         setelementText(niftyElement,getshopdesc());
         String bigshoppic=descriptionManager.bigpic;
         
@@ -657,6 +523,7 @@ public class IngameHUD implements ScreenController {
 
     }
     private void setelementText(Element element,String text){
+        System.out.println(element.getRenderer(TextRenderer.class).getOriginalText()+ " Changed to "+ text);
         element.getRenderer(TextRenderer.class).setText(text);
         element.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
         element.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
@@ -720,7 +587,30 @@ public class IngameHUD implements ScreenController {
     private void updateShovelWindow(){
         updateBrushSize();
     }
-    public void selectbuilding(String building){
-        System.out.println(building);
+    /**
+     * Called when selecting buildings in building window (UI)
+     * @param selection In format TAB(int):INDEX(int)
+     * For example 2:1  =>> tab 2 index 1
+     */
+    public void selectbuilding(String selection){
+        System.out.println(selection);
+        String[] splittedString = selection.split(":");
+        try{
+            int tab=Integer.parseInt(splittedString[0]);
+            int index=Integer.parseInt(splittedString[1]);
+            eventBus.post(new BuildingSelectionEvent(tab, index));
+        }catch (NullPointerException n){
+            logger.log(Level.SEVERE,"Critical error parsing selected building: selection in wrong format! ",selection);
+        }
+        
+    }
+    @Subscribe
+    public void listenUpdateBuildingUIEvent(UpdateBuildingUIEvent event){
+        descriptionManager.setDescription(event.buildable);
+        updateshopdesc();
+    }
+    @Subscribe
+    public void listenCloseWindowsEvent(CloseWindowsEvent event){
+        closeWindows(event.parameters);
     }
 }

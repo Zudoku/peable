@@ -13,6 +13,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.logging.Logger;
+import mygame.UtilityMethods;
 import mygame.terrain.Direction;
 
 /**
@@ -67,10 +68,7 @@ public class HolomodelDrawer {
         if(positionLocked){
             return;
         }
-        if(!target.getGeometry().getName().equals("Terrain")){
-            return;
-        }
-        if(target==null){
+        if(!UtilityMethods.findIsTerrain(target.getGeometry().getParent())){
             return;
         }
         if(drawed==null){
