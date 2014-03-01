@@ -109,7 +109,7 @@
   <style id="nifty-tab-button">
     <attributes backgroundImage="Interface/Nifty/GUI/tabs.png"
                 imageMode="sprite-resize:31,23,2,15,1,15,11,15,1,15,1,15,1,15,11" paddingLeft="20px"
-                paddingRight="20px"width="100px" height="40px" childLayout="center" visibleToMouse="true"/>
+                paddingRight="20px"width="110px" height="40px" childLayout="center" visibleToMouse="true"/>
     <effect>
       <onHover name="imageOverlay" filename="Interface/Nifty/GUI/tabs.png"
                imageMode="sprite-resize:31,23,1,15,1,15,11,15,1,15,1,15,1,15,11" post="true"/>

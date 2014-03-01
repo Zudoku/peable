@@ -720,4 +720,7 @@ public class IngameHUD implements ScreenController {
     private void updateShovelWindow(){
         updateBrushSize();
     }
+    public void selectbuilding(String building){
+        System.out.println(building);
+    }
 }

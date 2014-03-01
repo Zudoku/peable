@@ -38,7 +38,7 @@
                         
                     </panel>
                     <panel x="1%"y="140"id="newgame2"valign="top"align="left"height="120" width="98%" backgroundColor="#8FBF5C" childLayout="absolute"visibleToMouse="true">
-                            <control id="newgamename2"name="label" font="Interface/Fonts/Impact.fnt"text="Mighty Yral Mountains" x="5"y="5" color="#FF4D88"/>
+                        <control id="newgamename2"name="label" font="Interface/Fonts/Impact.fnt"text="Mighty Yral Mountains" x="5"y="5" color="#FF4D88"/>
                         <control id="newgamedesc21"name="label" font="Interface/Fonts/Impact.fnt"text="Very hilly area with trees" x="5"y="30"color="#960233"/>
                         <control id="newgamedesc22"name="label" font="Interface/Fonts/Impact.fnt"text="and nearly nothing else in sight" x="5"y="55"color="#960233"/>
                         <control id="newgamedesc2Availability"name="label" font="Interface/Fonts/Impact.fnt"text="SOON!" x="305"y="55"color="#FF0000"/>
@@ -48,7 +48,7 @@
                         <interact onClick=""/>
                     </panel>
                     <panel x="1%"y="270"id="newgame3"valign="top"align="left"height="120" width="98%" backgroundColor="#8FBF5C" childLayout="absolute"visibleToMouse="true">
-                            <control id="newgamename3"name="label" font="Interface/Fonts/Impact.fnt"text="UNKNOWN" x="5"y="5" color="#FF4D88"/>
+                        <control id="newgamename3"name="label" font="Interface/Fonts/Impact.fnt"text="UNKNOWN" x="5"y="5" color="#FF4D88"/>
                         <control id="newgamedesc31"name="label" font="Interface/Fonts/Impact.fnt"text="Unexplored land" x="5"y="30"color="#960233"/>
                         <control id="newgamedesc32"name="label" font="Interface/Fonts/Impact.fnt"text="what will it be?" x="5"y="55"color="#960233"/>
                         <control id="newgamedesc3Availability"name="label" font="Interface/Fonts/Impact.fnt"text="SOON!" x="305"y="55"color="#FF0000"/>
@@ -194,240 +194,128 @@
                     <control id="queroad" name="checkbox" x="10"y="20"/>
                 </panel>
             </control>
-            <control id="shopWindow" name="window"title="Shops"width="1000"height="600"x="200"y="200"hideOnClose="true"closeable="false">
-                <panel id="shoppanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true"childClip="true">
-                    <control id="scrollbarPanelId" name="scrollPanel" horizontal="false" height="500px" x="60"y="60"pageSizeY="4"stepSizeY="2">
-                        <panel id="panel"valign="top"align="left"height="1000" width="526" backgroundColor="#999999" childLayout="absolute"visibleToMouse="true"x="0"y="0"> 
-                            <image filename="Interface/Shops/Shops.png"x="0"y="0" childLayout="absolute" height="64"width="128"visibleToMouse="true">
-                            </image>
-                            <image filename="Interface/Shops/Smallicons/mballsmall.png"x="10"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="buildingSelectmball()">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Smallicons/toiletsmall.png"x="84"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="buildingSelecttoilet()">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="158"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="buildingSelectenergy()">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="232"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="306"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="380"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="454"y="84" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="10"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="84"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="158"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="232"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="306"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="380"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="454"y="158" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="10"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="84"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="158"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="232"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="306"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="380"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="454"y="232" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Rides.png"x="0"y="306" childLayout="absolute" height="64"width="128"visibleToMouse="true">
-                            </image>
-                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="10"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="buildingSelectchess()">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="84"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="buildingSelectArchery()">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="158"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="buildingSelectBlender()">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="232"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="buildingSelectHauntedHouse()">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="306"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="buildingSelectPirateShip()">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Smallicons/energysmall.png"x="380"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="buildingSelectRotor()">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="454"y="380" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="10"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="84"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="158"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="232"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="306"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="380"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="454"y="454" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="10"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="84"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="158"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="232"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="306"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="380"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="454"y="528" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="10"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="84"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="158"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="232"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="306"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="380"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="454"y="602" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="10"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="84"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="158"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="232"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="306"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="380"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                            <image filename="Interface/Shops/Nopic.png"x="454"y="676" childLayout="absolute" height="64"width="64"visibleToMouse="true">
-                                <interact onClick="">   
-                                </interact>
-                            </image>
-                        </panel>
-                    </control>
+            <control id="shopWindow" name="window"title="Buildings"width="1000"height="600"x="200"y="200"hideOnClose="true"closeable="false">
+                <panel id="shope_rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                    <panel id="shope_tabspanel"valign="top"align="left"height="100%" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
+                        <control id="shope_tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
+                            <control id="shope_tab_1" name="tab" caption="Shops"x="0"y="0" height="100%" width="100%"> 
+                                <panel id="shope_tab_1_panel"valign="top"align="left"height="600" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    <panel id="shope_tab_1_desc"valign="top"align="left"height="140" width="90%" x="0"y="0"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <control id="shope_tab_1descline1"name="label" font="Interface/Fonts/Impact.fnt"text="Shops are small and compact buildings which are used to serve food and" x="5"y="5" color="#ffff"/>
+                                        <control id="shope_tab_1descline2"name="label" font="Interface/Fonts/Impact.fnt"text="drinks to your guests. There are also many souvenir stalls to distribute" x="5"y="29" color="#ffff"/>
+                                        <control id="shope_tab_1descline3"name="label" font="Interface/Fonts/Impact.fnt"text="nice things.Important buildings such as Info and Toilet!" x="5"y="53" color="#ffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                    <panel id="shope_tab_1_row_1"valign="top"align="left"height="66" width="90%" x="0"y="150"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <image id="shope_tab_1_item_1"filename="Interface/buildings/Icon.png"x="1"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(building1)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_2"filename="Interface/buildings/Icon.png"x="66"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(building2)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_3"filename="Interface/buildings/Icon.png"x="131"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(building3)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <effect>
+                                            <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                    <panel id="shope_tab_1_row_2"valign="top"align="left"height="66" width="90%" x="0"y="218"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                </panel>
+                            </control>
+                            <control id="shope_tab_2" name="tab" caption="Poor rides"x="0"y="0" height="100%" width="100%"> 
+                                <panel id="shope_tab_2_panel"valign="top"align="left"height="600" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    <panel id="shope_tab_2_desc"valign="top"align="left"height="140" width="90%" x="0"y="0"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                    <panel id="shope_tab_2_row_1"valign="top"align="left"height="66" width="90%" x="0"y="150"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                    <panel id="shope_tab_2_row_2"valign="top"align="left"height="66" width="90%" x="0"y="218"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                </panel>
+                            </control>
+                            <control id="shope_tab_3" name="tab" caption="Mediocre rides"x="0"y="0" height="100%" width="100%"> 
+                                <panel id="shope_tab_3_panel"valign="top"align="left"height="600" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    <panel id="shope_tab_3_desc"valign="top"align="left"height="140" width="90%" x="0"y="0"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                    <panel id="shope_tab_3_row_1"valign="top"align="left"height="66" width="90%" x="0"y="150"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                    <panel id="shope_tab_3_row_2"valign="top"align="left"height="66" width="90%" x="0"y="218"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                </panel>
+                            </control>
+                            <control id="shope_tab_4" name="tab" caption="Costly rides"x="0"y="0" height="100%" width="100%"> 
+                                <panel id="shope_tab_4_panel"valign="top"align="left"height="600" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    <panel id="shope_tab_4_desc"valign="top"align="left"height="140" width="90%" x="0"y="0"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                    <panel id="shope_tab_4_row_1"valign="top"align="left"height="66" width="90%" x="0"y="150"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                    <panel id="shope_tab_4_row_2"valign="top"align="left"height="66" width="90%" x="0"y="218"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                </panel>
+                            </control>
+                            <control id="shope_tab_5" name="tab" caption="Other"x="0"y="0" height="100%" width="100%"> 
+                                <panel id="shope_tab_5_panel"valign="top"align="left"height="600" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                                    <panel id="shope_tab_5_desc"valign="top"align="left"height="140" width="90%" x="0"y="0"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                    <panel id="shope_tab_5_row_1"valign="top"align="left"height="66" width="90%" x="0"y="150"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                    <panel id="shope_tab_5_row_2"valign="top"align="left"height="66" width="90%" x="0"y="218"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                                        </effect> 
+                                    </panel>
+                                </panel>
+                            </control>
+                        </control>
+                    </panel>
                     <panel id="shopdescpanel"valign="top"align="left"height="500" width="380" x="600"y="60"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                         <image id="shopbigpic"filename="Interface/Shops/Noshoppic.png"x="2"y="2" childLayout="absolute" height="300"width="376"visibleToMouse="true">
                         </image>
