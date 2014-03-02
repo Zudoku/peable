@@ -54,13 +54,19 @@ public class UtilityMethods {
        clone.position(original.position());
        return clone;
     }
-     public static boolean findIsTerrain(Node r){
-        if(r==null){
+    /**
+     * Tries to find Nodes or its parents userdata if its matching type
+     * @param r Spatial to search
+     * @param type UserData type
+     * @return 
+     */
+     public static boolean findUserDataType(Node r,String type){
+         if(r==null){
             return false;
         }
-        if("Terrain".equals(r.getUserData("type"))){
+        if(type.equals(r.getUserData("type"))){
             return true;
         }
-        return findIsTerrain(r.getParent());  
-    }
+        return findUserDataType(r.getParent(),type); 
+     }
 }

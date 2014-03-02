@@ -210,7 +210,7 @@
                                     </panel>
                                     <panel id="shope_tab_1_row_1"valign="top"align="left"height="66" width="90%" x="0"y="150"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
                                         <image id="shope_tab_1_item_1"filename="Interface/buildings/Icon.png"x="1"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
-                                            <interact onClick="selectbuilding(1:1)"/>  
+                                            <interact onClick="selectbuilding(TOILET)"/>  
                                             <effect>
                                                 <onHover name="border" border="1px" color="#822f"/>
                                             </effect>

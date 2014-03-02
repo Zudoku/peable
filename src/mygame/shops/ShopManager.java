@@ -228,42 +228,7 @@ public class ShopManager {
     }
     @Subscribe
     public void listenBuildingSelection(BuildingSelectionEvent event){
-        int tab=event.tab;
-        int index=event.index;
-        switch(tab){
-                case  1: //SHOPS
-                    switch(index){
-                        case 1:
-                            //SHOP1
-                            checkSelected(BasicBuildables.TOILET);
-                            break;
-                            
-                        case 2:
-                            //SHOP2
-                            break;
-                            
-                        case 3:
-                            //SHOP3
-                            
-                    }
-                    break;
-                    
-                case 2: //POOR RIDES
-                    
-                    break;
-                    
-                case 3: //MEDIOCRE RIDES
-                    
-                    break;
-                    
-                case 4: // COSTLY RIDES
-                    
-                    break;
-                    
-                case 5: // OTHER
-                    
-                    break;
-            }
+        checkSelected(event.selection);
         if(placeBuilding){
            activateplace();
            eventBus.post(new CloseWindowsEvent(""));

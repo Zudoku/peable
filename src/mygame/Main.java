@@ -3,6 +3,7 @@ package mygame;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.jme3.app.SimpleApplication;
+import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -121,14 +122,20 @@ public class Main extends SimpleApplication {
         return injector;
     }
     private void lightsOn() {
+        
         DirectionalLight sun = new DirectionalLight();
-        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f)));
+        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f).normalizeLocal()));
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
         DirectionalLight sun2 = new DirectionalLight();
-        sun2.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)));
+        sun2.setDirection((new Vector3f(-0.5f, 0.5f, -0.5f).normalizeLocal()));
         sun2.setColor(ColorRGBA.White);
-        rootNode.addLight(sun2);
+        rootNode.addLight(sun2); 
+        
+        AmbientLight l=new AmbientLight();
+        l.setColor(new ColorRGBA(1,1,1,300));
+        
+        rootNode.addLight(l);
     }
     
 }

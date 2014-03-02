@@ -23,7 +23,6 @@ import mygame.shops.BasicShop;
 import mygame.terrain.events.DeleteSpatialFromMapEvent;
 import mygame.terrain.ParkHandler;
 import mygame.terrain.events.PayParkEvent;
-import mygame.terrain.RoadMaker;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.TerrainHandler;
 import mygame.terrain.decoration.DecorationManager;

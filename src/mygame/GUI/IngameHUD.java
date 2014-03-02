@@ -589,18 +589,15 @@ public class IngameHUD implements ScreenController {
     }
     /**
      * Called when selecting buildings in building window (UI)
-     * @param selection In format TAB(int):INDEX(int)
-     * For example 2:1  =>> tab 2 index 1
+     * @param selection enum BASICBUILDABLES in string-form
      */
     public void selectbuilding(String selection){
         System.out.println(selection);
-        String[] splittedString = selection.split(":");
         try{
-            int tab=Integer.parseInt(splittedString[0]);
-            int index=Integer.parseInt(splittedString[1]);
-            eventBus.post(new BuildingSelectionEvent(tab, index));
-        }catch (NullPointerException n){
-            logger.log(Level.SEVERE,"Critical error parsing selected building: selection in wrong format! ",selection);
+            BasicBuildables sel=BasicBuildables.valueOf(selection);
+            eventBus.post(new BuildingSelectionEvent(sel));
+        }catch (IllegalArgumentException n){
+            logger.log(Level.SEVERE, "Critical error parsing selected building: selection in wrong format! ,{0} is not maching ENUM.",selection);
         }
         
     }

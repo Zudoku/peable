@@ -12,11 +12,9 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class BuildingSelectionEvent {
-    int tab;
-    int index;
-    public BuildingSelectionEvent(int tab, int index) {
-        this.tab=tab;
-        this.index=index;
+    BasicBuildables selection;
+    public BuildingSelectionEvent(BasicBuildables selection) {
+        this.selection=selection;
     }
     
 }

@@ -69,7 +69,7 @@ public class TerrainHandler {
         Vector3f location = null;
         CollisionResult result = null;
         for (CollisionResult r : results) {
-            if(UtilityMethods.findIsTerrain(r.getGeometry().getParent())){
+            if(UtilityMethods.findUserDataType(r.getGeometry().getParent(),"Terrain")){
                 result = r;
                 break;
             }
@@ -177,6 +177,7 @@ public class TerrainHandler {
         
         Texture grass = assetManager.loadTexture(
             "Textures/grasstexture.png");
+        
         grass.setWrap(WrapMode.MirroredRepeat);
         testmaterial.setTexture("Tex1", grass);
         testmaterial.setFloat("Tex1Scale",128f);

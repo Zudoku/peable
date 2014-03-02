@@ -68,7 +68,7 @@ public class HolomodelDrawer {
         if(positionLocked){
             return;
         }
-        if(!UtilityMethods.findIsTerrain(target.getGeometry().getParent())){
+        if(!UtilityMethods.findUserDataType(target.getGeometry().getParent(),"Terrain")){
             return;
         }
         if(drawed==null){
