@@ -19,7 +19,6 @@ import mygame.terrain.Direction;
  */
 public class Enterance implements Savable{
   public boolean exit=false;
-  //tiepala johon kiinni
   public Vector3f location;
   public Direction facing;
   public Spatial object;

@@ -20,7 +20,6 @@ import mygame.npc.Guest;
 import mygame.npc.inventory.Item;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
-import mygame.shops.Employee;
 import mygame.terrain.ParkHandler;
 
 /**
@@ -162,13 +161,6 @@ public class WindowMaker {
         updateText(niftyElement, shop.reputation.toString());
         niftyElement = temppanel.findElementByName("shopemployees");
         String employees = "No employees";
-        for (Employee e : shop.employees) {
-            if (employees.equals("No employees")) {
-                employees = "";
-            }
-            employees = employees + " " + e.toString();
-        }
-
         updateText(niftyElement, employees);
 
 

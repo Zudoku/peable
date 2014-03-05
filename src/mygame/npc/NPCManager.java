@@ -39,7 +39,7 @@ public class NPCManager {
     public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus){
         this.rootNode=rootNode;
         NPCNode=new Node("NPCNode");
-        guestSpawner=new GuestSpawner(NPCNode,rootNode,assetManager,eventBus);
+        guestSpawner=new GuestSpawner(NPCNode,assetManager,eventBus);
         rootNode.attachChild(NPCNode);
         eventBus.register(this);
         

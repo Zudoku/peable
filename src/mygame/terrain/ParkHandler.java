@@ -5,7 +5,6 @@
 package mygame.terrain;
 
 import mygame.terrain.events.PayParkEvent;
-import mygame.terrain.events.SetMapEvent;
 import mygame.terrain.events.RideDemolishEvent;
 import mygame.terrain.events.DeleteSpatialFromMapEvent;
 import mygame.terrain.events.AddObjectToMapEvent;
@@ -36,25 +35,11 @@ import mygame.terrain.events.SetMapDataEvent;
  */
 @Singleton
 public class ParkHandler {
-
-    private MapContainer map;
+    //LOGGER
     private static final Logger logger = Logger.getLogger(ParkHandler.class.getName());
-    private ParkWallet parkwallet = new ParkWallet(10000);
-    private ArrayList<BasicRide> rides=new ArrayList<BasicRide>();
-    private ArrayList<BasicNPC> npcs=new ArrayList<BasicNPC>();
-    private ArrayList<BasicShop> shops=new ArrayList<BasicShop>();
-    private ArrayList<Guest> guests=new ArrayList<Guest>();
-    private String parkName = "defaultparkname";
+    //MISC
     public AppSettings settings;
-    private int rideID;
-    private int shopID;
-    private int mapHeight;
-    private int mapWidth;
-    private int maxGuests;
-    private ArrayList<Vector3f>RoadtoUpdatePositions=new ArrayList<Vector3f>();
-    
-    
-    private ArrayList<Spatial> queRoadsToUpdate=new ArrayList<Spatial>();
+    //DEPENDENCIES
     @Inject private NPCManager npcManager;
     @Inject private RoadMaker roadMaker;
     @Inject private ShopManager shopManager;
@@ -62,6 +47,23 @@ public class ParkHandler {
     @Inject private TerrainHandler terrainHandler;
     private final EventBus eventBus;
     private final Node rootNode;
+    //OWNS
+    private MapContainer map;
+    private ParkWallet parkwallet = new ParkWallet(10000);
+    private ArrayList<BasicRide> rides=new ArrayList<BasicRide>();
+    private ArrayList<BasicNPC> npcs=new ArrayList<BasicNPC>();
+    private ArrayList<BasicShop> shops=new ArrayList<BasicShop>();
+    private ArrayList<Guest> guests=new ArrayList<Guest>();
+    private ArrayList<Vector3f>RoadtoUpdatePositions=new ArrayList<Vector3f>();
+    private ArrayList<Spatial> queRoadsToUpdate=new ArrayList<Spatial>();
+    //VARIABLES
+    private String parkName = "defaultparkname";
+    private int rideID;
+    private int shopID;
+    private int mapHeight;
+    private int mapWidth;
+    private int maxGuests;
+    
     @Inject
     public ParkHandler(Node rootNode, AppSettings settings,MapContainer map,EventBus eventBus) {
         

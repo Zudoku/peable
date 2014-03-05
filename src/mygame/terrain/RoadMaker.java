@@ -13,6 +13,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.GUI.events.UpdateRoadDirectionEvent;
 import mygame.ride.BasicRide;
@@ -26,26 +27,37 @@ import mygame.terrain.decoration.RotationEvent;
  */
 @Singleton
 public class RoadMaker {
-
-    public Direction direction = Direction.UP;
-    public RoadHill hill = RoadHill.FLAT;
-    public RoadMakerStatus status = RoadMakerStatus.BUILDING;
-    public Vector3f startingPosition;
+    //LOGGER
+    private static final Logger logger = Logger.getLogger(RoadMaker.class.getName());
+    //MISC
+    //DEPENDENCIES
     private final Node rootNode;
-    public boolean queroad = false;
-    //X,Y,Z
-    private MapContainer map;
-    public boolean change = true;
     public RoadFactory roadF;
-    private Spatial lastqueroad;
-    public ArrayList<Spatial> roads = new ArrayList<Spatial>();
-    public int ID = 1;
+    private MapContainer map;
     @Inject
     private ParkHandler parkHandler;
     @Inject
     RideManager rideManager;
     private final EventBus eventBus;
-
+    //OWNS
+    public ArrayList<Spatial> roads = new ArrayList<Spatial>();
+    //VARIABLES
+    public Direction direction = Direction.UP;
+    public RoadHill hill = RoadHill.FLAT;
+    public RoadMakerStatus status = RoadMakerStatus.BUILDING;
+    public Vector3f startingPosition;
+    public boolean queroad = false;
+    public boolean change = true;
+    private Spatial lastqueroad;
+    public int ID = 1;
+    /**
+     * This Class is the Main control which does everything regarding to roads including 
+     * loading them and calculating where to move them
+     * @param assetManager This is needed to load the road Spatial
+     * @param rootNode This is used to attach the roads to the world
+     * @param map This is used to access the space where the roads are going to be
+     * @param eventBus This is used to send events to other components
+     */
     @Inject
     public RoadMaker(AssetManager assetManager,Node rootNode, MapContainer map, EventBus eventBus) {
         this.rootNode = rootNode;
@@ -54,7 +66,10 @@ public class RoadMaker {
         this.map = map;
         roadF = new RoadFactory(assetManager);
     }
-
+    /**
+     * This calculates next position for road. It calculates it based on direction.
+     * @return Position where the next road is going to be
+     */
     public Vector3f calcRoadPosition() {
         Vector3f roadPos = new Vector3f(startingPosition);
         switch (direction) {
@@ -82,7 +97,9 @@ public class RoadMaker {
         }
         return roadPos;
     }
-
+    /**
+     * 
+     */
     public void buildRoad() {
         if (status == RoadMakerStatus.CHOOSING) {
             return;
@@ -166,8 +183,8 @@ public class RoadMaker {
         road.move(calcRoadPosition());
 
         /**
-         * katsoo jos siinä kohdassa johon tietä rakennetaan on jotain mapissa
-         * jos se on tienpala niin se poistaa sen
+         * See if you have something where the road is supposed to be
+         * if it is a piece of road, it will destroy it(update it).
          */
         if (map.getMap()[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z] != null) {
             Spatial test = map.getMap()[(int) calcRoadPosition().x][(int) calcRoadPosition().y][(int) calcRoadPosition().z];
@@ -207,8 +224,7 @@ public class RoadMaker {
         }
 
         /**
-         *
-         * Uusi Startingposition sen mukaan millanen tie on juuri laitettiin
+         * Calculate a new starting position based on where you are placing your road
          *
          */
         switch (hill) {
@@ -232,8 +248,6 @@ public class RoadMaker {
         parkHandler.getParkWallet().remove(10);
         eventBus.post(new UpdateMoneyTextBarEvent());
         rootNode.attachChild(road);
-        //roads.add(road);
-
         int tempx = (int) pyorista(startingPosition).x;
         int tempz = (int) pyorista(startingPosition).z;
         int tempy = (int) (startingPosition).y;

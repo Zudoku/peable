@@ -7,12 +7,14 @@ package mygame.terrain;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.scene.Spatial;
+import java.util.logging.Logger;
 
 /**
  *
  * @author arska
  */
 public class RoadFactory {
+    private static final Logger logger = Logger.getLogger(RoadFactory.class.getName());
     private final AssetManager assetManager;
     
     public RoadFactory(AssetManager assetManager){

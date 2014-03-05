@@ -37,7 +37,6 @@ public class BasicShop {
     
     
     @Inject protected EventBus eventBus;
-    public ArrayList<Employee> employees=new ArrayList<Employee>();
     public ShopReputation reputation= ShopReputation.NEW;
     public String type;
     private final Node rootNode;

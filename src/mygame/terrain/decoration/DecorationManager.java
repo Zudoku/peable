@@ -12,6 +12,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.logging.Logger;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.UtilityMethods;
 import mygame.terrain.events.AddObjectToMapEvent;
@@ -25,21 +26,24 @@ import mygame.terrain.events.PayParkEvent;
  */
 @Singleton
 public class DecorationManager {
-
-    Node rootNode;
-    Node decorationNode;
-    Direction direction = Direction.RIGHT;
-    Decorations decoration = Decorations.ROCK;
-    private DecorationFactory decoFactory;
-    float price=0;
+    //LOGGER
+    private static final Logger logger = Logger.getLogger(DecorationManager.class.getName());
+    //DEPENDENCIES
     private ParkHandler parkHandler;
     private final EventBus eventBus;
+    private DecorationFactory decoFactory;
+    //OWNS
+    private Node decorationNode;
+    //VARIABLES
+    Direction direction = Direction.RIGHT;
+    Decorations decoration = Decorations.ROCK;
+    float price=0;
+    
     
     
 
     @Inject
     public DecorationManager(Node rootNode, AssetManager assetManager,EventBus eventBus,ParkHandler parkHandler) {
-        this.rootNode = rootNode;
         this.eventBus=eventBus;
         this.parkHandler=parkHandler;
         

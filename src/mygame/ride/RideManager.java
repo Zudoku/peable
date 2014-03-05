@@ -47,7 +47,7 @@ public class RideManager {
     @Inject
     public RideManager(AssetManager assetManager, Node rootNode, HolomodelDrawer holoDrawer, ParkHandler parkHandler,
                 ClickingHandler clickingHandler, EventBus eventBus) {
-        this.rideFactory = new RideFactory(assetManager,rootNode);
+        this.rideFactory = new RideFactory(assetManager);
         this.assetManager = assetManager;
         this.rootNode = rootNode;
         this.holoDrawer = holoDrawer;

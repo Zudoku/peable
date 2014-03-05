@@ -9,7 +9,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Logger;
 import mygame.Main;
+import mygame.inputhandler.UserInput;
 import mygame.npc.inventory.Item;
 import mygame.npc.inventory.RideType;
 import mygame.npc.inventory.StatManager;
@@ -28,7 +30,7 @@ import mygame.terrain.RoadMaker;
  * @author arska
  */
 public class Guest extends BasicNPC {
-
+    private static final Logger logger = Logger.getLogger(Guest.class.getName());
     public Wallet wallet;
     private int guestnum;
     Direction moving = Direction.UP;

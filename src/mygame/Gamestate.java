@@ -137,7 +137,7 @@ public class Gamestate extends AbstractAppState {
         selectionEmitter.updateSelection();
         npcManager.update();
         rideManager.updateRide();
-        userInput.checkDragging();
+        userInput.update();
     }
     
 }

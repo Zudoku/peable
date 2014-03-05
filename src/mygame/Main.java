@@ -5,10 +5,16 @@ import com.google.inject.Injector;
 import com.jme3.app.SimpleApplication;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
+import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
 import java.util.logging.Level;
@@ -70,6 +76,7 @@ public class Main extends SimpleApplication {
         inputManager.setCursorVisible(true);
         flyCam.setEnabled(false);
         lightsOn();   
+        test();
         
     }
 
@@ -137,5 +144,16 @@ public class Main extends SimpleApplication {
         
         rootNode.addLight(l);
     }
-    
+     public Geometry test(){
+         Geometry blue;
+         Box box1 = new Box(1,1,1);
+        blue = new Geometry("Box222", box1);
+        blue.setLocalTranslation(new Vector3f(1,6,1));
+        Material mat1 = new Material(assetManager, 
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat1.setColor("Color", ColorRGBA.Blue);
+        blue.setMaterial(mat1);
+        rootNode.attachChild(blue);
+        return blue;
+    }
 }

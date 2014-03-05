@@ -5,12 +5,14 @@
 package mygame.npc.inventory;
 
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  *
  * @author arska
  */
 public class StatManager {
+    private static final Logger logger = Logger.getLogger(StatManager.class.getName());
     private GuestEmotions currentEmote= GuestEmotions.NORMAL;
     public int hunger=0;
     public int thirst=0;

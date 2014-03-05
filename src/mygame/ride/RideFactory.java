@@ -7,9 +7,9 @@ package mygame.ride;
 import com.google.inject.Inject;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import mygame.ride.actualrides.Archeryrange;
 import mygame.ride.actualrides.Blender;
 import mygame.ride.actualrides.ChessCenter;
@@ -25,12 +25,12 @@ import mygame.terrain.MapPosition;
  * @author arska
  */
 public class RideFactory {
+    private static final Logger logger = Logger.getLogger(RideFactory.class.getName());
+    
     AssetManager assetManager; 
-    private final Node rootNode;
     @Inject
-    public RideFactory(AssetManager assetManager,Node rootNode) {
+    public RideFactory(AssetManager assetManager) {
         this.assetManager = assetManager;
-        this.rootNode=rootNode;
     }
     
     

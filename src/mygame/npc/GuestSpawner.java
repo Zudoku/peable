@@ -11,6 +11,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Logger;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
 
 /**
@@ -18,7 +19,7 @@ import mygame.GUI.events.UpdateMoneyTextBarEvent;
  * @author arska
  */
 public class GuestSpawner {
-
+    private static final Logger logger = Logger.getLogger(GuestSpawner.class.getName());
     ArrayList<Vector3f> spawnpoints = new ArrayList<Vector3f>();
     ArrayList<BasicNPC> npcs = new ArrayList<BasicNPC>();
     ArrayList<String> firstName = new ArrayList<String>();
@@ -26,14 +27,12 @@ public class GuestSpawner {
     ArrayList<Guest> guests=new ArrayList<Guest>();
     int guestNum = 1;
     private final Node nPCNode;
-    private final Node rootNode;
     Random r;
     private final AssetManager assetManager;
     private final EventBus eventBus;
 
-    public GuestSpawner(Node nPCNode, Node rootNode, AssetManager assetManager,EventBus eventBus) {
+    public GuestSpawner(Node nPCNode,AssetManager assetManager,EventBus eventBus) {
         this.nPCNode = nPCNode;
-        this.rootNode = rootNode;
         this.assetManager = assetManager;
         this.eventBus=eventBus;
         r = new Random();

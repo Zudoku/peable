@@ -10,13 +10,13 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.Main;
 import mygame.npc.ActionType;
 import mygame.npc.Guest;
 import mygame.npc.NPCAction;
 import mygame.npc.inventory.RideType;
-import mygame.shops.Employee;
 import mygame.shops.ShopReputation;
 import mygame.terrain.Direction;
 import mygame.terrain.MapPosition;
@@ -30,6 +30,8 @@ import mygame.terrain.RoadMaker;
  */
 
 public class BasicRide {
+    //LOGGER
+    protected static final Logger logger = Logger.getLogger(BasicRide.class.getName());
     //DEPENDENCIES
     @Inject RoadMaker roadMaker;
     @Inject protected EventBus eventBus;
@@ -38,7 +40,6 @@ public class BasicRide {
     private ArrayList<Spatial> staticParts=new ArrayList<Spatial>(); // non-animated parts
     public Enterance enterance;
     public Enterance exit;
-    private ArrayList<Employee> employees = new ArrayList<Employee>();
     private ArrayList<Guest> guestsInRide = new ArrayList<Guest>();
     private ArrayList<Guest> guestsInQue = new ArrayList<Guest>();
     //VARIABLES

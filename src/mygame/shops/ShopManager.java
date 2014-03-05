@@ -30,7 +30,7 @@ import mygame.terrain.ParkHandler;
  */
 @Singleton
 public class ShopManager {
-    //MISC
+    //LOGGER
     private static final Logger logger = Logger.getLogger(ShopManager.class.getName());
     //OWNS
     ShopFactory shopFactory;
