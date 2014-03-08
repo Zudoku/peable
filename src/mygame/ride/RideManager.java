@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
-import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
+import mygame.inputhandler.SetClickModeEvent;
 import mygame.shops.BasicBuildables;
 import mygame.shops.HolomodelDrawer;
 import mygame.terrain.events.AddObjectToMapEvent;
@@ -32,27 +32,23 @@ public class RideManager {
     private static final Logger logger = Logger.getLogger(RideManager.class.getName());
     public ArrayList<BasicRide> rides = new ArrayList<BasicRide>();
     RideFactory rideFactory;
-    public Node rideNode;
-    public Node rootNode;
+    private Node rideNode;
     int rideID;
     int enterancecount = 0;
     private final HolomodelDrawer holoDrawer;
     private final ParkHandler parkHandler;
-    
-    private final ClickingHandler clickingHandler;
+
     
     private final EventBus eventBus;
     private final AssetManager assetManager;
 
     @Inject
     public RideManager(AssetManager assetManager, Node rootNode, HolomodelDrawer holoDrawer, ParkHandler parkHandler,
-                ClickingHandler clickingHandler, EventBus eventBus) {
+        EventBus eventBus) {
         this.rideFactory = new RideFactory(assetManager);
         this.assetManager = assetManager;
-        this.rootNode = rootNode;
         this.holoDrawer = holoDrawer;
         this.parkHandler = parkHandler;
-        this.clickingHandler = clickingHandler;
         this.eventBus = eventBus;
         eventBus.register(this);
         rideNode = new Node("rideNode");
@@ -122,10 +118,7 @@ public class RideManager {
     }
 
     private void resetRidedata() {
-
-
-        clickingHandler.clickMode = ClickingModes.RIDE;
-
+        eventBus.post(new SetClickModeEvent(ClickingModes.RIDE));
     }
 
 
@@ -221,7 +214,7 @@ public class RideManager {
         enterancecount++;
         if (enterancecount > 1) {
             enterancecount = 0;
-            clickingHandler.clickMode = ClickingModes.NOTHING;
+            eventBus.post(new SetClickModeEvent(ClickingModes.NOTHING));
         }
     }
 

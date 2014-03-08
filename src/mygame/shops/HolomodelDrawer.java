@@ -4,6 +4,8 @@
  */
 package mygame.shops;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -23,16 +25,19 @@ import mygame.terrain.Direction;
 @Singleton
 public class HolomodelDrawer {
     private static final Logger logger = Logger.getLogger(HolomodelDrawer.class.getName());
-    AssetManager assetManager;
+    private AssetManager assetManager;
     private final Node node;
-    boolean activated = false;
+    private boolean activated = false;
     private Spatial drawed;
-    boolean positionLocked=false;
-    public Node holoNode;
+    private boolean positionLocked=false;
+    private Node holoNode;
+    private EventBus eventBus;
     @Inject
-    public HolomodelDrawer(AssetManager assetManager, Node rootNode) {
+    public HolomodelDrawer(AssetManager assetManager, Node rootNode,EventBus eventBus) {
         this.assetManager = assetManager;
         this.node = rootNode;
+        this.eventBus=eventBus;
+        eventBus.register(this);
         holoNode=new Node("holonode");
         
         
@@ -117,6 +122,10 @@ public class HolomodelDrawer {
                 
             
         }
+    }
+    @Subscribe
+    public void listenToggleDrawSpatial(ToggleHoloModelDrawEvent event){
+        toggleDrawSpatial();
     }
     
     

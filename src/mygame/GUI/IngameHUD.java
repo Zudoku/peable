@@ -58,10 +58,12 @@ import mygame.terrain.decoration.Decorations;
  * @author arska
  */
 public class IngameHUD implements ScreenController {
+    //LOGGER
     private static final Logger logger = Logger.getLogger(IngameHUD.class.getName());
+    //DEPENDENCIES
     public Nifty nifty;
     public Screen screen;
-    public boolean shovel = false;
+    private ShopDescriptionManager descriptionManager = new ShopDescriptionManager();
     @Inject private TerrainHandler terrainHandler;
     @Inject private ParkHandler parkHandler;
     @Inject private ClickingHandler clickingHandler;
@@ -72,8 +74,9 @@ public class IngameHUD implements ScreenController {
     @Inject NPCManager npcManager;
     @Inject SaveManager saveManager;
     @Inject private DecorationManager decorationManager;
+    //VARIABLES
+    public boolean shovel = false;
     public BasicBuildables selectedBuilding = BasicBuildables.NULL;
-    private ShopDescriptionManager descriptionManager = new ShopDescriptionManager();
     NiftyImage newImage;
     
     
@@ -115,7 +118,7 @@ public class IngameHUD implements ScreenController {
         Element a=nifty.getCurrentScreen().findElementByName("clickmodeindicator");
         NiftyImage img = null;
         
-        switch(clickingHandler.clickMode){
+        switch(clickingHandler.getClickMode()){
             case NOTHING:
                 img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),"Interface/Nifty/nothingmode.png", false);
                 break;
@@ -208,11 +211,11 @@ public class IngameHUD implements ScreenController {
         saveManager.Save("testfilexd");
     }
     public void clickDemolishbutton(){
-        if(clickingHandler.clickMode==ClickingModes.DEMOLITION){
-            clickingHandler.clickMode=ClickingModes.NOTHING;
+        if(clickingHandler.getClickMode()==ClickingModes.DEMOLITION){
+            clickingHandler.setClickMode(ClickingModes.NOTHING);
         }
         else{
-           clickingHandler.clickMode=ClickingModes.DEMOLITION; 
+           clickingHandler.setClickMode(ClickingModes.DEMOLITION); 
         }
         updateClickingIndicator();
     }
@@ -303,10 +306,10 @@ public class IngameHUD implements ScreenController {
         updateShovelWindow();
         niftyElement.setVisible(!niftyElement.isVisible());
         if (niftyElement.isVisible() == true) {
-            clickingHandler.clickMode = ClickingModes.TERRAIN;
+            clickingHandler.setClickMode(ClickingModes.TERRAIN);
 
         } else {
-            clickingHandler.clickMode = ClickingModes.NOTHING;
+            clickingHandler.setClickMode(ClickingModes.NOTHING);
         }
         updateClickingIndicator();
     }
@@ -325,12 +328,12 @@ public class IngameHUD implements ScreenController {
 
         niftyElement.setVisible(!niftyElement.isVisible());
         if (niftyElement.isVisible() == true) {
-            clickingHandler.clickMode = ClickingModes.ROAD;
+            clickingHandler.setClickMode(ClickingModes.ROAD);
 
 
         } else {
 
-            clickingHandler.clickMode = ClickingModes.NOTHING;
+            clickingHandler.setClickMode(ClickingModes.NOTHING);
         }
         updateClickingIndicator();
     }
@@ -340,12 +343,12 @@ public class IngameHUD implements ScreenController {
         updateDecorationWindow();
         niftyElement.setVisible(!niftyElement.isVisible());
         if (niftyElement.isVisible() == true) {
-            clickingHandler.clickMode = ClickingModes.DECORATION;
+            clickingHandler.setClickMode(ClickingModes.DECORATION);
 
 
         } else {
 
-            clickingHandler.clickMode = ClickingModes.NOTHING;
+            clickingHandler.setClickMode(ClickingModes.NOTHING);
         }
         updateClickingIndicator();
     }

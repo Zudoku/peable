@@ -12,13 +12,13 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
 import com.jme3.effect.shapes.EmitterPointShape;
-import com.jme3.input.InputManager;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
-import mygame.Main;
 import mygame.UtilityMethods;
+import mygame.inputhandler.ClickingHandler;
+import mygame.shops.HolomodelDrawer;
+import mygame.terrain.RoadMaker;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.TerrainHandler;
 
@@ -34,17 +34,20 @@ public class SelectionParticleEmitter {
     ParticleEmitter brush[][] = new ParticleEmitter[3][3];
     private Vector3f Vector3f;
     private final TerrainHandler terrainHandler;
-    private InputManager inputManager;
-    private Camera cam;
+    private ClickingHandler clickingHandler;
+    private RoadMaker roadMaker;
+    private HolomodelDrawer holoDrawer;
     Vector3f last;
     @Inject
-    public SelectionParticleEmitter(AssetManager assetManager, Node rootNode, TerrainHandler worldHandler, InputManager inputManager, Camera cam) {
-        this.assetManager = assetManager;
+    public SelectionParticleEmitter(HolomodelDrawer holomodelDrawer,AssetManager aM,ClickingHandler click,RoadMaker roadMaker, Node rootNode, TerrainHandler worldHandler) {
+        this.assetManager = aM;
         this.rootNode = rootNode;
         this.terrainHandler = worldHandler;
-        this.inputManager=inputManager;
-        this.cam=cam;
+        this.clickingHandler=click;
+        this.roadMaker=roadMaker;
+        this.holoDrawer=holomodelDrawer;
         last = new Vector3f(0,0,0);
+        initSelection();
     }
 
     public void MakeSelectionEmitter(int x, int z) {
@@ -137,7 +140,7 @@ public class SelectionParticleEmitter {
         brush[num1][num2].setEnabled(true);
     }
 
-    public void initSelection() {
+    private void initSelection() {
         MakeSelectionEmitter(0, 0);
         MakeSelectionEmitter(0, 1);
         MakeSelectionEmitter(0, 2);
@@ -156,7 +159,7 @@ public class SelectionParticleEmitter {
         UtilityMethods.rayCast(results, rootNode);
         
         CollisionResult target = results.getClosestCollision();
-        switch (Main.gamestate.clickingHandler.clickMode) {
+        switch (clickingHandler.getClickMode()) {
             case TERRAIN:
                 if (target == null) {
                     return;
@@ -167,7 +170,7 @@ public class SelectionParticleEmitter {
                 
                 break;
             case ROAD:
-                if(Main.gamestate.roadMaker.status==RoadMakerStatus.CHOOSING){
+                if(roadMaker.status==RoadMakerStatus.CHOOSING){
                     //worldHandler.brush=1;
                     if (target == null) {
                     return;
@@ -186,7 +189,7 @@ public class SelectionParticleEmitter {
                     if(target==null){
                         return;
                     }
-                        Main.gamestate.holoDrawer.updateLocation(target);
+                        holoDrawer.updateLocation(target);
                     break;
                     
         }

@@ -9,7 +9,6 @@ import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.scene.Node;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.UtilityMethods;
 import static mygame.inputhandler.ClickingModes.DECORATION;
@@ -45,9 +44,7 @@ public class MyActionListener implements ActionListener {
                 if (results.size() > 0) {
                     CollisionResult target = results.getClosestCollision();
                     clickingHandler.handleClicking(target, results);
-                    logger.log(Level.FINE, target.getContactPoint().toString());
-                } else {
-                    logger.log(Level.FINE, "You clicked to VOID");
+                    
                 }
             }
         }
@@ -72,7 +69,7 @@ public class MyActionListener implements ActionListener {
             if (isPressed) {
                 return;
             }
-            switch (clickingHandler.clickMode) {
+            switch (clickingHandler.getClickMode()) {
                 case DECORATION:
                     eventBus.post(new RotationEvent(1, 0));
                     break;
@@ -92,7 +89,7 @@ public class MyActionListener implements ActionListener {
             if (isPressed) {
                 return;
             }
-            switch (clickingHandler.clickMode) {
+            switch (clickingHandler.getClickMode()) {
                 case DECORATION:
                     eventBus.post(new RotationEvent(0, 0));
                     break;

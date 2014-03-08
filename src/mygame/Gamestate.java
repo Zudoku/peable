@@ -5,6 +5,7 @@
 package mygame;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
@@ -18,90 +19,78 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.GUI.IngameHUD;
 import mygame.GUI.SelectionParticleEmitter;
-import mygame.GUI.WindowMaker;
-import mygame.inputhandler.ClickingHandler;
+import mygame.gameplayorgans.Scenario;
 import mygame.inputhandler.UserInput;
 import mygame.npc.NPCManager;
 import mygame.ride.RideManager;
-import mygame.shops.HolomodelDrawer;
-import mygame.shops.ShopManager;
 import mygame.terrain.MapFactory;
 import mygame.terrain.ParkHandler;
-import mygame.terrain.RoadMaker;
-import mygame.terrain.TerrainHandler;
 
 
 /**
  *
  * @author arska
  */
+@Singleton
 public class Gamestate extends AbstractAppState {
-
-    private Main appm;
-    public  TerrainHandler worldHandler;
-    public  ClickingHandler clickingHandler;
-    public  RoadMaker roadMaker;
-    public  HolomodelDrawer holoDrawer;
-    public  ShopManager shopManager;
+    //LOGGER
+    private static final Logger logger = Logger.getLogger(Gamestate.class.getName());
+    //DEPENDENCIES
     public static IngameHUD ingameHUD;
-    public  ParkHandler currentPark;
+    private  ParkHandler currentPark;
     public  Nifty nifty;
-    SelectionParticleEmitter selectionEmitter;
-    public  NPCManager npcManager;
-    public  WindowMaker windowMaker;
-    private UserInput userInput;
-    public  RideManager rideManager;
-
-    private final LoadManager loadManager;
-    private MapFactory mapFactory;
-    @Inject
+    private Main appm;
+    @Inject private final LoadManager loadManager;
+    @Inject private SelectionParticleEmitter selectionEmitter;
+    @Inject private NPCManager npcManager;
+    @Inject private UserInput userInput;
+    @Inject private  RideManager rideManager;
+    @Inject private MapFactory mapFactory;
+    //VARIABLES
+    private Scenario scenario;
+    /**
+     * This is state where the game is running.
+     * @param loadManager to load the Scenario from file.
+     */
+    
     public Gamestate(LoadManager loadManager){
         this.loadManager=loadManager;
     }
+    /**
+     * This is called before the state goes live. Initializes some critical data.
+     * @param stateManager This is provided by AppState.
+     * @param app This is provided by AppState.
+     */
+     
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
+        logger.log(Level.FINEST, "Initializing Gamestate...");
         super.initialize(stateManager, app);
         this.appm = (Main) app;
         this.nifty=this.appm.getNifty();
-        
-        
-        
+        appm.getInjector().injectMembers(this); //Inject members 
         currentPark=this.appm.currentPark;
-        userInput =appm.getInjector().getInstance(UserInput.class);
         ingameHUD=this.appm.ingameHUD;
-        //peliin kuuluvat
-        holoDrawer = appm.getInjector().getInstance(HolomodelDrawer.class);
-        worldHandler = appm.getInjector().getInstance(TerrainHandler.class);
-        selectionEmitter =appm.getInjector().getInstance(SelectionParticleEmitter.class);
-        clickingHandler =appm.getInjector().getInstance(ClickingHandler.class);
-        roadMaker =appm.getInjector().getInstance(RoadMaker.class);
-        npcManager =appm.getInjector().getInstance(NPCManager.class);
-        shopManager =appm.getInjector().getInstance(ShopManager.class);
-        rideManager =appm.getInjector().getInstance(RideManager.class);
-        mapFactory=appm.getInjector().getInstance(MapFactory.class);
-        selectionEmitter.initSelection();
-        //lataa map DEBUG ONLY CHANGE LATER
-        if(appm.startDebug()){
-            
-            mapFactory.setCurrentMapPlain();
+        scenario=Main.scenario;//THIS IS TEMP FIX! FIX THIS LATER
+        logger.log(Level.FINEST, "Loading scenario.");
+        if (scenario != null) {
+            try {
+                loadManager.load(scenario.getLoadPath());
+            } catch (FileNotFoundException ex) {
+                logger.log(Level.SEVERE, "File not found.");
+            } catch (IOException ex) {
+                logger.log(Level.SEVERE,"Can't open file!");
+            }
         }else{
-            
-        try {
-            loadManager.load("testfilexd");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.WARNING, "No scenario to load. Critical failure!");
         }
-        }
-        
-        //laita kamera ok
         setCamera();
 
         this.appm.setDisplayStatView(false);
 
         this.appm.setPauseOnLostFocus(false);
         currentPark.onStartup(); 
+        logger.log(Level.FINEST, "Gamestate initialized.");
     }
 
     public int getMoneyslotX() {
@@ -130,8 +119,10 @@ public class Gamestate extends AbstractAppState {
         super.setEnabled(enabled);
 
     }
-
-    // Note that update is only called while the state is both attached and enabled.
+    /**
+     * Note that update is only called while the state is both attached and enabled.
+     * @param tpf time per frame in milliseconds 
+     */
     @Override
     public void update(float tpf) {
         selectionEmitter.updateSelection();
@@ -139,5 +130,11 @@ public class Gamestate extends AbstractAppState {
         rideManager.updateRide();
         userInput.update();
     }
-    
+    /**
+     * Set the Scenario.
+     * @param scenario Scenario to load.
+     */
+    public void setScenario(Scenario scenario){
+        this.scenario=scenario;
+    }
 }

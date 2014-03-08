@@ -18,7 +18,12 @@ import java.util.logging.Logger;
  * @author arska
  */
 public class SettingsLoader {
+    //LOGGER
     private static final Logger logger = Logger.getLogger(SettingsLoader.class.getName());
+    /**
+     * 
+     * @param settings 
+     */
     public void save(Settings settings) {
         BinaryExporter exporter = BinaryExporter.getInstance();
         Path path = Paths.get("settings.conf");

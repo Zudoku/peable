@@ -34,12 +34,22 @@ public class SaveManager {
     private final LoadManager loadManager;
     private final ParkHandler parkHandler;
     private final MapContainer map;
+    /**
+     * 
+     * @param loadmanager
+     * @param parkHandler
+     * @param map 
+     */
     @Inject
     public SaveManager(LoadManager loadmanager,ParkHandler parkHandler,MapContainer map){
         this.loadManager=loadmanager;
         this.parkHandler=parkHandler;
         this.map=map;
     }
+    /**
+     * 
+     * @param filename 
+     */
     public void Save(String filename) {
         Writer writer = null;
 
@@ -66,7 +76,7 @@ public class SaveManager {
             }
         }
     }
-
+    
     private void writeGuests(ArrayList<Guest> guests, Writer writer) throws IOException {
         int size = guests.size();
         writer.write("guest size:" + Integer.toString(size) + ":");

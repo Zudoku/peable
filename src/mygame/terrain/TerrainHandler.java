@@ -5,6 +5,7 @@
 package mygame.terrain;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -20,6 +21,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import mygame.UtilityMethods;
+import mygame.terrain.events.RefreshGroundEvent;
 import mygame.terrain.events.SetMapDataEvent;
 
 /**
@@ -72,7 +74,7 @@ public class TerrainHandler {
         for (int x = 0; x < 128 * 128; x++) {
             bufferReal.put(x * 3 + 2, (byte) 128);
         }
-
+        eventBus.register(this);
     }
     /**
      * Configures the action what should be done when user clicks in Shovel mode.
@@ -316,5 +318,9 @@ public class TerrainHandler {
                 brushSize -= 2;
                 break;
         }
+    }
+    @Subscribe
+    public void listenRefreshGroundEvent(RefreshGroundEvent event){
+        refreshGround();
     }
 }

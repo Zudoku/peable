@@ -18,7 +18,7 @@ public class CameraController {
     private static final Logger logger = Logger.getLogger(CameraController.class.getName());
     private final Camera camera;
     private static float MOVESPEED=0.3f;
-    private float cameraHeight=20;
+    private float cameraHeight=30;
     private float radius=10;
     private double alpha=0;
     private float cameraCenterX=0;

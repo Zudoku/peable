@@ -11,6 +11,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
 
@@ -48,7 +49,7 @@ public class GuestSpawner {
     }
     public void forceSpawnGuest(int n) {
         if (spawnpoints.isEmpty() == true) {
-            System.out.println("No or too little spawnpoints");
+            logger.log(Level.SEVERE,"No or too little spawnpoints");
             return;
         }
         //valitaan nimi
@@ -74,7 +75,7 @@ public class GuestSpawner {
         npcs.add(g);
         guests.add(g);
         nPCNode.attachChild(g.getGeometry());
-        System.out.println("Guest " + Integer.toString(guestNum) + " Named: " + name + " has entered the world");
+        logger.log(Level.FINEST, "Guest {0} Named: {1} has entered the world", new Object[]{Integer.toString(guestNum), name});
         if(n!=1){
             eventBus.post(new UpdateMoneyTextBarEvent());
         }

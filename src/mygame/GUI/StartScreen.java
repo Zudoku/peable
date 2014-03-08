@@ -24,8 +24,7 @@ public class StartScreen implements ScreenController {
     public StartScreen(){
         
     }
-  /** custom methods */ 
-  public void startGame(String nextScreen) {
+    public void startGame(String nextScreen) {
     nifty.gotoScreen(nextScreen);  // switch to another screen
     
     

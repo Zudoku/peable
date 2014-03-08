@@ -5,6 +5,7 @@
 package mygame.inputhandler;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResult;
@@ -15,13 +16,17 @@ import java.util.logging.Logger;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.GUI.WindowMaker;
 import mygame.Gamestate;
-import mygame.Main;
 import static mygame.inputhandler.ClickingModes.TERRAIN;
 import mygame.npc.Guest;
+import mygame.npc.NPCManager;
 import mygame.ride.BasicRide;
+import mygame.ride.RideManager;
 import mygame.shops.BasicShop;
+import mygame.shops.ShopManager;
+import mygame.shops.ToggleHoloModelDrawEvent;
 import mygame.terrain.events.DeleteSpatialFromMapEvent;
 import mygame.terrain.ParkHandler;
+import mygame.terrain.RoadMaker;
 import mygame.terrain.events.PayParkEvent;
 import mygame.terrain.RoadMakerStatus;
 import mygame.terrain.TerrainHandler;
@@ -36,17 +41,23 @@ public class ClickingHandler {
 
     private static final Logger logger = Logger.getLogger(ClickingHandler.class.getName());
     @Inject private TerrainHandler terrainHandler;
-    @Inject EventBus eventBus;
-    @Inject WindowMaker windowMaker;
-    public ClickingModes clickMode = ClickingModes.NOTHING;
+    @Inject private EventBus eventBus;
+    @Inject private WindowMaker windowMaker;
+    @Inject private RideManager rideManager;
+    private ClickingModes clickMode = ClickingModes.NOTHING;
     public int buffer = 0;
     private final Node rootNode;
     private final ParkHandler parkHandler;
     private final DecorationManager decorationManager;
-
+    private RoadMaker roadMaker;
+    private ShopManager shopManager;
+    private NPCManager npcManager;
+    
     @Inject
-    public ClickingHandler(Node rootNode, ParkHandler parkHandler, DecorationManager decorationManager) {
-        
+    public ClickingHandler(NPCManager npcManager,ShopManager shopManager,Node rootNode, ParkHandler parkHandler, DecorationManager decorationManager,RoadMaker roadMaker) {
+        this.roadMaker= roadMaker;
+        this.shopManager=shopManager;
+        this.npcManager=npcManager;
         this.rootNode = rootNode;
         this.parkHandler = parkHandler;
         this.decorationManager = decorationManager;
@@ -54,11 +65,7 @@ public class ClickingHandler {
     }
 
     public void handleClicking(CollisionResult target, CollisionResults results) {
-        if (target != null) {
-            logger.log(Level.FINEST, target.getContactPoint().toString()+" .");
-        }else{
-            logger.log(Level.FINER, "NULL");
-        }
+        
         switch (clickMode) {
             case TERRAIN:
                 terrainHandler.handleClicking(results);
@@ -77,28 +84,28 @@ public class ClickingHandler {
                 Node rootTarget = target.getGeometry().getParent().getParent();
 
                 if (rootTarget.getUserData("guestnum") != null) {
-                    for (Guest g : Main.gamestate.npcManager.guests) {
+                    for (Guest g : npcManager.guests) {
                         if (g.getGuestNum() == rootTarget.getUserData("guestnum")) {
                             windowMaker.createGuestWindow(g, true);
-                            logger.log(Level.FINEST, "Displaying Guestwindow for guest with id {1}", g.getGuestNum());
+                            logger.log(Level.FINEST, "Displaying Guestwindow for guest with id {0}", g.getGuestNum());
                             return;
                         }
                     }
                 }
                 if (rootTarget.getUserData("shopID") != null) {
-                    for (BasicShop g : Main.gamestate.shopManager.shops) {
+                    for (BasicShop g : shopManager.shops) {
                         if (g.shopID == rootTarget.getUserData("shopID")) {
                             windowMaker.createShopWindow(g);
-                            logger.log(Level.FINEST, "Displaying Shopwindow for shop with id {1}", g.shopID);
+                            logger.log(Level.FINEST, "Displaying Shopwindow for shop with id {0}", g.shopID);
                             return;
                         }
                     }
                 }
                 if (rootTarget.getUserData("rideID") != null) {
-                    for (BasicRide r : Main.gamestate.rideManager.rides) {
+                    for (BasicRide r : rideManager.rides) {
                         if (r.getRideID() == rootTarget.getUserData("rideID")) {
                             windowMaker.CreateRideWindow(r);
-                            logger.log(Level.FINEST, "Displaying Ridewindow for Ride with id {1}", r.getRideID());
+                            logger.log(Level.FINEST, "Displaying Ridewindow for Ride with id {0}", r.getRideID());
                             return;
                         }
                     }
@@ -108,8 +115,8 @@ public class ClickingHandler {
 
             case ROAD:
                 if (target != null) {
-                    if (Main.gamestate.roadMaker.status == RoadMakerStatus.CHOOSING) {
-                        Main.gamestate.roadMaker.startingPosition(target.getContactPoint());
+                    if (roadMaker.status == RoadMakerStatus.CHOOSING) {
+                        roadMaker.startingPosition(target.getContactPoint());
                         Gamestate.ingameHUD.updateClickingIndicator();
                         logger.log(Level.FINEST, "Updated Roads starting position");
                     } else {
@@ -132,7 +139,7 @@ public class ClickingHandler {
 
             case RIDE:
                 if (target != null) {
-                    Main.gamestate.rideManager.placeEnterance(target.getContactPoint());
+                    rideManager.placeEnterance(target.getContactPoint());
                     Gamestate.ingameHUD.updateClickingIndicator();
                 } else {
                 }
@@ -140,8 +147,8 @@ public class ClickingHandler {
 
             case PLACE:
                 if (buffer == 0) {
-                    Main.gamestate.shopManager.buy(parkHandler);
-                    Main.gamestate.holoDrawer.toggleDrawSpatial();
+                    shopManager.buy(parkHandler);
+                    eventBus.post(new ToggleHoloModelDrawEvent());
                     Gamestate.ingameHUD.updateClickingIndicator();
                 } else {
                     buffer = buffer - 1;
@@ -208,5 +215,21 @@ public class ClickingHandler {
                 }
 
         }
+    }
+
+    public ClickingModes getClickMode() {
+        return clickMode;
+    }
+
+    public  void setClickMode(ClickingModes clickMode) {
+        this.clickMode = clickMode;
+    }
+    @Subscribe
+    public void listenSetBufferEvent(SetClickingHandlerBufferEvent event){
+        buffer=event.value;
+    }
+    @Subscribe
+    public void listenSetClickModeEvent(SetClickModeEvent event){
+        clickMode=event.clickmode;
     }
 }

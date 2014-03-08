@@ -8,6 +8,9 @@ import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
+import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -50,14 +53,21 @@ import mygame.terrain.decoration.DecorationFactory;
  */
 @Singleton
 public class LoadManager {
+    //LOGGER
     private static final Logger logger = Logger.getLogger(LoadManager.class.getName());
     private final Node rootNode;
     private EventBus eventBus;
     private final AssetManager assetManager;
-    RoadFactory roadF;
+    private RoadFactory roadF;
     private final ParkHandler parkHandler;
 
-
+    /**
+     * LoadManager is class to load .IntoFile files and transform them to Scenarios.
+     * @param rootNode Attach rides,shops,guests,terrain to the world (Everything that is included in a park).
+     * @param assetManager Load Ride Guest Shop models.
+     * @param parkHandler Set lists of shops parks guests etc.
+     * @param eventBus Send events.
+     */
     @Inject
     public LoadManager(Node rootNode, AssetManager assetManager,ParkHandler parkHandler,EventBus eventBus) {
         this.rootNode = rootNode;
@@ -67,9 +77,14 @@ public class LoadManager {
         roadF = new RoadFactory(assetManager);
 
     }
-
+    /**
+     * Function to load .IntoFile files and transform them to scenarios.
+     * @param filename path to file with .IntoFile at the end of it.
+     * @throws FileNotFoundException No such file!
+     * @throws IOException Error opening file!
+     */
     public void load(String filename) throws FileNotFoundException, IOException {
-        BufferedReader br = new BufferedReader(new FileReader(filename + ".IntoFile"));
+        BufferedReader br = new BufferedReader(new FileReader(filename));
         try {
             String line = br.readLine();
             createParkHandler(line);
@@ -79,20 +94,49 @@ public class LoadManager {
     }
 
     private ParkHandler createParkHandler(String line) {
-        logger.finest("Starting to build map!");
+        logger.finest("Starting to build map.");
         String lines[] = splitStrings(line);
+        logger.finest("Loading meta-data...");
         loadParkData(lines[0]);
+        logger.finest("Loading terrain...");
         loadTerrainData(lines[1]);
+        logger.finest("Loading shops...");
         loadShopData(lines[2]);
+        logger.finest("Loading guests...");
         loadGuestData(lines[3]);
+        logger.finest("Loading rides...");
         loadRideData(lines[4]);
+        logger.finest("Loading roads...");
         loadRoadData(lines[5]);
+        logger.finest("Loading que-roads...");
         loadQueRoadData(lines[6]);
+        logger.finest("Loading decorations...");
         loadDecorationData(lines[7]);
-        logger.finest("Map Done!");
+        logger.finest("Loading lights...");
+        attachDirectionalLights();
+        logger.finest("Scenario loaded!");
         return null;
     }
-
+    private void attachDirectionalLights() {
+        
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f).normalizeLocal()));
+        sun.setColor(ColorRGBA.White);
+        rootNode.addLight(sun);
+        DirectionalLight sun2 = new DirectionalLight();
+        sun2.setDirection((new Vector3f(-0.5f, 0.5f, -0.5f).normalizeLocal()));
+        sun2.setColor(ColorRGBA.White);
+        rootNode.addLight(sun2); 
+        
+        AmbientLight l=new AmbientLight();
+        l.setColor(new ColorRGBA(1,1,1,300));
+        
+        rootNode.addLight(l);
+    }
+    /**
+     * Loads Scenario meta-data: name,money,loan,shopID,rideID,mapHeight,mapWidth,maxGuests
+     * @param line meta-data chunk of .IntoPark file.
+     */
     private void loadParkData(String line) {
         String worked = line;
         String[] parkinfo = worked.split(":");
@@ -111,7 +155,11 @@ public class LoadManager {
         parkHandler.setUp(parkname, Integer.parseInt(rideID), Integer.parseInt(shopID), wallet,Integer.parseInt(maxGuests));
         parkHandler.setMapSize(Integer.parseInt(mapHeight), Integer.parseInt(mapWidth));
     }
-
+    /**
+     * Transform file content to String array. It splits it to reasonable chucks of information.
+     * @param line file content
+     * @return string array of file content.
+     */
     private String[] splitStrings(String line) {
         String[] working = line.split("map size:");
         String workingString;

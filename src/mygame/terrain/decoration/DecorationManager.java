@@ -41,7 +41,13 @@ public class DecorationManager {
     
     
     
-
+    /**
+     * This is manager that controls deploying decoration objects to the park.
+     * @param rootNode This is used to attach the decorations to world.
+     * @param assetManager This is used to load Models.
+     * @param eventBus This is used to listen to turn-events.
+     * @param parkHandler This is used to access building space.
+     */
     @Inject
     public DecorationManager(Node rootNode, AssetManager assetManager,EventBus eventBus,ParkHandler parkHandler) {
         this.eventBus=eventBus;
@@ -53,9 +59,18 @@ public class DecorationManager {
         decoFactory = new DecorationFactory(assetManager);
 
     }
+    /**
+     * Called from the UI. Used to select decoration.
+     * @param decoratios Decoration to select.
+     */
+    
     public void select(Decorations decoratios){
         this.decoration=decoratios;
     }
+    /**
+     * Constructs the selected decoration to given location.
+     * @param loc Location to put the decoration.
+     */
     
     public void build(Vector3f loc) {
         if(loc.x<1||loc.x>parkHandler.getMapHeight()){
@@ -105,7 +120,10 @@ public class DecorationManager {
         eventBus.post(new UpdateMoneyTextBarEvent());
         decorationNode.attachChild(decobject);
     }
-
+    /**
+     * Called from the UI. Returns image path depending on direction.
+     * @return image path 
+     */
     public String getArrow() {
         if(direction==Direction.UP){
             return "Interface/Roads/up.png";
@@ -123,7 +141,9 @@ public class DecorationManager {
             return "bug !";
         }
     }
-
+    /**
+     * Turn decoration placement 90 degrees to left.
+     */
     public void turnLeft() {
         if(direction==Direction.UP){
             direction=Direction.LEFT;
@@ -141,6 +161,9 @@ public class DecorationManager {
             direction=Direction.UP;
         }
     }
+    /**
+     * Turn decoration placement 90 degrees to right.
+     */
     public void turnRight(){
         if(direction==Direction.UP){
             direction=Direction.RIGHT;
@@ -158,7 +181,10 @@ public class DecorationManager {
             direction=Direction.UP;
         }
     }
-
+    /**
+     * Called from the UI. Returns the name of current selected decoration.
+     * @return name of currently selected decoration.
+     */
     public String getDecorationName() {
         switch(decoration){
             case BUSH:
@@ -171,6 +197,10 @@ public class DecorationManager {
         }
         return "bug !";
     }
+    /**
+     * Called from the UI. Returns the description of current selected decoration.
+     * @return description of currently selected decoration.
+     */
     public String getDecorationDescription(){
         switch(decoration){
             case BUSH:
@@ -183,6 +213,10 @@ public class DecorationManager {
         }
         return "bug !";
     }
+    /**
+     * Listens for rotation events and turns the decoration if needed.
+     * @param event RotationEvent.
+     */
     @Subscribe public void listenRotationEvents(RotationEvent event){
         if(event.getWho()==0){
             if(event.getValue()==1){

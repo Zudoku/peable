@@ -27,6 +27,7 @@ import mygame.ride.RideManager;
 import mygame.shops.BasicShop;
 import mygame.shops.ShopDemolishEvent;
 import mygame.shops.ShopManager;
+import mygame.terrain.events.RefreshGroundEvent;
 import mygame.terrain.events.SetMapDataEvent;
 
 /**
@@ -44,7 +45,6 @@ public class ParkHandler {
     @Inject private RoadMaker roadMaker;
     @Inject private ShopManager shopManager;
     @Inject private RideManager rideManager;
-    @Inject private TerrainHandler terrainHandler;
     private final EventBus eventBus;
     private final Node rootNode;
     //OWNS
@@ -99,7 +99,7 @@ public class ParkHandler {
     public void onStartup() {
         logger.finest("Setting Map");
         //eventBus.post(new SetMapEvent(map.getMap()));
-        terrainHandler.refreshGround();
+        eventBus.post(new RefreshGroundEvent());
         roadMaker.roadsToUpdate(RoadtoUpdatePositions);
         roadMaker.queRoadsToUpdate(queRoadsToUpdate);
         rideManager.rides = rides;

@@ -17,6 +17,7 @@ import de.lessvoid.nifty.layout.align.VerticalAlign;
 import de.lessvoid.nifty.render.NiftyImage;
 import mygame.Main;
 import mygame.npc.Guest;
+import mygame.npc.NPCManager;
 import mygame.npc.inventory.Item;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
@@ -34,6 +35,7 @@ public class WindowMaker {
     private int rideID;
     private int shopID;
     @Inject ParkHandler parkHandler;
+    @Inject NPCManager npcManager;
     public WindowMaker() {
         nifty = Main.nifty;
 
@@ -41,7 +43,7 @@ public class WindowMaker {
 
     public Guest getCurrentGuestWindowGuest() {
         Guest guest = null;
-        for (Guest g : Main.gamestate.npcManager.guests) {
+        for (Guest g : npcManager.guests) {
             if (g.getGuestNum() == guestnumber) {
                 guest = g;
                 break;
