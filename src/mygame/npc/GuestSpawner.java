@@ -21,16 +21,20 @@ import mygame.GUI.events.UpdateMoneyTextBarEvent;
  */
 public class GuestSpawner {
     private static final Logger logger = Logger.getLogger(GuestSpawner.class.getName());
-    ArrayList<Vector3f> spawnpoints = new ArrayList<Vector3f>();
-    ArrayList<BasicNPC> npcs = new ArrayList<BasicNPC>();
-    ArrayList<String> firstName = new ArrayList<String>();
-    ArrayList<String> surName = new ArrayList<String>();
-    ArrayList<Guest> guests=new ArrayList<Guest>();
-    int guestNum = 1;
-    private final Node nPCNode;
-    Random r;
+    //DEPENDENCIES
+    private Random r;
     private final AssetManager assetManager;
     private final EventBus eventBus;
+    //OWNS
+    private ArrayList<Vector3f> spawnpoints = new ArrayList<Vector3f>();
+    private ArrayList<BasicNPC> npcs = new ArrayList<BasicNPC>();
+    private ArrayList<String> firstName = new ArrayList<String>();
+    private ArrayList<String> surName = new ArrayList<String>();
+    private ArrayList<Guest> guests=new ArrayList<Guest>();
+    //VARIABLES
+    private int guestNum = 1;
+    private final Node nPCNode;
+    
 
     public GuestSpawner(Node nPCNode,AssetManager assetManager,EventBus eventBus) {
         this.nPCNode = nPCNode;
@@ -52,26 +56,26 @@ public class GuestSpawner {
             logger.log(Level.SEVERE,"No or too little spawnpoints");
             return;
         }
-        //valitaan nimi
+        //We choose a random name
         int num = r.nextInt(firstName.size() - 1);
         int num2 = r.nextInt(surName.size() - 1);
         
         String name = firstName.get(num) + " " + surName.get(num2);
-        //raha
+        //Calculate random number
         float money = r.nextInt(30);
         money = money + 35;
-        //ladataan modeö ja laitetaan sille nimi raha ja id
+        //Load the model and give it unique ID and money.
         Spatial geom = assetManager.loadModel("Models/Human/guest.j3o");
         geom.setName("guest");
         geom.setUserData("guestnum", guestNum);
         Guest g = new Guest(name, money, guestNum, geom);
         guestNum++;
-        //arvotaan spawnpoint
+        //Random spawnpoint
         int spp = r.nextInt(spawnpoints.size());
         g.getGeometry().move(spawnpoints.get(spp));
-        //laitetaan guestille x,z,y että hän osaa liikkua
+        //Initialize X,Y,Z so that the guest can move
         g.initXYZ((int) spawnpoints.get(spp).x, (int) spawnpoints.get(spp).y, (int) spawnpoints.get(spp).z);
-        //lisätään guesti listaan ja addataan se rootnodeen
+        //Add the guest to list and add it to rootNode.
         npcs.add(g);
         guests.add(g);
         nPCNode.attachChild(g.getGeometry());
@@ -85,6 +89,10 @@ public class GuestSpawner {
     public void guestLeave(int guestnum) {
     }
 
+    public int getGuestNum() {
+        return guestNum;
+    }
+    
     private void addNames() {
         firstName.add("John");
         firstName.add("Arnold");
@@ -163,11 +171,6 @@ public class GuestSpawner {
         surName.add("Young");
         surName.add("King");
         surName.add("Scott");
-
-
-
-
-
 
     }
 }

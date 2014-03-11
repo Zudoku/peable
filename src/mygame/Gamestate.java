@@ -71,19 +71,16 @@ public class Gamestate extends AbstractAppState {
         appm.getInjector().injectMembers(this); //Inject members 
         currentPark=this.appm.currentPark;
         ingameHUD=this.appm.ingameHUD;
-        scenario=Main.scenario;//THIS IS TEMP FIX! FIX THIS LATER
         logger.log(Level.FINEST, "Loading scenario.");
-        if (scenario != null) {
+        
             try {
-                loadManager.load(scenario.getLoadPath());
+                loadManager.load("Scenarios/greengolly.IntoFile");
             } catch (FileNotFoundException ex) {
                 logger.log(Level.SEVERE, "File not found.");
             } catch (IOException ex) {
                 logger.log(Level.SEVERE,"Can't open file!");
             }
-        }else{
-            logger.log(Level.WARNING, "No scenario to load. Critical failure!");
-        }
+        
         setCamera();
 
         this.appm.setDisplayStatView(false);

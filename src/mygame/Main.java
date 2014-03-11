@@ -4,20 +4,15 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.jme3.app.SimpleApplication;
-import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
 import de.lessvoid.nifty.Nifty;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import mygame.GUI.IngameHUD;
 import mygame.GUI.StartScreen;
 import mygame.gameplayorgans.Scenario;
-import mygame.gameplayorgans.ScenarioManager;
+import mygame.gameplayorgans.ScenarioGoal;
 import mygame.terrain.ParkHandler;
 
 /**
@@ -39,10 +34,8 @@ public class Main extends SimpleApplication {
     private StartScreen startScreen;
     public static Settings intosettings;
     private static Gamestate gamestate;
-    @Inject private ScenarioManager scenarioManager;
     //VARIABLES
     public static int startgame=0;
-    public static Scenario scenario;
 
     public static void main(String[] args) {
         //Load custom settings from a binary file.
@@ -83,7 +76,6 @@ public class Main extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         nifty.update();
         if(startgame==1){
-            scenario=scenarioManager.greenGolly();
             startGame();
             startgame=0;
         }

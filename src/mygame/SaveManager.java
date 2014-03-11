@@ -6,6 +6,7 @@ package mygame;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -15,6 +16,8 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mygame.gameplayorgans.Scenario;
+import mygame.gameplayorgans.ScenarioGoal;
 import mygame.npc.Guest;
 import mygame.ride.BasicRide;
 import mygame.shops.BasicShop;
@@ -31,7 +34,6 @@ import mygame.terrain.decoration.Decoration;
 @Singleton
 public class SaveManager {
     private static final Logger logger = Logger.getLogger(SaveManager.class.getName());
-    private final LoadManager loadManager;
     private final ParkHandler parkHandler;
     private final MapContainer map;
     /**
@@ -41,32 +43,43 @@ public class SaveManager {
      * @param map 
      */
     @Inject
-    public SaveManager(LoadManager loadmanager,ParkHandler parkHandler,MapContainer map){
-        this.loadManager=loadmanager;
+    public SaveManager(ParkHandler parkHandler,MapContainer map){
         this.parkHandler=parkHandler;
         this.map=map;
     }
+    
     /**
      * 
      * @param filename 
      */
     public void Save(String filename) {
         Writer writer = null;
-
+        logger.log(Level.FINEST,"Starting to save {0}",filename);
         try {
             writer = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(filename + ".IntoFile"), "utf-8"));
-            ArrayList<Guest> guests = parkHandler.getGuests();
-            writeParkData(writer, parkHandler);
-            writeTerrainData(writer, parkHandler);
-            writeShopData(writer, parkHandler);
-            writeGuests(guests, writer);
-            writeRideData(writer, parkHandler);
+            writer.write("#"+System.getProperty("line.separator"));
+            logger.log(Level.FINEST,"Writing META data...");
+            writeMetaData(writer);
+            logger.log(Level.FINEST,"Writing scenario data...");
+            writeScenarioData(writer);
+            
+            logger.log(Level.FINEST,"Writing terrain data...");
+            writeTerrainData(writer);
+            logger.log(Level.FINEST,"Writing shop data...");
+            writeShopData(writer);
+            logger.log(Level.FINEST,"Writing guest data...");
+            writeGuests(writer);
+            logger.log(Level.FINEST,"Writing ride data...");
+            writeRideData(writer);
+            logger.log(Level.FINEST,"Writing road data...");
             writeRoadData(writer);
+            logger.log(Level.FINEST,"Writing quepark data...");
             writeQueRoads(writer);
-            writeDecorations(writer, parkHandler);
+            logger.log(Level.FINEST,"Writing decoration data...");
+            writeDecorations(writer);
         } catch (IOException ex) {
-            // report
+            logger.log(Level.SEVERE,"Something failed! Couldn't save game data. your save might be corrupt!");
         } finally {
             try {
                 writer.close();
@@ -77,9 +90,10 @@ public class SaveManager {
         }
     }
     
-    private void writeGuests(ArrayList<Guest> guests, Writer writer) throws IOException {
+    private void writeGuests(Writer writer) throws IOException {
+        ArrayList<Guest> guests = parkHandler.getGuests();
         int size = guests.size();
-        writer.write("guest size:" + Integer.toString(size) + ":");
+        writer.write("GUEST DATA " + ":" + "guest size:" + Integer.toString(size) + ":");
         for (Guest g : guests) {
             String name = g.getName();
             String money = Float.toString(g.wallet.getmoney());
@@ -132,26 +146,44 @@ public class SaveManager {
             writer.write(name + ":" + money + ":" + moving + ":" + x + ":" + z + ":" + y + ":" + hunger + ":" + thrist + ":" + happyness + ":" + preferredRide + ":"+guestnum+":");
 
         }
-
+        writer.write(System.getProperty("line.separator"));
     }
 
-    private void writeParkData(Writer writer, ParkHandler parkhandler) throws IOException {
-        String parkname = parkhandler.getParkName();
-        String parkmoney = Float.toString(parkhandler.getParkWallet().getMoney());
-        String parkloan = Float.toString(parkhandler.getParkWallet().getLoan());
-        String rideID = Integer.toString(parkhandler.getRideID());
-        String shopID = Integer.toString(parkhandler.getShopID());
-        String mapheight = Integer.toString(parkhandler.getMapHeight());
-        String mapwidth = Integer.toString(parkhandler.getMapWidth());
-        String maxGuests = Integer.toString(parkhandler.getMaxGuests());
-        writer.write("park:" + parkname + ":" + parkmoney + ":" + parkloan + ":" + rideID + ":" + shopID + ":" + mapheight + ":" + mapwidth + ":"+maxGuests+":");
+    private void writeMetaData(Writer writer) throws IOException {
+        String parkname = parkHandler.getParkName();
+        String parkmoney = Float.toString(parkHandler.getParkWallet().getMoney());
+        String parkloan = Float.toString(parkHandler.getParkWallet().getLoan());
+        String rideID = Integer.toString(parkHandler.getRideID());
+        String shopID = Integer.toString(parkHandler.getShopID());
+        String mapheight = Integer.toString(parkHandler.getMapHeight());
+        String mapwidth = Integer.toString(parkHandler.getMapWidth());
+        String maxGuests = Integer.toString(parkHandler.getMaxGuests());
+        writer.write("META-DATA "+ ":" + parkname + ":" + parkmoney + ":" + parkloan + ":" + rideID + ":" + shopID + ":" + mapheight + ":" + mapwidth + ":"+maxGuests+":");
+        writer.write(System.getProperty("line.separator"));
+    }
+    private void writeScenarioData(Writer writer) throws IOException {
+        
+        Scenario scene=new Scenario(ScenarioGoal.GUESTS);
+        //TEMP
+        scene.setEnterancePos(new Vector3f(4, 6, 0));
+        scene.setEnteranceYRotation(1);
+        scene.setGoal(ScenarioGoal.GUESTS);
+        //END
+        String enteranceXPosition=Float.toString(scene.getEnterancePos().x);
+        String enteranceYPosition=Float.toString(scene.getEnterancePos().y);
+        String enteranceZPosition=Float.toString(scene.getEnterancePos().z);
+        String enteranceYRotation=Double.toString(scene.getEnteranceYRotation());
+        String scenarioGoal=scene.getGoal().toString();
+        writer.write("SCENARIO DATA " + ":" + enteranceXPosition + ":" + enteranceYPosition + ":" + enteranceZPosition + ":" + enteranceYRotation + ":" + scenarioGoal + ":");
+        
+        writer.write(System.getProperty("line.separator"));
     }
 
-    private void writeTerrainData(Writer writer, ParkHandler parkhandler) throws IOException {
+    private void writeTerrainData(Writer writer) throws IOException {
         float[] mapdata = map.getMapData();
-        int height = parkhandler.getMapHeight();
-        int width = parkhandler.getMapWidth();
-        writer.write("map size:" + Integer.toString(height) + ":" + Integer.toString(width) + ":");
+        int height = parkHandler.getMapHeight();
+        int width = parkHandler.getMapWidth();
+        writer.write("MAP DATA " + ":" + "map size:" + Integer.toString(height) + ":" + Integer.toString(width) + ":");
         final int mapsize=128;
         for (int o = 0; o < height; o++) {
             for (int u = 0; u < width; u++) {
@@ -159,12 +191,13 @@ public class SaveManager {
                 writer.write(Float.toString(arvo) + ":");
             }
         }
+        writer.write(System.getProperty("line.separator"));
     }
 
-    private void writeShopData(Writer writer, ParkHandler parkhandler) throws IOException {
-        String quantity = Integer.toString(parkhandler.getShops().size());
-        writer.write("shops size:" + quantity + ":");
-        for (BasicShop b : parkhandler.getShops()) {
+    private void writeShopData(Writer writer) throws IOException {
+        String quantity = Integer.toString(parkHandler.getShops().size());
+        writer.write("SHOP DATA " + ":" + "shops size:" + quantity + ":");
+        for (BasicShop b : parkHandler.getShops()) {
             String name = b.shopName;
             String x = Float.toString(b.position.x);
             String z = Float.toString(b.position.z);
@@ -192,13 +225,13 @@ public class SaveManager {
             }
             writer.write(name + ":" + x + ":" + z + ":" + y + ":" + price + ":" + type + ":" + productname + ":" + shopID + ":"+direction+":");
         }
-
+        writer.write(System.getProperty("line.separator"));
     }
 
-    private void writeRideData(Writer writer, ParkHandler parkhandler) throws IOException {
-        String quantity = Integer.toString(parkhandler.getRides().size());
-        writer.write("ride size:" + quantity + ":");
-        for (BasicRide r : parkhandler.getRides()) {
+    private void writeRideData(Writer writer) throws IOException {
+        String quantity = Integer.toString(parkHandler.getRides().size());
+        writer.write("RIDE DATA "+ ":" +"ride size:" + quantity + ":");
+        for (BasicRide r : parkHandler.getRides()) {
             String name = r.getName();
             String type = r.getRide();
             String price = Float.toString(r.getPrice());
@@ -235,13 +268,14 @@ public class SaveManager {
             }
 
         }
+        writer.write(System.getProperty("line.separator"));
     }
 
     private void writeEnteranceData(BasicRide r, Writer writer) throws IOException {
         String enteranceX = Integer.toString((int) r.enterance.location.x);
         String enteranceZ = Integer.toString((int) r.enterance.location.z);
         String enteranceY = Integer.toString((int) r.enterance.location.y);
-        String exit;
+        String exit="";
         if (r.enterance.exit) {
             exit = "TRUE";
         } else {
@@ -338,11 +372,12 @@ public class SaveManager {
 
     private void writeRoadData(Writer writer) throws IOException {
         ArrayList<Road> roads = getRoadstoClasses();
-        writer.write("roads size:" + roads.size() + ":");
+        writer.write("ROAD DATA " + ":" +"roads size:" + roads.size() + ":");
         for (Road r : roads) {
             writer.write(r.x + ":" + r.z + ":" + r.y + ":" + r.roadhill + ":" + r.ID + ":");
 
         }
+        writer.write(System.getProperty("line.separator"));
     }
 
     private ArrayList<QueRoad> getQueRoads() {
@@ -409,7 +444,7 @@ public class SaveManager {
     }
     private void writeQueRoads(Writer writer) throws IOException {
         ArrayList<QueRoad>queroads=getQueRoads();
-        writer.write("queroad size:"+queroads.size()+":");
+        writer.write("QUEROAD DATA " + ":" + "queroad size:"+queroads.size()+":");
         for(QueRoad q:queroads){
             String x=q.x;
             String z=q.z;
@@ -421,10 +456,11 @@ public class SaveManager {
             String direction=q.direction;
             writer.write(x+":"+z+":"+y+":"+roadhill+":"+q.ID+":"+connected+":"+queconnect1+":"+queconnect2+":"+direction+":");
         }
+        writer.write(System.getProperty("line.separator"));
     }
-    private void writeDecorations(Writer writer,ParkHandler parkhandler) throws IOException{
-        ArrayList<Decoration>decorations=getDecorations(parkhandler);
-        writer.write("decoration size:"+decorations.size()+":");
+    private void writeDecorations(Writer writer) throws IOException{
+        ArrayList<Decoration>decorations=getDecorations();
+        writer.write("DECORATION DATA " + ":" + "decoration size:"+decorations.size()+":");
         for(Decoration d:decorations){
             String x=d.x;
             String y=d.y;
@@ -433,9 +469,9 @@ public class SaveManager {
             String direction=d.direction;
             writer.write(x+":"+y+":"+z+":"+type+":"+direction+":");
         }
-        
+        writer.write(System.getProperty("line.separator"));
     }
-    private ArrayList<Decoration> getDecorations(ParkHandler parkhandler){
+    private ArrayList<Decoration> getDecorations(){
         ArrayList<Decoration>decorations=new ArrayList<Decoration>();
         
         for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {

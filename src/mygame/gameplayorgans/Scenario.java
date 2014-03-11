@@ -5,6 +5,7 @@
 package mygame.gameplayorgans;
 
 import com.google.inject.Singleton;
+import com.jme3.math.Vector3f;
 
 /**
  *
@@ -14,23 +15,38 @@ import com.google.inject.Singleton;
 public class Scenario {
     //VARIABLES
     private ScenarioGoal goal;
-    private String loadPath;
-    private String name;
+    private Vector3f enterancePos;
+    private double enteranceYRotation;
     //GOAL POSSIBILITIES
     private int neededGuest;
 
-    public Scenario(ScenarioGoal goal, String loadPath) {
+    public Scenario(ScenarioGoal goal) {
         this.goal = goal;
-        this.loadPath = loadPath;
     }
 
-    
-    public void setLoadPath(String loadPath) {
-        this.loadPath = loadPath;
+    public void setEnterancePos(Vector3f enterancePos) {
+        this.enterancePos = enterancePos;
+    }
+
+    public Vector3f getEnterancePos() {
+        return enterancePos;
+    }
+
+    public void setEnteranceYRotation(double enteranceYRotation) {
+        this.enteranceYRotation = enteranceYRotation;
+    }
+
+    public double getEnteranceYRotation() {
+        return enteranceYRotation;
+    }
+
+    public void setGoal(ScenarioGoal goal) {
+        this.goal = goal;
+    }
+
+    public ScenarioGoal getGoal() {
+        return goal;
     }
     
-    public String getLoadPath() {
-        return loadPath;
-    }
     
 }

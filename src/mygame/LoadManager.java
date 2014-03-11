@@ -14,12 +14,14 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Logger;
+import mygame.gameplayorgans.Scenario;
+import mygame.gameplayorgans.ScenarioGoal;
 import mygame.npc.BasicNPC;
 import mygame.npc.Guest;
 import mygame.npc.inventory.RideType;
@@ -80,45 +82,67 @@ public class LoadManager {
     /**
      * Function to load .IntoFile files and transform them to scenarios.
      * @param filename path to file with .IntoFile at the end of it.
+     * @param scenario Gives some extra info about the park including park-enterance transformation information.
      * @throws FileNotFoundException No such file!
      * @throws IOException Error opening file!
      */
     public void load(String filename) throws FileNotFoundException, IOException {
-        BufferedReader br = new BufferedReader(new FileReader(filename));
+        Scanner br = new Scanner(new FileReader(filename));
         try {
-            String line = br.readLine();
-            createParkHandler(line);
+            String[] filecontent =new String[9];
+            int index=0;
+            while(br.hasNext()){
+                String line=br.nextLine();
+                if(line.startsWith("#")){
+                    continue;
+                }else{
+                    
+                    if(line.trim().length()>5&&line.contains(":")){
+                        filecontent[index++]=line;
+                    }
+                    
+                }
+            }
+            createParkHandler(filecontent);
+            
         } finally {
             br.close();
         }
     }
-
-    private ParkHandler createParkHandler(String line) {
+    /**
+     * Actual function to transfer long String(contents of .IntoFile) to Scenario
+     * @param line Content of the .IntoPark file
+     * @return the 
+     */
+    private void createParkHandler(String[] line) {
         logger.finest("Starting to build map.");
-        String lines[] = splitStrings(line);
+        String lines[] =line;
         logger.finest("Loading meta-data...");
-        loadParkData(lines[0]);
+        loadMetaData(lines[0]);
+        logger.finest("Loading Scenari...");
+        loadScenarioData(lines[1]);
         logger.finest("Loading terrain...");
-        loadTerrainData(lines[1]);
+        loadTerrainData(lines[2]);
         logger.finest("Loading shops...");
-        loadShopData(lines[2]);
+        loadShopData(lines[3]);
         logger.finest("Loading guests...");
-        loadGuestData(lines[3]);
+        loadGuestData(lines[4]);
         logger.finest("Loading rides...");
-        loadRideData(lines[4]);
+        loadRideData(lines[5]);
         logger.finest("Loading roads...");
-        loadRoadData(lines[5]);
+        loadRoadData(lines[6]);
         logger.finest("Loading que-roads...");
-        loadQueRoadData(lines[6]);
+        loadQueRoadData(lines[7]);
         logger.finest("Loading decorations...");
-        loadDecorationData(lines[7]);
+        loadDecorationData(lines[8]);
         logger.finest("Loading lights...");
         attachDirectionalLights();
         logger.finest("Scenario loaded!");
-        return null;
     }
+    /**
+     * There needs to be light so that models in the Node are visible.
+     */
     private void attachDirectionalLights() {
-        
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f).normalizeLocal()));
         sun.setColor(ColorRGBA.White);
@@ -137,17 +161,17 @@ public class LoadManager {
      * Loads Scenario meta-data: name,money,loan,shopID,rideID,mapHeight,mapWidth,maxGuests
      * @param line meta-data chunk of .IntoPark file.
      */
-    private void loadParkData(String line) {
+    private void loadMetaData(String line) {
         String worked = line;
-        String[] parkinfo = worked.split(":");
-        String parkname = parkinfo[1];
-        String money = parkinfo[2];
-        String loan = parkinfo[3];
-        String shopID = parkinfo[4];
-        String rideID = parkinfo[5];
-        String mapHeight = parkinfo[6];
-        String mapWidth = parkinfo[7];
-        String maxGuests= parkinfo[8];
+        String[] metadata = worked.split(":");
+        String parkname = metadata[1];
+        String money = metadata[2];
+        String loan = metadata[3];
+        String shopID = metadata[4];
+        String rideID = metadata[5];
+        String mapHeight = metadata[6];
+        String mapWidth = metadata[7];
+        String maxGuests= metadata[8];
 
         ParkWallet wallet = new ParkWallet(Float.parseFloat(money));
         wallet.setLoan(Float.parseFloat(loan));
@@ -156,57 +180,14 @@ public class LoadManager {
         parkHandler.setMapSize(Integer.parseInt(mapHeight), Integer.parseInt(mapWidth));
     }
     /**
-     * Transform file content to String array. It splits it to reasonable chucks of information.
-     * @param line file content
-     * @return string array of file content.
+     * TEMPORARY
+     * @param string 
      */
-    private String[] splitStrings(String line) {
-        String[] working = line.split("map size:");
-        String workingString;
-        String[] lines = new String[8];
-        //park info
-        lines[0] = working[0];
-
-        workingString = working[1];
-        working = workingString.split("shops size:");
-        //terrain info
-        lines[1] = working[0];
-
-        workingString = working[1];
-        working = workingString.split("guest size:");
-        //shop info
-        lines[2] = working[0];
-
-        workingString = working[1];
-        working = workingString.split("ride size:");
-        //guest info
-        lines[3] = working[0];
-
-        workingString = working[1];
-        working = workingString.split("roads size:");
-        //ride info
-        lines[4] = working[0];
-
-        workingString = working[1];
-        working = workingString.split("queroad size:");
-        //roads info
-        lines[5] = working[0];
-        workingString = working[1];
-        working = workingString.split("decoration size:");
-        
-        //queroads info
-        lines[6] = working[0];
-        //decorations
-        lines[7] = working[1];
-        
-        return lines;
-    }
-
     private void loadTerrainData(String string) {
         String worked = string;
         String[] values = worked.split(":");
-        int mapHeight = Integer.parseInt(values[0]);
-        int mapWidth = Integer.parseInt(values[1]);
+        int mapHeight = Integer.parseInt(values[2]);
+        int mapWidth = Integer.parseInt(values[3]);
         //mapHeight -=1;
         //mapWidth -=1;
         float[] mapData = new float[128*128];
@@ -219,14 +200,27 @@ public class LoadManager {
         
     }
 
+    private void loadScenarioData(String string){
+        String worked = string;
+        String[] values = worked.split(":");
+        Vector3f enterancePosition=new Vector3f(Float.parseFloat(values[1]),Float.parseFloat(values[2]),Float.parseFloat(values[3]));
+
+        double enteranceYRotation=Double.parseDouble(values[4]);
+        ScenarioGoal scenarioGoal=ScenarioGoal.valueOf(values[5]);
+        //TEMP
+        Scenario scenario=new Scenario(scenarioGoal);
+        scenario.setEnterancePos(enterancePosition);
+        scenario.setEnteranceYRotation(enteranceYRotation);
+        Spatial parkEnterance=assetManager.loadModel("Models/park/parkEnterance.j3o");
+    }
     private void loadShopData(String string) {
         Node shopNode=(Node)rootNode.getChild("shopNode");
         ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
         String worked = string;
         String[] values = worked.split(":");
-        int quantity = Integer.parseInt(values[0]);
+        int quantity = Integer.parseInt(values[2]);
         for(int i=0;i<quantity;i++){
-            int a=i*9;
+            int a=i*9+1;
             String name = values[a+1];
             float x = Float.parseFloat(values[a+2]);
             float z = Float.parseFloat(values[a+3]);
@@ -310,9 +304,9 @@ public class LoadManager {
         ArrayList<BasicNPC>npcs=new ArrayList<BasicNPC>();
         String worked = string;
         String[] values = worked.split(":");
-        int quantity = Integer.parseInt(values[0]);
+        int quantity = Integer.parseInt(values[2]);
         for (int i = 0; i < quantity; i++) {
-            int a = i * 11;
+            int a = i * 11+1;
             String name = values[a + 1];
             float money = Float.parseFloat(values[a + 2]);
             Direction direction = null;
@@ -376,8 +370,8 @@ public class LoadManager {
         ArrayList<BasicRide> asd = new ArrayList<BasicRide>();
         String worked = string;
         String[] values = worked.split(":");
-        int quantity = Integer.parseInt(values[0]);
-        int c = 1;
+        int quantity = Integer.parseInt(values[2]);
+        int c = 3;
         for (int i = 0; i < quantity; i++) {
             String name = values[c];
             c += 1;
@@ -588,9 +582,9 @@ public class LoadManager {
         
         String worked = string;
         String[] values = worked.split(":");
-        int quantity = Integer.parseInt(values[0]);
+        int quantity = Integer.parseInt(values[2]);
         for (int i = 0; i < quantity; i++) {
-            int a = i * 5;
+            int a = i * 5+2;
             float x = Float.parseFloat(values[a + 1]);
             float z = Float.parseFloat(values[a + 2]);
             float y = Float.parseFloat(values[a + 3]);
@@ -633,9 +627,9 @@ public class LoadManager {
         ArrayList<Spatial> queRoadstoUpdate = new ArrayList<Spatial>();
         String worked = string;
         String[] values = worked.split(":");
-        int quantity = Integer.parseInt(values[0]);
+        int quantity = Integer.parseInt(values[2]);
         for(int i=0;i<quantity;i++){
-            int a=i*9;
+            int a=i*9+2;
             float x = Float.parseFloat(values[a + 1]);
             float z = Float.parseFloat(values[a + 2]);
             float y = Float.parseFloat(values[a + 3]);
@@ -719,9 +713,9 @@ public class LoadManager {
         String worked = string;
         String[] values = worked.split(":");
         Node decorationNode=(Node)rootNode.getChild("decorationNode");
-        int quantity = Integer.parseInt(values[0]);
+        int quantity = Integer.parseInt(values[2]);
         for(int i=0;i<quantity;i++){
-            int a=i*5;
+            int a=i*5+2;
             float x=Float.parseFloat(values[a+1]);
             float y=Float.parseFloat(values[a+2]);
             float z=Float.parseFloat(values[a+3]);

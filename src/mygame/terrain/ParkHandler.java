@@ -19,6 +19,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import java.util.ArrayList;
 import java.util.logging.Logger;
+import mygame.gameplayorgans.Scenario;
 import mygame.npc.BasicNPC;
 import mygame.npc.Guest;
 import mygame.npc.NPCManager;
@@ -58,11 +59,13 @@ public class ParkHandler {
     private ArrayList<Spatial> queRoadsToUpdate=new ArrayList<Spatial>();
     //VARIABLES
     private String parkName = "defaultparkname";
+    private Scenario scenario;
     private int rideID;
     private int shopID;
     private int mapHeight;
     private int mapWidth;
     private int maxGuests;
+
     
     @Inject
     public ParkHandler(Node rootNode, AppSettings settings,MapContainer map,EventBus eventBus) {
@@ -309,6 +312,14 @@ public class ParkHandler {
         }else{
             return true;
         }
+    }
+
+    public Scenario getScenario() {
+        return scenario;
+    }
+
+    public void setScenario(Scenario scenario) {
+        this.scenario = scenario;
     }
     
 }
