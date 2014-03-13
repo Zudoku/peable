@@ -8,7 +8,9 @@ import com.google.inject.Inject;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.Main;
 import mygame.inputhandler.UserInput;
@@ -30,27 +32,26 @@ import mygame.terrain.RoadMaker;
  * @author arska
  */
 public class Guest extends BasicNPC {
-    private static final Logger logger = Logger.getLogger(Guest.class.getName());
     public Wallet wallet;
     private int guestnum;
     Direction moving = Direction.UP;
     private int x;
     private int y;
     private int z;
-    private Random r;
-    private GuestWalkingStates walkState = GuestWalkingStates.WALK;
+    private  transient Random r;
+    private  transient GuestWalkingStates walkState = GuestWalkingStates.WALK;
     
-    @Inject ParkHandler currentPark;
-    @Inject ShopManager shopManager;
-    @Inject RideManager rideManager;
-    @Inject RoadMaker roadMaker;
-    @Inject MapContainer map;
-    ArrayList<NPCAction> actions = new ArrayList<NPCAction>();
-    public ArrayList<Item> inventory = new ArrayList<Item>();
+    @Inject private transient ParkHandler currentPark;
+    @Inject private transient ShopManager shopManager;
+    @Inject private transient RideManager rideManager;
+    @Inject private transient RoadMaker roadMaker;
+    @Inject private transient MapContainer map;
+    private transient List<NPCAction> actions = new ArrayList<NPCAction>();
+    private List<Item> inventory = new ArrayList<Item>();
     public StatManager stats = new StatManager();
-    public boolean active = true;
-    public Spatial currentQueRoad;
-    public long joinedRide;
+    public  transient boolean active = true;
+    public transient  Spatial currentQueRoad;
+    public  transient long joinedRide;
 
     public Guest(Wallet wallet, int guestNum, Direction moving, int x1, int y1, int z1, StatManager stats, Spatial geom, String name) {
         super(name, geom);
@@ -62,8 +63,6 @@ public class Guest extends BasicNPC {
         this.guestnum = guestNum;
         r = new Random();
         super.getGeometry().setLocalTranslation(x, y, z);
-        
-
     }
 
     public Guest(String name, float money, int guestNum, Spatial geom) {
@@ -346,7 +345,7 @@ public class Guest extends BasicNPC {
             }
             if (max > 100) {
                 end = true;
-                System.out.println("Gettin linked queroads looped for 100 times. Quitting...");
+                logger.log(Level.FINE,"Getting linked queroads looped for 100 times. Quitting...");
             }
         }
 
@@ -375,7 +374,7 @@ public class Guest extends BasicNPC {
 
     public void handleQueRoadFound(Spatial temp) {
         boolean found = false;
-        System.out.println("Found queroad testing..");
+        logger.log(Level.FINEST,"Testing the found queroad");
         int fRideID = 0;
         Spatial trueroad = null;
         BasicRide foundRide = null;
@@ -385,12 +384,12 @@ public class Guest extends BasicNPC {
                     ArrayList<Spatial> a = roadMaker.getlinkedqueroads(s.enterance.connectedRoad);
                     trueroad = temp.getUserData("queconnect1");
                     if (a.contains(trueroad)) {
-                        System.out.println("Found the ride witch the road is connected to");
+                        logger.log(Level.FINEST,"Found the ride witch the road is connected to");
                         found = true;
                         fRideID = s.getRideID();
                         break;
                     }
-                    System.out.println("Didnt find the ride witch the road is connected to");
+                    logger.log(Level.FINEST,"Didnt find the ride witch the road is connected to");
                 }
 
             }
@@ -402,11 +401,11 @@ public class Guest extends BasicNPC {
                     foundRide = a;
                 }
             }
-            // haluaako guesti mennä laitteeseen
+            // If the guest wants to go to the ride
             if (doIWantToGoThere(foundRide)) {
                 if (foundRide.tryToQueGuest(this)) {
                     if (wallet.canAfford(foundRide.getPrice())) {
-                        System.out.println("Accepted and now in que");
+                        logger.log(Level.FINEST,"Accepted the ride and now in que");
                         active = false;
                         this.currentQueRoad = trueroad;
                     }
@@ -481,8 +480,9 @@ public class Guest extends BasicNPC {
         }
         //happyness+exitement+preference+40
         int rating = h + e + p + 40;
-        System.out.println("Guest got rating of " + rating);
+        logger.log(Level.FINEST,"Guest got rating of {0}",rating);
         if (rating > 100) {
+            logger.log(Level.FINEST,"Guest is ready to accept the ride");
             return true;
         }
         return false;
@@ -518,4 +518,13 @@ public class Guest extends BasicNPC {
     public int getZ() {
         return z;
     }
+
+    public void setInventory(List<Item> inventory) {
+        this.inventory = inventory;
+    }
+
+    public List<Item> getInventory() {
+        return inventory;
+    }
+    
 }

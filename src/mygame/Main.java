@@ -4,15 +4,12 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.jme3.app.SimpleApplication;
-import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
 import de.lessvoid.nifty.Nifty;
 import java.util.logging.Logger;
 import mygame.GUI.IngameHUD;
 import mygame.GUI.StartScreen;
-import mygame.gameplayorgans.Scenario;
-import mygame.gameplayorgans.ScenarioGoal;
 import mygame.terrain.ParkHandler;
 
 /**

@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * @author arska
  */
 public class Wallet {
-    private static final Logger logger = Logger.getLogger(Wallet.class.getName());
+    private  transient static final Logger logger = Logger.getLogger(Wallet.class.getName());
     private float money;
     public Wallet(Float money) {
         this.money=money;

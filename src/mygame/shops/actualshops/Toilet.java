@@ -8,8 +8,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
-import mygame.Gamestate;
-import mygame.Main;
 import mygame.npc.Guest;
 import mygame.npc.inventory.Item;
 import mygame.npc.inventory.Itemtypes;
@@ -37,7 +35,7 @@ public class Toilet extends BasicShop{
     @Override
     public void interact(Guest guest) {
         if(guest.wallet.canAfford(price)){
-            guest.inventory.add(new Item(productname, Itemtypes.FUN,10));
+            guest.getInventory().add(new Item(productname, Itemtypes.FUN,10));
             guest.wallet.pay(price);
             eventBus.post(new PayParkEvent(price));
             eventBus.post(new UpdateMoneyTextBarEvent());

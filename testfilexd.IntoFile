@@ -1,10 +1,108 @@
-#
-META-DATA :defaultparkname:10000.0:0.0:0:0:0:0:0:
-SCENARIO DATA :4.0:6.0:0.0:1.0:GUESTS:
-MAP DATA :map size:0:0:
-SHOP DATA :shops size:0:
-GUEST DATA :guest size:0:
-RIDE DATA :ride size:0:
-ROAD DATA :roads size:0:
-QUEROAD DATA :queroad size:0:
-DECORATION DATA :decoration size:0:
+{
+  "parkwallet": {
+    "money": 9700.0,
+    "loan": 0.0
+  },
+  "rides": [],
+  "shops": [
+    {
+      "facing": "DOWN",
+      "position": {
+        "x": 5.0,
+        "y": 6.0,
+        "z": 3.0
+      },
+      "shopID": 1,
+      "constructionmoney": 300.0,
+      "productname": "Toilet usage",
+      "shopName": "Dirty ol\u0027 toilet",
+      "price": 5.0,
+      "reputation": "NEW",
+      "type": "toilet"
+    }
+  ],
+  "guests": [
+    {
+      "wallet": {
+        "money": 38.0
+      },
+      "guestnum": 1,
+      "moving": "UP",
+      "x": 3,
+      "y": 6,
+      "z": 2,
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 68,
+        "thirst": 69,
+        "happyness": 27,
+        "preferredRide": "LOW"
+      },
+      "name": "Susan Jackson"
+    },
+    {
+      "wallet": {
+        "money": 64.0
+      },
+      "guestnum": 2,
+      "moving": "UP",
+      "x": 3,
+      "y": 6,
+      "z": 2,
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 99,
+        "thirst": 85,
+        "happyness": 69,
+        "preferredRide": "MEDIUM"
+      },
+      "name": "Robert Young"
+    },
+    {
+      "wallet": {
+        "money": 57.0
+      },
+      "guestnum": 3,
+      "moving": "UP",
+      "x": 3,
+      "y": 6,
+      "z": 2,
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 34,
+        "thirst": 47,
+        "happyness": 66,
+        "preferredRide": "LOW"
+      },
+      "name": "Helen Miller"
+    },
+    {
+      "wallet": {
+        "money": 35.0
+      },
+      "guestnum": 4,
+      "moving": "UP",
+      "x": 3,
+      "y": 6,
+      "z": 2,
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 77,
+        "thirst": 6,
+        "happyness": 16,
+        "preferredRide": "LOW"
+      },
+      "name": "Michael Allen"
+    }
+  ],
+  "parkName": "asdqweasd",
+  "rideID": 1,
+  "shopID": 1,
+  "mapHeight": 101,
+  "mapWidth": 101,
+  "maxGuests": 20
+}

@@ -5,16 +5,17 @@
 package mygame.npc;
 
 import com.jme3.scene.Spatial;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
  * @author arska
  */
 public class BasicNPC {
-
+    protected static final Logger logger = Logger.getLogger(BasicNPC.class.getName());
     private String name;
-    private Spatial object;
+    private  transient Spatial object;
 
     public BasicNPC(String name, Spatial object) {
         this.name = name;
@@ -32,7 +33,7 @@ public class BasicNPC {
 
     public void setName(String name) {
         if (name == null) {
-            System.out.println("NPC name is empty");
+            
             return;
 
         }
@@ -42,7 +43,7 @@ public class BasicNPC {
     public void update() {
     }
 
-    public void move(NPCAction action, ArrayList<NPCAction> npcActions) {
+    public void move(NPCAction action, List<NPCAction> npcActions) {
         float tarx = 0;
         float tary = 0;
         float tarz = 0;

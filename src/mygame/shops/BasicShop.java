@@ -25,10 +25,10 @@ import mygame.terrain.events.PayParkEvent;
  * @author arska
  */
 public class BasicShop {
-    protected static final Logger logger = Logger.getLogger(BasicShop.class.getName());
+    protected transient static final Logger logger = Logger.getLogger(BasicShop.class.getName());
     public Direction facing;
     public Vector3f position;
-    private Spatial object;
+    private transient Spatial object;
     public int shopID=0;
     public float constructionmoney=0;
     public String productname="productname";
@@ -36,10 +36,10 @@ public class BasicShop {
     public float price=0;
     
     
-    @Inject protected EventBus eventBus;
+    @Inject transient protected EventBus eventBus;
     public ShopReputation reputation= ShopReputation.NEW;
     public String type;
-    private final Node rootNode;
+    private transient final Node rootNode;
     
     public BasicShop(Vector3f position,Spatial object,float cost,Direction facing,Node rootNode){
         this.position=position;

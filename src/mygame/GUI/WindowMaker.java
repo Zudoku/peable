@@ -15,6 +15,8 @@ import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.layout.align.HorizontalAlign;
 import de.lessvoid.nifty.layout.align.VerticalAlign;
 import de.lessvoid.nifty.render.NiftyImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mygame.Main;
 import mygame.npc.Guest;
 import mygame.npc.NPCManager;
@@ -29,21 +31,27 @@ import mygame.terrain.ParkHandler;
  */
 @Singleton
 public class WindowMaker {
-
+    //LOGGER
+    private static final Logger logger = Logger.getLogger(IngameHUD.class.getName());
+    //DEPENDENCIES
     Nifty nifty;
+    @Inject ParkHandler parkHandler;
+    @Inject NPCManager npcManager;
+    //VARIABLES
     private int guestnumber;
     private int rideID;
     private int shopID;
-    @Inject ParkHandler parkHandler;
-    @Inject NPCManager npcManager;
+    
     public WindowMaker() {
         nifty = Main.nifty;
-
     }
-
+    /**
+     * Returns guest with *
+     * @return latest guest that was opened by this class
+     */
     public Guest getCurrentGuestWindowGuest() {
         Guest guest = null;
-        for (Guest g : npcManager.guests) {
+        for (Guest g : npcManager.getGuests()) {
             if (g.getGuestNum() == guestnumber) {
                 guest = g;
                 break;
@@ -59,7 +67,7 @@ public class WindowMaker {
     public void createGuestWindow(Guest guest, boolean updateTextField) {
         updateNifty();
         if (guest == null) {
-            System.out.println("Error Guest null!!!!");
+            logger.log(Level.WARNING,"Trying to display window to null guest");
             return;
         }
         Element guestwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("guesttemplate");
@@ -116,7 +124,7 @@ public class WindowMaker {
         updateText(niftyElement, "");
 
 
-        for (Item item : guest.inventory) {
+        for (Item item : guest.getInventory()) {
             String elementname = "guestinventory" + Integer.toString(counter);
             niftyElement = temppanel.findElementByName(elementname);
             updateText(niftyElement, item.toString());
@@ -141,7 +149,7 @@ public class WindowMaker {
     public void createShopWindow(BasicShop shop) {
         updateNifty();
         if (shop == null) {
-            System.out.println("Error shop null!!!!");
+            logger.log(Level.WARNING,"Trying to display window to null shop");
             return;
         }
         shopID = shop.shopID;

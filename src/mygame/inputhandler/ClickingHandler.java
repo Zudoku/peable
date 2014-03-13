@@ -41,7 +41,7 @@ public class ClickingHandler {
 
     private static final Logger logger = Logger.getLogger(ClickingHandler.class.getName());
     @Inject private TerrainHandler terrainHandler;
-    @Inject private EventBus eventBus;
+    private EventBus eventBus;
     @Inject private WindowMaker windowMaker;
     @Inject private RideManager rideManager;
     private ClickingModes clickMode = ClickingModes.NOTHING;
@@ -54,13 +54,15 @@ public class ClickingHandler {
     private NPCManager npcManager;
     
     @Inject
-    public ClickingHandler(NPCManager npcManager,ShopManager shopManager,Node rootNode, ParkHandler parkHandler, DecorationManager decorationManager,RoadMaker roadMaker) {
+    public ClickingHandler(EventBus eventBus,NPCManager npcManager,ShopManager shopManager,Node rootNode, ParkHandler parkHandler, DecorationManager decorationManager,RoadMaker roadMaker) {
         this.roadMaker= roadMaker;
         this.shopManager=shopManager;
         this.npcManager=npcManager;
         this.rootNode = rootNode;
         this.parkHandler = parkHandler;
         this.decorationManager = decorationManager;
+        this.eventBus=eventBus;
+        eventBus.register(this);
 
     }
 
@@ -84,7 +86,7 @@ public class ClickingHandler {
                 Node rootTarget = target.getGeometry().getParent().getParent();
 
                 if (rootTarget.getUserData("guestnum") != null) {
-                    for (Guest g : npcManager.guests) {
+                    for (Guest g : npcManager.getGuests()) {
                         if (g.getGuestNum() == rootTarget.getUserData("guestnum")) {
                             windowMaker.createGuestWindow(g, true);
                             logger.log(Level.FINEST, "Displaying Guestwindow for guest with id {0}", g.getGuestNum());
@@ -93,7 +95,7 @@ public class ClickingHandler {
                     }
                 }
                 if (rootTarget.getUserData("shopID") != null) {
-                    for (BasicShop g : shopManager.shops) {
+                    for (BasicShop g : shopManager.getShops()) {
                         if (g.shopID == rootTarget.getUserData("shopID")) {
                             windowMaker.createShopWindow(g);
                             logger.log(Level.FINEST, "Displaying Shopwindow for shop with id {0}", g.shopID);

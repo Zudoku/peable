@@ -64,30 +64,34 @@ public class Gamestate extends AbstractAppState {
      
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
-        logger.log(Level.FINEST, "Initializing Gamestate...");
-        super.initialize(stateManager, app);
-        this.appm = (Main) app;
-        this.nifty=this.appm.getNifty();
-        appm.getInjector().injectMembers(this); //Inject members 
-        currentPark=this.appm.currentPark;
-        ingameHUD=this.appm.ingameHUD;
-        logger.log(Level.FINEST, "Loading scenario.");
         
-            try {
-                loadManager.load("Scenarios/greengolly.IntoFile");
-            } catch (FileNotFoundException ex) {
-                logger.log(Level.SEVERE, "File not found.");
-            } catch (IOException ex) {
-                logger.log(Level.SEVERE,"Can't open file!");
-            }
+            logger.log(Level.FINEST, "Initializing Gamestate...");
+            super.initialize(stateManager, app);
+            this.appm = (Main) app;
+            this.nifty=this.appm.getNifty();
+            appm.getInjector().injectMembers(this); //Inject members 
+            currentPark=this.appm.currentPark;
+            ingameHUD=this.appm.ingameHUD;
+            logger.log(Level.FINEST, "Loading scenario.");
         
-        setCamera();
+            
+        try {
+            loadManager.load("testfilexd.IntoFile");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Gamestate.class.getName()).log(Level.SEVERE, "EROR", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Gamestate.class.getName()).log(Level.SEVERE, "EROR", ex);
+        }
+              //  mapFactory.setCurrentMapPlain();
+            
+            setCamera();
 
-        this.appm.setDisplayStatView(false);
+            this.appm.setDisplayStatView(false);
 
-        this.appm.setPauseOnLostFocus(false);
-        currentPark.onStartup(); 
-        logger.log(Level.FINEST, "Gamestate initialized.");
+            this.appm.setPauseOnLostFocus(false);
+            currentPark.onStartup(); 
+            logger.log(Level.FINEST, "Gamestate initialized.");
+        
     }
 
     public int getMoneyslotX() {
@@ -122,10 +126,15 @@ public class Gamestate extends AbstractAppState {
      */
     @Override
     public void update(float tpf) {
+        try{
         selectionEmitter.updateSelection();
         npcManager.update();
         rideManager.updateRide();
         userInput.update();
+        }catch(Throwable t){
+            logger.log(Level.SEVERE,"OH SHIT",t);
+            t.printStackTrace();
+        }
     }
     /**
      * Set the Scenario.

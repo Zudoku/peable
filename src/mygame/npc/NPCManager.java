@@ -11,6 +11,7 @@ import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,12 +23,12 @@ import java.util.logging.Logger;
 @Singleton
 public class NPCManager {
     private static final Logger logger = Logger.getLogger(NPCManager.class.getName());
-    public ArrayList<BasicNPC> npcs;
-    public ArrayList<Guest> guests=new ArrayList<Guest>();
+    private List<BasicNPC> npcs;
+    private List<Guest> guests=new ArrayList<Guest>();
     private Node rootNode;
     private Node NPCNode;
-    public GuestSpawner guestSpawner;
-    public boolean NPCVisible=true;
+    private GuestSpawner guestSpawner;
+    private boolean NPCVisible=true;
     int maxguests=20;
     /**
      * Handles NPCs ingame
@@ -48,10 +49,7 @@ public class NPCManager {
      * Add a guest to park NOTICE: npc is attached to NPCNode here!
      * @param npc guest to be added
      */
-    public void addtoList(BasicNPC npc){
-        npcs.add(npc);
-        NPCNode.attachChild(npc.getGeometry());
-    }
+
     /**
      * If you want to delete npc
      * @param npc npc to be deleted
@@ -76,9 +74,6 @@ public class NPCManager {
             
         }
         if(npcs.isEmpty()==true){
-            //System.out.println("NPCS EMPTY!!!!");
-            logger.fine("There are no NPCs to update!");
-            
             return;
         }
         for(BasicNPC npc:npcs){
@@ -113,12 +108,28 @@ public class NPCManager {
      * Get all guests in your park.
      * @return guests
      */
-    public ArrayList<Guest> getGuests(){
+    public List<Guest> getGuests(){
         return guests;
     }
     @Subscribe public void listenAddGuestLimit(AddGuestLimitEvent event){
         this.maxguests=maxguests+event.getM();
         logger.finest("GuestLimit raised!");
     }
+
+    public void setNpcs(List<BasicNPC> npcs) {
+        this.npcs = npcs;
+        guestSpawner.setNpcs(npcs);
+    }
+
+    public List<BasicNPC> getNpcs() {
+        return npcs;
+    }
+
+    public void setGuests(List<Guest> guests) {
+        this.guests = guests;
+        guestSpawner.setGuests(guests);
+    }
+    
+    
     
 }

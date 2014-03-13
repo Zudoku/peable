@@ -13,14 +13,18 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.jme3.light.Light;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.gameplayorgans.Scenario;
 import mygame.npc.BasicNPC;
+import mygame.npc.CreateGuestEvent;
 import mygame.npc.Guest;
 import mygame.npc.NPCManager;
 import mygame.ride.BasicRide;
@@ -28,6 +32,7 @@ import mygame.ride.RideManager;
 import mygame.shops.BasicShop;
 import mygame.shops.ShopDemolishEvent;
 import mygame.shops.ShopManager;
+import mygame.terrain.events.AddToRootNodeEvent;
 import mygame.terrain.events.RefreshGroundEvent;
 import mygame.terrain.events.SetMapDataEvent;
 
@@ -38,25 +43,25 @@ import mygame.terrain.events.SetMapDataEvent;
 @Singleton
 public class ParkHandler {
     //LOGGER
-    private static final Logger logger = Logger.getLogger(ParkHandler.class.getName());
+    private transient static final Logger logger = Logger.getLogger(ParkHandler.class.getName());
     //MISC
-    public AppSettings settings;
+    public transient  AppSettings settings;
     //DEPENDENCIES
-    @Inject private NPCManager npcManager;
-    @Inject private RoadMaker roadMaker;
-    @Inject private ShopManager shopManager;
-    @Inject private RideManager rideManager;
-    private final EventBus eventBus;
-    private final Node rootNode;
+    @Inject private transient  NPCManager npcManager;
+    @Inject private transient  RoadMaker roadMaker;
+    @Inject private transient  ShopManager shopManager;
+    @Inject private transient  RideManager rideManager;
+    private transient  EventBus eventBus;
+    private transient  Node rootNode;
     //OWNS
-    private MapContainer map;
-    private ParkWallet parkwallet = new ParkWallet(10000);
-    private ArrayList<BasicRide> rides=new ArrayList<BasicRide>();
-    private ArrayList<BasicNPC> npcs=new ArrayList<BasicNPC>();
-    private ArrayList<BasicShop> shops=new ArrayList<BasicShop>();
-    private ArrayList<Guest> guests=new ArrayList<Guest>();
-    private ArrayList<Vector3f>RoadtoUpdatePositions=new ArrayList<Vector3f>();
-    private ArrayList<Spatial> queRoadsToUpdate=new ArrayList<Spatial>();
+    private transient  MapContainer map;
+    private  ParkWallet parkwallet = new ParkWallet(10000);
+    private List<BasicRide> rides=new ArrayList<BasicRide>();
+    private  transient List<BasicNPC> npcs=new ArrayList<BasicNPC>();
+    private List<BasicShop> shops=new ArrayList<BasicShop>();
+    private List<Guest> guests=new ArrayList<Guest>();
+    private  transient List<Vector3f>RoadtoUpdatePositions=new ArrayList<Vector3f>();
+    private  transient List<Spatial> queRoadsToUpdate=new ArrayList<Spatial>();
     //VARIABLES
     private String parkName = "defaultparkname";
     private Scenario scenario;
@@ -65,6 +70,10 @@ public class ParkHandler {
     private int mapHeight;
     private int mapWidth;
     private int maxGuests;
+
+    public ParkHandler() {
+        
+    }
 
     
     @Inject
@@ -106,12 +115,10 @@ public class ParkHandler {
         roadMaker.roadsToUpdate(RoadtoUpdatePositions);
         roadMaker.queRoadsToUpdate(queRoadsToUpdate);
         rideManager.rides = rides;
-        npcManager.npcs = npcs;
-        npcManager.guestSpawner.setNpcs(npcs);
-        npcManager.guests = this.guests;
-        npcManager.guestSpawner.setGuests(guests);
+        npcManager.setNpcs(npcs);
+        npcManager.setGuests(guests);
         npcManager.setMaxGuests(maxGuests);
-        shopManager.shops = shops;
+        shopManager.setShops(shops);
         rideManager.setRideID(rideID);
         shopManager.setShopID(shopID);
     }
@@ -180,19 +187,19 @@ public class ParkHandler {
         return parkwallet;
     }
 
-    public ArrayList<BasicNPC> getNpcs() {
+    public List<BasicNPC> getNpcs() {
         return npcs;
     }
 
-    public ArrayList<Guest> getGuests() {
+    public List<Guest> getGuests() {
         return guests;
     }
 
-    public ArrayList<BasicShop> getShops() {
+    public List<BasicShop> getShops() {
         return shops;
     }
 
-    public ArrayList<BasicRide> getRides() {
+    public List<BasicRide> getRides() {
         return rides;
     }
 
@@ -297,7 +304,22 @@ public class ParkHandler {
             }
         }
     }
-
+    @Subscribe public void listenAddRootNodeEvent(AddToRootNodeEvent event){
+        if(event.spatial instanceof Spatial){
+            logger.log(Level.FINEST,"New Spatial added to rootNode");
+            rootNode.attachChild((Spatial)event.spatial);
+        }
+        if(event.spatial instanceof Light){
+            logger.log(Level.FINEST,"New Light added to rootNode");
+            rootNode.addLight((Light)event.spatial);
+        }
+    }
+    @Subscribe public void listenCreateGuestsEvent(CreateGuestEvent event){
+        rootNode.attachChild(event.g.getGeometry());
+        guests.add(event.g);
+        npcs.add(event.g);
+        logger.log(Level.FINEST, "Guest {0}, initialized!",event.g.getName());
+    }
     public int getMaxGuests() {
         return maxGuests;
     }

@@ -10,6 +10,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,11 +27,11 @@ public class GuestSpawner {
     private final AssetManager assetManager;
     private final EventBus eventBus;
     //OWNS
-    private ArrayList<Vector3f> spawnpoints = new ArrayList<Vector3f>();
-    private ArrayList<BasicNPC> npcs = new ArrayList<BasicNPC>();
-    private ArrayList<String> firstName = new ArrayList<String>();
-    private ArrayList<String> surName = new ArrayList<String>();
-    private ArrayList<Guest> guests=new ArrayList<Guest>();
+    private List<Vector3f> spawnpoints = new ArrayList<Vector3f>();
+    private List<BasicNPC> npcs = new ArrayList<BasicNPC>();
+    private List<String> firstName = new ArrayList<String>();
+    private List<String> surName = new ArrayList<String>();
+    private List<Guest> guests=new ArrayList<Guest>();
     //VARIABLES
     private int guestNum = 1;
     private final Node nPCNode;
@@ -45,10 +46,10 @@ public class GuestSpawner {
         spawnpoints.add(new Vector3f(3, 6, 2));
         spawnpoints.add(new Vector3f(2, 6, 2));
     }
-    public void setNpcs(ArrayList<BasicNPC> npcs){
+    public void setNpcs(List<BasicNPC> npcs){
         this.npcs=npcs;
     }
-    public void setGuests(ArrayList<Guest> guests){
+    public void setGuests(List<Guest> guests){
         this.guests=guests;
     }
     public void forceSpawnGuest(int n) {

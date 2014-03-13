@@ -12,13 +12,13 @@ import java.util.logging.Logger;
  * @author arska
  */
 public class StatManager {
-    private static final Logger logger = Logger.getLogger(StatManager.class.getName());
+    private  transient static final Logger logger = Logger.getLogger(StatManager.class.getName());
     private GuestEmotions currentEmote= GuestEmotions.NORMAL;
     public int hunger=0;
     public int thirst=0;
     public int happyness=0;
     public RideType preferredRide;
-    private Random r = new Random();
+    private  transient Random r = new Random();
     
     public StatManager(){
         

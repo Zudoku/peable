@@ -10,6 +10,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.Main;
@@ -31,22 +32,22 @@ import mygame.terrain.RoadMaker;
 
 public class BasicRide {
     //LOGGER
-    protected static final Logger logger = Logger.getLogger(BasicRide.class.getName());
+    protected transient static final Logger logger = Logger.getLogger(BasicRide.class.getName());
     //DEPENDENCIES
-    @Inject RoadMaker roadMaker;
-    @Inject protected EventBus eventBus;
+    @Inject transient RoadMaker roadMaker;
+    @Inject transient protected EventBus eventBus;
     //OWNS
-    private CustomAnimation animatedPart; //animated part
-    private ArrayList<Spatial> staticParts=new ArrayList<Spatial>(); // non-animated parts
-    public Enterance enterance;
-    public Enterance exit;
-    private ArrayList<Guest> guestsInRide = new ArrayList<Guest>();
-    private ArrayList<Guest> guestsInQue = new ArrayList<Guest>();
+    private transient CustomAnimation animatedPart; //animated part
+    private transient ArrayList<Spatial> staticParts=new ArrayList<Spatial>(); // non-animated parts
+    public transient Enterance enterance;
+    public transient Enterance exit;
+    private transient ArrayList<Guest> guestsInRide = new ArrayList<Guest>();
+    private transient ArrayList<Guest> guestsInQue = new ArrayList<Guest>();
     //VARIABLES
     private int rideID = 0; //every ride has its own id in parks
     private float price = 1; //charged from the customers every time they visit your ride
     private Direction facing; //not implemented yet
-    private MapPosition position;
+    private MapPosition position; //position of this ride
     public float constructionmoney = 0; //how much did it cost to build this building
     private String rideName = "You found a bug"; //rides name
     private ShopReputation reputation = ShopReputation.NEW; //not implemented yet
@@ -58,18 +59,12 @@ public class BasicRide {
     private int broken=0; //how broken it is  100=broken 0=full repaired
     private int customerstotal=0; //how many customers total
     private float moneytotal=0; //how much money gained total
-    private long lastGuestVisitTime=0; //how much time since last guest visited this ride
-    private double guestRateHour=0; //how many guests per hour
+    private transient long lastGuestVisitTime=0; //how much time since last guest visited this ride
+    private transient double guestRateHour=0; //how many guests per hour
     private int repairCost=100; //how much does it cost to repair this
     private String ride="you found a bug"; //this is variable used in saving
     
     //TODO:!! 
-    private boolean[][] occupySpace = {
-        {false, false, false, false},
-        {false, false, false, false},
-        {false, false, false, false},
-        {false, false, false, false},
-    };
     
     public void setRideType(String ride){
         this.ride=ride;
@@ -91,11 +86,11 @@ public class BasicRide {
         this.ride=ride;
         this.staticParts=staticParts;
         Main.injector.injectMembers(this);
-        //aseta oikeelle paikalle
+        //Place it to the right place
         object.getObject().setLocalTranslation(position.getVector()); //temp fix
         for(Spatial s:staticParts){
             s.setLocalTranslation(position.getVector());
-            System.out.println("Object "+s+" moved to "+s.getLocalTranslation());
+            logger.log(Level.FINEST,"Object {0} moved to {1}",new Object[]{s,s.getLocalTranslation()});
         }
         
     }
@@ -124,11 +119,11 @@ public class BasicRide {
             Guest handledguest = guestsInQue.get(i);
             Spatial testedroad = handledguest.currentQueRoad;
             if (testedroad == null) {
-                System.out.println("Road from guest null :(");
+                logger.log(Level.FINEST,"Shit hit the fan when trying to update que road");
             }
             ArrayList<Spatial> linkedroads = roadMaker.getlinkedqueroads(enterance.connectedRoad);
             if (!linkedroads.contains(testedroad)) {
-                System.out.println("Error");
+                logger.log(Level.FINE,"ROAD LOOP");
                 continue;
             }
             int a = linkedroads.indexOf(testedroad);
@@ -143,7 +138,7 @@ public class BasicRide {
                 continue;
             }
             if (i < a) {
-                //anna käsky eteenpoäin
+                //Move forward
                 Vector3f newpos = linkedroads.get(i).getLocalTranslation();
                 handledguest.callToQueRoad(new NPCAction(newpos, ActionType.QUE, handledguest));
                 handledguest.currentQueRoad = linkedroads.get(i);
@@ -179,7 +174,7 @@ public class BasicRide {
         //delete guest from the list
         interact(g);
         guestsInRide.remove(g);
-        //laita guesti enterancen positioniin
+        //Put the guest to the enterance position
         int x1 = (int) (exit.location.x + 0.4999);
         int y1 = (int) (exit.location.y + 0.4999);
         int z1 = (int) (exit.location.z + 0.4999);
@@ -206,10 +201,6 @@ public class BasicRide {
     }
     public int getRideID(){
         return rideID;
-    }
-
-    public boolean[][] getOccupySpace() {
-        return occupySpace;
     }
     public float getPrice(){
         return price;

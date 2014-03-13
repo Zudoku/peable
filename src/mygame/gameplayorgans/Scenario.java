@@ -15,7 +15,7 @@ import com.jme3.math.Vector3f;
 public class Scenario {
     //VARIABLES
     private ScenarioGoal goal;
-    private Vector3f enterancePos;
+    private  transient Vector3f enterancePos;
     private double enteranceYRotation;
     //GOAL POSSIBILITIES
     private int neededGuest;

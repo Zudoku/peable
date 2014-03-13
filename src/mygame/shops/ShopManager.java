@@ -14,6 +14,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.GUI.events.CloseWindowsEvent;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
@@ -35,8 +37,8 @@ public class ShopManager {
     //LOGGER
     private static final Logger logger = Logger.getLogger(ShopManager.class.getName());
     //OWNS
-    ShopFactory shopFactory;
-    public ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
+    private ShopFactory shopFactory;
+    private List<BasicShop> shops = new ArrayList<BasicShop>();
     private final AssetManager assetManager;
     private Node shopNode;
     private final HolomodelDrawer holoDrawer;
@@ -78,7 +80,7 @@ public class ShopManager {
                 break;
                 
             case NULL:
-                System.out.println("You just tried to buy null shop!");
+                logger.log(Level.WARNING,"Tried to buy null shop");
                 break;
                 
             default: 
@@ -103,9 +105,7 @@ public class ShopManager {
         eventBus.post(new AddObjectToMapEvent(ax, ay, az, boughtshop.getGeometry()));
         shopNode.attachChild(boughtshop.getGeometry());
         resetShopdata();
-        
-       
-        
+  
     }
     private void activateplace(){
         Spatial geom;
@@ -215,7 +215,6 @@ public class ShopManager {
                 int tz=(int)holoDrawer.pyorista(p.position).z;
                 if(tx==x&&ty==y&&tz==z){
                     b=p;
-                    System.out.println("SHOP IS LOCATED!");
                     return b;
                     
                 }
@@ -243,4 +242,13 @@ public class ShopManager {
             selectedBuilding=b;
         }
     }
+
+    public void setShops(List<BasicShop> shops) {
+        this.shops = shops;
+    }
+
+    public List<BasicShop> getShops() {
+        return shops;
+    }
+    
 }

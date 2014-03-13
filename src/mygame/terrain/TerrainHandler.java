@@ -161,7 +161,6 @@ public class TerrainHandler {
                     buf.put(index, (byte) 128);
                     alphaTexture.getImage().setData(buf);
                 } else {
-                    System.out.println("OVERBOARD " + index);
                 }
 
             }

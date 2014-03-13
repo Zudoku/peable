@@ -28,7 +28,7 @@ import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.SizeValue;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.GUI.events.CloseWindowsEvent;
@@ -249,14 +249,14 @@ public class IngameHUD implements ScreenController {
         }
         else{
             Guest guest = null;
-            for(Guest g:npcManager.guests){
+            for(Guest g:npcManager.getGuests()){
                 if(g.getGuestNum()==index-1){
                     guest=g;
                     break;
                 }
             }
             if(guest==null){
-                System.out.println("Did not find guest with that index");
+                logger.log(Level.WARNING,"No such guest with guestID {0}",index-1);
                 return;
             }
             windowMaker.createGuestWindow(guest,true);
@@ -363,17 +363,17 @@ public class IngameHUD implements ScreenController {
             updateNPCBox();
         }
     }
-    public void updateNPCBox(){
-        ArrayList<Guest> guests=parkHandler.getGuests();
-    DropDown drop= screen.findNiftyControl("guests",DropDown.class);
-    drop.clear();
-    drop.addItem("default");
-    for(Guest g:guests){
-        String guest=Integer.toString(g.getGuestNum())+" - "+g.getName();
-        drop.addItem(guest);
-    }
-    drop.getElement().setConstraintHorizontalAlign(HorizontalAlign.left);
-    drop.getElement().setConstraintVerticalAlign(VerticalAlign.top);
+    public void updateNPCBox() {
+        List<Guest> guests = parkHandler.getGuests();
+        DropDown drop = screen.findNiftyControl("guests", DropDown.class);
+        drop.clear();
+        drop.addItem("default");
+        for (Guest g : guests) {
+            String guest = Integer.toString(g.getGuestNum()) + " - " + g.getName();
+            drop.addItem(guest);
+        }
+        drop.getElement().setConstraintHorizontalAlign(HorizontalAlign.left);
+        drop.getElement().setConstraintVerticalAlign(VerticalAlign.top);
     }
     private void roadDirectionReset(){
         Element niftyElement;
@@ -526,7 +526,7 @@ public class IngameHUD implements ScreenController {
 
     }
     private void setelementText(Element element,String text){
-        System.out.println(element.getRenderer(TextRenderer.class).getOriginalText()+ " Changed to "+ text);
+        logger.log(Level.FINEST,"{0} Changed to {1}",new Object[]{element.getRenderer(TextRenderer.class).getOriginalText(),text});
         element.getRenderer(TextRenderer.class).setText(text);
         element.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
         element.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
@@ -595,7 +595,7 @@ public class IngameHUD implements ScreenController {
      * @param selection enum BASICBUILDABLES in string-form
      */
     public void selectbuilding(String selection){
-        System.out.println(selection);
+        logger.log(Level.FINEST,"Selecting building {0}",selection);
         try{
             BasicBuildables sel=BasicBuildables.valueOf(selection);
             eventBus.post(new BuildingSelectionEvent(sel));

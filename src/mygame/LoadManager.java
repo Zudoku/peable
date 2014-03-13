@@ -5,6 +5,10 @@
 package mygame;
 
 import com.google.common.eventbus.EventBus;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
@@ -61,7 +65,7 @@ public class LoadManager {
     private EventBus eventBus;
     private final AssetManager assetManager;
     private RoadFactory roadF;
-    private final ParkHandler parkHandler;
+    private ParkHandler parkHandler;
 
     /**
      * LoadManager is class to load .IntoFile files and transform them to Scenarios.
@@ -87,6 +91,11 @@ public class LoadManager {
      * @throws IOException Error opening file!
      */
     public void load(String filename) throws FileNotFoundException, IOException {
+        GsonBuilder gb=new GsonBuilder();
+        gb.registerTypeAdapter(ParkHandler.class, new ParkHandlerDeserializer(parkHandler,eventBus));
+        Gson gson = gb.create();
+        gson.fromJson(new FileReader(filename), ParkHandler.class);
+        /*
         Scanner br = new Scanner(new FileReader(filename));
         try {
             String[] filecontent =new String[9];
@@ -107,7 +116,7 @@ public class LoadManager {
             
         } finally {
             br.close();
-        }
+        }*/
     }
     /**
      * Actual function to transfer long String(contents of .IntoFile) to Scenario
@@ -143,17 +152,17 @@ public class LoadManager {
      * There needs to be light so that models in the Node are visible.
      */
     private void attachDirectionalLights() {
-        DirectionalLight sun = new DirectionalLight();
-        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f).normalizeLocal()));
-        sun.setColor(ColorRGBA.White);
-        rootNode.addLight(sun);
-        DirectionalLight sun2 = new DirectionalLight();
-        sun2.setDirection((new Vector3f(-0.5f, 0.5f, -0.5f).normalizeLocal()));
-        sun2.setColor(ColorRGBA.White);
-        rootNode.addLight(sun2); 
+//        DirectionalLight sun = new DirectionalLight();
+//        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f).normalizeLocal()));
+//        sun.setColor(ColorRGBA.White);
+//        rootNode.addLight(sun);
+//        DirectionalLight sun2 = new DirectionalLight();
+//        sun2.setDirection((new Vector3f(-0.5f, 0.5f, -0.5f).normalizeLocal()));
+//        sun2.setColor(ColorRGBA.White);
+//        rootNode.addLight(sun2); 
         
         AmbientLight l=new AmbientLight();
-        l.setColor(new ColorRGBA(1,1,1,300));
+        l.setColor(new ColorRGBA(1,1,1,1));
         
         rootNode.addLight(l);
     }

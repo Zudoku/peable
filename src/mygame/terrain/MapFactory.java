@@ -6,6 +6,11 @@ package mygame.terrain;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -25,10 +30,12 @@ public class MapFactory {
     private final int Mapwidth=101;  //-1 ==100
     private final ParkHandler parkHandler;
     @Inject TerrainHandler terrainHandler;
+    private Node rootNode;
     
     @Inject
-    public MapFactory(ParkHandler parkHandler){
+    public MapFactory(ParkHandler parkHandler,Node rootNode){
         this.parkHandler=parkHandler;
+        this.rootNode=rootNode;
     }
     public void setCurrentMapPlain(){
         parkHandler.setMap(getPlainMap(Mapheight, Mapwidth),terrainHandler.getHeightMap());
@@ -41,6 +48,19 @@ public class MapFactory {
         parkHandler.setMapSize(Mapheight, Mapwidth);
         parkHandler.setParkWallet(new ParkWallet(10000));
         parkHandler.setMaxGuests(20);
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f).normalizeLocal()));
+        sun.setColor(ColorRGBA.White);
+        rootNode.addLight(sun);
+        DirectionalLight sun2 = new DirectionalLight();
+        sun2.setDirection((new Vector3f(-0.5f, 0.5f, -0.5f).normalizeLocal()));
+        sun2.setColor(ColorRGBA.White);
+        rootNode.addLight(sun2); 
+        
+        AmbientLight l=new AmbientLight();
+        l.setColor(new ColorRGBA(1,1,1,300));
+        
+        rootNode.addLight(l);
     }
    
     

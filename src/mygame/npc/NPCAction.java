@@ -70,12 +70,12 @@ public class NPCAction {
                     logger.log(Level.WARNING,"NPCAction was corrupted when trying to consume it !");
                     return;
                 }
-                if(guest.inventory.isEmpty()==true){
+                if(guest.getInventory().isEmpty()==true){
                     
                     return;
                 }
-                guest.inventory.get(0).consume(guest.stats);
-                guest.inventory.remove(guest.inventory.get(0));
+                guest.getInventory().get(0).consume(guest.stats);
+                guest.getInventory().remove(guest.getInventory().get(0));
                 //windowMaker.updateGuestWindow(guest);
                 break;
                 

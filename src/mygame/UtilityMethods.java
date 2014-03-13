@@ -6,6 +6,7 @@ package mygame;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.math.Ray;
@@ -13,6 +14,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import java.nio.ByteBuffer;
 
 /**
@@ -22,13 +24,15 @@ import java.nio.ByteBuffer;
 @Singleton
 public class UtilityMethods {
     private static InputManager inputManager;
+    private static AssetManager assetManager;
     private static Camera cam;
     public static float HALFTILE=0.49999f;
     public static String programTitle="Into Park 0.03A";
     @Inject
-    public UtilityMethods(Camera cam,InputManager inputManager) {
+    public UtilityMethods(Camera cam,InputManager inputManager,AssetManager assetManager) {
         this.cam=cam;
         this.inputManager=inputManager;
+        this.assetManager=assetManager;
     }
     
     public static void rayCast(CollisionResults results,Node rootNode) {
@@ -68,5 +72,8 @@ public class UtilityMethods {
             return true;
         }
         return findUserDataType(r.getParent(),type); 
+     }
+     public static Spatial loadModel(String path){
+         return assetManager.loadModel(path);
      }
 }

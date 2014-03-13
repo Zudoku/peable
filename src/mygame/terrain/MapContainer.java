@@ -15,6 +15,10 @@ import com.jme3.scene.Spatial;
 public class MapContainer {
     private Spatial[][][]map;
     private float[] mapData;
+
+    public MapContainer() {
+    }
+    
     
     public Spatial[][][]getMap(){
         return map;

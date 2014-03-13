@@ -4,6 +4,8 @@
  */
 package mygame;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.math.Vector3f;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.gameplayorgans.Scenario;
@@ -53,11 +56,17 @@ public class SaveManager {
      * @param filename 
      */
     public void Save(String filename) {
+        Gson gson;
+        GsonBuilder ga=new GsonBuilder();
+        gson=ga.setPrettyPrinting().create();
+        
         Writer writer = null;
         logger.log(Level.FINEST,"Starting to save {0}",filename);
         try {
             writer = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(filename + ".IntoFile"), "utf-8"));
+            gson.toJson(parkHandler, writer);
+            /*
             writer.write("#"+System.getProperty("line.separator"));
             logger.log(Level.FINEST,"Writing META data...");
             writeMetaData(writer);
@@ -77,7 +86,7 @@ public class SaveManager {
             logger.log(Level.FINEST,"Writing quepark data...");
             writeQueRoads(writer);
             logger.log(Level.FINEST,"Writing decoration data...");
-            writeDecorations(writer);
+            writeDecorations(writer);*/
         } catch (IOException ex) {
             logger.log(Level.SEVERE,"Something failed! Couldn't save game data. your save might be corrupt!");
         } finally {
@@ -91,7 +100,7 @@ public class SaveManager {
     }
     
     private void writeGuests(Writer writer) throws IOException {
-        ArrayList<Guest> guests = parkHandler.getGuests();
+        List<Guest> guests = parkHandler.getGuests();
         int size = guests.size();
         writer.write("GUEST DATA " + ":" + "guest size:" + Integer.toString(size) + ":");
         for (Guest g : guests) {

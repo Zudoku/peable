@@ -13,6 +13,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.GUI.events.UpdateRoadDirectionEvent;
@@ -748,8 +750,6 @@ public class RoadMaker {
             road.setUserData("queconnect1", connectedroad);
             road.setUserData("connected", false);
             connectedroad.setUserData("queconnect2", road);
-            System.out.println(road.getUserData("queconnect1").toString());
-            System.out.println(connectedroad.getUserData("queconnect2").toString());
             if (connectedroad.getUserData("queconnect1") != null) {
                 connectedroad.setUserData("connected", true);
             }
@@ -878,7 +878,7 @@ public class RoadMaker {
                 connected1 = connectedroad.getUserData("queconnect2");
             } else {
                 //BUG
-                System.out.println("BUG");
+                logger.log(Level.SEVERE,"BUG ROADMAKER");
             }
 
             Spatial connected2 = road;
@@ -1118,10 +1118,7 @@ public class RoadMaker {
     }
 
     private void refreshqueroadarray(Spatial road) {
-        System.out.println("Refreshing..");
-
         ArrayList<Spatial> queroads = getlinkedqueroads(road);
-        System.out.println("Refresh size " + queroads.size());
         for (int i = 0; i < (queroads.size() - 2); i++) {
             Spatial cur = queroads.get(i);
             Spatial second = queroads.get(i + 1);
@@ -1135,10 +1132,8 @@ public class RoadMaker {
             int secondz = (int) second.getLocalTranslation().z;
 
             turnqueroads(cur, curx, cury, curz, road, secondx, secondy, secondz);
-            System.out.println("Refreshing road");
 
         }
-        System.out.println("Refresh done");
 
     }
 
@@ -1146,10 +1141,10 @@ public class RoadMaker {
         ArrayList<Spatial> list = new ArrayList<Spatial>();
         Spatial curRoad = firstroad;
         if (firstroad == null) {
-            System.out.println("firstroad = null !! WTF");
+            logger.log(Level.SEVERE,"firstroad = null !! WTF");
             return list;
         }
-        //lisää eka pala
+        //Add the first road
         list.add(curRoad);
         boolean end = false;
         int max = 0;
@@ -1166,17 +1161,16 @@ public class RoadMaker {
                     Spatial locatedroad = curRoad.getUserData("queconnect1");
 
 
-                    //onko tie jo listassa
+                    //Is the road already on the list
                     boolean old = false;
                     for (Spatial s : list) {
                         if (s.equals(locatedroad)) {
                             old = true;
 
-                            //System.out.println("queconnect1 was already on the list");
                             break;
                         }
                     }
-                    //jos ei niin lisää se 
+                    //If not add it
                     if (old == false) {
                         added = true;
                         curRoad = locatedroad;
@@ -1203,36 +1197,29 @@ public class RoadMaker {
                     if (old == false) {
                         curRoad = locatedroad;
                         list.add(curRoad);
-                        //System.out.println("queconnect2 added to the list ");
 
                     }
                 }
 
             } else {
                 end = true;
-                //System.out.println("finding connect ended because connected was false");
-                //System.out.println("Still looking for the last one...");
-
                 Spatial locatedroad = curRoad.getUserData("queconnect1");
                 if (locatedroad != null) {
-                    //System.out.println("queconnect1 found...");
 
-                    //onko tie jo listassa
+                    //If the road is on the list
                     boolean old = false;
                     for (Spatial s : list) {
                         if (s.equals(locatedroad)) {
                             old = true;
 
-                            //System.out.println("queconnect1 was already on the list");
                             break;
                         }
                     }
-                    //jos ei niin lisää se 
+                    //Add if not
                     if (old == false) {
                         added = true;
                         curRoad = locatedroad;
                         list.add(curRoad);
-                        //System.out.println("queconnect1 added to the list  NOW FINISHING");
 
                     }
                 }
@@ -1242,22 +1229,21 @@ public class RoadMaker {
                     locatedroad = null;
                     locatedroad = curRoad.getUserData("queconnect2");
                     if (locatedroad != null) {
-                        //System.out.println("queconnect2 found...");
 
-                        //onko tie jo listassa
+                        //If the road is on the list
                         boolean old = false;
                         for (Spatial s : list) {
                             if (s.equals(locatedroad)) {
                                 old = true;
-                                //System.out.println("queconnect2 was already on the list");
+                                
                                 break;
                             }
                         }
-                        //jos ei niin lisää se 
+                        //If not add it  
                         if (old == false) {
                             curRoad = locatedroad;
                             list.add(curRoad);
-                            //System.out.println("queconnect2 added to the list NOW FINISHING");
+
                         }
                     }
 
@@ -1271,7 +1257,7 @@ public class RoadMaker {
             }
             if (max > 100) {
                 end = true;
-                System.out.println("Gettin linked queroads looped for 100 times. Quitting...");
+                logger.log(Level.FINE,"Loopy loop XD");
             }
         }
 
@@ -1279,13 +1265,13 @@ public class RoadMaker {
 
     }
 
-    void roadsToUpdate(ArrayList<Vector3f> roadtoUpdatePositions) {
+    void roadsToUpdate(List<Vector3f> roadtoUpdatePositions) {
         for (Vector3f a : roadtoUpdatePositions) {
             updateroads((int) a.x, (int) a.y, (int) a.z);
         }
     }
 
-    void queRoadsToUpdate(ArrayList<Spatial> queRoadsToUpdate) {
+    void queRoadsToUpdate(List<Spatial> queRoadsToUpdate) {
         for (Spatial s : queRoadsToUpdate) {
 
             refreshqueroadarray(s);

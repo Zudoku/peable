@@ -12,6 +12,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
@@ -30,7 +31,7 @@ import mygame.terrain.ParkHandler;
 @Singleton
 public class RideManager {
     private static final Logger logger = Logger.getLogger(RideManager.class.getName());
-    public ArrayList<BasicRide> rides = new ArrayList<BasicRide>();
+    public List<BasicRide> rides = new ArrayList<BasicRide>();
     RideFactory rideFactory;
     private Node rideNode;
     int rideID;
