@@ -8,6 +8,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import mygame.UtilityMethods;
 import mygame.shops.actualshops.Energy;
+import mygame.shops.actualshops.Meatballshop;
+import mygame.shops.actualshops.Toilet;
 import mygame.terrain.Direction;
 import mygame.terrain.MapPosition;
 
@@ -57,10 +59,10 @@ public class CreateShopEvent {
             shop=new Energy(pos,direction,model,shopID,price,constmoney,prodName,shopName);
         }
         if(type.equals("meatballshop")){
-            
+            shop=new Meatballshop(pos,direction,model,shopID,price,constmoney,prodName,shopName);
         }
         if(type.equals("toilet")){
-            
+            shop=new Toilet(pos,direction,model,shopID,price,constmoney,prodName,shopName);
         }
         return shop;
     }
