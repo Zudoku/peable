@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import intopark.LoadPaths;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import intopark.ride.actualrides.Archeryrange;
@@ -36,7 +37,7 @@ public class RideFactory {
     
     public ChessCenter chessCenter(Vector3f position,Direction facing){
         
-        Spatial geom =assetManager.loadModel("Models/Rides/Chesshouse/chesshouse.j3o");
+        Spatial geom =assetManager.loadModel(LoadPaths.chess);
         
         CustomAnimation moving=new CustomAnimation();
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
@@ -47,7 +48,7 @@ public class RideFactory {
         
     }
     public Archeryrange archeryRange(Vector3f position,Direction facing){
-        Spatial geom=assetManager.loadModel("Models/Rides/archeryrange/archeryrange.j3o");
+        Spatial geom=assetManager.loadModel(LoadPaths.archery);
         
         position.y +=0.1;
         CustomAnimation moving=new CustomAnimation();
@@ -58,7 +59,7 @@ public class RideFactory {
         return ride;
     }
     public Rotor rotor(Vector3f position,Direction facing){
-        Spatial geom=assetManager.loadModel("Models/Rides/Rotor/rotor.j3o");
+        Spatial geom=assetManager.loadModel(LoadPaths.rotor);
         
         CustomAnimation moving=new CustomAnimation();
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
@@ -68,8 +69,8 @@ public class RideFactory {
         return ride;
     }
     public PirateShip pirateShip(Vector3f position,Direction facing){
-        Spatial geom=assetManager.loadModel("Models/Rides/PirateShip/core.j3o");
-        Spatial geom2=assetManager.loadModel("Models/Rides/PirateShip/swing.j3o");
+        Spatial geom=assetManager.loadModel(LoadPaths.pirateCore);
+        Spatial geom2=assetManager.loadModel(LoadPaths.pirateSwing);
         
         CustomAnimation moving=new CustomAnimation(geom2,AnimationType.ROLLH);
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
@@ -79,8 +80,8 @@ public class RideFactory {
         return ride;
     }
     public SpinWheel spinWheel(Vector3f position,Direction facing){
-        Spatial geom=assetManager.loadModel("Models/Rides/Spinwheel/core.j3o");
-        Spatial geom2=assetManager.loadModel("Models/Rides/Spinwheel/swing.j3o");
+        Spatial geom=assetManager.loadModel(LoadPaths.spinwheelCore);
+        Spatial geom2=assetManager.loadModel(LoadPaths.spinwheelSwing);
         
         CustomAnimation moving=new CustomAnimation(geom2,AnimationType.ROLLV);
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
@@ -90,7 +91,7 @@ public class RideFactory {
         return ride;
     }
     public HauntedHouse hauntedHouse(Vector3f position,Direction facing){
-        Spatial geom =assetManager.loadModel("Models/Rides/Hauntedhouse/hauntedhouse.j3o");
+        Spatial geom =assetManager.loadModel(LoadPaths.hauntedhouse);
         
         CustomAnimation moving=new CustomAnimation();
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
@@ -100,7 +101,7 @@ public class RideFactory {
         return ride;
     }
     public Blender blender(Vector3f position,Direction facing){
-        Spatial geom =assetManager.loadModel("Models/Rides/Blender/blender.j3o");
+        Spatial geom =assetManager.loadModel(LoadPaths.blender);
         
         CustomAnimation moving=new CustomAnimation(geom, AnimationType.ROLLV);
         ArrayList<Spatial>staticContent=new ArrayList<Spatial>();

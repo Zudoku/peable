@@ -15,6 +15,7 @@ import com.jme3.effect.shapes.EmitterPointShape;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import intopark.LoadPaths;
 import intopark.UtilityMethods;
 import intopark.inputhandler.ClickingHandler;
 import intopark.shops.HolomodelDrawer;
@@ -56,7 +57,7 @@ public class SelectionParticleEmitter {
         Material mat_red = new Material(assetManager,
                 "Common/MatDefs/Misc/Particle.j3md");
         mat_red.setTexture("Texture", assetManager.loadTexture(
-                "Textures/selection.png"));
+                LoadPaths.selectiontexture));
         selection.setMaterial(mat_red);
         selection.setShape(new EmitterPointShape(Vector3f.ZERO));
         selection.setImagesX(20);

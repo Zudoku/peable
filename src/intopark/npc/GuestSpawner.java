@@ -15,6 +15,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
+import intopark.LoadPaths;
 
 /**
  *
@@ -66,7 +67,7 @@ public class GuestSpawner {
         float money = r.nextInt(30);
         money = money + 35;
         //Load the model and give it unique ID and money.
-        Spatial geom = assetManager.loadModel("Models/Human/guest.j3o");
+        Spatial geom = assetManager.loadModel(LoadPaths.guest);
         geom.setName("guest");
         geom.setUserData("guestnum", guestNum);
         Guest g = new Guest(name, money, guestNum, geom);

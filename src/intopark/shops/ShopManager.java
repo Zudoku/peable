@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.CloseWindowsEvent;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
+import intopark.LoadPaths;
 import intopark.inputhandler.ClickingModes;
 import intopark.inputhandler.SetClickModeEvent;
 import intopark.inputhandler.SetClickingHandlerBufferEvent;
@@ -115,56 +116,56 @@ public class ShopManager {
         Spatial geom;
         switch(selectedBuilding){
             case MBALL:
-                geom =assetManager.loadModel("Models/shops/mball.j3o");
+                geom =assetManager.loadModel(LoadPaths.mball);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break; 
                        
             case ENERGY:
-                geom =assetManager.loadModel("Models/shops/energyshop.j3o");
+                geom =assetManager.loadModel(LoadPaths.energy);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
             case TOILET:
-                geom =assetManager.loadModel("Models/shops/toilet.j3o");
+                geom =assetManager.loadModel(LoadPaths.toilet);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
       
             case CHESSCENTER:
-                geom =assetManager.loadModel("Models/Rides/Chesshouse/chesshouse.j3o");
+                geom =assetManager.loadModel(LoadPaths.chess);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
             case BLENDER:
-                geom =assetManager.loadModel("Models/Rides/Blender/blender.j3o");
+                geom =assetManager.loadModel(LoadPaths.blender);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
             case ARCHERYRANGE:
-                geom =assetManager.loadModel("Models/Rides/archeryrange/archeryrange.j3o");
+                geom =assetManager.loadModel(LoadPaths.archery);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
             case HAUNTEDHOUSE:
-                geom =assetManager.loadModel("Models/Rides/Hauntedhouse/hauntedhouse.j3o");
+                geom =assetManager.loadModel(LoadPaths.archery);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
             case PIRATESHIP:
-                geom =assetManager.loadModel("Models/Rides/PirateShip/core.j3o");
+                geom =assetManager.loadModel(LoadPaths.pirateCore);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
                 
             case ROTOR:
-                geom =assetManager.loadModel("Models/Rides/Rotor/rotor.j3o");
+                geom =assetManager.loadModel(LoadPaths.rotor);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;

@@ -6,6 +6,7 @@ package intopark.terrain.decoration;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Spatial;
+import intopark.LoadPaths;
 
 /**
  *
@@ -18,7 +19,7 @@ public class DecorationFactory {
     }
     
     public Spatial getRock() {
-        Spatial object=assetManager.loadModel("Models/Decorations/rock.j3o");
+        Spatial object=assetManager.loadModel(LoadPaths.rock);
         object.setUserData("decoration","rock");
         object.scale(0.3f);
         return object;

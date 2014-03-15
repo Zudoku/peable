@@ -7,6 +7,7 @@ package intopark.terrain;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.scene.Spatial;
+import intopark.LoadPaths;
 import java.util.logging.Logger;
 
 /**
@@ -28,7 +29,7 @@ public class RoadFactory {
         return m;
     }
     public Spatial roadStraight() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadStraight.j3o");
+        Spatial road = assetManager.loadModel(LoadPaths.roadstraight);
         road.scale(0.5f, 0.5f, 0.5f);
         road.setUserData("roadHill","flat");
         road.setUserData("type","road");
@@ -36,7 +37,7 @@ public class RoadFactory {
     }
 
     public Spatial roadUpHill() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadUpHill.j3o");
+        Spatial road = assetManager.loadModel(LoadPaths.roaduphill);
         road.setLocalTranslation(0, +0.50f, 0);
         road.setUserData("roadHill","upHill");
         road.setUserData("type","road");
@@ -46,7 +47,7 @@ public class RoadFactory {
     }
 
     public Spatial roadDownHill() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadUpHill.j3o");
+        Spatial road = assetManager.loadModel(LoadPaths.roaduphill);
         float angle = (float) Math.toRadians(180);
         road.setLocalTranslation(0, -0.50f, 0);
         road.rotate(0, angle, 0);
@@ -57,7 +58,7 @@ public class RoadFactory {
     }
 
     public Spatial centerRoad() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadCenter.j3o");
+        Spatial road = assetManager.loadModel(LoadPaths.roadcenter);
         road.scale(0.5f, 0.5f, 0.5f);
         road.setUserData("roadHill","flat");
         road.setUserData("type","road");
@@ -65,7 +66,7 @@ public class RoadFactory {
     }
 
     public Spatial bendingRoad() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadBending.j3o");
+        Spatial road = assetManager.loadModel(LoadPaths.roadbending);
         road.scale(0.5f, 0.5f, 0.5f);
         road.setUserData("roadHill","flat");
         road.setUserData("type","road");
@@ -73,7 +74,7 @@ public class RoadFactory {
     }
 
     public Spatial tRoad() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadT.j3o");
+        Spatial road = assetManager.loadModel(LoadPaths.roadT);
         road.scale(0.5f, 0.5f, 0.5f);
         road.setUserData("roadHill","flat");
         road.setUserData("type","road");
@@ -81,7 +82,7 @@ public class RoadFactory {
     }
     //älä käytä vielä
     public Spatial queroadStraight() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadStraightblue.j3o");
+        Spatial road = assetManager.loadModel(LoadPaths.queroadstraight);
         
         road.scale(0.5f, 0.5f, 0.5f);
         road.setUserData("roadHill","flat");
@@ -90,7 +91,7 @@ public class RoadFactory {
     }
     //älä käytä vielä
     public Spatial queroadUpHill() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadUpHillblue.j3o");
+        Spatial road = assetManager.loadModel(LoadPaths.queroaduphill);
         
         road.setLocalTranslation(0, +0.50f, 0);
         road.setUserData("roadHill","upHill");
@@ -100,7 +101,7 @@ public class RoadFactory {
     }
 
     public Spatial queroadDownHill() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadUpHillblue.j3o");
+        Spatial road = assetManager.loadModel(LoadPaths.queroaduphill);
         
         float angle = (float) Math.toRadians(180);
         road.setLocalTranslation(0, -0.50f, 0);
@@ -113,7 +114,7 @@ public class RoadFactory {
 
 
     public Spatial quebendingRoad() {
-        Spatial road = assetManager.loadModel("Models/Roads/roadBendingblue.j3o");
+        Spatial road = assetManager.loadModel(LoadPaths.queroadbending);
         
         road.scale(0.5f, 0.5f, 0.5f);
         road.setUserData("roadHill","flat");

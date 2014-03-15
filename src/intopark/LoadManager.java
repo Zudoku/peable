@@ -143,7 +143,7 @@ public class LoadManager {
                 
                 CustomAnimation moving=new CustomAnimation();
                 ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
-                staticContent.add(assetManager.loadModel("Models/Rides/Chesshouse/chesshouse.j3o"));
+                staticContent.add(assetManager.loadModel(LoadPaths.chess));
                 
                 
                 ChessCenter a = new ChessCenter(new MapPosition(new Vector3f(x, y, z)),moving,staticContent,Direction.UP);
@@ -160,7 +160,7 @@ public class LoadManager {
                 
                 CustomAnimation moving=new CustomAnimation();
                 ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
-                staticContent.add(assetManager.loadModel("Models/Rides/archeryrange/archeryrange.j3o"));
+                staticContent.add(assetManager.loadModel(LoadPaths.archery));
                 
                 Archeryrange a = new Archeryrange(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP);
                 a.setName(name);
@@ -176,7 +176,7 @@ public class LoadManager {
                 
                 CustomAnimation moving=new CustomAnimation();
                 ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
-                staticContent.add(assetManager.loadModel("Models/Rides/Blender/blender.j3o"));
+                staticContent.add(assetManager.loadModel(LoadPaths.blender));
                 
                 Blender a = new Blender(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP);
                 a.setName(name);
@@ -192,7 +192,7 @@ public class LoadManager {
                 
                 CustomAnimation moving=new CustomAnimation();
                 ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
-                staticContent.add(assetManager.loadModel("Models/Rides/Hauntedhouse/hauntedhouse.j3o"));
+                staticContent.add(assetManager.loadModel(LoadPaths.hauntedhouse));
                 
                 HauntedHouse a = new HauntedHouse(new MapPosition(new Vector3f(x, y, z)),moving,staticContent,Direction.UP);
                 a.setName(name);
@@ -208,7 +208,7 @@ public class LoadManager {
                 
                 CustomAnimation moving=new CustomAnimation();
                 ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
-                staticContent.add(assetManager.loadModel("Models/Rides/Rotor/rotor.j3o"));
+                staticContent.add(assetManager.loadModel(LoadPaths.rotor));
                 
                 Rotor a = new Rotor(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP);
                 a.setName(name);
@@ -222,9 +222,9 @@ public class LoadManager {
             }
             if (type.equals("pirateship")) {
                 
-                CustomAnimation moving=new CustomAnimation(assetManager.loadModel("Models/Rides/PirateShip/swing.j3o"), AnimationType.ROLLH);
+                CustomAnimation moving=new CustomAnimation(assetManager.loadModel(LoadPaths.pirateSwing), AnimationType.ROLLH);
                 ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
-                staticContent.add(assetManager.loadModel("Models/Rides/PirateShip/core.j3o"));
+                staticContent.add(assetManager.loadModel(LoadPaths.pirateCore));
                 
                 PirateShip a = new PirateShip(new MapPosition(new Vector3f(x, y, z)),moving,staticContent, Direction.UP);
                 a.setName(name);

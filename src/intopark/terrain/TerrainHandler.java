@@ -17,6 +17,7 @@ import com.jme3.scene.Node;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
+import intopark.LoadPaths;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -69,7 +70,7 @@ public class TerrainHandler {
         this.assetManager = assetManager;
         this.parkHandler = parkHandler;
         this.eventBus = eventBus;
-        alphaTexture = assetManager.loadTexture("Textures/alphamap.png");
+        alphaTexture = assetManager.loadTexture(LoadPaths.alphamap);
         bufferReal = ByteBuffer.allocateDirect(128 * 128 * 3);
         for (int x = 0; x < 128 * 128; x++) {
             bufferReal.put(x * 3 + 2, (byte) 128);
@@ -203,20 +204,20 @@ public class TerrainHandler {
         testmaterial.setTexture("Alpha", alphaTexture);
 
         Texture grass = assetManager.loadTexture(
-                "Textures/grasstexture.png");
+                LoadPaths.grasstexture);
 
         grass.setWrap(WrapMode.MirroredRepeat);
         testmaterial.setTexture("Tex1", grass);
         testmaterial.setFloat("Tex1Scale", 128f);
 
         Texture rock = assetManager.loadTexture(
-                "Textures/rocktexture.png");
+                LoadPaths.rocktexture);
         rock.setWrap(WrapMode.Repeat);
         testmaterial.setTexture("Tex2", rock);
         testmaterial.setFloat("Tex2Scale", 128f);
 
         Texture tex3 = assetManager.loadTexture(
-                "Textures/selection.png");
+                LoadPaths.selectiontexture);
         tex3.setWrap(WrapMode.Repeat);
         testmaterial.setTexture("Tex3", tex3);
         testmaterial.setFloat("Tex3Scale", 128f);

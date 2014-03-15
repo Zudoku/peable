@@ -10,6 +10,7 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.Savable;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import intopark.LoadPaths;
 import java.io.IOException;
 import intopark.terrain.Direction;
 
@@ -32,10 +33,10 @@ public class Enterance implements Savable{
         this.facing=facing;
         
         if(exit==true){
-            object=assetManager.loadModel("Models/Rides/exit.j3o");
+            object=assetManager.loadModel(LoadPaths.rideExit);
         }
         else{
-            object=assetManager.loadModel("Models/Rides/enterace.j3o");
+            object=assetManager.loadModel(LoadPaths.rideEnterance);
         }
         object.setLocalTranslation(location);
         //object.setUserData("enterance",this);
