@@ -72,6 +72,30 @@ public class MapPosition {
     public void setY(int y) {
         this.y = y;
     }
+
+    public float getOffSetX() {
+        return offSetX;
+    }
+
+    public float getOffSetY() {
+        return offSetY;
+    }
+
+    public float getOffSetZ() {
+        return offSetZ;
+    }
+
+    public void setOffSetX(float offSetX) {
+        this.offSetX = offSetX;
+    }
+
+    public void setOffSetY(float offSetY) {
+        this.offSetY = offSetY;
+    }
+
+    public void setOffSetZ(float offSetZ) {
+        this.offSetZ = offSetZ;
+    }
     
     
 }

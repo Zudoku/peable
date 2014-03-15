@@ -43,11 +43,11 @@ public class MapFactory {
         parkHandler.setGuests(new ArrayList<Guest>());
         parkHandler.setRides(new ArrayList<BasicRide>());
         parkHandler.setShops(new ArrayList<BasicShop>());
-        parkHandler.setRideID(1);
-        parkHandler.setShopID(1);
-        parkHandler.setMapSize(Mapheight, Mapwidth);
+        parkHandler.getScenario().setRideID(1);
+        parkHandler.getScenario().setShopID(1);
+        parkHandler.getScenario().setMapSize(Mapheight, Mapwidth);
         parkHandler.setParkWallet(new ParkWallet(10000));
-        parkHandler.setMaxGuests(20);
+        parkHandler.getScenario().setMaxGuests(20);
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f).normalizeLocal()));
         sun.setColor(ColorRGBA.White);

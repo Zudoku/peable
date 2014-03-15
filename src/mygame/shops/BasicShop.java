@@ -7,17 +7,15 @@ package mygame.shops;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Logger;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.Main;
 import mygame.npc.AddGuestLimitEvent;
 import mygame.npc.Guest;
-import mygame.ride.RideManager;
 import mygame.terrain.Direction;
+import mygame.terrain.MapPosition;
 import mygame.terrain.events.PayParkEvent;
 
 /**
@@ -25,39 +23,43 @@ import mygame.terrain.events.PayParkEvent;
  * @author arska
  */
 public class BasicShop {
+    //LOGGER
     protected transient static final Logger logger = Logger.getLogger(BasicShop.class.getName());
-    public Direction facing;
-    public Vector3f position;
-    private transient Spatial object;
-    public int shopID=0;
-    public float constructionmoney=0;
-    public String productname="productname";
-    public String shopName="SHOPNAME";
-    public float price=0;
-    
-    
+    //DEPENDENCIES
     @Inject transient protected EventBus eventBus;
-    public ShopReputation reputation= ShopReputation.NEW;
-    public String type;
-    private transient final Node rootNode;
+    //VARIABLES
+    protected Direction facing;
+    protected MapPosition position;
+    protected transient Spatial object;
+    protected int shopID=0;
+    protected float constructionmoney=0;
+    protected String productname="productname";
+    protected String shopName="SHOPNAME";
+    protected float price=0;
     
-    public BasicShop(Vector3f position,Spatial object,float cost,Direction facing,Node rootNode){
+    protected ShopReputation reputation= ShopReputation.NEW;
+    protected String type;
+    
+    public BasicShop(MapPosition position,Spatial object,int shopID,float constr,float price,Direction facing,String prodname,String shopName,String type){
         this.position=position;
         this.object=object;
-        this.constructionmoney=cost;
+        this.constructionmoney=constr;
         this.facing=facing;
-        this.rootNode=rootNode;
-        object.setLocalTranslation(position);
+        this.shopID=shopID;
+        this.productname=prodname;
+        this.price=price;
+        this.shopName=shopName;
+        this.type=type;
+        object.setLocalTranslation(position.getVector());
         Main.injector.injectMembers(this);
         Random r =new Random();
         eventBus.post(new AddGuestLimitEvent(r.nextInt(5)+5));
+        object.setUserData("type","shop");
+        object.setUserData("shopID",shopID);
     }
     
     public void interact(Guest guest){
         
-    }
-    public Spatial getGeometry() {
-        return object;
     }
     public void demolish(){
 
@@ -66,5 +68,89 @@ public class BasicShop {
         eventBus.post(new UpdateMoneyTextBarEvent());
         
     }
+    /**
+     * GETTERS AND SETTERS
+     */
+    
+    public void setConstructionmoney(float constructionmoney) {
+        this.constructionmoney = constructionmoney;
+    }
+
+    public void setFacing(Direction facing) {
+        this.facing = facing;
+    }
+
+    public void setObject(Spatial object) {
+        this.object = object;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public void setPosition(MapPosition position) {
+        this.position = position;
+    }
+
+    public void setProductname(String productname) {
+        this.productname = productname;
+    }
+
+    public void setReputation(ShopReputation reputation) {
+        this.reputation = reputation;
+    }
+
+    public void setShopID(int shopID) {
+        this.shopID = shopID;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public float getConstructionmoney() {
+        return constructionmoney;
+    }
+
+    public Direction getFacing() {
+        return facing;
+    }
+
+    public Spatial getObject() {
+        return object;
+    }
+
+    public MapPosition getPosition() {
+        return position;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public String getProductname() {
+        return productname;
+    }
+
+    public ShopReputation getReputation() {
+        return reputation;
+    }
+
+    public int getShopID() {
+        return shopID;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public String getType() {
+        return type;
+    }
+    
     
 }

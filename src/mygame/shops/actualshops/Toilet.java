@@ -4,8 +4,6 @@
  */
 package mygame.shops.actualshops;
 
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.npc.Guest;
@@ -13,6 +11,7 @@ import mygame.npc.inventory.Item;
 import mygame.npc.inventory.Itemtypes;
 import mygame.shops.BasicShop;
 import mygame.terrain.Direction;
+import mygame.terrain.MapPosition;
 import mygame.terrain.events.PayParkEvent;
 
 /**
@@ -23,13 +22,9 @@ public class Toilet extends BasicShop{
     
     
     
-    public Toilet(Vector3f position,Spatial geom,Direction facing,Node rootNode){
-        super(position,geom,300,facing,rootNode);
-        price=5;
-        constructionmoney=300;
-        productname="Toilet usage";
-        shopName="Dirty ol' toilet";
-        type="toilet";
+    public Toilet(MapPosition position,Direction facing,Spatial model,int shopID,float price,float constrm,String prodName,String shopName){
+        super(position,model,shopID,constrm,price,facing,prodName,shopName,"toilet");
+        //DEF prodName "Toilet usage" | name "Dirty ol' toilet "+shopID | type "toilet" 
     }
 
     @Override

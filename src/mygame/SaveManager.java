@@ -202,41 +202,6 @@ public class SaveManager {
         }
         writer.write(System.getProperty("line.separator"));
     }
-
-    private void writeShopData(Writer writer) throws IOException {
-        String quantity = Integer.toString(parkHandler.getShops().size());
-        writer.write("SHOP DATA " + ":" + "shops size:" + quantity + ":");
-        for (BasicShop b : parkHandler.getShops()) {
-            String name = b.shopName;
-            String x = Float.toString(b.position.x);
-            String z = Float.toString(b.position.z);
-            String y = Float.toString(b.position.y);
-            String price = Float.toString(b.price);
-            String type = b.type;
-            String productname = b.productname;
-            String shopID = Integer.toString(b.shopID);
-            String direction = null;
-            switch (b.facing) {
-                case UP:
-                    direction = "UP";
-                    break;
-
-                case DOWN:
-                    direction = "DOWN";
-                    break;
-
-                case RIGHT:
-                    direction = "RIGHT";
-                    break;
-
-                case LEFT:
-                    direction = "LEFT";
-            }
-            writer.write(name + ":" + x + ":" + z + ":" + y + ":" + price + ":" + type + ":" + productname + ":" + shopID + ":"+direction+":");
-        }
-        writer.write(System.getProperty("line.separator"));
-    }
-
     private void writeRideData(Writer writer) throws IOException {
         String quantity = Integer.toString(parkHandler.getRides().size());
         writer.write("RIDE DATA "+ ":" +"ride size:" + quantity + ":");

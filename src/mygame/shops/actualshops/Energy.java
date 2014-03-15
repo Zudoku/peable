@@ -13,6 +13,7 @@ import mygame.npc.inventory.Item;
 import mygame.npc.inventory.Itemtypes;
 import mygame.shops.BasicShop;
 import mygame.terrain.Direction;
+import mygame.terrain.MapPosition;
 import mygame.terrain.events.PayParkEvent;
 
 /**
@@ -23,13 +24,9 @@ public class Energy extends BasicShop{
     
     
     
-    public Energy(Vector3f position,Spatial geom,Direction facing,Node rootNode){
-        super(position,geom,300,facing,rootNode);
-        productname="Yak Energy drink";
-        constructionmoney=300;
-        price=20;
-        shopName="Sorry :(";
-        type="energyshop"; 
+    public Energy(MapPosition position,Direction facing,Spatial model,int shopID,float price,float constrm,String prodName,String shopName){
+        super(position,model,shopID,constrm,price,facing,prodName,shopName,"energyshop");
+        //DEF prodName "Yak Energy drink" | name "Energyshop "+shopID | type "energyshop"
     }
 
     @Override

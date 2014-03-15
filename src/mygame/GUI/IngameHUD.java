@@ -162,7 +162,7 @@ public class IngameHUD implements ScreenController {
     }
     public void shopDemolishToggle(){
         for(BasicShop s:parkHandler.getShops()){
-            if(s.shopID==windowMaker.getShopID()){
+            if(s.getShopID()==windowMaker.getShopID()){
                 s.demolish();
                 closeWindows("");
                 break;

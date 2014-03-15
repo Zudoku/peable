@@ -7,14 +7,9 @@ package mygame;
 import com.google.common.eventbus.EventBus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
-import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -22,15 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Logger;
-import mygame.gameplayorgans.Scenario;
-import mygame.gameplayorgans.ScenarioGoal;
-import mygame.npc.BasicNPC;
-import mygame.npc.Guest;
-import mygame.npc.inventory.RideType;
-import mygame.npc.inventory.StatManager;
-import mygame.npc.inventory.Wallet;
 import mygame.ride.AnimationType;
 import mygame.ride.BasicRide;
 import mygame.ride.CustomAnimation;
@@ -49,7 +36,6 @@ import mygame.terrain.events.AddObjectToMapEvent;
 import mygame.terrain.Direction;
 import mygame.terrain.MapPosition;
 import mygame.terrain.ParkHandler;
-import mygame.terrain.ParkWallet;
 import mygame.terrain.RoadFactory;
 import mygame.terrain.decoration.DecorationFactory;
 
@@ -118,262 +104,6 @@ public class LoadManager {
             br.close();
         }*/
     }
-    /**
-     * Actual function to transfer long String(contents of .IntoFile) to Scenario
-     * @param line Content of the .IntoPark file
-     * @return the 
-     */
-    private void createParkHandler(String[] line) {
-        logger.finest("Starting to build map.");
-        String lines[] =line;
-        logger.finest("Loading meta-data...");
-        loadMetaData(lines[0]);
-        logger.finest("Loading Scenari...");
-        loadScenarioData(lines[1]);
-        logger.finest("Loading terrain...");
-        loadTerrainData(lines[2]);
-        logger.finest("Loading shops...");
-        loadShopData(lines[3]);
-        logger.finest("Loading guests...");
-        loadGuestData(lines[4]);
-        logger.finest("Loading rides...");
-        loadRideData(lines[5]);
-        logger.finest("Loading roads...");
-        loadRoadData(lines[6]);
-        logger.finest("Loading que-roads...");
-        loadQueRoadData(lines[7]);
-        logger.finest("Loading decorations...");
-        loadDecorationData(lines[8]);
-        logger.finest("Loading lights...");
-        attachDirectionalLights();
-        logger.finest("Scenario loaded!");
-    }
-    /**
-     * There needs to be light so that models in the Node are visible.
-     */
-    private void attachDirectionalLights() {
-//        DirectionalLight sun = new DirectionalLight();
-//        sun.setDirection((new Vector3f(0.5f, -0.5f, 0.5f).normalizeLocal()));
-//        sun.setColor(ColorRGBA.White);
-//        rootNode.addLight(sun);
-//        DirectionalLight sun2 = new DirectionalLight();
-//        sun2.setDirection((new Vector3f(-0.5f, 0.5f, -0.5f).normalizeLocal()));
-//        sun2.setColor(ColorRGBA.White);
-//        rootNode.addLight(sun2); 
-        
-        AmbientLight l=new AmbientLight();
-        l.setColor(new ColorRGBA(1,1,1,1));
-        
-        rootNode.addLight(l);
-    }
-    /**
-     * Loads Scenario meta-data: name,money,loan,shopID,rideID,mapHeight,mapWidth,maxGuests
-     * @param line meta-data chunk of .IntoPark file.
-     */
-    private void loadMetaData(String line) {
-        String worked = line;
-        String[] metadata = worked.split(":");
-        String parkname = metadata[1];
-        String money = metadata[2];
-        String loan = metadata[3];
-        String shopID = metadata[4];
-        String rideID = metadata[5];
-        String mapHeight = metadata[6];
-        String mapWidth = metadata[7];
-        String maxGuests= metadata[8];
-
-        ParkWallet wallet = new ParkWallet(Float.parseFloat(money));
-        wallet.setLoan(Float.parseFloat(loan));
-
-        parkHandler.setUp(parkname, Integer.parseInt(rideID), Integer.parseInt(shopID), wallet,Integer.parseInt(maxGuests));
-        parkHandler.setMapSize(Integer.parseInt(mapHeight), Integer.parseInt(mapWidth));
-    }
-    /**
-     * TEMPORARY
-     * @param string 
-     */
-    private void loadTerrainData(String string) {
-        String worked = string;
-        String[] values = worked.split(":");
-        int mapHeight = Integer.parseInt(values[2]);
-        int mapWidth = Integer.parseInt(values[3]);
-        //mapHeight -=1;
-        //mapWidth -=1;
-        float[] mapData = new float[128*128];
-        for (int i = 0; i < 128*128; i++) {
-                mapData[i] = 6;
-        }
-        
-        Spatial[][][] map = new Spatial[mapHeight][25][mapWidth];
-        parkHandler.setMap(map, mapData);
-        
-    }
-
-    private void loadScenarioData(String string){
-        String worked = string;
-        String[] values = worked.split(":");
-        Vector3f enterancePosition=new Vector3f(Float.parseFloat(values[1]),Float.parseFloat(values[2]),Float.parseFloat(values[3]));
-
-        double enteranceYRotation=Double.parseDouble(values[4]);
-        ScenarioGoal scenarioGoal=ScenarioGoal.valueOf(values[5]);
-        //TEMP
-        Scenario scenario=new Scenario(scenarioGoal);
-        scenario.setEnterancePos(enterancePosition);
-        scenario.setEnteranceYRotation(enteranceYRotation);
-        Spatial parkEnterance=assetManager.loadModel("Models/park/parkEnterance.j3o");
-    }
-    private void loadShopData(String string) {
-        Node shopNode=(Node)rootNode.getChild("shopNode");
-        ArrayList<BasicShop> shops = new ArrayList<BasicShop>();
-        String worked = string;
-        String[] values = worked.split(":");
-        int quantity = Integer.parseInt(values[2]);
-        for(int i=0;i<quantity;i++){
-            int a=i*9+1;
-            String name = values[a+1];
-            float x = Float.parseFloat(values[a+2]);
-            float z = Float.parseFloat(values[a+3]);
-            float y = Float.parseFloat(values[a+4]);
-            Float price = Float.parseFloat(values[a+5]);
-            String type = values[a+6];
-            String productname = values[a+7];
-            int shopID =Integer.parseInt(values[a+8]);
-            Direction direction = null;
-            if(values[a+9].equals("UP")){
-                direction= Direction.UP;
-            }
-            if(values[a+9].equals("DOWN")){
-                direction= Direction.DOWN;
-            }
-            if(values[a+9].equals("RIGHT")){
-                direction= Direction.RIGHT;
-            }
-            if(values[a+9].equals("LEFT")){
-                direction= Direction.LEFT;
-            }
- 
-            if(type.equals("energyshop")){
-                Spatial geom=assetManager.loadModel("Models/shops/energyshop.j3o");
-                Energy e=new Energy(new Vector3f(x, y, z),geom , direction,rootNode);
-                e.getGeometry().setUserData("type","shop");
-                e.getGeometry().setUserData("shopID",shopID);
-                e.shopName=name;
-                e.price=price;
-                e.productname=productname;
-                e.shopID=shopID;
-                shops.add(e);
-                shopNode.attachChild(e.getGeometry());
-                int ax=(int) x;
-                int ay=(int) y;
-                int az=(int) z;
-                //map.getMap()[ax][ay][az]=e.getGeometry();
-                eventBus.post(new AddObjectToMapEvent(ax, ay, az, e.getGeometry()));
-            }
-            if(type.equals("meatballshop")){
-                Spatial geom=assetManager.loadModel("Models/shops/mball.j3o");
-                Meatballshop e=new Meatballshop(new Vector3f(x, y, z),geom , direction,rootNode);
-                e.getGeometry().setUserData("type","shop");
-                e.getGeometry().setUserData("shopID",shopID);
-                e.shopName=name;
-                e.price=price;
-                e.productname=productname;
-                e.shopID=shopID;
-                shops.add(e);
-                shopNode.attachChild(e.getGeometry());
-                int ax=(int) x;
-                int ay=(int) y;
-                int az=(int) z;
-                //map.getMap()[ax][ay][az]=e.getGeometry();
-                eventBus.post(new AddObjectToMapEvent(ax, ay, az, e.getGeometry()));
-            }
-            if(type.equals("toilet")){
-                Spatial geom=assetManager.loadModel("Models/shops/toilet.j3o");
-                Toilet e=new Toilet(new Vector3f(x, y, z),geom , direction,rootNode);
-                e.getGeometry().setUserData("type","shop");
-                e.getGeometry().setUserData("shopID",shopID);
-                e.shopName=name;
-                e.price=price;
-                e.productname=productname;
-                e.shopID=shopID;
-                shops.add(e);
-                shopNode.attachChild(e.getGeometry());
-                int ax=(int) x;
-                int ay=(int) y;
-                int az=(int) z;
-                //map.getMap()[ax][ay][az]=e.getGeometry();
-                eventBus.post(new AddObjectToMapEvent(ax, ay, az, e.getGeometry()));
-            }
-            
-        }
-        parkHandler.setShops(shops);
-    }
-
-    private void loadGuestData(String string) {
-        ArrayList<Guest> guests = new ArrayList<Guest>();
-        ArrayList<BasicNPC>npcs=new ArrayList<BasicNPC>();
-        String worked = string;
-        String[] values = worked.split(":");
-        int quantity = Integer.parseInt(values[2]);
-        for (int i = 0; i < quantity; i++) {
-            int a = i * 11+1;
-            String name = values[a + 1];
-            float money = Float.parseFloat(values[a + 2]);
-            Direction direction = null;
-            if (values[a + 3].equals("UP")) {
-                direction = Direction.UP;
-            }
-            if (values[a + 3].equals("DOWN")) {
-                direction = Direction.DOWN;
-            }
-            if (values[a + 3].equals("RIGHT")) {
-                direction = Direction.RIGHT;
-            }
-            if (values[a + 3].equals("LEFT")) {
-                direction = Direction.LEFT;
-            }
-            int x = Integer.parseInt(values[a + 4]);
-            int z = Integer.parseInt(values[a + 5]);
-            int y = Integer.parseInt(values[a + 6]);
-
-            int hunger = Integer.parseInt(values[a + 7]);
-            int thrist = Integer.parseInt(values[a + 8]);
-            int happyness = Integer.parseInt(values[a + 9]);
-            RideType preference = null;
-            if (values[a + 10].equals("LOW")) {
-                preference = RideType.LOW;
-            }
-            if (values[a + 10].equals("MEDIUM")) {
-                preference = RideType.MEDIUM;
-            }
-            if (values[a + 10].equals("HIGH")) {
-                preference = RideType.HIGH;
-            }
-            if (values[a + 10].equals("CRAZY")) {
-                preference = RideType.CRAZY;
-            }
-            if (values[a + 10].equals("NAUSEA")) {
-                preference = RideType.NAUSEA;
-            }
-            int guestnum = Integer.parseInt(values[a + 11]);
-            StatManager stats = new StatManager();
-            stats.happyness = happyness;
-            stats.hunger = hunger;
-            stats.thirst = thrist;
-            stats.preferredRide = preference;
-            Spatial geom = assetManager.loadModel("Models/Human/guest.j3o");
-
-            Guest g = new Guest(new Wallet(money), guestnum, direction, x, y, z, stats, geom, name);
-            rootNode.attachChild(g.getGeometry());
-            guests.add(g);
-            npcs.add(g);
-
-
-
-        }
-        parkHandler.setGuests(guests);
-        parkHandler.setNpcs(npcs);
-    }
-
     private void loadRideData( String string) {
         Node rideNode=(Node)rootNode.getChild("rideNode");
         ArrayList<BasicRide> asd = new ArrayList<BasicRide>();

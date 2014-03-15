@@ -10,7 +10,7 @@ import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
-import com.jme3.math.Vector3f;
+import com.jme3.light.Light;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
@@ -19,13 +19,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import mygame.GUI.events.CloseWindowsEvent;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
-import mygame.inputhandler.ClickingHandler;
 import mygame.inputhandler.ClickingModes;
 import mygame.inputhandler.SetClickModeEvent;
 import mygame.inputhandler.SetClickingHandlerBufferEvent;
 import mygame.ride.RideManager;
 import mygame.terrain.events.AddObjectToMapEvent;
 import mygame.terrain.Direction;
+import mygame.terrain.MapPosition;
 import mygame.terrain.ParkHandler;
 
 /**
@@ -36,16 +36,15 @@ import mygame.terrain.ParkHandler;
 public class ShopManager {
     //LOGGER
     private static final Logger logger = Logger.getLogger(ShopManager.class.getName());
-    //OWNS
-    private ShopFactory shopFactory;
-    private List<BasicShop> shops = new ArrayList<BasicShop>();
+    //DEPENDENCIES
     private final AssetManager assetManager;
+    //OWNS
+    private List<BasicShop> shops = new ArrayList<BasicShop>();
     private Node shopNode;
     private final HolomodelDrawer holoDrawer;
     //SELECTION PARAMETERS
-    int shopID;
-    Direction facing = Direction.DOWN;
-    BasicShop boughtshop;
+    private int shopID;
+    private Direction facing = Direction.DOWN;
     public BasicBuildables selectedBuilding= BasicBuildables.NULL;
     private boolean placeBuilding=false;
     
@@ -53,8 +52,7 @@ public class ShopManager {
     @Inject private RideManager rideManager;
     private final EventBus eventBus;
     @Inject
-    public ShopManager(AssetManager assetManager,Node rootNode,ShopFactory shopFactory,HolomodelDrawer holoDrawer,EventBus eventBus) {
-        this.shopFactory =shopFactory;
+    public ShopManager(AssetManager assetManager,Node rootNode,HolomodelDrawer holoDrawer,EventBus eventBus) {
         this.assetManager=assetManager;
         this.holoDrawer=holoDrawer;
         this.eventBus=eventBus;
@@ -65,45 +63,51 @@ public class ShopManager {
     }
 
     public void buy(ParkHandler parkHandler) {
-        Vector3f loc = holoDrawer.pyorista(holoDrawer.getLocation());
+        float constructionmoney=0;
+        String type="";
         switch (selectedBuilding) {
             case MBALL:
-                boughtshop=shopFactory.meatBallShop(loc, facing);
+                constructionmoney=300;
+                type="meatballshop";
                 break;
 
             case ENERGY:
-                boughtshop=shopFactory.energyShop(loc, facing);
+                constructionmoney=300;
+                type="energyshop";
                 break;
                 
             case TOILET:
-                boughtshop=shopFactory.toilet(loc, facing);
+                constructionmoney=300;
+                type="toilet";
                 break;
                 
             case NULL:
                 logger.log(Level.WARNING,"Tried to buy null shop");
-                break;
+                return;
                 
             default: 
-                //eteenpäin shopmanagerille
+                //Forward to rideManager
                 rideManager.buy(facing,selectedBuilding);
                 resetShopdataFromRide();
                 return;
                
         }
-        if(!parkHandler.getParkWallet().canAfford(boughtshop.constructionmoney)){
+        if(!parkHandler.getParkWallet().canAfford(constructionmoney)){
+            logger.log(Level.FINE,"Can't afford constructing shop");
            return; 
         }
-        boughtshop.shopID=shopID;
-        boughtshop.getGeometry().setUserData("shopID",shopID);
-        shops.add(boughtshop);
-        boughtshop.getGeometry().setUserData("type","shop");
-        parkHandler.getParkWallet().remove(boughtshop.constructionmoney);
+        //
+        MapPosition pos=new MapPosition(holoDrawer.getLocation());
+        float price = 20;
+        ShopReputation reputation=ShopReputation.NEW;
+        String prodname="prodname";
+        String shopName=type+" "+shopID;
+        //
+        CreateShopEvent event=new CreateShopEvent(type,shopName,prodname,reputation,price,constructionmoney,shopID,pos,facing);
+        eventBus.post(event);
+        //
+        parkHandler.getParkWallet().remove(constructionmoney);
         eventBus.post(new UpdateMoneyTextBarEvent());
-        int ax=(int)loc.x;
-        int ay=(int)loc.y;
-        int az=(int)loc.z;
-        eventBus.post(new AddObjectToMapEvent(ax, ay, az, boughtshop.getGeometry()));
-        shopNode.attachChild(boughtshop.getGeometry());
         resetShopdata();
   
     }
@@ -173,12 +177,22 @@ public class ShopManager {
         eventBus.post(new SetClickModeEvent(ClickingModes.PLACE));
         eventBus.post(new CloseWindowsEvent("")); 
     }
-
+    public void attachToShopNode(Object object){
+        if(object instanceof Spatial){
+            logger.log(Level.FINEST,"New Spatial added to shopNode");
+            shopNode.attachChild((Spatial)object);
+        }
+        if(object instanceof Light){
+            logger.log(Level.FINEST,"New Light added to shopNode");
+            shopNode.addLight((Light)object);
+        }
+    }
     public void resetShopdata() {
         selectedBuilding = BasicBuildables.NULL;
         facing = Direction.DOWN;
         eventBus.post(new SetClickModeEvent(ClickingModes.NOTHING));
         placeBuilding=false;
+        shopID++;
     }
     public void resetShopdataFromRide() {
         selectedBuilding = BasicBuildables.NULL;
@@ -210,9 +224,9 @@ public class ShopManager {
         BasicShop b=null;
         if(shops.isEmpty()==false){
             for(BasicShop p:shops){
-                int tx=(int)holoDrawer.pyorista(p.position).x;
-                int ty=(int)holoDrawer.pyorista(p.position).y;
-                int tz=(int)holoDrawer.pyorista(p.position).z;
+                int tx=(int)holoDrawer.pyorista(p.position.getVector()).x;
+                int ty=(int)holoDrawer.pyorista(p.position.getVector()).y;
+                int tz=(int)holoDrawer.pyorista(p.position.getVector()).z;
                 if(tx==x&&ty==y&&tz==z){
                     b=p;
                     return b;

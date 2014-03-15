@@ -13,10 +13,11 @@ import com.jme3.scene.Spatial;
  */
 @Singleton
 public class MapContainer {
-    private Spatial[][][]map;
+    private transient Spatial[][][]map;
     private float[] mapData;
 
     public MapContainer() {
+        map = new Spatial[101][25][101];
     }
     
     

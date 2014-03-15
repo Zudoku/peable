@@ -30,6 +30,7 @@ import mygame.npc.NPCManager;
 import mygame.ride.BasicRide;
 import mygame.ride.RideManager;
 import mygame.shops.BasicShop;
+import mygame.shops.CreateShopEvent;
 import mygame.shops.ShopDemolishEvent;
 import mygame.shops.ShopManager;
 import mygame.terrain.events.AddToRootNodeEvent;
@@ -45,37 +46,35 @@ public class ParkHandler {
     //LOGGER
     private transient static final Logger logger = Logger.getLogger(ParkHandler.class.getName());
     //MISC
-    public transient  AppSettings settings;
+    public transient AppSettings settings;
     //DEPENDENCIES
-    @Inject private transient  NPCManager npcManager;
-    @Inject private transient  RoadMaker roadMaker;
-    @Inject private transient  ShopManager shopManager;
-    @Inject private transient  RideManager rideManager;
-    private transient  EventBus eventBus;
-    private transient  Node rootNode;
+    @Inject private transient NPCManager npcManager;
+    @Inject private transient RoadMaker roadMaker;
+    @Inject private transient ShopManager shopManager;
+    @Inject private transient RideManager rideManager;
+    private transient EventBus eventBus;
+    private transient Node rootNode;
     //OWNS
-    private transient  MapContainer map;
-    private  ParkWallet parkwallet = new ParkWallet(10000);
-    private List<BasicRide> rides=new ArrayList<BasicRide>();
-    private  transient List<BasicNPC> npcs=new ArrayList<BasicNPC>();
-    private List<BasicShop> shops=new ArrayList<BasicShop>();
-    private List<Guest> guests=new ArrayList<Guest>();
-    private  transient List<Vector3f>RoadtoUpdatePositions=new ArrayList<Vector3f>();
-    private  transient List<Spatial> queRoadsToUpdate=new ArrayList<Spatial>();
-    //VARIABLES
-    private String parkName = "defaultparkname";
+    private MapContainer map;
+    private ParkWallet parkwallet = new ParkWallet(10000);
+    private List<BasicRide> rides = new ArrayList<BasicRide>();
+    private transient List<BasicNPC> npcs = new ArrayList<BasicNPC>();
+    private List<BasicShop> shops = new ArrayList<BasicShop>();
+    private List<Guest> guests = new ArrayList<Guest>();
+    private transient List<Vector3f> RoadtoUpdatePositions = new ArrayList<Vector3f>();
+    private transient List<Spatial> queRoadsToUpdate = new ArrayList<Spatial>();
     private Scenario scenario;
-    private int rideID;
-    private int shopID;
-    private int mapHeight;
-    private int mapWidth;
-    private int maxGuests;
-
+    //VARIABLES
+    
+    /**
+     * ParkHandler is the Container object for your whole park.
+     * This is used as an a layer to do all kinds of this in your park.
+     * For example you can send an DemolishRideEvent from any other class.
+     * Then this class will catch it and do the needed things with all the needed dependencies to destroy the ride.
+     */
     public ParkHandler() {
         
     }
-
-    
     @Inject
     public ParkHandler(Node rootNode, AppSettings settings,MapContainer map,EventBus eventBus) {
         
@@ -84,30 +83,11 @@ public class ParkHandler {
         this.map=map;
         this.eventBus=eventBus;
         eventBus.register(this);
-        
     }
-
-    public void setUp(String parkname, int rideID, int shopID, ParkWallet wallet,int maxGuests) {
-        this.parkName = parkname;
-        this.rideID = rideID;
-        this.shopID = shopID;
-        this.parkwallet = wallet;
-        this.maxGuests=maxGuests;
-    }
-
-    public String getGuestSizeString() {
-        if (guests == null) {
-            return Integer.toString(1);
-        }
-        return Integer.toString(guests.size());
-    }
-
-    
-
-    public String getParkName() {
-        return parkName;
-    }
-
+    /**
+     * Critical initialization method. 
+     * This should be called when ParkHandler is fully populated (nothing is null).
+     */
     public void onStartup() {
         logger.finest("Setting Map");
         //eventBus.post(new SetMapEvent(map.getMap()));
@@ -117,123 +97,70 @@ public class ParkHandler {
         rideManager.rides = rides;
         npcManager.setNpcs(npcs);
         npcManager.setGuests(guests);
-        npcManager.setMaxGuests(maxGuests);
+        npcManager.setMaxGuests(getMaxGuests());
         shopManager.setShops(shops);
-        rideManager.setRideID(rideID);
-        shopManager.setShopID(shopID);
+        rideManager.setRideID(getRideID());
+        shopManager.setShopID(getShopID());
     }
     /**
-     * Called only once in start
-     * @param mapu
-     * @param mapdata 
+     * 
      */
-    public void setMap(Spatial[][][] mapu, float[] mapdata) {
-        map.setMap(mapu);
-        map.setMapData(mapdata);
-        
+    
+    
+    /**
+     * 
+     * @param x coord.
+     * @param y coord.
+     * @param z coord.
+     * @return the Spatial at X,Y,Z coords in the MapContainer Array. 
+     */
+    public Spatial getSpatialAt(int x, int y, int z) {
+        Spatial found;
+        found = map.getMap()[x][y][z];
+        return found;
     }
-
-    public void setParkWallet(ParkWallet wallet) {
-        this.parkwallet = wallet;
+    /**
+     * Test if the MapContainer Array is null in specified coords.
+     * @param x coord.
+     * @param y coord.
+     * @param z coord.
+     * @return TRUE if null | else FALSE
+     */
+    public boolean testForEmptyTile(int x, int y, int z) {
+        if (map.getMap()[x][y][z] != null) {
+            return false;
+        } else {
+            return true;
+        }
     }
-
-    public void setRides(ArrayList<BasicRide> rides) {
-        this.rides = rides;
-
-
+    /**
+     * Return guests list's size() if not null.
+     * if guests is null it will return "1".
+     * @return guests list's size()
+     */
+    public String getGuestSizeString() {
+        if (guests == null) {
+            return Integer.toString(1);
+        }
+        return Integer.toString(guests.size());
     }
-
-    public void setNpcs(ArrayList<BasicNPC> npcs) {
-        this.npcs = npcs;
-
-
-    }
-
-    public void setGuests(ArrayList<Guest> guests) {
-        this.guests = guests;
-
-
-    }
-
-    public void setShops(ArrayList<BasicShop> shops) {
-        this.shops = shops;
-
-
-    }
-
-    public void setRideID(int rideID) {
-        this.rideID = rideID;
-
-
-    }
-
-    public void setShopID(int shopID) {
-        this.shopID = shopID;
-
-    }
-    public void setMaxGuests(int maxGuests){
-        this.maxGuests=maxGuests;
-    }
-
-    public void setMapSize(int height, int width) {
-        this.mapHeight = height;
-        this.mapWidth = width;
-
-
-    }
-
-
-    public ParkWallet getParkWallet() {
-        return parkwallet;
-    }
-
-    public List<BasicNPC> getNpcs() {
-        return npcs;
-    }
-
-    public List<Guest> getGuests() {
-        return guests;
-    }
-
-    public List<BasicShop> getShops() {
-        return shops;
-    }
-
-    public List<BasicRide> getRides() {
-        return rides;
-    }
-
-    public int getRideID() {
-        return rideID;
-    }
-
-    public int getShopID() {
-        return shopID;
-    }
-
-    public int getMapHeight() {
-        return mapHeight;
-    }
-
-    public int getMapWidth() {
-        return mapWidth;
-    }
-
-    public float[] getMapData() {
-        return map.getMapData();
-    }
-
-    public void setUpdatedRoadsList(ArrayList<Vector3f> pos) {
-        this.RoadtoUpdatePositions=pos;
-    }
-
-    public void setUpdatedQueRoadsList(ArrayList<Spatial> queRoadstoUpdate) {
-        this.queRoadsToUpdate=queRoadstoUpdate;
-    }
+    /**
+     * EVENTBUS LISTENERS
+     * These methods will get called when some other class posts these EventBus events.
+     */
+    
+    /**
+     * All events that don't catch anything. This is not supposed to happen ever.
+     * @param event Event which was not delivered anywhere.
+     */
     @Subscribe public void listenDeadEvents(DeadEvent event){
         logger.warning(String.format("%s was NOT delivered to its correct destination!",event.getEvent().toString()));
         
     }
+    /**
+     * This will demolish (remove it from the map) a ride contained in the event.
+     * @param event 
+     */
     @Subscribe public void listenRideDemolishEvent(RideDemolishEvent event){
         Node rideNode=(Node)rootNode.getChild("rideNode");
 
@@ -255,16 +182,20 @@ public class ParkHandler {
         }
         rides.remove(event.getRide());
     }
+    /**
+     * This will demolish (remove it from the map) a shop contained in the event.
+     * @param event 
+     */
     @Subscribe public void listenShopDemolishEvent(ShopDemolishEvent event){
         Node shopNode=(Node)rootNode.getChild("shopNode");
-        shopNode.detachChild(event.getShop().getGeometry());
-        rootNode.detachChild(event.getShop().getGeometry());
+        shopNode.detachChild(event.getShop().getObject());
+        rootNode.detachChild(event.getShop().getObject());
         
         for(int y=0;y<25;y++){
             for(int x=0;x<getMapHeight();x++){
                 for(int z=0;z<getMapWidth();z++){
                     if(map.getMap()[x][y][z]!=null){
-                        if(map.getMap()[x][y][z]==event.getShop().getGeometry()){
+                        if(map.getMap()[x][y][z]==event.getShop().getObject()){
                             map.getMap()[x][y][z]=null;
                         }
                     }
@@ -274,18 +205,34 @@ public class ParkHandler {
         
         getShops().remove(event.getShop());
     }
+    /**
+     * This will add a payment to players wallet
+     * @param event contains the amount the player gets
+     */
     @Subscribe public void listenPayParkEvents(PayParkEvent event){
         parkwallet.add(event.getAmount());
-        logger.finest(String.format("%s Added to your parks account!", event.getAmount()));
+        logger.finest(String.format("%s Added to your parks account", event.getAmount()));
     }
+    /**
+     * TODO:
+     * @param event 
+     */
     @Subscribe public void listenSetMapData(SetMapDataEvent event){
         map.setMapData(event.getMapData());
         logger.finest("MapData have been modified!");
     }
+    /**
+     * This will add a Spatial {@Link Spatial} to the mapContainer map array. TODO:
+     * @param event 
+     */
     @Subscribe public void listenAddSpatialToMap(AddObjectToMapEvent event){
         
         map.getMap()[event.getX()][event.getY()][event.getZ()]=event.getO();
     }
+    /**
+     * This will delete Spatial {@Link Spatial} from the mapContainer map array. TODO: 
+     * @param event 
+     */
     @Subscribe public void listenDeleteSpatialFromMapEvent(DeleteSpatialFromMapEvent event){
         for(int y=0;y<25;y++){
             for(int x=0;x<getMapHeight();x++){
@@ -304,6 +251,10 @@ public class ParkHandler {
             }
         }
     }
+    /**
+     * This will add Spatial or light to the rootNode (The world basically).
+     * @param event 
+     */
     @Subscribe public void listenAddRootNodeEvent(AddToRootNodeEvent event){
         if(event.spatial instanceof Spatial){
             logger.log(Level.FINEST,"New Spatial added to rootNode");
@@ -314,34 +265,107 @@ public class ParkHandler {
             rootNode.addLight((Light)event.spatial);
         }
     }
+    /**
+     * This will create a new Guest from the parameters from the event.
+     * All guest creations should be done using this!
+     * @param event 
+     */
     @Subscribe public void listenCreateGuestsEvent(CreateGuestEvent event){
         rootNode.attachChild(event.g.getGeometry());
         guests.add(event.g);
         npcs.add(event.g);
         logger.log(Level.FINEST, "Guest {0}, initialized!",event.g.getName());
     }
-    public int getMaxGuests() {
-        return maxGuests;
+    /**
+     * This will create a new Shop from the parameters from the event.
+     * All shop creations should be done using this!
+     * @param event 
+     */
+    @Subscribe public void listenCreateShopsEvent(CreateShopEvent event){
+        BasicShop shop=event.toShop();
+        shops.add(shop);
+        shopManager.attachToShopNode(shop.getObject());
+        int ax=shop.getPosition().getX();
+        int ay=shop.getPosition().getY();
+        int az=shop.getPosition().getZ();
+        eventBus.post(new AddObjectToMapEvent(ax, ay, az, shop.getObject()));
     }
-    public Spatial getSpatialAt(int x,int y,int z){
-        Spatial found;
-        found=map.getMap()[x][y][z];
-        return found;
-    }
-    public boolean testForEmptyTile(int x,int y,int z){
-        if(map.getMap()[x][y][z]!=null){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
+    /**
+     * GETTERS AND SETTERS
+     */
     public Scenario getScenario() {
         return scenario;
     }
-
     public void setScenario(Scenario scenario) {
         this.scenario = scenario;
     }
-    
+    public void setMap(MapContainer map) {
+        this.map = map;
+    }
+    public MapContainer getMap() {
+        return map;
+    }   
+    public int getMaxGuests() {
+        return scenario.getMaxGuests();
+    }
+    @Deprecated
+    public void setMap(Spatial[][][] mapu, float[] mapdata) {
+        map.setMap(mapu);
+        map.setMapData(mapdata);
+        
+    }
+    public void setParkWallet(ParkWallet wallet) {
+        this.parkwallet = wallet;
+    }
+    public void setRides(ArrayList<BasicRide> rides) {
+        this.rides = rides;
+    }
+    public void setNpcs(ArrayList<BasicNPC> npcs) {
+        this.npcs = npcs;
+    }
+    public void setGuests(ArrayList<Guest> guests) {
+        this.guests = guests;
+    }
+    public void setShops(ArrayList<BasicShop> shops) {
+        this.shops = shops;
+    }
+    public ParkWallet getParkWallet() {
+        return parkwallet;
+    }
+    public List<BasicNPC> getNpcs() {
+        return npcs;
+    }
+    public List<Guest> getGuests() {
+        return guests;
+    }
+    public List<BasicShop> getShops() {
+        return shops;
+    }
+    public List<BasicRide> getRides() {
+        return rides;
+    }
+    public int getRideID() {
+        return scenario.getRideID();
+    }
+    public int getShopID() {
+        return scenario.getShopID();
+    }
+    public int getMapHeight() {
+        return scenario.getMapHeight();
+    }
+    public int getMapWidth() {
+        return scenario.getMapWidth();
+    }
+    public float[] getMapData() {
+        return map.getMapData();
+    }
+    public void setUpdatedRoadsList(ArrayList<Vector3f> pos) {
+        this.RoadtoUpdatePositions=pos;
+    }
+    public void setUpdatedQueRoadsList(ArrayList<Spatial> queRoadstoUpdate) {
+        this.queRoadsToUpdate=queRoadstoUpdate;
+    }
+    public String getParkName() {
+        return scenario.getParkName();
+    }
 }

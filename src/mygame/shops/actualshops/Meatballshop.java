@@ -5,7 +5,6 @@
 package mygame.shops.actualshops;
 
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import mygame.GUI.events.UpdateMoneyTextBarEvent;
 import mygame.npc.Guest;
@@ -13,6 +12,7 @@ import mygame.npc.inventory.Item;
 import mygame.npc.inventory.Itemtypes;
 import mygame.shops.BasicShop;
 import mygame.terrain.Direction;
+import mygame.terrain.MapPosition;
 import mygame.terrain.events.PayParkEvent;
 
 /**
@@ -24,14 +24,9 @@ public class Meatballshop extends BasicShop{
 
     
     
-    public Meatballshop(Vector3f position,Spatial geom,Direction facing,Node rootNode){
-        super(position,geom,300,facing,rootNode);
-        shopName="MeatBallShop";
-        productname="Herggu MeatBalls";
-        price=20;
-        type="meatballshop";
-        
-        
+    public Meatballshop(MapPosition position,Direction facing,Spatial model,int shopID,float price,float constrm,String prodName,String shopName){
+        super(position,model,shopID,constrm,price,facing,prodName,shopName,"meatballshop");
+        //DEF prodName "Tasti MeatBalls" | name "MeatBallShop "+shopID | type "meatballshop" 
     }
 
     @Override

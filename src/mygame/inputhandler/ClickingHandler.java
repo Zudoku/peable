@@ -38,20 +38,23 @@ import mygame.terrain.decoration.DecorationManager;
  */
 @Singleton
 public class ClickingHandler {
-
+    //LOGGER
     private static final Logger logger = Logger.getLogger(ClickingHandler.class.getName());
+    //DEPENDENCIES
     @Inject private TerrainHandler terrainHandler;
-    private EventBus eventBus;
     @Inject private WindowMaker windowMaker;
     @Inject private RideManager rideManager;
-    private ClickingModes clickMode = ClickingModes.NOTHING;
-    public int buffer = 0;
-    private final Node rootNode;
-    private final ParkHandler parkHandler;
-    private final DecorationManager decorationManager;
     private RoadMaker roadMaker;
     private ShopManager shopManager;
     private NPCManager npcManager;
+    private final Node rootNode;
+    private final ParkHandler parkHandler;
+    private EventBus eventBus;
+    //OWNS
+    private final DecorationManager decorationManager;
+    //VARIABLES
+    private ClickingModes clickMode = ClickingModes.NOTHING;
+    public int buffer = 0;
     
     @Inject
     public ClickingHandler(EventBus eventBus,NPCManager npcManager,ShopManager shopManager,Node rootNode, ParkHandler parkHandler, DecorationManager decorationManager,RoadMaker roadMaker) {
@@ -96,9 +99,9 @@ public class ClickingHandler {
                 }
                 if (rootTarget.getUserData("shopID") != null) {
                     for (BasicShop g : shopManager.getShops()) {
-                        if (g.shopID == rootTarget.getUserData("shopID")) {
+                        if (g.getShopID() == rootTarget.getUserData("shopID")) {
                             windowMaker.createShopWindow(g);
-                            logger.log(Level.FINEST, "Displaying Shopwindow for shop with id {0}", g.shopID);
+                            logger.log(Level.FINEST, "Displaying Shopwindow for shop with id {0}", g.getShopID());
                             return;
                         }
                     }

@@ -145,39 +145,43 @@ public class WindowMaker {
         niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
         niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
     }
-
+    /**
+     * Create niftyGUI window element from shop. (Basically the shop window).
+     * @param shop 
+     */
     public void createShopWindow(BasicShop shop) {
-        updateNifty();
+        updateNifty(); //Just to make sure nifty is not null
         if (shop == null) {
             logger.log(Level.WARNING,"Trying to display window to null shop");
             return;
         }
-        shopID = shop.shopID;
+        shopID = shop.getShopID();//Store shopID for later use
         Element shopwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("shoptemplate");
-
-
         Element temppanel = shopwindow.findElementByName("s_rootpanel").findElementByName("s_tabspanel");
-                
+        /* Search the name element and populate it */
         Element niftyElement = temppanel.findElementByName("shopname");
-        updateText(niftyElement, shop.shopName);
+        updateText(niftyElement, shop.getShopName());
+        /* .. price element .. */
         niftyElement = temppanel.findElementByName("shopprice");
-        updateText(niftyElement, Float.toString(shop.price));
+        updateText(niftyElement, Float.toString(shop.getPrice()));
+        /* .. productname element .. */
         niftyElement = temppanel.findElementByName("shopproduct");
-        updateText(niftyElement, shop.productname);
+        updateText(niftyElement, shop.getProductname());
+        /* .. location element .. */
         niftyElement = temppanel.findElementByName("shoplocation");
-        String location = Float.toString(shop.position.x) + " " + Float.toString(shop.position.y) + " " + Float.toString(shop.position.z);
+        String location = Float.toString(shop.getPosition().getVector().x) + " " + Float.toString(shop.getPosition().getVector().y) + " " + Float.toString(shop.getPosition().getVector().z);
         updateText(niftyElement, location);
+        /* .. reputation element .. */
         niftyElement = temppanel.findElementByName("shopreputation");
-        updateText(niftyElement, shop.reputation.toString());
+        updateText(niftyElement, shop.getReputation().toString());
+        /* .. employees element TODO: .. */
         niftyElement = temppanel.findElementByName("shopemployees");
         String employees = "No employees";
         updateText(niftyElement, employees);
-
-
-
+        /* Show the window */
         shopwindow.setVisible(true);
-
         nifty.getCurrentScreen().getLayerElements().get(2).add(shopwindow);
+        
     }
 
     public void updateGuestWindow(Guest guest) {
