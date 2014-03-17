@@ -9,17 +9,11 @@ import com.google.inject.Singleton;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector3f;
-import com.jme3.renderer.Camera;
 import de.lessvoid.nifty.Nifty;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.IngameHUD;
 import intopark.GUI.SelectionParticleEmitter;
-import intopark.gameplayorgans.Scenario;
 import intopark.inputhandler.UserInput;
 import intopark.npc.NPCManager;
 import intopark.ride.RideManager;
@@ -47,7 +41,6 @@ public class Gamestate extends AbstractAppState {
     @Inject private  RideManager rideManager;
     @Inject private MapFactory mapFactory;
     //VARIABLES
-    private Scenario scenario;
     /**
      * This is state where the game is running.
      * @param loadManager to load the Scenario from file.
@@ -64,34 +57,24 @@ public class Gamestate extends AbstractAppState {
      
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
-        
-            logger.log(Level.FINEST, "Initializing Gamestate...");
-            super.initialize(stateManager, app);
-            this.appm = (Main) app;
-            this.nifty=this.appm.getNifty();
-            appm.getInjector().injectMembers(this); //Inject members 
-            currentPark=this.appm.currentPark;
-            ingameHUD=this.appm.ingameHUD;
-            logger.log(Level.FINEST, "Loading scenario.");
-        
-            
-        try {
-            loadManager.load("testfilexd.IntoFile");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Gamestate.class.getName()).log(Level.SEVERE, "EROR", ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Gamestate.class.getName()).log(Level.SEVERE, "EROR", ex);
-        }
-              //  mapFactory.setCurrentMapPlain();
-            
-            setCamera();
+        logger.log(Level.FINEST, "Initializing Gamestate...");
+        super.initialize(stateManager, app); //Init some JME stuff 
+        //TODO:
+        this.appm = (Main) app;
+        this.nifty = this.appm.getNifty();
+        appm.getInjector().injectMembers(this); //Inject members 
+        currentPark = this.appm.currentPark;
+        ingameHUD = this.appm.ingameHUD;
+        //TODO ENDS
+        logger.log(Level.FINEST, "Loading file.");
+        loadManager.load("testfilexd.IntoFile");
+        // DEBUG  mapFactory.setCurrentMapPlain();
+        userInput.getCameraController().initialize(); //Initialize our camera
+        currentPark.onStartup(); //Finish initializing
+        this.appm.setDisplayStatView(false); //Disable statview (DEBUG info)
+        this.appm.setPauseOnLostFocus(false); //Keep running when not focused 
+        logger.log(Level.FINEST, "Gamestate initialized.");
 
-            this.appm.setDisplayStatView(false);
-
-            this.appm.setPauseOnLostFocus(false);
-            currentPark.onStartup(); 
-            logger.log(Level.FINEST, "Gamestate initialized.");
-        
     }
 
     public int getMoneyslotX() {
@@ -99,21 +82,17 @@ public class Gamestate extends AbstractAppState {
         return p;
     }
 
-    
-
-    private void setCamera() {
-        Camera camera = appm.getCamera();
-        camera.setLocation(new Vector3f(-11.696763f, 30.377302f, -13.492211f));
-        camera.setFrame(new Vector3f(-11.696763f, 30.377302f, -13.492211f), new Vector3f(0.2f, 0, 0), new Vector3f(0, 0, 0), new Vector3f(0.48968115f, -0.65352046f, 0.57716846f));
-        camera.setRotation(new Quaternion(0.32836914f, 0.32047316f, -0.06872874f, 0.8858595f));
-        
-    }
-
+    /**
+     * JME call TODO: when doing exiting and loading scenarios again
+     */
     @Override
     public void cleanup() {
         super.cleanup();
     }
-
+    /**
+     * JME call TODO: if needed something here.
+     * @param enabled If this state is enabled or not
+     */
     @Override
     public void setEnabled(boolean enabled) {
         // Pause and unpause
@@ -135,12 +114,5 @@ public class Gamestate extends AbstractAppState {
             logger.log(Level.SEVERE,"OH SHIT",t);
             t.printStackTrace();
         }
-    }
-    /**
-     * Set the Scenario.
-     * @param scenario Scenario to load.
-     */
-    public void setScenario(Scenario scenario){
-        this.scenario=scenario;
     }
 }

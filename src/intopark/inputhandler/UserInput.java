@@ -27,7 +27,7 @@ public class UserInput {
     InputManager inputManager;
     
     
-    CameraController cameraController;
+    private CameraController cameraController;
     
     private MyAnalogListener analogListener;
     private MyActionListener actionListener;
@@ -36,8 +36,8 @@ public class UserInput {
     KeyTrigger moveCameraDown = new KeyTrigger(KeyInput.KEY_S);
     KeyTrigger moveCameraRight = new KeyTrigger(KeyInput.KEY_D);
     KeyTrigger moveCameraLeft = new KeyTrigger(KeyInput.KEY_A);
-    KeyTrigger rotateCameraRight=new KeyTrigger(KeyInput.KEY_Q);
-    KeyTrigger rotateCameraLeft=new KeyTrigger(KeyInput.KEY_E);
+    KeyTrigger rotateCameraRight=new KeyTrigger(KeyInput.KEY_E);
+    KeyTrigger rotateCameraLeft=new KeyTrigger(KeyInput.KEY_Q);
     
     KeyTrigger rotateRight = new KeyTrigger(KeyInput.KEY_O);
     KeyTrigger rotateLeft = new KeyTrigger(KeyInput.KEY_P);
@@ -83,5 +83,10 @@ public class UserInput {
     public void update(){
         analogListener.checkDragging();
     }
+
+    public CameraController getCameraController() {
+        return cameraController;
+    }
+    
   
 }

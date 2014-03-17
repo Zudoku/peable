@@ -34,6 +34,7 @@ import intopark.terrain.MapPosition;
 import intopark.terrain.ParkHandler;
 import intopark.terrain.RoadFactory;
 import intopark.terrain.decoration.DecorationFactory;
+import java.util.logging.Level;
 
 /**
  *
@@ -72,33 +73,16 @@ public class LoadManager {
      * @throws FileNotFoundException No such file!
      * @throws IOException Error opening file!
      */
-    public void load(String filename) throws FileNotFoundException, IOException {
-        GsonBuilder gb=new GsonBuilder();
-        gb.registerTypeAdapter(ParkHandler.class, new ParkHandlerDeserializer(parkHandler,eventBus));
-        Gson gson = gb.create();
-        gson.fromJson(new FileReader(filename), ParkHandler.class);
-        /*
-        Scanner br = new Scanner(new FileReader(filename));
+    public void load(String filename){
         try {
-            String[] filecontent =new String[9];
-            int index=0;
-            while(br.hasNext()){
-                String line=br.nextLine();
-                if(line.startsWith("#")){
-                    continue;
-                }else{
-                    
-                    if(line.trim().length()>5&&line.contains(":")){
-                        filecontent[index++]=line;
-                    }
-                    
-                }
-            }
-            createParkHandler(filecontent);
-            
-        } finally {
-            br.close();
-        }*/
+            GsonBuilder gb=new GsonBuilder();
+            gb.registerTypeAdapter(ParkHandler.class, new ParkHandlerDeserializer(parkHandler,eventBus));
+            Gson gson = gb.create();
+            gson.fromJson(new FileReader(filename), ParkHandler.class);
+        } catch (FileNotFoundException ex) {
+            logger.log(Level.WARNING,"Failed to load such file: {0} {1}",new Object[]{filename,ex});
+        }
+        
     }
     private void loadRideData( String string) {
         Node rideNode=(Node)rootNode.getChild("rideNode");

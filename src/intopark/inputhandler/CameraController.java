@@ -26,7 +26,7 @@ public class CameraController {
     private float radius=20; //Circe radius which the camera rotates around 
     private double alpha=0; // Alpha angle in radians
     private float cameraCenterX=0; //Camera offset X - Also the coordinate which the camera looks at.
-    private float cameraCenterZ=0; //Camera offset Z - Also the coordinate which the camera looks at.
+    private float cameraCenterZ=5; //Camera offset Z - Also the coordinate which the camera looks at.
     private float cameraCenterY=6; //Camera offset Y - Also the coordinate which the camera looks at.
     
     public CameraController(Camera camera){
@@ -112,6 +112,10 @@ public class CameraController {
         Vector3f newpos=asd.normalizeLocal().cross(new Vector3f(0,1,0)).normalizeLocal().mult(-MOVESPEED);
         cameraCenterX+=newpos.x;
         cameraCenterZ+=newpos.z;
+        refreshCamera();
+    }
+    public void initialize(){
+        alpha=Math.PI; //180 degrees
         refreshCamera();
     }
     
