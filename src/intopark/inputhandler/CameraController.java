@@ -15,34 +15,55 @@ import java.util.logging.Logger;
  */
 @Singleton
 public class CameraController {
+    //LOGGER
     private static final Logger logger = Logger.getLogger(CameraController.class.getName());
+    //DEPENDENCIES
     private final Camera camera;
-    private static float MOVESPEED=0.3f;
-    private float cameraHeight=30;
-    private float radius=10;
-    private double alpha=0;
-    private float cameraCenterX=0;
-    private float cameraCenterZ=0;
-    private float cameraCenterY=6;
+    //VARIABLES
+    private static float MOVESPEED=0.15f; // Speed that the camera moves
+    private static double ROTATESPEED=0.02; //Speed that te camera rotates
+    private float cameraHeight=30; // Height where the camera is 
+    private float radius=20; //Circe radius which the camera rotates around 
+    private double alpha=0; // Alpha angle in radians
+    private float cameraCenterX=0; //Camera offset X - Also the coordinate which the camera looks at.
+    private float cameraCenterZ=0; //Camera offset Z - Also the coordinate which the camera looks at.
+    private float cameraCenterY=6; //Camera offset Y - Also the coordinate which the camera looks at.
     
     public CameraController(Camera camera){
         this.camera=camera;
-        
+        refreshCamera();
     }
     public void onTurnCamera(boolean right){
 
         turnCamera(right);
+        refreshCamera();
+    }
+    private void refreshCamera(){
+        checkBoundaries(new Vector3f(cameraCenterX,cameraCenterY,cameraCenterZ));
         camera.setLocation(nextCameraPosition());
         camera.lookAt(new Vector3f(cameraCenterX, cameraCenterY,cameraCenterZ), new Vector3f(0, 1, 0));
     }
+    private void checkBoundaries(Vector3f center){
+        if(center.x<-5){
+            cameraCenterX=-5;
+        }else if(center.x>133){ //128 + 5
+            cameraCenterX=133;
+        }
+        
+        if(center.z<-5){
+            cameraCenterZ=-5;
+        }else if(center.z>133){
+            cameraCenterZ=133;
+        }
+    }
     private void turnCamera(boolean right){
         if(right){
-            alpha+=0.01;
+            alpha+=ROTATESPEED;
             if(alpha>=2*Math.PI){
                 alpha=0;
             }
         }else{
-            alpha-=0.01;
+            alpha-=ROTATESPEED;
             if(alpha<0){
                 alpha=2*Math.PI;
             }
@@ -62,16 +83,36 @@ public class CameraController {
         return new Vector3f((float)x,cameraHeight,(float)z);
     }
     public void moveUp(){
-        camera.setLocation(new Vector3f(camera.getLocation().x+MOVESPEED, camera.getLocation().y, camera.getLocation().z+MOVESPEED));
+        Vector3f asd=camera.getDirection();
+        asd.y=0;
+        Vector3f newpos=asd.normalizeLocal().mult(MOVESPEED);
+        cameraCenterX+=newpos.x;
+        cameraCenterZ+=newpos.z;
+        refreshCamera();
     }
     public void moveDown(){
-        camera.setLocation(new Vector3f(camera.getLocation().x-MOVESPEED, camera.getLocation().y, camera.getLocation().z-MOVESPEED));
+         Vector3f asd=camera.getDirection();
+        asd.y=0;
+        Vector3f newpos=asd.normalizeLocal().mult(-MOVESPEED);
+        cameraCenterX+=newpos.x;
+        cameraCenterZ+=newpos.z;
+        refreshCamera();
     }
     public void moveRight(){
-        camera.setLocation(new Vector3f(camera.getLocation().x-MOVESPEED, camera.getLocation().y, camera.getLocation().z+MOVESPEED));
+        Vector3f asd=camera.getDirection();
+        asd.y=0;
+        Vector3f newpos=asd.normalizeLocal().cross(new Vector3f(0,1,0)).normalizeLocal().mult(MOVESPEED);
+        cameraCenterX+=newpos.x;
+        cameraCenterZ+=newpos.z;
+        refreshCamera();
     }
     public void moveLeft(){
-        camera.setLocation(new Vector3f(camera.getLocation().x+MOVESPEED, camera.getLocation().y, camera.getLocation().z-MOVESPEED));
+        Vector3f asd=camera.getDirection();
+        asd.y=0;
+        Vector3f newpos=asd.normalizeLocal().cross(new Vector3f(0,1,0)).normalizeLocal().mult(-MOVESPEED);
+        cameraCenterX+=newpos.x;
+        cameraCenterZ+=newpos.z;
+        refreshCamera();
     }
     
     
