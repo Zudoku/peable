@@ -18,6 +18,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
+import intopark.LoadPaths;
+import intopark.UtilityMethods;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,6 +35,7 @@ import intopark.shops.BasicShop;
 import intopark.shops.CreateShopEvent;
 import intopark.shops.ShopDemolishEvent;
 import intopark.shops.ShopManager;
+import intopark.terrain.decoration.CreateParkEnteranceEvent;
 import intopark.terrain.events.AddToRootNodeEvent;
 import intopark.terrain.events.RefreshGroundEvent;
 import intopark.terrain.events.SetMapDataEvent;
@@ -89,18 +92,21 @@ public class ParkHandler {
      * This should be called when ParkHandler is fully populated (nothing is null).
      */
     public void onStartup() {
-        logger.finest("Setting Map");
+        logger.log(Level.FINEST,"Configuring ParkHandler..");
         //eventBus.post(new SetMapEvent(map.getMap()));
-        eventBus.post(new RefreshGroundEvent());
-        roadMaker.roadsToUpdate(RoadtoUpdatePositions);
-        roadMaker.queRoadsToUpdate(queRoadsToUpdate);
-        rideManager.rides = rides;
+        eventBus.post(new RefreshGroundEvent()); //Force refresh the ground once.
+        scenario.setUp();
+        roadMaker.roadsToUpdate(RoadtoUpdatePositions); //TODO:
+        roadMaker.queRoadsToUpdate(queRoadsToUpdate); //TODO:
+        /* Set the indivitual parameters to child-Managers */
+        rideManager.rides = rides; 
         npcManager.setNpcs(npcs);
         npcManager.setGuests(guests);
         npcManager.setMaxGuests(getMaxGuests());
         shopManager.setShops(shops);
         rideManager.setRideID(getRideID());
         shopManager.setShopID(getShopID());
+        logger.log(Level.FINEST,"Configuring finished");
     }
     /**
      * 
@@ -289,6 +295,20 @@ public class ParkHandler {
         int ay=shop.getPosition().getY();
         int az=shop.getPosition().getZ();
         eventBus.post(new AddObjectToMapEvent(ax, ay, az, shop.getObject()));
+    }
+    /**
+     * This will create a Park Enterance from the parameters from the event.
+     * Usually called only once!
+     * @param event 
+     */
+    @Subscribe public void listenCreateParkEnteranceEvent(CreateParkEnteranceEvent event){
+        Spatial enterance= UtilityMethods.loadModel(LoadPaths.parkenterance);
+        enterance.setLocalTranslation(event.position.getVector());
+        enterance.rotate(0,(float)event.rotate,0);
+        enterance.scale(0.3f);
+        enterance.setUserData("type","parkenterance");
+        eventBus.post(new AddToRootNodeEvent(enterance));
+        logger.log(Level.FINEST,"Park Enterance set up at {0}",event.position);
     }
     /**
      * GETTERS AND SETTERS

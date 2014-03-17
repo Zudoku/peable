@@ -174,16 +174,16 @@ public class SaveManager {
         
         Scenario scene=new Scenario(ScenarioGoal.GUESTS);
         //TEMP
-        scene.setEnterancePos(new Vector3f(4, 6, 0));
+        //scene.setEnterancePos(new Vector3f(4, 6, 0));
         scene.setEnteranceYRotation(1);
         scene.setGoal(ScenarioGoal.GUESTS);
         //END
-        String enteranceXPosition=Float.toString(scene.getEnterancePos().x);
-        String enteranceYPosition=Float.toString(scene.getEnterancePos().y);
-        String enteranceZPosition=Float.toString(scene.getEnterancePos().z);
+       // String enteranceXPosition=Float.toString(scene.getEnterancePos().x);
+       // String enteranceYPosition=Float.toString(scene.getEnterancePos().y);
+       // String enteranceZPosition=Float.toString(scene.getEnterancePos().z);
         String enteranceYRotation=Double.toString(scene.getEnteranceYRotation());
         String scenarioGoal=scene.getGoal().toString();
-        writer.write("SCENARIO DATA " + ":" + enteranceXPosition + ":" + enteranceYPosition + ":" + enteranceZPosition + ":" + enteranceYRotation + ":" + scenarioGoal + ":");
+      //  writer.write("SCENARIO DATA " + ":" + enteranceXPosition + ":" + enteranceYPosition + ":" + enteranceZPosition + ":" + enteranceYRotation + ":" + scenarioGoal + ":");
         
         writer.write(System.getProperty("line.separator"));
     }

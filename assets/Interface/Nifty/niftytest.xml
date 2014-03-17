@@ -24,7 +24,7 @@
                 </control>
                 <control id="alphatestmessage"name="label" font="Interface/Fonts/Impact.fnt"text="PLEASE NOTE THAT THIS IS ALPHA! MODELS / TEXTURES ARE NOT FINAL ! THIS RELEASE IS JUST TO HELP ME FIND BUGS AND TEST!" x="300"y="50" color="#003f"/>
                 <control id="Author"name="label" font="Interface/Fonts/Impact.fnt"text="Made by Arttu Siren" x="5"y="10" color="#003f"/>
-                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.03A" x="180"y="10" color="#EBB9C2"/>
+                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.04A" x="180"y="10" color="#EBB9C2"/>
             </panel>
             
             <control id="newgamewindow" name="window"title=" "width="400"height="500"x="10"y="100"hideOnClose="true"closeable="true">

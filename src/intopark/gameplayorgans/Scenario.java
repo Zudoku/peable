@@ -4,8 +4,16 @@
  */
 package intopark.gameplayorgans;
 
+import com.google.common.eventbus.EventBus;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
+import intopark.LoadPaths;
+import intopark.Main;
+import intopark.UtilityMethods;
+import intopark.terrain.MapPosition;
+import intopark.terrain.decoration.CreateParkEnteranceEvent;
 
 /**
  *
@@ -14,9 +22,10 @@ import com.jme3.math.Vector3f;
 @Singleton
 public class Scenario {
     //DEPENDENCIES
+    @Inject private transient EventBus eventBus;
     //VARIABLES
     private ScenarioGoal goal;
-    private transient Vector3f enterancePos;
+    private MapPosition enterancePos;
     private double enteranceYRotation;
     private int rideID;
     private int shopID;
@@ -29,13 +38,24 @@ public class Scenario {
 
     public Scenario(ScenarioGoal goal) {
         this.goal = goal;
+        
     }
-
-    public void setEnterancePos(Vector3f enterancePos) {
+    
+    public void setUp(){
+        Main.injector.injectMembers(this);
+        eventBus.post(new CreateParkEnteranceEvent(enteranceYRotation, enterancePos)); // Create Park-Enterance
+    }
+    
+    /*
+     * SETTERS AND GETTERS
+     */
+    
+    
+    public void setEnterancePos(MapPosition enterancePos) {
         this.enterancePos = enterancePos;
     }
 
-    public Vector3f getEnterancePos() {
+    public MapPosition getEnterancePos() {
         return enterancePos;
     }
 

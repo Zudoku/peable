@@ -9,6 +9,8 @@ package intopark;
  * @author arska
  */
 public class LoadPaths {
+    //META
+    public static String parkenterance="Models/park/parkEnterance.j3o";
     //GUEST
     public static String guest="Models/Human/guest.j3o";
     //SHOPS
