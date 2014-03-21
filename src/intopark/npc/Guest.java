@@ -63,6 +63,8 @@ public class Guest extends BasicNPC {
         this.guestnum = guestNum;
         r = new Random();
         super.getGeometry().setLocalTranslation(x, y, z);
+        super.getGeometry().setUserData("type","guest");
+        super.getGeometry().setUserData("guestnum",guestNum);
     }
 
     public Guest(String name, float money, int guestNum, Spatial geom) {

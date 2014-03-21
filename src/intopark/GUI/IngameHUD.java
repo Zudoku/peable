@@ -44,7 +44,18 @@ import intopark.shops.BasicShop;
 import intopark.shops.BuildingSelectionEvent;
 import intopark.shops.ShopManager;
 import intopark.GUI.events.UpdateBuildingUIEvent;
+import static intopark.inputhandler.ClickingModes.DECORATION;
+import static intopark.inputhandler.ClickingModes.DEMOLITION;
+import static intopark.inputhandler.ClickingModes.NOTHING;
+import static intopark.inputhandler.ClickingModes.PLACE;
+import static intopark.inputhandler.ClickingModes.RIDE;
+import static intopark.inputhandler.ClickingModes.ROAD;
+import static intopark.inputhandler.ClickingModes.TERRAIN;
 import intopark.terrain.Direction;
+import static intopark.terrain.Direction.DOWN;
+import static intopark.terrain.Direction.LEFT;
+import static intopark.terrain.Direction.RIGHT;
+import static intopark.terrain.Direction.UP;
 import intopark.terrain.ParkHandler;
 import intopark.terrain.RoadHill;
 import intopark.terrain.RoadMaker;
@@ -80,22 +91,130 @@ public class IngameHUD implements ScreenController {
     NiftyImage newImage;
     
     
-    
+    /*
+     * Called by Nifty
+     */
     public IngameHUD() {
         Injector i=Main.injector;
         i.injectMembers(this);
         eventBus.register(this);
     }
-
+    /*
+     * Called by Nifty.
+     */
     public void bind(Nifty nifty, Screen screen) {
         this.nifty = nifty;
         this.screen = screen;
         
+    }
+    /**
+     * Called by Nifty when this screen is activated.
+     */
+    public void onStartScreen() {
+        closeWindows("");
+        //laita raha kuva oikeaan asentoon
+        Element a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneyicon");
+        int screenwidth=parkHandler.settings.getWidth();
+        int elementlocation=screenwidth-300;
+        String b=Integer.toString(elementlocation); 
+        a.setConstraintX(new SizeValue(b));
+        //tekstit
+        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneytext");
+        elementlocation=screenwidth-170;
+        b=Integer.toString(elementlocation);
+        a.setConstraintX(new SizeValue(b));
+        
+        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("loantext");
+        elementlocation=screenwidth-170;
+        b=Integer.toString(elementlocation);
+        a.setConstraintX(new SizeValue(b));
+        
+        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("guestnumtext");
+        elementlocation=screenwidth-280;
+        b=Integer.toString(elementlocation);
+        a.setConstraintX(new SizeValue(b));
+        
+        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("clickmodeindicator");
+        elementlocation=screenwidth-364;
+        b=Integer.toString(elementlocation);
+        a.setConstraintX(new SizeValue(b));
+        
+        updateMoneytextbar();
+        updateshopdesc();
+        
+    }
+    /**
+     * Called by Nifty on when the screen exits.
+     */
+    public void onEndScreen() {
+        
+    }
+    /**
+     * Save the scenario to file.
+     */
+    public void testSave(){
+        saveManager.Save("testfilexd");
+    }
+    /**
+     * Close open all open windows.
+     * @param elementname if "" close everything.
+     * Else close everything but the elementname.
+     */
+    public void closeWindows(String elementname) {
+        Element niftyElement;
+        if (!elementname.equals("roadWindow")) {
+            niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
+            niftyElement.setVisible(false);
+            
+        }
+        if (!elementname.equals("shovelWindow")) {
+            niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
+            niftyElement.setVisible(false);
+            
+        }
+        if (!elementname.equals("shopWindow")) {
+            niftyElement = nifty.getCurrentScreen().findElementByName("shopWindow");
+            niftyElement.setVisible(false);
+            
+        }
+        if (!elementname.equals("NPCWindow")) {
+            niftyElement = nifty.getCurrentScreen().findElementByName("NPCWindow");
+            niftyElement.setVisible(false);
+            
+        }
+        if(!elementname.equals("decorationWindow")){
+            niftyElement = nifty.getCurrentScreen().findElementByName("decorationWindow");
+            niftyElement.setVisible(false);
+        }
+        if(elementname.equals("")){
+        niftyElement = nifty.getCurrentScreen().findElementByName("guesttemplate");
+        niftyElement.setVisible(false);
+        niftyElement = nifty.getCurrentScreen().findElementByName("shoptemplate");
+        niftyElement.setVisible(false);
+        niftyElement = nifty.getCurrentScreen().findElementByName("ridetemplate");
+        niftyElement.setVisible(false);
+        }
 
     }
-    @Subscribe public void processMoneyTextBarUpdate(UpdateMoneyTextBarEvent e) {
-        updateMoneytextbar();
+    /**
+     * This will update the Labels (element) text with string provided.
+     * Also resets H-V_Allign to top-left. 
+     * @param element Label element.
+     * @param text New text
+     */
+    private void setelementText(Element element,String text){
+        logger.log(Level.FINEST,"{0} Changed to {1}",new Object[]{element.getRenderer(TextRenderer.class).getOriginalText(),text});
+        element.getRenderer(TextRenderer.class).setText(text);
+        element.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
+        element.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
     }
+    /*
+     * REFRESH SOMETHING IN THE UI.
+     */
+    
+    /**
+     * Refreshes the guest and money counter.
+     */
     private void updateMoneytextbar(){
         nifty=Main.nifty;
         Element a=nifty.getCurrentScreen().findElementByName("moneytext");
@@ -113,6 +232,9 @@ public class IngameHUD implements ScreenController {
         a.setConstraintHorizontalAlign(HorizontalAlign.left);
         a.setId("guestnumtext");
     }
+    /**
+     * Refresh the icon indicating what clickmode you have.
+     */
     public void updateClickingIndicator(){
         nifty=Main.nifty;
         Element a=nifty.getCurrentScreen().findElementByName("clickmodeindicator");
@@ -149,67 +271,42 @@ public class IngameHUD implements ScreenController {
         }
         a.getRenderer(ImageRenderer.class).setImage(img);
     }
-    public void rideDemolishToggle(){
-        for(BasicRide r:parkHandler.getRides()){
-            if(r.getRideID()==windowMaker.getRideID()){
-                r.demolish();
-                closeWindows("");
-                break;
-            }
-        }
-        
-        
-    }
-    public void shopDemolishToggle(){
-        for(BasicShop s:parkHandler.getShops()){
-            if(s.getShopID()==windowMaker.getShopID()){
-                s.demolish();
-                closeWindows("");
-                break;
-            }
-        }
-    }
-
-    public void onStartScreen() {
-        
-        closeWindows("");
-        //laita raha kuva oikeaan asentoon
-        Element a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneyicon");
-        int j=parkHandler.settings.getWidth();
-        int u=j-300;
-        String b=Integer.toString(u); 
-        a.setConstraintX(new SizeValue(b));
-        //tekstit
-        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneytext");
-        u=j-170;
-        b=Integer.toString(u);
-        a.setConstraintX(new SizeValue(b));
-        
-        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("loantext");
-        u=j-170;
-        b=Integer.toString(u);
-        a.setConstraintX(new SizeValue(b));
-        
-        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("guestnumtext");
-        u=j-280;
-        b=Integer.toString(u);
-        a.setConstraintX(new SizeValue(b));
-        
-        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("clickmodeindicator");
-        u=j-364;
-        b=Integer.toString(u);
-        a.setConstraintX(new SizeValue(b));
-        
+    
+    /**
+     * EVENTBUS LISTENERS
+     * These methods will get called when some other class posts these EventBus events.
+     */
+    
+    
+    /**
+     * Updates the UI so that guests money and such are updated. 
+     * @param e 
+     */
+    @Subscribe public void processMoneyTextBarUpdate(UpdateMoneyTextBarEvent e) {
         updateMoneytextbar();
+    }
+    
+    /**
+     * Update BuildingUI. Set a description on the building shop ui.
+     * @param event 
+     */
+    @Subscribe
+    public void listenUpdateBuildingUIEvent(UpdateBuildingUIEvent event){
+        descriptionManager.setDescription(event.buildable);
         updateshopdesc();
-        
     }
-
-    public void onEndScreen() {
+    /**
+     * Close open windows.
+     * @param event 
+     */
+    @Subscribe
+    public void listenCloseWindowsEvent(CloseWindowsEvent event){
+        closeWindows(event.parameters);
     }
-    public void testSave(){
-        saveManager.Save("testfilexd");
-    }
+    
+    /*
+     * ALL RELATED TO TOP BAR 
+     */
     public void clickDemolishbutton(){
         if(clickingHandler.getClickMode()==ClickingModes.DEMOLITION){
             clickingHandler.setClickMode(ClickingModes.NOTHING);
@@ -218,87 +315,6 @@ public class IngameHUD implements ScreenController {
            clickingHandler.setClickMode(ClickingModes.DEMOLITION); 
         }
         updateClickingIndicator();
-    }
-    @NiftyEventSubscriber(id = "sliderbrushsize")
-    public void onSliderChange(String id, SliderChangedEvent event) {
-        terrainHandler.setBrushSize((int) event.getValue());
-        updateBrushSize();
-    }
-
-    
-
-    @NiftyEventSubscriber(id = "usetexture")
-    public void useTextureChange(String id, CheckBoxStateChangedEvent event) {
-        terrainHandler.setUseTexture(event.isChecked());
-    }
-    @NiftyEventSubscriber(id = "queroad")
-    public void queCheckboxChange(String id, CheckBoxStateChangedEvent event) {
-        roadMaker.queroad = event.isChecked();
-        
-    }
-    @NiftyEventSubscriber(id = "textureforshovel")
-    public void onTextureChange(String id, ImageSelectSelectionChangedEvent event) {
-        terrainHandler.setTextureID(event.getImageSelect().getSelectedImageIndex() + 1);
-    }
-    @NiftyEventSubscriber(id="guests")
-    public void DropDownSelectionChangedEvent(String id,DropDownSelectionChangedEvent event)  {
-        
-        int index=event.getSelectionItemIndex();
-        if(index==0){
-            //selected default  
-        }
-        else{
-            Guest guest = null;
-            for(Guest g:npcManager.getGuests()){
-                if(g.getGuestNum()==index-1){
-                    guest=g;
-                    break;
-                }
-            }
-            if(guest==null){
-                logger.log(Level.WARNING,"No such guest with guestID {0}",index-1);
-                return;
-            }
-            windowMaker.createGuestWindow(guest,true);
-            Element element = nifty.getCurrentScreen().findElementByName("NPCWindow");
-            element.setVisible(false);
-        }
-        
-    }
-    @NiftyEventSubscriber(id = "guestnametextfield")
-    public void onguestnameChanged(final String id, final TextFieldChangedEvent event) {
-        if(!event.getText().equals("")) {
-            Guest guest=windowMaker.getCurrentGuestWindowGuest();
-            guest.setName(event.getText());
-            windowMaker.updateGuestWindow(guest);
-        }
-    }
-    @NiftyEventSubscriber(id = "ridenametextfield")
-    public void onRideNameChanged(final String id, final TextFieldChangedEvent event) {
-        if(!event.getText().equals("")) {
-            BasicRide ride=windowMaker.getCurrentRide();
-            ride.setName(event.getText());
-            windowMaker.updateRideWindow(false);
-        }
-    }
-    @NiftyEventSubscriber(id = "ridepriceslider")
-    public void onRidePriceChanged(final String id, final SliderChangedEvent event) {
-            BasicRide ride=windowMaker.getCurrentRide();
-            ride.setPrice(event.getValue());
-            windowMaker.updateRideWindow(false);
-        
-    }
-    
-    public void rideStatusToggle(){
-        windowMaker.handleRideStatusToggle();
-    }
-    public int getBrushSize() {
-        return terrainHandler.getBrushSize();
-    }
-
-    public void updateBrushSize() {
-        Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelbrushsize");
-        niftyElement.getRenderer(TextRenderer.class).setText(Integer.toString(getBrushSize()));
     }
     public void toggleShovelWindow() {
         closeWindows("shovelWindow");
@@ -317,9 +333,7 @@ public class IngameHUD implements ScreenController {
     public void toggleShopWindow() {
         closeWindows("shopWindow");
         Element niftyElement = nifty.getCurrentScreen().findElementByName("shopWindow");
-
         niftyElement.setVisible(!niftyElement.isVisible());
-
     }
 
     public void toggleRoadWindow() {
@@ -363,6 +377,43 @@ public class IngameHUD implements ScreenController {
             updateNPCBox();
         }
     }
+    /*
+     * ALL RELATED TO GUEST UI.
+     */
+    
+    @NiftyEventSubscriber(id="guests")
+    public void DropDownSelectionChangedEvent(String id,DropDownSelectionChangedEvent event)  {
+        
+        int index=event.getSelectionItemIndex();
+        if(index==0){
+            //selected default  
+        }
+        else{
+            Guest guest = null;
+            for(Guest g:npcManager.getGuests()){
+                if(g.getGuestNum()==index-1){
+                    guest=g;
+                    break;
+                }
+            }
+            if(guest==null){
+                logger.log(Level.WARNING,"No such guest with guestID {0}",index-1);
+                return;
+            }
+            windowMaker.createGuestWindow(guest,true);
+            Element element = nifty.getCurrentScreen().findElementByName("NPCWindow");
+            element.setVisible(false);
+        }
+        
+    }
+    @NiftyEventSubscriber(id = "guestnametextfield")
+    public void onguestnameChanged(final String id, final TextFieldChangedEvent event) {
+        if(!event.getText().equals("")) {
+            Guest guest=windowMaker.getCurrentGuestWindowGuest();
+            guest.setName(event.getText());
+            windowMaker.updateGuestWindow(guest);
+        }
+    }
     public void updateNPCBox() {
         List<Guest> guests = parkHandler.getGuests();
         DropDown drop = screen.findNiftyControl("guests", DropDown.class);
@@ -374,6 +425,139 @@ public class IngameHUD implements ScreenController {
         }
         drop.getElement().setConstraintHorizontalAlign(HorizontalAlign.left);
         drop.getElement().setConstraintVerticalAlign(VerticalAlign.top);
+    }
+    /*
+     * ALL RELATED TO TERRAIN UI.
+     */
+    
+    @NiftyEventSubscriber(id = "sliderbrushsize")
+    public void onSliderChange(String id, SliderChangedEvent event) {
+        terrainHandler.setBrushSize((int) event.getValue());
+        updateBrushSize();
+    }
+    @NiftyEventSubscriber(id = "usetexture")
+    public void useTextureChange(String id, CheckBoxStateChangedEvent event) {
+        terrainHandler.setUseTexture(event.isChecked());
+    }
+    @NiftyEventSubscriber(id = "textureforshovel")
+    public void onTextureChange(String id, ImageSelectSelectionChangedEvent event) {
+        terrainHandler.setTextureID(event.getImageSelect().getSelectedImageIndex() + 1);
+    }
+    public void updateBrushSize() {
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("shovelbrushsize");
+        niftyElement.getRenderer(TextRenderer.class).setText(Integer.toString(getBrushSize()));
+    }
+    public void toggleShovelSizePlus(){
+        terrainHandler.brushSizePlus();
+        updateShovelWindow();
+    }
+    public void toggleShovelSizeMinus(){
+        terrainHandler.brushSizeMinus();
+        updateShovelWindow();
+    }
+    private void updateShovelWindow(){
+        updateBrushSize();
+    }
+    /*
+     * ALL RELATED TO SHOP UI.
+     */
+    public void updateshopdesc() {
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescName");
+        setelementText(niftyElement,getshopname());
+        niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescPrice");
+        setelementText(niftyElement,getshopprice());
+        niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescDesc");
+        setelementText(niftyElement,getshopdesc());
+        String bigshoppic=descriptionManager.bigpic;
+        
+        NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),bigshoppic, false);
+        niftyElement = nifty.getCurrentScreen().findElementByName("shopbigpic");
+        niftyElement.getRenderer(ImageRenderer.class).setImage(img);
+
+    }
+    /**
+     * Called when user clicks demolish button on shop UI. Calls to demolish the shop.
+     */
+    public void shopDemolishToggle(){
+        for(BasicShop s:parkHandler.getShops()){
+            if(s.getShopID()==windowMaker.getShopID()){
+                s.demolish();
+                closeWindows("");
+                break;
+            }
+        }
+    }
+    
+    /*
+     * ALL RELATED TO RIDE UI.
+     */
+    
+    /**
+     * Called when selecting buildings in building window (UI)
+     * @param selection enum BASICBUILDABLES in string-form
+     */
+    public void selectbuilding(String selection){
+        logger.log(Level.FINEST,"Selecting building {0}",selection);
+        try{
+            BasicBuildables sel=BasicBuildables.valueOf(selection);
+            eventBus.post(new BuildingSelectionEvent(sel));
+        }catch (IllegalArgumentException n){
+            logger.log(Level.SEVERE, "Critical error parsing selected building: selection in wrong format! ,{0} is not maching ENUM.",selection);
+        } 
+    }
+    @NiftyEventSubscriber(id = "ridenametextfield")
+    public void onRideNameChanged(final String id, final TextFieldChangedEvent event) {
+        if(!event.getText().equals("")) {
+            BasicRide ride=windowMaker.getCurrentRide();
+            ride.setName(event.getText());
+            windowMaker.updateRideWindow(false);
+        }
+    }
+    @NiftyEventSubscriber(id = "ridepriceslider")
+    public void onRidePriceChanged(final String id, final SliderChangedEvent event) {
+            BasicRide ride=windowMaker.getCurrentRide();
+            ride.setPrice(event.getValue());
+            windowMaker.updateRideWindow(false);
+    }
+    public void rideStatusToggle(){
+        windowMaker.handleRideStatusToggle();
+    }
+    /**
+     * Called when user clicks demolish button on ride UI. Calls to demolish the ride.
+     */
+    public void rideDemolishToggle() {
+        for (BasicRide r : parkHandler.getRides()) {
+            if (r.getRideID() == windowMaker.getRideID()) {
+                r.demolish();
+                closeWindows("");
+                break;
+            }
+        }
+    }
+    /*
+     * ALL RELATED TO ROAD UI.
+     */
+    @Subscribe public void listenUpdateRoadDirectionEvent(UpdateRoadDirectionEvent event){
+        switch(event.getD()){
+            case DOWN:
+                roadDirectionDown();
+                break;
+                
+            case LEFT:
+                roadDirectionLeft();
+                break;
+                
+            case RIGHT:
+                roadDirectionRight();
+                break;
+                
+            case UP:
+                roadDirectionUp();  
+        }
+    }
+    @NiftyEventSubscriber(id = "queroad")
+    public void queCheckboxChange(String id, CheckBoxStateChangedEvent event) {
+        roadMaker.queroad = event.isChecked();  
     }
     private void roadDirectionReset(){
         Element niftyElement;
@@ -400,141 +584,55 @@ public class IngameHUD implements ScreenController {
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        //resettaa muitten effectit
-
-
     }
-
     public void roadDirectionDown() {
         roadMaker.direction = Direction.DOWN;
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        
     }
-
     public void roadDirectionRight() {
         roadMaker.direction = Direction.RIGHT;
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        
     }
-
     public void roadDirectionLeft() {
         roadMaker.direction = Direction.LEFT;
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        
     }
-
     public void roadUpHill() {
         roadMaker.hill = RoadHill.UP;
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        
     }
-
     public void roadFlatHill() {
         roadMaker.hill = RoadHill.FLAT;
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        
     }
-
     public void roadDownHill() {
         roadMaker.hill = RoadHill.DOWN;
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
-        
     }
-
     public void buildButton() {
         roadMaker.buildRoad();
     }
-
     public void selectionButton() {
         roadMaker.status = RoadMakerStatus.CHOOSING;
     }
-
-    public void closeWindows(String elementname) {
-        Element niftyElement;
-        if (!elementname.equals("roadWindow")) {
-            niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
-            niftyElement.setVisible(false);
-            
-        }
-        if (!elementname.equals("shovelWindow")) {
-            niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
-            niftyElement.setVisible(false);
-            
-        }
-        if (!elementname.equals("shopWindow")) {
-            niftyElement = nifty.getCurrentScreen().findElementByName("shopWindow");
-            niftyElement.setVisible(false);
-            
-        }
-        if (!elementname.equals("NPCWindow")) {
-            niftyElement = nifty.getCurrentScreen().findElementByName("NPCWindow");
-            niftyElement.setVisible(false);
-            
-        }
-        if(!elementname.equals("decorationWindow")){
-            niftyElement = nifty.getCurrentScreen().findElementByName("decorationWindow");
-            niftyElement.setVisible(false);
-        }
-        if(elementname.equals("")){
-        niftyElement = nifty.getCurrentScreen().findElementByName("guesttemplate");
-        niftyElement.setVisible(false);
-        niftyElement = nifty.getCurrentScreen().findElementByName("shoptemplate");
-        niftyElement.setVisible(false);
-        niftyElement = nifty.getCurrentScreen().findElementByName("ridetemplate");
-        niftyElement.setVisible(false);
-        }
-
-    }
-
-  
-    public String getshopname() {
-        return descriptionManager.shopName;
-    }
-
-    public String getshopdesc() {
-        return descriptionManager.shopDescription;
-    }
-
-    public String getshopprice() {
-        return descriptionManager.shopPrice;
-    }
-
-    public void updateshopdesc() {
-        Element niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescName");
-        setelementText(niftyElement,getshopname());
-        niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescPrice");
-        setelementText(niftyElement,getshopprice());
-        niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescDesc");
-        setelementText(niftyElement,getshopdesc());
-        String bigshoppic=descriptionManager.bigpic;
-        
-        NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),bigshoppic, false);
-        niftyElement = nifty.getCurrentScreen().findElementByName("shopbigpic");
-        niftyElement.getRenderer(ImageRenderer.class).setImage(img);
-
-    }
-    private void setelementText(Element element,String text){
-        logger.log(Level.FINEST,"{0} Changed to {1}",new Object[]{element.getRenderer(TextRenderer.class).getOriginalText(),text});
-        element.getRenderer(TextRenderer.class).setText(text);
-        element.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
-        element.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
-    }
+    /*
+     * ALL RELATED TO DECORATION UI.
+     */
     public void turnDecorationLeft(){
         decorationManager.turnLeft();
-        updateDecorationWindow();
-        
+        updateDecorationWindow();  
     }
     public void turnDecorationRight(){
         decorationManager.turnRight();
@@ -547,7 +645,6 @@ public class IngameHUD implements ScreenController {
         decorationManager.select(Decorations.ROCK);
         updateDecorationWindow();
     }
-
     private void updateDecorationWindow() {
         Element element=nifty.getCurrentScreen().findElementByName("decorationname");
         String text=decorationManager.getDecorationName();
@@ -560,57 +657,24 @@ public class IngameHUD implements ScreenController {
         niftyElement.getRenderer(ImageRenderer.class).setImage(img);
         niftyElement.setId("decorationdirectionimg");
     }
-    @Subscribe public void listenUpdateRoadDirectionEvent(UpdateRoadDirectionEvent event){
-        switch(event.getD()){
-            case DOWN:
-                roadDirectionDown();
-                break;
-                
-            case LEFT:
-                roadDirectionLeft();
-                break;
-                
-            case RIGHT:
-                roadDirectionRight();
-                break;
-                
-            case UP:
-                roadDirectionUp();
-                
-        }
-    }
-    public void toggleShovelSizePlus(){
-        terrainHandler.brushSizePlus();
-        updateShovelWindow();
-    }
-    public void toggleShovelSizeMinus(){
-        terrainHandler.brushSizeMinus();
-        updateShovelWindow();
-    }
-    private void updateShovelWindow(){
-        updateBrushSize();
-    }
-    /**
-     * Called when selecting buildings in building window (UI)
-     * @param selection enum BASICBUILDABLES in string-form
+    /*
+     * GETTERS.
      */
-    public void selectbuilding(String selection){
-        logger.log(Level.FINEST,"Selecting building {0}",selection);
-        try{
-            BasicBuildables sel=BasicBuildables.valueOf(selection);
-            eventBus.post(new BuildingSelectionEvent(sel));
-        }catch (IllegalArgumentException n){
-            logger.log(Level.SEVERE, "Critical error parsing selected building: selection in wrong format! ,{0} is not maching ENUM.",selection);
-        }
-        
+    public int getBrushSize() {
+        return terrainHandler.getBrushSize();
     }
-    @Subscribe
-    public void listenUpdateBuildingUIEvent(UpdateBuildingUIEvent event){
-        descriptionManager.setDescription(event.buildable);
-        updateshopdesc();
+    public String getshopname() {
+        return descriptionManager.shopName;
     }
-    @Subscribe
-    public void listenCloseWindowsEvent(CloseWindowsEvent event){
-        closeWindows(event.parameters);
+
+    public String getshopdesc() {
+        return descriptionManager.shopDescription;
+    }
+
+    public String getshopprice() {
+        return descriptionManager.shopPrice;
     }
 }
+        
+    
+

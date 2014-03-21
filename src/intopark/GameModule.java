@@ -37,11 +37,7 @@ public class GameModule extends AbstractModule {
   protected void configure() {
 
   }
-  
-  
-  
-  
-  
+
   @Provides
   Node provideRootNode(){
       return rootNode;

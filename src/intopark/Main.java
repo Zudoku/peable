@@ -76,8 +76,7 @@ public class Main extends SimpleApplication {
             startGame();
             startgame=0;
         }
-        
-        
+ 
     }
 
     @Override

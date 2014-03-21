@@ -93,6 +93,8 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             CreateShopEvent event=new CreateShopEvent(stype,shopname,prodname,sr,price,cm,shopID,pos,dir);
             eventBus.post(event);   
         }
+        //RIDES
+        
         //ATTACH LIGHTS
         logger.log(Level.FINER,"Attaching lights");
         attachDirectionalLights();

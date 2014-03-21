@@ -48,7 +48,11 @@ public class UtilityMethods {
 
         rootNode.collideWith(ray, results);
     }
-    
+    /**
+     * Clones bytebuffer but doesn't use the copy(). Useful to create identical bytebuffer but they cant be linked together.(?)
+     * @param original`bytebuffer
+     * @return copy of original bytebuffer
+     */
     public static ByteBuffer cloneByteBuffer(ByteBuffer original) {
        ByteBuffer clone = ByteBuffer.allocateDirect(original.capacity());
        original.rewind();//copy from the beginning
@@ -73,6 +77,11 @@ public class UtilityMethods {
         }
         return findUserDataType(r.getParent(),type); 
      }
+     /**
+      * Load model so that the class that needs the model doesn't need AssetManager.
+      * @param path to load.
+      * @return Spatial.
+      */
      public static Spatial loadModel(String path){
          return assetManager.loadModel(path);
      }

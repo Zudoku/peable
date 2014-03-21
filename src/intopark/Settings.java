@@ -20,7 +20,6 @@ import java.io.IOException;
 @Singleton
 public class Settings implements Savable {
     //APPSETTINGS
-
     private int framerateCap = 60;
     private int resolutionHeight = 900;
     private int resolutionWidth = 1480;
