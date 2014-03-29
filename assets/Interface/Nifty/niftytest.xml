@@ -22,9 +22,9 @@
                 <control id="settings" name="button" label="Settings" x="500"y="640"width="30%"height="3%"visibleToMouse="true">
                 
                 </control>
-                <control id="alphatestmessage"name="label" font="Interface/Fonts/Impact.fnt"text="PLEASE NOTE THAT THIS IS ALPHA! MODELS / TEXTURES ARE NOT FINAL ! THIS RELEASE IS JUST TO HELP ME FIND BUGS AND TEST!" x="300"y="50" color="#003f"/>
-                <control id="Author"name="label" font="Interface/Fonts/Impact.fnt"text="Made by Arttu Siren" x="5"y="10" color="#003f"/>
-                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.04A" x="180"y="10" color="#EBB9C2"/>
+                <control id="alphatestmessage"name="label" font="Interface/Fonts/Impact.fnt"text="PLEASE NOTE THAT THIS IS PRE-ALPHA!" x="5"y="36" color="#55ff"/>
+                <control id="Author"name="label" font="Interface/Fonts/Impact.fnt"text="Made by Arttu Siren" x="5"y="10" color="#f55f"/>
+                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.04A" x="150"y="10" color="#EBB9C2"/>
             </panel>
             
             <control id="newgamewindow" name="window"title=" "width="400"height="500"x="10"y="100"hideOnClose="true"closeable="true">
@@ -59,10 +59,12 @@
                     </panel>
                         
                 </panel>     
-                
             </control>
-        
-            
+            <control id="loadgamewindow" name="window"title="LOAD SAVED GAMES"width="300"height="260"x="500"y="100"hideOnClose="true"closeable="true">
+                <panel x="0"y="0"id="loadgamepanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#C4F590" childLayout="absolute"visibleToMouse="true">
+                    
+                </panel>
+            </control>
         </layer>
         
     </screen>

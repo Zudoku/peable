@@ -418,7 +418,7 @@ public class Guest extends BasicNPC {
     }
 
     public boolean doIWantToGoThere(BasicRide ride) {
-        //TODO:
+        //TODO: REWORK
         
         /**
          * happyness+laitteen hyvyys+preferredride +40>100**
