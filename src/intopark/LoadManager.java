@@ -248,11 +248,11 @@ public class LoadManager {
                     connected = false;
                 }
                 c++;
-                Enterance e = new Enterance(false, new Vector3f(eX, eY, eZ), direction, assetManager);
-                e.connected = connected;
-                rideNode.attachChild(e.object);
-                e.connectedRide = asd.get(asd.size() - 1);
-                asd.get(asd.size() - 1).enterance = e;
+                //Enterance e = new Enterance(false, new MapPosition((int)eX, (int)eY,(int) eZ), direction);
+                //e.connected = connected;
+                //rideNode.attachChild(e.object);
+                //e.connectedRide = asd.get(asd.size() - 1);
+                //asd.get(asd.size() - 1).enterance = e;
 
             }
             if (resultb.equals("1")) {
@@ -284,11 +284,11 @@ public class LoadManager {
                 }
 
                 c++;
-                Enterance e = new Enterance(true, new Vector3f(eX, eY, eZ), direction, assetManager);
-                rideNode.attachChild(e.object);
-                e.connectedRide = asd.get(asd.size() - 1);
-                e.connected = connected;
-                asd.get(asd.size() - 1).exit = e;
+                //Enterance e = new Enterance(true, new Vector3f(eX, eY, eZ), direction, assetManager);
+                //rideNode.attachChild(e.object);
+                //e.connectedRide = asd.get(asd.size() - 1);
+                //e.connected = connected;
+                //asd.get(asd.size() - 1).exit = e;
             }
 
 

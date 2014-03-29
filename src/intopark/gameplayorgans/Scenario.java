@@ -7,11 +7,7 @@ package intopark.gameplayorgans;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
-import intopark.LoadPaths;
 import intopark.Main;
-import intopark.UtilityMethods;
 import intopark.terrain.MapPosition;
 import intopark.terrain.decoration.CreateParkEnteranceEvent;
 

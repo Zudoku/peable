@@ -381,9 +381,9 @@ public class Guest extends BasicNPC {
         Spatial trueroad = null;
         BasicRide foundRide = null;
         for (BasicRide s : rideManager.rides) {
-            if (s.enterance != null) {
-                if (s.enterance.connectedRoad != null) {
-                    ArrayList<Spatial> a = roadMaker.getlinkedqueroads(s.enterance.connectedRoad);
+            if (s.getEnterance()!= null) {
+                if (s.getEnterance().getConnectedRoad() != null) {
+                    ArrayList<Spatial> a = roadMaker.getlinkedqueroads(s.getEnterance().getConnectedRoad());
                     trueroad = temp.getUserData("queconnect1");
                     if (a.contains(trueroad)) {
                         logger.log(Level.FINEST,"Found the ride witch the road is connected to");
@@ -418,6 +418,8 @@ public class Guest extends BasicNPC {
     }
 
     public boolean doIWantToGoThere(BasicRide ride) {
+        //TODO:
+        
         /**
          * happyness+laitteen hyvyys+preferredride +40>100**
          */
@@ -426,54 +428,54 @@ public class Guest extends BasicNPC {
         int p = 0;                //0-20
         switch (stats.preferredRide) {
             case LOW:
-                if (ride.rideType == RideType.LOW) {
+                if (ride.getRideType() == RideType.LOW) {
                     p = 20;
                 }
-                if (ride.rideType == RideType.MEDIUM) {
+                if (ride.getRideType() == RideType.MEDIUM) {
                     p = 10;
                 }
                 break;
 
             case MEDIUM:
-                if (ride.rideType == RideType.MEDIUM) {
+                if (ride.getRideType() == RideType.MEDIUM) {
                     p = 20;
                 }
-                if (ride.rideType == RideType.LOW) {
+                if (ride.getRideType() == RideType.LOW) {
                     p = 10;
                 }
-                if (ride.rideType == RideType.HIGH) {
+                if (ride.getRideType() == RideType.HIGH) {
                     p = 10;
                 }
 
                 break;
 
             case HIGH:
-                if (ride.rideType == RideType.MEDIUM) {
+                if (ride.getRideType() == RideType.MEDIUM) {
                     p = 10;
                 }
-                if (ride.rideType == RideType.CRAZY) {
+                if (ride.getRideType() == RideType.CRAZY) {
                     p = 5;
                 }
-                if (ride.rideType == RideType.HIGH) {
+                if (ride.getRideType() == RideType.HIGH) {
                     p = 20;
                 }
                 break;
 
             case CRAZY:
-                if (ride.rideType == RideType.CRAZY) {
+                if (ride.getRideType() == RideType.CRAZY) {
                     p = 20;
                 }
-                if (ride.rideType == RideType.NAUSEA) {
+                if (ride.getRideType() == RideType.NAUSEA) {
                     p = 10;
                 }
 
                 break;
 
             case NAUSEA:
-                if (ride.rideType == RideType.NAUSEA) {
+                if (ride.getRideType() == RideType.NAUSEA) {
                     p = 20;
                 }
-                if (ride.rideType == RideType.CRAZY) {
+                if (ride.getRideType() == RideType.CRAZY) {
                     p = 10;
                 }
 

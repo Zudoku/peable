@@ -12,7 +12,7 @@ import java.util.Random;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Main;
-import intopark.npc.AddGuestLimitEvent;
+import intopark.npc.events.AddGuestLimitEvent;
 import intopark.npc.Guest;
 import intopark.terrain.Direction;
 import intopark.terrain.MapPosition;

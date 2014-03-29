@@ -2,9 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package intopark.npc;
+package intopark.npc.events;
 
 import com.jme3.scene.Spatial;
+import intopark.npc.Guest;
 import java.util.ArrayList;
 import java.util.List;
 import intopark.npc.inventory.Item;

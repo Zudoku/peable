@@ -75,119 +75,119 @@ public class SaveManager {
         }
     }
     private void writeRideData(Writer writer) throws IOException {
-        String quantity = Integer.toString(parkHandler.getRides().size());
-        writer.write("RIDE DATA "+ ":" +"ride size:" + quantity + ":");
-        for (BasicRide r : parkHandler.getRides()) {
-            String name = r.getName();
-            String type = r.getRide();
-            String price = Float.toString(r.getPrice());
-            String x = Float.toString(r.getPositionVector().x);
-            String z = Float.toString(r.getPositionVector().z);
-            String y = Float.toString(r.getPositionVector().y);
-            String rideid = Integer.toString(r.getRideID());
-            String exitement = Integer.toString(r.getExitement());
-            String nausea = Integer.toString(r.getNausea());
-            String broken = Integer.toString(r.getBroken());
-            String status;
-            if (r.getStatus()) {
-                status = "ON";
-            } else {
-                status = "OFF";
-            }
-            //enterance + exit
-            String a = "0";
-            String b = "0";
-            if (r.enterance != null) {
-                a = "1";
-            }
-            if (r.exit != null) {
-                b = "1";
-            }
-
-            String result = a + b;
-            writer.write(name + ":" + type + ":" + price + ":" + x + ":" + z + ":" + y + ":" + rideid + ":" + exitement + ":" + nausea + ":" + broken + ":" + status + ":" + result + ":");
-            if (a.equals("1")) {
-                writeEnteranceData(r, writer);
-            }
-            if (b.equals("1")) {
-                writeExitData(r, writer);
-            }
-
-        }
-        writer.write(System.getProperty("line.separator"));
+//        String quantity = Integer.toString(parkHandler.getRides().size());
+//        writer.write("RIDE DATA "+ ":" +"ride size:" + quantity + ":");
+//        for (BasicRide r : parkHandler.getRides()) {
+//            String name = r.getName();
+//            String type = r.getRide();
+//            String price = Float.toString(r.getPrice());
+//            String x = Float.toString(r.getPositionVector().x);
+//            String z = Float.toString(r.getPositionVector().z);
+//            String y = Float.toString(r.getPositionVector().y);
+//            String rideid = Integer.toString(r.getRideID());
+//            String exitement = Integer.toString(r.getExitement());
+//            String nausea = Integer.toString(r.getNausea());
+//            String broken = Integer.toString(r.getBroken());
+//            String status;
+//            if (r.getStatus()) {
+//                status = "ON";
+//            } else {
+//                status = "OFF";
+//            }
+//            //enterance + exit
+//            String a = "0";
+//            String b = "0";
+//            if (r.enterance != null) {
+//                a = "1";
+//            }
+//            if (r.exit != null) {
+//                b = "1";
+//            }
+//
+//            String result = a + b;
+//            writer.write(name + ":" + type + ":" + price + ":" + x + ":" + z + ":" + y + ":" + rideid + ":" + exitement + ":" + nausea + ":" + broken + ":" + status + ":" + result + ":");
+//            if (a.equals("1")) {
+//                //writeEnteranceData(r, writer);
+//            }
+//            if (b.equals("1")) {
+//            //    writeExitData(r, writer);
+//            }
+//
+//        }
+//        writer.write(System.getProperty("line.separator"));
     }
 
-    private void writeEnteranceData(BasicRide r, Writer writer) throws IOException {
-        String enteranceX = Integer.toString((int) r.enterance.location.x);
-        String enteranceZ = Integer.toString((int) r.enterance.location.z);
-        String enteranceY = Integer.toString((int) r.enterance.location.y);
-        String exit="";
-        if (r.enterance.exit) {
-            exit = "TRUE";
-        } else {
-            exit = "FALSE";
-        }
-        String enterancedirection = null;
-        switch (r.enterance.facing) {
-            case UP:
-                enterancedirection = "UP";
-                break;
-
-            case DOWN:
-                enterancedirection = "DOWN";
-                break;
-
-            case RIGHT:
-                enterancedirection = "RIGHT";
-                break;
-
-            case LEFT:
-                enterancedirection = "LEFT";
-        }
-        String connected;
-        if (r.enterance.connected) {
-            connected = "TRUE";
-        } else {
-            connected = "FALSE";
-        }
-        writer.write(enteranceX + ":" + enteranceZ + ":" + enteranceY + ":" + enterancedirection + ":" + connected + ":");
-    }
-
-    private void writeExitData(BasicRide r, Writer writer) throws IOException {
-        String exitX = Integer.toString((int) r.exit.location.x);
-        String exitZ = Integer.toString((int) r.exit.location.z);
-        String exitY = Integer.toString((int) r.exit.location.y);
-        String exit;
-        if (r.exit.exit) {
-            exit = "TRUE";
-        } else {
-            exit = "FALSE";
-        }
-        String exitdirection = null;
-        switch (r.exit.facing) {
-            case UP:
-                exitdirection = "UP";
-                break;
-
-            case DOWN:
-                exitdirection = "DOWN";
-                break;
-
-            case RIGHT:
-                exitdirection = "RIGHT";
-                break;
-
-            case LEFT:
-                exitdirection = "LEFT";
-        }
-        String connected;
-        if (r.exit.connected) {
-            connected = "TRUE";
-        } else {
-            connected = "FALSE";
-        }
-        writer.write(exitX + ":" + exitZ + ":" + exitY + ":" + exitdirection + ":" + connected + ":");
-    }
+//    private void writeEnteranceData(BasicRide r, Writer writer) throws IOException {
+//        String enteranceX = Integer.toString((int) r.enterance.location.x);
+//        String enteranceZ = Integer.toString((int) r.enterance.location.z);
+//        String enteranceY = Integer.toString((int) r.enterance.location.y);
+//        String exit="";
+//        if (r.enterance.exit) {
+//            exit = "TRUE";
+//        } else {
+//            exit = "FALSE";
+//        }
+//        String enterancedirection = null;
+//        switch (r.enterance.facing) {
+//            case UP:
+//                enterancedirection = "UP";
+//                break;
+//
+//            case DOWN:
+//                enterancedirection = "DOWN";
+//                break;
+//
+//            case RIGHT:
+//                enterancedirection = "RIGHT";
+//                break;
+//
+//            case LEFT:
+//                enterancedirection = "LEFT";
+//        }
+//        String connected;
+//        if (r.enterance.connected) {
+//            connected = "TRUE";
+//        } else {
+//            connected = "FALSE";
+//        }
+//        writer.write(enteranceX + ":" + enteranceZ + ":" + enteranceY + ":" + enterancedirection + ":" + connected + ":");
+//    }
+//
+//    private void writeExitData(BasicRide r, Writer writer) throws IOException {
+//        String exitX = Integer.toString((int) r.exit.location.x);
+//        String exitZ = Integer.toString((int) r.exit.location.z);
+//        String exitY = Integer.toString((int) r.exit.location.y);
+//        String exit;
+//        if (r.exit.exit) {
+//            exit = "TRUE";
+//        } else {
+//            exit = "FALSE";
+//        }
+//        String exitdirection = null;
+//        switch (r.exit.facing) {
+//            case UP:
+//                exitdirection = "UP";
+//                break;
+//
+//            case DOWN:
+//                exitdirection = "DOWN";
+//                break;
+//
+//            case RIGHT:
+//                exitdirection = "RIGHT";
+//                break;
+//
+//            case LEFT:
+//                exitdirection = "LEFT";
+//        }
+//        String connected;
+//        if (r.exit.connected) {
+//            connected = "TRUE";
+//        } else {
+//            connected = "FALSE";
+//        }
+//        writer.write(exitX + ":" + exitZ + ":" + exitY + ":" + exitdirection + ":" + connected + ":");
+//    }
 
     private ArrayList<Road> getRoadstoClasses() {
         ArrayList<Spatial> roads = new ArrayList<Spatial>(); //tänne kerätään roadit 

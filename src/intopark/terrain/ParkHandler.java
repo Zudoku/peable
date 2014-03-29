@@ -26,9 +26,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.gameplayorgans.Scenario;
 import intopark.npc.BasicNPC;
-import intopark.npc.CreateGuestEvent;
+import intopark.npc.events.CreateGuestEvent;
 import intopark.npc.Guest;
 import intopark.npc.NPCManager;
+import intopark.npc.events.SetGuestSpawnPointsEvent;
 import intopark.ride.BasicRide;
 import intopark.ride.RideManager;
 import intopark.shops.BasicShop;
@@ -308,7 +309,12 @@ public class ParkHandler {
         enterance.scale(0.3f);
         enterance.setUserData("type","parkenterance");
         eventBus.post(new AddToRootNodeEvent(enterance));
-        logger.log(Level.FINEST,"Park Enterance set up at {0}",event.position);
+        logger.log(Level.FINEST,"Park Enterance set up at {0} rotated {1} degrees.",
+                new Object[]{event.position.getVector().toString(),Math.toDegrees(event.rotate)});
+        //SET GUEST SPAWNPOINT TO THE SAME PLACE!
+        ArrayList<Vector3f> pos=new ArrayList<Vector3f>();
+        pos.add(event.position.getVector());
+        eventBus.post(new SetGuestSpawnPointsEvent(pos));
     }
     /**
      * GETTERS AND SETTERS

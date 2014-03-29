@@ -769,89 +769,89 @@ public class RoadMaker {
     }
 
     private boolean checkforEnterance(int x, int y, int z, Spatial road) {
-        Spatial temp =parkHandler.getSpatialAt(x+1, y, z);
-        if (temp != null) {
-            if (temp.getUserData("type").equals("enterance")) {
-                Enterance enterance = null;
-                int id = temp.getUserData("rideID");
-                for (BasicRide r : rideManager.rides) {
-                    if (r.getRideID() == id) {
-                        enterance = r.enterance;
-                    }
-                }
-
-                if (enterance.facing == Direction.DOWN && enterance.connected == false) {
-                    enterance.connectedRoad = road;
-                    enterance.connected = true;
-                    road.setUserData("connectedEnterance", enterance);
-                    road.setUserData("connected", true);
-                    refreshqueroadarray(road);
-                    return true;
-                }
-            }
-        }
-        temp = parkHandler.getSpatialAt(x-1, y, z);
-        if (temp != null) {
-            if (temp.getUserData("type").equals("enterance")) {
-
-                Enterance enterance = null;
-                int id = temp.getUserData("rideID");
-                for (BasicRide r : rideManager.rides) {
-                    if (r.getRideID() == id) {
-                        enterance = r.enterance;
-                    }
-                }
-
-                if (enterance.facing == Direction.UP && enterance.connected == false) {
-                    enterance.connectedRoad = road;
-                    enterance.connected = true;
-                    road.setUserData("connectedEnterance", enterance);
-                    road.setUserData("connected", true);
-                    refreshqueroadarray(road);
-                    return true;
-                }
-            }
-        }
-        temp =parkHandler.getSpatialAt(x, y, z+1);
-        if (temp != null) {
-            if (temp.getUserData("type").equals("enterance")) {
-                Enterance enterance = null;
-                int id = temp.getUserData("rideID");
-                for (BasicRide r : rideManager.rides) {
-                    if (r.getRideID() == id) {
-                        enterance = r.enterance;
-                    }
-                }
-                if (enterance.facing == Direction.RIGHT && enterance.connected == false) {
-                    enterance.connectedRoad = road;
-                    enterance.connected = true;
-                    road.setUserData("connectedEnterance", enterance);
-                    road.setUserData("connected", true);
-                    refreshqueroadarray(road);
-                    return true;
-                }
-            }
-        }
-        temp =parkHandler.getSpatialAt(x, y, z-1);
-        if (temp != null) {
-            if (temp.getUserData("type").equals("enterance")) {
-                Enterance enterance = null;
-                int id = temp.getUserData("rideID");
-                for (BasicRide r : rideManager.rides) {
-                    if (r.getRideID() == id) {
-                        enterance = r.enterance;
-                    }
-                }
-                if (enterance.facing == Direction.LEFT && enterance.connected == false) {
-                    enterance.connectedRoad = road;
-                    enterance.connected = true;
-                    road.setUserData("connectedEnterance", enterance);
-                    road.setUserData("connected", true);
-                    refreshqueroadarray(road);
-                    return true;
-                }
-            }
-        }
+//        Spatial temp =parkHandler.getSpatialAt(x+1, y, z);
+//        if (temp != null) {
+//            if (temp.getUserData("type").equals("enterance")) {
+//                Enterance enterance = null;
+//                int id = temp.getUserData("rideID");
+//                for (BasicRide r : rideManager.rides) {
+//                    if (r.getRideID() == id) {
+//                        enterance = r.enterance;
+//                    }
+//                }
+//
+//                if (enterance.facing == Direction.DOWN && enterance.connected == false) {
+//                    enterance.connectedRoad = road;
+//                    enterance.connected = true;
+//                    road.setUserData("connectedEnterance", enterance);
+//                    road.setUserData("connected", true);
+//                    refreshqueroadarray(road);
+//                    return true;
+//                }
+//            }
+//        }
+//        temp = parkHandler.getSpatialAt(x-1, y, z);
+//        if (temp != null) {
+//            if (temp.getUserData("type").equals("enterance")) {
+//
+//                Enterance enterance = null;
+//                int id = temp.getUserData("rideID");
+//                for (BasicRide r : rideManager.rides) {
+//                    if (r.getRideID() == id) {
+//                        enterance = r.enterance;
+//                    }
+//                }
+//
+//                if (enterance.facing == Direction.UP && enterance.connected == false) {
+//                    enterance.connectedRoad = road;
+//                    enterance.connected = true;
+//                    road.setUserData("connectedEnterance", enterance);
+//                    road.setUserData("connected", true);
+//                    refreshqueroadarray(road);
+//                    return true;
+//                }
+//            }
+//        }
+//        temp =parkHandler.getSpatialAt(x, y, z+1);
+//        if (temp != null) {
+//            if (temp.getUserData("type").equals("enterance")) {
+//                Enterance enterance = null;
+//                int id = temp.getUserData("rideID");
+//                for (BasicRide r : rideManager.rides) {
+//                    if (r.getRideID() == id) {
+//                        enterance = r.enterance;
+//                    }
+//                }
+//                if (enterance.facing == Direction.RIGHT && enterance.connected == false) {
+//                    enterance.connectedRoad = road;
+//                    enterance.connected = true;
+//                    road.setUserData("connectedEnterance", enterance);
+//                    road.setUserData("connected", true);
+//                    refreshqueroadarray(road);
+//                    return true;
+//                }
+//            }
+//        }
+//        temp =parkHandler.getSpatialAt(x, y, z-1);
+//        if (temp != null) {
+//            if (temp.getUserData("type").equals("enterance")) {
+//                Enterance enterance = null;
+//                int id = temp.getUserData("rideID");
+//                for (BasicRide r : rideManager.rides) {
+//                    if (r.getRideID() == id) {
+//                        enterance = r.enterance;
+//                    }
+//                }
+//                if (enterance.facing == Direction.LEFT && enterance.connected == false) {
+//                    enterance.connectedRoad = road;
+//                    enterance.connected = true;
+//                    road.setUserData("connectedEnterance", enterance);
+//                    road.setUserData("connected", true);
+//                    refreshqueroadarray(road);
+//                    return true;
+//                }
+//            }
+//        }
         return false;
     }
 

@@ -9,12 +9,13 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.Random;
-import intopark.npc.AddGuestLimitEvent;
+import intopark.npc.events.AddGuestLimitEvent;
 import intopark.npc.inventory.RideType;
 import intopark.ride.BasicRide;
 import intopark.ride.CustomAnimation;
 import intopark.terrain.Direction;
 import intopark.terrain.MapPosition;
+import java.util.List;
 
 /**
  *
@@ -22,11 +23,11 @@ import intopark.terrain.MapPosition;
  */
 public class SpinWheel extends BasicRide{
     
-    public SpinWheel(MapPosition pos,CustomAnimation moving,ArrayList<Spatial> staticParts,Direction facing){
+    public SpinWheel(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction facing){
         super(pos,moving,staticParts,400,facing,"SpinWheel");
-        rideType= RideType.HIGH;
+        setRideType(RideType.HIGH);
         setName("My Spinwheel1");
-        setRideType("spinwheel");
+        setRide("spinwheel");
         Random r =new Random();
         eventBus.post(new AddGuestLimitEvent(r.nextInt(10)+10));
     }

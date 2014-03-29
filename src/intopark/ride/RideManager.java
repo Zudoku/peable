@@ -93,7 +93,7 @@ public class RideManager {
                 logger.log(Level.WARNING,"Could not identify your ride!");
                 break;
         }
-        if (!parkHandler.getParkWallet().canAfford(boughtride.constructionmoney)) {
+        if (!parkHandler.getParkWallet().canAfford(boughtride.getConstructionmoney())) {
             return;
         }
         int tx = (int) loc.x;
@@ -105,7 +105,7 @@ public class RideManager {
         boughtride.setAllSpatialsUserData("type", "ride");
         rides.add(boughtride);
         boughtride.attachToNode(rideNode);
-        parkHandler.getParkWallet().remove(boughtride.constructionmoney);
+        parkHandler.getParkWallet().remove(boughtride.getConstructionmoney());
         eventBus.post(new UpdateMoneyTextBarEvent());
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -199,24 +199,24 @@ public class RideManager {
             logger.log(Level.FINE, "Enterance build cancelled because {0} {1} {2} was not empty", new Object[]{x, y, z});
             return;
         }
-        Enterance e = new Enterance(enterancetype, new Vector3f(x, y, z), suunta, assetManager);
-        e.connectedRide = rides.get(rideID - 2);
-        e.object.setUserData("type", "enterance");
-        e.object.setUserData("rideID", e.connectedRide.getRideID());
-        
-        eventBus.post(new AddObjectToMapEvent(x, y, z, e.object));
-        if (enterancetype == false) {
-            rides.get(rideID - 2).enterance = e;
-        } else {
-            rides.get(rideID - 2).exit = e;
-        }
-
-        rideNode.attachChild(e.object);
-        enterancecount++;
-        if (enterancecount > 1) {
-            enterancecount = 0;
-            eventBus.post(new SetClickModeEvent(ClickingModes.NOTHING));
-        }
+        //Enterance e = new Enterance(enterancetype, new Vector3f(x, y, z), suunta, assetManager);
+        //e.connectedRide = rides.get(rideID - 2);
+        //e.object.setUserData("type", "enterance");
+        //e.object.setUserData("rideID", e.connectedRide.getRideID());
+//        
+//        eventBus.post(new AddObjectToMapEvent(x, y, z, e.object));
+//        if (enterancetype == false) {
+//            rides.get(rideID - 2).enterance = e;
+//        } else {
+//            rides.get(rideID - 2).exit = e;
+//        }
+//
+//        rideNode.attachChild(e.object);
+//        enterancecount++;
+//        if (enterancecount > 1) {
+//            enterancecount = 0;
+//            eventBus.post(new SetClickModeEvent(ClickingModes.NOTHING));
+//        }
     }
 
     public void setRideID(int rideID) {

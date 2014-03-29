@@ -5,6 +5,7 @@
 package intopark.npc;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -16,12 +17,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.LoadPaths;
+import intopark.npc.events.SetGuestSpawnPointsEvent;
+import java.util.Arrays;
 
 /**
  *
  * @author arska
  */
 public class GuestSpawner {
+    //LOGGER
     private static final Logger logger = Logger.getLogger(GuestSpawner.class.getName());
     //DEPENDENCIES
     private Random r;
@@ -43,9 +47,8 @@ public class GuestSpawner {
         this.assetManager = assetManager;
         this.eventBus=eventBus;
         r = new Random();
+        eventBus.register(this);
         addNames();
-        spawnpoints.add(new Vector3f(3, 6, 2));
-        spawnpoints.add(new Vector3f(2, 6, 2));
     }
     public void setNpcs(List<BasicNPC> npcs){
         this.npcs=npcs;
@@ -55,7 +58,7 @@ public class GuestSpawner {
     }
     public void forceSpawnGuest(int n) {
         if (spawnpoints.isEmpty() == true) {
-            logger.log(Level.SEVERE,"No or too little spawnpoints");
+            logger.log(Level.SEVERE,"No spawnpoints for guests!");
             return;
         }
         //We choose a random name
@@ -96,83 +99,29 @@ public class GuestSpawner {
     }
     
     private void addNames() {
-        firstName.add("John");
-        firstName.add("Arnold");
-        firstName.add("James");
-        firstName.add("Ed");
-        firstName.add("Matt");
-        firstName.add("Mathias");
-        firstName.add("Jack");
-        firstName.add("Bob");
-        firstName.add("William");
-        firstName.add("Tony");
-        firstName.add("Ken");
-        firstName.add("Sam");
-        firstName.add("Elvis");
-        firstName.add("Robert");
-        firstName.add("Michael");
-        firstName.add("David");
-        firstName.add("Daniel");
-        firstName.add("Joseph");
-        firstName.add("Thomas");
-        firstName.add("Mark");
-        firstName.add("Donald");
-        firstName.add("George");
-        firstName.add("Will");
-        firstName.add("Bill");
-        firstName.add("Jeff");
-        firstName.add("Ronald");
-        firstName.add("Edward");
-        firstName.add("Adam");
-        firstName.add("Jason");
+        String[]fn=new String[]{
+            //M
+            "John","Arnold","James","Ed","Matt","Mathias","Jack",
+            "Bob","William","Tony","Ken","Sam","Elvis","Robert","Michael",
+            "David","Daniel","Joseph","Thomas","Mark","Donald","George",
+            "Will","Bill","Jeff","Ronald","Edward","Adam","Jason","Walter",
+            //W
+            "Mary","Patricia","Linda","Barbara","Elisabeth","Jennifer","Maria",
+            "Kate","Susan","Margaret","Lisa","Nancy","Helen","Donna","Carol","Laura",
+            "Ruth","Karen"
+        
+        };
+        firstName=Arrays.asList(fn);
+        String[]sn=new String[]{
+            "Smith","Johnson","Williams","Jones","Brown","Davis","Miller","Wilson","Moore",
+            "Taylor","Anderson","Thomas","Jackson","White","Harris","Martin","Thompson","Garcia",
+            "Martinez","Robinson","Clark","Lee","Allen","Young","King","Scott"
+        };
+        surName=Arrays.asList(sn);
 
-
-        firstName.add("Mary");
-        firstName.add("Patricia");
-        firstName.add("Linda");
-        firstName.add("Barbara");
-        firstName.add("Elisabeth");
-        firstName.add("Jennifer");
-        firstName.add("Maria");
-        firstName.add("Kate");
-        firstName.add("Susan");
-        firstName.add("Margaret");
-        firstName.add("Lisa");
-        firstName.add("Nancy");
-        firstName.add("Helen");
-        firstName.add("Donna");
-        firstName.add("Carol");
-        firstName.add("Laura");
-        firstName.add("Ruth");
-        firstName.add("Karen");
-        firstName.add("Ruth");
-
-        surName.add("Smith");
-        surName.add("Johnson");
-        surName.add("Williams");
-        surName.add("Jones");
-        surName.add("Brown");
-        surName.add("Davis");
-        surName.add("Miller");
-        surName.add("Wilson");
-        surName.add("Moore");
-        surName.add("Taylor");
-        surName.add("Anderson");
-        surName.add("Thomas");
-        surName.add("Jackson");
-        surName.add("White");
-        surName.add("Harris");
-        surName.add("Martin");
-        surName.add("Thompson");
-        surName.add("Garcia");
-        surName.add("Martinez");
-        surName.add("Robinson");
-        surName.add("Clark");
-        surName.add("Lee");
-        surName.add("Allen");
-        surName.add("Young");
-        surName.add("King");
-        surName.add("Scott");
-
+    }
+    @Subscribe public void listenSetGuestSpawnPoints(SetGuestSpawnPointsEvent event){
+        spawnpoints.addAll(event.getSpawnpoints());
+        logger.log(Level.FINER,"{0} Spawnpoints added for guests.",event.getSpawnpoints().size());
     }
 }

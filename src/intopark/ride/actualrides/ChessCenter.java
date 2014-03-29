@@ -5,14 +5,14 @@
 package intopark.ride.actualrides;
 
 import com.jme3.scene.Spatial;
-import java.util.ArrayList;
 import java.util.Random;
-import intopark.npc.AddGuestLimitEvent;
+import intopark.npc.events.AddGuestLimitEvent;
 import intopark.npc.inventory.RideType;
 import intopark.ride.BasicRide;
 import intopark.ride.CustomAnimation;
 import intopark.terrain.Direction;
 import intopark.terrain.MapPosition;
+import java.util.List;
 
 /**
  *
@@ -20,11 +20,11 @@ import intopark.terrain.MapPosition;
  */
 public class ChessCenter extends BasicRide{
     
-    public ChessCenter(MapPosition position,CustomAnimation moving,ArrayList<Spatial> staticParts,Direction facing) {
+    public ChessCenter(MapPosition position,CustomAnimation moving,List<Spatial> staticParts,Direction facing) {
         super(position,moving,staticParts,500, facing,"Chesslair");
-        rideType= RideType.LOW;
+        setRideType(RideType.LOW);
         setName("My Chesscentre1");
-        setRideType("chess");
+        setRide("chess");
         Random r =new Random();
         eventBus.post(new AddGuestLimitEvent(r.nextInt(10)+10));
     }

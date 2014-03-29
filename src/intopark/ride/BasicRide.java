@@ -24,6 +24,7 @@ import intopark.terrain.MapPosition;
 import intopark.terrain.events.PayParkEvent;
 import intopark.terrain.events.RideDemolishEvent;
 import intopark.terrain.RoadMaker;
+import java.util.List;
 
 /**
  *
@@ -38,21 +39,21 @@ public class BasicRide {
     @Inject transient protected EventBus eventBus;
     //OWNS
     private transient CustomAnimation animatedPart; //animated part
-    private transient ArrayList<Spatial> staticParts=new ArrayList<Spatial>(); // non-animated parts
-    public transient Enterance enterance;
-    public transient Enterance exit;
-    private transient ArrayList<Guest> guestsInRide = new ArrayList<Guest>();
-    private transient ArrayList<Guest> guestsInQue = new ArrayList<Guest>();
+    private transient List<Spatial> staticParts=new ArrayList<Spatial>(); // non-animated parts
+    private Enterance enterance;
+    private Enterance exit;
+    private transient List<Guest> guestsInRide = new ArrayList<Guest>();
+    private transient List<Guest> guestsInQue = new ArrayList<Guest>();
     //VARIABLES
     private int rideID = 0; //every ride has its own id in parks
     private float price = 1; //charged from the customers every time they visit your ride
     private Direction facing; //not implemented yet
     private MapPosition position; //position of this ride
-    public float constructionmoney = 0; //how much did it cost to build this building
+    private float constructionmoney = 0; //how much did it cost to build this building
     private String rideName = "You found a bug"; //rides name
     private ShopReputation reputation = ShopReputation.NEW; //not implemented yet
     private int rideLength = 10000; //ms = 10s ! How long the ride last
-    public RideType rideType; //what type this ride is
+    private RideType rideType; //what type this ride is
     private int exitement =80; //what exitement rate this ride has
     private int nausea = 10; //what nausea rate this ride has
     private boolean status=false; //is the ride open or not true=open
@@ -66,10 +67,6 @@ public class BasicRide {
     
     //TODO:!! 
     
-    public void setRideType(String ride){
-        this.ride=ride;
-    }
-    
     private void calculateguestRate(){
         //TODO updateguestRate method that does this and modify this to just calculate the rate
         double a=System.currentTimeMillis()-lastGuestVisitTime; //aika jolloin laitteeseen tuli tybä
@@ -78,7 +75,7 @@ public class BasicRide {
         lastGuestVisitTime=System.currentTimeMillis();
     }
     
-    public BasicRide(MapPosition position,CustomAnimation object,ArrayList<Spatial> staticParts, float cost, Direction facing,String ride) {
+    public BasicRide(MapPosition position,CustomAnimation object,List<Spatial> staticParts, float cost, Direction facing,String ride) {
         this.position = position;
         this.animatedPart = object;
         this.constructionmoney = cost;
@@ -121,7 +118,7 @@ public class BasicRide {
             if (testedroad == null) {
                 logger.log(Level.FINEST,"Shit hit the fan when trying to update que road");
             }
-            ArrayList<Spatial> linkedroads = roadMaker.getlinkedqueroads(enterance.connectedRoad);
+            ArrayList<Spatial> linkedroads = roadMaker.getlinkedqueroads(enterance.getConnectedRoad());
             if (!linkedroads.contains(testedroad)) {
                 logger.log(Level.FINE,"ROAD LOOP");
                 continue;
@@ -147,7 +144,8 @@ public class BasicRide {
     }
 
     public void updateRide() {
-        ArrayList<Guest> guestscopy = (ArrayList<Guest>) guestsInRide.clone();
+        ArrayList<Guest>asd=new ArrayList<Guest>(guestsInRide);
+        List<Guest> guestscopy=(ArrayList<Guest>)asd.clone();
         for (Guest g : guestscopy) {
             if (g.joinedRide + rideLength < System.currentTimeMillis()) {
                 leaveRide(g);
@@ -175,14 +173,70 @@ public class BasicRide {
         interact(g);
         guestsInRide.remove(g);
         //Put the guest to the enterance position
-        int x1 = (int) (exit.location.x + 0.4999);
-        int y1 = (int) (exit.location.y + 0.4999);
-        int z1 = (int) (exit.location.z + 0.4999);
+        int x1 = (int) (exit.getLocation().getX() + 0.4999);
+        int y1 = (int) (exit.getLocation().getY() + 0.4999);
+        int z1 = (int) (exit.getLocation().getZ() + 0.4999);
         g.getGeometry().setLocalTranslation(x1, y1, z1);
         g.initXYZ(x1, y1, z1);
         g.active = true;
 
     }
+    public boolean toggleStatus(){
+        status=!status;
+        return status;
+    }
+    
+    public void demolish() {
+
+        eventBus.post(new PayParkEvent(0.5f*constructionmoney));
+        eventBus.post(new RideDemolishEvent(this));
+        eventBus.post(new UpdateMoneyTextBarEvent());
+
+    }
+    public void update(){
+        
+    }
+    public void runAnim(){
+        animatedPart.runAnimation();
+    }
+    public void attachToNode(Node node){
+        node.attachChild(animatedPart.getObject());
+        for(Spatial s:staticParts){
+            node.attachChild(s);
+        }
+    }/**
+     * Should be called when deleting ride from map
+     * @param node 
+     */
+    public void detachFromNode(Node node){
+        node.detachChild(animatedPart.getObject());
+        node.detachChild(enterance.getObject());
+        node.detachChild(exit.getObject());
+        for(Spatial s: staticParts){
+            node.detachChild(s);
+        }
+    }
+    public ArrayList<Spatial> getAllSpatialsFromRide(){
+        ArrayList<Spatial> list=new ArrayList<Spatial>(staticParts);
+        if(exit!=null){
+            list.add(exit.getObject());
+        }
+        if(enterance!=null){
+            list.add(enterance.getObject());
+        }
+        if(animatedPart!=null){
+            list.add(animatedPart.getObject());
+        }
+        return list;
+    }
+    public void setAllSpatialsUserData(String key,Object data){
+        for(Spatial s:getAllSpatialsFromRide()){
+            s.setUserData(key, data);
+        }
+    }
+    /*
+     * GETTERS AND SETTERS.
+     */
     public Spatial getGeometry(){
         return animatedPart.getObject();
     }
@@ -247,10 +301,7 @@ public class BasicRide {
     public void setPrice(float value) {
         this.price=value;
     }
-    public boolean toggleStatus(){
-        status=!status;
-        return status;
-    }
+    
     public void setStats(int broken,int exitement,int nausea,boolean status){
         this.broken=broken;
         this.exitement=exitement;
@@ -258,54 +309,86 @@ public class BasicRide {
         this.status=status;
     }
 
-    public void demolish() {
-
-        eventBus.post(new PayParkEvent(0.5f*constructionmoney));
-        eventBus.post(new RideDemolishEvent(this));
-        eventBus.post(new UpdateMoneyTextBarEvent());
-
-    }
-    public void update(){
-        
-    }
-    public void runAnim(){
-        animatedPart.runAnimation();
-    }
-    public void attachToNode(Node node){
-        node.attachChild(animatedPart.getObject());
-        for(Spatial s:staticParts){
-            node.attachChild(s);
-        }
-    }/**
-     * Should be called when deleting ride from map
-     * @param node 
-     */
-    public void detachFromNode(Node node){
-        node.detachChild(animatedPart.getObject());
-        node.detachChild(enterance.object);
-        node.detachChild(exit.object);
-        for(Spatial s: staticParts){
-            node.detachChild(s);
-        }
-    }
-    public ArrayList<Spatial> getAllSpatialsFromRide(){
-        ArrayList<Spatial> list=new ArrayList<Spatial>(staticParts);
-        if(exit!=null){
-            list.add(exit.object);
-        }
-        if(enterance!=null){
-            list.add(enterance.object);
-        }
-        if(animatedPart!=null){
-            list.add(animatedPart.getObject());
-        }
-        return list;
-    }
-    public void setAllSpatialsUserData(String key,Object data){
-        for(Spatial s:getAllSpatialsFromRide()){
-            s.setUserData(key, data);
-        }
+    public CustomAnimation getAnimatedPart() {
+        return animatedPart;
     }
 
+    public float getConstructionmoney() {
+        return constructionmoney;
+    }
+
+    public int getCustomerstotal() {
+        return customerstotal;
+    }
+
+    public Enterance getEnterance() {
+        return enterance;
+    }
+    public Enterance getExit() {
+        return exit;
+    }
+
+    public Direction getFacing() {
+        return facing;
+    }
+
+    public List<Guest> getGuestsInQue() {
+        return guestsInQue;
+    }
+
+    public List<Guest> getGuestsInRide() {
+        return guestsInRide;
+    }
+
+    public long getLastGuestVisitTime() {
+        return lastGuestVisitTime;
+    }
+
+    public float getMoneytotal() {
+        return moneytotal;
+    }
+
+    public ShopReputation getReputation() {
+        return reputation;
+    }
+
+    public List<Spatial> getStaticParts() {
+        return staticParts;
+    }
+    public void setRide(String ride){
+        this.ride=ride;
+    }
+
+    public void setAnimatedPart(CustomAnimation animatedPart) {
+        this.animatedPart = animatedPart;
+    }
+
+    public void setBroken(int broken) {
+        this.broken = broken;
+    }
+
+    public void setConstructionmoney(float constructionmoney) {
+        this.constructionmoney = constructionmoney;
+    }
+
+    public void setCustomerstotal(int customerstotal) {
+        this.customerstotal = customerstotal;
+    }
+
+    public void setRideType(RideType rideType) {
+        this.rideType = rideType;
+    }
+
+    public RideType getRideType() {
+        return rideType;
+    }
+
+    public void setEnterance(Enterance enterance) {
+        this.enterance = enterance;
+    }
+
+    public void setExit(Enterance exit) {
+        this.exit = exit;
+    }
     
 }

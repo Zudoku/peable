@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package intopark.npc;
+package intopark.npc.events;
 
 import com.google.inject.Singleton;
 

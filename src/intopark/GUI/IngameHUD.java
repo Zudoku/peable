@@ -109,6 +109,8 @@ public class IngameHUD implements ScreenController {
     }
     /**
      * Called by Nifty when this screen is activated.
+     * Moves the guest-money bar on its right place.
+     * It moves them relative to screenwidth.
      */
     public void onStartScreen() {
         closeWindows("");
@@ -358,10 +360,7 @@ public class IngameHUD implements ScreenController {
         niftyElement.setVisible(!niftyElement.isVisible());
         if (niftyElement.isVisible() == true) {
             clickingHandler.setClickMode(ClickingModes.DECORATION);
-
-
         } else {
-
             clickingHandler.setClickMode(ClickingModes.NOTHING);
         }
         updateClickingIndicator();
@@ -370,9 +369,7 @@ public class IngameHUD implements ScreenController {
     public void toggleNPCListWindow(){
         closeWindows("NPCWindow");
         Element niftyElement = nifty.getCurrentScreen().findElementByName("NPCWindow");
-
         niftyElement.setVisible(!niftyElement.isVisible());
-        
         if(niftyElement.isVisible()==true){
             updateNPCBox();
         }
@@ -381,9 +378,13 @@ public class IngameHUD implements ScreenController {
      * ALL RELATED TO GUEST UI.
      */
     
+    /**
+     * Called when the user clicks a guest on the guest-list window.
+     * @param id
+     * @param event 
+     */
     @NiftyEventSubscriber(id="guests")
     public void DropDownSelectionChangedEvent(String id,DropDownSelectionChangedEvent event)  {
-        
         int index=event.getSelectionItemIndex();
         if(index==0){
             //selected default  
@@ -406,6 +407,11 @@ public class IngameHUD implements ScreenController {
         }
         
     }
+    /**
+     * Called when user changes guests name on the guest window.
+     * @param id
+     * @param event 
+     */
     @NiftyEventSubscriber(id = "guestnametextfield")
     public void onguestnameChanged(final String id, final TextFieldChangedEvent event) {
         if(!event.getText().equals("")) {
@@ -414,6 +420,9 @@ public class IngameHUD implements ScreenController {
             windowMaker.updateGuestWindow(guest);
         }
     }
+    /**
+     * Refreshes the guest-list windows content.
+     */
     public void updateNPCBox() {
         List<Guest> guests = parkHandler.getGuests();
         DropDown drop = screen.findNiftyControl("guests", DropDown.class);

@@ -18,10 +18,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.gameplayorgans.Scenario;
-import intopark.npc.CreateGuestEvent;
+import intopark.npc.events.CreateGuestEvent;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
+import intopark.ride.CreateRideEvent;
+import intopark.ride.Enterance;
 import intopark.shops.CreateShopEvent;
 import intopark.shops.ShopReputation;
 import intopark.terrain.Direction;
@@ -94,7 +96,48 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             eventBus.post(event);   
         }
         //RIDES
+        JsonArray ridesarray = jo.get("rides").getAsJsonArray();
+        for(int x=0;x<ridesarray.size();x++){
+            final JsonObject rp = ridesarray.get(x).getAsJsonObject();
+            
+            MapPosition pos=jdc.deserialize(rp.get("position"),MapPosition.class);
+            String ride=getS(rp,"ride");
+            Direction dir=jdc.deserialize(rp.get("facing"),Direction.class);
+            String name=getS(rp,"rideName");
+            int rideID=getI(rp,"rideID");
+            int broken=getI(rp,"broken");
+            int exitement=getI(rp,"exitement");
+            int nausea=getI(rp,"nausea");
+            boolean status=getB(rp,"status");
+            float price=getF(rp,"price");
+            
+            //CONSTRUCT ENTERANCE
+            Enterance exit=null;
+            Enterance enterance = null;
+            for(int i=0;i<2;i++){
+                JsonObject enteranceObject;
+                if(i==0){
+                    enteranceObject=jo.get("enterance").getAsJsonObject();
+                }else{
+                    enteranceObject=jo.get("exit").getAsJsonObject();
+                }
+                boolean exitValue=getB(enteranceObject,"exit");
+                MapPosition locationValue=jdc.deserialize(enteranceObject.get("location"),MapPosition.class);
+                Direction directionValue=jdc.deserialize(enteranceObject.get("direction"),Direction.class);
+                if(i==0){
+                    enterance=new Enterance(exitValue, locationValue, directionValue);
+                    continue;
+                }
+                exit=new Enterance(exitValue, locationValue, directionValue);
+            }
+            //FINISH THE RIDE
+            CreateRideEvent event=new CreateRideEvent(pos,ride,dir,name,rideID,broken,exitement,nausea,status,price,enterance,exit);
+            eventBus.post(event);
+            logger.log(Level.FINER,"Ride {0}, Initialized!",name);
+        }
+        //ROADS
         
+        //QUEROADS
         //ATTACH LIGHTS
         logger.log(Level.FINER,"Attaching lights");
         attachDirectionalLights();
@@ -109,6 +152,12 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
     }
     private int getI(JsonObject j,String name){
         return j.get(name).getAsInt();
+    }
+    private boolean getB(JsonObject j,String name){
+        return j.get(name).getAsBoolean();
+    }
+    private float getF(JsonObject j,String name){
+        return j.get(name).getAsFloat();
     }
     /**
      * There needs to be light so that models in the Node are visible.

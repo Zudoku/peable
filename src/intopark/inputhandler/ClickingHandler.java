@@ -66,11 +66,13 @@ public class ClickingHandler {
         this.decorationManager = decorationManager;
         this.eventBus=eventBus;
         eventBus.register(this);
-
     }
-
+    /**
+     * This defines what to do when you click something. It takes account of ClickMode (State of user). 
+     * @param target What user clicked (first result).
+     * @param results All the results.
+     */
     public void handleClicking(CollisionResult target, CollisionResults results) {
-        
         switch (clickMode) {
             case TERRAIN:
                 terrainHandler.handleClicking(results);
