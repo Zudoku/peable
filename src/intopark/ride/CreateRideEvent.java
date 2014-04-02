@@ -5,7 +5,7 @@
 package intopark.ride;
 
 import com.jme3.scene.Spatial;
-import intopark.LoadPaths;
+import intopark.inout.LoadPaths;
 import intopark.UtilityMethods;
 import intopark.ride.actualrides.Archeryrange;
 import intopark.ride.actualrides.Blender;

@@ -14,10 +14,10 @@
             
             <panel id="buttones"x="0"y="0"height="100%" width="100%" backgroundColor="#323f" childLayout="absolute"visibleToMouse="true">
                 <control id="alphatest" name="button" label="Start new game!" x="500"y="600"width="30%"height="3%"visibleToMouse="true">
-                    <interact onClick="toggle()"/>
+                    <interact onClick="onLoadNewGameButton()"/>
                 </control>
                 <control id="loadtest" name="button" label="Load old game!" x="500"y="560"width="30%"height="3%"visibleToMouse="true">
-                    <interact onClick="startGameLoad()"/>
+                    <interact onClick="onLoadGameButton()"/>
                 </control>
                 <control id="settings" name="button" label="Settings" x="500"y="640"width="30%"height="3%"visibleToMouse="true">
                 
@@ -60,9 +60,10 @@
                         
                 </panel>     
             </control>
-            <control id="loadgamewindow" name="window"title="LOAD SAVED GAMES"width="300"height="260"x="500"y="100"hideOnClose="true"closeable="true">
-                <panel x="0"y="0"id="loadgamepanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#C4F590" childLayout="absolute"visibleToMouse="true">
-                    
+            <control id="loadgamewindow" name="window"title="LOAD SAVED GAMES"width="260"height="300"x="500"y="100"hideOnClose="true"closeable="true">
+                <panel x="0"y="0"id="loadgamepanel"valign="top"align="left"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                    <control id="loadgameinfotext"name="label" font="Interface/Fonts/Impact.fnt"text="Double click to load a file!" x="38"y="2" color="#aaaf"/>
+                    <control id="loadgamelistbox" name="listBox" vertical="on" width="100%"height="100%"horizontal="off" displayItems="9" selection="Single" x="0"y="74"/>
                 </panel>
             </control>
         </layer>

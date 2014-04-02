@@ -16,7 +16,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
-import intopark.LoadPaths;
+import intopark.inout.LoadPaths;
 import intopark.npc.events.SetGuestSpawnPointsEvent;
 import java.util.Arrays;
 

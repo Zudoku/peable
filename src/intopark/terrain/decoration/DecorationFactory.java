@@ -6,7 +6,7 @@ package intopark.terrain.decoration;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Spatial;
-import intopark.LoadPaths;
+import intopark.inout.LoadPaths;
 
 /**
  *

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package intopark;
+package intopark.inout;
 
 import com.google.common.eventbus.EventBus;
 import com.google.gson.Gson;

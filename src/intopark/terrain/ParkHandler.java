@@ -18,7 +18,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
-import intopark.LoadPaths;
+import intopark.GUI.events.UpdateMoneyTextBarEvent;
+import intopark.inout.LoadPaths;
 import intopark.UtilityMethods;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +62,12 @@ public class ParkHandler {
     //OWNS
     private MapContainer map;
     private ParkWallet parkwallet = new ParkWallet(10000);
-    private List<BasicRide> rides = new ArrayList<BasicRide>();
-    private transient List<BasicNPC> npcs = new ArrayList<BasicNPC>();
-    private List<BasicShop> shops = new ArrayList<BasicShop>();
-    private List<Guest> guests = new ArrayList<Guest>();
-    private transient List<Vector3f> RoadtoUpdatePositions = new ArrayList<Vector3f>();
-    private transient List<Spatial> queRoadsToUpdate = new ArrayList<Spatial>();
+    private List<BasicRide> rides = new ArrayList<>();
+    private transient List<BasicNPC> npcs = new ArrayList<>();
+    private List<BasicShop> shops = new ArrayList<>();
+    private List<Guest> guests = new ArrayList<>();
+    private transient List<Vector3f> RoadtoUpdatePositions = new ArrayList<>();
+    private transient List<Spatial> queRoadsToUpdate = new ArrayList<>();
     private Scenario scenario;
     //VARIABLES
     
@@ -107,6 +108,8 @@ public class ParkHandler {
         shopManager.setShops(shops);
         rideManager.setRideID(getRideID());
         shopManager.setShopID(getShopID());
+        //Update money counter
+        eventBus.post(new UpdateMoneyTextBarEvent());
         logger.log(Level.FINEST,"Configuring finished");
     }
     /**

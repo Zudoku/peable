@@ -8,7 +8,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.Savable;
 import com.jme3.scene.Spatial;
-import intopark.LoadPaths;
+import intopark.inout.LoadPaths;
 import intopark.UtilityMethods;
 import java.io.IOException;
 import intopark.terrain.Direction;

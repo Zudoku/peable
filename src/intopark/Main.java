@@ -1,5 +1,10 @@
 package intopark;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+import intopark.inout.SettingsLoader;
+import intopark.inout.Settings;
+import intopark.inout.LoadManager;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -10,7 +15,10 @@ import de.lessvoid.nifty.Nifty;
 import java.util.logging.Logger;
 import intopark.GUI.IngameHUD;
 import intopark.GUI.StartScreen;
+import intopark.inout.events.LoadFileEvent;
 import intopark.terrain.ParkHandler;
+import java.io.File;
+import java.util.logging.Level;
 
 /**
  * test
@@ -26,6 +34,7 @@ public class Main extends SimpleApplication {
     @Inject private UtilityMethods utilityMethods;
     @Inject public IngameHUD ingameHUD;
     @Inject LoadManager loadManager; 
+    @Inject EventBus eventBus;
     //OWNS
     @Inject public ParkHandler currentPark;
     private StartScreen startScreen;
@@ -33,6 +42,7 @@ public class Main extends SimpleApplication {
     private static Gamestate gamestate;
     //VARIABLES
     public static int startgame=0;
+    private File scenariofile;
 
     public static void main(String[] args) {
         //Load custom settings from a binary file.
@@ -60,6 +70,8 @@ public class Main extends SimpleApplication {
         startScreen=new StartScreen();
         //Initialize Nifty (GUI COMPONENT)
         initNifty();
+        //Attach EventBus here so we can catch loadFileEvents
+        eventBus.register(this);
         //Disable StatView
         setDisplayStatView(false);
         //Set cursor visible
@@ -72,7 +84,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         nifty.update();
-        if(startgame==1){
+        if(startgame==5){
             startGame();
             startgame=0;
         }
@@ -111,5 +123,18 @@ public class Main extends SimpleApplication {
     public Injector getInjector(){
         return injector;
     }
+    @Subscribe
+    public void listenLoadFileEvent(LoadFileEvent event){
+        if(event.getFile()!=null){
+            scenariofile=event.getFile();
+            logger.log(Level.FINEST,"File {0} ready for deployment!",event.getFile().getName());
+            return;
+        }
+        logger.log(Level.WARNING,"Failed to initialize file. Game might misbehave!");
+    }
 
+    public File getScenariofile() {
+        return scenariofile;
+    }
+    
 }

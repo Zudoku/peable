@@ -4,6 +4,7 @@
  */
 package intopark;
 
+import intopark.inout.LoadManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.app.Application;
@@ -19,6 +20,7 @@ import intopark.npc.NPCManager;
 import intopark.ride.RideManager;
 import intopark.terrain.MapFactory;
 import intopark.terrain.ParkHandler;
+import java.io.File;
 
 
 /**
@@ -67,7 +69,7 @@ public class Gamestate extends AbstractAppState {
         ingameHUD = this.appm.ingameHUD;
         //TODO ENDS
         logger.log(Level.FINEST, "Loading file.");
-        loadManager.load("testfilexd.IntoFile");
+        loadScenario();
         // DEBUG  mapFactory.setCurrentMapPlain();
         userInput.getCameraController().initialize(); //Initialize our camera
         currentPark.onStartup(); //Finish initializing
@@ -113,6 +115,16 @@ public class Gamestate extends AbstractAppState {
         }catch(Throwable t){
             logger.log(Level.SEVERE,"OH SHIT",t);
             t.printStackTrace();
+        }
+    }
+    private void loadScenario(){
+        File file=appm.getScenariofile();
+        if(file!=null){
+            loadManager.load("Saves/"+file.getName());
+            logger.log(Level.FINEST,"Load is supposed to go as planned!");
+        }else{
+            loadManager.load("testfilexd.IntoFile");
+            logger.log(Level.FINEST,"LoadFileEvent wasn't sent on time! Loading default scenario({0}) instead.","testfilexc.IntoFile");
         }
     }
 }

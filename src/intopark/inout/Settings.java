@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package intopark;
+package intopark.inout;
 
 import com.google.inject.Singleton;
 import com.jme3.export.InputCapsule;
@@ -11,6 +11,7 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.export.Savable;
 import com.jme3.system.AppSettings;
+import intopark.UtilityMethods;
 import java.io.IOException;
 
 /**

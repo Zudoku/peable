@@ -12,5 +12,8 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class UpdateMoneyTextBarEvent {
+
+    public UpdateMoneyTextBarEvent() {
+    }
     
 }

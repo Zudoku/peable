@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.CloseWindowsEvent;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
-import intopark.LoadPaths;
+import intopark.inout.LoadPaths;
 import intopark.inputhandler.ClickingModes;
 import intopark.inputhandler.SetClickModeEvent;
 import intopark.inputhandler.SetClickingHandlerBufferEvent;

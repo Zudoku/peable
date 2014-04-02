@@ -1,4 +1,4 @@
-package intopark;
+package intopark.inout;
 
 import com.google.common.eventbus.EventBus;
 import com.google.gson.JsonArray;
@@ -13,6 +13,7 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import intopark.UtilityMethods;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Level;

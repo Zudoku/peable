@@ -17,7 +17,7 @@ import com.jme3.scene.Node;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
-import intopark.LoadPaths;
+import intopark.inout.LoadPaths;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.logging.Logger;

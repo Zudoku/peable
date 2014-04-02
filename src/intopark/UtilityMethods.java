@@ -15,6 +15,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.elements.Element;
 import java.nio.ByteBuffer;
 
 /**
@@ -85,4 +87,15 @@ public class UtilityMethods {
      public static Spatial loadModel(String path){
          return assetManager.loadModel(path);
      }
+     /**
+      * Toggles the nifty-GUI elements visibility.
+      * @param nifty
+      * @param elementname 
+      */
+     public static void toggleVisibility(Nifty nifty,String elementname){
+        Element e=nifty.getCurrentScreen().findElementByName(elementname);
+        e.setVisible(!e.isVisible());
+        e.setId(elementname);
+     }
+             
 }

@@ -7,7 +7,7 @@ package intopark.terrain;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.scene.Spatial;
-import intopark.LoadPaths;
+import intopark.inout.LoadPaths;
 import java.util.logging.Logger;
 
 /**

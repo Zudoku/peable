@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package intopark;
+package intopark.inout;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -227,8 +227,8 @@ public class SaveManager {
     }
 
     private ArrayList<QueRoad> getQueRoads() {
-        ArrayList<Spatial> queroads = new ArrayList<Spatial>(); //tänne kerätään roadit 
-        ArrayList<QueRoad> queroadListTrue = new ArrayList<QueRoad>();  //tänne tehdään objektit
+        ArrayList<Spatial> queroads = new ArrayList<>(); //tänne kerätään roadit 
+        ArrayList<QueRoad> queroadListTrue = new ArrayList<>();  //tänne tehdään objektit
         
         for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
             for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {

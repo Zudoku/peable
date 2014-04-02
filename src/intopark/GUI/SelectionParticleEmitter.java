@@ -15,7 +15,7 @@ import com.jme3.effect.shapes.EmitterPointShape;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import intopark.LoadPaths;
+import intopark.inout.LoadPaths;
 import intopark.UtilityMethods;
 import intopark.inputhandler.ClickingHandler;
 import intopark.shops.HolomodelDrawer;

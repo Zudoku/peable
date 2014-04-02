@@ -33,7 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.CloseWindowsEvent;
 import intopark.Main;
-import intopark.SaveManager;
+import intopark.inout.SaveManager;
 import intopark.inputhandler.ClickingHandler;
 import intopark.inputhandler.ClickingModes;
 import intopark.npc.Guest;
