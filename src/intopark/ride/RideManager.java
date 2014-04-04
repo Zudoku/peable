@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
+import intopark.UtilityMethods;
 import intopark.inputhandler.ClickingModes;
 import intopark.inputhandler.SetClickModeEvent;
 import intopark.shops.BasicBuildables;
@@ -57,7 +58,7 @@ public class RideManager {
     }
 
     public void buy(Direction facing, BasicBuildables selectedBuilding) {
-        Vector3f loc = holoDrawer.pyorista(holoDrawer.getLocation());
+        Vector3f loc = UtilityMethods.roundVector(holoDrawer.getLocation());
 
         BasicRide boughtride = null;
 

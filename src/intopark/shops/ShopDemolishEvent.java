@@ -12,7 +12,11 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class ShopDemolishEvent {
-    BasicShop b;
+    private BasicShop b;
+    /**
+     * Event used to demolish(DESTROY) shop building.
+     * @param b shop to demolish
+     */
     public ShopDemolishEvent(BasicShop b){
         this.b=b;
     }

@@ -23,7 +23,7 @@ import intopark.ride.BasicRide;
 import intopark.ride.RideManager;
 import intopark.shops.BasicShop;
 import intopark.shops.ShopManager;
-import intopark.shops.ToggleHoloModelDrawEvent;
+import intopark.shops.ToggleRenderHoloNodeEvent;
 import intopark.terrain.events.DeleteSpatialFromMapEvent;
 import intopark.terrain.ParkHandler;
 import intopark.terrain.RoadMaker;
@@ -155,7 +155,7 @@ public class ClickingHandler {
             case PLACE:
                 if (buffer == 0) {
                     shopManager.buy(parkHandler);
-                    eventBus.post(new ToggleHoloModelDrawEvent());
+                    eventBus.post(new ToggleRenderHoloNodeEvent());
                     Gamestate.ingameHUD.updateClickingIndicator();
                 } else {
                     buffer = buffer - 1;

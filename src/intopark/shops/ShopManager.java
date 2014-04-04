@@ -9,7 +9,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.jme3.asset.AssetManager;
 import com.jme3.light.Light;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -19,12 +18,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.CloseWindowsEvent;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
+import intopark.UtilityMethods;
 import intopark.inout.LoadPaths;
 import intopark.inputhandler.ClickingModes;
 import intopark.inputhandler.SetClickModeEvent;
 import intopark.inputhandler.SetClickingHandlerBufferEvent;
 import intopark.ride.RideManager;
-import intopark.terrain.events.AddObjectToMapEvent;
 import intopark.terrain.Direction;
 import intopark.terrain.MapPosition;
 import intopark.terrain.ParkHandler;
@@ -38,23 +37,20 @@ public class ShopManager {
     //LOGGER
     private static final Logger logger = Logger.getLogger(ShopManager.class.getName());
     //DEPENDENCIES
-    private final AssetManager assetManager;
+    @Inject private RideManager rideManager;
+    private final EventBus eventBus;
     //OWNS
-    private List<BasicShop> shops = new ArrayList<BasicShop>();
+    private List<BasicShop> shops = new ArrayList<>();
     private Node shopNode;
     private final HolomodelDrawer holoDrawer;
-    //SELECTION PARAMETERS
+    //VARIABLES
     private int shopID;
     private Direction facing = Direction.DOWN;
     public BasicBuildables selectedBuilding= BasicBuildables.NULL;
     private boolean placeBuilding=false;
-    
-    
-    @Inject private RideManager rideManager;
-    private final EventBus eventBus;
+
     @Inject
-    public ShopManager(AssetManager assetManager,Node rootNode,HolomodelDrawer holoDrawer,EventBus eventBus) {
-        this.assetManager=assetManager;
+    public ShopManager(Node rootNode,HolomodelDrawer holoDrawer,EventBus eventBus) {
         this.holoDrawer=holoDrawer;
         this.eventBus=eventBus;
 
@@ -116,56 +112,56 @@ public class ShopManager {
         Spatial geom;
         switch(selectedBuilding){
             case MBALL:
-                geom =assetManager.loadModel(LoadPaths.mball);
+                geom = UtilityMethods.loadModel(LoadPaths.mball);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break; 
                        
             case ENERGY:
-                geom =assetManager.loadModel(LoadPaths.energy);
+                geom =UtilityMethods.loadModel(LoadPaths.energy);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
             case TOILET:
-                geom =assetManager.loadModel(LoadPaths.toilet);
+                geom =UtilityMethods.loadModel(LoadPaths.toilet);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
       
             case CHESSCENTER:
-                geom =assetManager.loadModel(LoadPaths.chess);
+                geom =UtilityMethods.loadModel(LoadPaths.chess);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
             case BLENDER:
-                geom =assetManager.loadModel(LoadPaths.blender);
+                geom =UtilityMethods.loadModel(LoadPaths.blender);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
             case ARCHERYRANGE:
-                geom =assetManager.loadModel(LoadPaths.archery);
+                geom =UtilityMethods.loadModel(LoadPaths.archery);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
             case HAUNTEDHOUSE:
-                geom =assetManager.loadModel(LoadPaths.archery);
+                geom =UtilityMethods.loadModel(LoadPaths.archery);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
             case PIRATESHIP:
-                geom =assetManager.loadModel(LoadPaths.pirateCore);
+                geom =UtilityMethods.loadModel(LoadPaths.pirateCore);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
                 
                 
             case ROTOR:
-                geom =assetManager.loadModel(LoadPaths.rotor);
+                geom =UtilityMethods.loadModel(LoadPaths.rotor);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
@@ -174,7 +170,7 @@ public class ShopManager {
                 
                 break;
         }
-        holoDrawer.toggleDrawSpatial();
+        holoDrawer.toggleRenderHoloNode();
         eventBus.post(new SetClickModeEvent(ClickingModes.PLACE));
         eventBus.post(new CloseWindowsEvent("")); 
     }
@@ -225,9 +221,9 @@ public class ShopManager {
         BasicShop b=null;
         if(shops.isEmpty()==false){
             for(BasicShop p:shops){
-                int tx=(int)holoDrawer.pyorista(p.position.getVector()).x;
-                int ty=(int)holoDrawer.pyorista(p.position.getVector()).y;
-                int tz=(int)holoDrawer.pyorista(p.position.getVector()).z;
+                int tx=(int)UtilityMethods.roundVector(p.position.getVector()).x;
+                int ty=(int)UtilityMethods.roundVector(p.position.getVector()).y;
+                int tz=(int)UtilityMethods.roundVector(p.position.getVector()).z;
                 if(tx==x&&ty==y&&tz==z){
                     b=p;
                     return b;

@@ -18,6 +18,8 @@ import com.jme3.scene.Spatial;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import java.nio.ByteBuffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,11 +27,18 @@ import java.nio.ByteBuffer;
  */
 @Singleton
 public class UtilityMethods {
+    //LOGGER
+    private static final Logger logger = Logger.getLogger(UtilityMethods.class.getName());
+    //DEPENDENCIES
     private static InputManager inputManager;
     private static AssetManager assetManager;
     private static Camera cam;
+    //OWNS
+    
+    //VARIABLES
     public static float HALFTILE=0.49999f;
     public static String programTitle="Into Park 0.04A";
+    
     @Inject
     public UtilityMethods(Camera cam,InputManager inputManager,AssetManager assetManager) {
         this.cam=cam;
@@ -97,5 +106,21 @@ public class UtilityMethods {
         e.setVisible(!e.isVisible());
         e.setId(elementname);
      }
+     /**
+      * This rounds a vector to ~int values. Helps to calculate things like:
+      * What tile is this on and so forth.
+      * @param vector Vector3f to round. 
+      * @return Rounded Vector3f.
+      */
+     public static Vector3f roundVector(Vector3f vector){
+        //
+        float x = vector.x - 0.4999f + 1;
+        float y = vector.y - 0.4999f + 1;
+        float z = vector.z - 0.4999f + 1;
+
+        Vector3f vector2 = new Vector3f((int) x, (int) y, (int) z);
+        logger.log(Level.FINEST,"Vector {0} rounded to {1}",new Object[]{vector,vector2});
+        return vector2;
+    }
              
 }

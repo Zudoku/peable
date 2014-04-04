@@ -8,7 +8,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResult;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -17,6 +16,8 @@ import com.jme3.scene.Spatial;
 import java.util.logging.Logger;
 import intopark.UtilityMethods;
 import intopark.terrain.Direction;
+import java.util.List;
+import java.util.logging.Level;
 
 /**
  *
@@ -24,91 +25,140 @@ import intopark.terrain.Direction;
  */
 @Singleton
 public class HolomodelDrawer {
+    //LOGGER
     private static final Logger logger = Logger.getLogger(HolomodelDrawer.class.getName());
-    private AssetManager assetManager;
-    private final Node node;
-    private boolean activated = false;
-    private Spatial drawed;
-    private boolean positionLocked=false;
-    private Node holoNode;
-    private EventBus eventBus;
+    //OWNS
+    private Node holoNode; //This node will get rendered if HoloModelDrawer is activated.
+    //DEPENDENCIES
+    private EventBus eventBus; //This is needed to capture and send events.
+    private final Node rootNode; //holoNode is getting attached and detached to this Node (WORLD).
+    //VARIABLES
+    private boolean activated = false; //If HoloModelDrawer is on.Is HoloNode getting drawed to the world.
+    private boolean positionLocked=false; //If we want to lock the position.
+    
+    /**
+     * This class is used to draw 'HOLO' render Spatials.
+     * Basically this means that you need to render something (For example shop) but you dont actually want to create a shop.
+     * You can for example render shops when the user is deciding a location for it (to show what it would look like).
+     * @param rootNode 
+     * @param eventBus 
+     */
     @Inject
-    public HolomodelDrawer(AssetManager assetManager, Node rootNode,EventBus eventBus) {
-        this.assetManager = assetManager;
-        this.node = rootNode;
+    public HolomodelDrawer(Node rootNode,EventBus eventBus) {
+        this.rootNode = rootNode;
         this.eventBus=eventBus;
         eventBus.register(this);
-        holoNode=new Node("holonode");
-        
+        holoNode=new Node("holoNode");        
         
     }
-    
-    public void toggleDrawSpatial() {
+    /**
+     * Toggle whether we render the holoNode or not.
+     */
+    public void toggleRenderHoloNode() {
         activated = !activated;
         if (activated == true) {
-            node.attachChild(holoNode);
+            rootNode.attachChild(holoNode);
+            logger.log(Level.FINEST,"HoloNode attached to RootNode.");
         } else {
-            node.detachChild(holoNode);
+            rootNode.detachChild(holoNode);
+            logger.log(Level.FINEST,"HoloNode detached from RootNode.");
         }
     }
-
-    public void loadSpatial(Spatial geom) {
-        if (geom != null) {
-            
-            this.drawed = geom;
-            
+    /**
+     * Attach a Spatial to holoNode.
+     * @param geometry Spatial to attach.
+     * @param wipe Whether we reset the HoloNode before we attach geometry.
+     */
+    public void loadSpatial(Spatial geometry,boolean wipe) {
+        if(wipe){
+            holoNode.detachAllChildren();
+        }
+        if (geometry != null) {
+            holoNode.attachChild(geometry);
+            logger.log(Level.FINEST,"{0} Attached to HoloNode.",geometry.getName());
         }
         else{
-            return;
+            logger.log(Level.SEVERE, "Spatial {0} Couldn't be attached to the HoloNode because it was null.",geometry);
         }
-        holoNode.detachAllChildren();
-        
-        holoNode.attachChild(drawed);
+      
     }
-    public Vector3f getLocation(){
-        return drawed.getLocalTranslation();
+    /**
+     * Same as above but shorter arguments.
+     * Automatically wipes the holoNode when loading Spatials.
+     * @param geometry 
+     */
+    public void loadSpatial(Spatial geometry){
+        loadSpatial(geometry, true);
     }
-    
+    /**
+     * Attach a list of Spatials to the HoloNode.
+     * @param spatials Spatials to attach.
+     * @param wipe Whether we reset the HoloNode before we attach all the spatials.
+     */
+    public void loadSpatials(List<Spatial> spatials,boolean wipe){
+        if(wipe){
+            holoNode.detachAllChildren();
+        }
+        for(Spatial s:spatials){
+            if (s != null) {
+                holoNode.attachChild(s);
+                logger.log(Level.FINEST,"{0} Attached to HoloNode.",s.getName());
+            }else{
+                logger.log(Level.SEVERE, "Spatial {0} Couldn't be attached to the HoloNode because it was null.",s);
+            }
+        }
+    }
+    /**
+     * Move Holonode to contactpoint's location.
+     * @param target 
+     */
     public void updateLocation(CollisionResult target){
+        //If the movement is blocked: don't move.
         if(positionLocked){
             return;
         }
+        //Test if target is Terrain.
         if(!UtilityMethods.findUserDataType(target.getGeometry().getParent(),"Terrain")){
             return;
         }
-        if(drawed==null){
-            return;
-        }
+        //Move the HoloNode.
         Vector3f loc = target.getContactPoint();
-        drawed.setLocalTranslation(pyorista(loc));
+        holoNode.setLocalTranslation(UtilityMethods.roundVector(loc));
     }
-    public Vector3f pyorista(Vector3f pos){
-         float x = pos.x - 0.4999f + 1;
-        float y = pos.y - 0.4999f + 1;
-        float z = pos.z - 0.4999f + 1;
-
-        Vector3f vec = new Vector3f((int) x, (int) y, (int) z);
-        return vec;
-    }
-    public void lockPos(){
+    /**
+     * Lock the movement of holoNode.
+     */
+    public void lockPosition(){
         positionLocked=true;
     }
-    public void raiseDrawed() {
-        Vector3f tempvec=drawed.getLocalTranslation();
-        tempvec.y=tempvec.y+1;
-        drawed.setLocalTranslation(tempvec);
+    /**
+     * Raise the HoloNode by 1.
+     */
+    public void raiseLocation() {
+        Vector3f tempVector=holoNode.getLocalTranslation();
+        tempVector.y=tempVector.y+1;
+        holoNode.setLocalTranslation(tempVector);
     }
-    public void lowerDrawed() {
-        Vector3f tempvec=drawed.getLocalTranslation();
+    /**
+     * Lower the HoloNode by 1.
+     */
+    public void lowerLocation() {
+        Vector3f tempvec=holoNode.getLocalTranslation();
         tempvec.y=tempvec.y-1;
-        drawed.setLocalTranslation(tempvec);
+        holoNode.setLocalTranslation(tempvec);
     }
+    /**
+     * Rotate HoloNode to face some direction.
+     * ATTENTION! IS NOT FULLY SUPPORTED YET!
+     * @param facing 
+     */
     public void rotateDrawed(Direction facing){
+        //TODO: THIS METHOD
         Quaternion rot=new Quaternion();
         switch (facing){
             case DOWN:
                 rot.fromAngleAxis(90, Vector3f.UNIT_Y);
-                drawed.setLocalRotation(rot);
+                holoNode.setLocalRotation(rot);
                 break;
                 
             case LEFT:
@@ -119,14 +169,25 @@ public class HolomodelDrawer {
                 break;
                 
             case UP:
-                
-            
+
         }
     }
+    /*
+     * EVENTBUS EVENTS
+     */
+    
+    /**
+     * Listener to toggle HoloNode rendering.
+     * @param event 
+     */
     @Subscribe
-    public void listenToggleDrawSpatial(ToggleHoloModelDrawEvent event){
-        toggleDrawSpatial();
+    public void listenToggleRenderHoloNode(ToggleRenderHoloNodeEvent event){
+        toggleRenderHoloNode();
     }
-    
-    
+    /**
+     * GETTERS AND SETTERS
+     */
+    public Vector3f getLocation(){
+        return holoNode.getLocalTranslation();
+    }
 }

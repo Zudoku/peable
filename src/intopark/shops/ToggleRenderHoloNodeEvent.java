@@ -8,9 +8,9 @@ package intopark.shops;
  *
  * @author arska
  */
-public class ToggleHoloModelDrawEvent {
+public class ToggleRenderHoloNodeEvent {
 
-    public ToggleHoloModelDrawEvent() {
+    public ToggleRenderHoloNodeEvent() {
         
     }
     

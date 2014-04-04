@@ -243,6 +243,42 @@ public class TerrainHandler {
         eventBus.post(new SetMapDataEvent(getHeightMap()));
     }
     /**
+     * Called from the UI to increment brushSize.
+     */
+    public void brushSizePlus() {
+        switch (brushSize) {
+            case 1:
+                brushSize++;
+                break;
+
+            case 2:
+                brushSize += 2;
+                break;
+        }
+    }
+    /**
+     * Called from the UI to decrement brushSize.
+     */
+    public void brushSizeMinus() {
+        switch (brushSize) {
+            case 2:
+                brushSize--;
+                break;
+
+            case 4:
+                brushSize -= 2;
+                break;
+        }
+    }
+    @Subscribe
+    public void listenRefreshGroundEvent(RefreshGroundEvent event){
+        refreshGround();
+    }
+    /**
+     * GETTERS AND SETTERS
+     */
+    
+    /**
      * Get Blank heightmap for debugging purposes
      * @return blank 128*128 float heightmap containing only 6.
      */
@@ -291,36 +327,5 @@ public class TerrainHandler {
     public boolean getLocked() {
         return locked;
     }
-    /**
-     * Called from the UI to increment brushSize.
-     */
-    public void brushSizePlus() {
-        switch (brushSize) {
-            case 1:
-                brushSize++;
-                break;
-
-            case 2:
-                brushSize += 2;
-                break;
-        }
-    }
-    /**
-     * Called from the UI to decrement brushSize.
-     */
-    public void brushSizeMinus() {
-        switch (brushSize) {
-            case 2:
-                brushSize--;
-                break;
-
-            case 4:
-                brushSize -= 2;
-                break;
-        }
-    }
-    @Subscribe
-    public void listenRefreshGroundEvent(RefreshGroundEvent event){
-        refreshGround();
-    }
+    
 }
