@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import intopark.Main;
-import intopark.inputhandler.UserInput;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.RideType;
 import intopark.npc.inventory.StatManager;
@@ -32,24 +30,27 @@ import intopark.terrain.RoadMaker;
  * @author arska
  */
 public class Guest extends BasicNPC {
-    public Wallet wallet;
-    private int guestnum;
-    Direction moving = Direction.UP;
-    private int x;
-    private int y;
-    private int z;
+    //LOGGER 
+    //DEPENDENCIES
     private  transient Random r;
-    private  transient GuestWalkingStates walkState = GuestWalkingStates.WALK;
-    
     @Inject private transient ParkHandler currentPark;
     @Inject private transient ShopManager shopManager;
     @Inject private transient RideManager rideManager;
     @Inject private transient RoadMaker roadMaker;
     @Inject private transient MapContainer map;
-    private transient List<NPCAction> actions = new ArrayList<NPCAction>();
-    private List<Item> inventory = new ArrayList<Item>();
-    public StatManager stats = new StatManager();
-    public  transient boolean active = true;
+    //OWNS
+    private List<Item> inventory = new ArrayList<>(); // What does the guest carry
+    public StatManager stats = new StatManager(); //Emotions and feelings, thoughts
+    public Wallet wallet; //Money situation
+    //VARIABLES
+    private int x;
+    private int y;
+    private int z;
+    private  transient GuestWalkingStates walkState = GuestWalkingStates.WALK; //Whether guest is walking or not
+    private transient List<NPCAction> actions = new ArrayList<>(); //Npcs actions. Determine where the guest moves and what does he do.
+    private int guestnum; //Unique ID for guests
+    Direction moving = Direction.UP; //What direction guest is moving.
+    public  transient boolean active = true; //Is guest active AKA is he on ride? is he allowed to move
     public transient  Spatial currentQueRoad;
     public  transient long joinedRide;
 
@@ -66,7 +67,7 @@ public class Guest extends BasicNPC {
         super.getGeometry().setUserData("type","guest");
         super.getGeometry().setUserData("guestnum",guestNum);
     }
-
+    @Deprecated
     public Guest(String name, float money, int guestNum, Spatial geom) {
         super(name, geom);
         Main.injector.injectMembers(this);

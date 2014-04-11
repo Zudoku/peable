@@ -39,11 +39,11 @@ public class BasicRide {
     @Inject transient protected EventBus eventBus;
     //OWNS
     private transient CustomAnimation animatedPart; //animated part
-    private transient List<Spatial> staticParts=new ArrayList<Spatial>(); // non-animated parts
+    private transient List<Spatial> staticParts=new ArrayList<>(); // non-animated parts
     private Enterance enterance;
     private Enterance exit;
-    private transient List<Guest> guestsInRide = new ArrayList<Guest>();
-    private transient List<Guest> guestsInQue = new ArrayList<Guest>();
+    private transient List<Guest> guestsInRide = new ArrayList<>();
+    private transient List<Guest> guestsInQue = new ArrayList<>();
     //VARIABLES
     private int rideID = 0; //every ride has its own id in parks
     private float price = 1; //charged from the customers every time they visit your ride

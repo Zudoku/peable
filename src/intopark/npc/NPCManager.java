@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public class NPCManager {
     private static final Logger logger = Logger.getLogger(NPCManager.class.getName());
     private List<BasicNPC> npcs;
-    private List<Guest> guests=new ArrayList<Guest>();
+    private List<Guest> guests=new ArrayList<>();
     private Node rootNode;
     private Node NPCNode;
     private GuestSpawner guestSpawner;

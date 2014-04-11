@@ -32,7 +32,7 @@ import intopark.terrain.ParkHandler;
 @Singleton
 public class RideManager {
     private static final Logger logger = Logger.getLogger(RideManager.class.getName());
-    public List<BasicRide> rides = new ArrayList<BasicRide>();
+    public List<BasicRide> rides = new ArrayList<>();
     RideFactory rideFactory;
     private Node rideNode;
     int rideID;

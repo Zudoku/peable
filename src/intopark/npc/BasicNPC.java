@@ -13,6 +13,7 @@ import java.util.logging.Logger;
  * @author arska
  */
 public class BasicNPC {
+    //LOGGER
     protected static final Logger logger = Logger.getLogger(BasicNPC.class.getName());
     private String name;
     private  transient Spatial object;

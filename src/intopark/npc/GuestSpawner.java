@@ -32,11 +32,11 @@ public class GuestSpawner {
     private final AssetManager assetManager;
     private final EventBus eventBus;
     //OWNS
-    private List<Vector3f> spawnpoints = new ArrayList<Vector3f>();
-    private List<BasicNPC> npcs = new ArrayList<BasicNPC>();
-    private List<String> firstName = new ArrayList<String>();
-    private List<String> surName = new ArrayList<String>();
-    private List<Guest> guests=new ArrayList<Guest>();
+    private List<Vector3f> spawnpoints = new ArrayList<>();
+    private List<BasicNPC> npcs = new ArrayList<>();
+    private List<String> firstName = new ArrayList<>();
+    private List<String> surName = new ArrayList<>();
+    private List<Guest> guests=new ArrayList<>();
     //VARIABLES
     private int guestNum = 1;
     private final Node nPCNode;
@@ -89,9 +89,6 @@ public class GuestSpawner {
             eventBus.post(new UpdateMoneyTextBarEvent());
         }
         
-    }
-
-    public void guestLeave(int guestnum) {
     }
 
     public int getGuestNum() {
