@@ -23,7 +23,7 @@ import intopark.terrain.Direction;
 import intopark.terrain.MapPosition;
 import intopark.terrain.events.PayParkEvent;
 import intopark.terrain.events.RideDemolishEvent;
-import intopark.terrain.RoadMaker;
+import intopark.roads.RoadMaker;
 import java.util.List;
 
 /**

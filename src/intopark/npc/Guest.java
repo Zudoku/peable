@@ -23,7 +23,7 @@ import intopark.shops.ShopManager;
 import intopark.terrain.Direction;
 import intopark.terrain.MapContainer;
 import intopark.terrain.ParkHandler;
-import intopark.terrain.RoadMaker;
+import intopark.roads.RoadMaker;
 
 /**
  *

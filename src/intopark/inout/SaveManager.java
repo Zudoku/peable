@@ -26,8 +26,7 @@ import intopark.ride.BasicRide;
 import intopark.shops.BasicShop;
 import intopark.terrain.MapContainer;
 import intopark.terrain.ParkHandler;
-import intopark.terrain.QueRoad;
-import intopark.terrain.Road;
+import intopark.roads.Road;
 import intopark.terrain.decoration.Decoration;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
@@ -74,156 +73,156 @@ public class SaveManager {
             logger.log(Level.SEVERE,"File not found! {0}",ex);
         }
     }
-
-    private ArrayList<Road> getRoadstoClasses() {
-        ArrayList<Spatial> roads = new ArrayList<Spatial>(); //tänne kerätään roadit 
-        ArrayList<Road> roadListTrue = new ArrayList<Road>();  //tänne tehdään objektit
-        
-        for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
-            for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {
-                for (int yi = 0; yi < 15; yi++) {
-                    Spatial tested = map.getMap()[xi][yi][zi];
-                    if (tested != null) {
-                        if (tested.getUserData("type").equals("road")) {
-                            roads.add(tested);
-                        }
-                    }
-                }
-            }
-        }
-        for (Spatial s : roads) {
-            String x = Integer.toString((int) s.getWorldTranslation().x);
-            String z = Integer.toString((int) s.getWorldTranslation().z);
-            String y = Integer.toString((int) s.getWorldTranslation().y);
-            String roadhill = s.getUserData("roadHill");
-            Road created = new Road(x, z, y, roadhill, "0");
-            roadListTrue.add(created);
-        }
-        return roadListTrue;
-    }
-
-    private void writeRoadData(Writer writer) throws IOException {
-        ArrayList<Road> roads = getRoadstoClasses();
-        writer.write("ROAD DATA " + ":" +"roads size:" + roads.size() + ":");
-        for (Road r : roads) {
-            writer.write(r.x + ":" + r.z + ":" + r.y + ":" + r.roadhill + ":" + r.ID + ":");
-
-        }
-        writer.write(System.getProperty("line.separator"));
-    }
-
-    private ArrayList<QueRoad> getQueRoads() {
-        ArrayList<Spatial> queroads = new ArrayList<>(); //tänne kerätään roadit 
-        ArrayList<QueRoad> queroadListTrue = new ArrayList<>();  //tänne tehdään objektit
-        
-        for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
-            for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {
-                for (int yi = 0; yi < 15; yi++) {
-                    Spatial tested = map.getMap()[xi][yi][zi];
-                    if (tested != null) {
-                        if (tested.getUserData("type").equals("queroad")) {
-                            queroads.add(tested);
-                        }
-                    }
-                }
-            }
-        }
-        for (Spatial s : queroads) {
-            String x = Integer.toString((int) s.getWorldTranslation().x);
-            String z = Integer.toString((int) s.getWorldTranslation().z);
-            String y = Integer.toString((int) s.getWorldTranslation().y);
-            String roadhill = s.getUserData("roadHill");
-            int ID=s.getUserData("roadID");
-            String rideID=Integer.toString(ID);
-            String queconnect1 = null;
-            String queconnect2 = null;
-            if(s.getUserData("queconnect1")!=null){
-                Spatial o=s.getUserData("queconnect1");
-                Integer que1=(Integer) o.getUserData("roadID");
-                if(que1!=null){
-                    
-                    queconnect1=Integer.toString(que1);
-                }
-                
-                
-            }
-            if(s.getUserData("queconnect2")!=null){
-                Spatial o=s.getUserData("queconnect2");
-                Integer que2=(Integer) o.getUserData("roadID");
-                if(que2!=null){
-                    
-                    queconnect2=Integer.toString(que2); 
-                }
-                
-            }
-            
-            String connected;
-            if(s.getUserData("connected")==null){
-                connected="nullerino";
-            }
-            else{
-                if(s.getUserData("connected")){
-                    connected="TRUE";
-                }else{
-                    connected="FALSE";
-                }
-            }
-            String direction=s.getUserData("direction");
-            QueRoad created = new QueRoad(x, z, y, roadhill,rideID,queconnect1,queconnect2,connected,direction);
-            queroadListTrue.add(created);
-        }
-        return queroadListTrue;
-    }
-    private void writeQueRoads(Writer writer) throws IOException {
-        ArrayList<QueRoad>queroads=getQueRoads();
-        writer.write("QUEROAD DATA " + ":" + "queroad size:"+queroads.size()+":");
-        for(QueRoad q:queroads){
-            String x=q.x;
-            String z=q.z;
-            String y=q.y;
-            String roadhill=q.roadhill;
-            String connected=q.connected;
-            String queconnect1=q.queconnect1;
-            String queconnect2=q.queconnect2;
-            String direction=q.direction;
-            writer.write(x+":"+z+":"+y+":"+roadhill+":"+q.ID+":"+connected+":"+queconnect1+":"+queconnect2+":"+direction+":");
-        }
-        writer.write(System.getProperty("line.separator"));
-    }
-    private void writeDecorations(Writer writer) throws IOException{
-        ArrayList<Decoration>decorations=getDecorations();
-        writer.write("DECORATION DATA " + ":" + "decoration size:"+decorations.size()+":");
-        for(Decoration d:decorations){
-            String x=d.x;
-            String y=d.y;
-            String z=d.z;
-            String type=d.type;
-            String direction=d.direction;
-            writer.write(x+":"+y+":"+z+":"+type+":"+direction+":");
-        }
-        writer.write(System.getProperty("line.separator"));
-    }
-    private ArrayList<Decoration> getDecorations(){
-        ArrayList<Decoration>decorations=new ArrayList<Decoration>();
-        
-        for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
-            for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {
-                for (int yi = 0; yi < 15; yi++) {
-                    if(map.getMap()[xi][yi][zi]!=null){
-                        Spatial test=map.getMap()[xi][yi][zi];
-                        if(test.getUserData("type").equals("decoration")){
-                            String x=Float.toString(test.getLocalTranslation().x);
-                            String y=Float.toString(test.getLocalTranslation().y);
-                            String z=Float.toString(test.getLocalTranslation().z);
-                            String direction=test.getUserData("direction").toString();
-                            String type=test.getUserData("decoration");
-                            Decoration d=new Decoration(x, y, z,type,direction);
-                            decorations.add(d);
-                        }
-                    }
-                }
-            }
-        }
-        return decorations;
-    }
+//
+//    private ArrayList<Road> getRoadstoClasses() {
+//        ArrayList<Spatial> roads = new ArrayList<Spatial>(); //tänne kerätään roadit 
+//        ArrayList<Road> roadListTrue = new ArrayList<Road>();  //tänne tehdään objektit
+//        
+//        for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
+//            for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {
+//                for (int yi = 0; yi < 15; yi++) {
+//                    Spatial tested = map.getMap()[xi][yi][zi];
+//                    if (tested != null) {
+//                        if (tested.getUserData("type").equals("road")) {
+//                            roads.add(tested);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        for (Spatial s : roads) {
+//            String x = Integer.toString((int) s.getWorldTranslation().x);
+//            String z = Integer.toString((int) s.getWorldTranslation().z);
+//            String y = Integer.toString((int) s.getWorldTranslation().y);
+//            String roadhill = s.getUserData("roadHill");
+//            Road created = new Road(x, z, y, roadhill, "0");
+//            roadListTrue.add(created);
+//        }
+//        return roadListTrue;
+//    }
+//
+//    private void writeRoadData(Writer writer) throws IOException {
+//        ArrayList<Road> roads = getRoadstoClasses();
+//        writer.write("ROAD DATA " + ":" +"roads size:" + roads.size() + ":");
+//        for (Road r : roads) {
+//            writer.write(r.x + ":" + r.z + ":" + r.y + ":" + r.roadhill + ":" + r.ID + ":");
+//
+//        }
+//        writer.write(System.getProperty("line.separator"));
+//    }
+//
+//    private ArrayList<QueRoad> getQueRoads() {
+//        ArrayList<Spatial> queroads = new ArrayList<>(); //tänne kerätään roadit 
+//        ArrayList<QueRoad> queroadListTrue = new ArrayList<>();  //tänne tehdään objektit
+//        
+//        for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
+//            for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {
+//                for (int yi = 0; yi < 15; yi++) {
+//                    Spatial tested = map.getMap()[xi][yi][zi];
+//                    if (tested != null) {
+//                        if (tested.getUserData("type").equals("queroad")) {
+//                            queroads.add(tested);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        for (Spatial s : queroads) {
+//            String x = Integer.toString((int) s.getWorldTranslation().x);
+//            String z = Integer.toString((int) s.getWorldTranslation().z);
+//            String y = Integer.toString((int) s.getWorldTranslation().y);
+//            String roadhill = s.getUserData("roadHill");
+//            int ID=s.getUserData("roadID");
+//            String rideID=Integer.toString(ID);
+//            String queconnect1 = null;
+//            String queconnect2 = null;
+//            if(s.getUserData("queconnect1")!=null){
+//                Spatial o=s.getUserData("queconnect1");
+//                Integer que1=(Integer) o.getUserData("roadID");
+//                if(que1!=null){
+//                    
+//                    queconnect1=Integer.toString(que1);
+//                }
+//                
+//                
+//            }
+//            if(s.getUserData("queconnect2")!=null){
+//                Spatial o=s.getUserData("queconnect2");
+//                Integer que2=(Integer) o.getUserData("roadID");
+//                if(que2!=null){
+//                    
+//                    queconnect2=Integer.toString(que2); 
+//                }
+//                
+//            }
+//            
+//            String connected;
+//            if(s.getUserData("connected")==null){
+//                connected="nullerino";
+//            }
+//            else{
+//                if(s.getUserData("connected")){
+//                    connected="TRUE";
+//                }else{
+//                    connected="FALSE";
+//                }
+//            }
+//            String direction=s.getUserData("direction");
+//            QueRoad created = new QueRoad(x, z, y, roadhill,rideID,queconnect1,queconnect2,connected,direction);
+//            queroadListTrue.add(created);
+//        }
+//        return queroadListTrue;
+//    }
+//    private void writeQueRoads(Writer writer) throws IOException {
+//        ArrayList<QueRoad>queroads=getQueRoads();
+//        writer.write("QUEROAD DATA " + ":" + "queroad size:"+queroads.size()+":");
+//        for(QueRoad q:queroads){
+//            String x=q.x;
+//            String z=q.z;
+//            String y=q.y;
+//            String roadhill=q.roadhill;
+//            String connected=q.connected;
+//            String queconnect1=q.queconnect1;
+//            String queconnect2=q.queconnect2;
+//            String direction=q.direction;
+//            writer.write(x+":"+z+":"+y+":"+roadhill+":"+q.ID+":"+connected+":"+queconnect1+":"+queconnect2+":"+direction+":");
+//        }
+//        writer.write(System.getProperty("line.separator"));
+//    }
+//    private void writeDecorations(Writer writer) throws IOException{
+//        ArrayList<Decoration>decorations=getDecorations();
+//        writer.write("DECORATION DATA " + ":" + "decoration size:"+decorations.size()+":");
+//        for(Decoration d:decorations){
+//            String x=d.x;
+//            String y=d.y;
+//            String z=d.z;
+//            String type=d.type;
+//            String direction=d.direction;
+//            writer.write(x+":"+y+":"+z+":"+type+":"+direction+":");
+//        }
+//        writer.write(System.getProperty("line.separator"));
+//    }
+//    private ArrayList<Decoration> getDecorations(){
+//        ArrayList<Decoration>decorations=new ArrayList<Decoration>();
+//        
+//        for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
+//            for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {
+//                for (int yi = 0; yi < 15; yi++) {
+//                    if(map.getMap()[xi][yi][zi]!=null){
+//                        Spatial test=map.getMap()[xi][yi][zi];
+//                        if(test.getUserData("type").equals("decoration")){
+//                            String x=Float.toString(test.getLocalTranslation().x);
+//                            String y=Float.toString(test.getLocalTranslation().y);
+//                            String z=Float.toString(test.getLocalTranslation().z);
+//                            String direction=test.getUserData("direction").toString();
+//                            String type=test.getUserData("decoration");
+//                            Decoration d=new Decoration(x, y, z,type,direction);
+//                            decorations.add(d);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return decorations;
+//    }
 }

@@ -26,9 +26,9 @@ import intopark.shops.ShopManager;
 import intopark.shops.ToggleRenderHoloNodeEvent;
 import intopark.terrain.events.DeleteSpatialFromMapEvent;
 import intopark.terrain.ParkHandler;
-import intopark.terrain.RoadMaker;
+import intopark.roads.RoadMaker;
 import intopark.terrain.events.PayParkEvent;
-import intopark.terrain.RoadMakerStatus;
+import intopark.roads.RoadMakerStatus;
 import intopark.terrain.TerrainHandler;
 import intopark.terrain.decoration.DecorationManager;
 

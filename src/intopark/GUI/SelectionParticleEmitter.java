@@ -19,8 +19,8 @@ import intopark.inout.LoadPaths;
 import intopark.UtilityMethods;
 import intopark.inputhandler.ClickingHandler;
 import intopark.shops.HolomodelDrawer;
-import intopark.terrain.RoadMaker;
-import intopark.terrain.RoadMakerStatus;
+import intopark.roads.RoadMaker;
+import intopark.roads.RoadMakerStatus;
 import intopark.terrain.TerrainHandler;
 
 /**

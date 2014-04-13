@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package intopark.terrain;
+package intopark.roads;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -18,9 +18,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.GUI.events.UpdateRoadDirectionEvent;
-import intopark.ride.BasicRide;
-import intopark.ride.Enterance;
 import intopark.ride.RideManager;
+import intopark.terrain.Direction;
+import intopark.terrain.MapContainer;
+import intopark.terrain.ParkHandler;
 import intopark.terrain.decoration.RotationEvent;
 
 /**
@@ -42,7 +43,7 @@ public class RoadMaker {
     RideManager rideManager;
     private final EventBus eventBus;
     //OWNS
-    public ArrayList<Spatial> roads = new ArrayList<Spatial>();
+    public ArrayList<Spatial> roads = new ArrayList<>();
     //VARIABLES
     public Direction direction = Direction.UP;
     public RoadHill hill = RoadHill.FLAT;
@@ -1265,13 +1266,13 @@ public class RoadMaker {
 
     }
 
-    void roadsToUpdate(List<Vector3f> roadtoUpdatePositions) {
+    public void roadsToUpdate(List<Vector3f> roadtoUpdatePositions) {
         for (Vector3f a : roadtoUpdatePositions) {
             updateroads((int) a.x, (int) a.y, (int) a.z);
         }
     }
 
-    void queRoadsToUpdate(List<Spatial> queRoadsToUpdate) {
+    public void queRoadsToUpdate(List<Spatial> queRoadsToUpdate) {
         for (Spatial s : queRoadsToUpdate) {
 
             refreshqueroadarray(s);

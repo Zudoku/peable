@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 import intopark.terrain.events.AddObjectToMapEvent;
 import intopark.terrain.ParkHandler;
-import intopark.terrain.RoadFactory;
+import intopark.roads.RoadFactory;
 import intopark.terrain.decoration.DecorationFactory;
 import java.util.logging.Level;
 
@@ -101,7 +101,7 @@ public class LoadManager {
             }
 
         }
-        ArrayList <Vector3f> pos=new ArrayList<Vector3f>();
+        ArrayList <Vector3f> pos=new ArrayList<>();
         for (int xi = 0; xi < parkHandler.getMapHeight(); xi++) {
             for (int zi = 0; zi < parkHandler.getMapWidth(); zi++) {
                 for (int yi = 0; yi < 15; yi++) {
@@ -119,7 +119,7 @@ public class LoadManager {
     }
 
     private void loadQueRoadData(String string) {
-        ArrayList<Spatial> queRoadstoUpdate = new ArrayList<Spatial>();
+        ArrayList<Spatial> queRoadstoUpdate = new ArrayList<>();
         String worked = string;
         String[] values = worked.split(":");
         int quantity = Integer.parseInt(values[2]);

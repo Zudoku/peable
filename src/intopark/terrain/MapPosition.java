@@ -96,6 +96,43 @@ public class MapPosition {
     public void setOffSetZ(float offSetZ) {
         this.offSetZ = offSetZ;
     }
-    
-    
+    public boolean isNextTo(MapPosition pos2){
+        int deltaX=x-pos2.x;
+        int deltaY=y-pos2.y;
+        int deltaZ=z-pos2.z;
+        /* We can't have bigger difference than 1 */
+        if(deltaX>1||deltaX<-1){
+            return false;
+        }
+        if(deltaZ>1||deltaZ<-1){
+            return false;
+        }
+        /* We need to be on the same level */
+        if(deltaY!=0){
+            return false;
+        }
+        /* We cant be on the same location or be 2 away */
+        if(deltaX!=0&&deltaY!=0||deltaX==0&&deltaY==0){
+            return false;
+        }
+        return true;
+    }
+    public boolean isNextTo(MapPosition pos2,int x1,int z1,int y1){
+        int deltaX=(x+x1)-pos2.x;
+        int deltaY=(y+y1)-pos2.y;
+        int deltaZ=(z+z1)-pos2.z;
+        if(deltaX>1||deltaX<-1){
+            return false;
+        }
+        if(deltaZ>1||deltaZ<-1){
+            return false;
+        }
+        if(deltaY!=0){
+            return false;
+        }
+        if(deltaX!=0&&deltaY!=0||deltaX==0&&deltaY==0){
+            return false;
+        }
+        return true;
+    }
 }

@@ -4,6 +4,7 @@
  */
 package intopark.terrain;
 
+import intopark.roads.RoadMaker;
 import intopark.terrain.events.PayParkEvent;
 import intopark.terrain.events.RideDemolishEvent;
 import intopark.terrain.events.DeleteSpatialFromMapEvent;
