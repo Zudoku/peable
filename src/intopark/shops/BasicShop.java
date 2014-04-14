@@ -36,7 +36,7 @@ public class BasicShop {
     protected String shopName="SHOPNAME";
     protected float price=0;
     
-    protected ShopReputation reputation= ShopReputation.NEW;
+    protected ShopUpgradeContainer upgrades=new ShopUpgradeContainer();
     protected String type;
     
     public BasicShop(MapPosition position,Spatial object,int shopID,float constr,float price,Direction facing,String prodname,String shopName,String type){
@@ -95,10 +95,6 @@ public class BasicShop {
         this.productname = productname;
     }
 
-    public void setReputation(ShopReputation reputation) {
-        this.reputation = reputation;
-    }
-
     public void setShopID(int shopID) {
         this.shopID = shopID;
     }
@@ -135,10 +131,6 @@ public class BasicShop {
         return productname;
     }
 
-    public ShopReputation getReputation() {
-        return reputation;
-    }
-
     public int getShopID() {
         return shopID;
     }
@@ -147,6 +139,14 @@ public class BasicShop {
         return shopName;
     }
 
+    public ShopUpgradeContainer getUpgrades() {
+        return upgrades;
+    }
+
+    public void setUpgrades(ShopUpgradeContainer upgrades) {
+        this.upgrades = upgrades;
+    }
+    
     public String getType() {
         return type;
     }

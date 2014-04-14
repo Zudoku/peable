@@ -30,7 +30,7 @@ import intopark.terrain.ParkHandler;
  * @author arska
  */
 @Singleton
-public class WindowMaker {
+public class WindowHandler {
     //LOGGER
     private static final Logger logger = Logger.getLogger(IngameHUD.class.getName());
     //DEPENDENCIES
@@ -42,7 +42,7 @@ public class WindowMaker {
     private int rideID;
     private int shopID;
     
-    public WindowMaker() {
+    public WindowHandler() {
         nifty = Main.nifty;
     }
     /**
@@ -173,7 +173,7 @@ public class WindowMaker {
         updateText(niftyElement, location);
         /* .. reputation element .. */
         niftyElement = temppanel.findElementByName("shopreputation");
-        updateText(niftyElement, shop.getReputation().toString());
+        updateText(niftyElement, shop.getUpgrades().getReputation().toString());
         /* .. employees element TODO: .. */
         niftyElement = temppanel.findElementByName("shopemployees");
         String employees = "No employees";
@@ -389,8 +389,43 @@ public class WindowMaker {
         return rideID;
     }
 
-    int getShopID() {
+    public int getShopID() {
         return shopID;
+    }
+    public void toggleUpgrade(int index){
+        BasicShop currentshop = null;
+        if(shopID>=0){
+            
+            for (BasicShop o :parkHandler.getShops()) {
+                if (o.getShopID()== shopID) {
+                    currentshop = o;
+                    break;
+                }
+            }   
+        }else{
+            logger.log(Level.WARNING," ShopID null in Windowhandler while user clicked on shop window. Something messed up!");
+            return;
+        }
+        if(currentshop==null||currentshop.getUpgrades()==null){
+            return;
+        }
+        switch(index){
+            case 1:
+                currentshop.getUpgrades().setTrendyUpgrade(!currentshop.getUpgrades().isTrendyUpgrade());
+                break;
+                
+            case 2:
+                currentshop.getUpgrades().setFriendlyStaffUpgrade(!currentshop.getUpgrades().isFriendlyStaffUpgrade());
+                break;
+                
+            case 3:
+                currentshop.getUpgrades().setCleaningUpgrade(!currentshop.getUpgrades().isCleaningUpgrade());
+                break;
+                
+            case 4:  
+                currentshop.getUpgrades().setQualityUpgrade(!currentshop.getUpgrades().isQualityUpgrade());
+                break;
+        }
     }
 
     

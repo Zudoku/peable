@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 import com.jme3.math.Vector3f;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import intopark.GUI.WindowMaker;
+import intopark.GUI.WindowHandler;
 import intopark.shops.BasicShop;
 
 /**
@@ -21,7 +21,7 @@ public class NPCAction {
     public ActionType action = ActionType.NOTHING;
     private Guest guest;
     private BasicShop shop;
-    @Inject WindowMaker windowMaker;
+    @Inject WindowHandler windowMaker;
     /**
      * NPCs consume these actions
      * @param movePoint Where to move?

@@ -81,7 +81,7 @@ public class IngameHUD implements ScreenController {
     @Inject private RoadMaker roadMaker;
     @Inject ShopManager shopManager;
     @Inject EventBus eventBus;
-    @Inject private WindowMaker windowMaker;
+    @Inject private WindowHandler windowMaker;
     @Inject NPCManager npcManager;
     @Inject SaveManager saveManager;
     @Inject private DecorationManager decorationManager;
@@ -496,7 +496,18 @@ public class IngameHUD implements ScreenController {
             }
         }
     }
-    
+    public void toggleShopUpgrade1(){
+        
+    }
+    public void toggleShopUpgrade2(){
+        
+    }
+    public void toggleShopUpgrade3(){
+        
+    }
+    public void toggleShopUpgrade4(){
+        
+    }
     /*
      * ALL RELATED TO RIDE UI.
      */

@@ -8,6 +8,7 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.DirectedGraph;
@@ -34,8 +35,8 @@ public class Roadgraph {
     public void addRoad(Road road){
         roadMap.addVertex(road);
         for(Road r:roads){
-            /* If r and road are next to each other */
-            if(r.getPosition().isNextTo(road.getPosition())){
+            /* If r and road can physically connect */
+            if(r.canConnect(road)){
                 /* If road is normal road */
                 if(!road.getQueRoad()){
                     /* And r is normal road*/
@@ -52,10 +53,29 @@ public class Roadgraph {
                         }
                     }
                 }
-                /* If road is queRoad */
+                /* road is queRoad */
                 else{
+                    /* If road can connect since it's queRoad */
+                    if(!(roadMap.edgesOf(road).size()>4)){
+                        /* And r is normal road*/
+                        if(!r.getQueRoad()){
+                            /* Connect them */
+                            connectWalkables(r, road);
+                        }else{
+                            /* If r isn't connected to two vertixes already (2 edges between two vertixes. One for each direction)*/
+                            if(!(roadMap.edgesOf(r).size()>4)){
+                                /* Then connect them */
+                                connectWalkables(r, road);
+                            }
+                        } 
+                    }else{
+                        /* road already has 2 edges */
+                        return;
+                    }
                     
                 }
+            }else{
+                //logger.log(Level.FINE, "");
             }
         }
         

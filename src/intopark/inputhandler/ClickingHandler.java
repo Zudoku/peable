@@ -14,7 +14,7 @@ import com.jme3.scene.Node;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
-import intopark.GUI.WindowMaker;
+import intopark.GUI.WindowHandler;
 import intopark.Gamestate;
 import static intopark.inputhandler.ClickingModes.TERRAIN;
 import intopark.npc.Guest;
@@ -42,7 +42,7 @@ public class ClickingHandler {
     private static final Logger logger = Logger.getLogger(ClickingHandler.class.getName());
     //DEPENDENCIES
     @Inject private TerrainHandler terrainHandler;
-    @Inject private WindowMaker windowMaker;
+    @Inject private WindowHandler windowMaker;
     @Inject private RideManager rideManager;
     private RoadMaker roadMaker;
     private ShopManager shopManager;

@@ -24,7 +24,7 @@
                 </control>
                 <control id="alphatestmessage"name="label" font="Interface/Fonts/Impact.fnt"text="PLEASE NOTE THAT THIS IS PRE-ALPHA!" x="5"y="36" color="#55ff"/>
                 <control id="Author"name="label" font="Interface/Fonts/Impact.fnt"text="Made by Arttu Siren" x="5"y="10" color="#f55f"/>
-                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.04A" x="150"y="10" color="#EBB9C2"/>
+                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.05A" x="150"y="10" color="#EBB9C2"/>
             </panel>
             
             <control id="newgamewindow" name="window"title=" "width="400"height="500"x="10"y="100"hideOnClose="true"closeable="true">
@@ -455,28 +455,118 @@
                         <control id="s_tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
                             <control id="s_tab_1" name="tab" caption="Information"x="0"y="0"> 
                                 <panel id="s_tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <image filename="Interface/Shops/Nopic.png"x="10"y="10" childLayout="absolute" height="130"width="130"visibleToMouse="true">
+                                    <image filename="Interface/Shops/Nopic.png"x="0"y="10" childLayout="absolute" height="130"width="130"visibleToMouse="true">
                                     </image>
-                                    <control id="shopnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="150"y="30" color="ffffff"/>
-                                    <control id="shopname"name="label" font="Interface/Fonts/Impact.fnt"text="Template name " x="200"y="30" color="ffffff"/>
-                                    <control id="shoppriceprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Price: " x="150"y="60" color="ffffff"/>
-                                    <control id="shopprice"name="label" font="Interface/Fonts/Impact.fnt"text="90€" x="196"y="60" color="ffffff"/>
-                                    <control id="shopproductprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Product:" x="150"y="90" color="ffffff"/>
-                                    <control id="shopproduct"name="label" font="Interface/Fonts/Impact.fnt"text="Bobs meatballs" x="215"y="90" color="ffffff"/>
-                                    <control id="shoplocationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Location:" x="150"y="120" color="ffffff"/>
-                                    <control id="shoplocation"name="label" font="Interface/Fonts/Impact.fnt"text="15X 6Y 10Z" x="220"y="120" color="ffffff"/>
-                                    <control id="shopreputationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Reputation:" x="10"y="150" color="ffffff"/>
-                                    <control id="shopreputation"name="label" font="Interface/Fonts/Impact.fnt"text="Bad" x="96"y="150" color="ffffff"/>
-                                    <control id="shopemployeesprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Employees:" x="10"y="180" color="ffffff"/>
-                                    <control id="shopemployees"name="label" font="Interface/Fonts/Impact.fnt"text="Bob lorenz, Carl bobson" x="96"y="180" color="ffffff"/>
+                                    <panel id="shopnamepanel" x="138"y="10"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="shopnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="2"y="3" color="ffffff"/>
+                                        <control id="shopname"name="label" font="Interface/Fonts/Impact.fnt"text="Template name " x="50"y="3" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                    <panel id="shoppricepanel" x="138"y="46"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="shoppriceprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Price: " x="2"y="3" color="ffffff"/>
+                                        <control id="shopprice"name="label" font="Interface/Fonts/Impact.fnt"text="1000E " x="50"y="3" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                   <panel id="shopproductpanel" x="138"y="82"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="shopproductprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Product: " x="2"y="3" color="ffffff"/>
+                                        <control id="shopproduct"name="label" font="Interface/Fonts/Impact.fnt"text="BOBES MEATBALLS " x="70"y="3" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                    <panel id="shoplocationpanel" x="138"y="118"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="shoplocationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Location: " x="2"y="3" color="ffffff"/>
+                                        <control id="shoplocation"name="label" font="Interface/Fonts/Impact.fnt"text="BOBES MEATBALLS " x="70"y="3" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                    <panel id="shopreputationpanel" x="138"y="154"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="shopreputationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Reputation: " x="2"y="3" color="ffffff"/>
+                                        <control id="shopreputation"name="label" font="Interface/Fonts/Impact.fnt"text="BOBES MEATBALLS " x="90"y="3" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                    <panel id="shopemployeespanel" x="138"y="190"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="shopemployeesprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Employees: " x="2"y="3" color="ffffff"/>
+                                        <control id="shopemployees"name="label" font="Interface/Fonts/Impact.fnt"text="BOBES MEATBALLS " x="90"y="3" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
                                 </panel>
                             </control>
                             <control id="s_tab_2" name="tab" caption="Actions"x="0"y="0">
                                 <panel id="s_tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <image id="shopdemolishbutton"filename="Interface/Rides/destroy.png"x="390"y="0" childLayout="absolute" height="48"width="48"visibleToMouse="true">
-                                        <interact onClick="shopDemolishToggle()">   
-                                        </interact>
-                                    </image>
+                                    <panel id="shopupgradespanel" x="10"y="10"height="200" width="420"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="shopactionstext1"name="label" font="Interface/Fonts/Impact.fnt"text="Upgrades:" x="2"y="3" color="ffffff"/>
+                                            <image id="shopupgradeimg1"filename="Interface/buildings/fashion1.png"x="10"y="40" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                                <interact onClick="toggleShopUpgrade1()">   
+                                                </interact>
+                                                <effect>
+                                                    <onActive name="border" border="3px" color="#511f" timeType="infinite"/>
+                                                </effect>
+                                            </image>
+                                            <image id="shopupgradeimg2"filename="Interface/buildings/friendly1.png"x="10"y="120" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                                <interact onClick="toggleShopUpgrade2()">   
+                                                </interact>
+                                                <effect>
+                                                    <onActive name="border" border="3px" color="#511f" timeType="infinite"/>
+                                                </effect>
+                                            </image>
+                                             <image id="shopupgradeimg3"filename="Interface/buildings/clean1.png"x="342"y="40" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                                <interact onClick="toggleShopUpgrade3()">   
+                                                </interact>
+                                                <effect>
+                                                    <onActive name="border" border="3px" color="#511f" timeType="infinite"/>
+                                                </effect>
+                                            </image>
+                                            <image id="shopupgradeimg4"filename="Interface/buildings/quality1.png"x="342"y="120" childLayout="absolute" height="64"width="64"visibleToMouse="true">
+                                                <interact onClick="toggleShopUpgrade4()">   
+                                                </interact>
+                                                <effect>
+                                                    <onActive name="border" border="3px" color="#511f" timeType="infinite"/>
+                                                </effect>
+                                            </image>
+                                        <control id="shopupgradetext11"name="label" font="Interface/Fonts/Impact.fnt"text="Get your trend on!" x="76"y="42" color="ffffff"/>
+                                        <control id="shopupgradetext12"name="label" font="Interface/Fonts/Impact.fnt"text="COST: 125/1h" x="76"y="72" color="ffffff"/>
+                                        
+                                        <control id="shopupgradetext21"name="label" font="Interface/Fonts/Impact.fnt"text="More friendly staff" x="76"y="122" color="ffffff"/>
+                                        <control id="shopupgradetext22"name="label" font="Interface/Fonts/Impact.fnt"text="COST: 100/1h" x="76"y="152" color="ffffff"/>
+                                        
+                                        <control id="shopupgradetext31"name="label" font="Interface/Fonts/Impact.fnt"text="Cleaning upgrade" x="216"y="42" color="ffffff"/>
+                                        <control id="shopupgradetext32"name="label" font="Interface/Fonts/Impact.fnt"text="COST: 75/1h" x="216"y="72" color="ffffff"/>
+                                        
+                                        <control id="shopupgradetext41"name="label" font="Interface/Fonts/Impact.fnt"text="Product quality" x="216"y="122" color="ffffff"/>
+                                        <control id="shopupgradetext42"name="label" font="Interface/Fonts/Impact.fnt"text="COST: 200/1h" x="216"y="152" color="ffffff"/>
+                                        <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                    <panel id="shopactionspanel" x="10"y="220"height="100" width="420"backgroundColor="#1c1b18" childLayout="absolute"> 
+                                        <control id="shopactionstext3"name="label" font="Interface/Fonts/Impact.fnt"text="Actions:" x="2"y="3" color="ffffff"/>
+                                        <image id="shopdemolishbutton"filename="Interface/Rides/destroy.png"x="10"y="34" childLayout="absolute" height="48"width="48"visibleToMouse="true">
+                                            <interact onClick="shopDemolishToggle()">   
+                                            </interact>
+                                         </image>
+                                         <control id="shopdemolishtext1"name="label" font="Interface/Fonts/Impact.fnt"text="Demolish" x="60"y="34" color="ffffff"/>
+                                         <control id="shopdemolishtext2"name="label" font="Interface/Fonts/Impact.fnt"text="this" x="60"y="60" color="ffffff"/>
+                                         
+                                        <control id="shopnametext1"name="label" font="Interface/Fonts/Impact.fnt"text="Name" x="170"y="34" color="ffffff"/>
+                                        <control id="shopproducttext1"name="label" font="Interface/Fonts/Impact.fnt"text="Product" x="160"y="64" color="ffffff"/>
+                                    
+                                         <control id="shopnametextfield"name="textfield" maxLength="50" x="220"y="34"height="24" width="190" />
+                                         <control id="shopproducttextfield"name="textfield" maxLength="50" x="220"y="64"height="24" width="190" />
+                                         <effect>
+                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
+                                        </effect>
+                                    </panel>
+                                    
                                 </panel>
                             </control>
                             <control id="s_tab_3" name="tab" caption="Employees"x="0"y="0"> 
