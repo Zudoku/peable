@@ -156,19 +156,19 @@ public class HolomodelDrawer {
         //TODO: THIS METHOD
         Quaternion rot=new Quaternion();
         switch (facing){
-            case DOWN:
+            case SOUTH:
                 rot.fromAngleAxis(90, Vector3f.UNIT_Y);
                 holoNode.setLocalRotation(rot);
                 break;
                 
-            case LEFT:
+            case WEST:
                 
                 break;
                 
-            case RIGHT:
+            case EAST:
                 break;
                 
-            case UP:
+            case NORTH:
 
         }
     }

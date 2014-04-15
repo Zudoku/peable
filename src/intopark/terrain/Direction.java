@@ -9,19 +9,20 @@ package intopark.terrain;
  * @author arska
  */
 public enum Direction {
-    UP,DOWN,RIGHT,LEFT;
+    /* NORTH: X+    */
+    NORTH,SOUTH,EAST,WEST;
     public boolean isAligned(Direction dir2){
         /* Check: if both directions are up or down OR if both directions are left or right */
-        if(((this==DOWN||this==UP)&&(dir2==DOWN||dir2==UP))||((this==LEFT||this==RIGHT)&&(dir2==LEFT||dir2==RIGHT))){
+        if(((this==SOUTH||this==NORTH)&&(dir2==SOUTH||dir2==NORTH))||((this==WEST||this==EAST)&&(dir2==WEST||dir2==EAST))){
             return true;
         }
         return false;
     }
     public boolean isOpposite(Direction dir1){
-        if((this==DOWN&&dir1==UP)||(this==UP&&dir1==DOWN)){
+        if((this==SOUTH&&dir1==NORTH)||(this==NORTH&&dir1==SOUTH)){
             return true;
         }
-        if((this==LEFT&&dir1==RIGHT)||(this==RIGHT&&dir1==LEFT)){
+        if((this==WEST&&dir1==EAST)||(this==EAST&&dir1==WEST)){
             return true;
         }
         return false;

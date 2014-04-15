@@ -45,7 +45,7 @@ public class ShopManager {
     private final HolomodelDrawer holoDrawer;
     //VARIABLES
     private int shopID;
-    private Direction facing = Direction.DOWN;
+    private Direction facing = Direction.SOUTH;
     public BasicBuildables selectedBuilding= BasicBuildables.NULL;
     private boolean placeBuilding=false;
 
@@ -186,32 +186,32 @@ public class ShopManager {
     }
     public void resetShopdata() {
         selectedBuilding = BasicBuildables.NULL;
-        facing = Direction.DOWN;
+        facing = Direction.SOUTH;
         eventBus.post(new SetClickModeEvent(ClickingModes.NOTHING));
         placeBuilding=false;
         shopID++;
     }
     public void resetShopdataFromRide() {
         selectedBuilding = BasicBuildables.NULL;
-        facing = Direction.DOWN;
+        facing = Direction.SOUTH;
         placeBuilding=false;
     }
     public void rotateShop(){
         switch(facing){
-            case DOWN:
-                facing= Direction.LEFT;
+            case SOUTH:
+                facing= Direction.WEST;
                 break;
                 
-            case LEFT:
-                facing= Direction.UP;
+            case WEST:
+                facing= Direction.NORTH;
                 break;
                 
-            case RIGHT:
-                facing= Direction.DOWN;
+            case EAST:
+                facing= Direction.SOUTH;
                 break;
                 
-            case UP:
-                facing= Direction.RIGHT;
+            case NORTH:
+                facing= Direction.EAST;
             
         }
         holoDrawer.rotateDrawed(facing);

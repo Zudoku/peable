@@ -21,6 +21,9 @@ public class RoadFactory {
     public RoadFactory(AssetManager assetManager){
         this.assetManager=assetManager;
     }
+    public Spatial roadToSpatial(Road road){
+        return null;
+    }
     private Material getTempMaterial(){
         Material m=new Material(assetManager, 
         "Common/MatDefs/Misc/Unshaded.j3md");

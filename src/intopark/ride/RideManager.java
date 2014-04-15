@@ -147,7 +147,7 @@ public class RideManager {
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z, Direction.DOWN);
+                placeEnterancetrue(enterancetype, x, y, z, Direction.SOUTH);
                 return;
             }
         }
@@ -158,7 +158,7 @@ public class RideManager {
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z, Direction.UP);
+                placeEnterancetrue(enterancetype, x, y, z, Direction.NORTH);
                 return;
             }
         }
@@ -169,7 +169,7 @@ public class RideManager {
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z, Direction.RIGHT);
+                placeEnterancetrue(enterancetype, x, y, z, Direction.EAST);
                 return;
             }
         }
@@ -180,7 +180,7 @@ public class RideManager {
             }
             int rideidArvo = s.getUserData("rideID");
             if (rideidArvo == rideID - 1) {
-                placeEnterancetrue(enterancetype, x, y, z, Direction.LEFT);
+                placeEnterancetrue(enterancetype, x, y, z, Direction.WEST);
             }
         }
 

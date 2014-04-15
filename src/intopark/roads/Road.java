@@ -136,13 +136,13 @@ public class Road extends Walkable{
     private boolean checkCase4(Road road1,Road road2){
         /* IF X1 < X2 OR X1 > X2 */
         if(road1.getPosition().getX()>road2.getPosition().getX()||road1.getPosition().getX()<road2.getPosition().getX()){
-            if(road2.getDirection()==direction.UP||road2.getDirection()==direction.DOWN){
+            if(road2.getDirection()==direction.NORTH||road2.getDirection()==direction.SOUTH){
                 return true;
             }
         }
         /* IF Z1 < Z2 OR Z1 > Z2 */
         if(road1.getPosition().getZ()>road2.getPosition().getZ()||road1.getPosition().getZ()<road2.getPosition().getZ()){
-            if(road2.getDirection()==direction.LEFT||road2.getDirection()==direction.RIGHT){
+            if(road2.getDirection()==direction.WEST||road2.getDirection()==direction.EAST){
                 return true;
             }
         }

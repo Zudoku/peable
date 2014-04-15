@@ -35,7 +35,7 @@ public class DecorationManager {
     //OWNS
     private Node decorationNode;
     //VARIABLES
-    Direction direction = Direction.RIGHT;
+    Direction direction = Direction.EAST;
     Decorations decoration = Decorations.ROCK;
     float price=0;
     
@@ -88,22 +88,22 @@ public class DecorationManager {
                 break;
         }
         switch (direction) {
-            case UP:
+            case NORTH:
                 angle = (float) Math.toRadians(0);
                 decobject.rotate(0, angle, 0);
                 break;
 
-            case DOWN:
+            case SOUTH:
                 angle = (float) Math.toRadians(180);
                 decobject.rotate(0, angle, 0);
                 break;
 
-            case RIGHT:
+            case EAST:
                 angle = (float) Math.toRadians(90);
                 decobject.rotate(0, angle, 0);
                 break;
 
-            case LEFT:
+            case WEST:
                 angle = (float) Math.toRadians(270);
                 decobject.rotate(0, angle, 0);
 
@@ -125,16 +125,16 @@ public class DecorationManager {
      * @return image path 
      */
     public String getArrow() {
-        if(direction==Direction.UP){
+        if(direction==Direction.NORTH){
             return "Interface/Roads/up.png";
         }
-        if(direction==Direction.RIGHT){
+        if(direction==Direction.EAST){
             return "Interface/Roads/right.png";
         }
-        if(direction==Direction.LEFT){
+        if(direction==Direction.WEST){
             return "Interface/Roads/left.png";
         }
-        if(direction==Direction.DOWN){
+        if(direction==Direction.SOUTH){
             return "Interface/Roads/down.png";
         }
         else{
@@ -145,40 +145,40 @@ public class DecorationManager {
      * Turn decoration placement 90 degrees to left.
      */
     public void turnLeft() {
-        if(direction==Direction.UP){
-            direction=Direction.LEFT;
+        if(direction==Direction.NORTH){
+            direction=Direction.WEST;
             return;
         }
-        if(direction==Direction.LEFT){
-            direction=Direction.DOWN;
+        if(direction==Direction.WEST){
+            direction=Direction.SOUTH;
             return;
         }
-        if(direction==Direction.DOWN){
-            direction=Direction.RIGHT;
+        if(direction==Direction.SOUTH){
+            direction=Direction.EAST;
             return;
         }
-        if(direction==Direction.RIGHT){
-            direction=Direction.UP;
+        if(direction==Direction.EAST){
+            direction=Direction.NORTH;
         }
     }
     /**
      * Turn decoration placement 90 degrees to right.
      */
     public void turnRight(){
-        if(direction==Direction.UP){
-            direction=Direction.RIGHT;
+        if(direction==Direction.NORTH){
+            direction=Direction.EAST;
             return;
         }
-        if(direction==Direction.RIGHT){
-            direction=Direction.DOWN;
+        if(direction==Direction.EAST){
+            direction=Direction.SOUTH;
             return;
         }
-        if(direction==Direction.DOWN){
-            direction=Direction.LEFT;
+        if(direction==Direction.SOUTH){
+            direction=Direction.WEST;
             return;
         }
-        if(direction==Direction.LEFT){
-            direction=Direction.UP;
+        if(direction==Direction.WEST){
+            direction=Direction.NORTH;
         }
     }
     /**

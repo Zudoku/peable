@@ -49,7 +49,7 @@ public class Guest extends BasicNPC {
     private  transient GuestWalkingStates walkState = GuestWalkingStates.WALK; //Whether guest is walking or not
     private transient List<NPCAction> actions = new ArrayList<>(); //Npcs actions. Determine where the guest moves and what does he do.
     private int guestnum; //Unique ID for guests
-    Direction moving = Direction.UP; //What direction guest is moving.
+    Direction moving = Direction.NORTH; //What direction guest is moving.
     public  transient boolean active = true; //Is guest active AKA is he on ride? is he allowed to move
     public transient  Spatial currentQueRoad;
     public  transient long joinedRide;
@@ -117,7 +117,7 @@ public class Guest extends BasicNPC {
         }
         if (suunta == 0) {
             if (map.getMap()[x + 1][y][z] != null) {
-                if (moving == Direction.DOWN) {
+                if (moving == Direction.SOUTH) {
                     int pass = r.nextInt(10);
                     if (pass != 1) {
                         return;
@@ -132,14 +132,14 @@ public class Guest extends BasicNPC {
                                 actions.add(new NPCAction(new Vector3f(x + 1f, y - 0.9f, z), actiontype, this));
                                 x = x + 1;
                                 y = y - 1;
-                                moving = Direction.UP;
+                                moving = Direction.NORTH;
                             }
                             if (temp == map.getMap()[x + 1][y + 1][z]) {
                                 actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x + 1f, y + 1.1f, z), actiontype, this));
                                 x = x + 1;
                                 y = y + 1;
-                                moving = Direction.UP;
+                                moving = Direction.NORTH;
                             }
 
                         }
@@ -150,7 +150,7 @@ public class Guest extends BasicNPC {
                     if (temp.getUserData("roadHill").equals("flat")) {
                         actions.add(new NPCAction(new Vector3f(x + 1f, y + 0.1f, z), actiontype, this));
                         x = x + 1;
-                        moving = Direction.UP;
+                        moving = Direction.NORTH;
                     }
 
                 }
@@ -165,7 +165,7 @@ public class Guest extends BasicNPC {
                         NPCAction buy = new NPCAction(new Vector3f(x + 0.7f, y + 0.1f, z), ActionType.BUY, foundshop, this);
                         actions.add(buy);
                         actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING, this));
-                        moving = Direction.UP;
+                        moving = Direction.NORTH;
                     }
                 }
 
@@ -175,7 +175,7 @@ public class Guest extends BasicNPC {
         if (suunta == 1) {
             if (map.getMap()[x - 1][y][z] != null) {
                 Spatial temp = map.getMap()[x - 1][y][z];
-                if (moving == Direction.UP) {
+                if (moving == Direction.NORTH) {
                     int pass = r.nextInt(10);
                     if (pass != 1) {
                         return;
@@ -189,21 +189,21 @@ public class Guest extends BasicNPC {
                                 actions.add(new NPCAction(new Vector3f(x - 1f, y - 0.9f, z), actiontype, this));
                                 x = x - 1;
                                 y = y - 1;
-                                moving = Direction.DOWN;
+                                moving = Direction.SOUTH;
                             }
                             if (temp == map.getMap()[x - 1][y + 1][z]) {
                                 actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x - 1f, y + 1.1f, z), actiontype, this));
                                 x = x - 1;
                                 y = y + 1;
-                                moving = Direction.DOWN;
+                                moving = Direction.SOUTH;
                             }
                         }
                     }
                     if (temp.getUserData("roadHill").equals("flat")) {
                         actions.add(new NPCAction(new Vector3f(x - 1, y + 0.1f, z), actiontype, this));
                         x = x - 1;
-                        moving = Direction.DOWN;
+                        moving = Direction.SOUTH;
                     }
 
                 }
@@ -217,7 +217,7 @@ public class Guest extends BasicNPC {
                         NPCAction buy = new NPCAction(new Vector3f(x - 0.7f, y + 0.1f, z), ActionType.BUY, foundshop, this);
                         actions.add(buy);
                         actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING, this));
-                        moving = Direction.DOWN;
+                        moving = Direction.SOUTH;
                     }
                 }
 
@@ -226,7 +226,7 @@ public class Guest extends BasicNPC {
         if (suunta == 2) {
             if (map.getMap()[x][y][z + 1] != null) {
                 Spatial temp = map.getMap()[x][y][z + 1];
-                if (moving == Direction.LEFT) {
+                if (moving == Direction.WEST) {
                     int pass = r.nextInt(10);
                     if (pass != 1) {
                         return;
@@ -240,21 +240,21 @@ public class Guest extends BasicNPC {
                                 actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z + 1f), actiontype, this));
                                 z = z + 1;
                                 y = y - 1;
-                                moving = Direction.RIGHT;
+                                moving = Direction.EAST;
                             }
                             if (temp == map.getMap()[x][y + 1][z + 1]) {
                                 actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z + 1f), actiontype, this));
                                 z = z + 1;
                                 y = y + 1;
-                                moving = Direction.RIGHT;
+                                moving = Direction.EAST;
                             }
                         }
                     }
                     if (temp.getUserData("roadHill").equals("flat")) {
                         actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 1), actiontype, this));
                         z = z + 1;
-                        moving = Direction.RIGHT;
+                        moving = Direction.EAST;
                     }
 
                 }
@@ -268,7 +268,7 @@ public class Guest extends BasicNPC {
                         NPCAction buy = new NPCAction(new Vector3f(x, y + 0.1f, z + 0.7f), ActionType.BUY, foundshop, this);
                         actions.add(buy);
                         actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING, this));
-                        moving = Direction.RIGHT;
+                        moving = Direction.EAST;
                     }
                 }
 
@@ -279,7 +279,7 @@ public class Guest extends BasicNPC {
             if (map.getMap()[x][y][z - 1] != null) {
 
                 Spatial temp = map.getMap()[x][y][z - 1];
-                if (moving == Direction.RIGHT) {
+                if (moving == Direction.EAST) {
                     int pass = r.nextInt(10);
                     if (pass != 1) {
                         return;
@@ -293,21 +293,21 @@ public class Guest extends BasicNPC {
                                 actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z - 1), actiontype, this));
                                 z = z - 1;
                                 y = y - 1;
-                                moving = Direction.LEFT;
+                                moving = Direction.WEST;
                             }
                             if (temp == map.getMap()[x][y + 1][z - 1]) {
                                 actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype, this));
                                 actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z - 1), actiontype, this));
                                 z = z - 1;
                                 y = y + 1;
-                                moving = Direction.LEFT;
+                                moving = Direction.WEST;
                             }
                         }
                     }
                     if (temp.getUserData("roadHill").equals("flat")) {
                         actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 1), actiontype, this));
                         z = z - 1;
-                        moving = Direction.LEFT;
+                        moving = Direction.WEST;
                     }
 
                 }
@@ -321,7 +321,7 @@ public class Guest extends BasicNPC {
                         NPCAction buy = new NPCAction(new Vector3f(x, y + 0.1f, z - 0.7f), ActionType.BUY, foundshop, this);
                         actions.add(buy);
                         actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING, this));
-                        moving = Direction.LEFT;
+                        moving = Direction.WEST;
                     }
                 }
 
@@ -376,45 +376,45 @@ public class Guest extends BasicNPC {
     }
 
     public void handleQueRoadFound(Spatial temp) {
-        boolean found = false;
-        logger.log(Level.FINEST,"Testing the found queroad");
-        int fRideID = 0;
-        Spatial trueroad = null;
-        BasicRide foundRide = null;
-        for (BasicRide s : rideManager.rides) {
-            if (s.getEnterance()!= null) {
-                if (s.getEnterance().getConnectedRoad() != null) {
-                    ArrayList<Spatial> a = roadMaker.getlinkedqueroads(s.getEnterance().getConnectedRoad());
-                    trueroad = temp.getUserData("queconnect1");
-                    if (a.contains(trueroad)) {
-                        logger.log(Level.FINEST,"Found the ride witch the road is connected to");
-                        found = true;
-                        fRideID = s.getRideID();
-                        break;
-                    }
-                    logger.log(Level.FINEST,"Didnt find the ride witch the road is connected to");
-                }
-
-            }
-        }
-
-        if (found) {
-            for (BasicRide a : rideManager.rides) {
-                if (a.getRideID() == fRideID) {
-                    foundRide = a;
-                }
-            }
-            // If the guest wants to go to the ride
-            if (doIWantToGoThere(foundRide)) {
-                if (foundRide.tryToQueGuest(this)) {
-                    if (wallet.canAfford(foundRide.getPrice())) {
-                        logger.log(Level.FINEST,"Accepted the ride and now in que");
-                        active = false;
-                        this.currentQueRoad = trueroad;
-                    }
-                }
-            }
-        }
+//        boolean found = false;
+//        logger.log(Level.FINEST,"Testing the found queroad");
+//        int fRideID = 0;
+//        Spatial trueroad = null;
+//        BasicRide foundRide = null;
+//        for (BasicRide s : rideManager.rides) {
+//            if (s.getEnterance()!= null) {
+//                if (s.getEnterance().getConnectedRoad() != null) {
+//                    List<Spatial> a = roadMaker.getlinkedqueroads(s.getEnterance().getConnectedRoad());
+//                    trueroad = temp.getUserData("queconnect1");
+//                    if (a.contains(trueroad)) {
+//                        logger.log(Level.FINEST,"Found the ride witch the road is connected to");
+//                        found = true;
+//                        fRideID = s.getRideID();
+//                        break;
+//                    }
+//                    logger.log(Level.FINEST,"Didnt find the ride witch the road is connected to");
+//                }
+//
+//            }
+//        }
+//
+//        if (found) {
+//            for (BasicRide a : rideManager.rides) {
+//                if (a.getRideID() == fRideID) {
+//                    foundRide = a;
+//                }
+//            }
+//            // If the guest wants to go to the ride
+//            if (doIWantToGoThere(foundRide)) {
+//                if (foundRide.tryToQueGuest(this)) {
+//                    if (wallet.canAfford(foundRide.getPrice())) {
+//                        logger.log(Level.FINEST,"Accepted the ride and now in que");
+//                        active = false;
+//                        this.currentQueRoad = trueroad;
+//                    }
+//                }
+//            }
+//        }
 
     }
 

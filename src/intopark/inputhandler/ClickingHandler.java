@@ -122,7 +122,7 @@ public class ClickingHandler {
 
             case ROAD:
                 if (target != null) {
-                    if (roadMaker.status == RoadMakerStatus.CHOOSING) {
+                    if (roadMaker.getStatus() == RoadMakerStatus.CHOOSING) {
                         roadMaker.startingPosition(target.getContactPoint());
                         Gamestate.ingameHUD.updateClickingIndicator();
                         logger.log(Level.FINEST, "Updated Roads starting position");

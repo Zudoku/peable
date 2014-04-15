@@ -37,6 +37,14 @@ public class MapPosition {
         this.offSetZ=(vec.z-this.z);
         
     }
+    public MapPosition(MapPosition pos2){
+        this.x=pos2.getX();
+        this.y=pos2.getY();
+        this.z=pos2.getZ();
+        this.offSetX=pos2.getOffSetX();
+        this.offSetY=pos2.getOffSetY();
+        this.offSetZ=pos2.getOffSetZ();
+    }
     public MapPosition(int x,int y,int z,float ox,float oy,float oz){
         this.x=x;
         this.y=y;
@@ -44,6 +52,57 @@ public class MapPosition {
         this.offSetX=ox;
         this.offSetY=oy;
         this.offSetZ=oz;
+    }
+    public boolean isNextTo(MapPosition pos2){
+        int deltaX=x-pos2.x;
+        int deltaY=y-pos2.y;
+        int deltaZ=z-pos2.z;
+        /* We can't have bigger difference than 1 */
+        if(deltaX>1||deltaX<-1){
+            return false;
+        }
+        if(deltaZ>1||deltaZ<-1){
+            return false;
+        }
+        /* We need to be on the same level */
+        if(deltaY!=0){
+            return false;
+        }
+        /* We cant be on the same location or be 2 away */
+        if(deltaX!=0&&deltaY!=0||deltaX==0&&deltaY==0){
+            return false;
+        }
+        return true;
+    }
+    public boolean isNextTo(MapPosition pos2,int x1,int z1,int y1){
+        int deltaX=(x+x1)-pos2.x;
+        int deltaY=(y+y1)-pos2.y;
+        int deltaZ=(z+z1)-pos2.z;
+        if(deltaX>1||deltaX<-1){
+            return false;
+        }
+        if(deltaZ>1||deltaZ<-1){
+            return false;
+        }
+        if(deltaY!=0){
+            return false;
+        }
+        if(deltaX!=0&&deltaY!=0||deltaX==0&&deltaY==0){
+            return false;
+        }
+        return true;
+    }
+    public boolean isSameMainCoords(MapPosition pos2){
+        if(x!=pos2.getX()){
+            return false;
+        }
+        if(y!=pos2.getY()){
+            return false;
+        }
+        if(z!=pos2.getZ()){
+            return false;
+        }
+        return true;
     }
     public Vector3f getVector(){
         return new Vector3f(x+offSetX, y+offSetY, z+offSetZ);
@@ -96,43 +155,5 @@ public class MapPosition {
     public void setOffSetZ(float offSetZ) {
         this.offSetZ = offSetZ;
     }
-    public boolean isNextTo(MapPosition pos2){
-        int deltaX=x-pos2.x;
-        int deltaY=y-pos2.y;
-        int deltaZ=z-pos2.z;
-        /* We can't have bigger difference than 1 */
-        if(deltaX>1||deltaX<-1){
-            return false;
-        }
-        if(deltaZ>1||deltaZ<-1){
-            return false;
-        }
-        /* We need to be on the same level */
-        if(deltaY!=0){
-            return false;
-        }
-        /* We cant be on the same location or be 2 away */
-        if(deltaX!=0&&deltaY!=0||deltaX==0&&deltaY==0){
-            return false;
-        }
-        return true;
-    }
-    public boolean isNextTo(MapPosition pos2,int x1,int z1,int y1){
-        int deltaX=(x+x1)-pos2.x;
-        int deltaY=(y+y1)-pos2.y;
-        int deltaZ=(z+z1)-pos2.z;
-        if(deltaX>1||deltaX<-1){
-            return false;
-        }
-        if(deltaZ>1||deltaZ<-1){
-            return false;
-        }
-        if(deltaY!=0){
-            return false;
-        }
-        if(deltaX!=0&&deltaY!=0||deltaX==0&&deltaY==0){
-            return false;
-        }
-        return true;
-    }
+    
 }

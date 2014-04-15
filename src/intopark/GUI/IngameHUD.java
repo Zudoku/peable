@@ -52,10 +52,10 @@ import static intopark.inputhandler.ClickingModes.RIDE;
 import static intopark.inputhandler.ClickingModes.ROAD;
 import static intopark.inputhandler.ClickingModes.TERRAIN;
 import intopark.terrain.Direction;
-import static intopark.terrain.Direction.DOWN;
-import static intopark.terrain.Direction.LEFT;
-import static intopark.terrain.Direction.RIGHT;
-import static intopark.terrain.Direction.UP;
+import static intopark.terrain.Direction.SOUTH;
+import static intopark.terrain.Direction.WEST;
+import static intopark.terrain.Direction.EAST;
+import static intopark.terrain.Direction.NORTH;
 import intopark.terrain.ParkHandler;
 import intopark.roads.RoadHill;
 import intopark.roads.RoadMaker;
@@ -559,25 +559,25 @@ public class IngameHUD implements ScreenController {
      */
     @Subscribe public void listenUpdateRoadDirectionEvent(UpdateRoadDirectionEvent event){
         switch(event.getD()){
-            case DOWN:
+            case SOUTH:
                 roadDirectionDown();
                 break;
                 
-            case LEFT:
+            case WEST:
                 roadDirectionLeft();
                 break;
                 
-            case RIGHT:
+            case EAST:
                 roadDirectionRight();
                 break;
                 
-            case UP:
+            case NORTH:
                 roadDirectionUp();  
         }
     }
     @NiftyEventSubscriber(id = "queroad")
     public void queCheckboxChange(String id, CheckBoxStateChangedEvent event) {
-        roadMaker.queroad = event.isChecked();  
+        roadMaker.setQueroad( event.isChecked());  
     }
     private void roadDirectionReset(){
         Element niftyElement;
@@ -600,43 +600,43 @@ public class IngameHUD implements ScreenController {
         niftyElement.stopEffect(EffectEventId.onCustom);
     }
     public void roadDirectionUp() {
-        roadMaker.direction = Direction.UP;
+        roadMaker.setDirection(Direction.NORTH);
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadDirectionDown() {
-        roadMaker.direction = Direction.DOWN;
+        roadMaker.setDirection(Direction.SOUTH);
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadDirectionRight() {
-        roadMaker.direction = Direction.RIGHT;
+        roadMaker.setDirection(Direction.EAST);
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadDirectionLeft() {
-        roadMaker.direction = Direction.LEFT;
+        roadMaker.setDirection(Direction.WEST);
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadUpHill() {
-        roadMaker.hill = RoadHill.UP;
+        roadMaker.setHill(RoadHill.UP);
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadFlatHill() {
-        roadMaker.hill = RoadHill.FLAT;
+        roadMaker.setHill(RoadHill.FLAT);
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadDownHill() {
-        roadMaker.hill = RoadHill.DOWN;
+        roadMaker.setHill(RoadHill.DOWN);
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
@@ -645,7 +645,7 @@ public class IngameHUD implements ScreenController {
         roadMaker.buildRoad();
     }
     public void selectionButton() {
-        roadMaker.status = RoadMakerStatus.CHOOSING;
+        roadMaker.setStatus(RoadMakerStatus.CHOOSING);
     }
     /*
      * ALL RELATED TO DECORATION UI.

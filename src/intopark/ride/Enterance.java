@@ -44,18 +44,18 @@ public class Enterance implements Savable{
         object.setUserData("type","enterance");
         float angle;
         switch(facing){
-            case UP:
+            case NORTH:
                 
                 break;
-            case DOWN:
+            case SOUTH:
                 angle = (float) Math.toRadians(180);
                 this.object.rotate(0, angle, 0);
                 break;
-            case LEFT:
+            case WEST:
                 angle = (float) Math.toRadians(90);
                 this.object.rotate(0, angle, 0);
                 break;
-            case RIGHT:
+            case EAST:
                 angle = (float) Math.toRadians(-90);
                 this.object.rotate(0, angle, 0);
         }

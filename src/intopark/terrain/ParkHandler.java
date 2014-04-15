@@ -99,8 +99,6 @@ public class ParkHandler {
         //eventBus.post(new SetMapEvent(map.getMap()));
         eventBus.post(new RefreshGroundEvent()); //Force refresh the ground once.
         scenario.setUp();
-        roadMaker.roadsToUpdate(RoadtoUpdatePositions); //TODO:
-        roadMaker.queRoadsToUpdate(queRoadsToUpdate); //TODO:
         /* Set the indivitual parameters to child-Managers */
         rideManager.rides = rides; 
         npcManager.setNpcs(npcs);
@@ -252,9 +250,7 @@ public class ParkHandler {
                         if(map.getMap()[x][y][z]==event.getO()){
                             map.getMap()[x][y][z]=null;
                             if (event.getO().getUserData("type").equals("road")) {
-                                    roadMaker.updateroads(x, y, z);
-                                    roadMaker.updateroads(x, y+1, z);
-                                    roadMaker.updateroads(x, y-1, z);
+                                /* TODO: */
                                 }
                         }
                     }

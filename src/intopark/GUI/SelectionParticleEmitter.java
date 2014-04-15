@@ -171,7 +171,7 @@ public class SelectionParticleEmitter {
                 
                 break;
             case ROAD:
-                if(roadMaker.status==RoadMakerStatus.CHOOSING){
+                if(roadMaker.getStatus()==RoadMakerStatus.CHOOSING){
                     //worldHandler.brush=1;
                     if (target == null) {
                     return;
