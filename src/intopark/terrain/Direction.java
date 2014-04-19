@@ -27,4 +27,21 @@ public enum Direction {
         }
         return false;
     }
+    public int getAngle() {
+        /* NORTH = 0 */
+        switch (this) {
+            case NORTH:
+                return 0;
+
+            case SOUTH:
+                return 180;
+
+            case EAST:
+                return 90;
+
+            case WEST:
+                return -90;
+        }
+        return 0;
+    }
 }

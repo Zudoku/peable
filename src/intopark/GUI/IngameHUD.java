@@ -167,22 +167,22 @@ public class IngameHUD implements ScreenController {
         if (!elementname.equals("roadWindow")) {
             niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
             niftyElement.setVisible(false);
-            
+
         }
         if (!elementname.equals("shovelWindow")) {
             niftyElement = nifty.getCurrentScreen().findElementByName("shovelWindow");
             niftyElement.setVisible(false);
-            
+
         }
         if (!elementname.equals("shopWindow")) {
             niftyElement = nifty.getCurrentScreen().findElementByName("shopWindow");
             niftyElement.setVisible(false);
-            
+
         }
         if (!elementname.equals("NPCWindow")) {
             niftyElement = nifty.getCurrentScreen().findElementByName("NPCWindow");
             niftyElement.setVisible(false);
-            
+
         }
         if(!elementname.equals("decorationWindow")){
             niftyElement = nifty.getCurrentScreen().findElementByName("decorationWindow");

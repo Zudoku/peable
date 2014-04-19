@@ -18,6 +18,7 @@ import intopark.GUI.SelectionParticleEmitter;
 import intopark.inputhandler.UserInput;
 import intopark.npc.NPCManager;
 import intopark.ride.RideManager;
+import intopark.roads.RoadMaker;
 import intopark.terrain.MapFactory;
 import intopark.terrain.ParkHandler;
 import java.io.File;
@@ -41,7 +42,8 @@ public class Gamestate extends AbstractAppState {
     @Inject private NPCManager npcManager;
     @Inject private UserInput userInput;
     @Inject private  RideManager rideManager;
-    @Inject private MapFactory mapFactory;
+    @Inject private RoadMaker roadMaker;
+
     //VARIABLES
     /**
      * This is state where the game is running.
@@ -112,6 +114,7 @@ public class Gamestate extends AbstractAppState {
         npcManager.update();
         rideManager.updateRide();
         userInput.update();
+        roadMaker.update();
         }catch(Throwable t){
             logger.log(Level.SEVERE,"OH SHIT",t);
             t.printStackTrace();

@@ -110,5 +110,22 @@ public class RoadgraphTest {
         assertNull(roadMap.getEdge(vertexes[0],vertexes[2]));
         
     }
+    @Test
+    public void testIncomingEdges(){
+        Road road; 
+        Roadgraph instance = new Roadgraph();
+        road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
+        instance.addWalkable(road);
+        Road road2=new Road(new MapPosition(2, 6, 1), RoadHill.UP, 2, 1, false, Direction.NORTH);
+        instance.addWalkable(road2);
+        road=new Road(new MapPosition(3, 7, 1), RoadHill.FLAT, 3, 1, false, Direction.NORTH);
+        instance.addWalkable(road);
+        DirectedGraph<Walkable,DefaultEdge> roadMap=instance.getRoadMap();
+        for(DefaultEdge e:roadMap.edgesOf(road2)){
+            System.out.println("asdasd");
+            assertNotNull(roadMap.getEdgeSource(e));
+            assertNotNull(roadMap.getEdgeTarget(e));
+        }
+    }
 
 }

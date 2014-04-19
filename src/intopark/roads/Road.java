@@ -7,7 +7,6 @@ package intopark.roads;
 import com.jme3.math.Vector3f;
 import intopark.terrain.Direction;
 import intopark.terrain.MapPosition;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**

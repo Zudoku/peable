@@ -12,6 +12,7 @@ import com.jme3.input.InputManager;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
+import intopark.roads.Roadgraph;
 
 /**
  *
@@ -41,6 +42,12 @@ public class GameModule extends AbstractModule {
   @Provides
   Node provideRootNode(){
       return rootNode;
+  }
+  @Provides
+  Roadgraph provideroadGraph(){
+      Roadgraph a=new Roadgraph();
+      a.setEventBus(eventBus);
+      return a;
   }
   @Provides
   Camera provideCamera(){

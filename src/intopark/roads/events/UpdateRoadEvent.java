@@ -12,9 +12,19 @@ import intopark.roads.Road;
  */
 public class UpdateRoadEvent {
     private Road existingRoad;
+    private boolean[] connected;
     
-    public UpdateRoadEvent(Road existingRoad) {
+    public UpdateRoadEvent(Road existingRoad,boolean[] connected) {
         this.existingRoad = existingRoad;
+        this.connected=connected;
+    }
+
+    public void setConnected(boolean[] connected) {
+        this.connected = connected;
+    }
+
+    public boolean[] getConnected() {
+        return connected;
     }
 
     public Road getExistingRoad() {

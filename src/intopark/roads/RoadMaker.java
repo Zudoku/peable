@@ -9,7 +9,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -20,7 +19,6 @@ import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.GUI.events.UpdateRoadDirectionEvent;
 import intopark.UtilityMethods;
-import intopark.ride.RideManager;
 import intopark.roads.events.UpdateRoadEvent;
 import intopark.terrain.Direction;
 import intopark.terrain.MapContainer;
@@ -38,14 +36,12 @@ public class RoadMaker {
     private static final Logger logger = Logger.getLogger(RoadMaker.class.getName());
     //MISC
     //DEPENDENCIES
-    private Roadgraph roadGraph=new Roadgraph();
-    private final Node rootNode;
+    @Inject private Roadgraph roadGraph;
+    private Node roadNode;
     public RoadFactory roadF;
     private MapContainer map;
     @Inject
     private ParkHandler parkHandler;
-    @Inject
-    RideManager rideManager;
     private final EventBus eventBus;
     //OWNS
     private List<Spatial> roadSpatials = new ArrayList<>();
@@ -66,12 +62,13 @@ public class RoadMaker {
      * @param eventBus This is used to send events to other components
      */
     @Inject
-    public RoadMaker(AssetManager assetManager,Node rootNode, MapContainer map, EventBus eventBus) {
-        this.rootNode = rootNode;
+    public RoadMaker(Node rootNode,EventBus eventBus) {
+        roadNode=new Node("roadNode");
+        rootNode.attachChild(roadNode);
         this.eventBus = eventBus;
         eventBus.register(this);
         this.map = map;
-        roadF = new RoadFactory(assetManager);
+        roadF = new RoadFactory();
     }
     public void update(){
         roadGraph.update();
@@ -166,10 +163,6 @@ public class RoadMaker {
         parkHandler.getParkWallet().remove(10);
         eventBus.post(new UpdateMoneyTextBarEvent());
         ID++;
-        
-
-
-    
     }
 
     public void startingPosition(Vector3f pos) {
@@ -182,17 +175,23 @@ public class RoadMaker {
         int id = event.getExistingRoad().getID();
         Spatial oldRoad = null;
         for(Spatial s:roadSpatials){
-            if(s.getUserData("ID").equals(Integer.toString(id))){
+            if(s.getUserData("ID")==id){
                 oldRoad=s;
                 break;
             }
         }
         if(oldRoad==null){
-            /* FAILED */
+            /* FAILED CANT FIND ROAD WITH THAT ID   */
+        }else{
+            /* Delete old road */
+        
+            roadNode.detachChild(oldRoad);
         }
-        rootNode.detachChild(oldRoad);
-        Spatial newRoad=roadF.roadToSpatial(event.getExistingRoad());
-        rootNode.attachChild(newRoad);
+        /* Get new road */
+        Spatial newRoad=roadF.roadToSpatial(event.getExistingRoad(),event.getConnected());
+        /* Add new road  */
+        roadNode.attachChild(newRoad);
+        event.getExistingRoad().setNeedsUpdate(false);
     }
 
     @Subscribe

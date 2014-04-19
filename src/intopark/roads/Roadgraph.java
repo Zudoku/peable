@@ -5,9 +5,7 @@
 package intopark.roads;
 
 import com.google.common.eventbus.EventBus;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import intopark.Main;
 import intopark.roads.events.UpdateRoadEvent;
 import intopark.terrain.MapPosition;
 import java.util.Set;
@@ -25,24 +23,44 @@ public class Roadgraph {
     //LOGGER
     private transient static final Logger logger = Logger.getLogger(Roadgraph.class.getName());
     //DEPENDENCIES
-    @Inject private transient EventBus eventBus;
+    private transient EventBus eventBus;
     //OWNS
     private DirectedGraph<Walkable,DefaultEdge> roadMap;
     //VARIABLES
     
     public Roadgraph() {
         roadMap = new DefaultDirectedGraph<>(DefaultEdge.class);
-        Main.injector.injectMembers(this);
+
     }
     public void update(){
         for(Walkable walkable:roadMap.vertexSet()){
             if(walkable.isNeedsUpdate()){
                 if(walkable instanceof Road){
                     Road road=(Road)walkable;
-                    eventBus.post(new UpdateRoadEvent(road));
-                    road.setNeedsUpdate(false);
+                    
+                    /* We need to know where the connected vertexes are. N-S-E-W */
+                    boolean[] connected=new boolean[]{false,false,false,false};
+                    for(DefaultEdge e:roadMap.incomingEdgesOf(road)){
+                        Walkable source=(Walkable)roadMap.getEdgeSource(e);
+                        if(source.position.getX()>road.position.getX()){
+                            connected[0]=true;
+                        }
+                        if(source.position.getX()<road.position.getX()){
+                            connected[1]=true;
+                        }
+                        if(source.position.getZ()>road.position.getZ()){
+                            connected[2]=true;
+                        }
+                        if(source.position.getZ()<road.position.getZ()){
+                            connected[3]=true;
+                        }
+                    }
+                    
+                    eventBus.post(new UpdateRoadEvent(road,connected));
+                    
                 }else if(walkable instanceof BuildingEnterance){
                     BuildingEnterance enterance=(BuildingEnterance)walkable;
+                    /* DO SOMETHING */
                     enterance.setNeedsUpdate(false);
                 }
             }
@@ -55,7 +73,7 @@ public class Roadgraph {
         if (walkable instanceof Road) {
             Road road = (Road) walkable;
             roadMap.addVertex(road);
-            
+            road.setNeedsUpdate(true);
             for (Walkable r : roadMap.vertexSet()) {
                 if (r instanceof Road) {
                     Road road2 = (Road) r;
@@ -135,5 +153,10 @@ public class Roadgraph {
         }
         return true;
     }
+
+    public void setEventBus(EventBus eventBus) {
+        this.eventBus = eventBus;
+    }
+    
     
 }

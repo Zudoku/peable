@@ -26,9 +26,9 @@ public class MapPosition {
     }
     public MapPosition(Vector3f vec){
         Vector3f vector=new Vector3f(vec);
-        vector.x=vector.x-0.4999f;
-        vector.y=vector.y-0.4999f;
-        vector.z=vector.z-0.4999f;
+        vector.x=vector.x-0.4999f+1;
+        vector.y=vector.y-0.4999f+1;
+        vector.z=vector.z-0.4999f+1;
         this.x=(int)vector.x;
         this.y=(int)vector.y;
         this.z=(int)vector.z;
