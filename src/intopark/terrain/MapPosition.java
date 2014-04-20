@@ -5,12 +5,15 @@
 package intopark.terrain;
 
 import com.jme3.math.Vector3f;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author arska
  */
 public class MapPosition {
+    private transient static final Logger logger = Logger.getLogger(MapPosition.class.getName());
     private int x;
     private int y;
     private int z;
@@ -25,16 +28,16 @@ public class MapPosition {
         this.z=z;
     }
     public MapPosition(Vector3f vec){
+        
         Vector3f vector=new Vector3f(vec);
-        vector.x=vector.x-0.4999f+1;
-        vector.y=vector.y-0.4999f+1;
-        vector.z=vector.z-0.4999f+1;
-        this.x=(int)vector.x;
-        this.y=(int)vector.y;
-        this.z=(int)vector.z;
+        this.x=(int)Math.floor(vec.x);
+        this.y=(int)Math.floor(vec.y);
+        this.z=(int)Math.floor(vec.z);
         this.offSetX=(vec.x-this.x);
         this.offSetY=(vec.y-this.y);
         this.offSetZ=(vec.z-this.z);
+        logger.log(Level.FINEST,"{0} transformed to {1}",new Object[]{vec,this.getVector()});
+        
         
     }
     public MapPosition(MapPosition pos2){
@@ -54,14 +57,14 @@ public class MapPosition {
         this.offSetZ=oz;
     }
     public boolean isNextTo(MapPosition pos2){
-        int deltaX=x-pos2.x;
-        int deltaY=y-pos2.y;
-        int deltaZ=z-pos2.z;
+        int deltaX=Math.abs(x-pos2.x);
+        int deltaY=Math.abs(y-pos2.y);
+        int deltaZ=Math.abs(z-pos2.z);
         /* We can't have bigger difference than 1 */
-        if(deltaX>1||deltaX<-1){
+        if(deltaX>1){
             return false;
         }
-        if(deltaZ>1||deltaZ<-1){
+        if(deltaZ>1){
             return false;
         }
         /* We need to be on the same level */
@@ -69,15 +72,15 @@ public class MapPosition {
             return false;
         }
         /* We cant be on the same location or be 2 away */
-        if(deltaX!=0&&deltaY!=0||deltaX==0&&deltaY==0){
+        if(deltaX==1&&deltaZ==1||deltaX==0&&deltaZ==0){
             return false;
         }
         return true;
     }
     public boolean isNextTo(MapPosition pos2,int x1,int z1,int y1){
-        int deltaX=(x+x1)-pos2.x;
-        int deltaY=(y+y1)-pos2.y;
-        int deltaZ=(z+z1)-pos2.z;
+        int deltaX=Math.abs((x+x1)-pos2.x);
+        int deltaY=Math.abs((y+y1)-pos2.y);
+        int deltaZ=Math.abs((z+z1)-pos2.z);
         if(deltaX>1||deltaX<-1){
             return false;
         }
@@ -87,7 +90,7 @@ public class MapPosition {
         if(deltaY!=0){
             return false;
         }
-        if(deltaX!=0&&deltaY!=0||deltaX==0&&deltaY==0){
+        if(deltaX!=0&&deltaZ!=0||deltaX==0&&deltaZ==0){
             return false;
         }
         return true;

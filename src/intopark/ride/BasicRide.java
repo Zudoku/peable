@@ -144,10 +144,10 @@ public class BasicRide {
     }
 
     public void updateRide() {
-        ArrayList<Guest>asd=new ArrayList<Guest>(guestsInRide);
+        ArrayList<Guest>asd=new ArrayList<>(guestsInRide);
         List<Guest> guestscopy=(ArrayList<Guest>)asd.clone();
         for (Guest g : guestscopy) {
-            if (g.joinedRide + rideLength < System.currentTimeMillis()) {
+            if (g.getJoinedRide() + rideLength < System.currentTimeMillis()) {
                 leaveRide(g);
             }
         }
@@ -157,9 +157,9 @@ public class BasicRide {
         
         guestsInQue.remove(g);
         guestsInRide.add(g);
-        g.joinedRide = System.currentTimeMillis();
+        g.setJoinedRide(System.currentTimeMillis());
         g.getGeometry().setLocalTranslation(position.getVector());
-        g.wallet.pay(price);
+        g.getWallet().pay(price);
         eventBus.post(new PayParkEvent(price));
         eventBus.post(new UpdateMoneyTextBarEvent());
         moneytotal += price;
@@ -178,7 +178,7 @@ public class BasicRide {
         int z1 = (int) (exit.getLocation().getZ() + 0.4999);
         g.getGeometry().setLocalTranslation(x1, y1, z1);
         g.initXYZ(x1, y1, z1);
-        g.active = true;
+        g.setActive(true);
 
     }
     public boolean toggleStatus(){

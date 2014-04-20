@@ -31,9 +31,9 @@ public class Meatballshop extends BasicShop{
 
     @Override
     public void interact(Guest guest) {
-        if(guest.wallet.canAfford(price)){
+        if(guest.getWallet().canAfford(price)){
             guest.getInventory().add(new Item(productname, Itemtypes.FOOD,10));
-            guest.wallet.pay(price);
+            guest.getWallet().pay(price);
             eventBus.post(new PayParkEvent(price));
             eventBus.post(new UpdateMoneyTextBarEvent());
         }

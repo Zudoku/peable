@@ -6,6 +6,7 @@ package intopark.GUI;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.jme3.math.Vector3f;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.controls.TextField;
@@ -23,7 +24,10 @@ import intopark.npc.NPCManager;
 import intopark.npc.inventory.Item;
 import intopark.ride.BasicRide;
 import intopark.shops.BasicShop;
+import intopark.shops.ShopReputation;
+import intopark.shops.ShopUpgradeContainer;
 import intopark.terrain.ParkHandler;
+import java.util.List;
 
 /**
  *
@@ -32,218 +36,141 @@ import intopark.terrain.ParkHandler;
 @Singleton
 public class WindowHandler {
     //LOGGER
+
     private static final Logger logger = Logger.getLogger(IngameHUD.class.getName());
     //DEPENDENCIES
     Nifty nifty;
-    @Inject ParkHandler parkHandler;
-    @Inject NPCManager npcManager;
+    @Inject
+    ParkHandler parkHandler;
+    @Inject
+    NPCManager npcManager;
     //VARIABLES
-    private int guestnumber;
+    private int guestID;
     private int rideID;
     private int shopID;
-    
+
     public WindowHandler() {
         nifty = Main.nifty;
     }
-    /**
-     * Returns guest with *
-     * @return latest guest that was opened by this class
-     */
-    public Guest getCurrentGuestWindowGuest() {
-        Guest guest = null;
-        for (Guest g : npcManager.getGuests()) {
-            if (g.getGuestNum() == guestnumber) {
-                guest = g;
-                break;
-            }
-        }
-        return guest;
-    }
-
     private void updateNifty() {
         nifty = Main.nifty;
     }
+    /* GUEST WINDOW CREATION AND UPDATE METHODS */
 
-    public void createGuestWindow(Guest guest, boolean updateTextField) {
+    public void updateGuestWindow(boolean toggleVisible, boolean updateTextField) {
         updateNifty();
+        Guest guest = parkHandler.getGuestWithID(guestID);
         if (guest == null) {
-            logger.log(Level.WARNING,"Trying to display window to null guest");
+            logger.log(Level.WARNING, "Trying to display window to null guest");
             return;
         }
         Element guestwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("guesttemplate");
-
-
-        Element temppanel = guestwindow.findElementByName("g_rootpanel").findElementByName("g_tabspanel");
-                
-        Element niftyElement = temppanel.findElementByName("guestname");
-        updateText(niftyElement, guest.getName());
-        niftyElement = temppanel.findElementByName("guestwallet");
-        updateText(niftyElement, guest.wallet.toString());
-        niftyElement = temppanel.findElementByName("guestnumber");
-        updateText(niftyElement, Integer.toString(guest.getGuestNum()));
-        guestnumber = guest.getGuestNum();
-        niftyElement = temppanel.findElementByName("gueststatus");
-        updateText(niftyElement, guest.getWalkingState().toString());
-        niftyElement = temppanel.findElementByName("guestreputation");
-        updateText(niftyElement, "good");
-
-        //panel 2
-        niftyElement = temppanel.findElementByName("guesthunger");
-        updateText(niftyElement, Integer.toString(guest.stats.hunger));
-        niftyElement = temppanel.findElementByName("guestthirst");
-        updateText(niftyElement, Integer.toString(guest.stats.thirst));
-        niftyElement = temppanel.findElementByName("guesthappyness");
-        updateText(niftyElement, Integer.toString(guest.stats.happyness));
-
-        //panel3 
-        if (updateTextField == true) {
-            TextField textfield = nifty.getCurrentScreen().findNiftyControl("guestnametextfield", TextField.class);
-            textfield.setText(guest.getName());
+        /**
+         * TAB 1
+         */
+        updateGuestNameText(guestwindow, guest.getName());
+        updateGuestWalletText(guestwindow, guest.getWallet().toString());
+        updateGuestIDText(guestwindow, guest.getGuestNum());
+        updateGuestStatusText(guestwindow, guest.getWalkState().toString());
+        updateGuestReputationText(guestwindow, "Good"); //TODO:
+        /**
+         * TAB 2
+         */
+        updateGuestHungerText(guestwindow, guest.getStats().hunger);
+        updateGuestThirstyText(guestwindow, guest.getStats().thirst);
+        updateGuestHappynessText(guestwindow, guest.getStats().happyness);
+        /**
+         * TAB 3
+         */
+        if (updateTextField) {
+            updateGuestNameTextField(guest.getName());
+        }
+        /**
+         * TAB 4
+         */
+        updateGuestInventoryTexts(guestwindow, guest.getInventory());
+        if (toggleVisible) {
+            guestwindow.setVisible(true);
         }
 
-
-        //panel 4
+        //nifty.getCurrentScreen().getLayerElements().get(2).add(guestwindow);
+    }
+    private void updateGuestInventoryTexts(Element guestWindow,List<Item> inv){
         int counter = 1;
-        niftyElement = temppanel.findElementByName("guestinventory1");
+        Element niftyElement = guestWindow.findElementByName("guestinventory1");
         updateText(niftyElement, "");
-        niftyElement = temppanel.findElementByName("guestinventory2");
+        niftyElement = guestWindow.findElementByName("guestinventory2");
         updateText(niftyElement, "");
-        niftyElement = temppanel.findElementByName("guestinventory3");
+        niftyElement = guestWindow.findElementByName("guestinventory3");
         updateText(niftyElement, "");
-        niftyElement = temppanel.findElementByName("guestinventory4");
+        niftyElement = guestWindow.findElementByName("guestinventory4");
         updateText(niftyElement, "");
-        niftyElement = temppanel.findElementByName("guestinventory5");
+        niftyElement = guestWindow.findElementByName("guestinventory5");
         updateText(niftyElement, "");
-        niftyElement = temppanel.findElementByName("guestinventory6");
+        niftyElement = guestWindow.findElementByName("guestinventory6");
         updateText(niftyElement, "");
-        niftyElement = temppanel.findElementByName("guestinventory7");
+        niftyElement = guestWindow.findElementByName("guestinventory7");
         updateText(niftyElement, "");
-        niftyElement = temppanel.findElementByName("guestinventory8");
+        niftyElement = guestWindow.findElementByName("guestinventory8");
         updateText(niftyElement, "");
-        niftyElement = temppanel.findElementByName("guestinventory9");
+        niftyElement = guestWindow.findElementByName("guestinventory9");
         updateText(niftyElement, "");
 
 
-        for (Item item : guest.getInventory()) {
+        for (Item item : inv) {
             String elementname = "guestinventory" + Integer.toString(counter);
-            niftyElement = temppanel.findElementByName(elementname);
+            niftyElement = guestWindow.findElementByName(elementname);
             updateText(niftyElement, item.toString());
             counter++;
             if (counter == 10) {
                 break;
             }
         }
-
-
-        guestwindow.setVisible(true);
-
-        nifty.getCurrentScreen().getLayerElements().get(2).add(guestwindow);
+    }
+    private void updateGuestNameTextField(String name){
+        TextField textfield = nifty.getCurrentScreen().findNiftyControl("guestnametextfield", TextField.class);
+        textfield.setText(name);
+    }
+    private void updateGuestNameText(Element guestWindow, String name) {
+        Element updatedText = guestWindow.findElementByName("guestname");
+        updateText(updatedText, name);
     }
 
-    public void updateText(Element niftyElement, String string) {
-        niftyElement.getRenderer(TextRenderer.class).setText(string);
-        niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
-        niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
-    }
-    /**
-     * Create niftyGUI window element from shop. (Basically the shop window).
-     * @param shop 
-     */
-    public void createShopWindow(BasicShop shop) {
-        updateNifty(); //Just to make sure nifty is not null
-        if (shop == null) {
-            logger.log(Level.WARNING,"Trying to display window to null shop");
-            return;
-        }
-        shopID = shop.getShopID();//Store shopID for later use
-        Element shopwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("shoptemplate");
-        Element temppanel = shopwindow.findElementByName("s_rootpanel").findElementByName("s_tabspanel");
-        /* Search the name element and populate it */
-        Element niftyElement = temppanel.findElementByName("shopname");
-        updateText(niftyElement, shop.getShopName());
-        /* .. price element .. */
-        niftyElement = temppanel.findElementByName("shopprice");
-        updateText(niftyElement, Float.toString(shop.getPrice()));
-        /* .. productname element .. */
-        niftyElement = temppanel.findElementByName("shopproduct");
-        updateText(niftyElement, shop.getProductname());
-        /* .. location element .. */
-        niftyElement = temppanel.findElementByName("shoplocation");
-        String location = Float.toString(shop.getPosition().getVector().x) + " " + Float.toString(shop.getPosition().getVector().y) + " " + Float.toString(shop.getPosition().getVector().z);
-        updateText(niftyElement, location);
-        /* .. reputation element .. */
-        niftyElement = temppanel.findElementByName("shopreputation");
-        updateText(niftyElement, shop.getUpgrades().getReputation().toString());
-        /* .. employees element TODO: .. */
-        niftyElement = temppanel.findElementByName("shopemployees");
-        String employees = "No employees";
-        updateText(niftyElement, employees);
-        /* Show the window */
-        shopwindow.setVisible(true);
-        nifty.getCurrentScreen().getLayerElements().get(2).add(shopwindow);
-        
+    private void updateGuestWalletText(Element guestWindow, String money) {
+        Element updatedText = guestWindow.findElementByName("guestwallet");
+        updateText(updatedText, money);
     }
 
-    public void updateGuestWindow(Guest guest) {
-        if(guest==null){
-            return;
-        }
-        updateNifty();
-        if (guest.getGuestNum() == guestnumber && nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("guesttemplate").isVisible()) {
-            createGuestWindow(guest, false);
-        }
+    private void updateGuestIDText(Element guestWindow, int ID) {
+        Element updatedText = guestWindow.findElementByName("guestnumber");
+        updateText(updatedText, Integer.toString(ID));
     }
 
-    public BasicRide getCurrentRide() {
-        BasicRide u = null;
-        for (BasicRide o :parkHandler.getRides()) {
-            if (o.getRideID() == rideID) {
-                u = o;
-                break;
-            }
-        }
-        return u;
+    private void updateGuestStatusText(Element guestWindow, String status) {
+        Element updatedText = guestWindow.findElementByName("gueststatus");
+        updateText(updatedText, status);
     }
 
-    public void CreateRideWindow(BasicRide ride) {
-        updateNifty();
-        if (ride == null) {
-            return;
-        }
-        Element rideWindow = nifty.getCurrentScreen().findElementByName("ridetemplate");
-        rideID = ride.getRideID();
-        /**
-         * tab 1
-         */
-        updateRideNameTextfield(ride.getName());
-        updateRidePriceTextTab1(rideWindow, ride.getPrice(), true);
-        updateRideStatusText(rideWindow, ride.getStatus());
-        updateRideToggleImage(ride.getStatus());
-        /**
-         * tab 2
-         */
-        updateRidePriceText(rideWindow, ride.getPrice());
-        updateRideNameText(rideWindow, ride.getName());
-        updateRideTypeText(rideWindow, ride.getRide());
-        updateRideExitementText(rideWindow, ride.getExitement());
-        updateRideNauseaText(rideWindow, ride.getNausea());
-        updateRideStatusText(rideWindow, ride.getStatus());
-        updateRideBrokenText(rideWindow, ride.getBroken());
-        /**
-         * tab 3
-         */
-        updateRideCustomersText(rideWindow, ride.customers());
-        updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
-        updateRideCustomersHourText(rideWindow, ride.getGuestRateHour());
-        updateRideMoneyGainedText(rideWindow, ride.getMoneyGainedTotal());
-        updateRideMoneyHourText(rideWindow, ride.getMoneyRateHour());
-        updateRideCostHourText(rideWindow, ride.getRepairCost());
-
-
-        //laita näkyviin
-        rideWindow.setVisible(true);
-
+    private void updateGuestReputationText(Element guestWindow, String repu) {
+        Element updatedText = guestWindow.findElementByName("guestreputation");
+        updateText(updatedText, repu);
     }
+
+    private void updateGuestHungerText(Element guestWindow, int stat) {
+        Element updatedText = guestWindow.findElementByName("guesthunger");
+        updateText(updatedText, Integer.toString(stat));
+    }
+
+    private void updateGuestThirstyText(Element guestWindow, int stat) {
+        Element updatedText = guestWindow.findElementByName("guestthirst");
+        updateText(updatedText, Integer.toString(stat));
+    }
+
+    private void updateGuestHappynessText(Element guestWindow, int stat) {
+        Element updatedText = guestWindow.findElementByName("guesthappyness");
+        updateText(updatedText, Integer.toString(stat));
+    }
+    /* RIDE WINDOW CREATION AND UPDATE METHODS */
 
     private void updateRidePriceText(Element rideWindow, float price) {
 
@@ -331,12 +258,16 @@ public class WindowHandler {
 
     }
 
-    public void updateRideWindow(boolean updateNameTextField) {
+    public void updateRideWindow(boolean updateNameTextField, boolean toggleVisible) {
         updateNifty();
-        BasicRide ride = getCurrentRide();
+        BasicRide ride = parkHandler.getRideWithID(rideID);
+        if (ride == null) {
+            logger.log(Level.WARNING, "Could not update ui for ride {0} >ID> {1}", new Object[]{ride, rideID});
+            return;
+        }
         Element rideWindow = nifty.getCurrentScreen().findElementByName("ridetemplate");
         /**
-         * tab 1
+         * TAB 1
          */
         if (updateNameTextField) {
             updateRideNameTextfield(ride.getName());
@@ -344,7 +275,7 @@ public class WindowHandler {
         updateRidePriceTextTab1(rideWindow, ride.getPrice(), false);
         updateRideStatusText(rideWindow, ride.getStatus());
         /**
-         * tab 2
+         * TAB 2
          */
         updateRidePriceText(rideWindow, ride.getPrice());
         updateRideNameText(rideWindow, ride.getName());
@@ -354,7 +285,7 @@ public class WindowHandler {
         updateRideStatusText(rideWindow, ride.getStatus());
         updateRideBrokenText(rideWindow, ride.getBroken());
         /**
-         * tab 3
+         * TAB 3
          */
         updateRideCustomersText(rideWindow, ride.customers());
         updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
@@ -363,12 +294,14 @@ public class WindowHandler {
         updateRideMoneyHourText(rideWindow, ride.getMoneyRateHour());
         updateRideCostHourText(rideWindow, ride.getRepairCost());
 
+        if (toggleVisible) {
+            rideWindow.setVisible(true);
+        }
     }
 
     public void handleRideStatusToggle() {
-
-        updateRideToggleImage(getCurrentRide().toggleStatus());
-        updateRideWindow(false);
+        updateRideToggleImage(parkHandler.getRideWithID(rideID).toggleStatus());
+        updateRideWindow(false, false);
     }
 
     private void updateRideToggleImage(boolean toggleStatus) {
@@ -385,6 +318,104 @@ public class WindowHandler {
 
     }
 
+    /* SHOP WINDOW CREATION AND UPDATE METHODS */
+    /**
+     * Create niftyGUI window element from shop. (Basically the shop window).
+     *
+     * @param shop
+     */
+    public void updateShopWindow(boolean toggleVisible) {
+        updateNifty(); //Just to make sure nifty is not null
+        BasicShop shop = parkHandler.getShopWithID(shopID);
+        if (shop == null) {
+            logger.log(Level.WARNING, "Could not update ui for shop {0} >ID> {1}", new Object[]{shop, shopID});
+            return;
+        }
+        Element shopwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("shoptemplate");
+        /**
+         * TAB 1
+         */
+        updateShopNameText(shopwindow, shop.getShopName());
+        updateShopPriceText(shopwindow, shop.getPrice());
+        updateShopProdNameText(shopwindow, shop.getProductname());
+        updateShopLocationText(shopwindow, shop.getPosition().getVector());
+        updateShopReputationText(shopwindow, shop.getUpgrades().getReputation());
+        /**
+         * TAB 2
+         */
+        /**
+         * TAB 3
+         */
+        if (toggleVisible) {
+            shopwindow.setVisible(true);
+        }
+
+        //        nifty.getCurrentScreen().getLayerElements().get(2).add(shopwindow);
+
+    }
+
+    private void updateShopNameText(Element shopWindow, String name) {
+        Element updatedText = shopWindow.findElementByName("shopname");
+        updateText(updatedText, name);
+    }
+
+    private void updateShopPriceText(Element shopWindow, float price) {
+        Element updatedText = shopWindow.findElementByName("shopprice");
+        updateText(updatedText, Float.toString(price));
+    }
+
+    private void updateShopProdNameText(Element shopWindow, String prodName) {
+        Element updatedText = shopWindow.findElementByName("shopproduct");
+        updateText(updatedText, prodName);
+    }
+
+    private void updateShopLocationText(Element shopWindow, Vector3f location) {
+        Element updatedText = shopWindow.findElementByName("shoplocation");
+        String locationText = Float.toString(location.x) + " " + Float.toString(location.y) + " " + Float.toString(location.z);
+        updateText(updatedText, locationText);
+    }
+
+    private void updateShopReputationText(Element shopWindow, ShopReputation rep) {
+        Element updatedText = shopWindow.findElementByName("shopreputation");
+        updateText(updatedText, rep.toString());
+    }
+
+    public void toggleUpgrade(int index) {
+        BasicShop currentshop = parkHandler.getShopWithID(shopID);
+        if (currentshop == null || currentshop.getUpgrades() == null) {
+            throw new NullPointerException("BasicShop or BasicShop.getUpgrades()");
+        }
+        ShopUpgradeContainer upgrades = currentshop.getUpgrades();
+        switch (index) {
+            case 1:
+                upgrades.setTrendyUpgrade(!upgrades.isTrendyUpgrade());
+                break;
+
+            case 2:
+                upgrades.setFriendlyStaffUpgrade(!upgrades.isFriendlyStaffUpgrade());
+                break;
+
+            case 3:
+                upgrades.setCleaningUpgrade(!upgrades.isCleaningUpgrade());
+                break;
+
+            case 4:
+                upgrades.setQualityUpgrade(!upgrades.isQualityUpgrade());
+                break;
+        }
+        /* Update ui*/
+        updateShopWindow(false);
+
+    }
+
+    /* UtilityMethods */
+    public void updateText(Element niftyElement, String string) {
+        niftyElement.getRenderer(TextRenderer.class).setText(string);
+        niftyElement.getRenderer(TextRenderer.class).setTextHAlign(HorizontalAlign.left);
+        niftyElement.getRenderer(TextRenderer.class).setTextVAlign(VerticalAlign.top);
+    }
+
+    /* SETTERS AND GETTERS */
     public int getRideID() {
         return rideID;
     }
@@ -392,41 +423,20 @@ public class WindowHandler {
     public int getShopID() {
         return shopID;
     }
-    public void toggleUpgrade(int index){
-        BasicShop currentshop = null;
-        if(shopID>=0){
-            
-            for (BasicShop o :parkHandler.getShops()) {
-                if (o.getShopID()== shopID) {
-                    currentshop = o;
-                    break;
-                }
-            }   
-        }else{
-            logger.log(Level.WARNING," ShopID null in Windowhandler while user clicked on shop window. Something messed up!");
-            return;
-        }
-        if(currentshop==null||currentshop.getUpgrades()==null){
-            return;
-        }
-        switch(index){
-            case 1:
-                currentshop.getUpgrades().setTrendyUpgrade(!currentshop.getUpgrades().isTrendyUpgrade());
-                break;
-                
-            case 2:
-                currentshop.getUpgrades().setFriendlyStaffUpgrade(!currentshop.getUpgrades().isFriendlyStaffUpgrade());
-                break;
-                
-            case 3:
-                currentshop.getUpgrades().setCleaningUpgrade(!currentshop.getUpgrades().isCleaningUpgrade());
-                break;
-                
-            case 4:  
-                currentshop.getUpgrades().setQualityUpgrade(!currentshop.getUpgrades().isQualityUpgrade());
-                break;
-        }
+
+    public int getGuestID() {
+        return guestID;
     }
 
-    
+    public void setGuestID(int guestID) {
+        this.guestID = guestID;
+    }
+
+    public void setRideID(int rideID) {
+        this.rideID = rideID;
+    }
+
+    public void setShopID(int shopID) {
+        this.shopID = shopID;
+    }
 }

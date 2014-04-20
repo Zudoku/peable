@@ -40,19 +40,19 @@ public class Guest extends BasicNPC {
     @Inject private transient MapContainer map;
     //OWNS
     private List<Item> inventory = new ArrayList<>(); // What does the guest carry
-    public StatManager stats = new StatManager(); //Emotions and feelings, thoughts
-    public Wallet wallet; //Money situation
+    private StatManager stats = new StatManager(); //Emotions and feelings, thoughts
+    private Wallet wallet; //Money situation
     //VARIABLES
     private int x;
     private int y;
     private int z;
-    private  transient GuestWalkingStates walkState = GuestWalkingStates.WALK; //Whether guest is walking or not
+    private transient GuestWalkingStates walkState = GuestWalkingStates.WALK; //Whether guest is walking or not
     private transient List<NPCAction> actions = new ArrayList<>(); //Npcs actions. Determine where the guest moves and what does he do.
     private int guestnum; //Unique ID for guests
-    Direction moving = Direction.NORTH; //What direction guest is moving.
-    public  transient boolean active = true; //Is guest active AKA is he on ride? is he allowed to move
-    public transient  Spatial currentQueRoad;
-    public  transient long joinedRide;
+    private Direction moving = Direction.NORTH; //What direction guest is moving.
+    private transient boolean active = true; //Is guest active AKA is he on ride? is he allowed to move
+    private transient  Spatial currentQueRoad;
+    private  transient long joinedRide;
 
     public Guest(Wallet wallet, int guestNum, Direction moving, int x1, int y1, int z1, StatManager stats, Spatial geom, String name) {
         super(name, geom);
@@ -355,69 +355,19 @@ public class Guest extends BasicNPC {
         return list;
 
     }
-
     public void initXYZ(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
-        
     }
-
     public int getGuestNum() {
         return guestnum;
     }
-
-    public GuestWalkingStates getWalkingState() {
-        return walkState;
-    }
-
     public void callToQueRoad(NPCAction action) {
         actions.add(action);
     }
-
     public void handleQueRoadFound(Spatial temp) {
-//        boolean found = false;
-//        logger.log(Level.FINEST,"Testing the found queroad");
-//        int fRideID = 0;
-//        Spatial trueroad = null;
-//        BasicRide foundRide = null;
-//        for (BasicRide s : rideManager.rides) {
-//            if (s.getEnterance()!= null) {
-//                if (s.getEnterance().getConnectedRoad() != null) {
-//                    List<Spatial> a = roadMaker.getlinkedqueroads(s.getEnterance().getConnectedRoad());
-//                    trueroad = temp.getUserData("queconnect1");
-//                    if (a.contains(trueroad)) {
-//                        logger.log(Level.FINEST,"Found the ride witch the road is connected to");
-//                        found = true;
-//                        fRideID = s.getRideID();
-//                        break;
-//                    }
-//                    logger.log(Level.FINEST,"Didnt find the ride witch the road is connected to");
-//                }
-//
-//            }
-//        }
-//
-//        if (found) {
-//            for (BasicRide a : rideManager.rides) {
-//                if (a.getRideID() == fRideID) {
-//                    foundRide = a;
-//                }
-//            }
-//            // If the guest wants to go to the ride
-//            if (doIWantToGoThere(foundRide)) {
-//                if (foundRide.tryToQueGuest(this)) {
-//                    if (wallet.canAfford(foundRide.getPrice())) {
-//                        logger.log(Level.FINEST,"Accepted the ride and now in que");
-//                        active = false;
-//                        this.currentQueRoad = trueroad;
-//                    }
-//                }
-//            }
-//        }
-
     }
-
     public boolean doIWantToGoThere(BasicRide ride) {
         //TODO: REWORK
         
@@ -493,33 +443,39 @@ public class Guest extends BasicNPC {
         return false;
     }
 
-    public Direction getmoveDirection() {
-        return moving;
+    /**
+     * GETTERS AND SETTERS
+     */
+    
+    public GuestWalkingStates getWalkState() {
+        return walkState;
     }
 
-    /**
-     * Use only when accessing save data!
-     *
-     * @return
-     */
+    
+    public StatManager getStats() {
+        return stats;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    public long getJoinedRide() {
+        return joinedRide;
+    }
+    public void setJoinedRide(long joinedRide) {
+        this.joinedRide = joinedRide;
+    }
+    public Wallet getWallet() {
+        return wallet;
+    }
+    public Direction getMoving() {
+        return moving;
+    }
     public int getX() {
         return x;
     }
-
-    /**
-     * Use only when accessing save data!
-     *
-     * @return
-     */
     public int getY() {
         return y;
     }
-
-    /**
-     * Use only when accessing save data!
-     *
-     * @return
-     */
     public int getZ() {
         return z;
     }
@@ -527,7 +483,6 @@ public class Guest extends BasicNPC {
     public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
     }
-
     public List<Item> getInventory() {
         return inventory;
     }

@@ -4,8 +4,6 @@
  */
 package intopark.shops.actualshops;
 
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.npc.Guest;
@@ -31,9 +29,9 @@ public class Energy extends BasicShop{
 
     @Override
     public void interact(Guest guest) {
-        if(guest.wallet.canAfford(price)){
+        if(guest.getWallet().canAfford(price)){
             guest.getInventory().add(new Item(productname, Itemtypes.DRINK,10));
-            guest.wallet.pay(price);
+            guest.getWallet().pay(price);
             eventBus.post(new PayParkEvent(price));
             eventBus.post(new UpdateMoneyTextBarEvent());
         }

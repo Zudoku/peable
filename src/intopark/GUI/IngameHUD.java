@@ -401,7 +401,8 @@ public class IngameHUD implements ScreenController {
                 logger.log(Level.WARNING,"No such guest with guestID {0}",index-1);
                 return;
             }
-            windowMaker.createGuestWindow(guest,true);
+            windowMaker.setGuestID(guest.getGuestNum());
+            windowMaker.updateGuestWindow(true,true);
             Element element = nifty.getCurrentScreen().findElementByName("NPCWindow");
             element.setVisible(false);
         }
@@ -415,9 +416,9 @@ public class IngameHUD implements ScreenController {
     @NiftyEventSubscriber(id = "guestnametextfield")
     public void onguestnameChanged(final String id, final TextFieldChangedEvent event) {
         if(!event.getText().equals("")) {
-            Guest guest=windowMaker.getCurrentGuestWindowGuest();
+            Guest guest=parkHandler.getGuestWithID(windowMaker.getGuestID());
             guest.setName(event.getText());
-            windowMaker.updateGuestWindow(guest);
+            windowMaker.updateGuestWindow(true, false);
         }
     }
     /**
@@ -528,16 +529,16 @@ public class IngameHUD implements ScreenController {
     @NiftyEventSubscriber(id = "ridenametextfield")
     public void onRideNameChanged(final String id, final TextFieldChangedEvent event) {
         if(!event.getText().equals("")) {
-            BasicRide ride=windowMaker.getCurrentRide();
+            BasicRide ride=parkHandler.getRideWithID(windowMaker.getRideID());
             ride.setName(event.getText());
-            windowMaker.updateRideWindow(false);
+            windowMaker.updateRideWindow(false,false);
         }
     }
     @NiftyEventSubscriber(id = "ridepriceslider")
     public void onRidePriceChanged(final String id, final SliderChangedEvent event) {
-            BasicRide ride=windowMaker.getCurrentRide();
+            BasicRide ride=parkHandler.getRideWithID(windowMaker.getRideID());
             ride.setPrice(event.getValue());
-            windowMaker.updateRideWindow(false);
+            windowMaker.updateRideWindow(false,false);
     }
     public void rideStatusToggle(){
         windowMaker.handleRideStatusToggle();

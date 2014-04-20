@@ -74,6 +74,7 @@ public class ParkHandler {
     
     /**
      * ParkHandler is the Container object for your whole park.
+     * When saving the game, this class is saved to JSON file.
      * This is used as an a layer to do all kinds of this in your park.
      * For example you can send an DemolishRideEvent from any other class.
      * Then this class will catch it and do the needed things with all the needed dependencies to destroy the ride.
@@ -152,6 +153,51 @@ public class ParkHandler {
             return Integer.toString(1);
         }
         return Integer.toString(guests.size());
+    }
+    /**
+     * Return BasicRide with given rideID if found.
+     * @param rideID rides unique rideID.
+     * @return found ride OR null if there isn't a ride with that ID.
+     */
+    public BasicRide getRideWithID(int rideID){
+        BasicRide foundRide=null;
+        for(BasicRide r:rides){
+            if(r.getRideID()==rideID){
+                foundRide=r;
+                break;
+            }
+        }
+        return foundRide;
+    }
+    /**
+     * Return BasicShop with given ID if found.
+     * @param shopID shops unique rideID.
+     * @return found shop OR null if there isn't a shop with that ID.
+     */
+    public BasicShop getShopWithID(int shopID){
+        BasicShop foundShop=null;
+        for(BasicShop r:shops){
+            if(r.getShopID()==shopID){
+                foundShop=r;
+                break;
+            }
+        }
+        return foundShop;
+    }
+    /**
+     * Return Guest with given ID if found.
+     * @param guestID guests unique ID.
+     * @return found guest OR null if there isn't a guest with that ID.
+     */
+    public Guest getGuestWithID(int ID){
+        Guest guest=null;
+        for(Guest g:guests){
+            if(g.getGuestNum()==ID){
+                guest=g;
+                break;
+            }
+        }
+        return guest;
     }
     /**
      * EVENTBUS LISTENERS

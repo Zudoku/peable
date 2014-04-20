@@ -93,7 +93,8 @@ public class ClickingHandler {
                 if (rootTarget.getUserData("guestnum") != null) {
                     for (Guest g : npcManager.getGuests()) {
                         if (g.getGuestNum() == rootTarget.getUserData("guestnum")) {
-                            windowMaker.createGuestWindow(g, true);
+                            windowMaker.setGuestID(g.getGuestNum());
+                            windowMaker.updateGuestWindow(true, true);
                             logger.log(Level.FINEST, "Displaying Guestwindow for guest with id {0}", g.getGuestNum());
                             return;
                         }
@@ -102,7 +103,8 @@ public class ClickingHandler {
                 if (rootTarget.getUserData("shopID") != null) {
                     for (BasicShop g : shopManager.getShops()) {
                         if (g.getShopID() == rootTarget.getUserData("shopID")) {
-                            windowMaker.createShopWindow(g);
+                            windowMaker.setShopID(g.getShopID());
+                            windowMaker.updateShopWindow(true);
                             logger.log(Level.FINEST, "Displaying Shopwindow for shop with id {0}", g.getShopID());
                             return;
                         }
@@ -111,7 +113,8 @@ public class ClickingHandler {
                 if (rootTarget.getUserData("rideID") != null) {
                     for (BasicRide r : rideManager.rides) {
                         if (r.getRideID() == rootTarget.getUserData("rideID")) {
-                            windowMaker.CreateRideWindow(r);
+                            windowMaker.setRideID(r.getRideID());
+                            windowMaker.updateRideWindow(true, true);
                             logger.log(Level.FINEST, "Displaying Ridewindow for Ride with id {0}", r.getRideID());
                             return;
                         }

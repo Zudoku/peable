@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import intopark.roads.events.UpdateRoadEvent;
 import intopark.terrain.MapPosition;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.DirectedGraph;
@@ -55,7 +56,7 @@ public class Roadgraph {
                             connected[3]=true;
                         }
                     }
-                    
+                    logger.log(Level.FINEST,"Road {0} needs updating!",road.getID());
                     eventBus.post(new UpdateRoadEvent(road,connected));
                     
                 }else if(walkable instanceof BuildingEnterance){
@@ -129,17 +130,27 @@ public class Roadgraph {
     private void connectWalkables(Walkable walk1,Walkable walk2){
         roadMap.addEdge(walk1, walk2);
         roadMap.addEdge(walk2, walk1);
+        logger.log(Level.FINEST,"Walkables {0} and {1} connected via edge ", new Object[]{walk1.position.getVector(),walk2.position.getVector()});
         walk1.setNeedsUpdate(true);
         walk2.setNeedsUpdate(true);
     }
-    public void deleteRoad(Road road){
-        /* Look up all the edges connected to road. */
-        Set<DefaultEdge>edgesDelete=roadMap.outgoingEdgesOf(road);
-        edgesDelete.addAll(roadMap.incomingEdgesOf(road));
+    public void deleteWalkable(Walkable walkable){
+        /* Look up all the edges connected to walkable. */
+        Set<DefaultEdge>edgesDelete=roadMap.outgoingEdgesOf(walkable);
+        edgesDelete.addAll(roadMap.incomingEdgesOf(walkable));
+        logger.log(Level.FINEST,"Deleting {0} edges.",edgesDelete.size());
         /* Delete them */
         roadMap.removeAllEdges(edgesDelete);
         /* Delete also the vertex */
-        roadMap.removeVertex(road);
+        roadMap.removeVertex(walkable);
+        String type=" ";
+        if(walkable instanceof Road){
+            type="road";
+        }
+        if(walkable instanceof BuildingEnterance){
+            type="building enterance";
+        }
+        logger.log(Level.FINEST,"Deleted Walkable ({0}) from the graph.",type);
     }
 
     DirectedGraph<Walkable, DefaultEdge> getRoadMap() {

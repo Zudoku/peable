@@ -74,7 +74,7 @@ public class NPCAction {
                     
                     return;
                 }
-                guest.getInventory().get(0).consume(guest.stats);
+                guest.getInventory().get(0).consume(guest.getStats());
                 guest.getInventory().remove(guest.getInventory().get(0));
                 //windowMaker.updateGuestWindow(guest);
                 break;

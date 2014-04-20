@@ -11,6 +11,7 @@ import intopark.inout.LoadPaths;
 import static intopark.roads.RoadHill.FLAT;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -49,14 +50,14 @@ public class RoadFactory {
         transformMap.put("ttff", new TransformContainer(SKIN_1_STRAIGHT, 0));
         
         transformMap.put("ftft", new TransformContainer(SKIN_1_BENDING, 180)); 
-        transformMap.put("tfft", new TransformContainer(SKIN_1_BENDING, -90));
+        transformMap.put("tfft", new TransformContainer(SKIN_1_BENDING, 90));
         transformMap.put("tftf", new TransformContainer(SKIN_1_BENDING, 0));
-        transformMap.put("fttf", new TransformContainer(SKIN_1_BENDING, 90));
+        transformMap.put("fttf", new TransformContainer(SKIN_1_BENDING, -90));
         
         transformMap.put("fttt", new TransformContainer(SKIN_1_TROAD, 0));
         transformMap.put("tftt", new TransformContainer(SKIN_1_TROAD, 180));
-        transformMap.put("ttft", new TransformContainer(SKIN_1_TROAD, 90));
-        transformMap.put("tttf", new TransformContainer(SKIN_1_TROAD, -90));
+        transformMap.put("ttft", new TransformContainer(SKIN_1_TROAD, -90));
+        transformMap.put("tttf", new TransformContainer(SKIN_1_TROAD, 90));
     }
     /**
      * 
@@ -71,8 +72,10 @@ public class RoadFactory {
         switch(road.getRoadhill()){
             case FLAT:
                 TransformContainer info=transformMap.get(booleanToString(cDirections));
+                logger.log(Level.FINEST, "Road ID: {0} Position:{1} transformed to CODE: {2} ROTATION:{3}",new Object[]{road.getID(),road.getPosition().getVector(),info.getCode(),info.getAngle()});
                 roadSpatial=getAbsoluteSpatial(info.getCode(),road.getQueRoad());
                 roadSpatial.rotate(0,(float) Math.toRadians(info.getAngle()),0);
+                
                 break;
                 
             default:
@@ -93,6 +96,7 @@ public class RoadFactory {
         roadSpatial.move(road.getVector3f());
         roadSpatial.setUserData("type", "road");
         roadSpatial.setUserData("ID", road.getID());
+        logger.log(Level.FINEST,"Roads final translation is {0}",roadSpatial.getLocalTranslation());
         return roadSpatial;
     }
 

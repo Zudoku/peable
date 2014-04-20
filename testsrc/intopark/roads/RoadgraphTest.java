@@ -127,5 +127,23 @@ public class RoadgraphTest {
             assertNotNull(roadMap.getEdgeTarget(e));
         }
     }
+    @Test
+    public void testBendingEdge(){
+        Road road; 
+        Roadgraph instance = new Roadgraph();
+        road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
+        instance.addWalkable(road);
+        Road road2=new Road(new MapPosition(2, 6, 1), RoadHill.FLAT, 2, 1, false, Direction.NORTH);
+        instance.addWalkable(road2);
+        Road road3=new Road(new MapPosition(2, 6, 2), RoadHill.FLAT, 3, 1, false, Direction.NORTH);
+        instance.addWalkable(road3);
+        DirectedGraph<Walkable,DefaultEdge> roadMap=instance.getRoadMap();
+        Walkable[] vertexes=roadMap.vertexSet().toArray(new Walkable[roadMap.vertexSet().size()]);
+        assertSame(2,roadMap.edgesOf(road).size());
+        assertSame(2*2,roadMap.edgesOf(road2).size());
+        assertSame(2,roadMap.edgesOf(road3).size());
+        
+        
+    }
 
 }

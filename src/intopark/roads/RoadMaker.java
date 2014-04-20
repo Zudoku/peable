@@ -96,7 +96,7 @@ public class RoadMaker {
                 roadPos.setZ(roadPos.getZ() - 1);
                 break;
         }
-        roadPos.setOffSetY(roadPos.getY() + 0.1f);
+        roadPos.setOffSetY(0.1f);
         return roadPos;
     }
     /**
@@ -163,6 +163,7 @@ public class RoadMaker {
         parkHandler.getParkWallet().remove(10);
         eventBus.post(new UpdateMoneyTextBarEvent());
         ID++;
+        logger.log(Level.FINEST,"Road added succesfully to {0}",event.getRoad().getVector3f());
     }
 
     public void startingPosition(Vector3f pos) {
@@ -182,15 +183,18 @@ public class RoadMaker {
         }
         if(oldRoad==null){
             /* FAILED CANT FIND ROAD WITH THAT ID   */
+            logger.log(Level.FINER, "Unable to find roadSpatial with ID {0}",id);
         }else{
             /* Delete old road */
         
             roadNode.detachChild(oldRoad);
+            logger.log(Level.FINEST,"Deleted old roadSpatial with ID {0}",id);
         }
         /* Get new road */
         Spatial newRoad=roadF.roadToSpatial(event.getExistingRoad(),event.getConnected());
         /* Add new road  */
         roadNode.attachChild(newRoad);
+        roadSpatials.add(newRoad);
         event.getExistingRoad().setNeedsUpdate(false);
     }
 

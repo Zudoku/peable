@@ -29,9 +29,9 @@ public class Toilet extends BasicShop{
 
     @Override
     public void interact(Guest guest) {
-        if(guest.wallet.canAfford(price)){
+        if(guest.getWallet().canAfford(price)){
             guest.getInventory().add(new Item(productname, Itemtypes.FUN,10));
-            guest.wallet.pay(price);
+            guest.getWallet().pay(price);
             eventBus.post(new PayParkEvent(price));
             eventBus.post(new UpdateMoneyTextBarEvent());
         }
