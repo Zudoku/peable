@@ -65,7 +65,7 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             final JsonObject jg = guestsarray.get(x).getAsJsonObject();
             Wallet gw=jdc.deserialize(jg.get("wallet"),Wallet.class);
             StatManager sm=jdc.deserialize(jg.get("stats"),StatManager.class);
-            Direction dir=jdc.deserialize(jg.get("direction"),Direction.class);
+            Direction dir=jdc.deserialize(jg.get("moving"),Direction.class);
             List<Item> inv = jdc.deserialize(jg.get("inventory"),new TypeToken<List<Item>>(){}.getType());
             String name=getS(jg,"name");
             int guestnum=getI(jg,"guestnum");

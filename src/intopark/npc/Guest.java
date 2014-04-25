@@ -12,18 +12,22 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import intopark.Main;
+import static intopark.npc.BasicNPC.logger;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.RideType;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
 import intopark.ride.BasicRide;
-import intopark.ride.RideManager;
-import intopark.shops.BasicShop;
-import intopark.shops.ShopManager;
+import intopark.roads.Road;
+import intopark.roads.Roadgraph;
+import intopark.roads.Walkable;
 import intopark.terrain.Direction;
 import intopark.terrain.MapContainer;
+import intopark.terrain.MapPosition;
 import intopark.terrain.ParkHandler;
-import intopark.roads.RoadMaker;
+import java.util.Arrays;
+import org.jgraph.graph.DefaultEdge;
+import org.jgrapht.DirectedGraph;
 
 /**
  *
@@ -33,10 +37,7 @@ public class Guest extends BasicNPC {
     //LOGGER 
     //DEPENDENCIES
     private  transient Random r;
-    @Inject private transient ParkHandler currentPark;
-    @Inject private transient ShopManager shopManager;
-    @Inject private transient RideManager rideManager;
-    @Inject private transient RoadMaker roadMaker;
+    @Inject private transient ParkHandler parkHandler;
     @Inject private transient MapContainer map;
     //OWNS
     private List<Item> inventory = new ArrayList<>(); // What does the guest carry
@@ -92,14 +93,10 @@ public class Guest extends BasicNPC {
     @Override
     public void update() {
         if (actions.size() < 1 && active) {
-
             calcMovePoints();
         }
         if (walkState == GuestWalkingStates.WALK) {
-            if (map.getMap()[x][y][z] == null) {
-                return;
-            }
-            if (actions.isEmpty() == true) {
+            if (actions.isEmpty()) {
                 return;
             }
             super.move(actions.get(0), actions);
@@ -107,253 +104,63 @@ public class Guest extends BasicNPC {
         stats.update();
 
     }
-
+    /**
+     * We calculate our next Action (WHERE GUEST MOVES)
+     */
     public void calcMovePoints() {
-        //0 p 1 e 2 i 3 l
-        int suunta = r.nextInt(4);
-        ActionType actiontype = ActionType.NOTHING;
-        if (r.nextInt(100) == 5) {
-            actiontype = ActionType.CONSUME;
+        boolean haveTarget=false;//WHEN I WANT TO EXPAND TO PATHFINDING
+        boolean needTarget=false;
+        if(needTarget){
+            if(!haveTarget){
+                //PATHFINDING SHIZ
+                haveTarget=true;
+            }
         }
-        if (suunta == 0) {
-            if (map.getMap()[x + 1][y][z] != null) {
-                if (moving == Direction.SOUTH) {
-                    int pass = r.nextInt(10);
-                    if (pass != 1) {
+        if(haveTarget){
+            /* NEED TO MOVE TO TARGET */
+        }else{
+            /*CAN WONDER OFF FREELY*/
+            Roadgraph roadGraph=parkHandler.getRoadGraph();
+            Walkable current=roadGraph.getWalkable(x, y, z);
+            if(current==null){
+                /*NOT ON ROAD. CAN'T MOVE*/
+                return;
+            }
+            DirectedGraph<Walkable,DefaultEdge>roadMap=roadGraph.getRoadMap();
+            List<Walkable>possibilities=new ArrayList<>();
+            for(DefaultEdge edge:roadMap.outgoingEdgesOf(current)){
+                Walkable possi=roadMap.getEdgeTarget(edge);
+                possibilities.add(possi);
+            }
+            if(possibilities.isEmpty()){
+                return;
+            }
+            int seed=0;
+            if(possibilities.size()>1){
+                seed=r.nextInt(possibilities.size());
+            }
+            Walkable target=possibilities.get(seed);
+            if(target instanceof Road){
+                Direction roadDirection=new MapPosition(x, y, z).getDirection(target.getPosition().getX(),target.getPosition().getZ());
+                if(moving.isOpposite(roadDirection)){
+                    if(5!=r.nextInt(10)){
                         return;
                     }
                 }
-                Spatial temp = map.getMap()[x + 1][y][z];
-                if (temp.getUserData("type").equals("road")) {
-                    if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
-                        if (temp.getUserData("direction").equals("UP") || temp.getUserData("direction").equals("DOWN")) {
-                            if (temp == map.getMap()[x + 1][y - 1][z]) {
-                                actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype, this));
-                                actions.add(new NPCAction(new Vector3f(x + 1f, y - 0.9f, z), actiontype, this));
-                                x = x + 1;
-                                y = y - 1;
-                                moving = Direction.NORTH;
-                            }
-                            if (temp == map.getMap()[x + 1][y + 1][z]) {
-                                actions.add(new NPCAction(new Vector3f(x + 0.5f, y + 0.1f, z), actiontype, this));
-                                actions.add(new NPCAction(new Vector3f(x + 1f, y + 1.1f, z), actiontype, this));
-                                x = x + 1;
-                                y = y + 1;
-                                moving = Direction.NORTH;
-                            }
-
-                        }
-
-
-                    }
-
-                    if (temp.getUserData("roadHill").equals("flat")) {
-                        actions.add(new NPCAction(new Vector3f(x + 1f, y + 0.1f, z), actiontype, this));
-                        x = x + 1;
-                        moving = Direction.NORTH;
-                    }
-
-                }
-                if (temp.getUserData("type").equals("queroad")) {
-                    handleQueRoadFound(temp);
-
-                }
-
-                if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = shopManager.isthereshop(x + 1, y, z);
-                    if (foundshop != null) {
-                        NPCAction buy = new NPCAction(new Vector3f(x + 0.7f, y + 0.1f, z), ActionType.BUY, foundshop, this);
-                        actions.add(buy);
-                        actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING, this));
-                        moving = Direction.NORTH;
-                    }
-                }
-
+                actions.add(getSimpleAction(target.getPosition().getVector()));
+                moving=roadDirection;
+                x=target.getPosition().getX();
+                y=target.getPosition().getY();
+                z=target.getPosition().getZ();
             }
-
-        }
-        if (suunta == 1) {
-            if (map.getMap()[x - 1][y][z] != null) {
-                Spatial temp = map.getMap()[x - 1][y][z];
-                if (moving == Direction.NORTH) {
-                    int pass = r.nextInt(10);
-                    if (pass != 1) {
-                        return;
-                    }
-                }
-                if (temp.getUserData("type").equals("road")) {
-                    if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
-                        if (temp.getUserData("direction").equals("UP") || temp.getUserData("direction").equals("DOWN")) {
-                            if (temp == map.getMap()[x - 1][y - 1][z]) {
-                                actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype, this));
-                                actions.add(new NPCAction(new Vector3f(x - 1f, y - 0.9f, z), actiontype, this));
-                                x = x - 1;
-                                y = y - 1;
-                                moving = Direction.SOUTH;
-                            }
-                            if (temp == map.getMap()[x - 1][y + 1][z]) {
-                                actions.add(new NPCAction(new Vector3f(x - 0.5f, y + 0.1f, z), actiontype, this));
-                                actions.add(new NPCAction(new Vector3f(x - 1f, y + 1.1f, z), actiontype, this));
-                                x = x - 1;
-                                y = y + 1;
-                                moving = Direction.SOUTH;
-                            }
-                        }
-                    }
-                    if (temp.getUserData("roadHill").equals("flat")) {
-                        actions.add(new NPCAction(new Vector3f(x - 1, y + 0.1f, z), actiontype, this));
-                        x = x - 1;
-                        moving = Direction.SOUTH;
-                    }
-
-                }
-                if (temp.getUserData("type").equals("queroad")) {
-                    handleQueRoadFound(temp);
-                }
-
-                if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = shopManager.isthereshop(x - 1, y, z);
-                    if (foundshop != null) {
-                        NPCAction buy = new NPCAction(new Vector3f(x - 0.7f, y + 0.1f, z), ActionType.BUY, foundshop, this);
-                        actions.add(buy);
-                        actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING, this));
-                        moving = Direction.SOUTH;
-                    }
-                }
-
-            }
-        }
-        if (suunta == 2) {
-            if (map.getMap()[x][y][z + 1] != null) {
-                Spatial temp = map.getMap()[x][y][z + 1];
-                if (moving == Direction.WEST) {
-                    int pass = r.nextInt(10);
-                    if (pass != 1) {
-                        return;
-                    }
-                }
-                if (temp.getUserData("type").equals("road")) {
-                    if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
-                        if (temp.getUserData("direction").equals("LEFT") || temp.getUserData("direction").equals("RIGHT")) {
-                            if (temp == map.getMap()[x][y - 1][z + 1]) {
-                                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype, this));
-                                actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z + 1f), actiontype, this));
-                                z = z + 1;
-                                y = y - 1;
-                                moving = Direction.EAST;
-                            }
-                            if (temp == map.getMap()[x][y + 1][z + 1]) {
-                                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 0.5f), actiontype, this));
-                                actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z + 1f), actiontype, this));
-                                z = z + 1;
-                                y = y + 1;
-                                moving = Direction.EAST;
-                            }
-                        }
-                    }
-                    if (temp.getUserData("roadHill").equals("flat")) {
-                        actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z + 1), actiontype, this));
-                        z = z + 1;
-                        moving = Direction.EAST;
-                    }
-
-                }
-                if (temp.getUserData("type").equals("queroad")) {
-                    handleQueRoadFound(temp);
-                }
-
-                if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = shopManager.isthereshop(x, y, z + 1);
-                    if (foundshop != null) {
-                        NPCAction buy = new NPCAction(new Vector3f(x, y + 0.1f, z + 0.7f), ActionType.BUY, foundshop, this);
-                        actions.add(buy);
-                        actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING, this));
-                        moving = Direction.EAST;
-                    }
-                }
-
-            }
-
-        }
-        if (suunta == 3) {
-            if (map.getMap()[x][y][z - 1] != null) {
-
-                Spatial temp = map.getMap()[x][y][z - 1];
-                if (moving == Direction.EAST) {
-                    int pass = r.nextInt(10);
-                    if (pass != 1) {
-                        return;
-                    }
-                }
-                if (temp.getUserData("type").equals("road")) {
-                    if (temp.getUserData("roadHill").equals("upHill") || temp.getUserData("roadHill").equals("downHill")) {
-                        if (temp.getUserData("direction").equals("LEFT") || temp.getUserData("direction").equals("RIGHT")) {
-                            if (temp == map.getMap()[x][y - 1][z - 1]) {
-                                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype, this));
-                                actions.add(new NPCAction(new Vector3f(x, y - 0.9f, z - 1), actiontype, this));
-                                z = z - 1;
-                                y = y - 1;
-                                moving = Direction.WEST;
-                            }
-                            if (temp == map.getMap()[x][y + 1][z - 1]) {
-                                actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 0.5f), actiontype, this));
-                                actions.add(new NPCAction(new Vector3f(x, y + 1.1f, z - 1), actiontype, this));
-                                z = z - 1;
-                                y = y + 1;
-                                moving = Direction.WEST;
-                            }
-                        }
-                    }
-                    if (temp.getUserData("roadHill").equals("flat")) {
-                        actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z - 1), actiontype, this));
-                        z = z - 1;
-                        moving = Direction.WEST;
-                    }
-
-                }
-                if (temp.getUserData("type").equals("queroad")) {
-                    handleQueRoadFound(temp);
-                }
-
-                if (temp.getUserData("type").equals("shop")) {
-                    BasicShop foundshop = shopManager.isthereshop(x, y, z - 1);
-                    if (foundshop != null) {
-                        NPCAction buy = new NPCAction(new Vector3f(x, y + 0.1f, z - 0.7f), ActionType.BUY, foundshop, this);
-                        actions.add(buy);
-                        actions.add(new NPCAction(new Vector3f(x, y + 0.1f, z), ActionType.NOTHING, this));
-                        moving = Direction.WEST;
-                    }
-                }
-
-            }
+            
+            
+            
         }
     }
-
-    public ArrayList<Spatial> getlinkedqueroads(Spatial firstroad) {
-        ArrayList<Spatial> list = new ArrayList<Spatial>();
-        Spatial nextroad = firstroad;
-        boolean end = false;
-        int max = 0;
-        while (end) {
-            max++;
-            boolean connected = nextroad.getUserData("connected");
-            if (connected == true) {
-                if (nextroad.getUserData("connectedEnterance") != null) {
-                    end = true;
-                }
-                list.add(nextroad);
-                nextroad = nextroad.getUserData("connected2");
-            } else {
-                end = true;
-            }
-            if (max > 100) {
-                end = true;
-                logger.log(Level.FINE,"Getting linked queroads looped for 100 times. Quitting...");
-            }
-        }
-
-        return list;
-
+    private NPCAction getSimpleAction(Vector3f pos){
+        NPCAction action=new NPCAction(pos, ActionType.NOTHING, this);
+        return action;
     }
     public void initXYZ(int x, int y, int z) {
         this.x = x;
@@ -485,6 +292,10 @@ public class Guest extends BasicNPC {
     }
     public List<Item> getInventory() {
         return inventory;
+    }
+
+    public void setMoving(Direction moving) {
+        this.moving = moving;
     }
     
 }

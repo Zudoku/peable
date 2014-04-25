@@ -12,7 +12,7 @@ import intopark.terrain.MapPosition;
  */
 public class Walkable {
     protected MapPosition position;
-    private boolean needsUpdate = false;
+    private transient boolean needsUpdate = false;
 
     public Walkable(MapPosition position) {
         this.position = position;
@@ -25,6 +25,11 @@ public class Walkable {
     public void setNeedsUpdate(boolean needsUpdate) {
         this.needsUpdate = needsUpdate;
     }
+
+    public MapPosition getPosition() {
+        return position;
+    }
+    
     
     
 }

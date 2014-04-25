@@ -258,6 +258,17 @@ public class RoadMaker {
         return status;
     }
 
+    public Roadgraph getRoadGraph() {
+        return roadGraph;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
     public void setStatus(RoadMakerStatus status) {
         this.status = status;
     }

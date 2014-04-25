@@ -28,8 +28,6 @@ public class MapPosition {
         this.z=z;
     }
     public MapPosition(Vector3f vec){
-        
-        Vector3f vector=new Vector3f(vec);
         this.x=(int)Math.floor(vec.x);
         this.y=(int)Math.floor(vec.y);
         this.z=(int)Math.floor(vec.z);
@@ -106,6 +104,21 @@ public class MapPosition {
             return false;
         }
         return true;
+    }
+    public Direction getDirection(int x1,int z1){
+        if(x>x1){
+            return Direction.NORTH;
+        }
+        if(x<x1){
+            return Direction.SOUTH;
+        }
+        if(z>z1){
+            return Direction.EAST;
+        }
+        if(z<z1){
+            return Direction.WEST;
+        }
+        throw new RuntimeException("Unable to get direction");
     }
     public Vector3f getVector(){
         return new Vector3f(x+offSetX, y+offSetY, z+offSetZ);

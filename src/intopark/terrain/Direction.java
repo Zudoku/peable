@@ -27,8 +27,21 @@ public enum Direction {
         }
         return false;
     }
+    public Direction intToDirection(int dir) {
+        switch (dir) {
+            default:
+                //0
+                return NORTH;
+            case 1:
+                return SOUTH;
+            case 2:
+                return EAST;
+            case 3:
+                return WEST;
+        }
+    }
     public int getAngle() {
-        /* NORTH = 0 */
+        /* NORTH = 180 */
         switch (this) {
             case NORTH:
                 return 180;

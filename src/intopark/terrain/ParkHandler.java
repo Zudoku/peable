@@ -4,6 +4,7 @@
  */
 package intopark.terrain;
 
+import com.google.common.collect.Lists;
 import intopark.roads.RoadMaker;
 import intopark.terrain.events.PayParkEvent;
 import intopark.terrain.events.RideDemolishEvent;
@@ -34,6 +35,9 @@ import intopark.npc.NPCManager;
 import intopark.npc.events.SetGuestSpawnPointsEvent;
 import intopark.ride.BasicRide;
 import intopark.ride.RideManager;
+import intopark.roads.Road;
+import intopark.roads.Roadgraph;
+import intopark.roads.Walkable;
 import intopark.shops.BasicShop;
 import intopark.shops.CreateShopEvent;
 import intopark.shops.ShopDemolishEvent;
@@ -67,8 +71,7 @@ public class ParkHandler {
     private transient List<BasicNPC> npcs = new ArrayList<>();
     private List<BasicShop> shops = new ArrayList<>();
     private List<Guest> guests = new ArrayList<>();
-    private transient List<Vector3f> RoadtoUpdatePositions = new ArrayList<>();
-    private transient List<Spatial> queRoadsToUpdate = new ArrayList<>();
+    private List<Road>roads; //THIS LIST IS ONLY FOR SAVING
     private Scenario scenario;
     //VARIABLES
     
@@ -112,9 +115,14 @@ public class ParkHandler {
         eventBus.post(new UpdateMoneyTextBarEvent());
         logger.log(Level.FINEST,"Configuring finished");
     }
-    /**
-     * 
-     */
+    public void initializeSaving(){
+        for(Walkable e:roadMaker.getRoadGraph().getRoadMap().vertexSet()){
+            if(e instanceof Road){
+                roads.add((Road)e);
+            }
+        }
+        
+    }
     
     
     /**
@@ -431,13 +439,10 @@ public class ParkHandler {
     public float[] getMapData() {
         return map.getMapData();
     }
-    public void setUpdatedRoadsList(ArrayList<Vector3f> pos) {
-        this.RoadtoUpdatePositions=pos;
-    }
-    public void setUpdatedQueRoadsList(ArrayList<Spatial> queRoadstoUpdate) {
-        this.queRoadsToUpdate=queRoadstoUpdate;
-    }
     public String getParkName() {
         return scenario.getParkName();
+    }
+    public Roadgraph getRoadGraph(){
+        return roadMaker.getRoadGraph();
     }
 }

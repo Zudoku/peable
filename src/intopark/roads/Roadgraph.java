@@ -157,8 +157,8 @@ public class Roadgraph {
         }
         logger.log(Level.FINEST,"Deleted Walkable ({0}) from the graph.",type);
     }
-
-    DirectedGraph<Walkable, DefaultEdge> getRoadMap() {
+    
+    public DirectedGraph<Walkable, DefaultEdge> getRoadMap() {
         return roadMap;
     }
     public boolean isThereRoom(MapPosition position){
@@ -172,6 +172,23 @@ public class Roadgraph {
 
     public void setEventBus(EventBus eventBus) {
         this.eventBus = eventBus;
+    }
+    public Walkable getWalkable(int x,int y,int z){
+        Walkable walkable=null;
+        for(Walkable test:roadMap.vertexSet()){
+            if(test.position.getX()!=x){
+                continue;
+            }
+            if(test.position.getY()!=y){
+                continue;
+            }
+            if(test.position.getZ()!=z){
+                continue;
+            }
+            walkable=test;
+            break;
+        }
+        return walkable;
     }
     
     
