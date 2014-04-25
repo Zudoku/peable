@@ -116,6 +116,7 @@ public class ParkHandler {
         logger.log(Level.FINEST,"Configuring finished");
     }
     public void initializeSaving(){
+        roads=new ArrayList<>();
         for(Walkable e:roadMaker.getRoadGraph().getRoadMap().vertexSet()){
             if(e instanceof Road){
                 roads.add((Road)e);
@@ -123,7 +124,9 @@ public class ParkHandler {
         }
         
     }
-    
+    public void postSave(){
+        roads.clear();
+    }
     
     /**
      * 

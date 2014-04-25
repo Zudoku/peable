@@ -16388,13 +16388,12 @@
     ]
   },
   "parkwallet": {
-    "money": 9100.0,
+    "money": 9010.0,
     "loan": 0.0
   },
   "rides": [],
   "shops": [
     {
-      "facing": "DOWN",
       "position": {
         "x": 6,
         "y": 5,
@@ -16408,490 +16407,663 @@
       "productname": "prodname",
       "shopName": "toilet 1",
       "price": 20.0,
-      "reputation": "NEW",
+      "upgrades": {
+        "cleaningUpgrade": false,
+        "friendlyStaffUpgrade": false,
+        "qualityUpgrade": false,
+        "trendyUpgrade": false,
+        "cleaningUpgradeCost": 75,
+        "friendlyStaffUpgradeCost": 100,
+        "qualityUpgradeCost": 200,
+        "trendyUpgradeCost": 125,
+        "reputation": "NEW"
+      },
       "type": "toilet"
     }
   ],
   "guests": [
     {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 69,
+        "thirst": 78,
+        "happyness": 20,
+        "preferredRide": "LOW"
+      },
       "wallet": {
         "money": 38.0
       },
-      "guestnum": 1,
-      "x": 3,
+      "x": 7,
       "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 68,
-        "thirst": 69,
-        "happyness": 27,
-        "preferredRide": "LOW"
-      },
+      "z": 0,
+      "guestnum": 1,
+      "moving": "EAST",
       "name": "Susan Jackson"
     },
     {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "HUNGRY",
+        "hunger": 100,
+        "thirst": 89,
+        "happyness": 63,
+        "preferredRide": "MEDIUM"
+      },
       "wallet": {
         "money": 64.0
       },
-      "guestnum": 2,
       "x": 3,
       "y": 6,
       "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 99,
-        "thirst": 85,
-        "happyness": 69,
-        "preferredRide": "MEDIUM"
-      },
+      "guestnum": 2,
+      "moving": "NORTH",
       "name": "Robert Young"
     },
     {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 38,
+        "thirst": 51,
+        "happyness": 62,
+        "preferredRide": "LOW"
+      },
       "wallet": {
         "money": 57.0
       },
-      "guestnum": 3,
-      "x": 3,
+      "x": 2,
       "y": 6,
       "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 34,
-        "thirst": 47,
-        "happyness": 66,
-        "preferredRide": "LOW"
-      },
+      "guestnum": 3,
+      "moving": "NORTH",
       "name": "Helen Miller"
     },
     {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 81,
+        "thirst": 9,
+        "happyness": 8,
+        "preferredRide": "LOW"
+      },
       "wallet": {
         "money": 35.0
       },
-      "guestnum": 4,
-      "x": 3,
+      "x": 4,
       "y": 6,
       "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 77,
-        "thirst": 6,
-        "happyness": 16,
-        "preferredRide": "LOW"
-      },
+      "guestnum": 4,
+      "moving": "SOUTH",
       "name": "Michael Allen"
     },
     {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 74,
+        "thirst": 92,
+        "happyness": 0,
+        "preferredRide": "LOW"
+      },
       "wallet": {
         "money": 42.0
       },
-      "guestnum": 1,
-      "x": 2,
+      "x": 6,
       "y": 6,
       "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 69,
-        "thirst": 85,
-        "happyness": 7,
-        "preferredRide": "LOW"
-      },
+      "guestnum": 1,
+      "moving": "NORTH",
       "name": "Mary Martin"
     },
     {
-      "wallet": {
-        "money": 46.0
-      },
-      "guestnum": 2,
-      "x": 2,
-      "y": 6,
-      "z": 2,
       "inventory": [],
       "stats": {
         "currentEmote": "NORMAL",
-        "hunger": 87,
-        "thirst": 56,
-        "happyness": 86,
+        "hunger": 90,
+        "thirst": 61,
+        "happyness": 82,
         "preferredRide": "MEDIUM"
       },
+      "wallet": {
+        "money": 46.0
+      },
+      "x": 7,
+      "y": 6,
+      "z": 2,
+      "guestnum": 2,
+      "moving": "WEST",
       "name": "Elisabeth Thompson"
     },
     {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 98,
+        "thirst": 33,
+        "happyness": 0,
+        "preferredRide": "LOW"
+      },
       "wallet": {
         "money": 44.0
       },
-      "guestnum": 3,
-      "x": 2,
+      "x": 6,
       "y": 6,
       "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 96,
-        "thirst": 31,
-        "happyness": 4,
-        "preferredRide": "LOW"
-      },
+      "guestnum": 3,
+      "moving": "NORTH",
       "name": "Laura Davis"
     },
     {
-      "wallet": {
-        "money": 44.0
-      },
-      "guestnum": 4,
-      "x": 2,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 61,
-        "thirst": 39,
-        "happyness": 77,
-        "preferredRide": "MEDIUM"
-      },
-      "name": "Jennifer Thomas"
-    },
-    {
-      "wallet": {
-        "money": 61.0
-      },
-      "guestnum": 5,
-      "x": 3,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 53,
-        "thirst": 32,
-        "happyness": 68,
-        "preferredRide": "MEDIUM"
-      },
-      "name": "Donald Thomas"
-    },
-    {
-      "wallet": {
-        "money": 62.0
-      },
-      "guestnum": 1,
-      "x": 2,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 43,
-        "thirst": 48,
-        "happyness": 73,
-        "preferredRide": "MEDIUM"
-      },
-      "name": "Maria Garcia"
-    },
-    {
-      "wallet": {
-        "money": 46.0
-      },
-      "guestnum": 1,
-      "x": 3,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 23,
-        "thirst": 63,
-        "happyness": 82,
-        "preferredRide": "LOW"
-      },
-      "name": "Maria Moore"
-    },
-    {
-      "wallet": {
-        "money": 56.0
-      },
-      "guestnum": 2,
-      "x": 3,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 29,
-        "thirst": 61,
-        "happyness": 72,
-        "preferredRide": "LOW"
-      },
-      "name": "Karen Clark"
-    },
-    {
-      "wallet": {
-        "money": 56.0
-      },
-      "guestnum": 3,
-      "x": 2,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 43,
-        "thirst": 19,
-        "happyness": 7,
-        "preferredRide": "LOW"
-      },
-      "name": "Nancy Jackson"
-    },
-    {
-      "wallet": {
-        "money": 61.0
-      },
-      "guestnum": 4,
-      "x": 2,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 80,
-        "thirst": 42,
-        "happyness": 84,
-        "preferredRide": "LOW"
-      },
-      "name": "Matt Johnson"
-    },
-    {
-      "wallet": {
-        "money": 46.0
-      },
-      "guestnum": 5,
-      "x": 3,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 33,
-        "thirst": 21,
-        "happyness": 92,
-        "preferredRide": "LOW"
-      },
-      "name": "William Smith"
-    },
-    {
-      "wallet": {
-        "money": 47.0
-      },
-      "guestnum": 6,
-      "x": 3,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 35,
-        "thirst": 98,
-        "happyness": 76,
-        "preferredRide": "LOW"
-      },
-      "name": "Jason Johnson"
-    },
-    {
-      "wallet": {
-        "money": 44.0
-      },
-      "guestnum": 1,
-      "x": 3,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 76,
-        "thirst": 73,
-        "happyness": 96,
-        "preferredRide": "MEDIUM"
-      },
-      "name": "Patricia Allen"
-    },
-    {
-      "wallet": {
-        "money": 47.0
-      },
-      "guestnum": 2,
-      "x": 2,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 47,
-        "thirst": 72,
-        "happyness": 66,
-        "preferredRide": "LOW"
-      },
-      "name": "Will Lee"
-    },
-    {
-      "wallet": {
-        "money": 58.0
-      },
-      "guestnum": 3,
-      "x": 3,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 40,
-        "thirst": 96,
-        "happyness": 82,
-        "preferredRide": "MEDIUM"
-      },
-      "name": "Kate King"
-    },
-    {
-      "wallet": {
-        "money": 60.0
-      },
-      "guestnum": 4,
-      "x": 3,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 22,
-        "thirst": 94,
-        "happyness": 63,
-        "preferredRide": "LOW"
-      },
-      "name": "Robert Anderson"
-    },
-    {
-      "wallet": {
-        "money": 62.0
-      },
-      "guestnum": 1,
-      "x": 2,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 81,
-        "thirst": 40,
-        "happyness": 49,
-        "preferredRide": "MEDIUM"
-      },
-      "name": "Elisabeth White"
-    },
-    {
-      "wallet": {
-        "money": 39.0
-      },
-      "guestnum": 2,
-      "x": 2,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 6,
-        "thirst": 85,
-        "happyness": 33,
-        "preferredRide": "LOW"
-      },
-      "name": "David Miller"
-    },
-    {
-      "wallet": {
-        "money": 48.0
-      },
-      "guestnum": 3,
-      "x": 3,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 28,
-        "thirst": 28,
-        "happyness": 94,
-        "preferredRide": "MEDIUM"
-      },
-      "name": "Arnold Lee"
-    },
-    {
-      "wallet": {
-        "money": 53.0
-      },
-      "guestnum": 4,
-      "x": 3,
-      "y": 6,
-      "z": 2,
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 88,
-        "thirst": 87,
-        "happyness": 42,
-        "preferredRide": "MEDIUM"
-      },
-      "name": "Jack Lee"
-    },
-    {
-      "wallet": {
-        "money": 38.0
-      },
-      "guestnum": 5,
-      "x": 2,
-      "y": 6,
-      "z": 2,
       "inventory": [],
       "stats": {
         "currentEmote": "NORMAL",
         "hunger": 64,
-        "thirst": 8,
-        "happyness": 84,
-        "preferredRide": "LOW"
+        "thirst": 46,
+        "happyness": 72,
+        "preferredRide": "MEDIUM"
       },
-      "name": "Matt Anderson"
-    },
-    {
       "wallet": {
-        "money": 49.0
+        "money": 44.0
       },
-      "guestnum": 6,
       "x": 2,
       "y": 6,
       "z": 2,
+      "guestnum": 4,
+      "moving": "SOUTH",
+      "name": "Jennifer Thomas"
+    },
+    {
       "inventory": [],
       "stats": {
         "currentEmote": "NORMAL",
-        "hunger": 31,
-        "thirst": 87,
-        "happyness": 96,
+        "hunger": 57,
+        "thirst": 36,
+        "happyness": 62,
+        "preferredRide": "MEDIUM"
+      },
+      "wallet": {
+        "money": 61.0
+      },
+      "x": 7,
+      "y": 6,
+      "z": 1,
+      "guestnum": 5,
+      "moving": "WEST",
+      "name": "Donald Thomas"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 45,
+        "thirst": 52,
+        "happyness": 69,
+        "preferredRide": "MEDIUM"
+      },
+      "wallet": {
+        "money": 62.0
+      },
+      "x": 1,
+      "y": 6,
+      "z": 2,
+      "guestnum": 1,
+      "moving": "NORTH",
+      "name": "Maria Garcia"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 27,
+        "thirst": 67,
+        "happyness": 76,
         "preferredRide": "LOW"
       },
+      "wallet": {
+        "money": 46.0
+      },
+      "x": 5,
+      "y": 6,
+      "z": 2,
+      "guestnum": 1,
+      "moving": "NORTH",
+      "name": "Maria Moore"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 35,
+        "thirst": 64,
+        "happyness": 65,
+        "preferredRide": "LOW"
+      },
+      "wallet": {
+        "money": 56.0
+      },
+      "x": 7,
+      "y": 6,
+      "z": 1,
+      "guestnum": 2,
+      "moving": "WEST",
+      "name": "Karen Clark"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 44,
+        "thirst": 21,
+        "happyness": 1,
+        "preferredRide": "LOW"
+      },
+      "wallet": {
+        "money": 56.0
+      },
+      "x": 6,
+      "y": 6,
+      "z": 2,
+      "guestnum": 3,
+      "moving": "NORTH",
+      "name": "Nancy Jackson"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 81,
+        "thirst": 45,
+        "happyness": 78,
+        "preferredRide": "LOW"
+      },
+      "wallet": {
+        "money": 61.0
+      },
+      "x": 4,
+      "y": 6,
+      "z": 2,
+      "guestnum": 4,
+      "moving": "SOUTH",
+      "name": "Matt Johnson"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "HAPPY",
+        "hunger": 34,
+        "thirst": 26,
+        "happyness": 87,
+        "preferredRide": "LOW"
+      },
+      "wallet": {
+        "money": 46.0
+      },
+      "x": 7,
+      "y": 6,
+      "z": 2,
+      "guestnum": 5,
+      "moving": "WEST",
+      "name": "William Smith"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 40,
+        "thirst": 100,
+        "happyness": 74,
+        "preferredRide": "LOW"
+      },
+      "wallet": {
+        "money": 47.0
+      },
+      "x": 7,
+      "y": 6,
+      "z": 1,
+      "guestnum": 6,
+      "moving": "WEST",
+      "name": "Jason Johnson"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "HAPPY",
+        "hunger": 79,
+        "thirst": 79,
+        "happyness": 93,
+        "preferredRide": "MEDIUM"
+      },
+      "wallet": {
+        "money": 44.0
+      },
+      "x": 7,
+      "y": 6,
+      "z": 2,
+      "guestnum": 1,
+      "moving": "WEST",
+      "name": "Patricia Allen"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 48,
+        "thirst": 73,
+        "happyness": 61,
+        "preferredRide": "LOW"
+      },
+      "wallet": {
+        "money": 47.0
+      },
+      "x": 7,
+      "y": 6,
+      "z": 1,
+      "guestnum": 2,
+      "moving": "WEST",
+      "name": "Will Lee"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 41,
+        "thirst": 99,
+        "happyness": 72,
+        "preferredRide": "MEDIUM"
+      },
+      "wallet": {
+        "money": 58.0
+      },
+      "x": 7,
+      "y": 6,
+      "z": 2,
+      "guestnum": 3,
+      "moving": "WEST",
+      "name": "Kate King"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 25,
+        "thirst": 98,
+        "happyness": 58,
+        "preferredRide": "LOW"
+      },
+      "wallet": {
+        "money": 60.0
+      },
+      "x": 3,
+      "y": 6,
+      "z": 2,
+      "guestnum": 4,
+      "moving": "SOUTH",
+      "name": "Robert Anderson"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 85,
+        "thirst": 45,
+        "happyness": 42,
+        "preferredRide": "MEDIUM"
+      },
+      "wallet": {
+        "money": 62.0
+      },
+      "x": 6,
+      "y": 6,
+      "z": 2,
+      "guestnum": 1,
+      "moving": "NORTH",
+      "name": "Elisabeth White"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 8,
+        "thirst": 89,
+        "happyness": 23,
+        "preferredRide": "LOW"
+      },
+      "wallet": {
+        "money": 39.0
+      },
+      "x": 6,
+      "y": 6,
+      "z": 2,
+      "guestnum": 2,
+      "moving": "NORTH",
+      "name": "David Miller"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "HAPPY",
+        "hunger": 32,
+        "thirst": 34,
+        "happyness": 90,
+        "preferredRide": "MEDIUM"
+      },
+      "wallet": {
+        "money": 48.0
+      },
+      "x": 5,
+      "y": 6,
+      "z": 2,
+      "guestnum": 3,
+      "moving": "NORTH",
+      "name": "Arnold Lee"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 94,
+        "thirst": 95,
+        "happyness": 37,
+        "preferredRide": "MEDIUM"
+      },
+      "wallet": {
+        "money": 53.0
+      },
+      "x": 7,
+      "y": 6,
+      "z": 1,
+      "guestnum": 4,
+      "moving": "WEST",
+      "name": "Jack Lee"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 70,
+        "thirst": 14,
+        "happyness": 79,
+        "preferredRide": "LOW"
+      },
+      "wallet": {
+        "money": 38.0
+      },
+      "x": 2,
+      "y": 6,
+      "z": 2,
+      "guestnum": 5,
+      "moving": "NORTH",
+      "name": "Matt Anderson"
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "HAPPY",
+        "hunger": 35,
+        "thirst": 90,
+        "happyness": 90,
+        "preferredRide": "LOW"
+      },
+      "wallet": {
+        "money": 49.0
+      },
+      "x": 5,
+      "y": 6,
+      "z": 2,
+      "guestnum": 6,
+      "moving": "NORTH",
       "name": "Lisa Williams"
+    }
+  ],
+  "roads": [
+    {
+      "roadhill": "FLAT",
+      "ID": 1,
+      "skin": 1,
+      "queRoad": false,
+      "direction": "NORTH",
+      "position": {
+        "x": 1,
+        "y": 6,
+        "z": 2,
+        "offSetX": 0.0,
+        "offSetY": 0.1,
+        "offSetZ": 0.0
+      }
+    },
+    {
+      "roadhill": "FLAT",
+      "ID": 2,
+      "skin": 1,
+      "queRoad": false,
+      "direction": "NORTH",
+      "position": {
+        "x": 2,
+        "y": 6,
+        "z": 2,
+        "offSetX": 0.0,
+        "offSetY": 0.1,
+        "offSetZ": 0.0
+      }
+    },
+    {
+      "roadhill": "FLAT",
+      "ID": 3,
+      "skin": 1,
+      "queRoad": false,
+      "direction": "NORTH",
+      "position": {
+        "x": 3,
+        "y": 6,
+        "z": 2,
+        "offSetX": 0.0,
+        "offSetY": 0.1,
+        "offSetZ": 0.0
+      }
+    },
+    {
+      "roadhill": "FLAT",
+      "ID": 4,
+      "skin": 1,
+      "queRoad": false,
+      "direction": "NORTH",
+      "position": {
+        "x": 4,
+        "y": 6,
+        "z": 2,
+        "offSetX": 0.0,
+        "offSetY": 0.1,
+        "offSetZ": 0.0
+      }
+    },
+    {
+      "roadhill": "FLAT",
+      "ID": 5,
+      "skin": 1,
+      "queRoad": false,
+      "direction": "NORTH",
+      "position": {
+        "x": 5,
+        "y": 6,
+        "z": 2,
+        "offSetX": 0.0,
+        "offSetY": 0.1,
+        "offSetZ": 0.0
+      }
+    },
+    {
+      "roadhill": "FLAT",
+      "ID": 6,
+      "skin": 1,
+      "queRoad": false,
+      "direction": "NORTH",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 2,
+        "offSetX": 0.0,
+        "offSetY": 0.1,
+        "offSetZ": 0.0
+      }
+    },
+    {
+      "roadhill": "FLAT",
+      "ID": 7,
+      "skin": 1,
+      "queRoad": false,
+      "direction": "NORTH",
+      "position": {
+        "x": 7,
+        "y": 6,
+        "z": 2,
+        "offSetX": 0.0,
+        "offSetY": 0.1,
+        "offSetZ": 0.0
+      }
+    },
+    {
+      "roadhill": "FLAT",
+      "ID": 8,
+      "skin": 1,
+      "queRoad": false,
+      "direction": "WEST",
+      "position": {
+        "x": 7,
+        "y": 6,
+        "z": 1,
+        "offSetX": 0.0,
+        "offSetY": 0.1,
+        "offSetZ": 0.0
+      }
+    },
+    {
+      "roadhill": "FLAT",
+      "ID": 9,
+      "skin": 1,
+      "queRoad": false,
+      "direction": "WEST",
+      "position": {
+        "x": 7,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.1,
+        "offSetZ": 0.0
+      }
     }
   ],
   "scenario": {
     "goal": "GUESTS",
-	"enterancePos": {
-        "x": 6,
-        "y": 5,
-        "z": 0,
-        "offSetX": 1.0,
-        "offSetY": 1.0,
-        "offSetZ": 0.0
-      },
+    "enterancePos": {
+      "x": 6,
+      "y": 5,
+      "z": 0,
+      "offSetX": 1.0,
+      "offSetY": 1.0,
+      "offSetZ": 0.0
+    },
     "enteranceYRotation": 1.570796,
     "rideID": 1,
     "shopID": 1,

@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.terrain.ParkHandler;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -45,17 +46,22 @@ public class SaveManager {
         GsonBuilder ga=new GsonBuilder();
         gson=ga.setPrettyPrinting().create();
         
-        Writer writer = null;
+        BufferedWriter writer = null;
         logger.log(Level.FINEST,"Starting to save {0}",filename);
         parkHandler.initializeSaving();
         try {
             writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(filename + ".IntoFile"), "utf-8"));
+                    new FileOutputStream("Saves/"+filename + ".IntoFile"), "utf-8"));
             gson.toJson(parkHandler, writer);
+            writer.close();
         } catch (UnsupportedEncodingException ex) {
             logger.log(Level.SEVERE,"Unsupported encoding! {0}",ex);
         } catch (FileNotFoundException ex) {
             logger.log(Level.SEVERE,"File not found! {0}",ex);
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE,"IO Exeption! {0}",ex);
         }
+        parkHandler.postSave();
+        logger.log(Level.FINEST,"Saving finished!");
     }
 }
