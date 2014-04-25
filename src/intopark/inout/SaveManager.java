@@ -36,7 +36,6 @@ public class SaveManager {
     public SaveManager(ParkHandler parkHandler){
         this.parkHandler=parkHandler;
     }
-    
     /**
      * 
      * @param filename 
