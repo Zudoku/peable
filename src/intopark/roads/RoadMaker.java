@@ -176,7 +176,8 @@ public class RoadMaker {
         int id = event.getExistingRoad().getID();
         Spatial oldRoad = null;
         for(Spatial s:roadSpatials){
-            if(s.getUserData("ID")==id){
+            int value=s.getUserData("ID");
+            if(value==id){
                 oldRoad=s;
                 break;
             }
@@ -186,8 +187,8 @@ public class RoadMaker {
             logger.log(Level.FINER, "Unable to find roadSpatial with ID {0}",id);
         }else{
             /* Delete old road */
-        
-            roadNode.detachChild(oldRoad);
+            roadNode.detachChild(oldRoad);//FROM GRAPH
+            roadSpatials.remove(oldRoad);//FROM LIST
             logger.log(Level.FINEST,"Deleted old roadSpatial with ID {0}",id);
         }
         /* Get new road */

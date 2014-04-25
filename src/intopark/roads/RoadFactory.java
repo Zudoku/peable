@@ -75,12 +75,10 @@ public class RoadFactory {
                 logger.log(Level.FINEST, "Road ID: {0} Position:{1} transformed to CODE: {2} ROTATION:{3}",new Object[]{road.getID(),road.getPosition().getVector(),info.getCode(),info.getAngle()});
                 roadSpatial=getAbsoluteSpatial(info.getCode(),road.getQueRoad());
                 roadSpatial.rotate(0,(float) Math.toRadians(info.getAngle()),0);
-                
                 break;
                 
             default:
                 if(road.getRoadhill()== RoadHill.UP){
-                    
                         if(road.getSkin()==1){
                             roadSpatial=getAbsoluteSpatial(SKIN_1_UPHILL,road.getQueRoad());
                         }

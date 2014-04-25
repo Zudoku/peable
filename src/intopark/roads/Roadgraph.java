@@ -121,16 +121,21 @@ public class Roadgraph {
                     }
                 }
                 else {
-                    /* TODO: NOT ROAD */
+                    /* TODO: ROAD TO OTHER WALKABLE(BUILDING) */
                 }
 
             }
         }
     }
     private void connectWalkables(Walkable walk1,Walkable walk2){
-        roadMap.addEdge(walk1, walk2);
-        roadMap.addEdge(walk2, walk1);
-        logger.log(Level.FINEST,"Walkables {0} and {1} connected via edge ", new Object[]{walk1.position.getVector(),walk2.position.getVector()});
+        if(!roadMap.containsEdge(walk1, walk2)){
+            roadMap.addEdge(walk1, walk2);
+            roadMap.addEdge(walk2, walk1);
+            logger.log(Level.FINEST,"Walkables {0} and {1} connected via edge ", new Object[]{walk1.position.getVector(),walk2.position.getVector()});
+        }else{
+            logger.log(Level.FINEST,"Walkables {0} and {1} already connected: only updating.", new Object[]{walk1.position.getVector(),walk2.position.getVector()});
+        }
+        
         walk1.setNeedsUpdate(true);
         walk2.setNeedsUpdate(true);
     }

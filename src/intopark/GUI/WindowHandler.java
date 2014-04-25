@@ -36,7 +36,6 @@ import java.util.List;
 @Singleton
 public class WindowHandler {
     //LOGGER
-
     private static final Logger logger = Logger.getLogger(IngameHUD.class.getName());
     //DEPENDENCIES
     Nifty nifty;
@@ -93,7 +92,6 @@ public class WindowHandler {
             guestwindow.setVisible(true);
         }
 
-        //nifty.getCurrentScreen().getLayerElements().get(2).add(guestwindow);
     }
     private void updateGuestInventoryTexts(Element guestWindow,List<Item> inv){
         int counter = 1;
@@ -349,8 +347,6 @@ public class WindowHandler {
         if (toggleVisible) {
             shopwindow.setVisible(true);
         }
-
-        //        nifty.getCurrentScreen().getLayerElements().get(2).add(shopwindow);
 
     }
 
