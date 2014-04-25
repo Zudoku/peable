@@ -38,7 +38,7 @@ public class RoadMaker {
     //DEPENDENCIES
     @Inject private Roadgraph roadGraph;
     private Node roadNode;
-    public RoadFactory roadF;
+    @Inject public RoadFactory roadF;
     private MapContainer map;
     @Inject
     private ParkHandler parkHandler;

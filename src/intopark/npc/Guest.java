@@ -25,7 +25,6 @@ import intopark.terrain.Direction;
 import intopark.terrain.MapContainer;
 import intopark.terrain.MapPosition;
 import intopark.terrain.ParkHandler;
-import java.util.Arrays;
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.DirectedGraph;
 
@@ -121,6 +120,7 @@ public class Guest extends BasicNPC {
         }else{
             /*CAN WONDER OFF FREELY*/
             Roadgraph roadGraph=parkHandler.getRoadGraph();
+            /* GET WALKABLE FOR CURRENT LOCATION */
             Walkable current=roadGraph.getWalkable(x, y, z);
             if(current==null){
                 /*NOT ON ROAD. CAN'T MOVE*/
@@ -128,6 +128,7 @@ public class Guest extends BasicNPC {
             }
             DirectedGraph<Walkable,DefaultEdge>roadMap=roadGraph.getRoadMap();
             List<Walkable>possibilities=new ArrayList<>();
+            /* GO THROUGH ALL POSSIBLE DIRECTIONS */
             for(DefaultEdge edge:roadMap.outgoingEdgesOf(current)){
                 Walkable possi=roadMap.getEdgeTarget(edge);
                 possibilities.add(possi);
@@ -136,19 +137,28 @@ public class Guest extends BasicNPC {
                 return;
             }
             int seed=0;
+            /* RANDOMLY SELECT ONE DIRECTION */
             if(possibilities.size()>1){
                 seed=r.nextInt(possibilities.size());
             }
             Walkable target=possibilities.get(seed);
             if(target instanceof Road){
+                /* WE NEED TO KNOW WHAT DIRECTION WE ARE MOVING */
                 Direction roadDirection=new MapPosition(x, y, z).getDirection(target.getPosition().getX(),target.getPosition().getZ());
                 if(moving.isOpposite(roadDirection)){
+                    /* WE DONT WANT TO GO BACKWARDS IF IT ISNT NECCESSARY*/
                     if(5!=r.nextInt(10)){
+                        /* EVENTUALLY GOES BACKWARDS IF THERE IS A DEADEND */
                         return;
                     }
                 }
-                actions.add(getSimpleAction(target.getPosition().getVector()));
+                /* WE WANT TO CREATE LANES SO WE COPY POSITION */
+                MapPosition targetLocation=new MapPosition(target.getPosition());
+                setOffsetLane(targetLocation,roadDirection);
+                /* ADD THE ACTUAL ACTION TO ACTIONS */
+                actions.add(getSimpleAction(targetLocation.getVector()));
                 moving=roadDirection;
+                /* SET LOCATION TO CORRECT LOCATION */
                 x=target.getPosition().getX();
                 y=target.getPosition().getY();
                 z=target.getPosition().getZ();
@@ -156,6 +166,21 @@ public class Guest extends BasicNPC {
             
             
             
+        }
+    }
+    private void setOffsetLane(MapPosition pos,Direction dir){
+        float laneWidth=0.15f;
+        if(dir== Direction.NORTH){
+            pos.setOffSetZ(pos.getOffSetZ()+laneWidth);
+        }
+        if(dir== Direction.SOUTH){
+            pos.setOffSetZ(pos.getOffSetZ()-laneWidth);
+        }
+        if(dir== Direction.EAST){
+            pos.setOffSetX(pos.getOffSetX()+laneWidth);
+        }
+        if(dir== Direction.WEST){
+            pos.setOffSetX(pos.getOffSetX()-laneWidth);
         }
     }
     private NPCAction getSimpleAction(Vector3f pos){

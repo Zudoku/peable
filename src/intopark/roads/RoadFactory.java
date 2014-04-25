@@ -5,6 +5,7 @@
 package intopark.roads;
 
 import com.google.common.base.Preconditions;
+import com.google.inject.Singleton;
 import com.jme3.scene.Spatial;
 import intopark.UtilityMethods;
 import intopark.inout.LoadPaths;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
  *
  * @author arska
  */
+@Singleton
 public class RoadFactory {
     private static final Logger logger = Logger.getLogger(RoadFactory.class.getName());
     private Map<String,TransformContainer>transformMap;
@@ -112,7 +114,6 @@ public class RoadFactory {
             case SKIN_1_STRAIGHT:
                 if (queue) {
                     road = UtilityMethods.loadModel(LoadPaths.queroadstraight);
-
                     road.scale(0.5f, 0.5f, 0.5f);
                     return road;
                 } else {

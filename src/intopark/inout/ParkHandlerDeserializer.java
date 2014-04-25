@@ -16,7 +16,6 @@ import com.jme3.scene.Spatial;
 import intopark.UtilityMethods;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.gameplayorgans.Scenario;
 import intopark.npc.events.CreateGuestEvent;
@@ -25,6 +24,9 @@ import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
 import intopark.ride.CreateRideEvent;
 import intopark.ride.Enterance;
+import intopark.roads.Road;
+import intopark.roads.RoadHill;
+import intopark.roads.events.CreateRoadEvent;
 import intopark.shops.CreateShopEvent;
 import intopark.shops.ShopReputation;
 import intopark.terrain.Direction;
@@ -33,6 +35,7 @@ import intopark.terrain.MapPosition;
 import intopark.terrain.ParkHandler;
 import intopark.terrain.ParkWallet;
 import intopark.terrain.events.AddToRootNodeEvent;
+import java.util.logging.Level;
 
 /**
  *
@@ -72,7 +75,7 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             int x1=getI(jg,"x");
             int y1=getI(jg,"y");
             int z1=getI(jg,"z");
-            Spatial model=UtilityMethods.loadModel("Models/Human/guest.j3o");
+            Spatial model=UtilityMethods.loadModel(LoadPaths.guest);
             
             eventBus.post(new CreateGuestEvent(gw,inv,guestnum,dir,x1,y1,z1,sm,model,name));
         }
@@ -137,8 +140,22 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             logger.log(Level.FINER,"Ride {0}, Initialized!",name);
         }
         //ROADS
-        
-        //QUEROADS
+        logger.log(Level.FINEST, "Deserializing roads...");
+        JsonArray roadsarray = jo.get("roads").getAsJsonArray();
+        for(int x=0;x<roadsarray.size();x++){
+            final JsonObject rp = roadsarray.get(x).getAsJsonObject();
+            MapPosition pos=jdc.deserialize(rp.get("position"),MapPosition.class);
+            Direction dir=jdc.deserialize(rp.get("direction"),Direction.class);
+            RoadHill hill=jdc.deserialize(rp.get("roadhill"),RoadHill.class);
+            int ID=getI(rp,"ID");
+            int skin=getI(rp,"skin");
+            boolean queroad=getB(rp,"queRoad");
+            //FINISH THE ROAD
+            Road road=new Road(pos, hill, ID, skin, queroad, dir);
+            CreateRoadEvent event=new CreateRoadEvent(road);
+            eventBus.post(event);
+            logger.log(Level.FINER,"Road {0}, Initialized!",ID);
+        }
         //ATTACH LIGHTS
         logger.log(Level.FINER,"Attaching lights");
         attachDirectionalLights();
