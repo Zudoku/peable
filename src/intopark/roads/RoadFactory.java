@@ -123,8 +123,9 @@ public class RoadFactory {
             case SKIN_1_UPHILL:
                 if (queue) {
                     road = UtilityMethods.loadModel(LoadPaths.queroaduphill);
-
                     road.setLocalTranslation(0, +0.50f, 0);
+                    
+                    return road;
                 } else {
                     road = UtilityMethods.loadModel(LoadPaths.roaduphill);
                     road.setLocalTranslation(0, +0.50f, 0);

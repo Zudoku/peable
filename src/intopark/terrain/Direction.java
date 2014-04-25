@@ -31,10 +31,10 @@ public enum Direction {
         /* NORTH = 0 */
         switch (this) {
             case NORTH:
-                return 0;
+                return 180;
 
             case SOUTH:
-                return 180;
+                return 0;
 
             case EAST:
                 return 90;
