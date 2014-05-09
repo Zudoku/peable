@@ -14,9 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Main;
-import intopark.npc.ActionType;
 import intopark.npc.Guest;
-import intopark.npc.NPCAction;
 import intopark.npc.inventory.RideType;
 import intopark.shops.ShopReputation;
 import intopark.terrain.Direction;
@@ -108,39 +106,7 @@ public class BasicRide {
     }
 
     public void updateQueLine() {
-//        if (guestsInQue.isEmpty()) {
-//            return;
-//        }
-//
-//        for (int i = 0; i < guestsInQue.size(); i++) {
-//            Guest handledguest = guestsInQue.get(i);
-//            Spatial testedroad = handledguest.currentQueRoad;
-//            if (testedroad == null) {
-//                logger.log(Level.FINEST,"Shit hit the fan when trying to update que road");
-//            }
-//            ArrayList<Spatial> linkedroads = roadMaker.getlinkedqueroads(enterance.getConnectedRoad());
-//            if (!linkedroads.contains(testedroad)) {
-//                logger.log(Level.FINE,"ROAD LOOP");
-//                continue;
-//            }
-//            int a = linkedroads.indexOf(testedroad);
-//            if (i == a) {
-//                //Guest is where he is supposed to be
-//
-//                if (i == 0) {
-//                    if (handledguest.isEmptyActions()) {
-//                        takeQuestToRide(handledguest);
-//                    }
-//                }
-//                continue;
-//            }
-//            if (i < a) {
-//                //Move forward
-//                Vector3f newpos = linkedroads.get(i).getLocalTranslation();
-//                handledguest.callToQueRoad(new NPCAction(newpos, ActionType.QUE, handledguest));
-//                handledguest.currentQueRoad = linkedroads.get(i);
-//            }
-//        }
+
     }
 
     public void updateRide() {
@@ -385,10 +351,12 @@ public class BasicRide {
 
     public void setEnterance(Enterance enterance) {
         this.enterance = enterance;
+        this.enterance.setConnectedRide(this);
     }
 
     public void setExit(Enterance exit) {
         this.exit = exit;
+        this.exit.setConnectedRide(this);
     }
     
 }

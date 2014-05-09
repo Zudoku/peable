@@ -13,6 +13,8 @@ import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Main;
 import intopark.npc.events.AddGuestLimitEvent;
 import intopark.npc.Guest;
+import intopark.roads.BuildingEnterance;
+import intopark.roads.events.CreateBuildingEnteranceEvent;
 import intopark.terrain.Direction;
 import intopark.terrain.MapPosition;
 import intopark.terrain.events.PayParkEvent;
@@ -35,11 +37,12 @@ public class BasicShop {
     protected String productname="productname";
     protected String shopName="SHOPNAME";
     protected float price=0;
-    
     protected ShopUpgradeContainer upgrades=new ShopUpgradeContainer();
     protected String type;
+    protected BuildingEnterance enterance;
+    protected boolean needToFaceDirection=true;
     
-    public BasicShop(MapPosition position,Spatial object,int shopID,float constr,float price,Direction facing,String prodname,String shopName,String type){
+    public BasicShop(MapPosition position,Spatial object,int shopID,float constr,float price,Direction facing,String prodname,String shopName,String type,boolean needToFaceDirection){
         this.position=position;
         this.object=object;
         this.constructionmoney=constr;
@@ -49,9 +52,13 @@ public class BasicShop {
         this.price=price;
         this.shopName=shopName;
         this.type=type;
+        this.needToFaceDirection=needToFaceDirection;
+        /* Assign 3d model to right coordinates */
         object.setLocalTranslation(position.getVector());
         Main.injector.injectMembers(this);
         Random r =new Random();
+        this.enterance=new BuildingEnterance(position, shopID, BuildingEnterance.SHOP,facing,true);
+        eventBus.post(new CreateBuildingEnteranceEvent(this.enterance));
         eventBus.post(new AddGuestLimitEvent(r.nextInt(5)+5));
         object.setUserData("type","shop");
         object.setUserData("shopID",shopID);
@@ -67,6 +74,7 @@ public class BasicShop {
         eventBus.post(new UpdateMoneyTextBarEvent());
         
     }
+    
     /**
      * GETTERS AND SETTERS
      */
@@ -150,6 +158,23 @@ public class BasicShop {
     public String getType() {
         return type;
     }
+
+    public BuildingEnterance getEnterance() {
+        return enterance;
+    }
+
+    public void setEnterance(BuildingEnterance enterance) {
+        this.enterance = enterance;
+    }
+
+    public boolean getNeedToFaceDirection() {
+        return needToFaceDirection;
+    }
+
+    public void setNeedToFaceDirection(boolean needToFaceDirection) {
+        this.needToFaceDirection = needToFaceDirection;
+    }
+    
     
     
 }

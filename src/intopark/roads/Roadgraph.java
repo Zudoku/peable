@@ -61,7 +61,7 @@ public class Roadgraph {
                     
                 }else if(walkable instanceof BuildingEnterance){
                     BuildingEnterance enterance=(BuildingEnterance)walkable;
-                    /* DO SOMETHING */
+                    /* DO SOMETHING ...*/
                     enterance.setNeedsUpdate(false);
                 }
             }
@@ -78,55 +78,129 @@ public class Roadgraph {
             for (Walkable r : roadMap.vertexSet()) {
                 if (r instanceof Road) {
                     Road road2 = (Road) r;
-                    /* If road2 and road can physically connect */
-                    if (road2.canConnect(road)) {
-                        /* If road is normal road */
-                        if (!road.getQueRoad()) {
-                            /* And road2 is normal road*/
-                            if (!road2.getQueRoad()) {
-                                /* Connect them */
-                                connectWalkables(road2, road);
-                            } /* And road is queRoad*/ 
-                            else {
-                                /* If road2 isn't connected to two vertixes already (2 edges between two vertixes. One for each direction)*/
-                                if (!(roadMap.edgesOf(road2).size() > 4)) {
-                                    /* Then connect them */
-                                    connectWalkables(road2, road);
-                                }
-                            }
-                        } /* road is queRoad */ 
-                        else {
-                            /* If road can connect since it's queRoad */
-                            if (!(roadMap.edgesOf(road).size() > 4)) {
-                                /* And road2 is normal road*/
-                                if (!road2.getQueRoad()) {
-                                    /* Connect them */
-                                    connectWalkables(road2, road);
-                                } else {
-                                    /* If road2 isn't connected to two vertixes already (2 edges between two vertixes. One for each direction)*/
-                                    if (!(roadMap.edgesOf(road2).size() > 4)) {
-                                        /* Then connect them */
-                                        connectWalkables(road2, road);
-                                    }
-                                }
-                            } 
-                            else {
-                                /* road already has 2 edges */
-                                
-                            }
-
-                        }
-                    } else {
-                        /* CANT CONNECT PHYSICALLY */
+                    if(canRoadConnectRoad(road, road2)){
+                        connectWalkables(road, road2);
                     }
                 }
-                else {
-                    /* TODO: ROAD TO OTHER WALKABLE(BUILDING) */
+                else if(r instanceof BuildingEnterance){
+                    BuildingEnterance ent = (BuildingEnterance)r;
+                    if(canRoadConnectBuildingEnterance(road, ent)){
+                        connectWalkables(road, ent);
+                    }
+                    
+                }else{
+                    /* NOT A ROAD OR BUILDINGENTERANCE */
                 }
 
             }
+        }if(walkable instanceof BuildingEnterance){
+            BuildingEnterance ent=(BuildingEnterance)walkable;
+            roadMap.addVertex(ent);
+            for (Walkable r : roadMap.vertexSet()) {
+                if (r instanceof Road) {
+                    Road road = (Road) r;
+                    if(canRoadConnectBuildingEnterance(road, ent)){
+                        connectWalkables(road,ent);
+                    }
+                }
+            }
         }
     }
+    private boolean canRoadConnectRoad(Road road,Road road2){
+        /* If road2 and road can physically connect */
+        if (road2.canConnect(road)) {
+            /* If road is normal road */
+            if (!road.getQueRoad()) {
+                /* And road2 is normal road*/
+                if (!road2.getQueRoad()) {
+                    /* Connect them */
+                    return true;
+                } /* And road is queRoad*/ else {
+                    /* If road2 isn't connected to two vertixes already (2 edges between two vertixes. One for each direction)*/
+                    if (!(roadMap.edgesOf(road2).size() > 4)) {
+                        /* Can connect */
+                        return true;
+                    }else{
+                        /* road2 has too many edges */
+                        return false;
+                    }
+                }
+            }
+            /* road is queRoad */
+            else {
+                /* If road can connect since it's queRoad */
+                if (!(roadMap.edgesOf(road).size() > 4)) {
+                    /* And road2 is normal road*/
+                    if (!road2.getQueRoad()) {
+                        /* Connect them */
+                        return true;
+                    } else {
+                        /* If road2 isn't connected to two vertixes already (2 edges between two vertixes. One for each direction)*/
+                        if (!(roadMap.edgesOf(road2).size() > 4)) {
+                            /* Then connect them */
+                            return true;
+                        }else{
+                            /* road2 already has too many edges */
+                            return false;
+                        }
+                    }
+                } else {
+                    /* road already has 2 edges */
+                    return false;
+                }
+
+            }
+        } else {
+            /* CANT CONNECT PHYSICALLY */
+            return false;
+        }
+    }
+    private boolean canRoadConnectBuildingEnterance(Road road, BuildingEnterance enterance) {
+        /* ROAD IS QUEROAD */
+        if (road.getQueRoad()) {
+            /* If road can connect since it's queRoad */
+            if (!(roadMap.edgesOf(road).size() > 4)) {
+                /* If they are next to eachother TODO: check road paremmin */
+                if (road.getPosition().isNextTo(enterance.getPosition())) {
+                    /* If enterance needs to be directed towards the road */
+                    if (enterance.isNeedToConnectDirection()) {
+                        /* if they are directed towards eachother*/
+                        int x = road.getPosition().getX();
+                        int y = road.getPosition().getY();
+                        if (enterance.getPosition().getDirection(x, y).isOpposite(enterance.getDirection())) {
+                            /* towards each other */
+                            return true;
+                        } else {
+                            logger.log(Level.WARNING,"{0} {1} failed",new Object[]{enterance.getPosition().getDirection(x, y),enterance.getDirection()});
+                            /* Not towards eachother */
+                            return false;
+                        }
+                    } else {
+                        return true;
+                    }
+                } else {
+                    /* NOT NEXT TO EACHOTHER */
+                    return false;
+                }
+            } else {
+                /* Queroad already has 4 edges */
+                return false;
+            }
+        } else {
+            /* TODO: buildingenterance acceppts normal roads too */
+            /* If shop then true */
+            if(enterance.getBuildingType()==BuildingEnterance.SHOP){
+                if (road.getPosition().isNextTo(enterance.getPosition())) {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            return false;
+        }
+    }
+    
     private void connectWalkables(Walkable walk1,Walkable walk2){
         if(!roadMap.containsEdge(walk1, walk2)){
             roadMap.addEdge(walk1, walk2);

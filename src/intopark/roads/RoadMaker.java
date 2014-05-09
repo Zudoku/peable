@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.GUI.events.UpdateRoadDirectionEvent;
 import intopark.UtilityMethods;
+import intopark.roads.events.CreateBuildingEnteranceEvent;
 import intopark.roads.events.UpdateRoadEvent;
 import intopark.terrain.Direction;
 import intopark.terrain.MapContainer;
@@ -170,6 +171,25 @@ public class RoadMaker {
         Vector3f vector= UtilityMethods.roundVector(pos);
         startingPosition =new MapPosition(vector);
         status = RoadMakerStatus.BUILDING;
+    }
+    @Subscribe
+    public void listenCreateBuildingEnteranceEvent(CreateBuildingEnteranceEvent event){
+        if(event.getEnterance()==null){
+            return;
+        }
+        MapPosition pos=event.getEnterance().getPosition();
+        if(!roadGraph.isThereRoom(pos)){
+            logger.log(Level.FINEST,"Already Walkable on the way. Can't build here.");
+            return;
+        }
+        try{
+            roadGraph.addWalkable(event.getEnterance());
+        }catch(IllegalArgumentException ex){
+            logger.log(Level.SEVERE, "ILLEGAL ARGUMENTS: {0}",ex);
+            return;
+        }
+        logger.log(Level.FINEST,"BuildingEnterance added succesfully to {0}",event.getEnterance().getPosition().getVector());
+        
     }
     @Subscribe
     public void listenUpdateRoadEvent(UpdateRoadEvent event){

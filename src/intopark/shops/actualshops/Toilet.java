@@ -23,7 +23,7 @@ public class Toilet extends BasicShop{
     
     
     public Toilet(MapPosition position,Direction facing,Spatial model,int shopID,float price,float constrm,String prodName,String shopName){
-        super(position,model,shopID,constrm,price,facing,prodName,shopName,"toilet");
+        super(position,model,shopID,constrm,price,facing,prodName,shopName,"toilet",true);
         //DEF prodName "Toilet usage" | name "Dirty ol' toilet "+shopID | type "toilet" 
     }
 

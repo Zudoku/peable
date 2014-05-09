@@ -23,8 +23,9 @@ public class Energy extends BasicShop{
     
     
     public Energy(MapPosition position,Direction facing,Spatial model,int shopID,float price,float constrm,String prodName,String shopName){
-        super(position,model,shopID,constrm,price,facing,prodName,shopName,"energyshop");
+        super(position,model,shopID,constrm,price,facing,prodName,shopName,"energyshop",true);
         //DEF prodName "Yak Energy drink" | name "Energyshop "+shopID | type "energyshop"
+        
     }
 
     @Override

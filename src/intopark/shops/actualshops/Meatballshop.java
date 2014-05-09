@@ -25,7 +25,7 @@ public class Meatballshop extends BasicShop{
     
     
     public Meatballshop(MapPosition position,Direction facing,Spatial model,int shopID,float price,float constrm,String prodName,String shopName){
-        super(position,model,shopID,constrm,price,facing,prodName,shopName,"meatballshop");
+        super(position,model,shopID,constrm,price,facing,prodName,shopName,"meatballshop",true);
         //DEF prodName "Tasti MeatBalls" | name "MeatBallShop "+shopID | type "meatballshop" 
     }
 

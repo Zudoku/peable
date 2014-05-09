@@ -4,12 +4,16 @@
  */
 package intopark.ride;
 
+import com.google.common.eventbus.EventBus;
+import com.google.inject.Inject;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.Savable;
 import com.jme3.scene.Spatial;
 import intopark.inout.LoadPaths;
 import intopark.UtilityMethods;
+import intopark.roads.BuildingEnterance;
+import intopark.roads.events.CreateBuildingEnteranceEvent;
 import java.io.IOException;
 import intopark.terrain.Direction;
 import intopark.terrain.MapPosition;
@@ -25,7 +29,8 @@ public class Enterance implements Savable{
   private boolean connected=false;
   private transient Spatial object;
   private transient BasicRide connectedRide;
-  private transient Spatial connectedRoad;
+  private transient BuildingEnterance enteranceWalkable;
+  @Inject private transient EventBus eventBus;
   
 
     public Enterance(boolean exit,MapPosition location,Direction facing) {
@@ -40,7 +45,7 @@ public class Enterance implements Savable{
             object=UtilityMethods.loadModel(LoadPaths.rideEnterance);
         }
         object.setLocalTranslation(location.getVector());
-        //object.setUserData("enterance",this);
+        enteranceWalkable=new BuildingEnterance(location,0,BuildingEnterance.RIDE, facing, connected);
         object.setUserData("type","enterance");
         float angle;
         switch(facing){
@@ -59,6 +64,7 @@ public class Enterance implements Savable{
                 angle = (float) Math.toRadians(-90);
                 this.object.rotate(0, angle, 0);
         }
+        eventBus.post(new CreateBuildingEnteranceEvent(enteranceWalkable));
     }
 
     public void write(JmeExporter ex) throws IOException {
@@ -78,11 +84,9 @@ public class Enterance implements Savable{
 
     public void setConnectedRide(BasicRide connectedRide) {
         this.connectedRide = connectedRide;
+        this.enteranceWalkable.setID(connectedRide.getRideID());
     }
 
-    public void setConnectedRoad(Spatial connectedRoad) {
-        this.connectedRoad = connectedRoad;
-    }
 
     public void setExit(boolean exit) {
         this.exit = exit;
@@ -104,9 +108,6 @@ public class Enterance implements Savable{
         return connectedRide;
     }
 
-    public Spatial getConnectedRoad() {
-        return connectedRoad;
-    }
 
     public Direction getFacing() {
         return facing;

@@ -18,9 +18,11 @@ import intopark.npc.inventory.RideType;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
 import intopark.ride.BasicRide;
+import intopark.roads.BuildingEnterance;
 import intopark.roads.Road;
 import intopark.roads.Roadgraph;
 import intopark.roads.Walkable;
+import intopark.shops.BasicShop;
 import intopark.terrain.Direction;
 import intopark.terrain.MapContainer;
 import intopark.terrain.MapPosition;
@@ -101,7 +103,6 @@ public class Guest extends BasicNPC {
             super.move(actions.get(0), actions);
         }
         stats.update();
-
     }
     /**
      * We calculate our next Action (WHERE GUEST MOVES)
@@ -163,6 +164,26 @@ public class Guest extends BasicNPC {
                 y=target.getPosition().getY();
                 z=target.getPosition().getZ();
             }
+            else if (target instanceof BuildingEnterance){
+                BuildingEnterance ent=(BuildingEnterance) target;
+                if(ent.getBuildingType()== BuildingEnterance.RIDE){
+                    
+                }else if(ent.getBuildingType()==BuildingEnterance.SHOP){
+                    BasicShop targetShop=parkHandler.getShopWithID(ent.getID());
+                    if(targetShop!=null){
+                        if(doIWantToGo(targetShop)){
+                            /* Create buy action and walk back to original position */
+                            NPCAction action = new NPCAction(target.getPosition().getVector(), ActionType.BUY, targetShop,this);
+                            NPCAction action2 = getSimpleAction(current.getPosition().getVector());
+                            actions.add(action);
+                            actions.add(action2);
+                        }
+                    }else{
+                        /* buildingEnterance returned null shop. */
+                        logger.log(Level.WARNING,"fail");
+                    }
+                }
+            }
             
             
             
@@ -199,6 +220,10 @@ public class Guest extends BasicNPC {
         actions.add(action);
     }
     public void handleQueRoadFound(Spatial temp) {
+        
+    }
+    public boolean doIWantToGo(BasicShop shop){
+        return true;
     }
     public boolean doIWantToGoThere(BasicRide ride) {
         //TODO: REWORK

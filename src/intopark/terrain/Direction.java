@@ -57,4 +57,17 @@ public enum Direction {
         }
         return 0;
     }
+    public int DirectiontoInt(){
+        switch (this) {
+            default:
+                return 0;
+            case SOUTH:
+                return 1;
+            case EAST:
+                return 2;
+            case WEST:
+                return 3;
+
+        }
+    }
 }

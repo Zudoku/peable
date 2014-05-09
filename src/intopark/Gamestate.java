@@ -19,7 +19,6 @@ import intopark.inputhandler.UserInput;
 import intopark.npc.NPCManager;
 import intopark.ride.RideManager;
 import intopark.roads.RoadMaker;
-import intopark.terrain.MapFactory;
 import intopark.terrain.ParkHandler;
 import java.io.File;
 
@@ -127,7 +126,7 @@ public class Gamestate extends AbstractAppState {
             logger.log(Level.FINEST,"Load is supposed to go as planned!");
         }else{
             loadManager.load("testfilexd.IntoFile");
-            logger.log(Level.FINEST,"LoadFileEvent wasn't sent on time! Loading default scenario({0}) instead.","testfilexc.IntoFile");
+            logger.log(Level.FINEST,"LoadFileEvent wasn't sent on time! Loading default scenario({0}) instead.","testfilexd.IntoFile");
         }
     }
 }
