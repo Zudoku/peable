@@ -122,7 +122,6 @@ public class RoadgraphTest {
         instance.addWalkable(road);
         DirectedGraph<Walkable,DefaultEdge> roadMap=instance.getRoadMap();
         for(DefaultEdge e:roadMap.edgesOf(road2)){
-            System.out.println("asdasd");
             assertNotNull(roadMap.getEdgeSource(e));
             assertNotNull(roadMap.getEdgeTarget(e));
         }
@@ -144,6 +143,12 @@ public class RoadgraphTest {
         assertSame(2,roadMap.edgesOf(road3).size());
         
         
+    }
+    @Test
+    public void testRoadConnectToRoad(){
+        Roadgraph instance = new Roadgraph();
+        
+        Road road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
     }
 
 }

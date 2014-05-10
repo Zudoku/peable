@@ -5,6 +5,8 @@
 package intopark.terrain;
 
 import com.jme3.math.Vector3f;
+import intopark.roads.Road;
+import intopark.roads.RoadHill;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,6 +55,21 @@ public class MapPosition {
         this.offSetX=ox;
         this.offSetY=oy;
         this.offSetZ=oz;
+    }
+    public boolean isNextTo(Road road){
+        if(road.getRoadhill()== RoadHill.FLAT){
+            if(road.getPosition().isNextTo(this)){
+                return true;
+            }else{
+                return false;
+            }
+            
+        }else if(road.getRoadhill()==RoadHill.DOWN){
+            
+        }else if(road.getRoadhill()== RoadHill.UP) {
+            
+        }
+        return false;
     }
     public boolean isNextTo(MapPosition pos2){
         int deltaX=Math.abs(x-pos2.x);

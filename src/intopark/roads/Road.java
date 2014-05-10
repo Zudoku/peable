@@ -30,11 +30,11 @@ public class Road extends Walkable{
         this.direction=direction;
     }
     /**
-     * IGNORES QUEROADS
+     * Checks if road is physically cabable of connecting to walkable
      * @param road2
      * @return 
      */
-    public boolean canConnect(Road road2){
+    public boolean canConnect(Walkable walk){
         int offsetY=0;
         if(roadhill==RoadHill.UP){
             offsetY=1;
@@ -42,6 +42,10 @@ public class Road extends Walkable{
         if(roadhill==RoadHill.DOWN){
             offsetY=-1;
         }
+        if(walk instanceof Road){
+            Road road2=(Road)walk;
+        
+        
         /* If road has an angle */
         if(offsetY!=0){
             /* If road2 is even on the right location to connect */
@@ -114,7 +118,40 @@ public class Road extends Walkable{
                 return false;
             }
         }
-
+        }
+        else if(walk instanceof BuildingEnterance){
+            BuildingEnterance ent=(BuildingEnterance)walk;
+            /* If road has an angle */
+            if(offsetY!=0){
+                /* If road2 is even on the right location to connect */
+                if(position.isNextTo(ent.getPosition(),0,0,offsetY)){
+                    int x1=ent.getPosition().getX();
+                    int z1=ent.getPosition().getZ();
+                    /* if direction is right TODO: this might be buggy */
+                    if(direction.isAligned(position.getDirection(x1,z1))){
+                        /* success*/
+                        return true;
+                    }else{
+                        /* shit direciton*/
+                        return false;
+                    }
+                }else{
+                    /* not next to eachother */
+                    return false;
+                }
+            }else{
+                /* Road is flat */
+                if(position.isNextTo(ent.getPosition())){
+                    /* success */
+                    return true;
+                }else{
+                    /* Not next to eachother */
+                    return false;
+                }
+            }
+        }else{
+            return false;
+        }
     }/**
      * CHECK CASE 3 DRAWING
      * @param road1

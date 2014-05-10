@@ -76,127 +76,135 @@ public class Roadgraph {
             roadMap.addVertex(road);
             road.setNeedsUpdate(true);
             for (Walkable r : roadMap.vertexSet()) {
-                if (r instanceof Road) {
-                    Road road2 = (Road) r;
-                    if(canRoadConnectRoad(road, road2)){
-                        connectWalkables(road, road2);
-                    }
+                if(canWalkablesConnect(road, r)){
+                    connectWalkables(road, r);
                 }
-                else if(r instanceof BuildingEnterance){
-                    BuildingEnterance ent = (BuildingEnterance)r;
-                    if(canRoadConnectBuildingEnterance(road, ent)){
-                        connectWalkables(road, ent);
-                    }
-                    
-                }else{
-                    /* NOT A ROAD OR BUILDINGENTERANCE */
-                }
-
             }
         }if(walkable instanceof BuildingEnterance){
             BuildingEnterance ent=(BuildingEnterance)walkable;
             roadMap.addVertex(ent);
             for (Walkable r : roadMap.vertexSet()) {
-                if (r instanceof Road) {
-                    Road road = (Road) r;
-                    if(canRoadConnectBuildingEnterance(road, ent)){
-                        connectWalkables(road,ent);
-                    }
+                if(canWalkablesConnect(ent, r)){
+                    connectWalkables(ent, r);
                 }
             }
         }
     }
-    private boolean canRoadConnectRoad(Road road,Road road2){
-        /* If road2 and road can physically connect */
-        if (road2.canConnect(road)) {
-            /* If road is normal road */
-            if (!road.getQueRoad()) {
-                /* And road2 is normal road*/
-                if (!road2.getQueRoad()) {
-                    /* Connect them */
+    private boolean canWalkablesConnect(Walkable walk1,Walkable walk2){
+        if(walk1 instanceof Road){
+            if(walk2 instanceof Road){
+                return canRoadConnectWalkable((Road)walk1,walk2) && canRoadConnectWalkable((Road)walk2,walk1);
+            }
+            else if(walk2 instanceof BuildingEnterance){
+                return canRoadConnectWalkable((Road)walk1,walk2) && canEnteranceConnectWalkable((BuildingEnterance)walk2,walk1);
+            }
+        }else if(walk1 instanceof BuildingEnterance){
+            if(walk2 instanceof Road){
+                return canEnteranceConnectWalkable((BuildingEnterance)walk1, walk2) && canRoadConnectWalkable((Road)walk2, walk1);
+            }else if(walk2 instanceof BuildingEnterance){
+                return canEnteranceConnectWalkable((BuildingEnterance)walk1, walk2) && canEnteranceConnectWalkable((BuildingEnterance)walk2, walk1);
+            }
+        }
+        /* unknown type*/
+        return false;
+    }
+    private boolean canRoadConnectWalkable(Road road,Walkable walkable){
+        if(walkable instanceof Road){
+            Road road2=(Road)walkable;
+            /* If road2 and road can physically connect */
+            if (road.canConnect(road2)) {
+                /* If road is normal road */
+                if (!road.getQueRoad()) {
                     return true;
-                } /* And road is queRoad*/ else {
-                    /* If road2 isn't connected to two vertixes already (2 edges between two vertixes. One for each direction)*/
-                    if (!(roadMap.edgesOf(road2).size() > 4)) {
+                }else{
+                    /* If not connected to 2 vertexes */
+                    if ((roadMap.edgesOf(road).size() < 4)) {
                         /* Can connect */
                         return true;
                     }else{
-                        /* road2 has too many edges */
                         return false;
                     }
                 }
+            }else{
+                /* Cant connect physically */
+                return false;
             }
-            /* road is queRoad */
-            else {
-                /* If road can connect since it's queRoad */
-                if (!(roadMap.edgesOf(road).size() > 4)) {
-                    /* And road2 is normal road*/
-                    if (!road2.getQueRoad()) {
-                        /* Connect them */
+        }else if(walkable instanceof BuildingEnterance){
+            BuildingEnterance ent=(BuildingEnterance)walkable;
+            /* Check if they are next to eachother */
+            if(road.canConnect(ent)){
+                /* if que */
+                if(road.getQueRoad()){
+                    /* If not connected to 2 vertexes */
+                    if ((roadMap.edgesOf(road).size() < 4)) {
+                        /* Can connect */
                         return true;
-                    } else {
-                        /* If road2 isn't connected to two vertixes already (2 edges between two vertixes. One for each direction)*/
-                        if (!(roadMap.edgesOf(road2).size() > 4)) {
-                            /* Then connect them */
-                            return true;
-                        }else{
-                            /* road2 already has too many edges */
-                            return false;
-                        }
+                    }else{
+                        return false;
                     }
-                } else {
-                    /* road already has 2 edges */
-                    return false;
+                }else{
+                    return true;
                 }
-
+            }else{
+                /*  */
+                return false;
             }
-        } else {
-            /* CANT CONNECT PHYSICALLY */
+        }else{
             return false;
         }
     }
-    private boolean canRoadConnectBuildingEnterance(Road road, BuildingEnterance enterance) {
-        /* ROAD IS QUEROAD */
-        if (road.getQueRoad()) {
-            /* If road can connect since it's queRoad */
-            if (!(roadMap.edgesOf(road).size() > 4)) {
-                /* If they are next to eachother TODO: check road paremmin */
-                if (road.getPosition().isNextTo(enterance.getPosition())) {
-                    /* If enterance needs to be directed towards the road */
-                    if (enterance.isNeedToConnectDirection()) {
-                        /* if they are directed towards eachother*/
-                        int x = road.getPosition().getX();
-                        int y = road.getPosition().getY();
-                        if (enterance.getPosition().getDirection(x, y).isOpposite(enterance.getDirection())) {
-                            /* towards each other */
-                            return true;
-                        } else {
-                            logger.log(Level.WARNING,"{0} {1} failed",new Object[]{enterance.getPosition().getDirection(x, y),enterance.getDirection()});
-                            /* Not towards eachother */
-                            return false;
-                        }
-                    } else {
-                        return true;
-                    }
-                } else {
-                    /* NOT NEXT TO EACHOTHER */
-                    return false;
-                }
+    private boolean enteranceAcceptRoad(BuildingEnterance enterance,Road road){
+        if (enterance.getBuildingType() == BuildingEnterance.SHOP) {
+            if (road.getQueRoad()) {
+                /* dont accept queroads */
+                return false;
             } else {
-                /* Queroad already has 4 edges */
+                /* accept normal roads */
+                return true;
+            }
+        } else if (enterance.getBuildingType() == BuildingEnterance.RIDE) {
+            if (road.getQueRoad()) {
+                /* accept queroads */
+                return true;
+            } else {
+                /* dont accept normal roads */
                 return false;
             }
         } else {
-            /* TODO: buildingenterance acceppts normal roads too */
-            /* If shop then true */
-            if(enterance.getBuildingType()==BuildingEnterance.SHOP){
-                if (road.getPosition().isNextTo(enterance.getPosition())) {
-                    return true;
+            /* unknown type*/
+            return false;
+        }
+    }
+    private boolean canEnteranceConnectWalkable(BuildingEnterance enterance,Walkable walk) {
+        if(walk instanceof Road){
+            Road road=(Road)walk;
+            /* Can physically connect */
+            if(road.canConnect(enterance)){
+                /*  need direction*/
+                if(enterance.isNeedToConnectDirection()){
+                    int x1=road.getPosition().getX();
+                    int z1=road.getPosition().getZ();
+                    /*  if road pos is same direction as enterance direction */
+                    if(enterance.getPosition().getDirection(x1, z1)==enterance.getDirection()){
+                        
+                        return enteranceAcceptRoad(enterance, road);
+                        
+                    }else{
+                        /* wrong side */
+                        return false;
+                    }
+                }else{
+                    /* accept from all directions */
+                    return enteranceAcceptRoad(enterance, road);
                 }
-                else{
-                    return false;
-                }
+
+            }else{
+                /*Cant physically connect*/
+                return false;
             }
+        }else if(walk instanceof BuildingEnterance){
+            return false;
+        }else{
             return false;
         }
     }
