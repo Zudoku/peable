@@ -7,6 +7,11 @@ package intopark.roads;
 import com.jme3.math.Vector3f;
 import intopark.terrain.Direction;
 import intopark.terrain.MapPosition;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -123,21 +128,20 @@ public class Road extends Walkable{
             BuildingEnterance ent=(BuildingEnterance)walk;
             /* If road has an angle */
             if(offsetY!=0){
-                /* If road2 is even on the right location to connect */
                 if(position.isNextTo(ent.getPosition(),0,0,offsetY)){
-                    int x1=ent.getPosition().getX();
-                    int z1=ent.getPosition().getZ();
-                    /* if direction is right TODO: this might be buggy */
-                    if(direction.isAligned(position.getDirection(x1,z1))){
-                        /* success*/
-                        return true;
+                   return true;
+                }else{
+                    if(ent.isNeedToConnectDirection()){
+                        if(position.isSameMainCoords(ent.getPosition())){
+                            return true;
+                        }else{
+                            return false;
+                        }
                     }else{
-                        /* shit direciton*/
+                        /* not next to eachother */
                         return false;
                     }
-                }else{
-                    /* not next to eachother */
-                    return false;
+                    
                 }
             }else{
                 /* Road is flat */
@@ -152,6 +156,7 @@ public class Road extends Walkable{
         }else{
             return false;
         }
+        
     }/**
      * CHECK CASE 3 DRAWING
      * @param road1
@@ -183,6 +188,68 @@ public class Road extends Walkable{
             }
         }
         return false;
+    }
+    public Map<RoadTransformContainer,Boolean> getPossibleAttachmentPos(){
+        Map<RoadTransformContainer,Boolean> map=new HashMap<>();
+        switch(roadhill){
+            case FLAT:
+                for(RoadTransformContainer rtc:getFlatAttachment()){
+                    map.put(rtc,true);
+                }
+                break;
+                
+            case DOWN:
+                for(RoadTransformContainer rtc:getDownAttachment()){
+                    map.put(rtc,true);
+                }
+                break;
+                
+            case UP:
+                for(RoadTransformContainer rtc:getUpAttachment()){
+                    map.put(rtc,true);
+                }
+        }
+        return map;
+    }
+    private List<RoadTransformContainer> getFlatAttachment(){
+        List<RoadTransformContainer> list=new ArrayList<>();
+        /* Can connect to flat roads next to this */
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(1, 0, 0)), Direction.ANY,RoadHill.FLAT));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 0, 1)), Direction.ANY,RoadHill.FLAT));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(-1, 0, 0)), Direction.ANY,RoadHill.FLAT));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 0, -1)), Direction.ANY,RoadHill.FLAT));
+        /* Can connect to uphill roads going up from this */
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(1, 0, 0)), Direction.NORTH,RoadHill.UP));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 0, 1)), Direction.EAST,RoadHill.UP));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(-1, 0, 0)), Direction.SOUTH,RoadHill.UP));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 0, -1)), Direction.WEST,RoadHill.UP));
+        /* Can connect to downhill roads coming down to this */
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(1, 1, 0)), Direction.SOUTH,RoadHill.DOWN));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 1, 1)), Direction.WEST,RoadHill.DOWN));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(-1, 1, 0)), Direction.NORTH,RoadHill.DOWN));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 1, -1)), Direction.EAST,RoadHill.DOWN));
+        /* Can connect to downhill roads going down from this */
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(1, 0, 0)), Direction.NORTH,RoadHill.DOWN));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 0, 1)), Direction.EAST,RoadHill.DOWN));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(-1, 0, 0)), Direction.SOUTH,RoadHill.DOWN));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 0, -1)), Direction.WEST,RoadHill.DOWN));
+        /* Can connect to uphill roads going up to this */
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(1, -1, 0)), Direction.SOUTH,RoadHill.UP));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, -1, 1)), Direction.WEST,RoadHill.UP));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(-1, -1, 0)), Direction.NORTH,RoadHill.UP));
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, -1, -1)), Direction.EAST,RoadHill.UP));
+        return list;
+    }
+    private List<RoadTransformContainer> getDownAttachment(){
+        List<RoadTransformContainer> list=new ArrayList<>();
+        
+        list.add(new RoadTransformContainer(position.plus(new MapPosition(1, 0, 0)), Direction.NORTH,RoadHill.UP));
+        
+        return list;
+    }
+    private List<RoadTransformContainer> getUpAttachment(){
+        List<RoadTransformContainer> list=new ArrayList<>();
+        return list;
     }
     public int getID() {
         return ID;

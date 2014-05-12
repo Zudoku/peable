@@ -8,11 +8,11 @@ package intopark.roads;
  *
  * @author arska
  */
-public class TransformContainer {
+public class RoadShapeContainer {
     private int code;
     private int angle;
     
-    public TransformContainer(int code, int angle) {
+    public RoadShapeContainer(int code, int angle) {
         this.code = code;
         this.angle = angle;
     }

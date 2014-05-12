@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 @Singleton
 public class RoadFactory {
     private static final Logger logger = Logger.getLogger(RoadFactory.class.getName());
-    private Map<String,TransformContainer>transformMap;
+    private Map<String,RoadShapeContainer>transformMap;
     /*  */
     private static final int SKIN_1_STRAIGHT=100;
     private static final int SKIN_1_UPHILL=101;
@@ -40,26 +40,26 @@ public class RoadFactory {
         /* STRING FORMAT NORTH-SOUTH-EAST-WEST  | VALUES t = true - f = false */
         /* NORTH =X+ WEST =Z+ BENDING ROAD IS TOWARDS X+ AND Z+ */
         /* T_ROAD HAS BACK AGAINST X+ */
-        transformMap.put("tttt", new TransformContainer(SKIN_1_4ROAD,0));
+        transformMap.put("tttt", new RoadShapeContainer(SKIN_1_4ROAD,0));
         
-        transformMap.put("ffff", new TransformContainer(SKIN_1_STRAIGHT, 0));
-        transformMap.put("ffft", new TransformContainer(SKIN_1_STRAIGHT, -90));
-        transformMap.put("fftf", new TransformContainer(SKIN_1_STRAIGHT, 90));
-        transformMap.put("ftff", new TransformContainer(SKIN_1_STRAIGHT, 180));
-        transformMap.put("tfff", new TransformContainer(SKIN_1_STRAIGHT, 0));
+        transformMap.put("ffff", new RoadShapeContainer(SKIN_1_STRAIGHT, 0));
+        transformMap.put("ffft", new RoadShapeContainer(SKIN_1_STRAIGHT, -90));
+        transformMap.put("fftf", new RoadShapeContainer(SKIN_1_STRAIGHT, 90));
+        transformMap.put("ftff", new RoadShapeContainer(SKIN_1_STRAIGHT, 180));
+        transformMap.put("tfff", new RoadShapeContainer(SKIN_1_STRAIGHT, 0));
         
-        transformMap.put("fftt", new TransformContainer(SKIN_1_STRAIGHT, 90));
-        transformMap.put("ttff", new TransformContainer(SKIN_1_STRAIGHT, 0));
+        transformMap.put("fftt", new RoadShapeContainer(SKIN_1_STRAIGHT, 90));
+        transformMap.put("ttff", new RoadShapeContainer(SKIN_1_STRAIGHT, 0));
         
-        transformMap.put("ftft", new TransformContainer(SKIN_1_BENDING, 180)); 
-        transformMap.put("tfft", new TransformContainer(SKIN_1_BENDING, 90));
-        transformMap.put("tftf", new TransformContainer(SKIN_1_BENDING, 0));
-        transformMap.put("fttf", new TransformContainer(SKIN_1_BENDING, -90));
+        transformMap.put("ftft", new RoadShapeContainer(SKIN_1_BENDING, 180)); 
+        transformMap.put("tfft", new RoadShapeContainer(SKIN_1_BENDING, 90));
+        transformMap.put("tftf", new RoadShapeContainer(SKIN_1_BENDING, 0));
+        transformMap.put("fttf", new RoadShapeContainer(SKIN_1_BENDING, -90));
         
-        transformMap.put("fttt", new TransformContainer(SKIN_1_TROAD, 0));
-        transformMap.put("tftt", new TransformContainer(SKIN_1_TROAD, 180));
-        transformMap.put("ttft", new TransformContainer(SKIN_1_TROAD, -90));
-        transformMap.put("tttf", new TransformContainer(SKIN_1_TROAD, 90));
+        transformMap.put("fttt", new RoadShapeContainer(SKIN_1_TROAD, 0));
+        transformMap.put("tftt", new RoadShapeContainer(SKIN_1_TROAD, 180));
+        transformMap.put("ttft", new RoadShapeContainer(SKIN_1_TROAD, -90));
+        transformMap.put("tttf", new RoadShapeContainer(SKIN_1_TROAD, 90));
     }
     /**
      * 
@@ -73,7 +73,7 @@ public class RoadFactory {
         /* We get the spatial and rotate it  */
         switch(road.getRoadhill()){
             case FLAT:
-                TransformContainer info=transformMap.get(booleanToString(cDirections));
+                RoadShapeContainer info=transformMap.get(booleanToString(cDirections));
                 logger.log(Level.FINEST, "Road ID: {0} Position:{1} transformed to CODE: {2} ROTATION:{3}",new Object[]{road.getID(),road.getPosition().getVector(),info.getCode(),info.getAngle()});
                 roadSpatial=getAbsoluteSpatial(info.getCode(),road.getQueRoad());
                 roadSpatial.rotate(0,(float) Math.toRadians(info.getAngle()),0);

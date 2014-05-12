@@ -45,7 +45,12 @@ public class Enterance implements Savable{
             object=UtilityMethods.loadModel(LoadPaths.rideEnterance);
         }
         object.setLocalTranslation(location.getVector());
-        enteranceWalkable=new BuildingEnterance(location,0,BuildingEnterance.RIDE, facing, connected);
+        
+        MapPosition l=new MapPosition(location);
+        l.setX(l.getX()+facing.directiontoPosition().getX());
+        l.setZ(l.getZ()+facing.directiontoPosition().getZ());
+        
+        enteranceWalkable=new BuildingEnterance(l,0,BuildingEnterance.RIDE, facing,true);
         object.setUserData("type","enterance");
         float angle;
         switch(facing){

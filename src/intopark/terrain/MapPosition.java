@@ -137,6 +137,24 @@ public class MapPosition {
         }
         throw new RuntimeException("Unable to get direction");
     }
+    public MapPosition plus(MapPosition pos2){
+        this.x+=pos2.getX();
+        this.y+=pos2.getY();
+        this.z+=pos2.getZ();
+        this.offSetX+=pos2.getOffSetX();
+        this.offSetY+=pos2.getOffSetY();
+        this.offSetZ+=pos2.getOffSetZ();
+        return this;
+    }
+    public MapPosition minus(MapPosition pos2){
+        this.x-=pos2.getX();
+        this.y-=pos2.getY();
+        this.z-=pos2.getZ();
+        this.offSetX-=pos2.getOffSetX();
+        this.offSetY-=pos2.getOffSetY();
+        this.offSetZ-=pos2.getOffSetZ();
+        return this;
+    }
     public Vector3f getVector(){
         return new Vector3f(x+offSetX, y+offSetY, z+offSetZ);
     }

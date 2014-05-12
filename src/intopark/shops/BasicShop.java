@@ -40,7 +40,7 @@ public class BasicShop {
     protected ShopUpgradeContainer upgrades=new ShopUpgradeContainer();
     protected String type;
     protected BuildingEnterance enterance;
-    protected boolean needToFaceDirection=true;
+    protected transient boolean needToFaceDirection=true;
     
     public BasicShop(MapPosition position,Spatial object,int shopID,float constr,float price,Direction facing,String prodname,String shopName,String type,boolean needToFaceDirection){
         this.position=position;
@@ -57,7 +57,13 @@ public class BasicShop {
         object.setLocalTranslation(position.getVector());
         Main.injector.injectMembers(this);
         Random r =new Random();
-        this.enterance=new BuildingEnterance(position, shopID, BuildingEnterance.SHOP,facing,true);
+        
+        MapPosition l=new MapPosition(position);
+        if(needToFaceDirection){
+            l.setX(l.getX()+facing.directiontoPosition().getX());
+            l.setZ(l.getZ()+facing.directiontoPosition().getZ());
+        }
+        this.enterance=new BuildingEnterance(l, shopID, BuildingEnterance.SHOP,facing,needToFaceDirection);
         eventBus.post(new CreateBuildingEnteranceEvent(this.enterance));
         eventBus.post(new AddGuestLimitEvent(r.nextInt(5)+5));
         object.setUserData("type","shop");

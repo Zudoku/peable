@@ -71,22 +71,14 @@ public class Roadgraph {
         if(walkable==null){
             throw new IllegalArgumentException("Cannot add null walkable to graph.");
         }
-        if (walkable instanceof Road) {
-            Road road = (Road) walkable;
-            roadMap.addVertex(road);
+        roadMap.addVertex(walkable);
+        if(walkable instanceof Road){
+            Road road=(Road)walkable;
             road.setNeedsUpdate(true);
-            for (Walkable r : roadMap.vertexSet()) {
-                if(canWalkablesConnect(road, r)){
-                    connectWalkables(road, r);
-                }
-            }
-        }if(walkable instanceof BuildingEnterance){
-            BuildingEnterance ent=(BuildingEnterance)walkable;
-            roadMap.addVertex(ent);
-            for (Walkable r : roadMap.vertexSet()) {
-                if(canWalkablesConnect(ent, r)){
-                    connectWalkables(ent, r);
-                }
+        }
+        for (Walkable r : roadMap.vertexSet()) {
+            if (canWalkablesConnect(walkable, r)) {
+                connectWalkables(walkable, r);
             }
         }
     }
@@ -96,13 +88,13 @@ public class Roadgraph {
                 return canRoadConnectWalkable((Road)walk1,walk2) && canRoadConnectWalkable((Road)walk2,walk1);
             }
             else if(walk2 instanceof BuildingEnterance){
-                return canRoadConnectWalkable((Road)walk1,walk2) && canEnteranceConnectWalkable((BuildingEnterance)walk2,walk1);
+                return canRoadConnectWalkable((Road)walk1,walk2) && enteranceAcceptRoad((BuildingEnterance)walk2,(Road)walk1);
             }
         }else if(walk1 instanceof BuildingEnterance){
             if(walk2 instanceof Road){
-                return canEnteranceConnectWalkable((BuildingEnterance)walk1, walk2) && canRoadConnectWalkable((Road)walk2, walk1);
+                return enteranceAcceptRoad((BuildingEnterance)walk1,(Road)walk2) && canRoadConnectWalkable((Road)walk2, walk1);
             }else if(walk2 instanceof BuildingEnterance){
-                return canEnteranceConnectWalkable((BuildingEnterance)walk1, walk2) && canEnteranceConnectWalkable((BuildingEnterance)walk2, walk1);
+                return false;
             }
         }
         /* unknown type*/
@@ -172,39 +164,6 @@ public class Roadgraph {
             }
         } else {
             /* unknown type*/
-            return false;
-        }
-    }
-    private boolean canEnteranceConnectWalkable(BuildingEnterance enterance,Walkable walk) {
-        if(walk instanceof Road){
-            Road road=(Road)walk;
-            /* Can physically connect */
-            if(road.canConnect(enterance)){
-                /*  need direction*/
-                if(enterance.isNeedToConnectDirection()){
-                    int x1=road.getPosition().getX();
-                    int z1=road.getPosition().getZ();
-                    /*  if road pos is same direction as enterance direction */
-                    if(enterance.getPosition().getDirection(x1, z1)==enterance.getDirection()){
-                        
-                        return enteranceAcceptRoad(enterance, road);
-                        
-                    }else{
-                        /* wrong side */
-                        return false;
-                    }
-                }else{
-                    /* accept from all directions */
-                    return enteranceAcceptRoad(enterance, road);
-                }
-
-            }else{
-                /*Cant physically connect*/
-                return false;
-            }
-        }else if(walk instanceof BuildingEnterance){
-            return false;
-        }else{
             return false;
         }
     }

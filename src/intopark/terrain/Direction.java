@@ -10,7 +10,7 @@ package intopark.terrain;
  */
 public enum Direction {
     /* NORTH: X+    */
-    NORTH,SOUTH,EAST,WEST;
+    NORTH,SOUTH,EAST,WEST,ANY;
     public boolean isAligned(Direction dir2){
         /* Check: if both directions are up or down OR if both directions are left or right */
         if(((this==SOUTH||this==NORTH)&&(dir2==SOUTH||dir2==NORTH))||((this==WEST||this==EAST)&&(dir2==WEST||dir2==EAST))){
@@ -29,8 +29,7 @@ public enum Direction {
     }
     public Direction intToDirection(int dir) {
         switch (dir) {
-            default:
-                //0
+            case 0:
                 return NORTH;
             case 1:
                 return SOUTH;
@@ -38,6 +37,8 @@ public enum Direction {
                 return EAST;
             case 3:
                 return WEST;
+            default:
+                return ANY;
         }
     }
     public int getAngle() {
@@ -57,9 +58,9 @@ public enum Direction {
         }
         return 0;
     }
-    public int DirectiontoInt(){
+    public int directiontoInt(){
         switch (this) {
-            default:
+            case NORTH:
                 return 0;
             case SOUTH:
                 return 1;
@@ -67,6 +68,21 @@ public enum Direction {
                 return 2;
             case WEST:
                 return 3;
+            default:
+                return 4;
+
+        }
+    }
+    public MapPosition directiontoPosition(){
+        switch (this) {
+            default:
+                return new MapPosition(1, 0, 0);
+            case SOUTH:
+                return new MapPosition(-1, 0, 0);
+            case EAST:
+                return new MapPosition(0, 0, 1);
+            case WEST:
+                return new MapPosition(0, 0, -1);
 
         }
     }
