@@ -4,7 +4,7 @@
  */
 package intopark.terrain.decoration;
 
-import intopark.terrain.MapPosition;
+import intopark.util.MapPosition;
 
 /**
  *

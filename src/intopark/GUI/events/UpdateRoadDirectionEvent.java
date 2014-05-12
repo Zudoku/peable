@@ -5,7 +5,7 @@
 package intopark.GUI.events;
 
 import com.google.inject.Singleton;
-import intopark.terrain.Direction;
+import intopark.util.Direction;
 
 /**
  *

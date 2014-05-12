@@ -13,8 +13,8 @@ import intopark.npc.events.AddGuestLimitEvent;
 import intopark.npc.inventory.RideType;
 import intopark.ride.BasicRide;
 import intopark.ride.CustomAnimation;
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 import java.util.List;
 
 /**

@@ -4,8 +4,8 @@
  */
 package intopark.roads;
 
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.DirectedGraph;
 import org.junit.After;
@@ -148,24 +148,25 @@ public class RoadgraphTest {
     @Test
     public void testRoadConnectToBuilding(){
         Roadgraph instance = new Roadgraph();
-        
+        //TEST THAT ROAD CONNECTS TO BUILDING
         Road road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
-        BuildingEnterance ent= new BuildingEnterance(new MapPosition(2, 6, 1), 1, BuildingEnterance.SHOP, Direction.SOUTH,true);
+        BuildingEnterance ent= new BuildingEnterance(new MapPosition(2, 6, 1), 1, BuildingEnterance.SHOP);
         instance.addWalkable(ent);
         assertSame(2,instance.getRoadMap().edgesOf(ent).size());
-        
-        Road road2=new Road(new MapPosition(1, 6, 5), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
+        //TEST THAT RIDES DONT ACCEPT NORMAL ROAD
+        Road road2=new Road(new MapPosition(1, 6, 5), RoadHill.FLAT, 2, 1, false, Direction.NORTH);
         instance.addWalkable(road2);
-        BuildingEnterance ent2= new BuildingEnterance(new MapPosition(2, 6, 5), 1, BuildingEnterance.SHOP, Direction.WEST,true);
+        BuildingEnterance ent2= new BuildingEnterance(new MapPosition(2, 6, 5), 1, BuildingEnterance.RIDE);
         instance.addWalkable(ent2);
         assertSame(0,instance.getRoadMap().edgesOf(ent2).size());
-        
-        Road road3=new Road(new MapPosition(1, 6, 10), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
+        //TEST THAT ROAD CONNECTS TO BUILDING WHILE SAME COORDS
+        Road road3=new Road(new MapPosition(1, 6, 10), RoadHill.FLAT, 3, 1, false, Direction.NORTH);
         instance.addWalkable(road3);
-        BuildingEnterance ent3= new BuildingEnterance(new MapPosition(2, 6, 10), 1, BuildingEnterance.SHOP, Direction.EAST,false);
+        BuildingEnterance ent3= new BuildingEnterance(new MapPosition(1, 6, 10), 1, BuildingEnterance.SHOP);
         instance.addWalkable(ent3);
         assertSame(2,instance.getRoadMap().edgesOf(ent3).size());
+        
     }
     
 }

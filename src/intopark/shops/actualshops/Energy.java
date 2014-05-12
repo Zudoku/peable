@@ -10,8 +10,8 @@ import intopark.npc.Guest;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.Itemtypes;
 import intopark.shops.BasicShop;
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 import intopark.terrain.events.PayParkEvent;
 
 /**

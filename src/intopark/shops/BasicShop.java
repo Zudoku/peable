@@ -15,8 +15,8 @@ import intopark.npc.events.AddGuestLimitEvent;
 import intopark.npc.Guest;
 import intopark.roads.BuildingEnterance;
 import intopark.roads.events.CreateBuildingEnteranceEvent;
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 import intopark.terrain.events.PayParkEvent;
 
 /**
@@ -63,7 +63,7 @@ public class BasicShop {
             l.setX(l.getX()+facing.directiontoPosition().getX());
             l.setZ(l.getZ()+facing.directiontoPosition().getZ());
         }
-        this.enterance=new BuildingEnterance(l, shopID, BuildingEnterance.SHOP,facing,needToFaceDirection);
+        this.enterance=new BuildingEnterance(l, shopID, BuildingEnterance.SHOP);
         eventBus.post(new CreateBuildingEnteranceEvent(this.enterance));
         eventBus.post(new AddGuestLimitEvent(r.nextInt(5)+5));
         object.setUserData("type","shop");

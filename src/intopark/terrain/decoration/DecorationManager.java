@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.UtilityMethods;
 import intopark.terrain.events.AddObjectToMapEvent;
-import intopark.terrain.Direction;
+import intopark.util.Direction;
 import intopark.terrain.ParkHandler;
 import intopark.terrain.events.PayParkEvent;
 

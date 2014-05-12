@@ -15,7 +15,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.logging.Logger;
 import intopark.UtilityMethods;
-import intopark.terrain.Direction;
+import intopark.util.Direction;
 import java.util.List;
 import java.util.logging.Level;
 

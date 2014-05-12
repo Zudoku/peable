@@ -13,8 +13,8 @@ import intopark.ride.actualrides.ChessCenter;
 import intopark.ride.actualrides.HauntedHouse;
 import intopark.ride.actualrides.PirateShip;
 import intopark.ride.actualrides.Rotor;
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 import java.util.ArrayList;
 import java.util.List;
 

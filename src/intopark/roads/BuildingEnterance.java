@@ -4,8 +4,8 @@
  */
 package intopark.roads;
 
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 
 /**
  *
@@ -16,15 +16,13 @@ public class BuildingEnterance extends Walkable{
     private int buildingType;
     private Direction direction;
     private boolean needToConnectDirection;
-    public static int SHOP=100;
-    public static int RIDE=150;
+    public transient static int SHOP=100;
+    public transient static int RIDE=150;
     
-    public BuildingEnterance(MapPosition position,int ID,int buildingType,Direction dir,boolean needToConnect) {
+    public BuildingEnterance(MapPosition position,int ID,int buildingType) {
         super(position);
         this.ID=ID;
         this.buildingType=buildingType;
-        this.direction=dir;
-        this.needToConnectDirection=needToConnect;
     }
     public int getBuildingType() {
         return buildingType;

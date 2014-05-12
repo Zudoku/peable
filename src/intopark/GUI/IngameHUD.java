@@ -51,11 +51,11 @@ import static intopark.inputhandler.ClickingModes.PLACE;
 import static intopark.inputhandler.ClickingModes.RIDE;
 import static intopark.inputhandler.ClickingModes.ROAD;
 import static intopark.inputhandler.ClickingModes.TERRAIN;
-import intopark.terrain.Direction;
-import static intopark.terrain.Direction.SOUTH;
-import static intopark.terrain.Direction.WEST;
-import static intopark.terrain.Direction.EAST;
-import static intopark.terrain.Direction.NORTH;
+import intopark.util.Direction;
+import static intopark.util.Direction.SOUTH;
+import static intopark.util.Direction.WEST;
+import static intopark.util.Direction.EAST;
+import static intopark.util.Direction.NORTH;
 import intopark.terrain.ParkHandler;
 import intopark.roads.RoadHill;
 import intopark.roads.RoadMaker;
@@ -625,19 +625,19 @@ public class IngameHUD implements ScreenController {
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadUpHill() {
-        roadMaker.setHill(RoadHill.UP);
+        roadMaker.setHill(1);
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadFlatHill() {
-        roadMaker.setHill(RoadHill.FLAT);
+        roadMaker.setHill(0);
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadDownHill() {
-        roadMaker.setHill(RoadHill.DOWN);
+        roadMaker.setHill(2);
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
         niftyElement.startEffect(EffectEventId.onCustom);

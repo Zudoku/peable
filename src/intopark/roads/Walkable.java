@@ -4,7 +4,7 @@
  */
 package intopark.roads;
 
-import intopark.terrain.MapPosition;
+import intopark.util.MapPosition;
 
 /**
  *

@@ -7,7 +7,7 @@ package intopark.roads;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Singleton;
 import intopark.roads.events.UpdateRoadEvent;
-import intopark.terrain.MapPosition;
+import intopark.util.MapPosition;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -101,12 +101,11 @@ public class Roadgraph {
         return false;
     }
     private boolean canRoadConnectWalkable(Road road,Walkable walkable){
-        if(walkable instanceof Road){
-            Road road2=(Road)walkable;
-            /* If road2 and road can physically connect */
-            if (road.canConnect(road2)) {
+            /* If road and walkable can physically connect */
+            if (road.canConnect(walkable)) {
                 /* If road is normal road */
                 if (!road.getQueRoad()) {
+                    /* No restrictions on how many edges it can make. */
                     return true;
                 }else{
                     /* If not connected to 2 vertexes */
@@ -121,29 +120,6 @@ public class Roadgraph {
                 /* Cant connect physically */
                 return false;
             }
-        }else if(walkable instanceof BuildingEnterance){
-            BuildingEnterance ent=(BuildingEnterance)walkable;
-            /* Check if they are next to eachother */
-            if(road.canConnect(ent)){
-                /* if que */
-                if(road.getQueRoad()){
-                    /* If not connected to 2 vertexes */
-                    if ((roadMap.edgesOf(road).size() < 4)) {
-                        /* Can connect */
-                        return true;
-                    }else{
-                        return false;
-                    }
-                }else{
-                    return true;
-                }
-            }else{
-                /*  */
-                return false;
-            }
-        }else{
-            return false;
-        }
     }
     private boolean enteranceAcceptRoad(BuildingEnterance enterance,Road road){
         if (enterance.getBuildingType() == BuildingEnterance.SHOP) {

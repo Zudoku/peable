@@ -4,8 +4,8 @@
  */
 package intopark.roads;
 
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 
 /**
  *
@@ -20,6 +20,21 @@ public class RoadTransformContainer {
         this.pos = pos;
         this.facing = facing;
         this.roadHill = roadHill;
+    }
+    public boolean match(RoadTransformContainer rtc2){
+        boolean match=true;
+        if(!pos.isSameMainCoords(rtc2.pos)){
+            match=false;
+        }
+        if(facing!=rtc2.facing){
+            if(!(facing== Direction.ANY||rtc2.facing==Direction.ANY)){
+                match=false;
+            }
+        }
+        if(roadHill!=rtc2.roadHill){
+            match=false;
+        }
+        return match;
     }
     
 }

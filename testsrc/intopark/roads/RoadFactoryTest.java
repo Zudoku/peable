@@ -9,8 +9,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import intopark.UtilityMethods;
 import intopark.inout.LoadPaths;
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -62,12 +62,12 @@ public class RoadFactoryTest {
         }
         /* Then try too few and too many arguments */
         try {
-            instance.roadToSpatial(new Road(new MapPosition(1, 1, 1), RoadHill.DOWN, 6, 1, true, Direction.NORTH), new boolean[]{true, true});
+            instance.roadToSpatial(new Road(new MapPosition(1, 1, 1), RoadHill.UP, 6, 1, true, Direction.NORTH), new boolean[]{true, true});
             fail("Too few arguments should throw exeption.");
         } catch (IllegalArgumentException e) {
         }
         try {
-            instance.roadToSpatial(new Road(new MapPosition(1, 2, 1), RoadHill.DOWN, 7, 1, true, Direction.NORTH), new boolean[]{true, true,true,false,false,false,false});
+            instance.roadToSpatial(new Road(new MapPosition(1, 2, 1), RoadHill.UP, 7, 1, true, Direction.NORTH), new boolean[]{true, true,true,false,false,false,false});
             fail("Too many arguments should throw exeption.");
         } catch (IllegalArgumentException e) {
         }

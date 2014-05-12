@@ -10,7 +10,7 @@ import java.util.List;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
-import intopark.terrain.Direction;
+import intopark.util.Direction;
 
 /**
  *

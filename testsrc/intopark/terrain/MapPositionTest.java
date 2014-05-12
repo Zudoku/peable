@@ -4,6 +4,7 @@
  */
 package intopark.terrain;
 
+import intopark.util.MapPosition;
 import com.jme3.math.Vector3f;
 import org.junit.After;
 import org.junit.AfterClass;

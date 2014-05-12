@@ -10,8 +10,8 @@ import intopark.UtilityMethods;
 import intopark.shops.actualshops.Energy;
 import intopark.shops.actualshops.Meatballshop;
 import intopark.shops.actualshops.Toilet;
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 
 /**
  *

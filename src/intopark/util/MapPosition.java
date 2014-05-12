@@ -2,11 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package intopark.terrain;
+package intopark.util;
 
 import com.jme3.math.Vector3f;
-import intopark.roads.Road;
-import intopark.roads.RoadHill;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,21 +54,7 @@ public class MapPosition {
         this.offSetY=oy;
         this.offSetZ=oz;
     }
-    public boolean isNextTo(Road road){
-        if(road.getRoadhill()== RoadHill.FLAT){
-            if(road.getPosition().isNextTo(this)){
-                return true;
-            }else{
-                return false;
-            }
-            
-        }else if(road.getRoadhill()==RoadHill.DOWN){
-            
-        }else if(road.getRoadhill()== RoadHill.UP) {
-            
-        }
-        return false;
-    }
+
     public boolean isNextTo(MapPosition pos2){
         int deltaX=Math.abs(x-pos2.x);
         int deltaY=Math.abs(y-pos2.y);
@@ -138,23 +122,16 @@ public class MapPosition {
         throw new RuntimeException("Unable to get direction");
     }
     public MapPosition plus(MapPosition pos2){
-        this.x+=pos2.getX();
-        this.y+=pos2.getY();
-        this.z+=pos2.getZ();
-        this.offSetX+=pos2.getOffSetX();
-        this.offSetY+=pos2.getOffSetY();
-        this.offSetZ+=pos2.getOffSetZ();
-        return this;
+        MapPosition copy=new MapPosition(this);
+        copy.x+=pos2.getX();
+        copy.y+=pos2.getY();
+        copy.z+=pos2.getZ();
+        copy.offSetX+=pos2.getOffSetX();
+        copy.offSetY+=pos2.getOffSetY();
+        copy.offSetZ+=pos2.getOffSetZ();
+        return copy;
     }
-    public MapPosition minus(MapPosition pos2){
-        this.x-=pos2.getX();
-        this.y-=pos2.getY();
-        this.z-=pos2.getZ();
-        this.offSetX-=pos2.getOffSetX();
-        this.offSetY-=pos2.getOffSetY();
-        this.offSetZ-=pos2.getOffSetZ();
-        return this;
-    }
+
     public Vector3f getVector(){
         return new Vector3f(x+offSetX, y+offSetY, z+offSetZ);
     }

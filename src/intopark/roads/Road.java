@@ -5,8 +5,8 @@
 package intopark.roads;
 
 import com.jme3.math.Vector3f;
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,166 +40,51 @@ public class Road extends Walkable{
      * @return 
      */
     public boolean canConnect(Walkable walk){
-        int offsetY=0;
-        if(roadhill==RoadHill.UP){
-            offsetY=1;
-        }
-        if(roadhill==RoadHill.DOWN){
-            offsetY=-1;
+        if(walk==null){
+            throw new NullPointerException();
         }
         if(walk instanceof Road){
             Road road2=(Road)walk;
-        
-        
-        /* If road has an angle */
-        if(offsetY!=0){
-            /* If road2 is even on the right location to connect */
-            if(position.isNextTo(road2.getPosition(),0,0,offsetY)){
-                /* Check if road2 has an angle */
-                if(road2.getRoadhill()!=RoadHill.FLAT){
-                    /* If yes, then check if its going to same direction CASE 1*/
-                    if(direction==road2.getDirection()){
-                        /* check if it has same roadhill*/
-                        if(roadhill==road2.getRoadhill()){
-                            /* CASE 1 SUCCESS*/
-                            //logger.log(Level.FINER,"CASE 1 SUCCESS");
-                            return true;
-                        }else{
-                            /*CASE 1 FAILED*/
-                            //logger.log(Level.FINER,"CASE 1 FAILED");
-                            return false;
-                        }
-                    }else{
-                        /*CASE 1 FAILED */
-                        //logger.log(Level.FINER,"CASE 1 FAILED");
-                        return false;
-                    }
-                }else{
-                    /* road2 is flat CASE 2 SUCCESS*/
-                    //logger.log(Level.FINER,"CASE 2 SUCCESS");
+            /* Make a transform of road2 */
+            RoadTransformContainer rtc=new RoadTransformContainer(road2.getPosition(), road2.getDirection(), road2.getRoadhill());
+            /* Get a map with all possible transforms that can connect to this */
+            Map<RoadTransformContainer,Boolean> possible=getPossibleAttachmentPos();
+            /* If it matches, can physically connect */
+            for(RoadTransformContainer te:possible.keySet()){ //We cant do possible.containsKey because we use Direction.ANY
+                if(te.match(rtc)){
                     return true;
                 }
-                
-            }/* check CASE 3*/
-             else if (position.isNextTo(road2.getPosition())){
-                /* Check if same direction and opposite roadhill OR same roadhill and opposite direction */
-                if(checkCase3(this, road2)){
-                    /* CASE 3 SUCCESS*/
-                    //logger.log(Level.FINER,"CASE 3 SUCCESS");
-                    return true;
-                }else{
-                    /* CASE 3 FAILED*/
-                    //logger.log(Level.FINER,"CASE 3 FAILED");
-                    return false;
-                }
-            }else{
-                /* Not even next to each other CASES 1-3 FAILED */
-                 //logger.log(Level.FINER,"CASES 1-3 FAILED");
-                return false;
             }
-        }else{
-            /* road1 FLAT Check if next to eachother*/
-            if(position.isNextTo(road2.getPosition())){
-                /* Check if road2 has angle */
-                if(road2.getRoadhill()!=roadhill.FLAT){
-                    /* check if CASE 4 */
-                    if(checkCase4(this, road2)){
-                        /* CASE 4 SUCCESS */
-                        //logger.log(Level.FINER,"CASE 4 SUCCESS");
-                        return true;
-                    }else{
-                        /* CASE 4 FAILED */
-                        //logger.log(Level.FINER,"CASE 4 FAILED");
-                        return false;
-                    }
-                }else{
-                    /* road2 no angle CASE 5 SUCCESS */
-                    //logger.log(Level.FINER,"CASE 5 SUCCESS");
-                    return true;
-                }
-            }else{
-                /* Not even next to each other CASES 4-5 FAILED */
-                //logger.log(Level.FINER,"CASES 4-5 FAILED");
-                return false;
-            }
-        }
+            return false;
         }
         else if(walk instanceof BuildingEnterance){
             BuildingEnterance ent=(BuildingEnterance)walk;
-            /* If road has an angle */
-            if(offsetY!=0){
-                if(position.isNextTo(ent.getPosition(),0,0,offsetY)){
-                   return true;
-                }else{
-                    if(ent.isNeedToConnectDirection()){
-                        if(position.isSameMainCoords(ent.getPosition())){
-                            return true;
-                        }else{
-                            return false;
-                        }
-                    }else{
-                        /* not next to eachother */
-                        return false;
-                    }
-                    
-                }
-            }else{
-                /* Road is flat */
-                if(position.isNextTo(ent.getPosition())){
-                    /* success */
+            /* Make a transform representing ent as a flat road */
+            RoadTransformContainer rtc=new RoadTransformContainer(ent.getPosition(),Direction.ANY,RoadHill.FLAT);
+            /* Get a map with all possible transforms that can connect to this */
+            Map<RoadTransformContainer,Boolean> possible=getPossibleAttachmentPos();
+            /* If it matches, can physically connect */
+            for(RoadTransformContainer te:possible.keySet()){ //We cant do possible.containsKey because we use Direction.ANY
+                if(te.match(rtc)){
                     return true;
-                }else{
-                    /* Not next to eachother */
-                    return false;
                 }
             }
+            /* Because we need to connect road that is ontop too */
+            if(ent.getPosition().isSameMainCoords(position)&&roadhill==RoadHill.FLAT){
+                return true;
+            }
+            return false;
         }else{
             return false;
         }
         
-    }/**
-     * CHECK CASE 3 DRAWING
-     * @param road1
-     * @param road2
-     * @return 
-     */
-    private boolean checkCase3(Road road1,Road road2){
-        /* Check if same direction and opposite roadhill */
-        if(road1.getDirection()==road2.getDirection()&&road1.getRoadhill().isOpposite(road2.getRoadhill())){
-            return true;
-        }
-        /* Check if same roadhill and opposite direction */
-        if(road1.getRoadhill()==(road2.getRoadhill())&&road1.getDirection().isOpposite(road2.getDirection())){
-            return true;
-        }
-        return false;
     }
-    private boolean checkCase4(Road road1,Road road2){
-        /* IF X1 < X2 OR X1 > X2 */
-        if(road1.getPosition().getX()>road2.getPosition().getX()||road1.getPosition().getX()<road2.getPosition().getX()){
-            if(road2.getDirection()==direction.NORTH||road2.getDirection()==direction.SOUTH){
-                return true;
-            }
-        }
-        /* IF Z1 < Z2 OR Z1 > Z2 */
-        if(road1.getPosition().getZ()>road2.getPosition().getZ()||road1.getPosition().getZ()<road2.getPosition().getZ()){
-            if(road2.getDirection()==direction.WEST||road2.getDirection()==direction.EAST){
-                return true;
-            }
-        }
-        return false;
-    }
+
     public Map<RoadTransformContainer,Boolean> getPossibleAttachmentPos(){
         Map<RoadTransformContainer,Boolean> map=new HashMap<>();
         switch(roadhill){
             case FLAT:
                 for(RoadTransformContainer rtc:getFlatAttachment()){
-                    map.put(rtc,true);
-                }
-                break;
-                
-            case DOWN:
-                for(RoadTransformContainer rtc:getDownAttachment()){
                     map.put(rtc,true);
                 }
                 break;
@@ -223,16 +108,6 @@ public class Road extends Walkable{
         list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 0, 1)), Direction.EAST,RoadHill.UP));
         list.add(new RoadTransformContainer(position.plus(new MapPosition(-1, 0, 0)), Direction.SOUTH,RoadHill.UP));
         list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 0, -1)), Direction.WEST,RoadHill.UP));
-        /* Can connect to downhill roads coming down to this */
-        list.add(new RoadTransformContainer(position.plus(new MapPosition(1, 1, 0)), Direction.SOUTH,RoadHill.DOWN));
-        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 1, 1)), Direction.WEST,RoadHill.DOWN));
-        list.add(new RoadTransformContainer(position.plus(new MapPosition(-1, 1, 0)), Direction.NORTH,RoadHill.DOWN));
-        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 1, -1)), Direction.EAST,RoadHill.DOWN));
-        /* Can connect to downhill roads going down from this */
-        list.add(new RoadTransformContainer(position.plus(new MapPosition(1, 0, 0)), Direction.NORTH,RoadHill.DOWN));
-        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 0, 1)), Direction.EAST,RoadHill.DOWN));
-        list.add(new RoadTransformContainer(position.plus(new MapPosition(-1, 0, 0)), Direction.SOUTH,RoadHill.DOWN));
-        list.add(new RoadTransformContainer(position.plus(new MapPosition(0, 0, -1)), Direction.WEST,RoadHill.DOWN));
         /* Can connect to uphill roads going up to this */
         list.add(new RoadTransformContainer(position.plus(new MapPosition(1, -1, 0)), Direction.SOUTH,RoadHill.UP));
         list.add(new RoadTransformContainer(position.plus(new MapPosition(0, -1, 1)), Direction.WEST,RoadHill.UP));
@@ -240,15 +115,19 @@ public class Road extends Walkable{
         list.add(new RoadTransformContainer(position.plus(new MapPosition(0, -1, -1)), Direction.EAST,RoadHill.UP));
         return list;
     }
-    private List<RoadTransformContainer> getDownAttachment(){
-        List<RoadTransformContainer> list=new ArrayList<>();
-        
-        list.add(new RoadTransformContainer(position.plus(new MapPosition(1, 0, 0)), Direction.NORTH,RoadHill.UP));
-        
-        return list;
-    }
     private List<RoadTransformContainer> getUpAttachment(){
         List<RoadTransformContainer> list=new ArrayList<>();
+        MapPosition forward=direction.directiontoPosition();
+        MapPosition backward=direction.getOpposite().directiontoPosition();
+        /* Can connect to flat roads on the up and bottom of this */
+        list.add(new RoadTransformContainer(position.plus(forward).plus(new MapPosition(0, 1, 0)),Direction.ANY,RoadHill.FLAT));
+        list.add(new RoadTransformContainer(position.plus(backward),Direction.ANY,RoadHill.FLAT));
+        /* Can connect to uphill roads on the top and bottom of this */
+        list.add(new RoadTransformContainer(position.plus(forward).plus(new MapPosition(0, 1, 0)),direction,RoadHill.UP));
+        list.add(new RoadTransformContainer(position.plus(backward).plus(new MapPosition(0, -1, 0)),direction,RoadHill.UP));
+        /* Can connect to opposite directioned uphill roads up and bottom of this */
+        list.add(new RoadTransformContainer(position.plus(forward),direction.getOpposite(),RoadHill.UP));
+        list.add(new RoadTransformContainer(position.plus(backward),direction.getOpposite(),RoadHill.UP));
         return list;
     }
     public int getID() {

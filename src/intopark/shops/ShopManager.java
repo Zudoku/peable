@@ -24,8 +24,8 @@ import intopark.inputhandler.ClickingModes;
 import intopark.inputhandler.SetClickModeEvent;
 import intopark.inputhandler.SetClickingHandlerBufferEvent;
 import intopark.ride.RideManager;
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 import intopark.terrain.ParkHandler;
 
 /**

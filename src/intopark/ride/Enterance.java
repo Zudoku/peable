@@ -15,8 +15,8 @@ import intopark.UtilityMethods;
 import intopark.roads.BuildingEnterance;
 import intopark.roads.events.CreateBuildingEnteranceEvent;
 import java.io.IOException;
-import intopark.terrain.Direction;
-import intopark.terrain.MapPosition;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 
 /**
  *
@@ -50,7 +50,7 @@ public class Enterance implements Savable{
         l.setX(l.getX()+facing.directiontoPosition().getX());
         l.setZ(l.getZ()+facing.directiontoPosition().getZ());
         
-        enteranceWalkable=new BuildingEnterance(l,0,BuildingEnterance.RIDE, facing,true);
+        enteranceWalkable=new BuildingEnterance(l,0,BuildingEnterance.RIDE);
         object.setUserData("type","enterance");
         float angle;
         switch(facing){

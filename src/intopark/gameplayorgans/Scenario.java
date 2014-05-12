@@ -8,7 +8,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import intopark.Main;
-import intopark.terrain.MapPosition;
+import intopark.util.MapPosition;
 import intopark.terrain.decoration.CreateParkEnteranceEvent;
 
 /**

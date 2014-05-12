@@ -21,9 +21,9 @@ import intopark.GUI.events.UpdateRoadDirectionEvent;
 import intopark.UtilityMethods;
 import intopark.roads.events.CreateBuildingEnteranceEvent;
 import intopark.roads.events.UpdateRoadEvent;
-import intopark.terrain.Direction;
+import intopark.util.Direction;
 import intopark.terrain.MapContainer;
-import intopark.terrain.MapPosition;
+import intopark.util.MapPosition;
 import intopark.terrain.ParkHandler;
 import intopark.terrain.decoration.RotationEvent;
 
@@ -48,7 +48,7 @@ public class RoadMaker {
     private List<Spatial> roadSpatials = new ArrayList<>();
     //VARIABLES
     private Direction direction = Direction.NORTH;
-    private RoadHill slope = RoadHill.FLAT;
+    private int slope = 0; //0= flat 1=up 2=down
     private RoadMakerStatus status = RoadMakerStatus.BUILDING;
     private MapPosition startingPosition;
     private boolean queroad = false;
@@ -110,27 +110,36 @@ public class RoadMaker {
         }
         
         MapPosition constructedPosition=new MapPosition(calcNextRoadPosition());
-        Road road = new Road(constructedPosition, slope, ID,1, queroad, direction);
+        Direction roadDir=direction;
+        RoadHill angle=RoadHill.FLAT;
+        int skin=1;
+        if(slope!=0){
+            angle=RoadHill.UP;
+        }
+        if(slope==2){ //DOWNHILL
+            constructedPosition.setY(constructedPosition.getY()-1);
+            roadDir=roadDir.getOpposite();
+        }
+        Road road = new Road(constructedPosition,angle,ID,skin,queroad,roadDir);
         eventBus.post(new CreateRoadEvent(road));
         /**
          * Calculate a new starting position based on where you placed your road
          */
         switch (slope) {
-            case FLAT:
+            case 0:
                 startingPosition=new MapPosition(constructedPosition);
                 startingPosition.setOffSetY(startingPosition.getOffSetY()-0.1f);
                 break;
 
-            case UP:
+            case 1:
                 startingPosition=new MapPosition(constructedPosition);
                 startingPosition.setOffSetY(startingPosition.getOffSetY()-0.1f);
                 startingPosition.setY(startingPosition.getY()+1);
                 break;
 
-            case DOWN:
+            default:
                 startingPosition=new MapPosition(constructedPosition);
                 startingPosition.setOffSetY(startingPosition.getOffSetY()-0.1f);
-                startingPosition.setY(startingPosition.getY()-1);
                 break;
 
         }
@@ -293,11 +302,11 @@ public class RoadMaker {
         this.status = status;
     }
 
-    public RoadHill getHill() {
+    public int getHill() {
         return slope;
     }
 
-    public void setHill(RoadHill hill) {
+    public void setHill(int hill) {
         this.slope = hill;
     }
 

@@ -22,7 +22,7 @@ import intopark.inputhandler.SetClickModeEvent;
 import intopark.shops.BasicBuildables;
 import intopark.shops.HolomodelDrawer;
 import intopark.terrain.events.AddObjectToMapEvent;
-import intopark.terrain.Direction;
+import intopark.util.Direction;
 import intopark.terrain.ParkHandler;
 
 /**
