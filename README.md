@@ -16,8 +16,8 @@ This is my passion, a game called IntoPark. It is a theme park strategy game cur
 Read more [here](http://arttu.me/)
 ###TODO###
 Everything that still needs to be done
-  -4
-  -3
-  -2
-  -1
+  - a
+  - b
+  - c
+  - d
  
