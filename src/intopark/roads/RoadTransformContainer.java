@@ -13,12 +13,12 @@ import intopark.util.MapPosition;
  */
 public class RoadTransformContainer {
     public MapPosition pos;
-    public Direction facing;
+    public Direction direction;
     public RoadHill roadHill;
 
-    public RoadTransformContainer(MapPosition pos, Direction facing, RoadHill roadHill) {
+    public RoadTransformContainer(MapPosition pos, Direction direction, RoadHill roadHill) {
         this.pos = pos;
-        this.facing = facing;
+        this.direction = direction;
         this.roadHill = roadHill;
     }
     public boolean match(RoadTransformContainer rtc2){
@@ -26,8 +26,8 @@ public class RoadTransformContainer {
         if(!pos.isSameMainCoords(rtc2.pos)){
             match=false;
         }
-        if(facing!=rtc2.facing){
-            if(!(facing== Direction.ANY||rtc2.facing==Direction.ANY)){
+        if(direction!=rtc2.direction){
+            if(!(direction== Direction.ANY||rtc2.direction==Direction.ANY)){
                 match=false;
             }
         }

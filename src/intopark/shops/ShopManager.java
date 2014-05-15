@@ -45,7 +45,7 @@ public class ShopManager {
     private final HolomodelDrawer holoDrawer;
     //VARIABLES
     private int shopID;
-    private Direction facing = Direction.SOUTH;
+    private Direction direction = Direction.SOUTH;
     public BasicBuildables selectedBuilding= BasicBuildables.NULL;
     private boolean placeBuilding=false;
 
@@ -84,7 +84,7 @@ public class ShopManager {
                 
             default: 
                 //Forward to rideManager
-                rideManager.buy(facing,selectedBuilding);
+                rideManager.buy(direction,selectedBuilding);
                 resetShopdataFromRide();
                 return;
                
@@ -100,7 +100,7 @@ public class ShopManager {
         String prodname="prodname";
         String shopName=type+" "+shopID;
         //
-        CreateShopEvent event=new CreateShopEvent(type,shopName,prodname,reputation,price,constructionmoney,shopID,pos,facing);
+        CreateShopEvent event=new CreateShopEvent(type,shopName,prodname,reputation,price,constructionmoney,shopID,pos,direction);
         eventBus.post(event);
         //
         parkHandler.getParkWallet().remove(constructionmoney);
@@ -186,35 +186,35 @@ public class ShopManager {
     }
     public void resetShopdata() {
         selectedBuilding = BasicBuildables.NULL;
-        facing = Direction.SOUTH;
+        direction = Direction.SOUTH;
         eventBus.post(new SetClickModeEvent(ClickingModes.NOTHING));
         placeBuilding=false;
         shopID++;
     }
     public void resetShopdataFromRide() {
         selectedBuilding = BasicBuildables.NULL;
-        facing = Direction.SOUTH;
+        direction = Direction.SOUTH;
         placeBuilding=false;
     }
     public void rotateShop(){
-        switch(facing){
+        switch(direction){
             case SOUTH:
-                facing= Direction.WEST;
+                direction= Direction.WEST;
                 break;
                 
             case WEST:
-                facing= Direction.NORTH;
+                direction= Direction.NORTH;
                 break;
                 
             case EAST:
-                facing= Direction.SOUTH;
+                direction= Direction.SOUTH;
                 break;
                 
             case NORTH:
-                facing= Direction.EAST;
+                direction= Direction.EAST;
             
         }
-        holoDrawer.rotateDrawed(facing);
+        holoDrawer.rotateDrawed(direction);
     }
     @Deprecated
     public BasicShop isthereshop(int x,int y ,int z){

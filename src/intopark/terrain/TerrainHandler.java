@@ -44,7 +44,7 @@ public class TerrainHandler {
     private final EventBus eventBus;
     //OWNS
     private Node terrainNode = new Node("TerrainNode");
-    private ArrayList<Integer> lockedpositions = new ArrayList<Integer>();
+    private ArrayList<Integer> lockedpositions = new ArrayList<>();
     //VARIABLES
     private int brushSize = SIZE_MINIMAL;
     private boolean useTexture = false;

@@ -20,8 +20,8 @@ import java.util.List;
  * @author arska
  */
 public class Blender extends BasicRide{
-    public Blender(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction facing){
-        super(pos,moving,staticParts,350,facing,"Blender");
+    public Blender(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction direction){
+        super(pos,moving,staticParts,350,direction,"Blender");
         setRideType(RideType.NAUSEA);
         setName("My blender1");
         setRide("blender");

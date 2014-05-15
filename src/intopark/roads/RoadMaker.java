@@ -9,6 +9,8 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.jme3.collision.CollisionResult;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -49,8 +51,9 @@ public class RoadMaker {
     //VARIABLES
     private Direction direction = Direction.NORTH;
     private int slope = 0; //0= flat 1=up 2=down
-    private RoadMakerStatus status = RoadMakerStatus.BUILDING;
+    private RoadMakerStatus status = RoadMakerStatus.MANUAL;
     private MapPosition startingPosition;
+    private MapPosition endingPosition;
     private boolean queroad = false;
     private boolean change = true;
     private int ID = 1;
@@ -74,11 +77,67 @@ public class RoadMaker {
     public void update(){
         roadGraph.update();
     }
+    public boolean buildAutomaticRoad(){
+        if(startingPosition==null||endingPosition==null){
+            logger.log(Level.FINE, "STARTING OR ENDING POS NULL");
+            return false;
+        }
+        if(startingPosition.isSameMainCoords(endingPosition)){
+            logger.log(Level.FINE, "SAME POS");
+            return false;
+        }
+        boolean  build=true;
+        int counter=0;
+        while(build){
+            counter++;
+            direction=endingPosition.getDirection(startingPosition.getX(), startingPosition.getZ());
+            if(startingPosition.getY()<endingPosition.getY()){
+                slope=1;
+            }else if(startingPosition.getY()>endingPosition.getY()){
+                slope=2;
+            }else{
+                slope=0;
+            }
+            manualBuildRoad();
+            if(startingPosition.isSameMainCoords(endingPosition)){
+                build=false;
+            }
+            if(counter>100){
+                build=false;
+                logger.log(Level.WARNING,"ROAD TOOL LOOPED 100 TIMES, QUITTING");
+            }
+        }
+        logger.log(Level.FINE, "building done");
+        
+        startingPosition=null;
+        endingPosition=null;
+        return true;
+        
+    }
+    public void handleClicking(CollisionResults results) {
+        logger.log(Level.FINE, "klik");
+        CollisionResult result = null;
+        for (CollisionResult r : results) {
+            if (UtilityMethods.findUserDataType(r.getGeometry().getParent(), "Terrain")) {
+                result = r;
+                break;
+            }
+        }
+        if(result!=null){
+            Vector3f location=result.getContactPoint();
+            if(startingPosition==null){
+                setStartingPosition(location);
+            }else{
+                setEndingPosition(location);
+                buildAutomaticRoad();
+            }
+        }
+    }
     /**
      * This calculates next position for road. It calculates it based on direction.
      * @return Position where the next road is going to be
      */
-    public MapPosition calcNextRoadPosition() {
+    public MapPosition calcNextManualRoadPosition() {
         MapPosition roadPos = new MapPosition(startingPosition);
         switch (direction) {
             case NORTH:
@@ -103,13 +162,13 @@ public class RoadMaker {
     /**
      * 
      */
-    public void buildRoad() {
-        if (status != RoadMakerStatus.BUILDING) {
-            logger.log(Level.WARNING,"Yo,yo we cant build while not in building-mode. This should not happen ever");
+    public void manualBuildRoad() {
+        if (status == RoadMakerStatus.CHOOSING) {
+            logger.log(Level.WARNING,"Yo,yo we cant build while in choosing-mode. This should not happen ever");
             return;
         }
         
-        MapPosition constructedPosition=new MapPosition(calcNextRoadPosition());
+        MapPosition constructedPosition=new MapPosition(calcNextManualRoadPosition());
         Direction roadDir=direction;
         RoadHill angle=RoadHill.FLAT;
         int skin=1;
@@ -176,11 +235,6 @@ public class RoadMaker {
         logger.log(Level.FINEST,"Road added succesfully to {0}",event.getRoad().getVector3f());
     }
 
-    public void startingPosition(Vector3f pos) {
-        Vector3f vector= UtilityMethods.roundVector(pos);
-        startingPosition =new MapPosition(vector);
-        status = RoadMakerStatus.BUILDING;
-    }
     @Subscribe
     public void listenCreateBuildingEnteranceEvent(CreateBuildingEnteranceEvent event){
         if(event.getEnterance()==null){
@@ -325,5 +379,21 @@ public class RoadMaker {
     public void setQueroad(boolean queroad) {
         this.queroad = queroad;
     }
-    
+    public void setStartingPosition(Vector3f pos) {
+        Vector3f vector= UtilityMethods.roundVector(pos);
+        startingPosition =new MapPosition(vector);
+    }
+
+    public void setEndingPosition(Vector3f pos) {
+        Vector3f vector= UtilityMethods.roundVector(pos);
+        endingPosition =new MapPosition(vector);
+    }
+
+    public MapPosition getEndingPosition() {
+        return endingPosition;
+    }
+
+    public MapPosition getStartingPosition() {
+        return startingPosition;
+    }
 }

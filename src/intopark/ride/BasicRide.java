@@ -45,7 +45,7 @@ public class BasicRide {
     //VARIABLES
     private int rideID = 0; //every ride has its own id in parks
     private float price = 1; //charged from the customers every time they visit your ride
-    private Direction facing; //not implemented yet
+    private Direction direction; //not implemented yet
     private MapPosition position; //position of this ride
     private float constructionmoney = 0; //how much did it cost to build this building
     private String rideName = "You found a bug"; //rides name
@@ -73,11 +73,11 @@ public class BasicRide {
         lastGuestVisitTime=System.currentTimeMillis();
     }
     
-    public BasicRide(MapPosition position,CustomAnimation object,List<Spatial> staticParts, float cost, Direction facing,String ride) {
+    public BasicRide(MapPosition position,CustomAnimation object,List<Spatial> staticParts, float cost, Direction direction,String ride) {
         this.position = position;
         this.animatedPart = object;
         this.constructionmoney = cost;
-        this.facing = facing;
+        this.direction = direction;
         this.ride=ride;
         this.staticParts=staticParts;
         Main.injector.injectMembers(this);
@@ -294,8 +294,8 @@ public class BasicRide {
         return exit;
     }
 
-    public Direction getFacing() {
-        return facing;
+    public Direction getDirection() {
+        return direction;
     }
 
     public List<Guest> getGuestsInQue() {

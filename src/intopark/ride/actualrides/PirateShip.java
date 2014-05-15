@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class PirateShip extends BasicRide{
     
-    public PirateShip(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction facing){
-        super(pos,moving,staticParts,400,facing,"Pirate Ship");
+    public PirateShip(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction direction){
+        super(pos,moving,staticParts,400,direction,"Pirate Ship");
         setRideType(RideType.HIGH);
         setName("My PirateShip1");
         setRide("pirateship");

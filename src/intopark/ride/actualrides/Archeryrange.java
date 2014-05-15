@@ -20,8 +20,8 @@ import java.util.List;
  * @author arska
  */
 public class Archeryrange extends BasicRide{
-    public Archeryrange(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction facing){
-        super(pos,moving,staticParts,200,facing,"Archeryrange");
+    public Archeryrange(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction direction){
+        super(pos,moving,staticParts,200,direction,"Archeryrange");
         setRideType(RideType.LOW);
         setName("My Archeryrange1");
         setRide("archery");

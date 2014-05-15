@@ -643,10 +643,13 @@ public class IngameHUD implements ScreenController {
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void buildButton() {
-        roadMaker.buildRoad();
+        roadMaker.manualBuildRoad();
     }
     public void selectionButton() {
         roadMaker.setStatus(RoadMakerStatus.CHOOSING);
+    }
+    public void roadModeButton(){
+        roadMaker.setStatus(RoadMakerStatus.AUTOMATIC);
     }
     /*
      * ALL RELATED TO DECORATION UI.

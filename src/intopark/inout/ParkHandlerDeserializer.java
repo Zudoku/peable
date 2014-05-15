@@ -87,7 +87,7 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
         JsonArray shopsarray = jo.get("shops").getAsJsonArray();
         for(int x=0;x<shopsarray.size();x++){
             final JsonObject sp = shopsarray.get(x).getAsJsonObject();
-            Direction dir=jdc.deserialize(sp.get("facing"),Direction.class);
+            Direction dir=jdc.deserialize(sp.get("direction"),Direction.class);
             MapPosition pos=jdc.deserialize(sp.get("position"),MapPosition.class);
             int shopID=getI(sp,"shopID");
             float cm=jdc.deserialize(sp.get("constructionmoney"),Float.class);
@@ -106,7 +106,7 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             
             MapPosition pos=jdc.deserialize(rp.get("position"),MapPosition.class);
             String ride=getS(rp,"ride");
-            Direction dir=jdc.deserialize(rp.get("facing"),Direction.class);
+            Direction dir=jdc.deserialize(rp.get("direction"),Direction.class);
             String name=getS(rp,"rideName");
             int rideID=getI(rp,"rideID");
             int broken=getI(rp,"broken");

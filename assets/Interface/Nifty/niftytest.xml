@@ -191,6 +191,8 @@
                         </interact>
                     </image>
                     <image filename="Interface/Roads/mode.png"x="95"y="392" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                        <interact onClick="roadModeButton()">   
+                        </interact>
                     </image>
                     
                     

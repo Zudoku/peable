@@ -20,8 +20,8 @@ import java.util.List;
  * @author arska
  */
 public class Rotor extends BasicRide{
-    public Rotor(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction facing){
-        super(pos,moving,staticParts,200,facing,"Rotor");
+    public Rotor(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction direction){
+        super(pos,moving,staticParts,200,direction,"Rotor");
         setRideType(RideType.LOW);
         setName("My Rotor1");
         setRide("rotor");

@@ -29,7 +29,7 @@ public class BasicShop {
     //DEPENDENCIES
     @Inject transient protected EventBus eventBus;
     //VARIABLES
-    protected Direction facing;
+    protected Direction direction;
     protected MapPosition position;
     protected transient Spatial object;
     protected int shopID=0;
@@ -42,11 +42,11 @@ public class BasicShop {
     protected BuildingEnterance enterance;
     protected transient boolean needToFaceDirection=true;
     
-    public BasicShop(MapPosition position,Spatial object,int shopID,float constr,float price,Direction facing,String prodname,String shopName,String type,boolean needToFaceDirection){
+    public BasicShop(MapPosition position,Spatial object,int shopID,float constr,float price,Direction direction,String prodname,String shopName,String type,boolean needToFaceDirection){
         this.position=position;
         this.object=object;
         this.constructionmoney=constr;
-        this.facing=facing;
+        this.direction=direction;
         this.shopID=shopID;
         this.productname=prodname;
         this.price=price;
@@ -60,8 +60,8 @@ public class BasicShop {
         
         MapPosition l=new MapPosition(position);
         if(needToFaceDirection){
-            l.setX(l.getX()+facing.directiontoPosition().getX());
-            l.setZ(l.getZ()+facing.directiontoPosition().getZ());
+            l.setX(l.getX()+direction.directiontoPosition().getX());
+            l.setZ(l.getZ()+direction.directiontoPosition().getZ());
         }
         this.enterance=new BuildingEnterance(l, shopID, BuildingEnterance.SHOP);
         eventBus.post(new CreateBuildingEnteranceEvent(this.enterance));
@@ -89,8 +89,8 @@ public class BasicShop {
         this.constructionmoney = constructionmoney;
     }
 
-    public void setFacing(Direction facing) {
-        this.facing = facing;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public void setObject(Spatial object) {
@@ -125,8 +125,8 @@ public class BasicShop {
         return constructionmoney;
     }
 
-    public Direction getFacing() {
-        return facing;
+    public Direction getDirection() {
+        return direction;
     }
 
     public Spatial getObject() {

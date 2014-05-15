@@ -25,7 +25,7 @@ import intopark.util.MapPosition;
 public class Enterance implements Savable{
   private boolean exit=false;
   private MapPosition location;
-  private Direction facing;
+  private Direction direction;
   private boolean connected=false;
   private transient Spatial object;
   private transient BasicRide connectedRide;
@@ -33,10 +33,10 @@ public class Enterance implements Savable{
   @Inject private transient EventBus eventBus;
   
 
-    public Enterance(boolean exit,MapPosition location,Direction facing) {
+    public Enterance(boolean exit,MapPosition location,Direction direction) {
         this.exit=exit;
         this.location=location;
-        this.facing=facing;
+        this.direction=direction;
         
         if(exit==true){
             object=UtilityMethods.loadModel(LoadPaths.rideExit);
@@ -47,13 +47,13 @@ public class Enterance implements Savable{
         object.setLocalTranslation(location.getVector());
         
         MapPosition l=new MapPosition(location);
-        l.setX(l.getX()+facing.directiontoPosition().getX());
-        l.setZ(l.getZ()+facing.directiontoPosition().getZ());
+        l.setX(l.getX()+direction.directiontoPosition().getX());
+        l.setZ(l.getZ()+direction.directiontoPosition().getZ());
         
         enteranceWalkable=new BuildingEnterance(l,0,BuildingEnterance.RIDE);
         object.setUserData("type","enterance");
         float angle;
-        switch(facing){
+        switch(direction){
             case NORTH:
                 
                 break;
@@ -97,8 +97,8 @@ public class Enterance implements Savable{
         this.exit = exit;
     }
 
-    public void setFacing(Direction facing) {
-        this.facing = facing;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public void setLocation(MapPosition location) {
@@ -114,8 +114,8 @@ public class Enterance implements Savable{
     }
 
 
-    public Direction getFacing() {
-        return facing;
+    public Direction getDirection() {
+        return direction;
     }
 
     public MapPosition getLocation() {

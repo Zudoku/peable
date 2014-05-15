@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class SpinWheel extends BasicRide{
     
-    public SpinWheel(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction facing){
-        super(pos,moving,staticParts,400,facing,"SpinWheel");
+    public SpinWheel(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction direction){
+        super(pos,moving,staticParts,400,direction,"SpinWheel");
         setRideType(RideType.HIGH);
         setName("My Spinwheel1");
         setRide("spinwheel");

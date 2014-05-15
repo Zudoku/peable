@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import intopark.UtilityMethods;
 import intopark.inout.LoadPaths;
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -27,86 +28,83 @@ import intopark.util.MapPosition;
  */
 public class RideFactory {
     private static final Logger logger = Logger.getLogger(RideFactory.class.getName());
-    
-    AssetManager assetManager; 
-    @Inject
-    public RideFactory(AssetManager assetManager) {
-        this.assetManager = assetManager;
+
+    public RideFactory() {
     }
     
     
-    public ChessCenter chessCenter(Vector3f position,Direction facing){
+    public ChessCenter chessCenter(Vector3f position,Direction direction){
         
-        Spatial geom =assetManager.loadModel(LoadPaths.chess);
+        Spatial geom = UtilityMethods.loadModel(LoadPaths.chess);
         
         CustomAnimation moving=new CustomAnimation();
-        ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+        ArrayList<Spatial>staticContent=new ArrayList<>();
         staticContent.add(geom);
         
-        ChessCenter ride=new ChessCenter(new MapPosition(position),moving,staticContent,facing);
+        ChessCenter ride=new ChessCenter(new MapPosition(position),moving,staticContent,direction);
         return ride;
         
     }
-    public Archeryrange archeryRange(Vector3f position,Direction facing){
-        Spatial geom=assetManager.loadModel(LoadPaths.archery);
+    public Archeryrange archeryRange(Vector3f position,Direction direction){
+        Spatial geom=UtilityMethods.loadModel(LoadPaths.archery);
         
         position.y +=0.1;
         CustomAnimation moving=new CustomAnimation();
-        ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+        ArrayList<Spatial>staticContent=new ArrayList<>();
         staticContent.add(geom);
         
-        Archeryrange ride=new Archeryrange(new MapPosition(position),moving,staticContent,facing);
+        Archeryrange ride=new Archeryrange(new MapPosition(position),moving,staticContent,direction);
         return ride;
     }
-    public Rotor rotor(Vector3f position,Direction facing){
-        Spatial geom=assetManager.loadModel(LoadPaths.rotor);
+    public Rotor rotor(Vector3f position,Direction direction){
+        Spatial geom=UtilityMethods.loadModel(LoadPaths.rotor);
         
         CustomAnimation moving=new CustomAnimation();
-        ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+        ArrayList<Spatial>staticContent=new ArrayList<>();
         staticContent.add(geom);
         
-        Rotor ride=new Rotor(new MapPosition(position),moving,staticContent,facing);
+        Rotor ride=new Rotor(new MapPosition(position),moving,staticContent,direction);
         return ride;
     }
-    public PirateShip pirateShip(Vector3f position,Direction facing){
-        Spatial geom=assetManager.loadModel(LoadPaths.pirateCore);
-        Spatial geom2=assetManager.loadModel(LoadPaths.pirateSwing);
+    public PirateShip pirateShip(Vector3f position,Direction direction){
+        Spatial geom=UtilityMethods.loadModel(LoadPaths.pirateCore);
+        Spatial geom2=UtilityMethods.loadModel(LoadPaths.pirateSwing);
         
         CustomAnimation moving=new CustomAnimation(geom2,AnimationType.ROLLH);
-        ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+        ArrayList<Spatial>staticContent=new ArrayList<>();
         staticContent.add(geom);
         
-        PirateShip ride=new PirateShip(new MapPosition(position),moving,staticContent,facing);
+        PirateShip ride=new PirateShip(new MapPosition(position),moving,staticContent,direction);
         return ride;
     }
-    public SpinWheel spinWheel(Vector3f position,Direction facing){
-        Spatial geom=assetManager.loadModel(LoadPaths.spinwheelCore);
-        Spatial geom2=assetManager.loadModel(LoadPaths.spinwheelSwing);
+    public SpinWheel spinWheel(Vector3f position,Direction direction){
+        Spatial geom=UtilityMethods.loadModel(LoadPaths.spinwheelCore);
+        Spatial geom2=UtilityMethods.loadModel(LoadPaths.spinwheelSwing);
         
         CustomAnimation moving=new CustomAnimation(geom2,AnimationType.ROLLV);
-        ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+        ArrayList<Spatial>staticContent=new ArrayList<>();
         staticContent.add(geom);
         
-        SpinWheel ride=new SpinWheel(new MapPosition(position),moving,staticContent,facing);
+        SpinWheel ride=new SpinWheel(new MapPosition(position),moving,staticContent,direction);
         return ride;
     }
-    public HauntedHouse hauntedHouse(Vector3f position,Direction facing){
-        Spatial geom =assetManager.loadModel(LoadPaths.hauntedhouse);
+    public HauntedHouse hauntedHouse(Vector3f position,Direction direction){
+        Spatial geom =UtilityMethods.loadModel(LoadPaths.hauntedhouse);
         
         CustomAnimation moving=new CustomAnimation();
-        ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+        ArrayList<Spatial>staticContent=new ArrayList<>();
         staticContent.add(geom);
         
-        HauntedHouse ride=new HauntedHouse(new MapPosition(position),moving,staticContent,facing);
+        HauntedHouse ride=new HauntedHouse(new MapPosition(position),moving,staticContent,direction);
         return ride;
     }
-    public Blender blender(Vector3f position,Direction facing){
-        Spatial geom =assetManager.loadModel(LoadPaths.blender);
+    public Blender blender(Vector3f position,Direction direction){
+        Spatial geom =UtilityMethods.loadModel(LoadPaths.blender);
         
         CustomAnimation moving=new CustomAnimation(geom, AnimationType.ROLLV);
-        ArrayList<Spatial>staticContent=new ArrayList<Spatial>();
+        ArrayList<Spatial>staticContent=new ArrayList<>();
         
-        Blender ride=new Blender(new MapPosition(position),moving,staticContent,facing);
+        Blender ride=new Blender(new MapPosition(position),moving,staticContent,direction);
         return ride;
     }
     

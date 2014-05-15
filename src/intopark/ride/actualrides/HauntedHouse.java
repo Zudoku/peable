@@ -20,8 +20,8 @@ import java.util.List;
  * @author arska
  */
 public class HauntedHouse extends BasicRide{
-    public HauntedHouse(MapPosition position,CustomAnimation moving,List<Spatial> staticParts, Direction facing) {
-        super(position,moving,staticParts,370, facing,"hauntedHouse");
+    public HauntedHouse(MapPosition position,CustomAnimation moving,List<Spatial> staticParts, Direction direction) {
+        super(position,moving,staticParts,370, direction,"hauntedHouse");
         setRideType(RideType.MEDIUM);
         setName("My HauntedHouse1");
         setRide("hhouse");

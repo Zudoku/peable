@@ -150,12 +150,12 @@ public class HolomodelDrawer {
     /**
      * Rotate HoloNode to face some direction.
      * ATTENTION! IS NOT FULLY SUPPORTED YET!
-     * @param facing 
+     * @param direction 
      */
-    public void rotateDrawed(Direction facing){
+    public void rotateDrawed(Direction direction){
         //TODO: THIS METHOD
         Quaternion rot=new Quaternion();
-        switch (facing){
+        switch (direction){
             case SOUTH:
                 rot.fromAngleAxis(90, Vector3f.UNIT_Y);
                 holoNode.setLocalRotation(rot);

@@ -126,10 +126,13 @@ public class ClickingHandler {
             case ROAD:
                 if (target != null) {
                     if (roadMaker.getStatus() == RoadMakerStatus.CHOOSING) {
-                        roadMaker.startingPosition(target.getContactPoint());
+                        roadMaker.setStartingPosition(target.getContactPoint());
+                        roadMaker.setStatus(RoadMakerStatus.MANUAL);
                         Gamestate.ingameHUD.updateClickingIndicator();
                         logger.log(Level.FINEST, "Updated Roads starting position");
-                    } else {
+                    } else if(roadMaker.getStatus()==RoadMakerStatus.AUTOMATIC){
+                        roadMaker.handleClicking(results);
+                    }else{
                         logger.log(Level.FINER, "Tried clicking while in road mode and not choosing start position, not doing anything");
                     }
                 } else {

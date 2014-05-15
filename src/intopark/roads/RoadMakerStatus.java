@@ -9,5 +9,5 @@ package intopark.roads;
  * @author arska
  */
 public enum RoadMakerStatus {
-    CHOOSING,BUILDING
+    CHOOSING,MANUAL,AUTOMATIC;
 }

@@ -20,8 +20,8 @@ import java.util.List;
  */
 public class ChessCenter extends BasicRide{
     
-    public ChessCenter(MapPosition position,CustomAnimation moving,List<Spatial> staticParts,Direction facing) {
-        super(position,moving,staticParts,500, facing,"Chesslair");
+    public ChessCenter(MapPosition position,CustomAnimation moving,List<Spatial> staticParts,Direction direction) {
+        super(position,moving,staticParts,500, direction,"Chesslair");
         setRideType(RideType.LOW);
         setName("My Chesscentre1");
         setRide("chess");

@@ -27,7 +27,7 @@ public class CreateRideEvent {
     private CustomAnimation animation;
     private String type;
     private List<Spatial> staticContent;
-    private Direction facing;
+    private Direction direction;
     private String name;
     private int rideID;
     private int broken;
@@ -37,11 +37,11 @@ public class CreateRideEvent {
     private float price;
     private Enterance enterance;
     private Enterance exit;
-    public CreateRideEvent(MapPosition position,String type,Direction facing,String name,
+    public CreateRideEvent(MapPosition position,String type,Direction direction,String name,
             int rideID,int broken,int exitement,int nausea,boolean status,float price,Enterance enterance,Enterance exit) {
         this.position = position;
         this.type=type;
-        this.facing=facing;
+        this.direction=direction;
         this.name=name;
         this.rideID=rideID;
         this.broken=broken;
@@ -83,22 +83,22 @@ public class CreateRideEvent {
     public BasicRide toRide(){
         BasicRide ride=null;
         if("chess".equals(type)){
-            ride=new ChessCenter(position, animation,staticContent, facing);
+            ride=new ChessCenter(position, animation,staticContent, direction);
         }
         else if("archery".equals(type)){
-            ride=new Archeryrange(position, animation, staticContent, facing);
+            ride=new Archeryrange(position, animation, staticContent, direction);
         }
         else if("blender".equals(type)){
-            ride=new Blender(position, animation, staticContent, facing);
+            ride=new Blender(position, animation, staticContent, direction);
         }
         else if("hhouse".equals(type)){
-            ride=new HauntedHouse(position, animation, staticContent, facing);
+            ride=new HauntedHouse(position, animation, staticContent, direction);
         }
         else if("rotor".equals(type)){
-            ride=new Rotor(position, animation, staticContent, facing);
+            ride=new Rotor(position, animation, staticContent, direction);
         }
         else if("pirateship".equals(type)){
-            ride= new PirateShip(position, animation, staticContent, facing);
+            ride= new PirateShip(position, animation, staticContent, direction);
         }
         ride.setEnterance(enterance);
         ride.setExit(exit);

@@ -31,24 +31,24 @@ import intopark.terrain.ParkHandler;
  */
 @Singleton
 public class RideManager {
+    
     private static final Logger logger = Logger.getLogger(RideManager.class.getName());
+    //DEPENDENCIES
+    private RideFactory rideFactory;
+    //VARIABLES
     public List<BasicRide> rides = new ArrayList<>();
-    RideFactory rideFactory;
     private Node rideNode;
     int rideID;
     int enterancecount = 0;
     private final HolomodelDrawer holoDrawer;
     private final ParkHandler parkHandler;
 
-    
     private final EventBus eventBus;
-    private final AssetManager assetManager;
 
     @Inject
-    public RideManager(AssetManager assetManager, Node rootNode, HolomodelDrawer holoDrawer, ParkHandler parkHandler,
+    public RideManager(Node rootNode, HolomodelDrawer holoDrawer, ParkHandler parkHandler,
         EventBus eventBus) {
-        this.rideFactory = new RideFactory(assetManager);
-        this.assetManager = assetManager;
+        this.rideFactory = new RideFactory();
         this.holoDrawer = holoDrawer;
         this.parkHandler = parkHandler;
         this.eventBus = eventBus;
@@ -57,7 +57,7 @@ public class RideManager {
         rootNode.attachChild(rideNode);
     }
 
-    public void buy(Direction facing, BasicBuildables selectedBuilding) {
+    public void buy(Direction direction, BasicBuildables selectedBuilding) {
         Vector3f loc = UtilityMethods.roundVector(holoDrawer.getLocation());
 
         BasicRide boughtride = null;
@@ -66,28 +66,28 @@ public class RideManager {
 
         switch (selectedBuilding) {
             case CHESSCENTER:
-                boughtride = rideFactory.chessCenter(loc, facing);
+                boughtride = rideFactory.chessCenter(loc, direction);
 
                 break;
 
             case ARCHERYRANGE:
-                boughtride=rideFactory.archeryRange(loc, facing);
+                boughtride=rideFactory.archeryRange(loc, direction);
                 break;
 
             case BLENDER:
-                boughtride=rideFactory.blender(loc, facing);
+                boughtride=rideFactory.blender(loc, direction);
                 break;
 
             case HAUNTEDHOUSE:
-                boughtride=rideFactory.hauntedHouse(loc, facing);
+                boughtride=rideFactory.hauntedHouse(loc, direction);
                 break;
 
             case PIRATESHIP:
-                boughtride=rideFactory.pirateShip(loc, facing);
+                boughtride=rideFactory.pirateShip(loc, direction);
                 break;
 
             case ROTOR:
-                boughtride=rideFactory.rotor(loc, facing);
+                boughtride=rideFactory.rotor(loc, direction);
                 break;
 
             case NULL:
