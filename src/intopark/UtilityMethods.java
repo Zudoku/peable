@@ -31,6 +31,7 @@ public class UtilityMethods {
     private static final Logger logger = Logger.getLogger(UtilityMethods.class.getName());
     //DEPENDENCIES
     private static InputManager inputManager;
+    private static Node rootNode;
     private static AssetManager assetManager;
     private static Camera cam;
     //OWNS
@@ -40,13 +41,14 @@ public class UtilityMethods {
     public static String programTitle="Into Park 0.05A";
     
     @Inject
-    public UtilityMethods(Camera cam,InputManager inputManager,AssetManager assetManager) {
+    public UtilityMethods(Camera cam,InputManager inputManager,AssetManager assetManager,Node rootNode) {
         this.cam=cam;
         this.inputManager=inputManager;
         this.assetManager=assetManager;
+        this.rootNode=rootNode;
     }
     
-    public static void rayCast(CollisionResults results,Node rootNode) {
+    public static void rayCast(CollisionResults results,Node someNode) {
         Vector2f click2d = inputManager.getCursorPosition();
         Vector3f click3d = cam.getWorldCoordinates(
                 new Vector2f(click2d.getX(), click2d.getY()), 0f);
@@ -56,8 +58,12 @@ public class UtilityMethods {
                 subtractLocal(click3d).normalizeLocal();
 
         Ray ray = new Ray(cam.getLocation(), dir);
-
-        rootNode.collideWith(ray, results);
+        if(someNode!=null){
+            someNode.collideWith(ray, results);
+        }else{
+            rootNode.collideWith(ray, results);
+        }
+        
     }
     /**
      * Clones bytebuffer but doesn't use the copy(). Useful to create identical bytebuffer but they cant be linked together.(?)

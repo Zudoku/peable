@@ -7,6 +7,7 @@ package intopark.inputhandler;
 import com.google.common.eventbus.EventBus;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
+import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.scene.Node;
 import java.util.logging.Logger;
@@ -23,48 +24,30 @@ import intopark.terrain.decoration.RotationEvent;
 public class MyActionListener implements ActionListener {
     private static final Logger logger = Logger.getLogger(MyActionListener.class.getName());
     private long lastclicked = 0;
-    private Node rootNode;
+    private InputManager inputManager;
     private ClickingHandler clickingHandler;
     private EventBus eventBus;
 
-    public MyActionListener(Node rootNode, ClickingHandler clickH, EventBus eventBus) {
-        this.rootNode = rootNode;
+    public MyActionListener(InputManager inputManager, ClickingHandler clickH, EventBus eventBus) {
+        this.inputManager=inputManager;
         this.clickingHandler = clickH;
         this.eventBus = eventBus;
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
-        if (name.equals("mouseleftclick")) {
+        if (name.equals("mouseleftclick")||name.equals("mouserightclick")) {
             if (System.currentTimeMillis() - lastclicked > 100) {
                 lastclicked = System.currentTimeMillis();
-
                 CollisionResults results = new CollisionResults();
-                UtilityMethods.rayCast(results, rootNode);
-
+                UtilityMethods.rayCast(results, null);
+                float x=inputManager.getCursorPosition().x;
+                float z=inputManager.getCursorPosition().y;
                 if (results.size() > 0) {
-                    CollisionResult target = results.getClosestCollision();
-                    clickingHandler.handleClicking(target, results);
-                    
+                    clickingHandler.handleMouseClick(UserInput.getLeftMouse(name),x,z, results);
                 }
             }
         }
-        if (name.equals("mouserightclick")) {
-            /**
-             * TODO! if(isPressed){ return; }
-             */
-            if (System.currentTimeMillis() - lastclicked > 100) {
-                lastclicked = System.currentTimeMillis();
-
-                CollisionResults results = new CollisionResults();
-                UtilityMethods.rayCast(results, rootNode);
-
-                if (results.size() > 0) {
-                    CollisionResult target = results.getClosestCollision();
-                    clickingHandler.handleRightClicking(target, results);
-
-                }
-            }
-        }
+        
         if (name.equals("rotateRight")) {
             if (isPressed) {
                 return;

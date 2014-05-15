@@ -41,7 +41,7 @@ public class RoadFactoryTest {
         AssetManager b=Mockito.mock(AssetManager.class);
         Mockito.stub(b.loadModel(LoadPaths.roadstraight)).toReturn(new Node("Straight"));
         Mockito.stub(b.loadModel(LoadPaths.roaduphill)).toReturn(new Node("angle"));
-        UtilityMethods a=new UtilityMethods(null, null,b );
+        UtilityMethods a=new UtilityMethods(null, null,b,null );
     }
     
     @After

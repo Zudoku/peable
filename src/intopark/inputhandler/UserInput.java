@@ -41,9 +41,11 @@ public class UserInput {
     
     KeyTrigger rotateRight = new KeyTrigger(KeyInput.KEY_O);
     KeyTrigger rotateLeft = new KeyTrigger(KeyInput.KEY_P);
+    
     MouseButtonTrigger mouseLeftClick = new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
     MouseButtonTrigger mouseRightClick = new MouseButtonTrigger(MouseInput.BUTTON_RIGHT);
     MouseButtonTrigger mouseLeftDrag=new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
+    MouseButtonTrigger mouseRightDrag = new MouseButtonTrigger(MouseInput.BUTTON_RIGHT);
 
     @Inject
     public UserInput(Node rootNode, InputManager inputManager, Camera cam, ClickingHandler clickingHandler,EventBus eventBus) {
@@ -52,11 +54,12 @@ public class UserInput {
         initControls(); //Get players own controls customisation mappings
         inputManager.setCursorVisible(true); //Set cursor visible
         analogListener=new MyAnalogListener(cameraController,clickingHandler,inputManager); //Controls analog input
-        actionListener=new MyActionListener(rootNode,clickingHandler,eventBus); //Controls action input (for example: 1 button press)
+        actionListener=new MyActionListener(inputManager,clickingHandler,eventBus); //Controls action input (for example: 1 button press)
         //mouse input
         addTrigger("mouseleftclick", mouseLeftClick);
         addTrigger("mouserightclick", mouseRightClick);
         addTrigger("mouseleftdrag", mouseLeftDrag);
+        addTrigger("mouserightdrag",mouseRightDrag);
         //ingame Actions
         addTrigger("rotateRight", rotateRight);
         addTrigger("rotateLeft", rotateLeft);
@@ -68,7 +71,7 @@ public class UserInput {
         addTrigger("rotatecameraright", rotateCameraRight);
         addTrigger("rotatecameraleft", rotateCameraLeft);
         
-        inputManager.addListener(analogListener,"mouseleftdrag","movecameraup","movecameradown","movecameraright", "movecameraleft","rotatecameraright","rotatecameraleft");
+        inputManager.addListener(analogListener,"mouseleftdrag","mouserightdrag","movecameraup","movecameradown","movecameraright", "movecameraleft","rotatecameraright","rotatecameraleft");
         inputManager.addListener(actionListener,"mouseleftclick","mouserightclick","rotateRight","rotateLeft");
 
         
@@ -80,10 +83,18 @@ public class UserInput {
     public void initControls(){
         
     }
+    
     public void update(){
         analogListener.checkDragging();
     }
-
+    public static boolean getLeftMouse(String control){
+        if(control.contains("mouseleft")){
+            return true;
+        }else if(control.contains("mouseright")){
+            return false;
+        }
+        throw new IllegalArgumentException();
+    }
     public CameraController getCameraController() {
         return cameraController;
     }

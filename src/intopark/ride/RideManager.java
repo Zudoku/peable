@@ -7,7 +7,6 @@ package intopark.ride;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -16,8 +15,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
+import intopark.Gamestate;
 import intopark.UtilityMethods;
 import intopark.inputhandler.ClickingModes;
+import intopark.inputhandler.MouseContainer;
+import intopark.inputhandler.NeedMouse;
 import intopark.inputhandler.SetClickModeEvent;
 import intopark.shops.BasicBuildables;
 import intopark.shops.HolomodelDrawer;
@@ -30,7 +32,7 @@ import intopark.terrain.ParkHandler;
  * @author arska
  */
 @Singleton
-public class RideManager {
+public class RideManager implements NeedMouse{
     
     private static final Logger logger = Logger.getLogger(RideManager.class.getName());
     //DEPENDENCIES
@@ -222,5 +224,21 @@ public class RideManager {
 
     public void setRideID(int rideID) {
         this.rideID = rideID;
+    }
+
+    @Override
+    public void onClick(MouseContainer container) {
+        placeEnterance(container.getResults().getClosestCollision().getContactPoint());
+        Gamestate.ingameHUD.updateClickingIndicator();
+    }
+
+    @Override
+    public void onDrag(MouseContainer container) {
+        
+    }
+
+    @Override
+    public void onDragRelease(MouseContainer container) {
+        
     }
 }

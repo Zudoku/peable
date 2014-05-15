@@ -5,8 +5,10 @@
 package intopark.inputhandler;
 
 import com.google.inject.Singleton;
+import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.AnalogListener;
+import intopark.UtilityMethods;
 import java.util.logging.Logger;
 
 /**
@@ -16,11 +18,15 @@ import java.util.logging.Logger;
 @Singleton
 public class MyAnalogListener implements AnalogListener {
     private static final Logger logger = Logger.getLogger(MyAnalogListener.class.getName());
-    private boolean isMouseDragging=false;
-    private long lastDragged;
+    //DEPENDENCIES
     private CameraController cameraController;
     private ClickingHandler clickingHandler;
     private InputManager inputManager;
+    //VARIABLES
+    private boolean isMouseDragging=false;
+    private long lastDragged;
+    private String dragger="";
+    
     public MyAnalogListener(CameraController camcontrol, ClickingHandler clickH, InputManager inputManager) {
         this.cameraController=camcontrol;
         this.clickingHandler=clickH;
@@ -49,12 +55,20 @@ public class MyAnalogListener implements AnalogListener {
 
         }
 
-        if (name.equals("mouseleftdrag")) {
+        if (name.equals("mouseleftdrag")||name.equals("mouserightdrag")) {
             if (isMouseDragging) {
-                lastDragged = System.currentTimeMillis();
-                clickingHandler.handleMouseDrag(inputManager.getCursorPosition().y, lastDragged);
+                if(dragger.equals(name)){
+                    lastDragged = System.currentTimeMillis();
+                    CollisionResults results=new CollisionResults();
+                    UtilityMethods.rayCast(results, null);
+                    float x=inputManager.getCursorPosition().x;
+                    float z=inputManager.getCursorPosition().y;
+                    clickingHandler. handleMouseDrag(UserInput.getLeftMouse(dragger),x,z,results,lastDragged);
+                }
+               
             } else {
                 lastDragged = System.currentTimeMillis();
+                dragger=name;
                 isMouseDragging = true;
             }
         }
@@ -64,8 +78,13 @@ public class MyAnalogListener implements AnalogListener {
         if (isMouseDragging) {
             if (System.currentTimeMillis() - lastDragged > 200) {
                 isMouseDragging = false;
-                clickingHandler.handleMouseDragRelease();
+                CollisionResults results=new CollisionResults();
+                UtilityMethods.rayCast(results, null);
+                float x=inputManager.getCursorPosition().x;
+                float z=inputManager.getCursorPosition().y;
+                clickingHandler.handleMouseDragRelease(x,z,results);
             }
         }
     }
+    
 }

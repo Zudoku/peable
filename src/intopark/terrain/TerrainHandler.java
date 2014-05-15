@@ -22,6 +22,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import intopark.UtilityMethods;
+import intopark.inputhandler.MouseContainer;
+import intopark.inputhandler.NeedMouse;
 import intopark.terrain.events.RefreshGroundEvent;
 import intopark.terrain.events.SetMapDataEvent;
 
@@ -30,7 +32,7 @@ import intopark.terrain.events.SetMapDataEvent;
  * @author arska
  */
 @Singleton
-public class TerrainHandler {
+public class TerrainHandler implements NeedMouse{
     //LOGGER
     private static final Logger logger = Logger.getLogger(TerrainHandler.class.getName());
     //MISC
@@ -48,15 +50,14 @@ public class TerrainHandler {
     //VARIABLES
     private int brushSize = SIZE_MINIMAL;
     private boolean useTexture = false;
+    private boolean locked=false;
     private int textureID = 1;
-    private boolean locked = false;
-    private float startY = -1;
-    private float currentY;
     private ByteBuffer buf;
     private ByteBuffer bufferReal;
     private Texture alphaTexture;
     private int lastBrushx = -1;
     private int lastBrushz = -1;
+    private float movedY=-1;
     /**
      * This class is Manager for everything that involves terrain. Shovel and texturing.
      * @param rootNode This is used to attach the terrain to node.
@@ -76,66 +77,6 @@ public class TerrainHandler {
             bufferReal.put(x * 3 + 2, (byte) 128);
         }
         eventBus.register(this);
-    }
-    /**
-     * Configures the action what should be done when user clicks in Shovel mode.
-     * @param results RAY-Collision results from nearest to the least.
-     */
-    public void handleClicking(CollisionResults results) {
-        Vector3f location = null;
-        CollisionResult result = null;
-        for (CollisionResult r : results) {
-            if (UtilityMethods.findUserDataType(r.getGeometry().getParent(), "Terrain")) {
-                result = r;
-                break;
-            }
-
-
-        }
-        if (result != null) {
-            if (!locked) {
-                location = result.getContactPoint();
-                calculateLockedPositions(location);
-                locked = true;
-            }
-
-        }
-    }
-    /**
-     * Configures the action what should be done when user drags in Shovel mode.
-     * @param current Current Y-cordinate of users mouse.
-     * @param lastDragged When was this function last called.
-     */
-    public void handleDrag(float current, long lastDragged) {
-        if (locked) {
-            if (startY == -1) {
-                startY = current;
-            } else {
-                currentY = current;
-                float deltaY = currentY - startY;
-                if (deltaY > 80 || deltaY < -80) {
-                    if (deltaY > 80) {
-                        changeMapData(true);
-                    } else {
-                        changeMapData(false);
-                    }
-                    refreshGround();
-                    startY = currentY;
-                    lastDragged += 40;
-                }
-
-            }
-        }
-    }
-    /**
-     * This is called when user releases drag in Shovel mode.
-     */
-    public void releaseDrag() {
-        locked = false;
-        startY = -1;
-        lockedpositions.clear();
-        currentY = -1;
-
     }
 
     public void drawBrush(float x, float z) {
@@ -324,7 +265,49 @@ public class TerrainHandler {
         return useTexture;
     }
 
-    public boolean getLocked() {
+
+    @Override
+    public void onClick(MouseContainer container) {
+        Vector3f location = null;
+        CollisionResult result = null;
+        for (CollisionResult r : container.getResults()) {
+            if (UtilityMethods.findUserDataType(r.getGeometry().getParent(), "Terrain")) {
+                result = r;
+                break;
+            }
+
+
+        }
+        if (result != null) {
+            if (!locked) {
+                location = result.getContactPoint();
+                calculateLockedPositions(location);
+                locked = true;
+            }
+
+        }
+    }
+
+    @Override
+    public void onDrag(MouseContainer container) {
+        float deltaY = container.getCurrentY()-movedY;
+        if (deltaY > 80 || deltaY < -80) {
+            if (deltaY > 80) {
+                changeMapData(true);
+            } else {
+                changeMapData(false);
+            }
+            refreshGround();
+            movedY = container.getCurrentY();
+        }
+    }
+
+    @Override
+    public void onDragRelease(MouseContainer container) {
+        locked = false;
+        lockedpositions.clear();
+    }
+    public boolean getLocked(){
         return locked;
     }
     

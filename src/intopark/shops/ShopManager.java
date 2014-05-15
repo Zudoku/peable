@@ -18,9 +18,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.CloseWindowsEvent;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
+import intopark.Gamestate;
 import intopark.UtilityMethods;
 import intopark.inout.LoadPaths;
 import intopark.inputhandler.ClickingModes;
+import intopark.inputhandler.MouseContainer;
+import intopark.inputhandler.NeedMouse;
 import intopark.inputhandler.SetClickModeEvent;
 import intopark.inputhandler.SetClickingHandlerBufferEvent;
 import intopark.ride.RideManager;
@@ -33,10 +36,11 @@ import intopark.terrain.ParkHandler;
  * @author arska
  */
 @Singleton
-public class ShopManager {
+public class ShopManager implements NeedMouse{
     //LOGGER
     private static final Logger logger = Logger.getLogger(ShopManager.class.getName());
     //DEPENDENCIES
+    @Inject private ParkHandler parkHandler;
     @Inject private RideManager rideManager;
     private final EventBus eventBus;
     //OWNS
@@ -44,6 +48,7 @@ public class ShopManager {
     private Node shopNode;
     private final HolomodelDrawer holoDrawer;
     //VARIABLES
+    private int buffer = 0;
     private int shopID;
     private Direction direction = Direction.SOUTH;
     public BasicBuildables selectedBuilding= BasicBuildables.NULL;
@@ -260,6 +265,30 @@ public class ShopManager {
 
     public List<BasicShop> getShops() {
         return shops;
+    }
+    @Subscribe
+    public void listenSetBufferEvent(SetClickingHandlerBufferEvent event){
+        buffer=event.value;
+    }
+    @Override
+    public void onClick(MouseContainer container) {
+        if (buffer == 0) {
+            buy(parkHandler);
+            eventBus.post(new ToggleRenderHoloNodeEvent());
+            Gamestate.ingameHUD.updateClickingIndicator();
+        } else {
+            buffer = buffer - 1;
+        }
+    }
+
+    @Override
+    public void onDrag(MouseContainer container) {
+        
+    }
+
+    @Override
+    public void onDragRelease(MouseContainer container) {
+        
     }
     
 }

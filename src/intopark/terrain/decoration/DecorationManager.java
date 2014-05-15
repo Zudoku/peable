@@ -14,7 +14,10 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
+import intopark.Gamestate;
 import intopark.UtilityMethods;
+import intopark.inputhandler.MouseContainer;
+import intopark.inputhandler.NeedMouse;
 import intopark.terrain.events.AddObjectToMapEvent;
 import intopark.util.Direction;
 import intopark.terrain.ParkHandler;
@@ -25,7 +28,7 @@ import intopark.terrain.events.PayParkEvent;
  * @author arska
  */
 @Singleton
-public class DecorationManager {
+public class DecorationManager implements NeedMouse{
     //LOGGER
     private static final Logger logger = Logger.getLogger(DecorationManager.class.getName());
     //DEPENDENCIES
@@ -228,5 +231,21 @@ public class DecorationManager {
             
             
         }
+    }
+
+    @Override
+    public void onClick(MouseContainer container) {
+        build(container.getResults().getClosestCollision().getContactPoint());
+        Gamestate.ingameHUD.updateClickingIndicator();
+    }
+
+    @Override
+    public void onDrag(MouseContainer container) {
+        
+    }
+
+    @Override
+    public void onDragRelease(MouseContainer container) {
+        
     }
 }

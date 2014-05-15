@@ -20,7 +20,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.GUI.events.UpdateRoadDirectionEvent;
+import intopark.Gamestate;
 import intopark.UtilityMethods;
+import intopark.inputhandler.MouseContainer;
+import intopark.inputhandler.NeedMouse;
 import intopark.roads.events.CreateBuildingEnteranceEvent;
 import intopark.roads.events.UpdateRoadEvent;
 import intopark.util.Direction;
@@ -34,7 +37,7 @@ import intopark.terrain.decoration.RotationEvent;
  * @author arska
  */
 @Singleton
-public class RoadMaker {
+public class RoadMaker implements NeedMouse{
     //LOGGER
     private static final Logger logger = Logger.getLogger(RoadMaker.class.getName());
     //MISC
@@ -113,25 +116,6 @@ public class RoadMaker {
         endingPosition=null;
         return true;
         
-    }
-    public void handleClicking(CollisionResults results) {
-        logger.log(Level.FINE, "klik");
-        CollisionResult result = null;
-        for (CollisionResult r : results) {
-            if (UtilityMethods.findUserDataType(r.getGeometry().getParent(), "Terrain")) {
-                result = r;
-                break;
-            }
-        }
-        if(result!=null){
-            Vector3f location=result.getContactPoint();
-            if(startingPosition==null){
-                setStartingPosition(location);
-            }else{
-                setEndingPosition(location);
-                buildAutomaticRoad();
-            }
-        }
     }
     /**
      * This calculates next position for road. It calculates it based on direction.
@@ -395,5 +379,48 @@ public class RoadMaker {
 
     public MapPosition getStartingPosition() {
         return startingPosition;
+    }
+
+    @Override
+    public void onClick(MouseContainer container) {
+        if (status == RoadMakerStatus.CHOOSING) {
+            setStartingPosition(container.getResults().getClosestCollision().getContactPoint());
+            setStatus(RoadMakerStatus.MANUAL);
+            Gamestate.ingameHUD.updateClickingIndicator();
+            logger.log(Level.FINEST, "Updated Roads starting position");
+        } else if (status == RoadMakerStatus.AUTOMATIC) {
+            
+            if (container.isLeftClick()) {
+                CollisionResult result = null;
+                for (CollisionResult r : container.getResults()) {
+                    if (UtilityMethods.findUserDataType(r.getGeometry().getParent(), "Terrain")) {
+                        result = r;
+                        break;
+                    }
+                }
+                if (result != null) {
+                    Vector3f location = result.getContactPoint();
+                    if (startingPosition == null) {
+                        setStartingPosition(location);
+                    } else {
+                        setEndingPosition(location);
+                        buildAutomaticRoad();
+                    }
+                }
+            }
+            
+        } else {
+            logger.log(Level.FINER, "Tried clicking while in road mode and not choosing start position, not doing anything");
+        }
+    }
+
+    @Override
+    public void onDrag(MouseContainer container) {
+        
+    }
+
+    @Override
+    public void onDragRelease(MouseContainer container) {
+        
     }
 }
