@@ -69,22 +69,42 @@ Read more [here](http://arttu.me/)
 	- Guests have emotions and act according to them []
 	- Rare special guests []
 - #SHOPS#
-	- *Buildable Shops:*
-		-a
-		-a
-		-a
-		-a
-		-a
+	- Buildable Shops
+		- #FOOD/DRINK#
+		- Cafe []
+		- Nakk kiosk []
+		- Candy Street []
+		- Popcorn van []
+		- Trach food []
+		- Soda machine []
+		- Milkshjake []
+		- Chick em []
+		- Fish balls []
+		- Sweat fruits []
+		- Wrap place []
+		- Into's IceCream []
+		- Pastry shop []
+		- Nor ma'I food []
+		- Sweet corn []
+		- #OTHER#
+		- Info board []
+		- News stand []
+		- Joke vending maching []
+		- Info kiosk []
+		- Toilet []
+		- Fast Joy []
+		- Pick a rope []
+		- Chips and chicken []
 	- Shops sell items [x]
 	- Customizable colors, shop name, product names... []
 	- Shop upgrades []
 	- 
 - #RIDES#
-	- *Buildable Rides:*
-		-a
-		-a
-		-a
-		-a
+	- Buildable Rides
+		- a
+		- a
+		- a
+		- a
 	- Rides that move [x]
 	- Customizable colors, ride name, ride price... []
 	- Functional enterances and exits [x]
