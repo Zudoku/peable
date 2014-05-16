@@ -15,7 +15,88 @@ INTOPARK
 This is my passion, a game called IntoPark. It is a theme park strategy game currently in developement. This is my first game.
 Read more [here](http://arttu.me/)
 ###FEATURES###
-- *UI*
-	- asd
-- ASD2
- 
+- #UI#
+	- TOP BAR []
+	- Guest UI []
+	- Building Selection UI []
+	- Decoration Selection UI []
+	- Shop Inspect UI []
+	- Ride Inspect UI []
+	- Terrain Editor UI []
+	- Road Editor UI []
+	- Settings UI []
+	- Start Screen UI []
+- #LOAD AND SAVE#
+	- Ability to save games to files [x]
+	- Ability load saved games from files [x]
+	- Simple Save-Editor []
+	- Functional Starting screen []
+	- Save preferred settings [x]
+	- Load preferred settings [x]
+	- Save KeyBinds []
+	- Load KeyBinds []
+	- Achievements []
+	- Save Terrain colors []
+- #CONTROLS#
+	- User friendly controls []
+	- Smooth camera []
+	- Ability to change KeyBinds and settings []
+- #PARK#
+	- Unique preset parks []
+	- Ability to do semi-custom parks(change park settings) []
+	- Competing against AI parks []
+	- Tutorial []
+	- Random events []
+- #TERRAIN#
+	- Terrain made of quads [x]
+	- Terrain Editor [x]
+	- Different types of terrain []
+	- Raise and lower terrain [x]
+	- Smoothing tool [x]
+	- Sizeable brush on Terrain Editor [x]
+- #ROADS#
+	- Road Editor [x]
+	- NPCs walk on road [x]
+	- 2 types of road [x] (Normal road, Queue road)
+	- Build road with mouse drag [x]
+	- Different colors of roads []
+	- Roads can contain lamps and benches []
+- #GUESTS#
+	- Guests spawning with different stats to park [x]
+	- Guests can move along roads [x]
+	- Guests vary sizes and colors []
+	- Guests interact with shops and rides [x]
+	- Guests have emotions and act according to them []
+	- Rare special guests []
+- #SHOPS#
+	- *Buildable Shops:*
+		-a
+		-a
+		-a
+		-a
+		-a
+	- Shops sell items [x]
+	- Customizable colors, shop name, product names... []
+	- Shop upgrades []
+	- 
+- #RIDES#
+	- *Buildable Rides:*
+		-a
+		-a
+		-a
+		-a
+	- Rides that move [x]
+	- Customizable colors, ride name, ride price... []
+	- Functional enterances and exits [x]
+	- Functional queue handling []
+- #DECORATIONS#
+	- Ability to build decorations []
+	- Rotate them []
+	- Lower and raise them []
+- #DEMOLITION#
+	- Demolish decorations []
+	- Demolish roads []
+	- Demolish rides []
+	- Demilish shops []
+
+	
