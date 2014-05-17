@@ -1,6 +1,6 @@
 INTOPARK
 ========
-##INSTALL##
+#INSTALL#
 
 	Things you need to develop this game.
 - It is recommended for you to download JME SDK 3.0 But if you know what your doing you can find just the JARs too (I think).[here](http://hub.jmonkeyengine.org/downloads/)
@@ -11,10 +11,10 @@ INTOPARK
 - [JUnit](https://github.com/junit-team/junit/wiki/Download-and-Install)
 - [Mockito](https://code.google.com/p/mockito/)
  
-###WHAT IS THIS###
+#WHAT IS THIS#
 This is my passion, a game called IntoPark. It is a theme park strategy game currently in developement. This is my first game.
 Read more [here](http://arttu.me/)
-###FEATURES###
+#FEATURES#
 - #UI#
 	- TOP BAR []
 	- Guest UI []
@@ -86,6 +86,7 @@ Read more [here](http://arttu.me/)
 		- Pastry shop []
 		- Nor ma'I food []
 		- Sweet corn []
+		- Chips and chicken []
 		- #OTHER#
 		- Info board []
 		- News stand []
@@ -94,17 +95,17 @@ Read more [here](http://arttu.me/)
 		- Toilet []
 		- Fast Joy []
 		- Pick a rope []
-		- Chips and chicken []
 	- Shops sell items [x]
 	- Customizable colors, shop name, product names... []
 	- Shop upgrades []
 	- 
 - #RIDES#
 	- Buildable Rides
-		- a
-		- a
-		- a
-		- a
+		- Archery range []
+		- Chess Center []
+		- Haunted house []
+		- Pirate Ship []
+		- 
 	- Rides that move [x]
 	- Customizable colors, ride name, ride price... []
 	- Functional enterances and exits [x]
