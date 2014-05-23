@@ -28,7 +28,6 @@ import java.util.List;
  *
  * @author arska
  */
-
 public class BasicRide {
     //LOGGER
     protected transient static final Logger logger = Logger.getLogger(BasicRide.class.getName());
