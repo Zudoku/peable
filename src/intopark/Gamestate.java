@@ -71,7 +71,6 @@ public class Gamestate extends AbstractAppState {
         //TODO ENDS
         logger.log(Level.FINEST, "Loading file.");
         loadScenario();
-        // DEBUG  mapFactory.setCurrentMapPlain();
         userInput.getCameraController().initialize(); //Initialize our camera
         currentPark.onStartup(); //Finish initializing
         this.appm.setDisplayStatView(false); //Disable statview (DEBUG info)

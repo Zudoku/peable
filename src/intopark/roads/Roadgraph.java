@@ -194,8 +194,9 @@ public class Roadgraph {
     public void setEventBus(EventBus eventBus) {
         this.eventBus = eventBus;
     }
-    public Walkable getWalkable(int x,int y,int z){
+    public Walkable getWalkable(int x,int y,int z,boolean tryignoreBE){
         Walkable walkable=null;
+        BuildingEnterance ent = null;
         for(Walkable test:roadMap.vertexSet()){
             if(test.position.getX()!=x){
                 continue;
@@ -206,8 +207,15 @@ public class Roadgraph {
             if(test.position.getZ()!=z){
                 continue;
             }
+            if(tryignoreBE && test instanceof BuildingEnterance){
+                ent=(BuildingEnterance)test;
+                continue;
+            }
             walkable=test;
             break;
+        }
+        if(walkable==null && ent!=null){
+            walkable=ent;
         }
         return walkable;
     }

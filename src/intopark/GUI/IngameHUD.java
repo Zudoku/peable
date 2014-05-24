@@ -57,7 +57,6 @@ import static intopark.util.Direction.WEST;
 import static intopark.util.Direction.EAST;
 import static intopark.util.Direction.NORTH;
 import intopark.terrain.ParkHandler;
-import intopark.roads.RoadHill;
 import intopark.roads.RoadMaker;
 import intopark.roads.RoadMakerStatus;
 import intopark.terrain.TerrainHandler;

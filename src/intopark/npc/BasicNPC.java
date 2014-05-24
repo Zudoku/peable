@@ -45,22 +45,25 @@ public class BasicNPC {
     }
 
     public void move(NPCAction action, List<NPCAction> npcActions) {
+        //TODO: REWORK
         float tarx = 0;
         float tary = 0;
         float tarz = 0;
-        
+        //x
         if (-(object.getWorldTranslation().x - action.getMovePoint().x) > 0) {
             tarx = (0.02f);
         }
         if (-(object.getWorldTranslation().x - action.getMovePoint().x) < 0) {
             tarx = (-0.02f);
         }
+        //y
         if (-(object.getWorldTranslation().y - action.getMovePoint().y) > 0) {
             tary = (0.02f);
         }
         if (-(object.getWorldTranslation().y - action.getMovePoint().y) < 0) {
             tary = (-0.02f);
         }
+        //z
         if (-(object.getWorldTranslation().z - action.getMovePoint().z) > 0) {
             tarz = (0.02f);
         }
@@ -68,11 +71,8 @@ public class BasicNPC {
             tarz = (-0.02f);
         }
 
-        
-        
         object.move(tarx,tary,tarz);
-        
-        
+
         if(action.getMovePoint().distance(object.getWorldTranslation())<0.2){
             action.onAction();
             

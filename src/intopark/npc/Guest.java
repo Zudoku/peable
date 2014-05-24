@@ -122,7 +122,7 @@ public class Guest extends BasicNPC {
             /*CAN WONDER OFF FREELY*/
             Roadgraph roadGraph=parkHandler.getRoadGraph();
             /* GET WALKABLE FOR CURRENT LOCATION */
-            Walkable current=roadGraph.getWalkable(x, y, z);
+            Walkable current=roadGraph.getWalkable(x, y, z,true);
             if(current==null){
                 /*NOT ON ROAD. CAN'T MOVE*/
                 return;
