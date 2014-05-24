@@ -180,6 +180,10 @@ public class Roadgraph {
     }
     public boolean isThereRoom(MapPosition position){
         for(Walkable walkable:roadMap.vertexSet()){
+            /* Ignore building enterances */
+            if(walkable instanceof BuildingEnterance){
+                continue;
+            }
             if(position.isSameMainCoords(walkable.position)){
                 return false;
             }
