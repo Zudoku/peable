@@ -71,7 +71,7 @@ Read more [here](http://arttu.me/)
 - #SHOPS#
 	- Buildable Shops
 		- #FOOD/DRINK#
-		- Cafe []
+		- Cafe [x]
 		- Nakk kiosk []
 		- Candy Street []
 		- Popcorn van []
