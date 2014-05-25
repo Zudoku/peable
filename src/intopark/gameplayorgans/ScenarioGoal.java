@@ -9,5 +9,5 @@ package intopark.gameplayorgans;
  * @author arska
  */
 public enum ScenarioGoal {
-    GUESTS,
+    GUESTS;
 }

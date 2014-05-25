@@ -24,13 +24,15 @@ import java.util.logging.Logger;
 @Singleton
 public class NPCManager {
     private static final Logger logger = Logger.getLogger(NPCManager.class.getName());
+    //DEPENDENCIES
+    private GuestSpawner guestSpawner;
+    //VARIABLES
     private List<BasicNPC> npcs;
     private List<Guest> guests=new ArrayList<>();
     private Node rootNode;
     private Node NPCNode;
-    private GuestSpawner guestSpawner;
     private boolean NPCVisible=true;
-    int maxguests=20;
+    private int maxguests=20;
     /**
      * Handles NPCs ingame
      * @param rootNode rootNode
@@ -44,7 +46,7 @@ public class NPCManager {
         guestSpawner=new GuestSpawner(NPCNode,assetManager,eventBus);
         rootNode.attachChild(NPCNode);
         eventBus.register(this);
-        
+        //TODO: OTHER NPCS TO THIS CLASS
     }
     /**
      * Add a guest to park NOTICE: npc is attached to NPCNode here!
@@ -65,8 +67,7 @@ public class NPCManager {
      * Updates Npcs.
      */
     public void update(){
-        
-        
+        //TODO: REWORK THIS
         if(maxguests>npcs.size()){
             Random r =new Random();
             if(r.nextInt(900)<=maxguests/guestSpawner.getGuestNum()){

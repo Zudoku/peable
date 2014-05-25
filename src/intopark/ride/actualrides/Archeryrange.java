@@ -27,5 +27,6 @@ public class Archeryrange extends BasicRide{
         setRide("archery");
         Random r =new Random();
         eventBus.post(new AddGuestLimitEvent(r.nextInt(10)+10));
+        //TODO: STATIC RIDE??? SO NO  9999999 CLASSES
     }
 }

@@ -31,7 +31,7 @@ public class Roadgraph {
     
     public Roadgraph() {
         roadMap = new DefaultDirectedGraph<>(DefaultEdge.class);
-
+        //TODO: PROPERLY DOCUMENT THIS CLASS.
     }
     public void update(){
         for(Walkable walkable:roadMap.vertexSet()){

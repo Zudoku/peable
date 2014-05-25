@@ -36,6 +36,7 @@ public class MapFactory {
     public MapFactory(ParkHandler parkHandler,Node rootNode){
         this.parkHandler=parkHandler;
         this.rootNode=rootNode;
+        //TODO: DELETE THIS CLASS BECAUSE ITS DEPRECATED.
     }
     public void setCurrentMapPlain(){
         parkHandler.setMap(getPlainMap(Mapheight, Mapwidth),terrainHandler.getHeightMap());

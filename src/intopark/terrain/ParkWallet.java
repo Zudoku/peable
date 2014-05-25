@@ -13,6 +13,7 @@ public class ParkWallet {
     float loan=0;
     public ParkWallet(float money){
         this.money=money;
+        //TODO: SHOULD EXTEND NORMAL WALLET.
     }
     public void add(float add){
         money += add;

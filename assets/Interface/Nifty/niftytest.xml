@@ -203,31 +203,61 @@
                 <panel id="shope_rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                     <panel id="shope_tabspanel"valign="top"align="left"height="100%" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
                         <control id="shope_tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
-                            <control id="shope_tab_1" name="tab" caption="Shops"x="0"y="0" height="100%" width="100%"> 
+                            <control id="shope_tab_1" name="tab" caption="Food places"x="0"y="0" height="100%" width="100%"> 
                                 <panel id="shope_tab_1_panel"valign="top"align="left"height="600" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <panel id="shope_tab_1_desc"valign="top"align="left"height="140" width="90%" x="0"y="0"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
-                                        <control id="shope_tab_1descline1"name="label" font="Interface/Fonts/Impact.fnt"text="Shops are small and compact buildings which are used to serve food and" x="5"y="5" color="#ffff"/>
-                                        <control id="shope_tab_1descline2"name="label" font="Interface/Fonts/Impact.fnt"text="drinks to your guests. There are also many souvenir stalls to distribute" x="5"y="29" color="#ffff"/>
-                                        <control id="shope_tab_1descline3"name="label" font="Interface/Fonts/Impact.fnt"text="nice things.Important buildings such as Info and Toilet!" x="5"y="53" color="#ffff"/>
+                                        <control id="shope_tab_1descline1"name="label" font="Interface/Fonts/Impact.fnt"text="Food Shops are small and compact buildings which are used to serve food" x="5"y="5" color="#ffff"/>
+                                        <control id="shope_tab_1descline2"name="label" font="Interface/Fonts/Impact.fnt"text="and drinks to your guests. There are plenty of shops to choose from" x="5"y="29" color="#ffff"/>
+                                        <control id="shope_tab_1descline3"name="label" font="Interface/Fonts/Impact.fnt"text="so try to find something that is suitable for your park!" x="5"y="53" color="#ffff"/>
                                         <effect>
                                             <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
                                         </effect> 
                                     </panel>
                                     <panel id="shope_tab_1_row_1"valign="top"align="left"height="66" width="90%" x="0"y="150"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
                                         <image id="shope_tab_1_item_1"filename="Interface/buildings/Icon.png"x="1"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
-                                            <interact onClick="selectbuilding(TOILET)"/>  
+                                            <interact onClick="selectbuilding(MEATBALLS)"/>  
                                             <effect>
                                                 <onHover name="border" border="1px" color="#822f"/>
                                             </effect>
                                         </image>
                                         <image id="shope_tab_1_item_2"filename="Interface/buildings/Icon.png"x="66"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
-                                            <interact onClick="selectbuilding(1:2)"/>   
+                                            <interact onClick="selectbuilding(CAFE)"/>   
                                             <effect>
                                                 <onHover name="border" border="1px" color="#822f"/>
                                             </effect>
                                         </image>
-                                        <image id="shope_tab_1_item_3"filename="Interface/buildings/Icon.png"x="131"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
-                                            <interact onClick="selectbuilding(1:3)"/>   
+                                        <image id="shope_tab_1_item_3"filename="Interface/buildings/Icon.png"x="133"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(NAKK_KIOSK)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_4"filename="Interface/buildings/Icon.png"x="199"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(CANDY_STREET)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_5"filename="Interface/buildings/Icon.png"x="265"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(POPCORNVAN)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_6"filename="Interface/buildings/Icon.png"x="331"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(TRACHFOOD)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_7"filename="Interface/buildings/Icon.png"x="397"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(SODAMACHINE)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_8"filename="Interface/buildings/Icon.png"x="463"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(MILKSHJAKE)"/>   
                                             <effect>
                                                 <onHover name="border" border="1px" color="#822f"/>
                                             </effect>
@@ -237,13 +267,61 @@
                                         </effect> 
                                     </panel>
                                     <panel id="shope_tab_1_row_2"valign="top"align="left"height="66" width="90%" x="0"y="218"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
+                                        <image id="shope_tab_1_item_9"filename="Interface/buildings/Icon.png"x="1"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(CHICKEM)"/>  
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_10"filename="Interface/buildings/Icon.png"x="66"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(SWEETFRUITS)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_11"filename="Interface/buildings/Icon.png"x="133"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(WRAP_PLACE)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_12"filename="Interface/buildings/Icon.png"x="199"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(INTOS_ICECREAM)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_13"filename="Interface/buildings/Icon.png"x="265"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(PASTRY_SHOP)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_14"filename="Interface/buildings/Icon.png"x="331"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(NORMAI_FOOD)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_15"filename="Interface/buildings/Icon.png"x="397"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(SWEETCORN)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
+                                        <image id="shope_tab_1_item_16"filename="Interface/buildings/Icon.png"x="463"y="1" childLayout="absolute" width="64" height="64"visibleToMouse="true">
+                                            <interact onClick="selectbuilding(CHIPS_N_CHICKEN)"/>   
+                                            <effect>
+                                                <onHover name="border" border="1px" color="#822f"/>
+                                            </effect>
+                                        </image>
                                         <effect>
                                             <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
                                         </effect> 
                                     </panel>
                                 </panel>
                             </control>
-                            <control id="shope_tab_2" name="tab" caption="Poor rides"x="0"y="0" height="100%" width="100%"> 
+                            <control id="shope_tab_2" name="tab" caption="Other shops"x="0"y="0" height="100%" width="100%"> 
                                 <panel id="shope_tab_2_panel"valign="top"align="left"height="600" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <panel id="shope_tab_2_desc"valign="top"align="left"height="140" width="90%" x="0"y="0"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
                                         <effect>
@@ -262,7 +340,7 @@
                                     </panel>
                                 </panel>
                             </control>
-                            <control id="shope_tab_3" name="tab" caption="Mediocre rides"x="0"y="0" height="100%" width="100%"> 
+                            <control id="shope_tab_3" name="tab" caption="rides 1"x="0"y="0" height="100%" width="100%"> 
                                 <panel id="shope_tab_3_panel"valign="top"align="left"height="600" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <panel id="shope_tab_3_desc"valign="top"align="left"height="140" width="90%" x="0"y="0"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
                                         <effect>
@@ -281,7 +359,7 @@
                                     </panel>
                                 </panel>
                             </control>
-                            <control id="shope_tab_4" name="tab" caption="Costly rides"x="0"y="0" height="100%" width="100%"> 
+                            <control id="shope_tab_4" name="tab" caption="rides 2"x="0"y="0" height="100%" width="100%"> 
                                 <panel id="shope_tab_4_panel"valign="top"align="left"height="600" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <panel id="shope_tab_4_desc"valign="top"align="left"height="140" width="90%" x="0"y="0"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
                                         <effect>

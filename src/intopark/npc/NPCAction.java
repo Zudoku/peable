@@ -4,11 +4,9 @@
  */
 package intopark.npc;
 
-import com.google.inject.Inject;
 import com.jme3.math.Vector3f;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import intopark.GUI.WindowHandler;
 import intopark.shops.BasicShop;
 
 /**
@@ -17,11 +15,11 @@ import intopark.shops.BasicShop;
  */
 public class NPCAction {
     private static final Logger logger = Logger.getLogger(NPCAction.class.getName());
+    //VARIABLES
     private Vector3f movepoint;
-    public ActionType action = ActionType.NOTHING;
+    private ActionType action = ActionType.NOTHING;
     private Guest guest;
     private BasicShop shop;
-    @Inject WindowHandler windowMaker;
     /**
      * NPCs consume these actions
      * @param movePoint Where to move?
@@ -62,7 +60,6 @@ public class NPCAction {
                     return;
                 }
                 shop.interact(guest);
-                //windowMaker.updateGuestWindow(guest);
                 break;
                 
             case CONSUME:
@@ -76,7 +73,6 @@ public class NPCAction {
                 }
                 guest.getInventory().get(0).consume(guest.getStats());
                 guest.getInventory().remove(guest.getInventory().get(0));
-                //windowMaker.updateGuestWindow(guest);
                 break;
                 
             case QUE:

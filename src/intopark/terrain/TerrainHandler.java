@@ -10,7 +10,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResult;
-import com.jme3.collision.CollisionResults;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -77,6 +76,7 @@ public class TerrainHandler implements NeedMouse{
             bufferReal.put(x * 3 + 2, (byte) 128);
         }
         eventBus.register(this);
+        //TODO: PROPERLY DOCUMENT THIS CLASS.
     }
 
     public void drawBrush(float x, float z) {

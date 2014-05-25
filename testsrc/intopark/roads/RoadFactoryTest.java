@@ -53,6 +53,7 @@ public class RoadFactoryTest {
      */
     @Test
     public void testNullRoadToSpatial() {
+        //TODO: WRITE MORE TESTS!
         RoadFactory instance = new RoadFactory();
         /* First try null*/
         try {

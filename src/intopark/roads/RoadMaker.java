@@ -10,7 +10,6 @@ import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResult;
-import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -38,9 +37,7 @@ import intopark.terrain.decoration.RotationEvent;
  */
 @Singleton
 public class RoadMaker implements NeedMouse{
-    //LOGGER
     private static final Logger logger = Logger.getLogger(RoadMaker.class.getName());
-    //MISC
     //DEPENDENCIES
     @Inject private Roadgraph roadGraph;
     private Node roadNode;
@@ -76,6 +73,7 @@ public class RoadMaker implements NeedMouse{
         eventBus.register(this);
         this.map = map;
         roadF = new RoadFactory();
+        //TODO: PROPERLY DOCUMENT THIS CLASS.
     }
     public void update(){
         roadGraph.update();

@@ -16388,39 +16388,11 @@
     ]
   },
   "parkwallet": {
-    "money": 9010.0,
+    "money": 8920.0,
     "loan": 0.0
   },
   "rides": [],
-  "shops": [
-    {
-      "position": {
-        "x": 6,
-        "y": 5,
-        "z": 2,
-        "offSetX": 1.0,
-        "offSetY": 1.0,
-        "offSetZ": 1.0
-      },
-      "shopID": 1,
-      "constructionmoney": 300.0,
-      "productname": "prodname",
-      "shopName": "toilet 1",
-      "price": 20.0,
-      "upgrades": {
-        "cleaningUpgrade": false,
-        "friendlyStaffUpgrade": false,
-        "qualityUpgrade": false,
-        "trendyUpgrade": false,
-        "cleaningUpgradeCost": 75,
-        "friendlyStaffUpgradeCost": 100,
-        "qualityUpgradeCost": 200,
-        "trendyUpgradeCost": 125,
-        "reputation": "NEW"
-      },
-      "type": "toilet"
-    }
-  ],
+  "shops": [],
   "guests": [
     {
       "inventory": [],
@@ -16436,9 +16408,9 @@
       },
       "x": 7,
       "y": 6,
-      "z": 0,
+      "z": 1,
       "guestnum": 1,
-      "moving": "EAST",
+      "moving": "WEST",
       "name": "Susan Jackson"
     },
     {
@@ -16446,14 +16418,14 @@
       "stats": {
         "currentEmote": "HUNGRY",
         "hunger": 100,
-        "thirst": 89,
+        "thirst": 90,
         "happyness": 63,
         "preferredRide": "MEDIUM"
       },
       "wallet": {
         "money": 64.0
       },
-      "x": 3,
+      "x": 2,
       "y": 6,
       "z": 2,
       "guestnum": 2,
@@ -16472,7 +16444,7 @@
       "wallet": {
         "money": 57.0
       },
-      "x": 2,
+      "x": 1,
       "y": 6,
       "z": 2,
       "guestnum": 3,
@@ -16484,14 +16456,14 @@
       "stats": {
         "currentEmote": "MAD",
         "hunger": 81,
-        "thirst": 9,
+        "thirst": 10,
         "happyness": 8,
         "preferredRide": "LOW"
       },
       "wallet": {
         "money": 35.0
       },
-      "x": 4,
+      "x": 5,
       "y": 6,
       "z": 2,
       "guestnum": 4,
@@ -16510,7 +16482,7 @@
       "wallet": {
         "money": 42.0
       },
-      "x": 6,
+      "x": 5,
       "y": 6,
       "z": 2,
       "guestnum": 1,
@@ -16523,7 +16495,7 @@
         "currentEmote": "NORMAL",
         "hunger": 90,
         "thirst": 61,
-        "happyness": 82,
+        "happyness": 81,
         "preferredRide": "MEDIUM"
       },
       "wallet": {
@@ -16531,9 +16503,9 @@
       },
       "x": 7,
       "y": 6,
-      "z": 2,
+      "z": 1,
       "guestnum": 2,
-      "moving": "WEST",
+      "moving": "EAST",
       "name": "Elisabeth Thompson"
     },
     {
@@ -16541,14 +16513,14 @@
       "stats": {
         "currentEmote": "MAD",
         "hunger": 98,
-        "thirst": 33,
+        "thirst": 34,
         "happyness": 0,
         "preferredRide": "LOW"
       },
       "wallet": {
         "money": 44.0
       },
-      "x": 6,
+      "x": 5,
       "y": 6,
       "z": 2,
       "guestnum": 3,
@@ -16559,7 +16531,7 @@
       "inventory": [],
       "stats": {
         "currentEmote": "NORMAL",
-        "hunger": 64,
+        "hunger": 65,
         "thirst": 46,
         "happyness": 72,
         "preferredRide": "MEDIUM"
@@ -16567,7 +16539,7 @@
       "wallet": {
         "money": 44.0
       },
-      "x": 2,
+      "x": 3,
       "y": 6,
       "z": 2,
       "guestnum": 4,
@@ -16580,7 +16552,7 @@
         "currentEmote": "NORMAL",
         "hunger": 57,
         "thirst": 36,
-        "happyness": 62,
+        "happyness": 61,
         "preferredRide": "MEDIUM"
       },
       "wallet": {
@@ -16588,7 +16560,7 @@
       },
       "x": 7,
       "y": 6,
-      "z": 1,
+      "z": 2,
       "guestnum": 5,
       "moving": "WEST",
       "name": "Donald Thomas"
@@ -16598,25 +16570,25 @@
       "stats": {
         "currentEmote": "NORMAL",
         "hunger": 45,
-        "thirst": 52,
+        "thirst": 53,
         "happyness": 69,
         "preferredRide": "MEDIUM"
       },
       "wallet": {
         "money": 62.0
       },
-      "x": 1,
+      "x": 2,
       "y": 6,
       "z": 2,
       "guestnum": 1,
-      "moving": "NORTH",
+      "moving": "SOUTH",
       "name": "Maria Garcia"
     },
     {
       "inventory": [],
       "stats": {
         "currentEmote": "NORMAL",
-        "hunger": 27,
+        "hunger": 28,
         "thirst": 67,
         "happyness": 76,
         "preferredRide": "LOW"
@@ -16624,11 +16596,11 @@
       "wallet": {
         "money": 46.0
       },
-      "x": 5,
+      "x": 6,
       "y": 6,
       "z": 2,
       "guestnum": 1,
-      "moving": "NORTH",
+      "moving": "SOUTH",
       "name": "Maria Moore"
     },
     {
@@ -16636,8 +16608,8 @@
       "stats": {
         "currentEmote": "NORMAL",
         "hunger": 35,
-        "thirst": 64,
-        "happyness": 65,
+        "thirst": 65,
+        "happyness": 64,
         "preferredRide": "LOW"
       },
       "wallet": {
@@ -16645,7 +16617,7 @@
       },
       "x": 7,
       "y": 6,
-      "z": 1,
+      "z": 2,
       "guestnum": 2,
       "moving": "WEST",
       "name": "Karen Clark"
@@ -16655,14 +16627,14 @@
       "stats": {
         "currentEmote": "MAD",
         "hunger": 44,
-        "thirst": 21,
+        "thirst": 22,
         "happyness": 1,
         "preferredRide": "LOW"
       },
       "wallet": {
         "money": 56.0
       },
-      "x": 6,
+      "x": 5,
       "y": 6,
       "z": 2,
       "guestnum": 3,
@@ -16681,7 +16653,7 @@
       "wallet": {
         "money": 61.0
       },
-      "x": 4,
+      "x": 5,
       "y": 6,
       "z": 2,
       "guestnum": 4,
@@ -16702,16 +16674,16 @@
       },
       "x": 7,
       "y": 6,
-      "z": 2,
+      "z": 1,
       "guestnum": 5,
-      "moving": "WEST",
+      "moving": "EAST",
       "name": "William Smith"
     },
     {
       "inventory": [],
       "stats": {
         "currentEmote": "NORMAL",
-        "hunger": 40,
+        "hunger": 41,
         "thirst": 100,
         "happyness": 74,
         "preferredRide": "LOW"
@@ -16721,7 +16693,7 @@
       },
       "x": 7,
       "y": 6,
-      "z": 1,
+      "z": 2,
       "guestnum": 6,
       "moving": "WEST",
       "name": "Jason Johnson"
@@ -16730,19 +16702,19 @@
       "inventory": [],
       "stats": {
         "currentEmote": "HAPPY",
-        "hunger": 79,
-        "thirst": 79,
+        "hunger": 80,
+        "thirst": 80,
         "happyness": 93,
         "preferredRide": "MEDIUM"
       },
       "wallet": {
         "money": 44.0
       },
-      "x": 7,
+      "x": 6,
       "y": 6,
       "z": 2,
       "guestnum": 1,
-      "moving": "WEST",
+      "moving": "NORTH",
       "name": "Patricia Allen"
     },
     {
@@ -16759,7 +16731,7 @@
       },
       "x": 7,
       "y": 6,
-      "z": 1,
+      "z": 2,
       "guestnum": 2,
       "moving": "WEST",
       "name": "Will Lee"
@@ -16769,18 +16741,18 @@
       "stats": {
         "currentEmote": "NORMAL",
         "hunger": 41,
-        "thirst": 99,
-        "happyness": 72,
+        "thirst": 100,
+        "happyness": 71,
         "preferredRide": "MEDIUM"
       },
       "wallet": {
         "money": 58.0
       },
-      "x": 7,
+      "x": 6,
       "y": 6,
       "z": 2,
       "guestnum": 3,
-      "moving": "WEST",
+      "moving": "NORTH",
       "name": "Kate King"
     },
     {
@@ -16789,13 +16761,13 @@
         "currentEmote": "NORMAL",
         "hunger": 25,
         "thirst": 98,
-        "happyness": 58,
+        "happyness": 57,
         "preferredRide": "LOW"
       },
       "wallet": {
         "money": 60.0
       },
-      "x": 3,
+      "x": 4,
       "y": 6,
       "z": 2,
       "guestnum": 4,
@@ -16808,13 +16780,13 @@
         "currentEmote": "NORMAL",
         "hunger": 85,
         "thirst": 45,
-        "happyness": 42,
+        "happyness": 41,
         "preferredRide": "MEDIUM"
       },
       "wallet": {
         "money": 62.0
       },
-      "x": 6,
+      "x": 5,
       "y": 6,
       "z": 2,
       "guestnum": 1,
@@ -16833,7 +16805,7 @@
       "wallet": {
         "money": 39.0
       },
-      "x": 6,
+      "x": 5,
       "y": 6,
       "z": 2,
       "guestnum": 2,
@@ -16846,13 +16818,13 @@
         "currentEmote": "HAPPY",
         "hunger": 32,
         "thirst": 34,
-        "happyness": 90,
+        "happyness": 89,
         "preferredRide": "MEDIUM"
       },
       "wallet": {
         "money": 48.0
       },
-      "x": 5,
+      "x": 4,
       "y": 6,
       "z": 2,
       "guestnum": 3,
@@ -16873,7 +16845,7 @@
       },
       "x": 7,
       "y": 6,
-      "z": 1,
+      "z": 2,
       "guestnum": 4,
       "moving": "WEST",
       "name": "Jack Lee"
@@ -16883,14 +16855,14 @@
       "stats": {
         "currentEmote": "NORMAL",
         "hunger": 70,
-        "thirst": 14,
-        "happyness": 79,
+        "thirst": 15,
+        "happyness": 78,
         "preferredRide": "LOW"
       },
       "wallet": {
         "money": 38.0
       },
-      "x": 2,
+      "x": 1,
       "y": 6,
       "z": 2,
       "guestnum": 5,
@@ -16902,14 +16874,14 @@
       "stats": {
         "currentEmote": "HAPPY",
         "hunger": 35,
-        "thirst": 90,
+        "thirst": 91,
         "happyness": 90,
         "preferredRide": "LOW"
       },
       "wallet": {
         "money": 49.0
       },
-      "x": 5,
+      "x": 4,
       "y": 6,
       "z": 2,
       "guestnum": 6,

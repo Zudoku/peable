@@ -15,6 +15,7 @@ public class Wallet {
     private float money;
     public Wallet(Float money) {
         this.money=money;
+        //TODO: CUPONGS?
     }
     public void pay(float pay){
         money=money-pay;

@@ -60,7 +60,7 @@ public class DecorationManager implements NeedMouse{
         decorationNode = new Node("decorationNode");
         rootNode.attachChild(decorationNode);
         decoFactory = new DecorationFactory(assetManager);
-
+        //TODO: COMPLETELY REFACTOR EVERYTHING
     }
     /**
      * Called from the UI. Used to select decoration.

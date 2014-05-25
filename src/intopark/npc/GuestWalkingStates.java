@@ -9,6 +9,6 @@ package intopark.npc;
  * @author arska
  */
 public enum GuestWalkingStates {
-    WALK,STANDING,DONE
-    
+    WALK,STANDING,DONE;
+    //TODO:
 }

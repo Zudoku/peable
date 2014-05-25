@@ -4,7 +4,6 @@
  */
 package intopark.shops;
 
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import intopark.UtilityMethods;
 import intopark.shops.actualshops.Energy;

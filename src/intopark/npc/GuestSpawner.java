@@ -16,8 +16,15 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
+import intopark.UtilityMethods;
 import intopark.inout.LoadPaths;
+import intopark.npc.events.CreateGuestEvent;
 import intopark.npc.events.SetGuestSpawnPointsEvent;
+import intopark.npc.inventory.Item;
+import intopark.npc.inventory.StatManager;
+import intopark.npc.inventory.Wallet;
+import intopark.util.Direction;
+import intopark.util.MapPosition;
 import java.util.Arrays;
 
 /**
@@ -32,7 +39,7 @@ public class GuestSpawner {
     private final AssetManager assetManager;
     private final EventBus eventBus;
     //OWNS
-    private List<Vector3f> spawnpoints = new ArrayList<>();
+    private List<MapPosition> spawnpoints = new ArrayList<>();
     private List<BasicNPC> npcs = new ArrayList<>();
     private List<String> firstName = new ArrayList<>();
     private List<String> surName = new ArrayList<>();
@@ -64,30 +71,27 @@ public class GuestSpawner {
         //We choose a random name
         int num = r.nextInt(firstName.size() - 1);
         int num2 = r.nextInt(surName.size() - 1);
-        
         String name = firstName.get(num) + " " + surName.get(num2);
-        //Calculate random number
+        //And gender and height.
+        //TODO:
+        
+        //Semi-random money
         float money = r.nextInt(30);
         money = money + 35;
-        //Load the model and give it unique ID and money.
-        Spatial geom = assetManager.loadModel(LoadPaths.guest);
-        geom.setName("guest");
-        geom.setUserData("guestnum", guestNum);
-        Guest g = new Guest(name, money, guestNum, geom);
-        guestNum++;
+        Wallet wallet=new Wallet(money);
+        //Load the model
+        Spatial geom = UtilityMethods.loadModel(LoadPaths.guest);
+        //Random stats
+        StatManager stats=new StatManager();
+        stats.randomize();
         //Random spawnpoint
-        int spp = r.nextInt(spawnpoints.size());
-        g.getGeometry().move(spawnpoints.get(spp));
-        //Initialize X,Y,Z so that the guest can move
-        g.initXYZ((int) spawnpoints.get(spp).x, (int) spawnpoints.get(spp).y, (int) spawnpoints.get(spp).z);
-        //Add the guest to list and add it to rootNode.
-        npcs.add(g);
-        guests.add(g);
-        nPCNode.attachChild(g.getGeometry());
-        logger.log(Level.FINEST, "Guest {0} Named: {1} has entered the world", new Object[]{Integer.toString(guestNum), name});
-        if(n!=1){
-            eventBus.post(new UpdateMoneyTextBarEvent());
-        }
+        int spindex = r.nextInt(spawnpoints.size());
+        MapPosition pos=spawnpoints.get(spindex);
+        //Create an event and post it forward.
+        CreateGuestEvent event=new CreateGuestEvent(wallet,new ArrayList<Item>(),guestNum,
+        Direction.NORTH,pos.getX(),pos.getY(),pos.getZ(),stats, geom, name);
+        eventBus.post(event);
+        guestNum++;
         
     }
 

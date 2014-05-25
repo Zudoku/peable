@@ -62,13 +62,14 @@ public class ShopManager implements NeedMouse{
         shopNode=new Node("shopNode");
         rootNode.attachChild(shopNode);
         eventBus.register(this);
+        //TODO: PROPERLY DOCUMENT THIS CLASS.
     }
 
     public void buy(ParkHandler parkHandler) {
-        float constructionmoney=0;
-        String type="";
+        float constructionmoney;
+        String type;
         switch (selectedBuilding) {
-            case MBALL:
+            case MEATBALLS:
                 constructionmoney=300;
                 type="meatballshop";
                 break;
@@ -116,7 +117,7 @@ public class ShopManager implements NeedMouse{
     private void activateplace(){
         Spatial geom;
         switch(selectedBuilding){
-            case MBALL:
+            case MEATBALLS:
                 geom = UtilityMethods.loadModel(LoadPaths.mball);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));

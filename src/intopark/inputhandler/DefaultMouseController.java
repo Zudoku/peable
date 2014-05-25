@@ -9,13 +9,10 @@ import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResult;
 import com.jme3.scene.Node;
 import intopark.GUI.WindowHandler;
-import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.npc.Guest;
 import intopark.ride.BasicRide;
 import intopark.shops.BasicShop;
 import intopark.terrain.ParkHandler;
-import intopark.terrain.events.DeleteSpatialFromMapEvent;
-import intopark.terrain.events.PayParkEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

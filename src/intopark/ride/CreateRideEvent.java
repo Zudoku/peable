@@ -37,6 +37,7 @@ public class CreateRideEvent {
     private float price;
     private Enterance enterance;
     private Enterance exit;
+    
     public CreateRideEvent(MapPosition position,String type,Direction direction,String name,
             int rideID,int broken,int exitement,int nausea,boolean status,float price,Enterance enterance,Enterance exit) {
         this.position = position;
@@ -52,8 +53,9 @@ public class CreateRideEvent {
         this.enterance=enterance;
         this.exit=exit;
         
-        staticContent=new ArrayList<Spatial>();
+        staticContent=new ArrayList<>();
         /* Load models */
+        //TODO: MAKE THS A SWITCH
         if("chess".equals(type)){
             animation=new CustomAnimation();
             staticContent.add(UtilityMethods.loadModel(LoadPaths.chess));
@@ -82,6 +84,7 @@ public class CreateRideEvent {
 
     public BasicRide toRide(){
         BasicRide ride=null;
+        //TODO: MAKE THIS A SWITCH
         if("chess".equals(type)){
             ride=new ChessCenter(position, animation,staticContent, direction);
         }

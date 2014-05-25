@@ -4,8 +4,6 @@
  */
 package intopark.ride;
 
-import com.google.inject.Inject;
-import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import intopark.UtilityMethods;

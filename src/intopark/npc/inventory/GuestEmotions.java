@@ -9,5 +9,5 @@ package intopark.npc.inventory;
  * @author arska
  */
 public enum GuestEmotions {
-    MAD,HAPPY,HUNGRY,THIRSTY,NORMAL,TIRED,SUPER
+    MAD,HAPPY,HUNGRY,THIRSTY,NORMAL,TIRED,SUPER;
 }

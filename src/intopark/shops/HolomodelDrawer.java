@@ -49,7 +49,7 @@ public class HolomodelDrawer {
         this.eventBus=eventBus;
         eventBus.register(this);
         holoNode=new Node("holoNode");        
-        
+        //TODO: DRAW BOX WHERE RIDE TOOL IS AT.
     }
     /**
      * Toggle whether we render the holoNode or not.

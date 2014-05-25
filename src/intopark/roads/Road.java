@@ -141,10 +141,6 @@ public class Road extends Walkable{
         return skin;
     }
 
-    public MapPosition getPosition() {
-        return position;
-    }
-
     public Vector3f getVector3f(){
         return position.getVector();
     }

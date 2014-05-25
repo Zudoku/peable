@@ -114,31 +114,34 @@ public class IngameHUD implements ScreenController {
     public void onStartScreen() {
         closeWindows("");
         //laita raha kuva oikeaan asentoon
-        Element a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneyicon");
+        Element buttons=screen.findElementByName("buttonlayer").findElementByName("buttons");
+        Element handledE=buttons.findElementByName("moneyicon");
+        
         int screenwidth=parkHandler.settings.getWidth();
         int elementlocation=screenwidth-300;
         String b=Integer.toString(elementlocation); 
-        a.setConstraintX(new SizeValue(b));
+        handledE.setConstraintX(new SizeValue(b));
+        
         //tekstit
-        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("moneytext");
+        handledE=buttons.findElementByName("moneytext");
         elementlocation=screenwidth-170;
         b=Integer.toString(elementlocation);
-        a.setConstraintX(new SizeValue(b));
+        handledE.setConstraintX(new SizeValue(b));
         
-        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("loantext");
+        handledE=buttons.findElementByName("loantext");
         elementlocation=screenwidth-170;
         b=Integer.toString(elementlocation);
-        a.setConstraintX(new SizeValue(b));
+        handledE.setConstraintX(new SizeValue(b));
         
-        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("guestnumtext");
+        handledE=buttons.findElementByName("guestnumtext");
         elementlocation=screenwidth-280;
         b=Integer.toString(elementlocation);
-        a.setConstraintX(new SizeValue(b));
+        handledE.setConstraintX(new SizeValue(b));
         
-        a=screen.findElementByName("buttonlayer").findElementByName("buttons").findElementByName("clickmodeindicator");
+        handledE=buttons.findElementByName("clickmodeindicator");
         elementlocation=screenwidth-364;
         b=Integer.toString(elementlocation);
-        a.setConstraintX(new SizeValue(b));
+        handledE.setConstraintX(new SizeValue(b));
         
         updateMoneytextbar();
         updateshopdesc();
@@ -154,7 +157,8 @@ public class IngameHUD implements ScreenController {
      * Save the scenario to file.
      */
     public void testSave(){
-        saveManager.Save("testfilexd");
+        //TODO: Make a popup window specifying filename.
+        saveManager.Save("testsave");
     }
     /**
      * Close open all open windows.
@@ -288,7 +292,7 @@ public class IngameHUD implements ScreenController {
     }
     
     /**
-     * Update BuildingUI. Set a description on the building shop ui.
+     * Update BuildingUI. Set handledE description on the building shop ui.
      * @param event 
      */
     @Subscribe
@@ -378,7 +382,7 @@ public class IngameHUD implements ScreenController {
      */
     
     /**
-     * Called when the user clicks a guest on the guest-list window.
+     * Called when the user clicks handledE guest on the guest-list window.
      * @param id
      * @param event 
      */

@@ -4,7 +4,7 @@
  */
 package intopark.npc.events;
 
-import com.jme3.math.Vector3f;
+import intopark.util.MapPosition;
 import java.util.List;
 
 /**
@@ -12,21 +12,22 @@ import java.util.List;
  * @author arska
  */
 public class SetGuestSpawnPointsEvent {
-    private List<Vector3f>spawnpoints;
+    private List<MapPosition>spawnpoints;
     /**
      * 
      * @param spawnpoints 
      */
-    public SetGuestSpawnPointsEvent(List<Vector3f> spawnpoints) {
+    public SetGuestSpawnPointsEvent(List<MapPosition> spawnpoints) {
         this.spawnpoints = spawnpoints;
     }
 
-    public List<Vector3f> getSpawnpoints() {
+    public List<MapPosition> getSpawnpoints() {
         return spawnpoints;
     }
 
-    public void setSpawnpoints(List<Vector3f> spawnpoints) {
+    public void setSpawnpoints(List<MapPosition> spawnpoints) {
         this.spawnpoints = spawnpoints;
     }
+
     
 }

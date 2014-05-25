@@ -40,8 +40,8 @@ public class RideManager implements NeedMouse{
     //VARIABLES
     public List<BasicRide> rides = new ArrayList<>();
     private Node rideNode;
-    int rideID;
-    int enterancecount = 0;
+    private int rideID;
+    private int enterancecount = 0;
     private final HolomodelDrawer holoDrawer;
     private final ParkHandler parkHandler;
 
@@ -57,6 +57,7 @@ public class RideManager implements NeedMouse{
         eventBus.register(this);
         rideNode = new Node("rideNode");
         rootNode.attachChild(rideNode);
+        //TODO: MAKE ALL ID'S UNIQUE ACROSS EVERYTHING.
     }
 
     public void buy(Direction direction, BasicBuildables selectedBuilding) {

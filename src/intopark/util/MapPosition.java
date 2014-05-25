@@ -26,6 +26,7 @@ public class MapPosition {
         this.x=x;
         this.y=y;
         this.z=z;
+        //TODO: PROPERLY DOCUMENT THIS CLASS.
     }
     public MapPosition(Vector3f vec){
         this.x=(int)Math.floor(vec.x);

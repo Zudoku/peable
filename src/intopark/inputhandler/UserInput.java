@@ -24,24 +24,23 @@ import java.util.logging.Logger;
 @Singleton
 public class UserInput {
     private static final Logger logger = Logger.getLogger(UserInput.class.getName());
-    InputManager inputManager;
-    
-    
+    //DEPENDENCIES
+    private InputManager inputManager;
     private CameraController cameraController;
-    
     private MyAnalogListener analogListener;
     private MyActionListener actionListener;
-    
+    //ALL KEYTRIGGERS (KEYMAPS) LOADED WITH DEFAULT KEYBINDS.
+    //CAMERA
     KeyTrigger moveCameraUp = new KeyTrigger(KeyInput.KEY_W);
     KeyTrigger moveCameraDown = new KeyTrigger(KeyInput.KEY_S);
     KeyTrigger moveCameraRight = new KeyTrigger(KeyInput.KEY_D);
     KeyTrigger moveCameraLeft = new KeyTrigger(KeyInput.KEY_A);
     KeyTrigger rotateCameraRight=new KeyTrigger(KeyInput.KEY_E);
     KeyTrigger rotateCameraLeft=new KeyTrigger(KeyInput.KEY_Q);
-    
+    //ROTATE
     KeyTrigger rotateRight = new KeyTrigger(KeyInput.KEY_O);
     KeyTrigger rotateLeft = new KeyTrigger(KeyInput.KEY_P);
-    
+    //MOUSE
     MouseButtonTrigger mouseLeftClick = new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
     MouseButtonTrigger mouseRightClick = new MouseButtonTrigger(MouseInput.BUTTON_RIGHT);
     MouseButtonTrigger mouseLeftDrag=new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
@@ -73,20 +72,27 @@ public class UserInput {
         
         inputManager.addListener(analogListener,"mouseleftdrag","mouserightdrag","movecameraup","movecameradown","movecameraright", "movecameraleft","rotatecameraright","rotatecameraleft");
         inputManager.addListener(actionListener,"mouseleftclick","mouserightclick","rotateRight","rotateLeft");
-
-        
-
     }
+    /**
+     * Shorter wrapper to add keybind maps.
+     * @param name mapping name.
+     * @param trigger 
+     */
     private void addTrigger(String name, Trigger trigger){
         inputManager.addMapping(name, trigger);
     }
     public void initControls(){
-        
+        //TODO:
     }
     
     public void update(){
         analogListener.checkDragging();
     }
+    /**
+     * Utility method to figure if Keybind is for right or left mouse.
+     * @param control mapping name.
+     * @return true if left.
+     */
     public static boolean getLeftMouse(String control){
         if(control.contains("mouseleft")){
             return true;
@@ -95,6 +101,7 @@ public class UserInput {
         }
         throw new IllegalArgumentException();
     }
+    
     public CameraController getCameraController() {
         return cameraController;
     }

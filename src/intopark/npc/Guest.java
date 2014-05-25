@@ -35,7 +35,6 @@ import org.jgrapht.DirectedGraph;
  * @author arska
  */
 public class Guest extends BasicNPC {
-    //LOGGER 
     //DEPENDENCIES
     private  transient Random r;
     @Inject private transient ParkHandler parkHandler;
@@ -68,16 +67,6 @@ public class Guest extends BasicNPC {
         super.getGeometry().setLocalTranslation(x, y, z);
         super.getGeometry().setUserData("type","guest");
         super.getGeometry().setUserData("guestnum",guestNum);
-    }
-    @Deprecated
-    public Guest(String name, float money, int guestNum, Spatial geom) {
-        super(name, geom);
-        Main.injector.injectMembers(this);
-        this.wallet = new Wallet(money);
-        this.guestnum = guestNum;
-        r = new Random();
-        stats.randomize();
-
     }
 
     public void deleteActions() {

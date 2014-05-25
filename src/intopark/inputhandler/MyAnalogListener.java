@@ -33,6 +33,7 @@ public class MyAnalogListener implements AnalogListener {
         this.inputManager=inputManager;
     }
     
+    @Override
     public void onAnalog(String name, float value, float tpf) {
         if (name.equals("movecameraup")) {
             cameraController.moveUp();

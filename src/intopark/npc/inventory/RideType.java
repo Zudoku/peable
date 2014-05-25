@@ -9,5 +9,5 @@ package intopark.npc.inventory;
  * @author arska
  */
 public enum RideType {
-    LOW,MEDIUM,HIGH,NAUSEA,CRAZY
+    LOW,MEDIUM,HIGH,NAUSEA,CRAZY;
 }

@@ -68,6 +68,7 @@ public class BasicShop {
         eventBus.post(new AddGuestLimitEvent(r.nextInt(5)+5));
         object.setUserData("type","shop");
         object.setUserData("shopID",shopID);
+        //TODO: PROPERLY DOCUMENT THIS CLASS.
     }
     
     public void interact(Guest guest){

@@ -5,11 +5,9 @@
 package intopark.inputhandler;
 
 import com.google.common.eventbus.EventBus;
-import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
-import com.jme3.scene.Node;
 import java.util.logging.Logger;
 import intopark.UtilityMethods;
 import static intopark.inputhandler.ClickingModes.DECORATION;
@@ -23,17 +21,20 @@ import intopark.terrain.decoration.RotationEvent;
  */
 public class MyActionListener implements ActionListener {
     private static final Logger logger = Logger.getLogger(MyActionListener.class.getName());
-    private long lastclicked = 0;
+    //DEPENDENCY
     private InputManager inputManager;
     private ClickingHandler clickingHandler;
     private EventBus eventBus;
-
+    //VARIABLES
+    private long lastclicked = 0;
+    
     public MyActionListener(InputManager inputManager, ClickingHandler clickH, EventBus eventBus) {
         this.inputManager=inputManager;
         this.clickingHandler = clickH;
         this.eventBus = eventBus;
     }
 
+    @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals("mouseleftclick")||name.equals("mouserightclick")) {
             if (System.currentTimeMillis() - lastclicked > 100) {

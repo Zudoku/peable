@@ -45,6 +45,7 @@ import intopark.terrain.decoration.CreateParkEnteranceEvent;
 import intopark.terrain.events.AddToRootNodeEvent;
 import intopark.terrain.events.RefreshGroundEvent;
 import intopark.terrain.events.SetMapDataEvent;
+import intopark.util.MapPosition;
 
 /**
  *
@@ -98,6 +99,7 @@ public class ParkHandler {
      * This should be called when ParkHandler is fully populated (nothing is null).
      */
     public void onStartup() {
+        //TODO: TIDY THIS METHOD 
         logger.log(Level.FINEST,"Configuring ParkHandler..");
         //eventBus.post(new SetMapEvent(map.getMap()));
         eventBus.post(new RefreshGroundEvent()); //Force refresh the ground once.
@@ -368,8 +370,8 @@ public class ParkHandler {
         logger.log(Level.FINEST,"Park Enterance set up at {0} rotated {1} degrees.",
                 new Object[]{event.position.getVector().toString(),Math.toDegrees(event.rotate)});
         //SET GUEST SPAWNPOINT TO THE SAME PLACE!
-        ArrayList<Vector3f> pos=new ArrayList<Vector3f>();
-        pos.add(event.position.getVector());
+        ArrayList<MapPosition> pos=new ArrayList<>();
+        pos.add(event.position);
         eventBus.post(new SetGuestSpawnPointsEvent(pos));
     }
     /**

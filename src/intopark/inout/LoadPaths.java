@@ -38,5 +38,4 @@ public class LoadPaths {
     public static String rocktexture="Textures/rocktexture.png";
     public static String selectiontexture="Textures/selection.png";
     public static String rock="Models/Decorations/rock.j3o";
-        //public static String n="";
 }

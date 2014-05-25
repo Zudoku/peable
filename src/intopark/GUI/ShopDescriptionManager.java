@@ -109,7 +109,7 @@ public class ShopDescriptionManager {
                 setDescriptionHHouse();
                 break;
                 
-            case MBALL:
+            case MEATBALLS:
                 setDescriptionMBall();
                 break;
             case PIRATESHIP:

@@ -9,5 +9,5 @@ package intopark.ride;
  * @author arska
  */
 public enum RideColor {
-    DEFAULT,BLACK,WHITE,BLUE,RED,GREEN,YELLOW,ORANGE,VIOLET,GRAY
+    DEFAULT,BLACK,WHITE,BLUE,RED,GREEN,YELLOW,ORANGE,VIOLET,GRAY;
 }

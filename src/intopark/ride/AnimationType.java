@@ -9,5 +9,5 @@ package intopark.ride;
  * @author arska
  */
 public enum AnimationType {
-    STATIC,ROLLV,ROLLH,SPIN
+    STATIC,ROLLV,ROLLH,SPIN;
 }

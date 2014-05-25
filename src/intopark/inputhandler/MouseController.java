@@ -24,9 +24,19 @@ public class MouseController {
     private MouseContainer clickContainer;
     private MouseContainer dragContainer;
     private MouseContainer dragReleaseContainer;
+    
     public MouseController() {
         
     }
+    /**
+     * Called whenever User clicks. 
+     * Pass it to a proper controller.
+     * " Engine call " 
+     * @param leftClick True if click is left click.
+     * @param currentX Mouse X-Coord.
+     * @param currentY Mouse Y-Coord.
+     * @param results All raycast collisionresults.
+     */
     public void handleClickingMechanic(boolean leftClick,float currentX,float currentY,CollisionResults results) {
         clickContainer=new MouseContainer(currentX, currentY, results);
         clickContainer.setLeftClick(leftClick);
@@ -40,6 +50,16 @@ public class MouseController {
 
         }
     }
+    /**
+     * Called whenever User clicks or holds mouse.
+     * Calculate if user drags and pass it to proper controller.
+     *  " Engine call " 
+     * @param leftClick True if click is left click.
+     * @param currentX Mouse X-Coord.
+     * @param currentY Mouse Y-Coord.
+     * @param results All raycast collisionresults.
+     * @param lastDragged Time when last drag happened. This is from System.currentTimeInMills() call.
+     */
     public void handleDragMechanic(boolean leftClick,float currentX,float currentY,CollisionResults results, long lastDragged) {
         if (locked) {
             if (startY < 0|| startX < 0) {
@@ -64,6 +84,14 @@ public class MouseController {
             }
         }
     }
+    /**
+     * Called When user stops dragging mouse.
+     * Pass the call to proper controller.
+     *  " Engine call " 
+     * @param currentX Mouse X-Coords.
+     * @param currentY Mouse Y-Coord.
+     * @param results 
+     */
     public void handleReleaseDragMechanic(float currentX,float currentY,CollisionResults results) {
         dragReleaseContainer = new MouseContainer(currentX, currentY, results);
         dragReleaseContainer.setRecent(lastRX, lastRY);
@@ -71,6 +99,9 @@ public class MouseController {
         callable.onDragRelease(dragReleaseContainer);
         reset();
     }
+    /**
+     * Resets the state of this class.
+     */
     public void reset() {
         locked = false;
         dragStarted = false;

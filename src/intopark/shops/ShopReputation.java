@@ -9,5 +9,5 @@ package intopark.shops;
  * @author arska
  */
 public enum ShopReputation {
-    WEIRD,GOOD,BAD,SHIT,HONORABLE,BEST,OK,NEW
+    WEIRD,GOOD,BAD,SHIT,HONORABLE,BEST,OK,NEW;
 }

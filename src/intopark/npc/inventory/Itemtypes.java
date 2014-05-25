@@ -9,5 +9,5 @@ package intopark.npc.inventory;
  * @author arska
  */
 public enum Itemtypes {
-    FUN,FOOD,DRINK
+    FUN,FOOD,DRINK;
 }
