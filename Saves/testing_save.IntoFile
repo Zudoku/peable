@@ -1,0 +1,82 @@
+{
+  "map": {},
+  "parkwallet": {
+    "money": 10000.0,
+    "loan": 0.0
+  },
+  "rides": [],
+  "shops": [
+    {
+      "direction": "NORTH",
+      "position": {
+        "x": 10,
+        "y": 10,
+        "z": 10,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "shopID": 30,
+      "constructionmoney": 100.0,
+      "productname": "prodname",
+      "shopName": "shopname",
+      "price": 10.0,
+      "upgrades": {
+        "cleaningUpgrade": false,
+        "friendlyStaffUpgrade": false,
+        "qualityUpgrade": false,
+        "trendyUpgrade": false,
+        "cleaningUpgradeCost": 75,
+        "friendlyStaffUpgradeCost": 100,
+        "qualityUpgradeCost": 200,
+        "trendyUpgradeCost": 125,
+        "reputation": "NEW"
+      },
+      "type": "toilet",
+      "enterance": {
+        "ID": 30,
+        "buildingType": 100,
+        "needToConnectDirection": false,
+        "position": {
+          "x": 11,
+          "y": 10,
+          "z": 10,
+          "offSetX": 0.0,
+          "offSetY": 0.0,
+          "offSetZ": 0.0
+        }
+      }
+    }
+  ],
+  "guests": [
+    {
+      "inventory": [
+        {
+          "name": "funitem",
+          "itemtype": "FUN",
+          "consumevalue": 10,
+          "durability": 10
+        }
+      ],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 30,
+        "thirst": 53,
+        "happyness": 21,
+        "preferredRide": "MEDIUM"
+      },
+      "wallet": {
+        "money": 100.0
+      },
+      "x": 10,
+      "y": 10,
+      "z": 10,
+      "guestnum": 20,
+      "moving": "NORTH",
+      "size": 2,
+      "color": "BLUE",
+      "name": "test name"
+    }
+  ],
+  "roads": []
+}

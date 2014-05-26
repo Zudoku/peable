@@ -7,7 +7,6 @@ package intopark.npc;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.jme3.asset.AssetManager;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.UtilityMethods;
 import intopark.inout.LoadPaths;
 import intopark.npc.events.CreateGuestEvent;
@@ -23,6 +21,7 @@ import intopark.npc.events.SetGuestSpawnPointsEvent;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
+import intopark.terrain.ParkHandler;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
 import java.util.Arrays;
@@ -44,15 +43,15 @@ public class GuestSpawner {
     private List<String> firstName = new ArrayList<>();
     private List<String> surName = new ArrayList<>();
     private List<Guest> guests=new ArrayList<>();
+    private ParkHandler parkHandler;
     //VARIABLES
     private int guestNum = 1;
-    private final Node nPCNode;
     
 
-    public GuestSpawner(Node nPCNode,AssetManager assetManager,EventBus eventBus) {
-        this.nPCNode = nPCNode;
+    public GuestSpawner(AssetManager assetManager,EventBus eventBus,ParkHandler parkHandler) {
         this.assetManager = assetManager;
         this.eventBus=eventBus;
+        this.parkHandler=parkHandler;
         r = new Random();
         eventBus.register(this);
         addNames();
@@ -89,7 +88,7 @@ public class GuestSpawner {
         MapPosition pos=spawnpoints.get(spindex);
         //Create an event and post it forward.
         CreateGuestEvent event=new CreateGuestEvent(wallet,new ArrayList<Item>(),guestNum,
-        Direction.NORTH,pos.getX(),pos.getY(),pos.getZ(),stats, geom, name);
+        Direction.NORTH,pos.getX(),pos.getY(),pos.getZ(),stats, geom, name,parkHandler);
         eventBus.post(event);
         guestNum++;
         

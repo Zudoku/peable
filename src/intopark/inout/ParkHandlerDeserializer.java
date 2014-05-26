@@ -76,8 +76,8 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             int y1=getI(jg,"y");
             int z1=getI(jg,"z");
             Spatial model=UtilityMethods.loadModel(LoadPaths.guest);
-            
-            eventBus.post(new CreateGuestEvent(gw,inv,guestnum,dir,x1,y1,z1,sm,model,name));
+            CreateGuestEvent event=new CreateGuestEvent(gw,inv,guestnum,dir,x1,y1,z1,sm,model,name,parkHandler);
+            eventBus.post(event);
         }
         logger.log(Level.FINER,"Deserializing terrain...");
         MapContainer map=jdc.deserialize(jo.get("map"),MapContainer.class);
@@ -96,7 +96,7 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             float price=jdc.deserialize(sp.get("price"),Float.class);
             ShopReputation sr=jdc.deserialize(sp.get("reputation"),ShopReputation.class);
             String stype=getS(sp,"type");
-            CreateShopEvent event=new CreateShopEvent(stype,shopname,prodname,sr,price,cm,shopID,pos,dir);
+            CreateShopEvent event=new CreateShopEvent(stype,shopname,prodname,sr,price,cm,shopID,pos,dir,eventBus);
             eventBus.post(event);   
         }
         //RIDES

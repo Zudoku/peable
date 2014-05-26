@@ -4,6 +4,7 @@
  */
 package intopark.shops;
 
+import com.google.common.eventbus.EventBus;
 import com.jme3.scene.Spatial;
 import intopark.UtilityMethods;
 import intopark.shops.actualshops.Energy;
@@ -27,11 +28,13 @@ public class CreateShopEvent {
     private Direction direction;
     private MapPosition pos;
     private Spatial model;
+    private EventBus eventBus;
     public CreateShopEvent() {
         
     }
 
-    public CreateShopEvent(String stype, String shopname, String prodname, ShopReputation sr, float price, float cm, int shopID, MapPosition pos, Direction dir) {
+    public CreateShopEvent(String stype, String shopname, String prodname, ShopReputation sr,
+            float price, float cm, int shopID, MapPosition pos, Direction dir,EventBus eventBus) {
         this.type=stype;
         this.shopName=shopname;
         this.prodName=prodname;
@@ -41,6 +44,7 @@ public class CreateShopEvent {
         this.shopID=shopID;
         this.direction=dir;
         this.pos=pos;
+        this.eventBus=eventBus;
         if(type.equals("energyshop")){
             model= UtilityMethods.loadModel("Models/shops/energyshop.j3o");
         }
@@ -55,13 +59,13 @@ public class CreateShopEvent {
     public BasicShop toShop(){
         BasicShop shop=null;
         if(type.equals("energyshop")){
-            shop=new Energy(pos,direction,model,shopID,price,constmoney,prodName,shopName);
+            shop=new Energy(pos,direction,model,shopID,price,constmoney,prodName,shopName,eventBus);
         }
         if(type.equals("meatballshop")){
-            shop=new Meatballshop(pos,direction,model,shopID,price,constmoney,prodName,shopName);
+            shop=new Meatballshop(pos,direction,model,shopID,price,constmoney,prodName,shopName,eventBus);
         }
         if(type.equals("toilet")){
-            shop=new Toilet(pos,direction,model,shopID,price,constmoney,prodName,shopName);
+            shop=new Toilet(pos,direction,model,shopID,price,constmoney,prodName,shopName,eventBus);
         }
         return shop;
     }

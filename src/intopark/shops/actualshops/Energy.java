@@ -4,6 +4,7 @@
  */
 package intopark.shops.actualshops;
 
+import com.google.common.eventbus.EventBus;
 import com.jme3.scene.Spatial;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.npc.Guest;
@@ -22,8 +23,8 @@ public class Energy extends BasicShop{
     
     
     
-    public Energy(MapPosition position,Direction direction,Spatial model,int shopID,float price,float constrm,String prodName,String shopName){
-        super(position,model,shopID,constrm,price,direction,prodName,shopName,"energyshop",true);
+    public Energy(MapPosition position,Direction direction,Spatial model,int shopID,float price,float constrm,String prodName,String shopName,EventBus eventBus){
+        super(position,model,shopID,constrm,price,direction,prodName,shopName,"energyshop",true,eventBus);
         //DEF prodName "Yak Energy drink" | name "Energyshop "+shopID | type "energyshop"
         
     }

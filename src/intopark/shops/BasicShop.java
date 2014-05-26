@@ -10,7 +10,6 @@ import com.jme3.scene.Spatial;
 import java.util.Random;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
-import intopark.Main;
 import intopark.npc.events.AddGuestLimitEvent;
 import intopark.npc.Guest;
 import intopark.roads.BuildingEnterance;
@@ -42,7 +41,8 @@ public class BasicShop {
     protected BuildingEnterance enterance;
     protected transient boolean needToFaceDirection=true;
     
-    public BasicShop(MapPosition position,Spatial object,int shopID,float constr,float price,Direction direction,String prodname,String shopName,String type,boolean needToFaceDirection){
+    public BasicShop(MapPosition position,Spatial object,int shopID,float constr,
+            float price,Direction direction,String prodname,String shopName,String type,boolean needToFaceDirection,EventBus eventBus){
         this.position=position;
         this.object=object;
         this.constructionmoney=constr;
@@ -53,9 +53,10 @@ public class BasicShop {
         this.shopName=shopName;
         this.type=type;
         this.needToFaceDirection=needToFaceDirection;
+        this.eventBus=eventBus;
         /* Assign 3d model to right coordinates */
         object.setLocalTranslation(position.getVector());
-        Main.injector.injectMembers(this);
+        
         Random r =new Random();
         
         MapPosition l=new MapPosition(position);

@@ -121,5 +121,25 @@ Read more [here](http://arttu.me/)
 	- Demolish roads []
 	- Demolish rides []
 	- Demilish shops []
+- #SPEACIAL EFFECTS#
+        - Demolish explosions/smoke []
+        - Day/Night cycle []
+        - Lights to rides so it looks cool in night []
+        - Emotion indicators? []
 
+
+#Currently doing#
+
+- Models for Shops, Rides, Guest.
+- Refactoring guest queue to ride logic.
+- Building selection UI.
+- Set global ID to all components (rides,shops,guests)
+
+#KNOWN BUGS#
+
+- Creating a new map crashes/malfunctions game.
+- Guest Selection window doesn't work.
+- Decorations are a mess. (should be completely redone.
+- When placing shops, sometimes you need to click twice.
+- Some models are not facing the right way.
 	

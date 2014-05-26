@@ -4,6 +4,7 @@
  */
 package intopark.shops.actualshops;
 
+import com.google.common.eventbus.EventBus;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
@@ -24,8 +25,8 @@ public class Meatballshop extends BasicShop{
 
     
     
-    public Meatballshop(MapPosition position,Direction direction,Spatial model,int shopID,float price,float constrm,String prodName,String shopName){
-        super(position,model,shopID,constrm,price,direction,prodName,shopName,"meatballshop",true);
+    public Meatballshop(MapPosition position,Direction direction,Spatial model,int shopID,float price,float constrm,String prodName,String shopName,EventBus eventBus){
+        super(position,model,shopID,constrm,price,direction,prodName,shopName,"meatballshop",true,eventBus);
         //DEF prodName "Tasti MeatBalls" | name "MeatBallShop "+shopID | type "meatballshop" 
     }
 

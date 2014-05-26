@@ -10,7 +10,10 @@ import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
+import com.jme3.light.Light;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import intopark.terrain.ParkHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,7 +28,7 @@ import java.util.logging.Logger;
 public class NPCManager {
     private static final Logger logger = Logger.getLogger(NPCManager.class.getName());
     //DEPENDENCIES
-    private GuestSpawner guestSpawner;
+    @Inject private GuestSpawner guestSpawner;
     //VARIABLES
     private List<BasicNPC> npcs;
     private List<Guest> guests=new ArrayList<>();
@@ -40,10 +43,9 @@ public class NPCManager {
      * @param eventBus EventBus
      */
     @Inject
-    public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus){
+    public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus,ParkHandler parkHandler){
         this.rootNode=rootNode;
         NPCNode=new Node("NPCNode");
-        guestSpawner=new GuestSpawner(NPCNode,assetManager,eventBus);
         rootNode.attachChild(NPCNode);
         eventBus.register(this);
         //TODO: OTHER NPCS TO THIS CLASS
@@ -130,6 +132,10 @@ public class NPCManager {
     public void setGuests(List<Guest> guests) {
         this.guests = guests;
         guestSpawner.setGuests(guests);
+    }
+    public void attachToNPCNode(Spatial object){
+        logger.log(Level.FINEST,"New Spatial added to NPCNode");
+        NPCNode.attachChild(object);
     }
     
     

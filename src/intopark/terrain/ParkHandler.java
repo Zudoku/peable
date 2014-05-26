@@ -15,7 +15,6 @@ import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.light.Light;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
@@ -118,7 +117,7 @@ public class ParkHandler {
     }
     public void initializeSaving(){
         roads=new ArrayList<>();
-        for(Walkable e:roadMaker.getRoadGraph().getRoadMap().vertexSet()){
+        for(Walkable e:getRoadGraph().getRoadMap().vertexSet()){
             if(e instanceof Road){
                 roads.add((Road)e);
             }
@@ -336,7 +335,7 @@ public class ParkHandler {
      * @param event 
      */
     @Subscribe public void listenCreateGuestsEvent(CreateGuestEvent event){
-        rootNode.attachChild(event.g.getGeometry());
+        npcManager.attachToNPCNode(event.g.getGeometry());
         guests.add(event.g);
         npcs.add(event.g);
         logger.log(Level.FINEST, "Guest {0}, initialized!",event.g.getName());
@@ -449,4 +448,18 @@ public class ParkHandler {
     public Roadgraph getRoadGraph(){
         return roadMaker.getRoadGraph();
     }
+
+    public void setRoadMaker(RoadMaker roadMaker) {
+        this.roadMaker = roadMaker;
+    }
+
+    public void setNpcManager(NPCManager npcManager) {
+        this.npcManager = npcManager;
+    }
+
+    public void setShopManager(ShopManager shopManager) {
+        this.shopManager = shopManager;
+    }
+    
+    
 }

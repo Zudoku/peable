@@ -5,8 +5,11 @@
 package intopark.inout;
 
 import com.google.common.eventbus.EventBus;
+import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
+import intopark.UtilityMethods;
 import intopark.npc.Guest;
+import intopark.npc.NPCManager;
 import intopark.npc.events.CreateGuestEvent;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.Itemtypes;
@@ -14,10 +17,14 @@ import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
 import intopark.roads.Road;
 import intopark.roads.RoadHill;
+import intopark.roads.RoadMaker;
+import intopark.roads.Roadgraph;
 import intopark.roads.events.CreateRoadEvent;
 import intopark.shops.BasicShop;
 import intopark.shops.CreateShopEvent;
+import intopark.shops.ShopManager;
 import intopark.shops.ShopReputation;
+import intopark.terrain.MapContainer;
 import intopark.terrain.ParkHandler;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
@@ -29,6 +36,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.mockito.Mockito;
 
 /**
  *
@@ -59,8 +67,27 @@ public class SaveAndLoadTest {
     public void testSaveAndLoad() {
         //SET UP
         EventBus bus=new EventBus();
+        //ASSETMANAGER
+        AssetManager asmang=Mockito.mock(AssetManager.class);
+        Mockito.stub(asmang.loadModel(LoadPaths.guest)).toReturn(new Node("Guest"));
+        Mockito.stub(asmang.loadModel(LoadPaths.toilet)).toReturn(new Node("toilet"));
+        UtilityMethods um=new UtilityMethods(null, null, asmang, null);
+
+        //PARKHANDLER
         Node node=new Node("");
         ParkHandler ph=new ParkHandler(node, null, null,bus);
+        //ROADMAKER
+        RoadMaker rm=Mockito.mock(RoadMaker.class);
+        Mockito.stub(rm.getRoadGraph()).toReturn(new Roadgraph());
+        ph.setRoadMaker(rm);
+        //NPCMANAGER
+        NPCManager npcm=new NPCManager(new Node(""),null,bus,null);
+        ph.setNpcManager(npcm);
+        //SHOPMANAGER
+        ShopManager sm=new ShopManager(new Node(""), null, bus);
+        ph.setShopManager(sm);
+        ph.setMap(new MapContainer());
+        
         bus.register(ph);
         //CREATE A GUEST
         Wallet gwallet=new Wallet(100.0f);
@@ -68,9 +95,9 @@ public class SaveAndLoadTest {
         stats.randomize();
         List<Item> items=new ArrayList<>();
         items.add(new Item("funitem", Itemtypes.FUN,10));
-        CreateGuestEvent event1= new CreateGuestEvent(gwallet,items, 20, Direction.NORTH, 10, 10, 10,stats ,null,"test name");
+        CreateGuestEvent event1= new CreateGuestEvent(gwallet,items, 20, Direction.NORTH, 10, 10, 10,stats ,new Node("a"),"test name",ph);
         //CREATE A SHOP
-        CreateShopEvent event2= new CreateShopEvent("toilet","shopname","prodname", ShopReputation.BAD,10,100,30,new MapPosition(10, 10, 10), Direction.NORTH);
+        CreateShopEvent event2= new CreateShopEvent("toilet","shopname","prodname", ShopReputation.BAD,10,100,30,new MapPosition(10, 10, 10), Direction.NORTH,bus);
         //CREATE 2 ROADS
         CreateRoadEvent event3= new CreateRoadEvent(new Road(new MapPosition(8, 8, 8), RoadHill.FLAT, 9, 1,false, Direction.NORTH));
         CreateRoadEvent event4= new CreateRoadEvent(new Road(new MapPosition(9, 8, 9), RoadHill.UP, 11, 1,true, Direction.EAST));
@@ -84,10 +111,21 @@ public class SaveAndLoadTest {
         instance.Save("testing_save");
         bus.unregister(ph);
         //LOAD
-        ParkHandler ph2=new ParkHandler();
+        bus=new EventBus();
+        ParkHandler ph2=new ParkHandler(new Node(""), null, null, bus);
         Node node2=new Node("");
+        //NPCMANAGER
+        npcm=new NPCManager(new Node(""),null,bus,null);
+        ph2.setNpcManager(npcm);
+        //SHOPMANAGER
+        sm=new ShopManager(new Node(""), null, bus);
+        ph2.setShopManager(sm);
+        ph2.setMap(new MapContainer());
+        
+        //bus.register(ph2);
         LoadManager instance2 =new LoadManager(node2,ph2, bus);
-        instance2.load("testing_save");
+        
+        instance2.load("Saves/testing_save.IntoFile");
         
         //TEST IF GUEST-DATA IS SAVED
         Guest g1=ph.getGuests().get(0);//IF TEST DIES HERE, IT MEANS THAT IT WASNT SAVED AT ALL

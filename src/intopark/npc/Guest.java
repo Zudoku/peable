@@ -25,7 +25,6 @@ import intopark.roads.Roadgraph;
 import intopark.roads.Walkable;
 import intopark.shops.BasicShop;
 import intopark.util.Direction;
-import intopark.terrain.MapContainer;
 import intopark.util.MapPosition;
 import intopark.terrain.ParkHandler;
 import org.jgraph.graph.DefaultEdge;
@@ -38,8 +37,8 @@ import org.jgrapht.DirectedGraph;
 public class Guest extends BasicNPC {
     //DEPENDENCIES
     private  transient Random r;
-    @Inject private transient ParkHandler parkHandler;
-    @Inject private transient MapContainer map;
+    private transient ParkHandler parkHandler;
+
     //OWNS
     private List<Item> inventory = new ArrayList<>(); // What does the guest carry
     private StatManager stats = new StatManager(); //Emotions and feelings, thoughts
@@ -58,9 +57,9 @@ public class Guest extends BasicNPC {
     private int size=2;//1=SHORT //2=NORMAL
     private RideColor color= RideColor.BLUE;
 
-    public Guest(Wallet wallet, int guestNum, Direction moving, int x1, int y1, int z1, StatManager stats, Spatial geom, String name) {
+    public Guest(Wallet wallet, int guestNum, Direction moving, int x1, int y1, int z1, StatManager stats, Spatial geom, String name,ParkHandler parkHandler) {
         super(name, geom);
-        Main.injector.injectMembers(this);
+        this.parkHandler=parkHandler;
         initXYZ(x1, y1, z1);
         this.moving = moving;
         this.stats = stats;

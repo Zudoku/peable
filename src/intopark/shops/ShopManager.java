@@ -106,7 +106,7 @@ public class ShopManager implements NeedMouse{
         String prodname="prodname";
         String shopName=type+" "+shopID;
         //
-        CreateShopEvent event=new CreateShopEvent(type,shopName,prodname,reputation,price,constructionmoney,shopID,pos,direction);
+        CreateShopEvent event=new CreateShopEvent(type,shopName,prodname,reputation,price,constructionmoney,shopID,pos,direction,eventBus);
         eventBus.post(event);
         //
         parkHandler.getParkWallet().remove(constructionmoney);
