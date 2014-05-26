@@ -60,10 +60,10 @@
       ],
       "stats": {
         "currentEmote": "NORMAL",
-        "hunger": 30,
-        "thirst": 53,
-        "happyness": 21,
-        "preferredRide": "MEDIUM"
+        "hunger": 84,
+        "thirst": 90,
+        "happyness": 86,
+        "preferredRide": "LOW"
       },
       "wallet": {
         "money": 100.0
@@ -73,7 +73,8 @@
       "z": 10,
       "guestnum": 20,
       "moving": "NORTH",
-      "size": 2,
+      "male": false,
+      "size": 1,
       "color": "BLUE",
       "name": "test name"
     }

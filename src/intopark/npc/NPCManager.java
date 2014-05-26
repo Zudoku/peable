@@ -10,10 +10,8 @@ import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
-import com.jme3.light.Light;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import intopark.terrain.ParkHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -43,7 +41,7 @@ public class NPCManager {
      * @param eventBus EventBus
      */
     @Inject
-    public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus,ParkHandler parkHandler){
+    public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus){
         this.rootNode=rootNode;
         NPCNode=new Node("NPCNode");
         rootNode.attachChild(NPCNode);

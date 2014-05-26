@@ -16411,6 +16411,9 @@
       "z": 1,
       "guestnum": 1,
       "moving": "WEST",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Susan Jackson"
     },
     {
@@ -16430,6 +16433,9 @@
       "z": 2,
       "guestnum": 2,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Robert Young"
     },
     {
@@ -16449,6 +16455,9 @@
       "z": 2,
       "guestnum": 3,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Helen Miller"
     },
     {
@@ -16468,6 +16477,9 @@
       "z": 2,
       "guestnum": 4,
       "moving": "SOUTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Michael Allen"
     },
     {
@@ -16487,6 +16499,9 @@
       "z": 2,
       "guestnum": 1,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Mary Martin"
     },
     {
@@ -16506,6 +16521,9 @@
       "z": 1,
       "guestnum": 2,
       "moving": "EAST",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Elisabeth Thompson"
     },
     {
@@ -16525,6 +16543,9 @@
       "z": 2,
       "guestnum": 3,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Laura Davis"
     },
     {
@@ -16544,6 +16565,9 @@
       "z": 2,
       "guestnum": 4,
       "moving": "SOUTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Jennifer Thomas"
     },
     {
@@ -16563,6 +16587,9 @@
       "z": 2,
       "guestnum": 5,
       "moving": "WEST",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Donald Thomas"
     },
     {
@@ -16582,6 +16609,9 @@
       "z": 2,
       "guestnum": 1,
       "moving": "SOUTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Maria Garcia"
     },
     {
@@ -16601,6 +16631,9 @@
       "z": 2,
       "guestnum": 1,
       "moving": "SOUTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Maria Moore"
     },
     {
@@ -16620,6 +16653,9 @@
       "z": 2,
       "guestnum": 2,
       "moving": "WEST",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Karen Clark"
     },
     {
@@ -16639,6 +16675,9 @@
       "z": 2,
       "guestnum": 3,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Nancy Jackson"
     },
     {
@@ -16658,6 +16697,9 @@
       "z": 2,
       "guestnum": 4,
       "moving": "SOUTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Matt Johnson"
     },
     {
@@ -16677,6 +16719,9 @@
       "z": 1,
       "guestnum": 5,
       "moving": "EAST",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "William Smith"
     },
     {
@@ -16696,6 +16741,9 @@
       "z": 2,
       "guestnum": 6,
       "moving": "WEST",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Jason Johnson"
     },
     {
@@ -16715,6 +16763,9 @@
       "z": 2,
       "guestnum": 1,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Patricia Allen"
     },
     {
@@ -16734,6 +16785,9 @@
       "z": 2,
       "guestnum": 2,
       "moving": "WEST",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Will Lee"
     },
     {
@@ -16753,6 +16807,9 @@
       "z": 2,
       "guestnum": 3,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Kate King"
     },
     {
@@ -16772,6 +16829,9 @@
       "z": 2,
       "guestnum": 4,
       "moving": "SOUTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Robert Anderson"
     },
     {
@@ -16791,6 +16851,9 @@
       "z": 2,
       "guestnum": 1,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Elisabeth White"
     },
     {
@@ -16810,6 +16873,9 @@
       "z": 2,
       "guestnum": 2,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "David Miller"
     },
     {
@@ -16829,6 +16895,9 @@
       "z": 2,
       "guestnum": 3,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Arnold Lee"
     },
     {
@@ -16848,6 +16917,9 @@
       "z": 2,
       "guestnum": 4,
       "moving": "WEST",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Jack Lee"
     },
     {
@@ -16867,6 +16939,9 @@
       "z": 2,
       "guestnum": 5,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Matt Anderson"
     },
     {
@@ -16886,6 +16961,9 @@
       "z": 2,
       "guestnum": 6,
       "moving": "NORTH",
+	  "male": true,
+	  "size": 1,
+	  "color":"BLUE",
       "name": "Lisa Williams"
     }
   ],
@@ -17041,7 +17119,7 @@
     "shopID": 1,
     "mapHeight": 101,
     "mapWidth": 101,
-    "maxGuests": 20,
+    "maxGuests": 30,
     "parkName": "asd",
     "neededGuest": 20
   }

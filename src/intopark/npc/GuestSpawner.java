@@ -6,6 +6,8 @@ package intopark.npc;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -21,6 +23,7 @@ import intopark.npc.events.SetGuestSpawnPointsEvent;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
+import intopark.ride.RideColor;
 import intopark.terrain.ParkHandler;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
@@ -30,6 +33,7 @@ import java.util.Arrays;
  *
  * @author arska
  */
+@Singleton
 public class GuestSpawner {
     //LOGGER
     private static final Logger logger = Logger.getLogger(GuestSpawner.class.getName());
@@ -40,14 +44,15 @@ public class GuestSpawner {
     //OWNS
     private List<MapPosition> spawnpoints = new ArrayList<>();
     private List<BasicNPC> npcs = new ArrayList<>();
-    private List<String> firstName = new ArrayList<>();
+    private List<String> firstNameMale = new ArrayList<>();
+    private List<String> firstNameFemale = new ArrayList<>();
     private List<String> surName = new ArrayList<>();
     private List<Guest> guests=new ArrayList<>();
     private ParkHandler parkHandler;
     //VARIABLES
     private int guestNum = 1;
     
-
+    @Inject
     public GuestSpawner(AssetManager assetManager,EventBus eventBus,ParkHandler parkHandler) {
         this.assetManager = assetManager;
         this.eventBus=eventBus;
@@ -67,12 +72,22 @@ public class GuestSpawner {
             logger.log(Level.SEVERE,"No spawnpoints for guests!");
             return;
         }
+        //We choose random gender and height
+        boolean male=r.nextBoolean();
+        int height=r.nextInt(1);
         //We choose a random name
-        int num = r.nextInt(firstName.size() - 1);
+        String name;
+        if(male){
+            int num = r.nextInt(firstNameMale.size() - 1);
+            name=firstNameMale.get(num);
+        }else{
+            int num = r.nextInt(firstNameFemale.size() - 1);
+            name=firstNameFemale.get(num);
+        }
         int num2 = r.nextInt(surName.size() - 1);
-        String name = firstName.get(num) + " " + surName.get(num2);
-        //And gender and height.
-        //TODO:
+        name = name.concat(" ".concat(surName.get(num2)));
+        //random shirt color
+        RideColor color=RideColor.values()[r.nextInt(RideColor.values().length-1)];
         
         //Semi-random money
         float money = r.nextInt(30);
@@ -88,7 +103,7 @@ public class GuestSpawner {
         MapPosition pos=spawnpoints.get(spindex);
         //Create an event and post it forward.
         CreateGuestEvent event=new CreateGuestEvent(wallet,new ArrayList<Item>(),guestNum,
-        Direction.NORTH,pos.getX(),pos.getY(),pos.getZ(),stats, geom, name,parkHandler);
+        Direction.NORTH,pos.getX(),pos.getY(),pos.getZ(),stats, geom, name,parkHandler,male,height,color);
         eventBus.post(event);
         guestNum++;
         
@@ -99,19 +114,22 @@ public class GuestSpawner {
     }
     
     private void addNames() {
-        String[]fn=new String[]{
+        String[]fnM=new String[]{
             //M
             "John","Arnold","James","Ed","Matt","Mathias","Jack",
             "Bob","William","Tony","Ken","Sam","Elvis","Robert","Michael",
             "David","Daniel","Joseph","Thomas","Mark","Donald","George",
-            "Will","Bill","Jeff","Ronald","Edward","Adam","Jason","Walter",
+            "Will","Bill","Jeff","Ronald","Edward","Adam","Jason","Walter"
+        };
+        String[]fnF=new String[]{
             //W
             "Mary","Patricia","Linda","Barbara","Elisabeth","Jennifer","Maria",
             "Kate","Susan","Margaret","Lisa","Nancy","Helen","Donna","Carol","Laura",
             "Ruth","Karen"
         
         };
-        firstName=Arrays.asList(fn);
+        firstNameMale=Arrays.asList(fnM);
+        firstNameFemale=Arrays.asList(fnF);
         String[]sn=new String[]{
             "Smith","Johnson","Williams","Jones","Brown","Davis","Miller","Wilson","Moore",
             "Taylor","Anderson","Thomas","Jackson","White","Harris","Martin","Thompson","Garcia",

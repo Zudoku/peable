@@ -24,6 +24,7 @@ import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
 import intopark.ride.CreateRideEvent;
 import intopark.ride.Enterance;
+import intopark.ride.RideColor;
 import intopark.roads.Road;
 import intopark.roads.RoadHill;
 import intopark.roads.events.CreateRoadEvent;
@@ -75,8 +76,11 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             int x1=getI(jg,"x");
             int y1=getI(jg,"y");
             int z1=getI(jg,"z");
+            boolean male=getB(jg, "male");
+            int size=getI(jg, "size");
+            RideColor color=jdc.deserialize(jg.get("color"),RideColor.class);
             Spatial model=UtilityMethods.loadModel(LoadPaths.guest);
-            CreateGuestEvent event=new CreateGuestEvent(gw,inv,guestnum,dir,x1,y1,z1,sm,model,name,parkHandler);
+            CreateGuestEvent event=new CreateGuestEvent(gw,inv,guestnum,dir,x1,y1,z1,sm,model,name,parkHandler,male,size,color);
             eventBus.post(event);
         }
         logger.log(Level.FINER,"Deserializing terrain...");

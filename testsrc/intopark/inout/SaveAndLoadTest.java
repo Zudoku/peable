@@ -15,6 +15,7 @@ import intopark.npc.inventory.Item;
 import intopark.npc.inventory.Itemtypes;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
+import intopark.ride.RideColor;
 import intopark.roads.Road;
 import intopark.roads.RoadHill;
 import intopark.roads.RoadMaker;
@@ -81,7 +82,7 @@ public class SaveAndLoadTest {
         Mockito.stub(rm.getRoadGraph()).toReturn(new Roadgraph());
         ph.setRoadMaker(rm);
         //NPCMANAGER
-        NPCManager npcm=new NPCManager(new Node(""),null,bus,null);
+        NPCManager npcm=new NPCManager(new Node(""),null,bus);
         ph.setNpcManager(npcm);
         //SHOPMANAGER
         ShopManager sm=new ShopManager(new Node(""), null, bus);
@@ -95,7 +96,7 @@ public class SaveAndLoadTest {
         stats.randomize();
         List<Item> items=new ArrayList<>();
         items.add(new Item("funitem", Itemtypes.FUN,10));
-        CreateGuestEvent event1= new CreateGuestEvent(gwallet,items, 20, Direction.NORTH, 10, 10, 10,stats ,new Node("a"),"test name",ph);
+        CreateGuestEvent event1= new CreateGuestEvent(gwallet,items, 20, Direction.NORTH, 10, 10, 10,stats ,new Node("a"),"test name",ph,true,1, RideColor.GRAY);
         //CREATE A SHOP
         CreateShopEvent event2= new CreateShopEvent("toilet","shopname","prodname", ShopReputation.BAD,10,100,30,new MapPosition(10, 10, 10), Direction.NORTH,bus);
         //CREATE 2 ROADS
@@ -115,7 +116,7 @@ public class SaveAndLoadTest {
         ParkHandler ph2=new ParkHandler(new Node(""), null, null, bus);
         Node node2=new Node("");
         //NPCMANAGER
-        npcm=new NPCManager(new Node(""),null,bus,null);
+        npcm=new NPCManager(new Node(""),null,bus);
         ph2.setNpcManager(npcm);
         //SHOPMANAGER
         sm=new ShopManager(new Node(""), null, bus);
@@ -151,6 +152,10 @@ public class SaveAndLoadTest {
         assertEquals(item1.getDurability(), item2.getDurability());
         assertEquals(item1.getItemtype(), item2.getItemtype());
         assertEquals(item1.getName(), item2.getName());
+        
+        assertEquals(g1.isMale(), g2.isMale());
+        assertEquals(g1.getColor(), g2.getColor());
+        assertEquals(g1.getSize(), g2.getSize());
         
         //TEST IF SHOP-DATA IS SAVED
         BasicShop s1=ph.getShops().get(0); //IF TEST DIES HERE, IT MEANS THAT IT WASNT SAVED AT ALL

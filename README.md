@@ -122,10 +122,10 @@ Read more [here](http://arttu.me/)
 	- Demolish rides []
 	- Demilish shops []
 - #SPEACIAL EFFECTS#
-        - Demolish explosions/smoke []
-        - Day/Night cycle []
-        - Lights to rides so it looks cool in night []
-        - Emotion indicators? []
+    - Demolish explosions/smoke []
+    - Day/Night cycle []
+    - Lights to rides so it looks cool in night []
+    - Emotion indicators? []
 
 
 #Currently doing#
@@ -142,4 +142,5 @@ Read more [here](http://arttu.me/)
 - Decorations are a mess. (should be completely redone.
 - When placing shops, sometimes you need to click twice.
 - Some models are not facing the right way.
+- Road ID is not found for some reason.
 	

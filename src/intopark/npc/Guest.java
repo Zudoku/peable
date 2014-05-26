@@ -54,7 +54,8 @@ public class Guest extends BasicNPC {
     private transient boolean active = true; //Is guest active AKA is he on ride? is he allowed to move
     private transient  Spatial currentQueRoad;
     private  transient long joinedRide;
-    private int size=2;//1=SHORT //2=NORMAL
+    private boolean male;
+    private int size=1;//0=SHORT //1=NORMAL
     private RideColor color= RideColor.BLUE;
 
     public Guest(Wallet wallet, int guestNum, Direction moving, int x1, int y1, int z1, StatManager stats, Spatial geom, String name,ParkHandler parkHandler) {
@@ -66,6 +67,9 @@ public class Guest extends BasicNPC {
         this.wallet = wallet;
         this.guestnum = guestNum;
         r = new Random();
+        if(size==0){
+            super.getGeometry().setLocalScale(0.5f);
+        }
         super.getGeometry().setLocalTranslation(x, y, z);
         super.getGeometry().setUserData("type","guest");
         super.getGeometry().setUserData("guestnum",guestNum);
@@ -337,6 +341,18 @@ public class Guest extends BasicNPC {
 
     public void setMoving(Direction moving) {
         this.moving = moving;
+    }
+
+    public RideColor getColor() {
+        return color;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public boolean isMale() {
+        return male;
     }
     
 }
