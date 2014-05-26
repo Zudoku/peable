@@ -18,6 +18,7 @@ import intopark.npc.inventory.RideType;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
 import intopark.ride.BasicRide;
+import intopark.ride.RideColor;
 import intopark.roads.BuildingEnterance;
 import intopark.roads.Road;
 import intopark.roads.Roadgraph;
@@ -54,6 +55,8 @@ public class Guest extends BasicNPC {
     private transient boolean active = true; //Is guest active AKA is he on ride? is he allowed to move
     private transient  Spatial currentQueRoad;
     private  transient long joinedRide;
+    private int size=2;//1=SHORT //2=NORMAL
+    private RideColor color= RideColor.BLUE;
 
     public Guest(Wallet wallet, int guestNum, Direction moving, int x1, int y1, int z1, StatManager stats, Spatial geom, String name) {
         super(name, geom);
@@ -169,7 +172,7 @@ public class Guest extends BasicNPC {
                         }
                     }else{
                         /* buildingEnterance returned null shop. */
-                        logger.log(Level.WARNING,"fail");
+                        logger.log(Level.WARNING,"fail, buildingEnterance returned null shop.");
                     }
                 }
             }
@@ -220,10 +223,10 @@ public class Guest extends BasicNPC {
         /**
          * happyness+laitteen hyvyys+preferredride +40>100**
          */
-        int h = stats.happyness / 5; //0-20
+        int h = stats.getHappyness() / 5; //0-20
         int e = ride.getExitement();   //0-80
         int p = 0;                //0-20
-        switch (stats.preferredRide) {
+        switch (stats.getPreferredRide()) {
             case LOW:
                 if (ride.getRideType() == RideType.LOW) {
                     p = 20;

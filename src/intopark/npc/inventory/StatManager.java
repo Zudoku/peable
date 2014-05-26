@@ -14,10 +14,10 @@ import java.util.logging.Logger;
 public class StatManager {
     private  transient static final Logger logger = Logger.getLogger(StatManager.class.getName());
     private GuestEmotions currentEmote= GuestEmotions.NORMAL;
-    public int hunger=0;
-    public int thirst=0;
-    public int happyness=0;
-    public RideType preferredRide;
+    private int hunger=0;
+    private int thirst=0;
+    private int happyness=0;
+    private RideType preferredRide;
     private  transient Random r = new Random();
     
     public StatManager(){
@@ -95,4 +95,41 @@ public class StatManager {
     public GuestEmotions getCurrentEmote(){
         return currentEmote;
     }
+
+    public int getHappyness() {
+        return happyness;
+    }
+
+    public int getHunger() {
+        return hunger;
+    }
+
+    public RideType getPreferredRide() {
+        return preferredRide;
+    }
+
+    public int getThirst() {
+        return thirst;
+    }
+
+    public void setCurrentEmote(GuestEmotions currentEmote) {
+        this.currentEmote = currentEmote;
+    }
+
+    public void setHappyness(int happyness) {
+        this.happyness = happyness;
+    }
+
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    public void setPreferredRide(RideType preferredRide) {
+        this.preferredRide = preferredRide;
+    }
+
+    public void setThirst(int thirst) {
+        this.thirst = thirst;
+    }
+    
 }

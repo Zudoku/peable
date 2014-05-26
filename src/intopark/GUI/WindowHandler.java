@@ -75,9 +75,9 @@ public class WindowHandler {
         /**
          * TAB 2
          */
-        updateGuestHungerText(guestwindow, guest.getStats().hunger);
-        updateGuestThirstyText(guestwindow, guest.getStats().thirst);
-        updateGuestHappynessText(guestwindow, guest.getStats().happyness);
+        updateGuestHungerText(guestwindow, guest.getStats().getHunger());
+        updateGuestThirstyText(guestwindow, guest.getStats().getThirst());
+        updateGuestHappynessText(guestwindow, guest.getStats().getHappyness());
         /**
          * TAB 3
          */
