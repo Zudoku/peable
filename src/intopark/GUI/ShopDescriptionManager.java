@@ -61,15 +61,15 @@ public class ShopDescriptionManager {
         values.put(BasicBuildables.WRAP_PLACE,new String[]{"Name: Wrap Place","Description: Perfect homemade meals for anyone","looking for an easy snack on the go. It's good to","experiment with different kinds of flavours."," ","Price: 999$","Interface/Shops/Icon.png"});
     }
     public void setDescription(BasicBuildables buildable) {
-        String[]holla=values.get(buildable);
-        if(holla!=null){
-            currentName=holla[0];
-            currentDescription_1=holla[1];
-            currentDescription_2=holla[2];
-            currentDescription_3=holla[3];
-            currentDescription_4=holla[4];
-            currentPrice=holla[5];
-            currentBigPic=holla[6];
+        String[]descriptionContainer=values.get(buildable);
+        if(descriptionContainer!=null){
+            currentName=descriptionContainer[0];
+            currentDescription_1=descriptionContainer[1];
+            currentDescription_2=descriptionContainer[2];
+            currentDescription_3=descriptionContainer[3];
+            currentDescription_4=descriptionContainer[4];
+            currentPrice=descriptionContainer[5];
+            currentBigPic=descriptionContainer[6];
         }else{
             currentName="CONF";
             currentDescription_1="CONf";
