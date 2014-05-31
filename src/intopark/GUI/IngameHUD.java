@@ -479,9 +479,15 @@ public class IngameHUD implements ScreenController {
         setelementText(niftyElement,getshopname());
         niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescPrice");
         setelementText(niftyElement,getshopprice());
-        niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescDesc");
-        setelementText(niftyElement,getshopdesc());
-        String bigshoppic=descriptionManager.bigpic;
+        niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescDesc1");
+        setelementText(niftyElement,getshopdesc1());
+        niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescDesc2");
+        setelementText(niftyElement,getshopdesc2());
+        niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescDesc3");
+        setelementText(niftyElement,getshopdesc3());
+        niftyElement = nifty.getCurrentScreen().findElementByName("buildingDescDesc4");
+        setelementText(niftyElement,getshopdesc4());
+        String bigshoppic=descriptionManager.getCurrentBigPic();
         
         NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),bigshoppic, false);
         niftyElement = nifty.getCurrentScreen().findElementByName("shopbigpic");
@@ -691,15 +697,24 @@ public class IngameHUD implements ScreenController {
         return terrainHandler.getBrushSize();
     }
     public String getshopname() {
-        return descriptionManager.shopName;
+        return descriptionManager.getCurrentName();
     }
 
-    public String getshopdesc() {
-        return descriptionManager.shopDescription;
+    public String getshopdesc1() {
+        return descriptionManager.getCurrentDescription_1();
+    }
+    public String getshopdesc2() {
+        return descriptionManager.getCurrentDescription_2();
+    }
+    public String getshopdesc3() {
+        return descriptionManager.getCurrentDescription_3();
+    }
+    public String getshopdesc4() {
+        return descriptionManager.getCurrentDescription_4();
     }
 
     public String getshopprice() {
-        return descriptionManager.shopPrice;
+        return descriptionManager.getCurrentPrice();
     }
 }
         

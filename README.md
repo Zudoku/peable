@@ -97,6 +97,7 @@ Read more [here](http://arttu.me/)
 		- Toilet []
 		- Fast Joy []
 		- Pick a rope []
+                - Camera booth []
 	- Shops sell items [x]
 	- Customizable colors, shop name, product names... []
 	- Shop upgrades []
@@ -134,6 +135,10 @@ Read more [here](http://arttu.me/)
 - Refactoring guest queue to ride logic.
 - Building selection UI.
 - Set global ID to all components (rides,shops,guests)
+
+#THINGS TO DO LATER#
+
+- Think of better names for shops and rides.
 
 #KNOWN BUGS#
 

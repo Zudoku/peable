@@ -406,7 +406,7 @@
                                 <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
                             </effect> 
                         </panel>
-                        <panel id="buildingDescNamePanel"valign="top"align="left"height="30" width="378" x="2"y="320"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
+                        <panel id="buildingDescNamePanel"valign="top"align="left"height="30" width="378" x="2"y="320"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true" wrap="true">
                             <control id="buildingDescName"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
                             <effect>
                                 <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
@@ -419,7 +419,10 @@
                             </effect>
                         </panel>
                         <panel id="buildingDescDescPanel"valign="top"align="left"height="100" width="378" x="2"y="400"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                            <control id="buildingDescDesc"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
+                            <control id="buildingDescDesc1"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
+                            <control id="buildingDescDesc2"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="25" color="ffffff"/>
+                            <control id="buildingDescDesc3"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="49" color="ffffff"/>
+                            <control id="buildingDescDesc4"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="73" color="ffffff"/>
                             <effect>
                                 <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
                             </effect>
