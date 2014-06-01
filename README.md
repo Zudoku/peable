@@ -134,7 +134,6 @@ Read more [here](http://arttu.me/)
 - Models for Shops, Rides, Guest.
 - Refactoring guest queue to ride logic.
 - Building selection UI.
-- Set global ID to all components (rides,shops,guests)
 
 #THINGS TO DO LATER#
 
@@ -143,10 +142,8 @@ Read more [here](http://arttu.me/)
 #KNOWN BUGS#
 
 - Creating a new map crashes/malfunctions game.
-- Guest Selection window doesn't work.
 - Decorations are a mess. (should be completely redone.
 - When placing shops, sometimes you need to click twice.
 - Some models are not facing the right way.
-- Road ID is not found for some reason.
 - Roads can be built through terrain.
 	
