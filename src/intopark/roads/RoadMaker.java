@@ -21,6 +21,7 @@ import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.GUI.events.UpdateRoadDirectionEvent;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
+import intopark.inout.Identifier;
 import intopark.inputhandler.MouseContainer;
 import intopark.inputhandler.NeedMouse;
 import intopark.roads.events.CreateBuildingEnteranceEvent;
@@ -46,6 +47,7 @@ public class RoadMaker implements NeedMouse{
     @Inject
     private ParkHandler parkHandler;
     private final EventBus eventBus;
+    private Identifier identifier;
     //OWNS
     private List<Spatial> roadSpatials = new ArrayList<>();
     //VARIABLES
@@ -56,7 +58,6 @@ public class RoadMaker implements NeedMouse{
     private MapPosition endingPosition;
     private boolean queroad = false;
     private boolean change = true;
-    private int ID = 1;
     /**
      * This Class is the Main control which does everything regarding to roadSpatials including 
      * loading them and calculating where to move them
@@ -66,12 +67,12 @@ public class RoadMaker implements NeedMouse{
      * @param eventBus This is used to send events to other components
      */
     @Inject
-    public RoadMaker(Node rootNode,EventBus eventBus) {
+    public RoadMaker(Node rootNode,EventBus eventBus,Identifier identifier) {
         roadNode=new Node("roadNode");
         rootNode.attachChild(roadNode);
         this.eventBus = eventBus;
         eventBus.register(this);
-        this.map = map;
+        this.identifier=identifier;
         roadF = new RoadFactory();
         //TODO: PROPERLY DOCUMENT THIS CLASS.
     }
@@ -161,6 +162,7 @@ public class RoadMaker implements NeedMouse{
             constructedPosition.setY(constructedPosition.getY()-1);
             roadDir=roadDir.getOpposite();
         }
+        int ID=identifier.reserveID();
         Road road = new Road(constructedPosition,angle,ID,skin,queroad,roadDir);
         eventBus.post(new CreateRoadEvent(road));
         /**
@@ -207,13 +209,13 @@ public class RoadMaker implements NeedMouse{
         }
         try{
             roadGraph.addWalkable(event.getRoad());
+            identifier.addOldObject(event.getRoad().getID(),event.getRoad());
         }catch(IllegalArgumentException ex){
             logger.log(Level.SEVERE, "ILLEGAL ARGUMENTS: {0}",ex);
             return;
         }
         parkHandler.getParkWallet().remove(10);
         eventBus.post(new UpdateMoneyTextBarEvent());
-        ID++;
         logger.log(Level.FINEST,"Road added succesfully to {0}",event.getRoad().getVector3f());
     }
 
@@ -325,14 +327,6 @@ public class RoadMaker implements NeedMouse{
 
     public Roadgraph getRoadGraph() {
         return roadGraph;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
     public void setStatus(RoadMakerStatus status) {
         this.status = status;

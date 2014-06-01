@@ -184,5 +184,11 @@ public class MapPosition {
     public void setOffSetZ(float offSetZ) {
         this.offSetZ = offSetZ;
     }
+
+    @Override
+    public String toString() {
+        return getVector().toString();
+    }
+    
     
 }

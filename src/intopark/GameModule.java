@@ -12,6 +12,7 @@ import com.jme3.input.InputManager;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
+import intopark.inout.Identifier;
 import intopark.roads.Roadgraph;
 
 /**
@@ -25,6 +26,7 @@ public class GameModule extends AbstractModule {
     private final Camera camera;
     private final InputManager input;
     private final EventBus eventBus=new EventBus();
+    private final Identifier identifier;
     
   public GameModule(Node rootNode,AssetManager assetManager,AppSettings appSettings,Camera cam,InputManager input){
       this.rootNode=rootNode;
@@ -32,13 +34,19 @@ public class GameModule extends AbstractModule {
       this.appSettings=appSettings;
       this.camera=cam;
       this.input=input;
+      this.identifier=new Identifier();
   }
     
   @Override 
   protected void configure() {
 
   }
-
+  
+  @Provides
+  Identifier provideIdentifier(){
+      return identifier;
+  }
+    
   @Provides
   Node provideRootNode(){
       return rootNode;

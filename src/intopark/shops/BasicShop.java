@@ -31,7 +31,7 @@ public class BasicShop {
     protected Direction direction;
     protected MapPosition position;
     protected transient Spatial object;
-    protected int shopID=0;
+    protected int ID=0;
     protected float constructionmoney=0;
     protected String productname="productname";
     protected String shopName="SHOPNAME";
@@ -41,13 +41,13 @@ public class BasicShop {
     protected BuildingEnterance enterance;
     protected transient boolean needToFaceDirection=true;
     
-    public BasicShop(MapPosition position,Spatial object,int shopID,float constr,
+    public BasicShop(MapPosition position,Spatial object,int ID,float constr,
             float price,Direction direction,String prodname,String shopName,String type,boolean needToFaceDirection,EventBus eventBus){
         this.position=position;
         this.object=object;
         this.constructionmoney=constr;
         this.direction=direction;
-        this.shopID=shopID;
+        this.ID=ID;
         this.productname=prodname;
         this.price=price;
         this.shopName=shopName;
@@ -64,11 +64,11 @@ public class BasicShop {
             l.setX(l.getX()+direction.directiontoPosition().getX());
             l.setZ(l.getZ()+direction.directiontoPosition().getZ());
         }
-        this.enterance=new BuildingEnterance(l, shopID, BuildingEnterance.SHOP);
+        this.enterance=new BuildingEnterance(l, ID, BuildingEnterance.SHOP);
         eventBus.post(new CreateBuildingEnteranceEvent(this.enterance));
         eventBus.post(new AddGuestLimitEvent(r.nextInt(5)+5));
         object.setUserData("type","shop");
-        object.setUserData("shopID",shopID);
+        object.setUserData("ID",ID);
         //TODO: PROPERLY DOCUMENT THIS CLASS.
     }
     
@@ -111,9 +111,10 @@ public class BasicShop {
         this.productname = productname;
     }
 
-    public void setShopID(int shopID) {
-        this.shopID = shopID;
+    public int getID() {
+        return ID;
     }
+
 
     public void setShopName(String shopName) {
         this.shopName = shopName;
@@ -147,9 +148,10 @@ public class BasicShop {
         return productname;
     }
 
-    public int getShopID() {
-        return shopID;
+    public void setID(int ID) {
+        this.ID = ID;
     }
+
 
     public String getShopName() {
         return shopName;

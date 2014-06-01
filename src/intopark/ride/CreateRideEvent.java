@@ -5,14 +5,13 @@
 package intopark.ride;
 
 import com.jme3.scene.Spatial;
-import intopark.inout.LoadPaths;
-import intopark.UtilityMethods;
 import intopark.ride.actualrides.Archeryrange;
 import intopark.ride.actualrides.Blender;
 import intopark.ride.actualrides.ChessCenter;
 import intopark.ride.actualrides.HauntedHouse;
 import intopark.ride.actualrides.PirateShip;
 import intopark.ride.actualrides.Rotor;
+import intopark.shops.BasicBuildables;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
 import java.util.ArrayList;
@@ -25,11 +24,11 @@ import java.util.List;
 public class CreateRideEvent {
     private MapPosition position;
     private CustomAnimation animation;
-    private String type;
+    private BasicBuildables type;
     private List<Spatial> staticContent;
     private Direction direction;
     private String name;
-    private int rideID;
+    private int ID;
     private int broken;
     private int exitement;
     private int nausea;
@@ -38,13 +37,13 @@ public class CreateRideEvent {
     private Enterance enterance;
     private Enterance exit;
     
-    public CreateRideEvent(MapPosition position,String type,Direction direction,String name,
-            int rideID,int broken,int exitement,int nausea,boolean status,float price,Enterance enterance,Enterance exit) {
+    public CreateRideEvent(MapPosition position,BasicBuildables type,Direction direction,String name,
+            int ID,int broken,int exitement,int nausea,boolean status,float price,Enterance enterance,Enterance exit) {
         this.position = position;
         this.type=type;
         this.direction=direction;
         this.name=name;
-        this.rideID=rideID;
+        this.ID=ID;
         this.broken=broken;
         this.exitement=exitement;
         this.nausea=nausea;
@@ -54,32 +53,6 @@ public class CreateRideEvent {
         this.exit=exit;
         
         staticContent=new ArrayList<>();
-        /* Load models */
-        //TODO: MAKE THS A SWITCH
-        if("chess".equals(type)){
-            animation=new CustomAnimation();
-            staticContent.add(UtilityMethods.loadModel(LoadPaths.chess));
-        }
-        else if("archery".equals(type)){
-            animation=new CustomAnimation();
-            staticContent.add(UtilityMethods.loadModel(LoadPaths.archery));
-        }
-        else if("blender".equals(type)){
-            animation=new CustomAnimation();
-            staticContent.add(UtilityMethods.loadModel(LoadPaths.blender));
-        }
-        else if("hhouse".equals(type)){
-            animation=new CustomAnimation();
-            staticContent.add(UtilityMethods.loadModel(LoadPaths.hauntedhouse));
-        }
-        else if("rotor".equals(type)){
-            animation=new CustomAnimation();
-            staticContent.add(UtilityMethods.loadModel(LoadPaths.rotor));
-        }
-        else if("pirateship".equals(type)){
-            animation=new CustomAnimation(UtilityMethods.loadModel(LoadPaths.pirateSwing), AnimationType.ROLLH);
-            staticContent.add(UtilityMethods.loadModel(LoadPaths.pirateCore));
-        }
     }           
 
     public BasicRide toRide(){
@@ -106,12 +79,12 @@ public class CreateRideEvent {
         ride.setEnterance(enterance);
         ride.setExit(exit);
         ride.setName(name);
-        ride.setRideID(rideID);
+        ride.setID(ID);
         ride.setPrice(price);
         ride.setRide(type);
         ride.setStats(broken, exitement, nausea, status);
         ride.setAllSpatialsUserData("type","ride");
-        ride.setAllSpatialsUserData("rideID",rideID);
+        ride.setAllSpatialsUserData("ID",ID);
         return ride;
     }
 }

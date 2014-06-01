@@ -11,6 +11,7 @@ import intopark.npc.events.AddGuestLimitEvent;
 import intopark.npc.inventory.RideType;
 import intopark.ride.BasicRide;
 import intopark.ride.CustomAnimation;
+import intopark.shops.BasicBuildables;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
 import java.util.List;
@@ -21,10 +22,9 @@ import java.util.List;
  */
 public class Archeryrange extends BasicRide{
     public Archeryrange(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction direction){
-        super(pos,moving,staticParts,200,direction,"Archeryrange");
+        super(pos,moving,staticParts,200,direction,BasicBuildables.ARCHERYRANGE);
         setRideType(RideType.LOW);
         setName("My Archeryrange1");
-        setRide("archery");
         Random r =new Random();
         eventBus.post(new AddGuestLimitEvent(r.nextInt(10)+10));
         //TODO: STATIC RIDE??? SO NO  9999999 CLASSES

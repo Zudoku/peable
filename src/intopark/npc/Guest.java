@@ -49,7 +49,7 @@ public class Guest extends BasicNPC {
     private int z;
     private transient GuestWalkingStates walkState = GuestWalkingStates.WALK; //Whether guest is walking or not
     private transient List<NPCAction> actions = new ArrayList<>(); //Npcs actions. Determine where the guest moves and what does he do.
-    private int guestnum; //Unique ID for guests
+    private int ID; 
     private Direction moving = Direction.NORTH; //What direction guest is moving.
     private transient boolean active = true; //Is guest active AKA is he on ride? is he allowed to move
     private transient  Spatial currentQueRoad;
@@ -58,21 +58,21 @@ public class Guest extends BasicNPC {
     private int size=1;//0=SHORT //1=NORMAL
     private RideColor color= RideColor.BLUE;
 
-    public Guest(Wallet wallet, int guestNum, Direction moving, int x1, int y1, int z1, StatManager stats, Spatial geom, String name,ParkHandler parkHandler) {
+    public Guest(Wallet wallet, int ID, Direction moving, int x1, int y1, int z1, StatManager stats, Spatial geom, String name,ParkHandler parkHandler) {
         super(name, geom);
         this.parkHandler=parkHandler;
         initXYZ(x1, y1, z1);
         this.moving = moving;
         this.stats = stats;
         this.wallet = wallet;
-        this.guestnum = guestNum;
+        this.ID = ID;
         r = new Random();
         if(size==0){
             super.getGeometry().setLocalScale(0.5f);
         }
         super.getGeometry().setLocalTranslation(x, y, z);
         super.getGeometry().setUserData("type","guest");
-        super.getGeometry().setUserData("guestnum",guestNum);
+        super.getGeometry().setUserData("ID",ID);
     }
 
     public void deleteActions() {
@@ -164,7 +164,11 @@ public class Guest extends BasicNPC {
                 if(ent.getBuildingType()== BuildingEnterance.RIDE){
                     
                 }else if(ent.getBuildingType()==BuildingEnterance.SHOP){
-                    BasicShop targetShop=parkHandler.getShopWithID(ent.getID());
+                    BasicShop targetShop=null;
+                    Object object=parkHandler.getObjectWithID(ent.getID());
+                    if(object instanceof BasicShop){
+                        targetShop= (BasicShop)object;
+                    }
                     if(targetShop!=null){
                         if(doIWantToGo(targetShop)){
                             /* Create buy action and walk back to original position */
@@ -208,9 +212,11 @@ public class Guest extends BasicNPC {
         this.y = y;
         this.z = z;
     }
-    public int getGuestNum() {
-        return guestnum;
+
+    public int getID() {
+        return ID;
     }
+    
     public void callToQueRoad(NPCAction action) {
         actions.add(action);
     }

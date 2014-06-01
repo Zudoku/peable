@@ -11,6 +11,7 @@ import intopark.npc.events.AddGuestLimitEvent;
 import intopark.npc.inventory.RideType;
 import intopark.ride.BasicRide;
 import intopark.ride.CustomAnimation;
+import intopark.shops.BasicBuildables;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
 import java.util.List;
@@ -22,10 +23,9 @@ import java.util.List;
 public class PirateShip extends BasicRide{
     
     public PirateShip(MapPosition pos,CustomAnimation moving,List<Spatial> staticParts,Direction direction){
-        super(pos,moving,staticParts,400,direction,"Pirate Ship");
+        super(pos,moving,staticParts,400,direction, BasicBuildables.PIRATESHIP);
         setRideType(RideType.HIGH);
         setName("My PirateShip1");
-        setRide("pirateship");
         Random r =new Random();
         eventBus.post(new AddGuestLimitEvent(r.nextInt(10)+10));
         

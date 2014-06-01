@@ -14,18 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
+import intopark.inout.Identifier;
 import intopark.inputhandler.ClickingModes;
 import intopark.inputhandler.MouseContainer;
 import intopark.inputhandler.NeedMouse;
 import intopark.inputhandler.SetClickModeEvent;
 import intopark.shops.BasicBuildables;
 import intopark.shops.HolomodelDrawer;
-import intopark.terrain.events.AddObjectToMapEvent;
 import intopark.util.Direction;
 import intopark.terrain.ParkHandler;
+import intopark.util.MapPosition;
 
 /**
  *
@@ -37,23 +37,26 @@ public class RideManager implements NeedMouse{
     private static final Logger logger = Logger.getLogger(RideManager.class.getName());
     //DEPENDENCIES
     private RideFactory rideFactory;
+    private Identifier identifier;
+    private final EventBus eventBus;
+    private final HolomodelDrawer holoDrawer;
+    private final ParkHandler parkHandler;
     //VARIABLES
     public List<BasicRide> rides = new ArrayList<>();
     private Node rideNode;
-    private int rideID;
     private int enterancecount = 0;
-    private final HolomodelDrawer holoDrawer;
-    private final ParkHandler parkHandler;
+    
 
-    private final EventBus eventBus;
+    
 
     @Inject
     public RideManager(Node rootNode, HolomodelDrawer holoDrawer, ParkHandler parkHandler,
-        EventBus eventBus) {
+        EventBus eventBus,Identifier identifier) {
         this.rideFactory = new RideFactory();
         this.holoDrawer = holoDrawer;
         this.parkHandler = parkHandler;
         this.eventBus = eventBus;
+        this.identifier=identifier;
         eventBus.register(this);
         rideNode = new Node("rideNode");
         rootNode.attachChild(rideNode);
@@ -61,64 +64,12 @@ public class RideManager implements NeedMouse{
     }
 
     public void buy(Direction direction, BasicBuildables selectedBuilding) {
-        Vector3f loc = UtilityMethods.roundVector(holoDrawer.getLocation());
+        MapPosition loc = new MapPosition(UtilityMethods.roundVector(holoDrawer.getLocation()));
 
-        BasicRide boughtride = null;
+        
+        int ID = identifier.reserveID();
+        CreateRideEvent event=new CreateRideEvent(loc,selectedBuilding , direction," ",ID,0,65,20,true,20, null,null);
 
-
-
-        switch (selectedBuilding) {
-            case CHESSCENTER:
-                boughtride = rideFactory.chessCenter(loc, direction);
-
-                break;
-
-            case ARCHERYRANGE:
-                boughtride=rideFactory.archeryRange(loc, direction);
-                break;
-
-            case BLENDER:
-                boughtride=rideFactory.blender(loc, direction);
-                break;
-
-            case HAUNTEDHOUSE:
-                boughtride=rideFactory.hauntedHouse(loc, direction);
-                break;
-
-            case PIRATESHIP:
-                boughtride=rideFactory.pirateShip(loc, direction);
-                break;
-
-            case ROTOR:
-                boughtride=rideFactory.rotor(loc, direction);
-                break;
-
-            case NULL:
-                logger.log(Level.WARNING,"Could not identify your ride!");
-                break;
-        }
-        if (!parkHandler.getParkWallet().canAfford(boughtride.getConstructionmoney())) {
-            return;
-        }
-        int tx = (int) loc.x;
-        int ty = (int) loc.y;
-        int tz = (int) loc.z;
-
-        boughtride.setRideID(rideID);
-        boughtride.setAllSpatialsUserData("rideID",rideID);
-        boughtride.setAllSpatialsUserData("type", "ride");
-        rides.add(boughtride);
-        boughtride.attachToNode(rideNode);
-        parkHandler.getParkWallet().remove(boughtride.getConstructionmoney());
-        eventBus.post(new UpdateMoneyTextBarEvent());
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                
-                eventBus.post(new AddObjectToMapEvent(tx+i-1, ty, tz+j-1, boughtride.getGeometry()));
-                logger.log(Level.WARNING, "{0} {1} {2}",new Object[]{tx+i-1,ty,tz+j-1});
-            }
-        }
-        rideID++;
         resetRidedata();
     }
 
@@ -129,7 +80,7 @@ public class RideManager implements NeedMouse{
 
 
     public void placeEnterance(Vector3f pos) {
-
+        //TODO: test meaby roundvector??
         int x = (int) (pos.x - 0.4999f + 1);
         int y = (int) (pos.y - 0.4999f + 1);
         int z = (int) (pos.z - 0.4999f + 1);
@@ -145,44 +96,44 @@ public class RideManager implements NeedMouse{
         }
         if (!parkHandler.testForEmptyTile(x+1, y, z)) {
             Spatial s = parkHandler.getSpatialAt(x+1, y, z);
-            if (s.getUserData("rideID")==null) {
+            if (s.getUserData("ID")==null) {
                 return;
             }
-            int rideidArvo = s.getUserData("rideID");
-            if (rideidArvo == rideID - 1) {
+            int ID = s.getUserData("ID");
+            if(identifier.getObjectWithID(ID) instanceof BasicRide){
                 placeEnterancetrue(enterancetype, x, y, z, Direction.SOUTH);
-                return;
             }
+
         }
         if (!parkHandler.testForEmptyTile(x-1, y, z)) {
             Spatial s =parkHandler.getSpatialAt(x-1, y, z);
-            if (s.getUserData("rideID")==null) {
+            if (s.getUserData("ID")==null) {
                 return;
             }
-            int rideidArvo = s.getUserData("rideID");
-            if (rideidArvo == rideID - 1) {
+            int ID = s.getUserData("ID");
+            if(identifier.getObjectWithID(ID) instanceof BasicRide){
                 placeEnterancetrue(enterancetype, x, y, z, Direction.NORTH);
                 return;
             }
         }
         if (!parkHandler.testForEmptyTile(x, y, z+1)) {
             Spatial s = parkHandler.getSpatialAt(x, y, z+1);
-            if (s.getUserData("rideID")==null) {
+            if (s.getUserData("ID")==null) {
                 return;
             }
-            int rideidArvo = s.getUserData("rideID");
-            if (rideidArvo == rideID - 1) {
+            int ID = s.getUserData("ID");
+            if(identifier.getObjectWithID(ID) instanceof BasicRide){
                 placeEnterancetrue(enterancetype, x, y, z, Direction.EAST);
                 return;
             }
         }
         if (!parkHandler.testForEmptyTile(x, y, z-1)) {
             Spatial s =parkHandler.getSpatialAt(x, y, z-1);
-            if (s.getUserData("rideID")==null) {
+            if (s.getUserData("ID")==null) {
                 return;
             }
-            int rideidArvo = s.getUserData("rideID");
-            if (rideidArvo == rideID - 1) {
+            int ID = s.getUserData("ID");
+            if(identifier.getObjectWithID(ID) instanceof BasicRide){
                 placeEnterancetrue(enterancetype, x, y, z, Direction.WEST);
             }
         }
@@ -203,6 +154,8 @@ public class RideManager implements NeedMouse{
             logger.log(Level.FINE, "Enterance build cancelled because {0} {1} {2} was not empty", new Object[]{x, y, z});
             return;
         }
+        //TODO: test if ride needs enterance...
+        
         //Enterance e = new Enterance(enterancetype, new Vector3f(x, y, z), suunta, assetManager);
         //e.connectedRide = rides.get(rideID - 2);
         //e.object.setUserData("type", "enterance");
@@ -221,10 +174,6 @@ public class RideManager implements NeedMouse{
 //            enterancecount = 0;
 //            eventBus.post(new SetClickModeEvent(ClickingModes.NOTHING));
 //        }
-    }
-
-    public void setRideID(int rideID) {
-        this.rideID = rideID;
     }
 
     @Override

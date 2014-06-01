@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.gameplayorgans.Scenario;
+import intopark.inout.Identifier;
 import intopark.npc.BasicNPC;
 import intopark.npc.events.CreateGuestEvent;
 import intopark.npc.Guest;
@@ -61,6 +62,7 @@ public class ParkHandler {
     @Inject private transient RoadMaker roadMaker;
     @Inject private transient ShopManager shopManager;
     @Inject private transient RideManager rideManager;
+    @Inject private transient Identifier identifier;
     private transient EventBus eventBus;
     private transient Node rootNode;
     //OWNS
@@ -109,8 +111,6 @@ public class ParkHandler {
         npcManager.setGuests(guests);
         npcManager.setMaxGuests(getMaxGuests());
         shopManager.setShops(shops);
-        rideManager.setRideID(getRideID());
-        shopManager.setShopID(getShopID());
         //Update money counter
         eventBus.post(new UpdateMoneyTextBarEvent());
         logger.log(Level.FINEST,"Configuring finished");
@@ -165,50 +165,8 @@ public class ParkHandler {
         }
         return Integer.toString(guests.size());
     }
-    /**
-     * Return BasicRide with given rideID if found.
-     * @param rideID rides unique rideID.
-     * @return found ride OR null if there isn't a ride with that ID.
-     */
-    public BasicRide getRideWithID(int rideID){
-        BasicRide foundRide=null;
-        for(BasicRide r:rides){
-            if(r.getRideID()==rideID){
-                foundRide=r;
-                break;
-            }
-        }
-        return foundRide;
-    }
-    /**
-     * Return BasicShop with given ID if found.
-     * @param shopID shops unique rideID.
-     * @return found shop OR null if there isn't a shop with that ID.
-     */
-    public BasicShop getShopWithID(int shopID){
-        BasicShop foundShop=null;
-        for(BasicShop r:shops){
-            if(r.getShopID()==shopID){
-                foundShop=r;
-                break;
-            }
-        }
-        return foundShop;
-    }
-    /**
-     * Return Guest with given ID if found.
-     * @param guestID guests unique ID.
-     * @return found guest OR null if there isn't a guest with that ID.
-     */
-    public Guest getGuestWithID(int ID){
-        Guest guest=null;
-        for(Guest g:guests){
-            if(g.getGuestNum()==ID){
-                guest=g;
-                break;
-            }
-        }
-        return guest;
+    public Object getObjectWithID(int id){
+        return identifier.getObjectWithID(id);
     }
     /**
      * EVENTBUS LISTENERS
@@ -336,6 +294,7 @@ public class ParkHandler {
      */
     @Subscribe public void listenCreateGuestsEvent(CreateGuestEvent event){
         npcManager.attachToNPCNode(event.g.getGeometry());
+        identifier.addOldObject(event.g.getID(), event.g);
         guests.add(event.g);
         npcs.add(event.g);
         logger.log(Level.FINEST, "Guest {0}, initialized!",event.g.getName());
@@ -347,6 +306,7 @@ public class ParkHandler {
      */
     @Subscribe public void listenCreateShopsEvent(CreateShopEvent event){
         BasicShop shop=event.toShop();
+        identifier.addOldObject(shop.getID(),shop);
         shops.add(shop);
         shopManager.attachToShopNode(shop.getObject());
         int ax=shop.getPosition().getX();
@@ -459,6 +419,10 @@ public class ParkHandler {
 
     public void setShopManager(ShopManager shopManager) {
         this.shopManager = shopManager;
+    }
+
+    public void setIdentifier(Identifier identifier) {
+        this.identifier = identifier;
     }
     
     

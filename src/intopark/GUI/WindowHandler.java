@@ -19,6 +19,7 @@ import de.lessvoid.nifty.render.NiftyImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.Main;
+import intopark.inout.Identifier;
 import intopark.npc.Guest;
 import intopark.npc.NPCManager;
 import intopark.npc.inventory.Item;
@@ -39,14 +40,13 @@ public class WindowHandler {
     private static final Logger logger = Logger.getLogger(IngameHUD.class.getName());
     //DEPENDENCIES
     Nifty nifty;
-    @Inject
-    ParkHandler parkHandler;
-    @Inject
-    NPCManager npcManager;
+    @Inject ParkHandler parkHandler;
+    @Inject NPCManager npcManager;
+    @Inject Identifier identifier;
     //VARIABLES
-    private int guestID;
-    private int rideID;
-    private int shopID;
+    private int lastIDforGuest;
+    private int lastIDforShop;
+    private int lastIDforRide;
 
     public WindowHandler() {
         nifty = Main.nifty;
@@ -58,18 +58,19 @@ public class WindowHandler {
 
     public void updateGuestWindow(boolean toggleVisible, boolean updateTextField) {
         updateNifty();
-        Guest guest = parkHandler.getGuestWithID(guestID);
-        if (guest == null) {
-            logger.log(Level.WARNING, "Trying to display window to null guest");
+        Object object=identifier.getObjectWithID(lastIDforGuest);
+        if(!(object instanceof Guest)){
+            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Guest",lastIDforGuest);
             return;
         }
+        Guest guest = (Guest)object;
         Element guestwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("guesttemplate");
         /**
          * TAB 1
          */
         updateGuestNameText(guestwindow, guest.getName());
         updateGuestWalletText(guestwindow, guest.getWallet().toString());
-        updateGuestIDText(guestwindow, guest.getGuestNum());
+        updateGuestIDText(guestwindow, guest.getID());
         updateGuestStatusText(guestwindow, guest.getWalkState().toString());
         updateGuestReputationText(guestwindow, "Good"); //TODO:
         /**
@@ -258,11 +259,12 @@ public class WindowHandler {
 
     public void updateRideWindow(boolean updateNameTextField, boolean toggleVisible) {
         updateNifty();
-        BasicRide ride = parkHandler.getRideWithID(rideID);
-        if (ride == null) {
-            logger.log(Level.WARNING, "Could not update ui for ride {0} >ID> {1}", new Object[]{ride, rideID});
+        Object object=identifier.getObjectWithID(lastIDforRide);
+        if(!(object instanceof BasicRide)){
+            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Ride",lastIDforRide);
             return;
         }
+        BasicRide ride = (BasicRide)object;
         Element rideWindow = nifty.getCurrentScreen().findElementByName("ridetemplate");
         /**
          * TAB 1
@@ -277,7 +279,7 @@ public class WindowHandler {
          */
         updateRidePriceText(rideWindow, ride.getPrice());
         updateRideNameText(rideWindow, ride.getName());
-        updateRideTypeText(rideWindow, ride.getRide());
+        updateRideTypeText(rideWindow, ride.getRide().toString());
         updateRideExitementText(rideWindow, ride.getExitement());
         updateRideNauseaText(rideWindow, ride.getNausea());
         updateRideStatusText(rideWindow, ride.getStatus());
@@ -298,7 +300,13 @@ public class WindowHandler {
     }
 
     public void handleRideStatusToggle() {
-        updateRideToggleImage(parkHandler.getRideWithID(rideID).toggleStatus());
+        Object object = parkHandler.getObjectWithID(lastIDforRide);
+        if (!(object instanceof BasicRide)) {
+            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Ride",lastIDforRide);
+            return;
+        }
+        BasicRide ride = (BasicRide) object;
+        updateRideToggleImage(ride.toggleStatus());
         updateRideWindow(false, false);
     }
 
@@ -324,11 +332,12 @@ public class WindowHandler {
      */
     public void updateShopWindow(boolean toggleVisible) {
         updateNifty(); //Just to make sure nifty is not null
-        BasicShop shop = parkHandler.getShopWithID(shopID);
-        if (shop == null) {
-            logger.log(Level.WARNING, "Could not update ui for shop {0} >ID> {1}", new Object[]{shop, shopID});
+        Object object=identifier.getObjectWithID(lastIDforShop);
+        if(!(object instanceof BasicShop)){
+            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Shop",lastIDforShop);
             return;
         }
+        BasicShop shop = (BasicShop)object;
         Element shopwindow = nifty.getCurrentScreen().getLayerElements().get(2).findElementByName("shoptemplate");
         /**
          * TAB 1
@@ -377,10 +386,12 @@ public class WindowHandler {
     }
 
     public void toggleUpgrade(int index) {
-        BasicShop currentshop = parkHandler.getShopWithID(shopID);
-        if (currentshop == null || currentshop.getUpgrades() == null) {
-            throw new NullPointerException("BasicShop or BasicShop.getUpgrades()");
+        Object object=identifier.getObjectWithID(lastIDforShop);
+        if(!(object instanceof BasicShop)){
+            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Shop",lastIDforShop);
+            return;
         }
+        BasicShop currentshop =(BasicShop)object;
         ShopUpgradeContainer upgrades = currentshop.getUpgrades();
         switch (index) {
             case 1:
@@ -412,27 +423,25 @@ public class WindowHandler {
     }
 
     /* SETTERS AND GETTERS */
-    public int getRideID() {
-        return rideID;
+    public int getLastIDforGuest() {
+        return lastIDforGuest;
     }
 
-    public int getShopID() {
-        return shopID;
+    public int getLastIDforRide() {
+        return lastIDforRide;
     }
 
-    public int getGuestID() {
-        return guestID;
+    public int getLastIDforShop() {
+        return lastIDforShop;
     }
-
-    public void setGuestID(int guestID) {
-        this.guestID = guestID;
+    public void setIDforGuest(int ID){
+        this.lastIDforGuest=ID;
     }
-
-    public void setRideID(int rideID) {
-        this.rideID = rideID;
+    public void setIDforRide(int ID){
+        this.lastIDforRide=ID;
     }
-
-    public void setShopID(int shopID) {
-        this.shopID = shopID;
+    public void setIDforShop(int ID){
+        this.lastIDforShop=ID;
     }
+    
 }

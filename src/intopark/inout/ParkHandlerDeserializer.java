@@ -28,6 +28,7 @@ import intopark.ride.RideColor;
 import intopark.roads.Road;
 import intopark.roads.RoadHill;
 import intopark.roads.events.CreateRoadEvent;
+import intopark.shops.BasicBuildables;
 import intopark.shops.CreateShopEvent;
 import intopark.shops.ShopReputation;
 import intopark.util.Direction;
@@ -72,7 +73,7 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             Direction dir=jdc.deserialize(jg.get("moving"),Direction.class);
             List<Item> inv = jdc.deserialize(jg.get("inventory"),new TypeToken<List<Item>>(){}.getType());
             String name=getS(jg,"name");
-            int guestnum=getI(jg,"guestnum");
+            int ID=getI(jg,"ID");
             int x1=getI(jg,"x");
             int y1=getI(jg,"y");
             int z1=getI(jg,"z");
@@ -80,7 +81,7 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             int size=getI(jg, "size");
             RideColor color=jdc.deserialize(jg.get("color"),RideColor.class);
             Spatial model=UtilityMethods.loadModel(LoadPaths.guest);
-            CreateGuestEvent event=new CreateGuestEvent(gw,inv,guestnum,dir,x1,y1,z1,sm,model,name,parkHandler,male,size,color);
+            CreateGuestEvent event=new CreateGuestEvent(gw,inv,ID,dir,x1,y1,z1,sm,model,name,parkHandler,male,size,color);
             eventBus.post(event);
         }
         logger.log(Level.FINER,"Deserializing terrain...");
@@ -93,14 +94,14 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             final JsonObject sp = shopsarray.get(x).getAsJsonObject();
             Direction dir=jdc.deserialize(sp.get("direction"),Direction.class);
             MapPosition pos=jdc.deserialize(sp.get("position"),MapPosition.class);
-            int shopID=getI(sp,"shopID");
+            int ID=getI(sp,"ID");
             float cm=jdc.deserialize(sp.get("constructionmoney"),Float.class);
             String prodname=getS(sp,"productname");
             String shopname=getS(sp,"shopName");
             float price=jdc.deserialize(sp.get("price"),Float.class);
             ShopReputation sr=jdc.deserialize(sp.get("reputation"),ShopReputation.class);
             String stype=getS(sp,"type");
-            CreateShopEvent event=new CreateShopEvent(stype,shopname,prodname,sr,price,cm,shopID,pos,dir,eventBus);
+            CreateShopEvent event=new CreateShopEvent(stype,shopname,prodname,sr,price,cm,ID,pos,dir,eventBus);
             eventBus.post(event);   
         }
         //RIDES
@@ -109,7 +110,7 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             final JsonObject rp = ridesarray.get(x).getAsJsonObject();
             
             MapPosition pos=jdc.deserialize(rp.get("position"),MapPosition.class);
-            String ride=getS(rp,"ride");
+            BasicBuildables ride=jdc.deserialize(rp.get("ride"),BasicBuildables.class);
             Direction dir=jdc.deserialize(rp.get("direction"),Direction.class);
             String name=getS(rp,"rideName");
             int rideID=getI(rp,"rideID");

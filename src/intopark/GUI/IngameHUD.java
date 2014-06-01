@@ -157,7 +157,7 @@ public class IngameHUD implements ScreenController {
      * Save the scenario to file.
      */
     public void testSave(){
-        //TODO: Make a popup window specifying filename.
+        //TODO: Make parsedText popup window specifying filename.
         saveManager.Save("testsave");
     }
     /**
@@ -344,7 +344,7 @@ public class IngameHUD implements ScreenController {
     public void toggleRoadWindow() {
         closeWindows("roadWindow");
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadWindow");
-
+        
         niftyElement.setVisible(!niftyElement.isVisible());
         if (niftyElement.isVisible() == true) {
             clickingHandler.setClickMode(ClickingModes.ROAD);
@@ -388,24 +388,29 @@ public class IngameHUD implements ScreenController {
      */
     @NiftyEventSubscriber(id="guests")
     public void DropDownSelectionChangedEvent(String id,DropDownSelectionChangedEvent event)  {
-        int index=event.getSelectionItemIndex();
-        if(index==0){
+        if(event.getSelection()==null){
+            return;
+        }
+        String textselection=(String)event.getSelection();
+        int ID=0;
+        
+        String parsedText=textselection.substring(0, textselection.indexOf(" - "));
+        parsedText=parsedText.trim();
+        ID = Integer.parseInt(parsedText);
+        
+        if(ID==0){
             //selected default  
         }
         else{
-            Guest guest = null;
-            for(Guest g:npcManager.getGuests()){
-                if(g.getGuestNum()==index-1){
-                    guest=g;
-                    break;
-                }
-            }
-            if(guest==null){
-                logger.log(Level.WARNING,"No such guest with guestID {0}",index-1);
+            Object object = parkHandler.getObjectWithID(ID);
+            if(!(object instanceof Guest)){
+                logger.log(Level.SEVERE, "ID corruption. ID {0} should return Guest",ID);
                 return;
             }
-            windowMaker.setGuestID(guest.getGuestNum());
+            Guest guest =(Guest)object;
+            windowMaker.setIDforGuest(guest.getID());
             windowMaker.updateGuestWindow(true,true);
+            //TODO: use closewindows instead.
             Element element = nifty.getCurrentScreen().findElementByName("NPCWindow");
             element.setVisible(false);
         }
@@ -417,9 +422,14 @@ public class IngameHUD implements ScreenController {
      * @param event 
      */
     @NiftyEventSubscriber(id = "guestnametextfield")
-    public void onguestnameChanged(final String id, final TextFieldChangedEvent event) {
+    public void onGuestNameChanged(final String id, final TextFieldChangedEvent event) {
         if(!event.getText().equals("")) {
-            Guest guest=parkHandler.getGuestWithID(windowMaker.getGuestID());
+            Object object = parkHandler.getObjectWithID(windowMaker.getLastIDforGuest());
+            if(!(object instanceof Guest)){
+                logger.log(Level.SEVERE, "ID corruption. ID {0} should return Guest",windowMaker.getLastIDforGuest());
+                return;
+            }
+            Guest guest=(Guest)object;
             guest.setName(event.getText());
             windowMaker.updateGuestWindow(true, false);
         }
@@ -431,9 +441,9 @@ public class IngameHUD implements ScreenController {
         List<Guest> guests = parkHandler.getGuests();
         DropDown drop = screen.findNiftyControl("guests", DropDown.class);
         drop.clear();
-        drop.addItem("default");
+        drop.addItem("0 - DEFAULT/NOSELECTION");
         for (Guest g : guests) {
-            String guest = Integer.toString(g.getGuestNum()) + " - " + g.getName();
+            String guest = Integer.toString(g.getID()) + " - " + g.getName();
             drop.addItem(guest);
         }
         drop.getElement().setConstraintHorizontalAlign(HorizontalAlign.left);
@@ -497,14 +507,15 @@ public class IngameHUD implements ScreenController {
     /**
      * Called when user clicks demolish button on shop UI. Calls to demolish the shop.
      */
-    public void shopDemolishToggle(){
-        for(BasicShop s:parkHandler.getShops()){
-            if(s.getShopID()==windowMaker.getShopID()){
-                s.demolish();
-                closeWindows("");
-                break;
-            }
+    public void shopDemolishToggle() {
+        Object object = parkHandler.getObjectWithID(windowMaker.getLastIDforShop());
+        if (!(object instanceof BasicShop)) {
+            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Shop",windowMaker.getLastIDforShop());
+            return;
         }
+        BasicShop shop = (BasicShop) object;
+        shop.demolish();
+        closeWindows("");
     }
     public void toggleShopUpgrade1(){
         
@@ -537,17 +548,28 @@ public class IngameHUD implements ScreenController {
     }
     @NiftyEventSubscriber(id = "ridenametextfield")
     public void onRideNameChanged(final String id, final TextFieldChangedEvent event) {
-        if(!event.getText().equals("")) {
-            BasicRide ride=parkHandler.getRideWithID(windowMaker.getRideID());
+        if (!event.getText().equals("")) {
+            Object object = parkHandler.getObjectWithID(windowMaker.getLastIDforRide());
+            if (!(object instanceof BasicRide)) {
+                logger.log(Level.SEVERE, "ID corruption. ID {0} should return Ride",windowMaker.getLastIDforRide());
+                return;
+            }
+            BasicRide ride = (BasicRide) object;
+
             ride.setName(event.getText());
-            windowMaker.updateRideWindow(false,false);
+            windowMaker.updateRideWindow(false, false);
         }
     }
     @NiftyEventSubscriber(id = "ridepriceslider")
     public void onRidePriceChanged(final String id, final SliderChangedEvent event) {
-            BasicRide ride=parkHandler.getRideWithID(windowMaker.getRideID());
-            ride.setPrice(event.getValue());
-            windowMaker.updateRideWindow(false,false);
+        Object object = parkHandler.getObjectWithID(windowMaker.getLastIDforRide());
+        if (!(object instanceof BasicRide)) {
+            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Ride",windowMaker.getLastIDforRide());
+            return;
+        }
+        BasicRide ride = (BasicRide) object;
+        ride.setPrice(event.getValue());
+        windowMaker.updateRideWindow(false, false);
     }
     public void rideStatusToggle(){
         windowMaker.handleRideStatusToggle();
@@ -556,13 +578,14 @@ public class IngameHUD implements ScreenController {
      * Called when user clicks demolish button on ride UI. Calls to demolish the ride.
      */
     public void rideDemolishToggle() {
-        for (BasicRide r : parkHandler.getRides()) {
-            if (r.getRideID() == windowMaker.getRideID()) {
-                r.demolish();
-                closeWindows("");
-                break;
-            }
+        Object object = parkHandler.getObjectWithID(windowMaker.getLastIDforRide());
+        if (!(object instanceof BasicRide)) {
+            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Ride",windowMaker.getLastIDforRide());
+            return;
         }
+        BasicRide ride = (BasicRide) object;
+        ride.demolish();
+        closeWindows("");
     }
     /*
      * ALL RELATED TO ROAD UI.

@@ -70,8 +70,8 @@ public class NPCManager {
         //TODO: REWORK THIS
         if(maxguests>npcs.size()){
             Random r =new Random();
-            if(r.nextInt(900)<=maxguests/guestSpawner.getGuestNum()){
-                guestSpawner.forceSpawnGuest(2);
+            if(r.nextInt(900)<=maxguests/((guests.isEmpty())?1:guests.size())){
+                guestSpawner.forceSpawnGuest();
             }
             
         }

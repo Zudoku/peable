@@ -20,6 +20,7 @@ import intopark.GUI.events.CloseWindowsEvent;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
+import intopark.inout.Identifier;
 import intopark.inout.LoadPaths;
 import intopark.inputhandler.ClickingModes;
 import intopark.inputhandler.MouseContainer;
@@ -43,22 +44,22 @@ public class ShopManager implements NeedMouse{
     @Inject private ParkHandler parkHandler;
     @Inject private RideManager rideManager;
     private final EventBus eventBus;
+    private Identifier identifier;
     //OWNS
     private List<BasicShop> shops = new ArrayList<>();
     private Node shopNode;
     private final HolomodelDrawer holoDrawer;
     //VARIABLES
     private int buffer = 0;
-    private int shopID;
     private Direction direction = Direction.SOUTH;
     public BasicBuildables selectedBuilding= BasicBuildables.NULL;
     private boolean placeBuilding=false;
 
     @Inject
-    public ShopManager(Node rootNode,HolomodelDrawer holoDrawer,EventBus eventBus) {
+    public ShopManager(Node rootNode,HolomodelDrawer holoDrawer,EventBus eventBus,Identifier identifier) {
         this.holoDrawer=holoDrawer;
         this.eventBus=eventBus;
-
+        this.identifier=identifier;
         shopNode=new Node("shopNode");
         rootNode.attachChild(shopNode);
         eventBus.register(this);
@@ -104,9 +105,10 @@ public class ShopManager implements NeedMouse{
         float price = 20;
         ShopReputation reputation=ShopReputation.NEW;
         String prodname="prodname";
-        String shopName=type+" "+shopID;
+        int ID=identifier.reserveID();
+        String shopName=type+" "+ID;
         //
-        CreateShopEvent event=new CreateShopEvent(type,shopName,prodname,reputation,price,constructionmoney,shopID,pos,direction,eventBus);
+        CreateShopEvent event=new CreateShopEvent(type,shopName,prodname,reputation,price,constructionmoney,ID,pos,direction,eventBus);
         eventBus.post(event);
         //
         parkHandler.getParkWallet().remove(constructionmoney);
@@ -195,7 +197,6 @@ public class ShopManager implements NeedMouse{
         direction = Direction.SOUTH;
         eventBus.post(new SetClickModeEvent(ClickingModes.NOTHING));
         placeBuilding=false;
-        shopID++;
     }
     public void resetShopdataFromRide() {
         selectedBuilding = BasicBuildables.NULL;
@@ -238,9 +239,6 @@ public class ShopManager implements NeedMouse{
             }
         }
         return b;
-    }
-    public void setShopID(int shopID){
-        this.shopID=shopID;
     }
     @Subscribe
     public void listenBuildingSelection(BuildingSelectionEvent event){

@@ -77,6 +77,7 @@ public class SaveAndLoadTest {
         //PARKHANDLER
         Node node=new Node("");
         ParkHandler ph=new ParkHandler(node, null, null,bus);
+        ph.setIdentifier(new Identifier());
         //ROADMAKER
         RoadMaker rm=Mockito.mock(RoadMaker.class);
         Mockito.stub(rm.getRoadGraph()).toReturn(new Roadgraph());
@@ -85,7 +86,7 @@ public class SaveAndLoadTest {
         NPCManager npcm=new NPCManager(new Node(""),null,bus);
         ph.setNpcManager(npcm);
         //SHOPMANAGER
-        ShopManager sm=new ShopManager(new Node(""), null, bus);
+        ShopManager sm=new ShopManager(new Node(""), null, bus,null);
         ph.setShopManager(sm);
         ph.setMap(new MapContainer());
         
@@ -96,7 +97,7 @@ public class SaveAndLoadTest {
         stats.randomize();
         List<Item> items=new ArrayList<>();
         items.add(new Item("funitem", Itemtypes.FUN,10));
-        CreateGuestEvent event1= new CreateGuestEvent(gwallet,items, 20, Direction.NORTH, 10, 10, 10,stats ,new Node("a"),"test name",ph,true,1, RideColor.GRAY);
+        CreateGuestEvent event1= new CreateGuestEvent(gwallet,items, 20, Direction.NORTH,10, 10, 10,stats ,new Node("a"),"test name",ph,true,1, RideColor.GRAY);
         //CREATE A SHOP
         CreateShopEvent event2= new CreateShopEvent("toilet","shopname","prodname", ShopReputation.BAD,10,100,30,new MapPosition(10, 10, 10), Direction.NORTH,bus);
         //CREATE 2 ROADS
@@ -114,12 +115,13 @@ public class SaveAndLoadTest {
         //LOAD
         bus=new EventBus();
         ParkHandler ph2=new ParkHandler(new Node(""), null, null, bus);
+        ph2.setIdentifier(new Identifier());
         Node node2=new Node("");
         //NPCMANAGER
         npcm=new NPCManager(new Node(""),null,bus);
         ph2.setNpcManager(npcm);
         //SHOPMANAGER
-        sm=new ShopManager(new Node(""), null, bus);
+        sm=new ShopManager(new Node(""), null, bus,null);
         ph2.setShopManager(sm);
         ph2.setMap(new MapContainer());
         
@@ -132,7 +134,7 @@ public class SaveAndLoadTest {
         Guest g1=ph.getGuests().get(0);//IF TEST DIES HERE, IT MEANS THAT IT WASNT SAVED AT ALL
         Guest g2=ph2.getGuests().get(0);//IF TEST DIES HERE, IT MEANS THAT IT WASNT SAVED AT ALL
         
-        assertEquals(g1.getGuestNum(), g1.getGuestNum());
+        assertEquals(g1.getID(), g1.getID());
         assertEquals(g1.getMoving(), g2.getMoving());
         assertEquals(g1.getName(), g2.getName());
         
@@ -169,7 +171,7 @@ public class SaveAndLoadTest {
         assertEquals(s1.getDirection(), s2.getDirection());
         assertEquals(s1.getPrice(), s2.getPrice(),1);
         assertEquals(s1.getProductname(), s2.getProductname());
-        assertEquals(s1.getShopID(), s2.getShopID());
+        assertEquals(s1.getID(), s2.getID());
         assertEquals(s1.getShopName(), s2.getShopName());
         assertEquals(s1.getType(), s2.getType());
         

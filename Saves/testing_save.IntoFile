@@ -16,7 +16,7 @@
         "offSetY": 0.0,
         "offSetZ": 0.0
       },
-      "shopID": 30,
+      "ID": 30,
       "constructionmoney": 100.0,
       "productname": "prodname",
       "shopName": "shopname",
@@ -60,9 +60,9 @@
       ],
       "stats": {
         "currentEmote": "NORMAL",
-        "hunger": 84,
-        "thirst": 90,
-        "happyness": 86,
+        "hunger": 15,
+        "thirst": 57,
+        "happyness": 92,
         "preferredRide": "LOW"
       },
       "wallet": {
@@ -71,7 +71,7 @@
       "x": 10,
       "y": 10,
       "z": 10,
-      "guestnum": 20,
+      "ID": 20,
       "moving": "NORTH",
       "male": false,
       "size": 1,

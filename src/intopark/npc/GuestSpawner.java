@@ -17,6 +17,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.UtilityMethods;
+import intopark.inout.Identifier;
 import intopark.inout.LoadPaths;
 import intopark.npc.events.CreateGuestEvent;
 import intopark.npc.events.SetGuestSpawnPointsEvent;
@@ -41,6 +42,7 @@ public class GuestSpawner {
     private Random r;
     private final AssetManager assetManager;
     private final EventBus eventBus;
+    private Identifier identifier;
     //OWNS
     private List<MapPosition> spawnpoints = new ArrayList<>();
     private List<BasicNPC> npcs = new ArrayList<>();
@@ -50,13 +52,13 @@ public class GuestSpawner {
     private List<Guest> guests=new ArrayList<>();
     private ParkHandler parkHandler;
     //VARIABLES
-    private int guestNum = 1;
     
     @Inject
-    public GuestSpawner(AssetManager assetManager,EventBus eventBus,ParkHandler parkHandler) {
+    public GuestSpawner(AssetManager assetManager,EventBus eventBus,ParkHandler parkHandler,Identifier identifier) {
         this.assetManager = assetManager;
         this.eventBus=eventBus;
         this.parkHandler=parkHandler;
+        this.identifier=identifier;
         r = new Random();
         eventBus.register(this);
         addNames();
@@ -67,7 +69,7 @@ public class GuestSpawner {
     public void setGuests(List<Guest> guests){
         this.guests=guests;
     }
-    public void forceSpawnGuest(int n) {
+    public void forceSpawnGuest() {
         if (spawnpoints.isEmpty() == true) {
             logger.log(Level.SEVERE,"No spawnpoints for guests!");
             return;
@@ -101,17 +103,14 @@ public class GuestSpawner {
         //Random spawnpoint
         int spindex = r.nextInt(spawnpoints.size());
         MapPosition pos=spawnpoints.get(spindex);
+        int ID = identifier.reserveID();
         //Create an event and post it forward.
-        CreateGuestEvent event=new CreateGuestEvent(wallet,new ArrayList<Item>(),guestNum,
+        CreateGuestEvent event=new CreateGuestEvent(wallet,new ArrayList<Item>(),ID,
         Direction.NORTH,pos.getX(),pos.getY(),pos.getZ(),stats, geom, name,parkHandler,male,height,color);
         eventBus.post(event);
-        guestNum++;
         
     }
 
-    public int getGuestNum() {
-        return guestNum;
-    }
     
     private void addNames() {
         String[]fnM=new String[]{
@@ -140,6 +139,10 @@ public class GuestSpawner {
     }
     @Subscribe public void listenSetGuestSpawnPoints(SetGuestSpawnPointsEvent event){
         spawnpoints.addAll(event.getSpawnpoints());
-        logger.log(Level.FINER,"{0} Spawnpoints added for guests.",event.getSpawnpoints().size());
+        String locations="";
+        for(MapPosition m: event.getSpawnpoints()){
+            locations+= (m.toString()+" ");
+        }
+        logger.log(Level.FINER,"{0} Spawnpoints added for guests at {1}",new Object[]{event.getSpawnpoints().size(),locations});
     }
 }

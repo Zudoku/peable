@@ -148,4 +148,5 @@ Read more [here](http://arttu.me/)
 - When placing shops, sometimes you need to click twice.
 - Some models are not facing the right way.
 - Road ID is not found for some reason.
+- Roads can be built through terrain.
 	

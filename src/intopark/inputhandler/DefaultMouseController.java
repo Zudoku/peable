@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResult;
 import com.jme3.scene.Node;
 import intopark.GUI.WindowHandler;
+import intopark.inout.Identifier;
 import intopark.npc.Guest;
 import intopark.ride.BasicRide;
 import intopark.shops.BasicShop;
@@ -26,11 +27,13 @@ public class DefaultMouseController implements NeedMouse{
     private ClickingHandler handler;
     private WindowHandler windowHandler;
     private ParkHandler parkHandler;
+    private Identifier identifier;
     @Inject
-    public DefaultMouseController(ClickingHandler handler,WindowHandler manager,ParkHandler parkHandler) {
+    public DefaultMouseController(ClickingHandler handler,WindowHandler manager,ParkHandler parkHandler,Identifier identifier) {
         this.handler = handler;
         this.windowHandler=manager;
         this.parkHandler=parkHandler;
+        this.identifier=identifier;
     }
 
     @Override
@@ -54,24 +57,42 @@ public class DefaultMouseController implements NeedMouse{
                 if(container.isLeftClick()){
                     
                     if (rootTarget.getUserData("type").equals("guest")) {
-                        Guest g = parkHandler.getGuestWithID((int) rootTarget.getUserData("guestnum"));
-                        windowHandler.setGuestID(g.getGuestNum());
+                        int ID=(int) rootTarget.getUserData("ID");
+                        Object object = identifier.getObjectWithID(ID);
+                        if(!(object instanceof Guest)){
+                            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Guest",ID);
+                            return;
+                        }
+                        Guest g = (Guest) object;
+                        windowHandler.setIDforGuest(g.getID());
                         windowHandler.updateGuestWindow(true, true);
-                        logger.log(Level.FINEST, "Displaying Guestwindow for guest with id {0}", g.getGuestNum());
+                        logger.log(Level.FINEST, "Displaying Guestwindow for guest with id {0}", g.getID());
                         return;
                     }
                     if (rootTarget.getUserData("type").equals("shop")) {
-                        BasicShop shop = parkHandler.getShopWithID((int) rootTarget.getUserData("shopID"));
-                        windowHandler.setShopID(shop.getShopID());
+                        int ID=(int) rootTarget.getUserData("ID");
+                        Object object = identifier.getObjectWithID(ID);
+                        if(!(object instanceof BasicShop)){
+                            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Shop",ID);
+                            return;
+                        }
+                        BasicShop shop = (BasicShop)object;
+                        windowHandler.setIDforShop(shop.getID());
                         windowHandler.updateShopWindow(true);
-                        logger.log(Level.FINEST, "Displaying Shopwindow for shop with id {0}", shop.getShopID());
+                        logger.log(Level.FINEST, "Displaying Shopwindow for shop with id {0}", shop.getID());
                         return;
                     }
-                    if (rootTarget.getUserData("rideID") != null) {
-                        BasicRide r=parkHandler.getRideWithID((int)rootTarget.getUserData("rideID"));
-                        windowHandler.setRideID(r.getRideID());
+                    if (rootTarget.getUserData("type").equals("ride")||rootTarget.getUserData("type").equals("rideEnterance")) {
+                        int ID=(int) rootTarget.getUserData("ID");
+                        Object object = identifier.getObjectWithID(ID);
+                        if(!(object instanceof BasicRide)){
+                            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Ride",ID);
+                            return;
+                        }
+                        BasicRide r=(BasicRide)object;
+                        windowHandler.setIDforRide(r.getID());
                         windowHandler.updateRideWindow(true, true);
-                        logger.log(Level.FINEST, "Displaying Ridewindow for Ride with id {0}", r.getRideID());
+                        logger.log(Level.FINEST, "Displaying Ridewindow for Ride with id {0}", r.getID());
                         return;
                     }
                 }

@@ -22,6 +22,7 @@ import intopark.util.MapPosition;
 import intopark.terrain.events.PayParkEvent;
 import intopark.terrain.events.RideDemolishEvent;
 import intopark.roads.RoadMaker;
+import intopark.shops.BasicBuildables;
 import java.util.List;
 
 /**
@@ -42,7 +43,7 @@ public class BasicRide {
     private transient List<Guest> guestsInRide = new ArrayList<>();
     private transient List<Guest> guestsInQue = new ArrayList<>();
     //VARIABLES
-    private int rideID = 0; //every ride has its own id in parks
+    private int ID = 0; //every ride has its own id in parks
     private float price = 1; //charged from the customers every time they visit your ride
     private Direction direction; //not implemented yet
     private MapPosition position; //position of this ride
@@ -60,7 +61,7 @@ public class BasicRide {
     private transient long lastGuestVisitTime=0; //how much time since last guest visited this ride
     private transient double guestRateHour=0; //how many guests per hour
     private int repairCost=100; //how much does it cost to repair this
-    private String ride="you found a bug"; //this is variable used in saving
+    private BasicBuildables ride; //this is variable used in saving
     
     //TODO:!! 
     
@@ -72,7 +73,7 @@ public class BasicRide {
         lastGuestVisitTime=System.currentTimeMillis();
     }
     
-    public BasicRide(MapPosition position,CustomAnimation object,List<Spatial> staticParts, float cost, Direction direction,String ride) {
+    public BasicRide(MapPosition position,CustomAnimation object,List<Spatial> staticParts, float cost, Direction direction,BasicBuildables ride) {
         this.position = position;
         this.animatedPart = object;
         this.constructionmoney = cost;
@@ -214,12 +215,11 @@ public class BasicRide {
     public MapPosition getPosition(){
         return position;
     }
-    
-    public void setRideID(int rideID){
-        this.rideID=rideID;
+    public int getID() {
+        return ID;
     }
-    public int getRideID(){
-        return rideID;
+    public void setID(int ID) {
+        this.ID = ID;
     }
     public float getPrice(){
         return price;
@@ -259,9 +259,11 @@ public class BasicRide {
         this.rideName=text;
     }
 
-    public String getRide() {
+    public BasicBuildables getRide() {
         return ride;
     }
+
+    
 
     public void setPrice(float value) {
         this.price=value;
@@ -320,9 +322,11 @@ public class BasicRide {
     public List<Spatial> getStaticParts() {
         return staticParts;
     }
-    public void setRide(String ride){
-        this.ride=ride;
+
+    public void setRide(BasicBuildables ride) {
+        this.ride = ride;
     }
+    
 
     public void setAnimatedPart(CustomAnimation animatedPart) {
         this.animatedPart = animatedPart;

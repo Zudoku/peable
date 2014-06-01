@@ -89,7 +89,7 @@ public class Enterance implements Savable{
 
     public void setConnectedRide(BasicRide connectedRide) {
         this.connectedRide = connectedRide;
-        this.enteranceWalkable.setID(connectedRide.getRideID());
+        this.enteranceWalkable.setID(connectedRide.getID());
     }
 
 
