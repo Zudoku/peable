@@ -151,7 +151,7 @@
   </style>
 
   <style id="nifty-window#content">
-    <attributes width="100%" height="*" backgroundColor="#9996" childLayout="center" />
+    <attributes width="100%" height="*" backgroundColor="#6C6E6B" childLayout="center" />
     
   </style>
 
@@ -232,8 +232,13 @@
       <onClick name="focus" targetElement="#parent#parent"/>
     </effect>
   </style>
-  
-  
+  <!-- LABEL -->
+  <style id="nifty-label" >
+    <attributes align="center" textLineHeight="18px" textMinHeight="18px" font="Interface/Fonts/SourceSansPro.fnt" color="#ffff"/>  
+    <effect>
+      <onActive name="clip" post="false" />
+    </effect>
+  </style>
   
   
   

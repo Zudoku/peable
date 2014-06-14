@@ -4,14 +4,12 @@
  */
 package intopark.npc;
 
-import com.google.inject.Inject;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
-import intopark.Main;
 import static intopark.npc.BasicNPC.logger;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.RideType;

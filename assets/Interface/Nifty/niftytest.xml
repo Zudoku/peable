@@ -22,7 +22,7 @@
                 <control id="settings" name="button" label="Settings" x="500"y="640"width="30%"height="3%"visibleToMouse="true">
                 
                 </control>
-                <control id="alphatestmessage"name="label" font="Interface/Fonts/Impact.fnt"text="PLEASE NOTE THAT THIS IS PRE-ALPHA!" x="5"y="36" color="#55ff"/>
+                <control id="alphatestmessage"name="label"  color="#ffff" text="PLEASE NOTE THAT THIS IS PRE-ALPHA!" x="5"y="36"/>
                 <control id="Author"name="label" font="Interface/Fonts/Impact.fnt"text="Made by Arttu Siren" x="5"y="10" color="#f55f"/>
                 <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.05A" x="150"y="10" color="#EBB9C2"/>
             </panel>
@@ -101,16 +101,16 @@
                 </image>
                 <image id="moneyicon" filename="Interface/money/Icon.png"x="600"y="0" childLayout="absolute" width="300" height="64">  
                 </image>
-                <control id="guestnumtext"name="label" font="Interface/Fonts/Impact.fnt"text="10000" x="650"y="4"/>
-                <control id="moneytext"name="label" font="Interface/Fonts/Impact.fnt"text="10000000.00" x="650"y="4"/>
-                <control id="loantext"name="label" font="Interface/Fonts/Impact.fnt"text="1000000.00" x="650"y="38"/>
+                <control id="guestnumtext"name="label" text="10000" x="650"y="4"/>
+                <control id="moneytext"name="label" text="10000000.00" x="650"y="4"/>
+                <control id="loantext"name="label" text="1000000.00" x="650"y="38"/>
             </panel>
         </layer>
         <layer id="windows" width="200"height="300"childLayout="absolute">
             <control id="shovelWindow" name="window"title="Shovel"width="200"height="130"x="200"y="200"hideOnClose="true"closeable="false">
                 <panel id="shovelpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#555f" childLayout="absolute"visibleToMouse="true">
                     <control id="shoveltextures" x="4"y="4"name="imageSelect" width="92" imageWidth="48" imageHeight="48" imageList="Textures/grasstexture.png,Textures/rocktexture.png" />
-                    <control id="shovelusetexture"name="label" font="Interface/Fonts/Impact.fnt"text="Texture" x="100"y="4"/>
+                    <control id="shovelusetexture"name="label" text="Texture" x="100"y="4"/>
                     <control id="shoveltexturemode" name="checkbox" x="174"y="4"/>
                     <image id="plusshovelsize"filename="Interface/Terrain/plus.png"x="4"y="56" childLayout="absolute" width="32" height="32">
                         <interact onClick="toggleShovelSizePlus()"/>
@@ -118,8 +118,8 @@
                     <image id="minusshovelsize"filename="Interface/Terrain/minus.png"x="66"y="56" childLayout="absolute" width="32" height="32">
                         <interact onClick="toggleShovelSizeMinus()"/>
                     </image>
-                    <control id="shovelbrushsizeprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Brush size: " x="100"y="56"/>
-                    <control id="shovelbrushsize"name="label" font="Interface/Fonts/Impact.fnt"text="1" x="180"y="56"/>
+                    <control id="shovelbrushsizeprefix"name="label" text="Brush size: " x="100"y="56"/>
+                    <control id="shovelbrushsize"name="label" text="1" x="180"y="56"/>
                 </panel>
             </control>
             <control id="roadWindow" name="window"title="Roads"width="200"height="500"x="500"y="200"hideOnClose="true"closeable="false">
@@ -206,9 +206,9 @@
                             <control id="shope_tab_1" name="tab" caption="Food places"x="0"y="0" height="100%" width="100%"> 
                                 <panel id="shope_tab_1_panel"valign="top"align="left"height="600" width="590" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <panel id="shope_tab_1_desc"valign="top"align="left"height="140" width="90%" x="0"y="0"backgroundColor="#222f" childLayout="absolute"visibleToMouse="true">
-                                        <control id="shope_tab_1descline1"name="label" font="Interface/Fonts/Impact.fnt"text="Food Shops are small and compact buildings which are used to serve food" x="5"y="5" color="#ffff"/>
-                                        <control id="shope_tab_1descline2"name="label" font="Interface/Fonts/Impact.fnt"text="and drinks to your guests. There are plenty of shops to choose from" x="5"y="29" color="#ffff"/>
-                                        <control id="shope_tab_1descline3"name="label" font="Interface/Fonts/Impact.fnt"text="so try to find something that is suitable for your park!" x="5"y="53" color="#ffff"/>
+                                        <control id="shope_tab_1descline1"name="label" text="Food Shops are small and compact buildings which are used to serve food" x="5"y="5" color="#ffff"/>
+                                        <control id="shope_tab_1descline2"name="label" text="and drinks to your guests. There are plenty of shops to choose from" x="5"y="29" color="#ffff"/>
+                                        <control id="shope_tab_1descline3"name="label" text="so try to find something that is suitable for your park!" x="5"y="53" color="#ffff"/>
                                         <effect>
                                             <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
                                         </effect> 
@@ -407,22 +407,22 @@
                             </effect> 
                         </panel>
                         <panel id="buildingDescNamePanel"valign="top"align="left"height="30" width="378" x="2"y="320"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true" wrap="true">
-                            <control id="buildingDescName"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
+                            <control id="buildingDescName"name="label" text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
                             <effect>
                                 <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
                             </effect>
                         </panel>
                         <panel id="buildingDescPricePanel"valign="top"align="left"height="30" width="378" x="2"y="360"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                            <control id="buildingDescPrice"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
+                            <control id="buildingDescPrice"name="label" text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
                             <effect>
                                 <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
                             </effect>
                         </panel>
                         <panel id="buildingDescDescPanel"valign="top"align="left"height="100" width="378" x="2"y="400"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                            <control id="buildingDescDesc1"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
-                            <control id="buildingDescDesc2"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="25" color="ffffff"/>
-                            <control id="buildingDescDesc3"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="49" color="ffffff"/>
-                            <control id="buildingDescDesc4"name="label" font="Interface/Fonts/Impact.fnt"text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="73" color="ffffff"/>
+                            <control id="buildingDescDesc1"name="label" text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="1" color="ffffff"/>
+                            <control id="buildingDescDesc2"name="label" text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="25" color="ffffff"/>
+                            <control id="buildingDescDesc3"name="label" text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="49" color="ffffff"/>
+                            <control id="buildingDescDesc4"name="label" text="OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" x="7"y="73" color="ffffff"/>
                             <effect>
                                 <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
                             </effect>
@@ -432,78 +432,56 @@
                 </panel>
             </control>
             <control id="guesttemplate" name="window"title="Guest"width="496"height="400"x="200"y="200"closeable="true"hideOnClose="true">
-                <panel id="g_rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                    <panel id="g_tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
+                <panel id="g_rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#5C5C5C" childLayout="absolute"visibleToMouse="true">
+                    <panel id="g_tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#4A4949" childLayout="absolute"visibleToMouse="true"childClip="true">
                         <control id="guest_tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
                             <control id="g_tab_1" name="tab" caption="Information"x="0"y="0"> 
                                 <panel id="g_tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <image filename="Interface/NPC/face.png"x="0"y="10" childLayout="absolute" height="200"width="130"visibleToMouse="true">
+                                        <effect>
+                                            <onActive name="border" border="1px" color="#000f" timeType="infinite"/>
+                                        </effect>
                                     </image>
-                                    <panel id="guestnamepanel" x="138"y="10"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="guestnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="2"y="3" color="ffffff"/>
-                                        <control id="guestname"name="label" font="Interface/Fonts/Impact.fnt"text="Template name " x="50"y="3" color="ffffff"/>
-                                        <effect>
-                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
-                                        </effect>
-                                    </panel>
-                                    <panel id="guestwalletpanel" x="138"y="46"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="guestwalletprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Money: " x="2"y="3" color="ffffff"/>
-                                        <control id="guestwallet"name="label" font="Interface/Fonts/Impact.fnt"text="90e" x="56"y="3" color="ffffff"/>
-                                        <effect>
-                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
-                                        </effect>
-                                    </panel>
-                                    <panel id="guestnumberpanel" x="138"y="82"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="guestnumberprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Number: " x="2"y="3" color="ffffff"/>
-                                        <control id="guestnumber"name="label" font="Interface/Fonts/Impact.fnt"text="252" x="64"y="3" color="ffffff"/>
-                                        <effect>
-                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
-                                        </effect>
-                                    </panel>
-                                    <panel id="gueststatuspanel" x="138"y="118"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="gueststatusprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Doing: " x="2"y="3" color="ffffff"/>
-                                        <control id="gueststatus"name="label" font="Interface/Fonts/Impact.fnt"text="the worm" x="56"y="3" color="ffffff"/>
-                                        <effect>
-                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
-                                        </effect>
-                                    </panel>
-                                    <panel id="guestreputationpanel" x="138"y="154"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="guestreputationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Reputation: " x="2"y="3" color="ffffff"/>
-                                        <control id="guestreputation"name="label" font="Interface/Fonts/Impact.fnt"text="New" x="90"y="3" color="ffffff"/>
-                                        <effect>
-                                            <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
-                                        </effect>
-                                    </panel>
-                                   
+                                        <control id="guestnameprefix"name="label" text="Name: " x="136"y="10" color="ffffff"/>
+                                        <control id="guestname"name="label" text="Template name " x="180"y="10" color="ffffff"/>
+                                        <control id="guestgenderprefix"name="label" text="Gender: " x="136"y="30" color="ffffff"/>
+                                        <control id="guestgender"name="label" text="male/female " x="190"y="30" color="ffffff"/>
+                                        <control id="guestageprefix"name="label"text="Age: " x="136"y="50" color="ffffff"/>
+                                        <control id="guestage"name="label" text="adult/child" x="168"y="50" color="ffffff"/>
+                                        <control id="guestwalletprefix"name="label" text="Money: " x="136"y="70" color="ffffff"/>
+                                        <control id="guestwallet"name="label"text="90e" x="184"y="70" color="ffffff"/>
+                                        <control id="gueststatusprefix"name="label" text="Feeling: " x="136"y="90" color="ffffff"/>
+                                        <control id="gueststatus"name="label" text="awesome" x="186"y="90" color="ffffff"/>
+                                        <control id="guestprefprefix"name="label"text="Ride preferences: " x="136"y="110" color="ffffff"/>
+                                        <control id="guestpref"name="label" text="slow rides" x="250"y="110" color="ffffff"/>
+                                        <control id="guestlastactionsprefix"name="label" text="Latest 5 actions: " x="136"y="130" color="ffffff"/>
+                                        <control id="guestlastaction1"name="label" text="..." x="136"y="150" color="ffffff"/>
+                                        <control id="guestlastaction2"name="label" text="..." x="136"y="170" color="ffffff"/>
+                                        <control id="guestlastaction3"name="label" text="..." x="136"y="190" color="ffffff"/>
+                                        <control id="guestlastaction4"name="label" text="..." x="136"y="210" color="ffffff"/>
+                                        <control id="guestlastaction5"name="label" text="..." x="136"y="230" color="ffffff"/>
                                 </panel>
                             </control>
-                            <control id="g_tab_2" name="tab" caption="Emotions"x="0"y="0">
+                            <control id="g_tab_2" name="tab" caption="Feelings"x="0"y="0">
                                 <panel id="g_tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <control id="guesthungerprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Hunger: " x="10"y="30" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="53" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="guesthunger"name="label" font="Interface/Fonts/Impact.fnt"text="50" x="70"y="30" color="ffffff"/>
-                                    <control id="guestthirstprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Thirst: " x="10"y="60" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="83" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="guestthirst"name="label" font="Interface/Fonts/Impact.fnt"text="50" x="60"y="60" color="ffffff"/>
-                                    <control id="guesthappynessprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Happyness: " x="10"y="90" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="113" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="guesthappyness"name="label" font="Interface/Fonts/Impact.fnt"text="50" x="100"y="90" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="143" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="guesttoiletprefixt"name="label" font="Interface/Fonts/Impact.fnt"text="Toilet: " x="10"y="120" color="ffffff"/>
-                                    <control id="guesttoilet"name="label" font="Interface/Fonts/Impact.fnt"text="20" x="60"y="120" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="173" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="guestprefprefixt"name="label" font="Interface/Fonts/Impact.fnt"text="Preference: " x="10"y="150" color="ffffff"/>
-                                    <control id="guestpref"name="label" font="Interface/Fonts/Impact.fnt"text="CRAZY" x="100"y="150" color="ffffff"/>
+                                    <control id="guesthungerprefix"name="label" text="Hunger: " x="44"y="16" color="ffffff"/>
+                                    <image filename="Interface/NPC/foodIcon.png"x="10"y="10" childLayout="absolute" height="32"width="32"visibleToMouse="true"><effect><onActive name="border" border="1px" color="#000f" timeType="infinite"/></effect> </image>
+                                    <control id="guesthunger"name="label" text="50" x="96"y="16" color="ffffff"/>
+                                    <control id="guestthirstprefix"name="label" text="Thirst: " x="44"y="52" color="ffffff"/>
+                                    <image filename="Interface/NPC/drinkIcon.png"x="10"y="46" childLayout="absolute" height="32"width="32"visibleToMouse="true"><effect><onActive name="border" border="1px" color="#000f" timeType="infinite"/></effect> </image>
+                                    <control id="guestthirst"name="label" text="50" x="86"y="52" color="ffffff"/>
+                                    <control id="guesthappynessprefix"name="label" text="Happyness: " x="44"y="88" color="ffffff"/>
+                                    <image filename="Interface/NPC/happinessIcon.png"x="10"y="82" childLayout="absolute" height="32"width="32"visibleToMouse="true"><effect><onActive name="border" border="1px" color="#000f" timeType="infinite"/></effect> </image>
+                                    <control id="guesthappyness"name="label" text="50" x="120"y="88" color="ffffff"/>
+                                    <image filename="Interface/NPC/toiletIcon.png"x="10"y="118" childLayout="absolute" height="32"width="32"visibleToMouse="true"><effect><onActive name="border" border="1px" color="#000f" timeType="infinite"/></effect> </image>
+                                    <control id="guesttoiletprefixt"name="label" text="Toilet: " x="44"y="124" color="ffffff"/>
+                                    <control id="guesttoilet"name="label" text="20" x="88"y="124" color="ffffff"/>
+                                    <control id="guestthinklistbox" name="listBox" vertical="on" width="450"height="100"horizontal="off" displayItems="7" selection="Single" x="10"y="180"/>
                                 </panel>
                             </control>
                             <control id="g_tab_3" name="tab" caption="Actions"x="0"y="0"> 
                                 <panel id="g_tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <control id="guestnametextfieldprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Change name:" x="10"y="10" color="ffffff"/>
+                                    <control id="guestnametextfieldprefix"name="label" text="Change name:" x="10"y="10" color="ffffff"/>
                                     <control id="guestnametextfield"name="textfield" maxLength="50" x="120"y="10"height="24" width="200" />
                                     <image filename="Interface/NPC/raja.png"x="4"y="40" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
@@ -511,16 +489,16 @@
                             </control>
                             <control id="g_tab_4" name="tab" caption="Inventory"x="0"y="0"> 
                                 <panel id="g_tab_4_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <control id="guestinventoryprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Inventory: " x="0"y="10" color="ffffff"/>
-                                    <control id="guestinventory1"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="40" color="ffffff"/>
-                                    <control id="guestinventory2"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="70" color="ffffff"/>
-                                    <control id="guestinventory3"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="100" color="ffffff"/>
-                                    <control id="guestinventory4"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="130" color="ffffff"/>
-                                    <control id="guestinventory5"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="160" color="ffffff"/>
-                                    <control id="guestinventory6"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="190" color="ffffff"/>
-                                    <control id="guestinventory7"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="220" color="ffffff"/>
-                                    <control id="guestinventory8"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="250" color="ffffff"/>
-                                    <control id="guestinventory9"name="label" font="Interface/Fonts/Impact.fnt"text="" x="20"y="280" color="ffffff"/>
+                                    <control id="guestinventoryprefix"name="label" text="Inventory: " x="0"y="10" color="ffffff"/>
+                                    <control id="guestinventory1"name="label" text="" x="20"y="40" color="ffffff"/>
+                                    <control id="guestinventory2"name="label" text="" x="20"y="70" color="ffffff"/>
+                                    <control id="guestinventory3"name="label" text="" x="20"y="100" color="ffffff"/>
+                                    <control id="guestinventory4"name="label" text="" x="20"y="130" color="ffffff"/>
+                                    <control id="guestinventory5"name="label" text="" x="20"y="160" color="ffffff"/>
+                                    <control id="guestinventory6"name="label" text="" x="20"y="190" color="ffffff"/>
+                                    <control id="guestinventory7"name="label" text="" x="20"y="220" color="ffffff"/>
+                                    <control id="guestinventory8"name="label" text="" x="20"y="250" color="ffffff"/>
+                                    <control id="guestinventory9"name="label" text="" x="20"y="280" color="ffffff"/>
                                 </panel>
                             </control>
                             <control id="g_tab_5" name="tab" caption="More.."x="0"y="0"> 
@@ -541,43 +519,43 @@
                                     <image filename="Interface/Shops/Nopic.png"x="0"y="10" childLayout="absolute" height="130"width="130"visibleToMouse="true">
                                     </image>
                                     <panel id="shopnamepanel" x="138"y="10"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="shopnameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="2"y="3" color="ffffff"/>
-                                        <control id="shopname"name="label" font="Interface/Fonts/Impact.fnt"text="Template name " x="50"y="3" color="ffffff"/>
+                                        <control id="shopnameprefix"name="label" text="Name: " x="2"y="3" color="ffffff"/>
+                                        <control id="shopname"name="label" text="Template name " x="50"y="3" color="ffffff"/>
                                         <effect>
                                             <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
                                         </effect>
                                     </panel>
                                     <panel id="shoppricepanel" x="138"y="46"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="shoppriceprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Price: " x="2"y="3" color="ffffff"/>
-                                        <control id="shopprice"name="label" font="Interface/Fonts/Impact.fnt"text="1000E " x="50"y="3" color="ffffff"/>
+                                        <control id="shoppriceprefix"name="label" text="Price: " x="2"y="3" color="ffffff"/>
+                                        <control id="shopprice"name="label" text="1000E " x="50"y="3" color="ffffff"/>
                                         <effect>
                                             <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
                                         </effect>
                                     </panel>
                                    <panel id="shopproductpanel" x="138"y="82"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="shopproductprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Product: " x="2"y="3" color="ffffff"/>
-                                        <control id="shopproduct"name="label" font="Interface/Fonts/Impact.fnt"text="BOBES MEATBALLS " x="70"y="3" color="ffffff"/>
+                                        <control id="shopproductprefix"name="label" text="Product: " x="2"y="3" color="ffffff"/>
+                                        <control id="shopproduct"name="label" text="BOBES MEATBALLS " x="70"y="3" color="ffffff"/>
                                         <effect>
                                             <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
                                         </effect>
                                     </panel>
                                     <panel id="shoplocationpanel" x="138"y="118"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="shoplocationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Location: " x="2"y="3" color="ffffff"/>
-                                        <control id="shoplocation"name="label" font="Interface/Fonts/Impact.fnt"text="BOBES MEATBALLS " x="70"y="3" color="ffffff"/>
+                                        <control id="shoplocationprefix"name="label" text="Location: " x="2"y="3" color="ffffff"/>
+                                        <control id="shoplocation"name="label" text="Unknown location" x="70"y="3" color="ffffff"/>
                                         <effect>
                                             <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
                                         </effect>
                                     </panel>
                                     <panel id="shopreputationpanel" x="138"y="154"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="shopreputationprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Reputation: " x="2"y="3" color="ffffff"/>
-                                        <control id="shopreputation"name="label" font="Interface/Fonts/Impact.fnt"text="BOBES MEATBALLS " x="90"y="3" color="ffffff"/>
+                                        <control id="shopreputationprefix"name="label" text="Reputation: " x="2"y="3" color="ffffff"/>
+                                        <control id="shopreputation"name="label" text="BOBES MEATBALLS " x="90"y="3" color="ffffff"/>
                                         <effect>
                                             <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
                                         </effect>
                                     </panel>
                                     <panel id="shopemployeespanel" x="138"y="190"height="30" width="280"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="shopemployeesprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Employees: " x="2"y="3" color="ffffff"/>
-                                        <control id="shopemployees"name="label" font="Interface/Fonts/Impact.fnt"text="BOBES MEATBALLS " x="90"y="3" color="ffffff"/>
+                                        <control id="shopemployeesprefix"name="label" text="Employees: " x="2"y="3" color="ffffff"/>
+                                        <control id="shopemployees"name="label" text="BOBES MEATBALLS " x="90"y="3" color="ffffff"/>
                                         <effect>
                                             <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
                                         </effect>
@@ -587,16 +565,16 @@
                             <control id="s_tab_2" name="tab" caption="Actions"x="0"y="0">
                                 <panel id="s_tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <panel id="shopactionspanel" x="10"y="220"height="100" width="420"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="shopactionstext3"name="label" font="Interface/Fonts/Impact.fnt"text="Actions:" x="2"y="3" color="ffffff"/>
+                                        <control id="shopactionstext3"name="label" text="Actions:" x="2"y="3" color="ffffff"/>
                                         <image id="shopdemolishbutton"filename="Interface/Rides/destroy.png"x="10"y="34" childLayout="absolute" height="48"width="48"visibleToMouse="true">
                                             <interact onClick="shopDemolishToggle()">   
                                             </interact>
                                          </image>
-                                         <control id="shopdemolishtext1"name="label" font="Interface/Fonts/Impact.fnt"text="Demolish" x="60"y="34" color="ffffff"/>
-                                         <control id="shopdemolishtext2"name="label" font="Interface/Fonts/Impact.fnt"text="this" x="60"y="60" color="ffffff"/>
+                                         <control id="shopdemolishtext1"name="label" text="Demolish" x="60"y="34" color="ffffff"/>
+                                         <control id="shopdemolishtext2"name="label" text="this" x="60"y="60" color="ffffff"/>
                                          
-                                        <control id="shopnametext1"name="label" font="Interface/Fonts/Impact.fnt"text="Name" x="170"y="34" color="ffffff"/>
-                                        <control id="shopproducttext1"name="label" font="Interface/Fonts/Impact.fnt"text="Product" x="160"y="64" color="ffffff"/>
+                                        <control id="shopnametext1"name="label" text="Name" x="170"y="34" color="ffffff"/>
+                                        <control id="shopproducttext1"name="label" text="Product" x="160"y="64" color="ffffff"/>
                                     
                                          <control id="shopnametextfield"name="textfield" maxLength="50" x="220"y="34"height="24" width="190" />
                                          <control id="shopproducttextfield"name="textfield" maxLength="50" x="220"y="64"height="24" width="190" />
@@ -609,7 +587,7 @@
                             <control id="s_tab_3" name="tab" caption="Upgrades"x="0"y="0"> 
                                 <panel id="s_tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
                                     <panel id="shopupgradespanel" x="0"y="0"height="300" width="460"backgroundColor="#1c1b18" childLayout="absolute"> 
-                                        <control id="shopactionstext1"name="label" font="Interface/Fonts/Impact.fnt"text="Upgrades:" x="2"y="3" color="ffffff"/>
+                                        <control id="shopactionstext1"name="label" text="Upgrades:" x="2"y="3" color="ffffff"/>
                                             <image id="shopupgradeimg1"filename="Interface/buildings/fashion1.png"x="10"y="40" childLayout="absolute" height="64"width="64"visibleToMouse="true">
                                                 <interact onClick="toggleShopUpgrade1()">   
                                                 </interact>
@@ -638,17 +616,17 @@
                                                     <onActive name="border" border="3px" color="#511f" timeType="infinite"/>
                                                 </effect>
                                             </image>
-                                        <control id="shopupgradetext11"name="label" font="Interface/Fonts/Impact.fnt"text="Get your trend on!" x="76"y="42" color="ffffff"/>
-                                        <control id="shopupgradetext12"name="label" font="Interface/Fonts/Impact.fnt"text="COST: 125/1h" x="76"y="72" color="ffffff"/>
+                                        <control id="shopupgradetext11"name="label" text="Get your trend on!" x="76"y="42" color="ffffff"/>
+                                        <control id="shopupgradetext12"name="label" text="COST: 125/1h" x="76"y="72" color="ffffff"/>
                                         
-                                        <control id="shopupgradetext21"name="label" font="Interface/Fonts/Impact.fnt"text="More friendly staff" x="76"y="122" color="ffffff"/>
-                                        <control id="shopupgradetext22"name="label" font="Interface/Fonts/Impact.fnt"text="COST: 100/1h" x="76"y="152" color="ffffff"/>
+                                        <control id="shopupgradetext21"name="label" text="More friendly staff" x="76"y="122" color="ffffff"/>
+                                        <control id="shopupgradetext22"name="label" text="COST: 100/1h" x="76"y="152" color="ffffff"/>
                                         
-                                        <control id="shopupgradetext31"name="label" font="Interface/Fonts/Impact.fnt"text="Cleaning upgrade" x="216"y="42" color="ffffff"/>
-                                        <control id="shopupgradetext32"name="label" font="Interface/Fonts/Impact.fnt"text="COST: 75/1h" x="216"y="72" color="ffffff"/>
+                                        <control id="shopupgradetext31"name="label" text="Cleaning upgrade" x="216"y="42" color="ffffff"/>
+                                        <control id="shopupgradetext32"name="label" text="COST: 75/1h" x="216"y="72" color="ffffff"/>
                                         
-                                        <control id="shopupgradetext41"name="label" font="Interface/Fonts/Impact.fnt"text="Product quality" x="216"y="122" color="ffffff"/>
-                                        <control id="shopupgradetext42"name="label" font="Interface/Fonts/Impact.fnt"text="COST: 200/1h" x="216"y="152" color="ffffff"/>
+                                        <control id="shopupgradetext41"name="label" text="Product quality" x="216"y="122" color="ffffff"/>
+                                        <control id="shopupgradetext42"name="label" text="COST: 200/1h" x="216"y="152" color="ffffff"/>
                                         <effect>
                                             <onActive name="border" border="2px" color="#000f" timeType="infinite"/>
                                         </effect>
@@ -670,7 +648,7 @@
                         <control id="r_tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
                             <control id="r_tab_1" name="tab" caption="Actions"x="0"y="0"> 
                                 <panel id="r_tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <control id="ridenametextfieldprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Change name:" x="10"y="10" color="ffffff"/>
+                                    <control id="ridenametextfieldprefix"name="label" text="Change name:" x="10"y="10" color="ffffff"/>
                                     <control id="ridenametextfield"name="textfield" maxLength="50" x="120"y="10"height="24" width="200" />
                                     <image id="ridestatusbutton"filename="Interface/Rides/statusoff.png"x="340"y="0" childLayout="absolute" height="48"width="48"visibleToMouse="true">
                                         <interact onClick="rideStatusToggle()">   
@@ -680,69 +658,69 @@
                                         <interact onClick="rideDemolishToggle()">   
                                         </interact>
                                     </image>
-                                    <control id="ridepricechangeprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Current price:" x="10"y="46" color="ffffff"/>
-                                    <control id="ridepricechange"name="label" font="Interface/Fonts/Impact.fnt"text="100.0" x="120"y="46" color="ffffff"/>
+                                    <control id="ridepricechangeprefix"name="label" text="Current price:" x="10"y="46" color="ffffff"/>
+                                    <control id="ridepricechange"name="label" text="100.0" x="120"y="46" color="ffffff"/>
                                     <control id="ridepriceslider" max="20" name="horizontalSlider" stepSize="0.1" buttonStepSize="0.1" initial="2.0"width="400px" x="10"y="70"/>
                                 </panel>
                             </control>
                             <control id="r_tab_2" name="tab" caption="Information"x="0"y="0">
                                 <panel id="r_tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <control id="ridepriceprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Price: " x="10"y="0" color="ffffff"/>
-                                    <control id="rideprice"name="label" font="Interface/Fonts/Impact.fnt"text="10000" x="58"y="0" color="ffffff"/>
+                                    <control id="ridepriceprefix"name="label" text="Price: " x="10"y="0" color="ffffff"/>
+                                    <control id="rideprice"name="label" text="10000" x="58"y="0" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="23" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridenameprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Name: " x="10"y="30" color="ffffff"/>
+                                    <control id="ridenameprefix"name="label" text="Name: " x="10"y="30" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="53" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridename"name="label" font="Interface/Fonts/Impact.fnt"text="191910109109112312123123123123123" x="60"y="30" color="ffffff"/>
-                                    <control id="ridetypeprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Type: " x="10"y="60" color="ffffff"/>
+                                    <control id="ridename"name="label" text="191910109109112312123123123123123" x="60"y="30" color="ffffff"/>
+                                    <control id="ridetypeprefix"name="label" text="Type: " x="10"y="60" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="83" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridetype"name="label" font="Interface/Fonts/Impact.fnt"text="198273918273918273129371231238" x="50"y="60" color="ffffff"/>
-                                    <control id="rideexitementprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Exitement: " x="10"y="90" color="ffffff"/>
+                                    <control id="ridetype"name="label" text="198273918273918273129371231238" x="50"y="60" color="ffffff"/>
+                                    <control id="rideexitementprefix"name="label" text="Exitement: " x="10"y="90" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="113" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="rideexitement"name="label" font="Interface/Fonts/Impact.fnt"text="60" x="86"y="90" color="ffffff"/>
+                                    <control id="rideexitement"name="label" text="60" x="86"y="90" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="143" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridenauseaprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Nausea: " x="10"y="120" color="ffffff"/>
-                                    <control id="ridenausea"name="label" font="Interface/Fonts/Impact.fnt"text="20" x="72"y="120" color="ffffff"/>
+                                    <control id="ridenauseaprefix"name="label" text="Nausea: " x="10"y="120" color="ffffff"/>
+                                    <control id="ridenausea"name="label" text="20" x="72"y="120" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="173" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridestatusprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Status: " x="10"y="150" color="ffffff"/>
-                                    <control id="ridestatus"name="label" font="Interface/Fonts/Impact.fnt"text="Open" x="62"y="150" color="ffffff"/>
+                                    <control id="ridestatusprefix"name="label" text="Status: " x="10"y="150" color="ffffff"/>
+                                    <control id="ridestatus"name="label" text="Open" x="62"y="150" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="203" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridebrokenprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Condition: " x="10"y="180" color="ffffff"/>
-                                    <control id="ridebroken"name="label" font="Interface/Fonts/Impact.fnt"text="Broken" x="86"y="180" color="ffffff"/>
+                                    <control id="ridebrokenprefix"name="label" text="Condition: " x="10"y="180" color="ffffff"/>
+                                    <control id="ridebroken"name="label" text="Broken" x="86"y="180" color="ffffff"/>
                                 </panel>
                             </control>
                             <control id="r_tab_3" name="tab" caption="Information"x="0"y="0"> 
                                 <panel id="tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <control id="ridecustomersprefix"name="label" font="Interface/Fonts/Impact.fnt"text="In Ride: " x="10"y="0" color="ffffff"/>
-                                    <control id="ridecustomers"name="label" font="Interface/Fonts/Impact.fnt"text="10000" x="68"y="0" color="ffffff"/>
+                                    <control id="ridecustomersprefix"name="label" text="In Ride: " x="10"y="0" color="ffffff"/>
+                                    <control id="ridecustomers"name="label" text="10000" x="68"y="0" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="23" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridecustomerslifeprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Customers: " x="10"y="30" color="ffffff"/>
+                                    <control id="ridecustomerslifeprefix"name="label" text="Customers: " x="10"y="30" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="53" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridecustomerslife"name="label" font="Interface/Fonts/Impact.fnt"text="19191233123" x="100"y="30" color="ffffff"/>
-                                    <control id="ridecustomershourprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Customers/hour: " x="10"y="60" color="ffffff"/>
+                                    <control id="ridecustomerslife"name="label" text="19191233123" x="100"y="30" color="ffffff"/>
+                                    <control id="ridecustomershourprefix"name="label" text="Customers/hour: " x="10"y="60" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="83" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridecustomershour"name="label" font="Interface/Fonts/Impact.fnt"text="1238" x="136"y="60" color="ffffff"/>
-                                    <control id="ridemoneygainedprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Money gained: " x="10"y="90" color="ffffff"/>
+                                    <control id="ridecustomershour"name="label" text="1238" x="136"y="60" color="ffffff"/>
+                                    <control id="ridemoneygainedprefix"name="label" text="Money gained: " x="10"y="90" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="113" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridemoneygained"name="label" font="Interface/Fonts/Impact.fnt"text="60000000" x="116"y="90" color="ffffff"/>
-                                    <control id="ridemoneyhourprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Money/hour: " x="10"y="120" color="ffffff"/>
+                                    <control id="ridemoneygained"name="label" text="60000000" x="116"y="90" color="ffffff"/>
+                                    <control id="ridemoneyhourprefix"name="label" text="Money/hour: " x="10"y="120" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="143" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridemoneyhour"name="label" font="Interface/Fonts/Impact.fnt"text="60000000" x="106"y="120" color="ffffff"/>
-                                    <control id="ridehourcostprefix"name="label" font="Interface/Fonts/Impact.fnt"text="Cost/hour: " x="10"y="150" color="ffffff"/>
+                                    <control id="ridemoneyhour"name="label" text="60000000" x="106"y="120" color="ffffff"/>
+                                    <control id="ridehourcostprefix"name="label" text="Cost/hour: " x="10"y="150" color="ffffff"/>
                                     <image filename="Interface/NPC/raja.png"x="10"y="173" childLayout="absolute" height="10"width="300"visibleToMouse="true">
                                     </image>
-                                    <control id="ridehourcost"name="label" font="Interface/Fonts/Impact.fnt"text="60000000" x="96"y="150" color="ffffff"/>
+                                    <control id="ridehourcost"name="label" text="60000000" x="96"y="150" color="ffffff"/>
                                 </panel>
                             </control>
                         </control>
@@ -777,8 +755,8 @@
                         </image>
                         
                         <panel x="500"y="10"id="decoration123114123"valign="top"align="left"height="100" width="280" backgroundColor="#BFAD77" childLayout="absolute"visibleToMouse="true"wrap="true">
-                            <control id="decorationname"name="label" font="Interface/Fonts/Impact.fnt"text="DefaultName" x="10"y="0" color="ffffff"/>
-                            <control id="decorationdescription"name="label" font="Interface/Fonts/Impact.fnt"text="deded00000000000000000000000000" x="10"y="40" color="ffffff"/>
+                            <control id="decorationname"name="label" text="DefaultName" x="10"y="0" color="ffffff"/>
+                            <control id="decorationdescription"name="label" text="deded00000000000000000000000000" x="10"y="40" color="ffffff"/>
                         </panel>
                     </panel>
                 
@@ -834,7 +812,7 @@
                                     <interact onClick="">   
                                     </interact>
                                 </image>
-                                <control id="rofltext"name="label" font="Interface/Fonts/Impact.fnt"text="Hi there ;)" x="500"y="560" color="ffffff"/>
+                                <control id="rofltext"name="label" text="Hi there ;)" x="500"y="560" color="ffffff"/>
                             
                             </panel>
                             

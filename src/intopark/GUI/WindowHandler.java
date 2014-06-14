@@ -69,10 +69,11 @@ public class WindowHandler {
          * TAB 1
          */
         updateGuestNameText(guestwindow, guest.getName());
+        updateGuestAgeText(guestwindow, guest.getSize()==1?"adult":"child");
+        updateGuestGenderText(guestwindow,guest.isMale()?"female":"male");
         updateGuestWalletText(guestwindow, guest.getWallet().toString());
-        updateGuestIDText(guestwindow, guest.getID());
-        updateGuestStatusText(guestwindow, guest.getWalkState().toString());
-        updateGuestReputationText(guestwindow, "Good"); //TODO:
+        updateGuestPrefText(guestwindow,guest.getStats().getPreferredRide().toString());
+        updateGuestStatusText(guestwindow, guest.getStats().getCurrentEmote().toString());
         /**
          * TAB 2
          */
@@ -134,15 +135,22 @@ public class WindowHandler {
         Element updatedText = guestWindow.findElementByName("guestname");
         updateText(updatedText, name);
     }
-
+    private void updateGuestGenderText(Element guestWindow, String gender) {
+        Element updatedText = guestWindow.findElementByName("guestgender");
+        updateText(updatedText, gender);
+    }
+    private void updateGuestPrefText(Element guestWindow, String preference) {
+        Element updatedText = guestWindow.findElementByName("guestpref");
+        updateText(updatedText, preference);
+    }
     private void updateGuestWalletText(Element guestWindow, String money) {
         Element updatedText = guestWindow.findElementByName("guestwallet");
         updateText(updatedText, money);
     }
 
-    private void updateGuestIDText(Element guestWindow, int ID) {
-        Element updatedText = guestWindow.findElementByName("guestnumber");
-        updateText(updatedText, Integer.toString(ID));
+    private void updateGuestAgeText(Element guestWindow, String age) {
+        Element updatedText = guestWindow.findElementByName("guestage");
+        updateText(updatedText, age);
     }
 
     private void updateGuestStatusText(Element guestWindow, String status) {
