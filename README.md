@@ -64,7 +64,7 @@ Read more [here](http://arttu.me/)
 - #GUESTS#
 	- Guests spawning with different stats to park [x]
 	- Guests can move along roads [x]
-	- Guests vary sizes and colors []
+	- Guests vary sizes and colors [/] (yes, but not visually)
 	- Guests interact with shops and rides [x]
 	- Guests have emotions and act according to them []
 	- Rare special guests []
@@ -122,7 +122,7 @@ Read more [here](http://arttu.me/)
 	- Demolish roads []
 	- Demolish rides []
 	- Demilish shops []
-- #SPEACIAL EFFECTS#
+- #SPECIAL EFFECTS#
     - Demolish explosions/smoke []
     - Day/Night cycle []
     - Lights to rides so it looks cool in night []
@@ -146,4 +146,8 @@ Read more [here](http://arttu.me/)
 - When placing shops, sometimes you need to click twice.
 - Some models are not facing the right way.
 - Roads can be built through terrain.
-	
+
+
+#ENCHANCING IDEAS#
+
+- Various blockages like vegetation or rocks that you have to remove if you want to build something there

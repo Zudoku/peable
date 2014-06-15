@@ -96,6 +96,7 @@ public class WindowHandler {
 
     }
     private void updateGuestInventoryTexts(Element guestWindow,List<Item> inv){
+        //TODO: create a loop to clear them all. O_o
         int counter = 1;
         Element niftyElement = guestWindow.findElementByName("guestinventory1");
         updateText(niftyElement, "");
@@ -350,11 +351,15 @@ public class WindowHandler {
         /**
          * TAB 1
          */
+        
+        /**
         updateShopNameText(shopwindow, shop.getShopName());
         updateShopPriceText(shopwindow, shop.getPrice());
         updateShopProdNameText(shopwindow, shop.getProductname());
         updateShopLocationText(shopwindow, shop.getPosition().getVector());
         updateShopReputationText(shopwindow, shop.getUpgrades().getReputation());
+        **/
+
         /**
          * TAB 2
          */
@@ -451,5 +456,5 @@ public class WindowHandler {
     public void setIDforShop(int ID){
         this.lastIDforShop=ID;
     }
-    
+
 }
