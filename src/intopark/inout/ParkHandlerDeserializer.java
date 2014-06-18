@@ -53,7 +53,7 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
         this.parkHandler=parkHandler;
         this.eventBus=eventBus;
     }
-    
+
     public ParkHandler deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
         logger.log(Level.FINER,"Beginning to construct park");
         final JsonObject jo = je.getAsJsonObject();
@@ -102,13 +102,13 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             ShopReputation sr=jdc.deserialize(sp.get("reputation"),ShopReputation.class);
             String stype=getS(sp,"type");
             CreateShopEvent event=new CreateShopEvent(stype,shopname,prodname,sr,price,cm,ID,pos,dir,eventBus);
-            eventBus.post(event);   
+            eventBus.post(event);
         }
         //RIDES
         JsonArray ridesarray = jo.get("rides").getAsJsonArray();
         for(int x=0;x<ridesarray.size();x++){
             final JsonObject rp = ridesarray.get(x).getAsJsonObject();
-            
+
             MapPosition pos=jdc.deserialize(rp.get("position"),MapPosition.class);
             BasicBuildables ride=jdc.deserialize(rp.get("ride"),BasicBuildables.class);
             Direction dir=jdc.deserialize(rp.get("direction"),Direction.class);
@@ -119,7 +119,7 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             int nausea=getI(rp,"nausea");
             boolean status=getB(rp,"status");
             float price=getF(rp,"price");
-            
+
             //CONSTRUCT ENTERANCE
             Enterance exit=null;
             Enterance enterance = null;
@@ -133,11 +133,12 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
                 boolean exitValue=getB(enteranceObject,"exit");
                 MapPosition locationValue=jdc.deserialize(enteranceObject.get("location"),MapPosition.class);
                 Direction directionValue=jdc.deserialize(enteranceObject.get("direction"),Direction.class);
+                int ID = getI(enteranceObject,"ID");
                 if(i==0){
-                    enterance=new Enterance(exitValue, locationValue, directionValue);
+                    enterance=new Enterance(exitValue, locationValue, directionValue,ID);
                     continue;
                 }
-                exit=new Enterance(exitValue, locationValue, directionValue);
+                exit=new Enterance(exitValue, locationValue, directionValue,ID);
             }
             //FINISH THE RIDE
             CreateRideEvent event=new CreateRideEvent(pos,ride,dir,name,rideID,broken,exitement,nausea,status,price,enterance,exit);
@@ -164,11 +165,11 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
         //ATTACH LIGHTS
         logger.log(Level.FINER,"Attaching lights");
         attachDirectionalLights();
-        
+
         //DONE
         logger.log(Level.FINER, "Loading complete");
         return parkHandler;
-        
+
     }
     private String getS(JsonObject j,String name){
         return j.get(name).getAsString();
@@ -194,11 +195,11 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
         sun2.setDirection((new Vector3f(-0.5f, 0.5f, -0.5f).normalizeLocal()));
         sun2.setColor(ColorRGBA.White);
         eventBus.post(new AddToRootNodeEvent(sun2));
-        
+
         AmbientLight l=new AmbientLight();
         l.setColor(new ColorRGBA(1,0,1,0.5f));
-        
+
         eventBus.post(new AddToRootNodeEvent(l));
     }
-    
+
 }

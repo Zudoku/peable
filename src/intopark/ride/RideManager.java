@@ -7,6 +7,7 @@ package intopark.ride;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.jme3.light.Light;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -17,12 +18,11 @@ import java.util.logging.Logger;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
 import intopark.inout.Identifier;
-import intopark.inputhandler.ClickingModes;
 import intopark.inputhandler.MouseContainer;
 import intopark.inputhandler.NeedMouse;
-import intopark.inputhandler.SetClickModeEvent;
 import intopark.shops.BasicBuildables;
 import intopark.shops.HolomodelDrawer;
+import intopark.terrain.MapContainer;
 import intopark.util.Direction;
 import intopark.terrain.ParkHandler;
 import intopark.util.MapPosition;
@@ -33,7 +33,7 @@ import intopark.util.MapPosition;
  */
 @Singleton
 public class RideManager implements NeedMouse{
-    
+
     private static final Logger logger = Logger.getLogger(RideManager.class.getName());
     //DEPENDENCIES
     private RideFactory rideFactory;
@@ -41,105 +41,71 @@ public class RideManager implements NeedMouse{
     private final EventBus eventBus;
     private final HolomodelDrawer holoDrawer;
     private final ParkHandler parkHandler;
+    private MapContainer mapContainer;
     //VARIABLES
     public List<BasicRide> rides = new ArrayList<>();
     private Node rideNode;
     private int enterancecount = 0;
-    
-
-    
 
     @Inject
     public RideManager(Node rootNode, HolomodelDrawer holoDrawer, ParkHandler parkHandler,
-        EventBus eventBus,Identifier identifier) {
+        EventBus eventBus,Identifier identifier,MapContainer mapContainer) {
         this.rideFactory = new RideFactory();
         this.holoDrawer = holoDrawer;
         this.parkHandler = parkHandler;
         this.eventBus = eventBus;
         this.identifier=identifier;
+        this.mapContainer=mapContainer;
         eventBus.register(this);
         rideNode = new Node("rideNode");
         rootNode.attachChild(rideNode);
-        //TODO: MAKE ALL ID'S UNIQUE ACROSS EVERYTHING.
     }
 
     public void buy(Direction direction, BasicBuildables selectedBuilding) {
         MapPosition loc = new MapPosition(UtilityMethods.roundVector(holoDrawer.getLocation()));
-
-        
         int ID = identifier.reserveID();
-        CreateRideEvent event=new CreateRideEvent(loc,selectedBuilding , direction," ",ID,0,65,20,true,20, null,null);
-
-        resetRidedata();
+        CreateRideEvent event=new CreateRideEvent(loc,selectedBuilding,direction,"",ID,-1,-1,-1,true,20, null,null);
+        eventBus.post(event);
     }
-
-    private void resetRidedata() {
-        eventBus.post(new SetClickModeEvent(ClickingModes.RIDE));
-    }
-
-
-
-    public void placeEnterance(Vector3f pos) {
-        //TODO: test meaby roundvector??
-        int x = (int) (pos.x - 0.4999f + 1);
-        int y = (int) (pos.y - 0.4999f + 1);
-        int z = (int) (pos.z - 0.4999f + 1);
-
+    public void UserClickOnEnteranceMode(Vector3f pos) {
+        Vector3f roundVector=UtilityMethods.roundVector(pos);
+        MapPosition mapPosition =new MapPosition(roundVector);
+        int x=mapPosition.getX();
+        int y=mapPosition.getY();
+        int z=mapPosition.getZ();
 
         boolean enterancetype = true;
         if (enterancecount == 0) {
             enterancetype = false;
         }
-        
-        if (!parkHandler.testForEmptyTile(x, y, z)) {
-            return;
-        }
-        if (!parkHandler.testForEmptyTile(x+1, y, z)) {
-            Spatial s = parkHandler.getSpatialAt(x+1, y, z);
-            if (s.getUserData("ID")==null) {
+        int foundID=mapContainer.checkIfBlocking(new int[]{x,y,z});
+        if(foundID>-2){ //Blocks
+            if(foundID==-1){
+                logger.log(Level.FINER, "Can't place enterance here, Something is blocking it.");
                 return;
-            }
-            int ID = s.getUserData("ID");
-            if(identifier.getObjectWithID(ID) instanceof BasicRide){
-                placeEnterancetrue(enterancetype, x, y, z, Direction.SOUTH);
-            }
-
-        }
-        if (!parkHandler.testForEmptyTile(x-1, y, z)) {
-            Spatial s =parkHandler.getSpatialAt(x-1, y, z);
-            if (s.getUserData("ID")==null) {
-                return;
-            }
-            int ID = s.getUserData("ID");
-            if(identifier.getObjectWithID(ID) instanceof BasicRide){
-                placeEnterancetrue(enterancetype, x, y, z, Direction.NORTH);
+            }else{
+                logger.log(Level.FINER, "Can't place enterance here, {0} is blocking it.",identifier.getObjectWithID(foundID).toString());
                 return;
             }
         }
-        if (!parkHandler.testForEmptyTile(x, y, z+1)) {
-            Spatial s = parkHandler.getSpatialAt(x, y, z+1);
-            if (s.getUserData("ID")==null) {
-                return;
-            }
-            int ID = s.getUserData("ID");
-            if(identifier.getObjectWithID(ID) instanceof BasicRide){
-                placeEnterancetrue(enterancetype, x, y, z, Direction.EAST);
-                return;
-            }
-        }
-        if (!parkHandler.testForEmptyTile(x, y, z-1)) {
-            Spatial s =parkHandler.getSpatialAt(x, y, z-1);
-            if (s.getUserData("ID")==null) {
-                return;
-            }
-            int ID = s.getUserData("ID");
-            if(identifier.getObjectWithID(ID) instanceof BasicRide){
-                placeEnterancetrue(enterancetype, x, y, z, Direction.WEST);
+        for(int suunta = 0; suunta < 4 ;suunta++){
+            Direction direction= Direction.intToDirection(suunta);
+            MapPosition offset = direction.directiontoPosition();
+            int[]coords = new int[]{(x+offset.getX()),y,(z+offset.getZ())};
+            int code=mapContainer.checkIfBlocking(coords);
+            if(code > 0){
+                Object foundObject = identifier.getObjectWithID(code);
+                if(foundObject instanceof BasicRide){
+                    BasicRide foundRide= (BasicRide) foundObject;
+                    boolean built = TryToBuildEnterance(enterancetype, (x+offset.getX()), y, (z+offset.getZ()), direction); //might be direction.getOpposite()
+                    if(built){
+                        return;
+                    }
+                }
             }
         }
 
     }
-
     public void updateRide() {
         for (BasicRide ride : rides) {
             ride.runAnim();
@@ -148,19 +114,19 @@ public class RideManager implements NeedMouse{
             ride.update();
         }
     }
-
-    private void placeEnterancetrue(boolean enterancetype, int x, int y, int z, Direction suunta) {
+    private boolean TryToBuildEnterance(boolean enterancetype, int x, int y, int z, Direction suunta) {
         if(!parkHandler.testForEmptyTile(x,y,z)){
             logger.log(Level.FINE, "Enterance build cancelled because {0} {1} {2} was not empty", new Object[]{x, y, z});
-            return;
+
         }
+        return false;
         //TODO: test if ride needs enterance...
-        
+
         //Enterance e = new Enterance(enterancetype, new Vector3f(x, y, z), suunta, assetManager);
         //e.connectedRide = rides.get(rideID - 2);
         //e.object.setUserData("type", "enterance");
         //e.object.setUserData("rideID", e.connectedRide.getRideID());
-//        
+//
 //        eventBus.post(new AddObjectToMapEvent(x, y, z, e.object));
 //        if (enterancetype == false) {
 //            rides.get(rideID - 2).enterance = e;
@@ -175,20 +141,33 @@ public class RideManager implements NeedMouse{
 //            eventBus.post(new SetClickModeEvent(ClickingModes.NOTHING));
 //        }
     }
+    public void buildEnterance(){
+
+    }
+    public void attachToRideNode(Object object){
+        if(object instanceof Spatial){
+            logger.log(Level.FINEST,"New Spatial added to rideNode");
+            rideNode.attachChild((Spatial)object);
+        }
+        if(object instanceof Light){
+            logger.log(Level.FINEST,"New Light added to rideNode");
+            rideNode.addLight((Light)object);
+        }
+    }
 
     @Override
     public void onClick(MouseContainer container) {
-        placeEnterance(container.getResults().getClosestCollision().getContactPoint());
+        UserClickOnEnteranceMode(container.getResults().getClosestCollision().getContactPoint());
         Gamestate.ingameHUD.updateClickingIndicator();
     }
 
     @Override
     public void onDrag(MouseContainer container) {
-        
+
     }
 
     @Override
     public void onDragRelease(MouseContainer container) {
-        
+
     }
 }

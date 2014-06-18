@@ -18,7 +18,7 @@ import intopark.Gamestate;
 import intopark.UtilityMethods;
 import intopark.inputhandler.MouseContainer;
 import intopark.inputhandler.NeedMouse;
-import intopark.terrain.events.AddObjectToMapEvent;
+
 import intopark.util.Direction;
 import intopark.terrain.ParkHandler;
 import intopark.terrain.events.PayParkEvent;
@@ -41,9 +41,9 @@ public class DecorationManager implements NeedMouse{
     Direction direction = Direction.EAST;
     Decorations decoration = Decorations.ROCK;
     float price=0;
-    
-    
-    
+
+
+
     /**
      * This is manager that controls deploying decoration objects to the park.
      * @param rootNode This is used to attach the decorations to world.
@@ -55,7 +55,7 @@ public class DecorationManager implements NeedMouse{
     public DecorationManager(Node rootNode, AssetManager assetManager,EventBus eventBus,ParkHandler parkHandler) {
         this.eventBus=eventBus;
         this.parkHandler=parkHandler;
-        
+
         eventBus.register(this);
         decorationNode = new Node("decorationNode");
         rootNode.attachChild(decorationNode);
@@ -66,7 +66,7 @@ public class DecorationManager implements NeedMouse{
      * Called from the UI. Used to select decoration.
      * @param decoratios Decoration to select.
      */
-    
+
     public void select(Decorations decoratios){
         this.decoration=decoratios;
     }
@@ -74,7 +74,7 @@ public class DecorationManager implements NeedMouse{
      * Constructs the selected decoration to given location.
      * @param loc Location to put the decoration.
      */
-    
+
     public void build(Vector3f loc) {
         if(loc.x<1||loc.x>parkHandler.getMapHeight()){
             return;
@@ -113,19 +113,18 @@ public class DecorationManager implements NeedMouse{
         }
         decobject.setUserData("type", "decoration");
         decobject.setUserData("direction",direction.toString());
-        
+
         int x1=(int)(loc.x+UtilityMethods.HALFTILE);
         int y1=(int)(loc.y+UtilityMethods.HALFTILE);
         int z1=(int)(loc.z+UtilityMethods.HALFTILE);
         decobject.setLocalTranslation(x1,y1,z1);
-        eventBus.post(new AddObjectToMapEvent(x1, y1, z1, decobject));
         eventBus.post(new PayParkEvent(price));
         eventBus.post(new UpdateMoneyTextBarEvent());
         decorationNode.attachChild(decobject);
     }
     /**
      * Called from the UI. Returns image path depending on direction.
-     * @return image path 
+     * @return image path
      */
     public String getArrow() {
         if(direction==Direction.NORTH){
@@ -192,11 +191,11 @@ public class DecorationManager implements NeedMouse{
         switch(decoration){
             case BUSH:
                 return "Bush";
-                
-                
+
+
             case ROCK:
                 return "Rock";
-    
+
         }
         return "bug !";
     }
@@ -207,11 +206,11 @@ public class DecorationManager implements NeedMouse{
     public String getDecorationDescription(){
         switch(decoration){
             case BUSH:
-                
+
                 return "Nice Bush";
-                
+
             case ROCK:
-                
+
                 return "Big rock. Its hard!";
         }
         return "bug !";
@@ -228,8 +227,8 @@ public class DecorationManager implements NeedMouse{
             else{
                 turnLeft();
             }
-            
-            
+
+
         }
     }
 
@@ -241,11 +240,11 @@ public class DecorationManager implements NeedMouse{
 
     @Override
     public void onDrag(MouseContainer container) {
-        
+
     }
 
     @Override
     public void onDragRelease(MouseContainer container) {
-        
+
     }
 }

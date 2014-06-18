@@ -79,26 +79,26 @@ public class ShopManager implements NeedMouse{
                 constructionmoney=300;
                 type="energyshop";
                 break;
-                
+
             case TOILET:
                 constructionmoney=300;
                 type="toilet";
                 break;
-                
+
             case NULL:
                 logger.log(Level.WARNING,"Tried to buy null shop");
                 return;
-                
-            default: 
+
+            default:
                 //Forward to rideManager
                 rideManager.buy(direction,selectedBuilding);
                 resetShopdataFromRide();
                 return;
-               
+
         }
         if(!parkHandler.getParkWallet().canAfford(constructionmoney)){
             logger.log(Level.FINE,"Can't afford constructing shop");
-           return; 
+           return;
         }
         //
         MapPosition pos=new MapPosition(holoDrawer.getLocation());
@@ -114,7 +114,7 @@ public class ShopManager implements NeedMouse{
         parkHandler.getParkWallet().remove(constructionmoney);
         eventBus.post(new UpdateMoneyTextBarEvent());
         resetShopdata();
-  
+
     }
     private void activateplace(){
         Spatial geom;
@@ -123,64 +123,64 @@ public class ShopManager implements NeedMouse{
                 geom = UtilityMethods.loadModel(LoadPaths.mball);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
-                break; 
-                       
+                break;
+
             case ENERGY:
                 geom =UtilityMethods.loadModel(LoadPaths.energy);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
-                
+
             case TOILET:
                 geom =UtilityMethods.loadModel(LoadPaths.toilet);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
-      
+
             case CHESSCENTER:
                 geom =UtilityMethods.loadModel(LoadPaths.chess);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
-                
+
             case BLENDER:
                 geom =UtilityMethods.loadModel(LoadPaths.blender);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
-                
+
             case ARCHERYRANGE:
                 geom =UtilityMethods.loadModel(LoadPaths.archery);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
-                
+
             case HAUNTEDHOUSE:
                 geom =UtilityMethods.loadModel(LoadPaths.archery);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
-                
+
             case PIRATESHIP:
                 geom =UtilityMethods.loadModel(LoadPaths.pirateCore);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
-                
-                
+
+
             case ROTOR:
                 geom =UtilityMethods.loadModel(LoadPaths.rotor);
                 holoDrawer.loadSpatial(geom);
                 eventBus.post(new SetClickingHandlerBufferEvent(1));
                 break;
-                
+
             case NULL:
-                
+
                 break;
         }
         holoDrawer.toggleRenderHoloNode();
         eventBus.post(new SetClickModeEvent(ClickingModes.PLACE));
-        eventBus.post(new CloseWindowsEvent("")); 
+        eventBus.post(new CloseWindowsEvent(""));
     }
     public void attachToShopNode(Object object){
         if(object instanceof Spatial){
@@ -201,6 +201,7 @@ public class ShopManager implements NeedMouse{
     public void resetShopdataFromRide() {
         selectedBuilding = BasicBuildables.NULL;
         direction = Direction.SOUTH;
+        eventBus.post(new SetClickModeEvent(ClickingModes.RIDE));
         placeBuilding=false;
     }
     public void rotateShop(){
@@ -208,18 +209,18 @@ public class ShopManager implements NeedMouse{
             case SOUTH:
                 direction= Direction.WEST;
                 break;
-                
+
             case WEST:
                 direction= Direction.NORTH;
                 break;
-                
+
             case EAST:
                 direction= Direction.SOUTH;
                 break;
-                
+
             case NORTH:
                 direction= Direction.EAST;
-            
+
         }
         holoDrawer.rotateDrawed(direction);
     }
@@ -234,7 +235,7 @@ public class ShopManager implements NeedMouse{
                 if(tx==x&&ty==y&&tz==z){
                     b=p;
                     return b;
-                    
+
                 }
             }
         }
@@ -282,12 +283,12 @@ public class ShopManager implements NeedMouse{
 
     @Override
     public void onDrag(MouseContainer container) {
-        
+
     }
 
     @Override
     public void onDragRelease(MouseContainer container) {
-        
+
     }
-    
+
 }

@@ -18,12 +18,12 @@ public enum Direction {
      * East is Z+
      * West is Z-
      * This enum also contains many methods to compare and change the direction.
-     * Direction.ANY value is used when making roads, it should be used carefully 
+     * Direction.ANY value is used when making roads, it should be used carefully
      * because it will throw IllegalArgumentExeptions if used wrongly.
      */
-    
+
     NORTH,SOUTH,EAST,WEST,ANY;
-    
+
     /**
      * Returns true if this is same/opposite of dir2.
      * @param dir2 another direction to compare
@@ -75,7 +75,7 @@ public enum Direction {
 
                 return EAST;
             default:
-                
+
                 return ANY;
         }
     }
@@ -91,7 +91,7 @@ public enum Direction {
      * @param dir int code to change to Direction
      * @return Direction
      */
-    public Direction intToDirection(int dir) {
+    public static Direction intToDirection(int dir) {
         switch (dir) {
             case 0:
                 return NORTH;

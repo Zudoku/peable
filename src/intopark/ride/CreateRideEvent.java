@@ -36,7 +36,7 @@ public class CreateRideEvent {
     private float price;
     private Enterance enterance;
     private Enterance exit;
-    
+
     public CreateRideEvent(MapPosition position,BasicBuildables type,Direction direction,String name,
             int ID,int broken,int exitement,int nausea,boolean status,float price,Enterance enterance,Enterance exit) {
         this.position = position;
@@ -51,30 +51,17 @@ public class CreateRideEvent {
         this.price=price;
         this.enterance=enterance;
         this.exit=exit;
-        
+
         staticContent=new ArrayList<>();
-    }           
+    }
 
     public BasicRide toRide(){
         BasicRide ride=null;
-        //TODO: MAKE THIS A SWITCH
-        if("chess".equals(type)){
-            ride=new ChessCenter(position, animation,staticContent, direction);
-        }
-        else if("archery".equals(type)){
-            ride=new Archeryrange(position, animation, staticContent, direction);
-        }
-        else if("blender".equals(type)){
-            ride=new Blender(position, animation, staticContent, direction);
-        }
-        else if("hhouse".equals(type)){
-            ride=new HauntedHouse(position, animation, staticContent, direction);
-        }
-        else if("rotor".equals(type)){
-            ride=new Rotor(position, animation, staticContent, direction);
-        }
-        else if("pirateship".equals(type)){
-            ride= new PirateShip(position, animation, staticContent, direction);
+
+        RideFactory factory = new RideFactory();
+        ride = factory.getRideFromBasicBuildable(type, position, direction);
+        if(ride==null){
+            throw new NullPointerException("Unable to transform CreateRideEvent to BasicRide.");
         }
         ride.setEnterance(enterance);
         ride.setExit(exit);
@@ -83,8 +70,17 @@ public class CreateRideEvent {
         ride.setPrice(price);
         ride.setRide(type);
         ride.setStats(broken, exitement, nausea, status);
-        ride.setAllSpatialsUserData("type","ride");
-        ride.setAllSpatialsUserData("ID",ID);
+        //ride.setAllSpatialsUserData("type","ride");
+        //ride.setAllSpatialsUserData("ID",ID);
         return ride;
     }
+
+    public Enterance getEnterance() {
+        return enterance;
+    }
+
+    public Enterance getExit() {
+        return exit;
+    }
+
 }

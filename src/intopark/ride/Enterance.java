@@ -26,18 +26,19 @@ public class Enterance implements Savable{
   private boolean exit=false;
   private MapPosition location;
   private Direction direction;
+  private int ID;
   private boolean connected=false;
   private transient Spatial object;
   private transient BasicRide connectedRide;
   private transient BuildingEnterance enteranceWalkable;
   @Inject private transient EventBus eventBus;
-  
 
-    public Enterance(boolean exit,MapPosition location,Direction direction) {
+
+    public Enterance(boolean exit,MapPosition location,Direction direction,int ID) {
         this.exit=exit;
         this.location=location;
         this.direction=direction;
-        
+
         if(exit==true){
             object=UtilityMethods.loadModel(LoadPaths.rideExit);
         }
@@ -45,17 +46,18 @@ public class Enterance implements Savable{
             object=UtilityMethods.loadModel(LoadPaths.rideEnterance);
         }
         object.setLocalTranslation(location.getVector());
-        
+
         MapPosition l=new MapPosition(location);
         l.setX(l.getX()+direction.directiontoPosition().getX());
         l.setZ(l.getZ()+direction.directiontoPosition().getZ());
-        
+
         enteranceWalkable=new BuildingEnterance(l,0,BuildingEnterance.RIDE);
         object.setUserData("type","enterance");
+        object.setUserData("ID",ID);
         float angle;
         switch(direction){
             case NORTH:
-                
+
                 break;
             case SOUTH:
                 angle = (float) Math.toRadians(180);
@@ -125,4 +127,9 @@ public class Enterance implements Savable{
     public Spatial getObject() {
         return object;
     }
+
+    public int getID() {
+        return ID;
+    }
+    
 }
