@@ -5,12 +5,6 @@
 package intopark.ride;
 
 import com.jme3.scene.Spatial;
-import intopark.ride.actualrides.Archeryrange;
-import intopark.ride.actualrides.Blender;
-import intopark.ride.actualrides.ChessCenter;
-import intopark.ride.actualrides.HauntedHouse;
-import intopark.ride.actualrides.PirateShip;
-import intopark.ride.actualrides.Rotor;
 import intopark.shops.BasicBuildables;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
@@ -23,9 +17,7 @@ import java.util.List;
  */
 public class CreateRideEvent {
     private MapPosition position;
-    private CustomAnimation animation;
     private BasicBuildables type;
-    private List<Spatial> staticContent;
     private Direction direction;
     private String name;
     private int ID;
@@ -37,6 +29,19 @@ public class CreateRideEvent {
     private Enterance enterance;
     private Enterance exit;
 
+
+    public CreateRideEvent(MapPosition position,BasicBuildables type,Direction direction,int ID){
+        this.position = position;
+        this.type=type;
+        this.direction=direction;
+        this.ID=ID;
+        this.name=type.toString()+" "+ID;
+        this.broken=-1;
+        this.exitement=-1;
+        this.nausea=-1;
+        this.price=5; //default price
+        this.status=false;
+    }
     public CreateRideEvent(MapPosition position,BasicBuildables type,Direction direction,String name,
             int ID,int broken,int exitement,int nausea,boolean status,float price,Enterance enterance,Enterance exit) {
         this.position = position;
@@ -51,8 +56,6 @@ public class CreateRideEvent {
         this.price=price;
         this.enterance=enterance;
         this.exit=exit;
-
-        staticContent=new ArrayList<>();
     }
 
     public BasicRide toRide(){
@@ -63,8 +66,12 @@ public class CreateRideEvent {
         if(ride==null){
             throw new NullPointerException("Unable to transform CreateRideEvent to BasicRide.");
         }
-        ride.setEnterance(enterance);
-        ride.setExit(exit);
+        if(enterance!=null){
+            ride.setEnterance(enterance);
+        }
+        if(exit!=null){
+            ride.setExit(exit);
+        }
         ride.setName(name);
         ride.setID(ID);
         ride.setPrice(price);

@@ -18,13 +18,16 @@ import java.util.logging.Logger;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
 import intopark.inout.Identifier;
+import intopark.inputhandler.ClickingModes;
 import intopark.inputhandler.MouseContainer;
 import intopark.inputhandler.NeedMouse;
+import intopark.inputhandler.SetClickModeEvent;
 import intopark.shops.BasicBuildables;
 import intopark.shops.HolomodelDrawer;
 import intopark.terrain.MapContainer;
 import intopark.util.Direction;
 import intopark.terrain.ParkHandler;
+import intopark.terrain.events.AddToBlockingMapEvent;
 import intopark.util.MapPosition;
 
 /**
@@ -61,11 +64,12 @@ public class RideManager implements NeedMouse{
         rootNode.attachChild(rideNode);
     }
 
-    public void buy(Direction direction, BasicBuildables selectedBuilding) {
-        MapPosition loc = new MapPosition(UtilityMethods.roundVector(holoDrawer.getLocation()));
+    public void buildNewRide(Direction direction, BasicBuildables selectedBuilding) {
+        MapPosition position = new MapPosition(UtilityMethods.roundVector(holoDrawer.getLocation()));
         int ID = identifier.reserveID();
-        CreateRideEvent event=new CreateRideEvent(loc,selectedBuilding,direction,"",ID,-1,-1,-1,true,20, null,null);
+        CreateRideEvent event=new CreateRideEvent(position,selectedBuilding,direction,ID);
         eventBus.post(event);
+        enterancecount=0;
     }
     public void UserClickOnEnteranceMode(Vector3f pos) {
         Vector3f roundVector=UtilityMethods.roundVector(pos);
@@ -84,10 +88,11 @@ public class RideManager implements NeedMouse{
                 logger.log(Level.FINER, "Can't place enterance here, Something is blocking it.");
                 return;
             }else{
-                logger.log(Level.FINER, "Can't place enterance here, {0} is blocking it.",identifier.getObjectWithID(foundID).toString());
+                logger.log(Level.FINER, "Can't place enterance here, {0} is blocking it.","a");
                 return;
             }
         }
+        //Check for each direction if there is a ride it can attach to.
         for(int suunta = 0; suunta < 4 ;suunta++){
             Direction direction= Direction.intToDirection(suunta);
             MapPosition offset = direction.directiontoPosition();
@@ -97,7 +102,7 @@ public class RideManager implements NeedMouse{
                 Object foundObject = identifier.getObjectWithID(code);
                 if(foundObject instanceof BasicRide){
                     BasicRide foundRide= (BasicRide) foundObject;
-                    boolean built = TryToBuildEnterance(enterancetype, (x+offset.getX()), y, (z+offset.getZ()), direction); //might be direction.getOpposite()
+                    boolean built = TryToBuildEnterance(enterancetype, x, y, z, direction,foundRide); //might be direction.getOpposite()
                     if(built){
                         return;
                     }
@@ -114,35 +119,46 @@ public class RideManager implements NeedMouse{
             ride.update();
         }
     }
-    private boolean TryToBuildEnterance(boolean enterancetype, int x, int y, int z, Direction suunta) {
-        if(!parkHandler.testForEmptyTile(x,y,z)){
-            logger.log(Level.FINE, "Enterance build cancelled because {0} {1} {2} was not empty", new Object[]{x, y, z});
-
+    private boolean TryToBuildEnterance(boolean exit, int x, int y, int z, Direction suunta,BasicRide ride) {
+        //Check if the block is occupied.
+        if(mapContainer.checkIfBlocking(new int[]{x,y,z})!=-2){
+            logger.log(Level.FINER, "Can't build enterance because there is something on the way.");
+            return false;
         }
-        return false;
-        //TODO: test if ride needs enterance...
-
-        //Enterance e = new Enterance(enterancetype, new Vector3f(x, y, z), suunta, assetManager);
-        //e.connectedRide = rides.get(rideID - 2);
-        //e.object.setUserData("type", "enterance");
-        //e.object.setUserData("rideID", e.connectedRide.getRideID());
-//
-//        eventBus.post(new AddObjectToMapEvent(x, y, z, e.object));
-//        if (enterancetype == false) {
-//            rides.get(rideID - 2).enterance = e;
-//        } else {
-//            rides.get(rideID - 2).exit = e;
-//        }
-//
-//        rideNode.attachChild(e.object);
-//        enterancecount++;
-//        if (enterancecount > 1) {
-//            enterancecount = 0;
-//            eventBus.post(new SetClickModeEvent(ClickingModes.NOTHING));
-//        }
+        //Check if ride already has enterance.
+        if(exit){
+            if(ride.getExit()!=null){
+                logger.log(Level.FINER, "Ride {0} already has an exit.",ride.toString());
+                return false;
+            }
+        }else{
+            if(ride.getEnterance()!= null){
+                logger.log(Level.FINER, "Ride {0} already has an enterance");
+                return false;
+            }
+        }
+        buildEnterance(exit, new MapPosition(x, y, z), suunta, ride);
+        return true;
     }
-    public void buildEnterance(){
-
+    public void buildEnterance(boolean exit,MapPosition position,Direction direction,BasicRide connectedRide){
+        int ID = identifier.reserveID();
+        Enterance enterance = new Enterance(exit,position,direction,ID,eventBus);
+        enterance.setConnectedRide(connectedRide);
+        if(exit){
+            connectedRide.setExit(enterance);
+        }else{
+            connectedRide.setEnterance(enterance);
+        }
+        attachToRideNode(enterance.getObject());
+        identifier.addOldObject(enterance.getID(),ID);
+        AddToBlockingMapEvent event = new AddToBlockingMapEvent(ID, new int[]{position.getX(),position.getY(),position.getZ()});
+        eventBus.post(event);
+        enterancecount++;
+        if(enterancecount>=2){
+            enterancecount=0;
+            SetClickModeEvent clickmodeEvent= new SetClickModeEvent(ClickingModes.NOTHING);
+            eventBus.post(clickmodeEvent);
+        }
     }
     public void attachToRideNode(Object object){
         if(object instanceof Spatial){
@@ -152,6 +168,31 @@ public class RideManager implements NeedMouse{
         if(object instanceof Light){
             logger.log(Level.FINEST,"New Light added to rideNode");
             rideNode.addLight((Light)object);
+        }
+        if(object instanceof BasicRide){
+            logger.log(Level.FINEST,"New Ride added to rideNode");
+            BasicRide ride=(BasicRide)object;
+            for(Spatial spatial:ride.getAllSpatialsFromRide(false)){
+                rideNode.attachChild(spatial);
+            }
+        }
+    }
+    /**
+     * This is a temporary fix so that rides reserve space. It always reserves 3x3 area around the ride. TODO: REMAKE
+     * @param ride
+     */
+    public void reserveSpace(BasicRide ride){
+        int ID = ride.getID();
+        MapPosition position = ride.getPosition();
+        for(int x=-1;x<2;x++){
+            for(int z=-1;z<2;z++){
+                int x1=position.getX()+x;
+                int y1=position.getY();
+                int z1=position.getZ()+z;
+                int[] coords=new int[]{x1,y1,z1};
+                AddToBlockingMapEvent event=new AddToBlockingMapEvent(ID, coords);
+                eventBus.post(event);
+            }
         }
     }
 

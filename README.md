@@ -10,7 +10,7 @@ INTOPARK
 - [Gson](https://code.google.com/p/google-gson/)
 - [JUnit](https://github.com/junit-team/junit/wiki/Download-and-Install)
 - [Mockito](https://code.google.com/p/mockito/)
- 
+
 #WHAT IS THIS#
 This is my passion, a game called IntoPark. It is a theme park strategy game currently in developement. This is my first game.
 Read more [here](http://arttu.me/)
@@ -101,18 +101,19 @@ Read more [here](http://arttu.me/)
 	- Shops sell items [x]
 	- Customizable colors, shop name, product names... []
 	- Shop upgrades []
-	- 
+	-
 - #RIDES#
 	- Buildable Rides
 		- Archery range []
 		- Chess Center []
 		- Haunted house []
 		- Pirate Ship []
-		- 
+		-
 	- Rides that move [x]
 	- Customizable colors, ride name, ride price... []
 	- Functional enterances and exits [x]
 	- Functional queue handling []
+        - Inspectors need to inspect ride before it can be activated.
 - #DECORATIONS#
 	- Ability to build decorations []
 	- Rotate them []
@@ -120,7 +121,7 @@ Read more [here](http://arttu.me/)
 - #DEMOLITION#
 	- Demolish decorations []
 	- Demolish roads []
-	- Demolish rides []
+	- Demolish rides [x]
 	- Demilish shops []
 - #SPECIAL EFFECTS#
     - Demolish explosions/smoke []
@@ -133,19 +134,29 @@ Read more [here](http://arttu.me/)
 
 - Models for Shops, Rides, Guest.
 - Refactoring guest queue to ride logic.
-- Building selection UI.
+- Building selection/ride UI.
 
 #THINGS TO DO LATER#
 
 - Think of better names for shops and rides.
+- Re-organize README.
+- Window asking if you want to demolish building before demolishing it.
+- Populate guest/shop/ride UI.
+-
 
 #KNOWN BUGS#
 
 - Creating a new map crashes/malfunctions game.
-- Decorations are a mess. (should be completely redone.
+- Decorations are a mess. (should be completely re-done).
 - When placing shops, sometimes you need to click twice.
 - Some models are not facing the right way.
 - Roads can be built through terrain.
+- Ride price change slider has floating point rounding error.
+- Rides don't cost money.
+- Terrain appears to be blue when game is started.
+- Placing objects out of map can cause it to crash.
+- Terrain editor drag sometimes frees.
+- Guests walk underground when climbing up roads.
 
 
 #ENCHANCING IDEAS#

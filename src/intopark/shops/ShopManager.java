@@ -91,7 +91,7 @@ public class ShopManager implements NeedMouse{
 
             default:
                 //Forward to rideManager
-                rideManager.buy(direction,selectedBuilding);
+                rideManager.buildNewRide(direction,selectedBuilding);
                 resetShopdataFromRide();
                 return;
 

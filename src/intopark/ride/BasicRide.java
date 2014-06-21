@@ -62,9 +62,9 @@ public class BasicRide {
     private transient double guestRateHour=0; //how many guests per hour
     private int repairCost=100; //how much does it cost to repair this
     private BasicBuildables ride; //this is variable used in saving
-    
-    //TODO:!! 
-    
+
+    //TODO:!!
+
     private void calculateguestRate(){
         //TODO updateguestRate method that does this and modify this to just calculate the rate
         double a=System.currentTimeMillis()-lastGuestVisitTime; //aika jolloin laitteeseen tuli tybä
@@ -72,7 +72,7 @@ public class BasicRide {
         guestRateHour=u;
         lastGuestVisitTime=System.currentTimeMillis();
     }
-    
+
     public BasicRide(MapPosition position,CustomAnimation object,List<Spatial> staticParts, float cost, Direction direction,BasicBuildables ride) {
         this.position = position;
         this.animatedPart = object;
@@ -87,20 +87,20 @@ public class BasicRide {
             s.setLocalTranslation(position.getVector());
             logger.log(Level.FINEST,"Object {0} moved to {1}",new Object[]{s,s.getLocalTranslation()});
         }
-        
+
     }
 
     public void interact(Guest guest) {
-        
+
     }
-    
+
 
     public boolean tryToQueGuest(Guest guest) {
         if(status){
             guestsInQue.add(guest);
             return true;
         }
-        
+
 
         return false;
     }
@@ -120,7 +120,7 @@ public class BasicRide {
     }
 
     public void takeQuestToRide(Guest g) {
-        
+
         guestsInQue.remove(g);
         guestsInRide.add(g);
         g.setJoinedRide(System.currentTimeMillis());
@@ -151,7 +151,7 @@ public class BasicRide {
         status=!status;
         return status;
     }
-    
+
     public void demolish() {
 
         eventBus.post(new PayParkEvent(0.5f*constructionmoney));
@@ -160,7 +160,7 @@ public class BasicRide {
 
     }
     public void update(){
-        
+
     }
     public void runAnim(){
         animatedPart.runAnimation();
@@ -172,7 +172,7 @@ public class BasicRide {
         }
     }/**
      * Should be called when deleting ride from map
-     * @param node 
+     * @param node
      */
     public void detachFromNode(Node node){
         node.detachChild(animatedPart.getObject());
@@ -182,12 +182,12 @@ public class BasicRide {
             node.detachChild(s);
         }
     }
-    public ArrayList<Spatial> getAllSpatialsFromRide(){
-        ArrayList<Spatial> list=new ArrayList<Spatial>(staticParts);
-        if(exit!=null){
+    public List<Spatial> getAllSpatialsFromRide(boolean enterances){
+        List<Spatial> list=new ArrayList<>(staticParts);
+        if(exit!=null && enterances){
             list.add(exit.getObject());
         }
-        if(enterance!=null){
+        if(enterance!=null && enterances){
             list.add(enterance.getObject());
         }
         if(animatedPart!=null){
@@ -196,7 +196,7 @@ public class BasicRide {
         return list;
     }
     public void setAllSpatialsUserData(String key,Object data){
-        for(Spatial s:getAllSpatialsFromRide()){
+        for(Spatial s:getAllSpatialsFromRide(true)){
             s.setUserData(key, data);
         }
     }
@@ -263,12 +263,12 @@ public class BasicRide {
         return ride;
     }
 
-    
+
 
     public void setPrice(float value) {
         this.price=value;
     }
-    
+
     public void setStats(int broken,int exitement,int nausea,boolean status){
         this.broken=broken;
         this.exitement=exitement;
@@ -326,7 +326,7 @@ public class BasicRide {
     public void setRide(BasicBuildables ride) {
         this.ride = ride;
     }
-    
+
 
     public void setAnimatedPart(CustomAnimation animatedPart) {
         this.animatedPart = animatedPart;
@@ -361,5 +361,5 @@ public class BasicRide {
         this.exit = exit;
         this.exit.setConnectedRide(this);
     }
-    
+
 }

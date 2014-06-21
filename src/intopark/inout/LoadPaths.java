@@ -23,7 +23,7 @@ public class LoadPaths {
     public static String queroaduphill="Models/Roads/roadUpHillblue.j3o";
     public static String queroadbending="Models/Roads/roadBendingblue.j3o";
     public static String rideExit="Models/Rides/exit.j3o";
-    public static String rideEnterance="Models/Rides/enterance.j3o";
+    public static String rideEnterance="Models/Rides/enterace.j3o";
     public static String chess="Models/Rides/Chesshouse/chesshouse.j3o";
     public static String archery="Models/Rides/archeryrange/archeryrange.j3o";
     public static String blender="Models/Rides/Blender/blender.j3o";

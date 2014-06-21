@@ -11,7 +11,7 @@
             <image filename="Interface/Nifty/Transparent.png"  width="100%" height="100%"></image>
         </layer>
         <layer id="layer" height="100%" width="100%" backgroundColor="#fff0" childLayout="absolute"visibleToMouse="true">
-            <panel id="buttones"x="0"y="0"height="100%" width="100%" backgroundColor="#323f" childLayout="absolute"visibleToMouse="true">
+            <panel id="buttones"x="0"y="0"height="100%" width="100%" backgroundColor="#fff4" childLayout="absolute"visibleToMouse="true">
                 <control id="alphatest" name="button" label="Start new game!" x="500"y="600"width="30%"height="3%"visibleToMouse="true">
                     <interact onClick="onLoadNewGameButton()"/>
                 </control>
@@ -22,7 +22,7 @@
                 </control>
                 <control id="alphatestmessage"name="label"  color="#ffff" text="PLEASE NOTE THAT THIS IS PRE-ALPHA!" x="5"y="36"/>
                 <control id="Author"name="label" font="Interface/Fonts/Impact.fnt"text="Made by Arttu Siren" x="5"y="10" color="#f55f"/>
-                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.05A" x="150"y="10" color="#EBB9C2"/>
+                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.06A" x="150"y="10" color="#EBB9C2"/>
             </panel>
             <control id="newgamewindow" name="window"title=" "width="400"height="500"x="10"y="100"hideOnClose="true"closeable="true">
                 <panel x="0"y="0"id="negamepanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#C4F590" childLayout="absolute"visibleToMouse="true">
@@ -637,8 +637,8 @@
                                     <control id="shopworkingconditions"name="label" text="Not inspected " x="130"y="30" color="#ffff"/>
                                     <control id="shopproductqualityprefix"name="label" text="Product quality: " x="0"y="50" color="#ffff"/>
                                     <control id="shopproductquality"name="label" text="Not inspected " x="102"y="50" color="#ffff"/>
-                                    <control id="shopmoneyearnprefix"name="label" text="Profit: " x="0"y="70" color="#ffff"/>
-                                    <control id="shopmoneyearn"name="label" text="-100 " x="40"y="70" color="#ffff"/>
+                                    <control id="shopinspecttasteprefix"name="label" text="Left image: " x="0"y="70" color="#ffff"/>
+                                    <control id="shopinspecttaste"name="label" text="Not inspected " x="80"y="70" color="#ffff"/>
                                     <control id="shopinspectedbyprefix"name="label" text="Inspected by: " x="0"y="90" color="#ffff"/>
                                     <control id="shopinspectedby"name="label" text="Not inspected" x="90"y="90" color="#ffff"/>
                                     <control id="shopupgrades"name="label" font="Interface/Fonts/Impact.fnt"text="Available Upgrades" x="300"y="8" color="#FFF700"/>
@@ -650,7 +650,7 @@
                                     <control id="shopupgradetext2"name="label" text="..." x="326"y="50" color="#ffff"/>
                                     <control id="shopupgradetext3"name="label" text="..." x="326"y="70" color="#ffff"/>
                                     <control id="shopupgradetext4"name="label" text="..." x="326"y="90" color="#ffff"/>
-                                    <control id="shopupgrades"name="label" font="Interface/Fonts/Impact.fnt"text="Special notices" x="0"y="170" color="#FFF700"/>
+                                    <control id="shopnotices"name="label" font="Interface/Fonts/Impact.fnt"text="Special notices" x="0"y="170" color="#FFF700"/>
                                     <control id="shopnoticeslistbox" name="listBox" vertical="off" width="450"height="100"horizontal="off" displayItems="7" selection="Single" x="0"y="190"/>
                                 </panel>
                             </control>
@@ -677,88 +677,82 @@
                 </panel>
             </control>
             <control id="ridetemplate" name="window"title="Ride"width="496"height="400"x="200"y="200"closeable="true"hideOnClose="true">
-                <panel id="r_rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                    <panel id="r_tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true"childClip="true">
+                <panel id="r_rootpanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#4A4949" childLayout="absolute"visibleToMouse="true">
+                    <panel id="r_tabspanel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#4A4949" childLayout="absolute"visibleToMouse="true"childClip="true">
                         <control id="r_tabs" name="tabGroup" buttonWidth="1" buttonHeight="1"x="0"y="0">
                             <control id="r_tab_1" name="tab" caption="Actions"x="0"y="0">
-                                <panel id="r_tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <control id="ridenametextfieldprefix"name="label" text="Change name:" x="10"y="10" color="ffffff"/>
-                                    <control id="ridenametextfield"name="textfield" maxLength="50" x="120"y="10"height="24" width="200" />
+                                <panel id="r_tab_1_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#0000" childLayout="absolute"visibleToMouse="true">
+                                    <control id="ridenametextfieldprefix"name="label" text="Change name:" x="0"y="10" color="ffffff"/>
+                                    <control id="ridenametextfield"name="textfield" maxLength="50" x="96"y="10"height="22" width="200" />
+                                    <control id="ridepricechangeprefix"name="label" text="Change price:" x="0"y="40" color="ffffff"/>
+                                    <control id="ridepricechange"name="label" text="100.0" x="90"y="40" color="ffffff"/>
+                                    <control id="ridepriceslider" max="20" name="horizontalSlider" stepSize="0.1" buttonStepSize="0.1" initial="2.0"width="160px" x="130"y="40"/>
                                     <image id="ridestatusbutton"filename="Interface/Rides/statusoff.png"x="340"y="0" childLayout="absolute" height="48"width="48"visibleToMouse="true">
                                         <interact onClick="rideStatusToggle()">
                                         </interact>
                                     </image>
-                                    <image id="ridedemolishbutton"filename="Interface/Rides/destroy.png"x="390"y="0" childLayout="absolute" height="48"width="48"visibleToMouse="true">
-                                        <interact onClick="rideDemolishToggle()">
-                                        </interact>
-                                    </image>
-                                    <control id="ridepricechangeprefix"name="label" text="Current price:" x="10"y="46" color="ffffff"/>
-                                    <control id="ridepricechange"name="label" text="100.0" x="120"y="46" color="ffffff"/>
-                                    <control id="ridepriceslider" max="20" name="horizontalSlider" stepSize="0.1" buttonStepSize="0.1" initial="2.0"width="400px" x="10"y="70"/>
+                                    <control id="riderequestinspection" name="button" label="Request inspection" x="0"y="66"width="130"height="24"visibleToMouse="true">
+                                        <interact onClick="rideInspectionRequest()"/>
+                                    </control>
+                                    <control id="riderebuildenterance" name="button" label="Rebuild enterances" x="140"y="66"width="130"height="24"visibleToMouse="true">
+                                        <interact onClick="rideRebuildEnterance()"/>
+                                    </control>
+                                    <control id="ridedemolishbutton" name="button" label="Demolish ride" x="280"y="66"width="130"height="24"visibleToMouse="true">
+                                        <interact onClick="rideDemolishToggle()"/>
+                                    </control>
                                 </panel>
                             </control>
-                            <control id="r_tab_2" name="tab" caption="Information"x="0"y="0">
-                                <panel id="r_tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <control id="ridepriceprefix"name="label" text="Price: " x="10"y="0" color="ffffff"/>
-                                    <control id="rideprice"name="label" text="10000" x="58"y="0" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="23" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridenameprefix"name="label" text="Name: " x="10"y="30" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="53" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridename"name="label" text="191910109109112312123123123123123" x="60"y="30" color="ffffff"/>
-                                    <control id="ridetypeprefix"name="label" text="Type: " x="10"y="60" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="83" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridetype"name="label" text="198273918273918273129371231238" x="50"y="60" color="ffffff"/>
-                                    <control id="rideexitementprefix"name="label" text="Exitement: " x="10"y="90" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="113" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="rideexitement"name="label" text="60" x="86"y="90" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="143" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridenauseaprefix"name="label" text="Nausea: " x="10"y="120" color="ffffff"/>
-                                    <control id="ridenausea"name="label" text="20" x="72"y="120" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="173" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridestatusprefix"name="label" text="Status: " x="10"y="150" color="ffffff"/>
-                                    <control id="ridestatus"name="label" text="Open" x="62"y="150" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="203" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridebrokenprefix"name="label" text="Condition: " x="10"y="180" color="ffffff"/>
-                                    <control id="ridebroken"name="label" text="Broken" x="86"y="180" color="ffffff"/>
+                            <control id="r_tab_2" name="tab" caption="Inspection"x="0"y="0">
+                                <panel id="r_tab_2_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#0000" childLayout="absolute"visibleToMouse="true">
+                                    <control id="ridelastinspectprefix"name="label" text="Last inspect: " x="0"y="10" color="#ffff"/>
+                                    <control id="ridelastinspect"name="label" text="Not inspected " x="82"y="10" color="#ffff"/>
+                                    <control id="rideworkingconditionsprefix"name="label" text="Working conditions: " x="0"y="30" color="#ffff"/>
+                                    <control id="rideworkingconditions"name="label" text="Not inspected " x="130"y="30" color="#ffff"/>
+                                    <control id="rideproductqualityprefix"name="label" text="Product quality: " x="0"y="50" color="#ffff"/>
+                                    <control id="rideproductquality"name="label" text="Not inspected " x="102"y="50" color="#ffff"/>
+                                    <control id="rideinspecttasteprefix"name="label" text="Left image: " x="0"y="70" color="#ffff"/>
+                                    <control id="rideinspecttaste"name="label" text="Not inspected " x="72"y="70" color="#ffff"/>
+                                    <control id="rideinspectedbyprefix"name="label" text="Inspected by: " x="0"y="90" color="#ffff"/>
+                                    <control id="rideinspectedby"name="label" text="Not inspected" x="90"y="90" color="#ffff"/>
+                                    <control id="rideinspectpaidprefix"name="label" text="Paid inspect: " x="0"y="110" color="#ffff"/>
+                                    <control id="rideinspectpaid"name="label" text="Not inspected " x="82"y="110" color="#ffff"/>
+                                    <control id="ridenotices"name="label" font="Interface/Fonts/Impact.fnt"text="Special notices" x="0"y="170" color="#FFF700"/>
+                                    <control id="ridenoticeslistbox" name="listBox" vertical="off" width="450"height="100"horizontal="off" displayItems="7" selection="Single" x="0"y="190"/>
                                 </panel>
                             </control>
                             <control id="r_tab_3" name="tab" caption="Information"x="0"y="0">
-                                <panel id="tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#1c1b18" childLayout="absolute"visibleToMouse="true">
-                                    <control id="ridecustomersprefix"name="label" text="In Ride: " x="10"y="0" color="ffffff"/>
-                                    <control id="ridecustomers"name="label" text="10000" x="68"y="0" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="23" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridecustomerslifeprefix"name="label" text="Customers: " x="10"y="30" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="53" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridecustomerslife"name="label" text="19191233123" x="100"y="30" color="ffffff"/>
-                                    <control id="ridecustomershourprefix"name="label" text="Customers/hour: " x="10"y="60" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="83" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridecustomershour"name="label" text="1238" x="136"y="60" color="ffffff"/>
-                                    <control id="ridemoneygainedprefix"name="label" text="Money gained: " x="10"y="90" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="113" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridemoneygained"name="label" text="60000000" x="116"y="90" color="ffffff"/>
-                                    <control id="ridemoneyhourprefix"name="label" text="Money/hour: " x="10"y="120" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="143" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridemoneyhour"name="label" text="60000000" x="106"y="120" color="ffffff"/>
-                                    <control id="ridehourcostprefix"name="label" text="Cost/hour: " x="10"y="150" color="ffffff"/>
-                                    <image filename="Interface/NPC/raja.png"x="10"y="173" childLayout="absolute" height="10"width="300"visibleToMouse="true">
-                                    </image>
-                                    <control id="ridehourcost"name="label" text="60000000" x="96"y="150" color="ffffff"/>
+                                <panel id="tab_3_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#0000" childLayout="absolute"visibleToMouse="true">
+                                    <control id="ridenameprefix"name="label" text="Name: " x="0"y="10" color="#ffff"/>
+                                    <control id="ridename"name="label" text="temporaryname1 " x="42"y="10" color="#ffff"/>
+                                    <control id="ridepriceprefix"name="label" text="Price: " x="0"y="30" color="#ffff"/>
+                                    <control id="rideprice"name="label" text="100.0" x="40"y="30" color="#ffff"/>
+                                    <control id="ridetypeprefix"name="label" text="Type: " x="0"y="50" color="#ffff"/>
+                                    <control id="ridetype"name="label" text="Pirate Ship " x="40"y="50" color="#ffff"/>
+                                    <control id="ridelocationprefix"name="label" text="Location: " x="0"y="70" color="#ffff"/>
+                                    <control id="ridelocation"name="label" text="15X 6Y 15Z " x="60"y="70" color="#ffff"/>
+                                    <control id="rideprofitbyprefix"name="label" text="Profit: " x="0"y="90" color="#ffff"/>
+                                    <control id="rideprofit"name="label" text="1000.0 " x="40"y="90" color="#ffff"/>
+                                    <control id="ridestatusprefix"name="label" text="Status: " x="0"y="110" color="#ffff"/>
+                                    <control id="ridestatus"name="label" text="closed " x="50"y="110" color="#ffff"/>
+                                    <control id="rideexcitementprefix"name="label" text="Excitement: " x="0"y="130" color="#ffff"/>
+                                    <control id="rideexcitement"name="label" text="100 " x="76"y="130" color="#ffff"/>
+                                    <control id="ridenauseaprefix"name="label" text="Nausea: " x="0"y="150" color="#ffff"/>
+                                    <control id="ridenausea"name="label" text="100 " x="54"y="150" color="#ffff"/>
+                                    <control id="ridebrokenprefix"name="label" text="Broken: " x="0"y="170" color="#ffff"/>
+                                    <control id="ridebroken"name="label" text="100 " x="54"y="170" color="#ffff"/>
+                                </panel>
+                            </control>
+                            <control id="r_tab_4" name="tab" caption="Feedback"x="0"y="0">
+                                <panel id="tab_4_panel"valign="top"align="left"height="100%" width="100%" x="0"y="0"backgroundColor="#0000" childLayout="absolute"visibleToMouse="true">
+                                    <control id="ridecustomersprefix"name="label" text="Customers: " x="0"y="10" color="#ffff"/>
+                                    <control id="ridecustomers"name="label" text="9001 " x="78"y="10" color="#ffff"/>
+                                    <control id="ridecustomersrideprefix"name="label" text="Customers in ride: " x="0"y="30" color="#ffff"/>
+                                    <control id="ridecustomersride"name="label" text="22 " x="118"y="30" color="#ffff"/>
+                                    <control id="ridecustomerfeedback"name="label" font="Interface/Fonts/Impact.fnt"text="Feedback" x="0"y="150" color="#FFF700"/>
+                                    <control id="ridecustomerfeedbacklistbox" name="listBox" vertical="off" width="450"height="100"horizontal="off" displayItems="8" selection="Single" x="0"y="170"/>
                                 </panel>
                             </control>
                         </control>
-
                     </panel>
                 </panel>
             </control>

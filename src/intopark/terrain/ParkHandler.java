@@ -43,6 +43,7 @@ import intopark.shops.CreateShopEvent;
 import intopark.shops.ShopDemolishEvent;
 import intopark.shops.ShopManager;
 import intopark.terrain.decoration.CreateParkEnteranceEvent;
+import intopark.terrain.events.AddToBlockingMapEvent;
 import intopark.terrain.events.AddToRootNodeEvent;
 import intopark.terrain.events.RefreshGroundEvent;
 import intopark.terrain.events.SetMapDataEvent;
@@ -253,24 +254,30 @@ public class ParkHandler {
         int ax=shop.getPosition().getX();
         int ay=shop.getPosition().getY();
         int az=shop.getPosition().getZ();
+        AddToBlockingMapEvent blockevent= new AddToBlockingMapEvent(shop.getID(), new int[]{ax,ay,az});
+        eventBus.post(blockevent);
     }
 
     @Subscribe public void listenCreateRideEvent(CreateRideEvent event){
         BasicRide ride = event.toRide();
         Enterance enterance = event.getEnterance();
         if(enterance != null){
-            rideManager.attachToRideNode(enterance);
+            rideManager.attachToRideNode(enterance.getObject());
             identifier.addOldObject(enterance.getID(), enterance);
         }
         Enterance exit = event.getExit();
         if(exit != null){
-            rideManager.attachToRideNode(exit);
+            rideManager.attachToRideNode(exit.getObject());
             identifier.addOldObject(exit.getID(), exit);
         }
         identifier.addOldObject(ride.getID(), ride);
         rides.add(ride);
         rideManager.attachToRideNode(ride);
-
+        rideManager.reserveSpace(ride);
+        for(Spatial spatial:ride.getAllSpatialsFromRide(false)){
+            spatial.setUserData("type","ride");
+            spatial.setUserData("ID",ride.getID());
+        }
     }
     /**
      * This will create a Park Enterance from the parameters from the event.

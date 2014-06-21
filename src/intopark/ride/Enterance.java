@@ -31,14 +31,14 @@ public class Enterance implements Savable{
   private transient Spatial object;
   private transient BasicRide connectedRide;
   private transient BuildingEnterance enteranceWalkable;
-  @Inject private transient EventBus eventBus;
+  private transient EventBus eventBus;
 
 
-    public Enterance(boolean exit,MapPosition location,Direction direction,int ID) {
+    public Enterance(boolean exit,MapPosition location,Direction direction,int ID,EventBus eventBus) {
         this.exit=exit;
         this.location=location;
         this.direction=direction;
-
+        this.eventBus=eventBus;
         if(exit==true){
             object=UtilityMethods.loadModel(LoadPaths.rideExit);
         }
@@ -131,5 +131,5 @@ public class Enterance implements Savable{
     public int getID() {
         return ID;
     }
-    
+
 }

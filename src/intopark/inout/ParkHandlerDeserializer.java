@@ -135,10 +135,10 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
                 Direction directionValue=jdc.deserialize(enteranceObject.get("direction"),Direction.class);
                 int ID = getI(enteranceObject,"ID");
                 if(i==0){
-                    enterance=new Enterance(exitValue, locationValue, directionValue,ID);
+                    enterance=new Enterance(exitValue, locationValue, directionValue,ID,eventBus);
                     continue;
                 }
-                exit=new Enterance(exitValue, locationValue, directionValue,ID);
+                exit=new Enterance(exitValue, locationValue, directionValue,ID,eventBus);
             }
             //FINISH THE RIDE
             CreateRideEvent event=new CreateRideEvent(pos,ride,dir,name,rideID,broken,exitement,nausea,status,price,enterance,exit);

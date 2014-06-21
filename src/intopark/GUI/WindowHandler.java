@@ -278,14 +278,20 @@ public class WindowHandler {
         /**
          * TAB 1
          */
+
+        /**
         if (updateNameTextField) {
             updateRideNameTextfield(ride.getName());
         }
         updateRidePriceTextTab1(rideWindow, ride.getPrice(), false);
         updateRideStatusText(rideWindow, ride.getStatus());
+        **/
+
         /**
          * TAB 2
          */
+
+        /**
         updateRidePriceText(rideWindow, ride.getPrice());
         updateRideNameText(rideWindow, ride.getName());
         updateRideTypeText(rideWindow, ride.getRide().toString());
@@ -293,15 +299,20 @@ public class WindowHandler {
         updateRideNauseaText(rideWindow, ride.getNausea());
         updateRideStatusText(rideWindow, ride.getStatus());
         updateRideBrokenText(rideWindow, ride.getBroken());
+        **/
+
         /**
          * TAB 3
          */
+
+        /**
         updateRideCustomersText(rideWindow, ride.customers());
         updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
         updateRideCustomersHourText(rideWindow, ride.getGuestRateHour());
         updateRideMoneyGainedText(rideWindow, ride.getMoneyGainedTotal());
         updateRideMoneyHourText(rideWindow, ride.getMoneyRateHour());
         updateRideCostHourText(rideWindow, ride.getRepairCost());
+        **/
 
         if (toggleVisible) {
             rideWindow.setVisible(true);
@@ -351,7 +362,7 @@ public class WindowHandler {
         /**
          * TAB 1
          */
-        
+
         /**
         updateShopNameText(shopwindow, shop.getShopName());
         updateShopPriceText(shopwindow, shop.getPrice());
