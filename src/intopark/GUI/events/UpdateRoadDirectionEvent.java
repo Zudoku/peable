@@ -13,14 +13,14 @@ import intopark.util.Direction;
  */
 @Singleton
 public class UpdateRoadDirectionEvent {
-    Direction d;
+    private Direction direction;
     public UpdateRoadDirectionEvent(Direction d){
-        this.d=d;
-        
+        this.direction=d;
+
     }
 
-    public Direction getD() {
-        return d;
+    public Direction getDirection() {
+        return direction;
     }
-    
+
 }

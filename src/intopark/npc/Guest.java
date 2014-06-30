@@ -47,7 +47,7 @@ public class Guest extends BasicNPC {
     private int z;
     private transient GuestWalkingStates walkState = GuestWalkingStates.WALK; //Whether guest is walking or not
     private transient List<NPCAction> actions = new ArrayList<>(); //Npcs actions. Determine where the guest moves and what does he do.
-    private int ID; 
+    private int ID;
     private Direction moving = Direction.NORTH; //What direction guest is moving.
     private transient boolean active = true; //Is guest active AKA is he on ride? is he allowed to move
     private transient  Spatial currentQueRoad;
@@ -101,28 +101,28 @@ public class Guest extends BasicNPC {
      * We calculate our next Action (WHERE GUEST MOVES)
      */
     public void calcMovePoints() {
-        boolean haveTarget=false;//WHEN I WANT TO EXPAND TO PATHFINDING
+        boolean haveTarget=false;//When i want to expand to pathfinding
         boolean needTarget=false;
         if(needTarget){
             if(!haveTarget){
-                //PATHFINDING SHIZ
+                //Pathfinding goes here...
                 haveTarget=true;
             }
         }
         if(haveTarget){
-            /* NEED TO MOVE TO TARGET */
+            /* //Pathfinding goes here... */
         }else{
-            /*CAN WONDER OFF FREELY*/
+            /* Guest can move freely */
             Roadgraph roadGraph=parkHandler.getRoadGraph();
-            /* GET WALKABLE FOR CURRENT LOCATION */
+            /* Get the walkable that we are standing on */
             Walkable current=roadGraph.getWalkable(x, y, z,true);
             if(current==null){
-                /*NOT ON ROAD. CAN'T MOVE*/
+                /* Not on road. Can't move */
                 return;
             }
             DirectedGraph<Walkable,DefaultEdge>roadMap=roadGraph.getRoadMap();
             List<Walkable>possibilities=new ArrayList<>();
-            /* GO THROUGH ALL POSSIBLE DIRECTIONS */
+            /* Go through all possible directions */
             for(DefaultEdge edge:roadMap.outgoingEdgesOf(current)){
                 Walkable possi=roadMap.getEdgeTarget(edge);
                 possibilities.add(possi);
@@ -131,37 +131,85 @@ public class Guest extends BasicNPC {
                 return;
             }
             int seed=0;
-            /* RANDOMLY SELECT ONE DIRECTION */
+            /* Randomly select one direction */
             if(possibilities.size()>1){
                 seed=r.nextInt(possibilities.size());
             }
             Walkable target=possibilities.get(seed);
             if(target instanceof Road){
-                /* WE NEED TO KNOW WHAT DIRECTION WE ARE MOVING */
+                /* We need to know what direction we are moving */
                 Direction roadDirection=new MapPosition(x, y, z).getDirection(target.getPosition().getX(),target.getPosition().getZ());
                 if(moving.isOpposite(roadDirection)){
-                    /* WE DONT WANT TO GO BACKWARDS IF IT ISNT NECCESSARY*/
+                    /* We don't want to go backwards if it isn't neccessary*/
                     if(5!=r.nextInt(10)){
-                        /* EVENTUALLY GOES BACKWARDS IF THERE IS A DEADEND */
+                        /* Eventually goes backwards if there is a deadend. */
                         return;
                     }
                 }
-                /* WE WANT TO CREATE LANES SO WE COPY POSITION */
-                MapPosition targetLocation=new MapPosition(target.getPosition());
-                setOffsetLane(targetLocation,roadDirection);
-                /* ADD THE ACTUAL ACTION TO ACTIONS */
-                actions.add(getSimpleAction(targetLocation.getVector()));
-                moving=roadDirection;
-                /* SET LOCATION TO CORRECT LOCATION */
-                x=target.getPosition().getX();
-                y=target.getPosition().getY();
-                z=target.getPosition().getZ();
+                Road road = (Road)target;
+                if(road.getQueRoad()){
+                    List<Walkable> queueRoads = new ArrayList<>();
+                    Road handledRoad=road;
+                    queueRoads.add(handledRoad);
+                    // Find out what is at the end of queroad.
+                    boolean newWalkables = true;
+                    while(newWalkables){
+                        for(DefaultEdge edge:roadGraph.getRoadMap().edgesOf(handledRoad)){
+                            Walkable edgeSource = roadGraph.getRoadMap().getEdgeSource(edge);
+                            //If new walkable
+                            if(!queueRoads.contains(edgeSource)){
+                                if(edgeSource instanceof Road){
+                                    if(!((Road)edgeSource).getQueRoad()){
+                                        //failed. No rides attached to this queroad
+                                        logger.log(Level.FINER,"Found normal road at the end of queue.");
+                                        return;
+                                    }
+                                    else{
+                                        //Found another queroad repeat loop to it
+                                        handledRoad = (Road)edgeSource;
+                                        queueRoads.add(edgeSource);
+                                        break;
+                                    }
+                                }
+                                //If we found the destination
+                                if(edgeSource instanceof BuildingEnterance){
+                                    foundBuildingEnterance((BuildingEnterance)edgeSource);
+                                }
+                            }
+                            Walkable edgeTarget = roadGraph.getRoadMap().getEdgeTarget(edge);
+                            if(!queueRoads.contains(edgeTarget)){
+                                if(edgeTarget instanceof Road){
+                                    if(!((Road)edgeTarget).getQueRoad()){
+                                        //failed. No rides attached to this queroad
+                                        logger.log(Level.FINER,"Found normal road at the end of queue.");
+                                        return;
+                                    }
+                                    else{
+                                        //Found another queroad repeat loop to it
+                                        handledRoad = (Road)edgeTarget;
+                                        queueRoads.add(edgeTarget);
+                                        break;
+                                    }
+                                }
+                                //If we found the destination
+                                if(edgeTarget instanceof BuildingEnterance){
+                                    foundBuildingEnterance((BuildingEnterance)edgeTarget);
+                                }
+                            }
+
+                        }
+                        newWalkables = false;
+                    }
+                } else { //Not queroad.
+                    walkToDirection(target, roadDirection);
+                }
             }
             else if (target instanceof BuildingEnterance){
                 BuildingEnterance ent=(BuildingEnterance) target;
                 if(ent.getBuildingType()== BuildingEnterance.RIDE){
-                    
-                }else if(ent.getBuildingType()==BuildingEnterance.SHOP){
+                    logger.log(Level.FINER, "Will not queue to ride because it has no queue");
+                }
+                else if(ent.getBuildingType()==BuildingEnterance.SHOP){
                     BasicShop targetShop=null;
                     Object object=parkHandler.getObjectWithID(ent.getID());
                     if(object instanceof BasicShop){
@@ -181,52 +229,79 @@ public class Guest extends BasicNPC {
                     }
                 }
             }
-            
-            
-            
+
+
+
         }
     }
-    private void setOffsetLane(MapPosition pos,Direction dir){
+    /**
+     * This gets called when this guest finds BuildingEnterance at the end of queroad.
+     * Determines what guest will do.
+     * @param enterance Found BuildingEnterance.
+     */
+    private void foundBuildingEnterance(BuildingEnterance enterance){
+        BuildingEnterance foundEnterance =enterance;
+        int foundID = foundEnterance.getID();
+        if (foundEnterance.getBuildingType() == BuildingEnterance.RIDE) {
+            Object object = parkHandler.getObjectWithID(foundID);
+            if (!(object instanceof BasicRide)) {
+                //OH NO
+                logger.log(Level.SEVERE, "ID corruption when looking up ride.");
+                return;
+            }
+            BasicRide foundRide = (BasicRide) object;
+            boolean wantToGo = doIWantToGoThere(foundRide);
+            if (wantToGo) {
+                foundRide.takeQuestToRide(this);
+            }
+        } else if (foundEnterance.getBuildingType() == BuildingEnterance.SHOP) {
+            //TODO: Do queue logic for shops
+        }
+    }
+    /**
+     * Simple method to walk to given direction.
+     * @param target target walkable.
+     * @param roadDirection Direction we are heading.
+     */
+    private void walkToDirection(Walkable target,Direction roadDirection){
+        /* WE WANT TO CREATE LANES SO WE COPY POSITION */
+        MapPosition targetLocation = new MapPosition(target.getPosition());
+        setOffsetLane(targetLocation, roadDirection);
+        /* ADD THE ACTUAL ACTION TO ACTIONS */
+        actions.add(getSimpleAction(targetLocation.getVector()));
+        moving = roadDirection;
+        /* SET LOCATION TO CORRECT LOCATION */
+        x = target.getPosition().getX();
+        y = target.getPosition().getY();
+        z = target.getPosition().getZ();
+    }
+    private void setOffsetLane(MapPosition pos,Direction direction){
         float laneWidth=0.15f;
-        if(dir== Direction.NORTH){
+        if(direction== Direction.NORTH){
             pos.setOffSetZ(pos.getOffSetZ()+laneWidth);
         }
-        if(dir== Direction.SOUTH){
+        if(direction== Direction.SOUTH){
             pos.setOffSetZ(pos.getOffSetZ()-laneWidth);
         }
-        if(dir== Direction.EAST){
+        if(direction== Direction.EAST){
             pos.setOffSetX(pos.getOffSetX()+laneWidth);
         }
-        if(dir== Direction.WEST){
+        if(direction== Direction.WEST){
             pos.setOffSetX(pos.getOffSetX()-laneWidth);
         }
     }
-    private NPCAction getSimpleAction(Vector3f pos){
-        NPCAction action=new NPCAction(pos, ActionType.NOTHING, this);
-        return action;
-    }
-    public void initXYZ(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-
-    public int getID() {
-        return ID;
-    }
-    
     public void callToQueRoad(NPCAction action) {
         actions.add(action);
     }
     public void handleQueRoadFound(Spatial temp) {
-        
+
     }
     public boolean doIWantToGo(BasicShop shop){
         return true;
     }
     public boolean doIWantToGoThere(BasicRide ride) {
         //TODO: REWORK
-        
+
         /**
          * happyness+laitteen hyvyys+preferredride +40>100**
          */
@@ -302,12 +377,23 @@ public class Guest extends BasicNPC {
     /**
      * GETTERS AND SETTERS
      */
-    
+
     public GuestWalkingStates getWalkState() {
         return walkState;
     }
+    private NPCAction getSimpleAction(Vector3f pos){
+        NPCAction action=new NPCAction(pos, ActionType.NOTHING, this);
+        return action;
+    }
+    public void initXYZ(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
 
-    
+    public int getID() {
+        return ID;
+    }
     public StatManager getStats() {
         return stats;
     }
@@ -358,5 +444,5 @@ public class Guest extends BasicNPC {
     public boolean isMale() {
         return male;
     }
-    
+
 }

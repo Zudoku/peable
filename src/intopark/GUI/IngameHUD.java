@@ -591,7 +591,7 @@ public class IngameHUD implements ScreenController {
      * ALL RELATED TO ROAD UI.
      */
     @Subscribe public void listenUpdateRoadDirectionEvent(UpdateRoadDirectionEvent event){
-        switch(event.getD()){
+        switch(event.getDirection()){
             case SOUTH:
                 roadDirectionDown();
                 break;

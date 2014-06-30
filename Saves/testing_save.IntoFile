@@ -60,10 +60,10 @@
       ],
       "stats": {
         "currentEmote": "NORMAL",
-        "hunger": 15,
-        "thirst": 57,
-        "happyness": 92,
-        "preferredRide": "LOW"
+        "hunger": 76,
+        "thirst": 88,
+        "happyness": 83,
+        "preferredRide": "MEDIUM"
       },
       "wallet": {
         "money": 100.0

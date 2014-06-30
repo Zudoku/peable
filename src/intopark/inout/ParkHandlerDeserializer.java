@@ -53,7 +53,17 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
         this.parkHandler=parkHandler;
         this.eventBus=eventBus;
     }
-
+    /**
+     * Deserialize JSON file that contains the whole imformation of the scenario.
+     * It will assign all the information to parkHandler automatically using EventBus.
+     * If error occurs during the deserialization, JsonParseException will be thrown.
+     * If you want to understand this class, you should look at the .IntoFile files and JSON.
+     * @param je
+     * @param type
+     * @param jdc
+     * @return
+     * @throws JsonParseException if something goes wrong.
+     */
     public ParkHandler deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
         logger.log(Level.FINER,"Beginning to construct park");
         final JsonObject jo = je.getAsJsonObject();
@@ -171,15 +181,39 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
         return parkHandler;
 
     }
+    /**
+     * Utility method to write less when accessing String fields.
+     * @param j
+     * @param name
+     * @return j.get(name).getAsString();
+     */
     private String getS(JsonObject j,String name){
         return j.get(name).getAsString();
     }
+    /**
+     * Utility method to write less when accessing integer fields.
+     * @param j
+     * @param name
+     * @return j.get(name).getAsInt();
+     */
     private int getI(JsonObject j,String name){
         return j.get(name).getAsInt();
     }
+    /**
+     * Utility method to write less when accessing boolean fields.
+     * @param j
+     * @param name
+     * @return j.get(name).getAsBoolean();
+     */
     private boolean getB(JsonObject j,String name){
         return j.get(name).getAsBoolean();
     }
+    /**
+     * Utility method to write less when accessing float fields.
+     * @param j
+     * @param name
+     * @return j.get(name).getAsFloat();
+     */
     private float getF(JsonObject j,String name){
         return j.get(name).getAsFloat();
     }

@@ -36,25 +36,29 @@ public class StartScreen implements ScreenController {
     private File[] savedGames;
     private File selectedFile;
     private int timesClicked=2;
-   
 
+    /**
+     * NiftyGUI controller for the startup-UI.
+     * Contains all the methods callable from UI.
+     */
     public StartScreen(){
-        
+
     }
+
     public void startGame(String nextScreen) {
         nifty.gotoScreen(nextScreen);  // switch to another screen
     }
 
-   public void bind(Nifty nifty, Screen screen) {
-    this.nifty = nifty;
-    this.screen = screen;
-  }
-
+    public void bind(Nifty nifty, Screen screen) {
+        this.nifty = nifty;
+        this.screen = screen;
+    }
 
     public void onStartScreen() {
         toggle();
-        Main.injector.injectMembers(this);
+        Main.injector.injectMembers(this); //bad habit.
     }
+
     public void toggle(){
         UtilityMethods.toggleVisibility(nifty,"newgamewindow");
         UtilityMethods.toggleVisibility(nifty,"loadgamewindow");
@@ -62,27 +66,25 @@ public class StartScreen implements ScreenController {
     }
 
     public void onEndScreen() {
-       
+
     }
-   
-  
-    public void startGametrue() {
-        Main.startgame=1;
-        startGame("hud");
-        
-        
-    }
+    /**
+     * Starts the real game.
+     */
     public void startGameLoad(){
         eventBus.post(new LoadFileEvent(selectedFile));
         Main.startgame=5;
         startGame("hud");
     }
+    /**
+     * This adds all the IntoFile files the the listbox on the startup UI.
+     */
     public void populateSavedGames(){
         //Find the listbox
         ListBox loadgamelistbox=nifty.getCurrentScreen().findNiftyControl("loadgamelistbox", ListBox.class);
         //Find all the saves in the saves folder.
         File dir = new File("Saves");
-    	savedGames= dir.listFiles(new FilenameFilter() { 
+    	savedGames= dir.listFiles(new FilenameFilter() {
     	         public boolean accept(File dir, String filename)
     	              { return filename.endsWith(".IntoFile"); }
     	} );
@@ -97,23 +99,20 @@ public class StartScreen implements ScreenController {
      */
     @NiftyEventSubscriber(id = "loadgamelistbox")
     public void onMyListBoxSelectionChanged(final String id, final ListBoxSelectionChangedEvent<String> event) {
-        
+        //Get the file that is selected.
         File scenarioToBeLoaded=savedGames[event.getListBox().getFocusItemIndex()];
         if(scenarioToBeLoaded!=null){
             logger.log(Level.FINER,scenarioToBeLoaded.getName());
             if(selectedFile==null||selectedFile!=scenarioToBeLoaded){
                 selectedFile=scenarioToBeLoaded;
                 timesClicked=0;
-            }else if (timesClicked==0){
+            }else if (timesClicked==0){ //Need to click twice / thrice to start the game so that you cant accidentally start a game.
                 timesClicked++;
                 logger.log(Level.FINEST,"{0}",timesClicked);
             }else{
-                //LOAD THE FILE
-                startGameLoad();
-                //RESET SELECTED FILE FOR THE SAKE OF IT
-                //selectedFile=null;
+                startGameLoad(); //Start the game with selectedFile.
             }
-            
+
         }
     }
     public void onLoadGameButton(){

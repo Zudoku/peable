@@ -10,4 +10,12 @@ package intopark.gameplayorgans;
  */
 public enum ScenarioGoal {
     GUESTS;
+
+    /**
+     * Goal type that you try to achieve in your park. Every scenario should have different goal.
+     */
+    private ScenarioGoal() {
+
+    }
+
 }

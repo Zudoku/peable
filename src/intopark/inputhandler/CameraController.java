@@ -22,13 +22,13 @@ public class CameraController {
     //VARIABLES
     private static float MOVESPEED=0.15f; // Speed that the camera moves
     private static double ROTATESPEED=0.02; //Speed that te camera rotates
-    private float cameraHeight=30; // Height where the camera is 
-    private float radius=20; //Circe radius which the camera rotates around 
+    private float cameraHeight=30; // Height where the camera is
+    private float radius=20; //Circe radius which the camera rotates around
     private double alpha=0; // Alpha angle in radians
     private float cameraCenterX=0; //Camera offset X - Also the coordinate which the camera looks at.
     private float cameraCenterZ=5; //Camera offset Z - Also the coordinate which the camera looks at.
     private float cameraCenterY=6; //Camera offset Y - Also the coordinate which the camera looks at.
-    
+
     public CameraController(Camera camera){
         this.camera=camera;
         refreshCamera();
@@ -49,7 +49,7 @@ public class CameraController {
         }else if(center.x>133){ //128 + 5
             cameraCenterX=133;
         }
-        
+
         if(center.z<-5){
             cameraCenterZ=-5;
         }else if(center.z>133){
@@ -70,16 +70,16 @@ public class CameraController {
         }
     }
     private Vector3f nextCameraPosition(){
-        
+
         double z=Math.sin(alpha);
         double x=Math.cos(alpha);
-      
+
         x*=radius;
         z*=radius;
-        
+
         x+=cameraCenterX;
         z+=cameraCenterZ;
-        
+
         return new Vector3f((float)x,cameraHeight,(float)z);
     }
     public void moveUp(){
@@ -91,7 +91,7 @@ public class CameraController {
         refreshCamera();
     }
     public void moveDown(){
-         Vector3f asd=camera.getDirection();
+        Vector3f asd=camera.getDirection();
         asd.y=0;
         Vector3f newpos=asd.normalizeLocal().mult(-MOVESPEED);
         cameraCenterX+=newpos.x;
@@ -118,6 +118,6 @@ public class CameraController {
         alpha=Math.PI; //180 degrees
         refreshCamera();
     }
-    
-    
+
+
 }

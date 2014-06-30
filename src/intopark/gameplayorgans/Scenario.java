@@ -32,21 +32,25 @@ public class Scenario {
     //GOAL POSSIBILITIES
     private int neededGuest;
 
+    /**
+     * Holds all kinds of meta-data from the scenario. This gets saved as JSON file. This class will be expanded to track park awards and such.
+     * @param goal
+     */
     public Scenario(ScenarioGoal goal) {
         this.goal = goal;
-        
+
     }
-    
+
     public void setUp(){
         Main.injector.injectMembers(this);
         eventBus.post(new CreateParkEnteranceEvent(enteranceYRotation, enterancePos)); // Create Park-Enterance
     }
-    
+
     /*
      * SETTERS AND GETTERS
      */
-    
-    
+
+
     public void setEnterancePos(MapPosition enterancePos) {
         this.enterancePos = enterancePos;
     }
@@ -130,6 +134,6 @@ public class Scenario {
         this.mapHeight=height;
         this.mapWidth=width;
     }
-    
-    
+
+
 }

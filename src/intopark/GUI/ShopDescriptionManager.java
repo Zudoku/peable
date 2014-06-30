@@ -23,8 +23,12 @@ public class ShopDescriptionManager {
     private String currentDescription_4="";
     private String currentPrice="Price: ";
     private String currentBigPic="Interface/Shops/Icon.png";
-    
+
+    /**
+     * Contains hard-coded descriptions,names,prices,image paths to be used in UI.
+     */
     public ShopDescriptionManager(){
+
         values.put(BasicBuildables.ARCHERYRANGE,new String[]{"Name: Archery Range","Description: Archery range is an area where aaaaa"," "," "," ","Price: 999$","Interface/Shops/Icon.png"});
         values.put(BasicBuildables.BALLOON_STAND,new String[]{"Name: Balloon Stand","Description: Kids love these things! Try placing these around every corner and see for yourself. Balloons come in every color and shape imaginable."," "," "," ","Price: 999$","Interface/Shops/Icon.png"});
         values.put(BasicBuildables.BLENDER,new String[]{"Name: Blender","Description: TODO:"," "," "," ","Price: 999$","Interface/Shops/Icon.png"});
@@ -71,6 +75,7 @@ public class ShopDescriptionManager {
             currentPrice=descriptionContainer[5];
             currentBigPic=descriptionContainer[6];
         }else{
+            //If the values don't contain buildable then give it some nonsense strings so that the game doesn't explode.
             currentName="CONF";
             currentDescription_1="CONf";
             currentDescription_2=" ";
@@ -78,7 +83,7 @@ public class ShopDescriptionManager {
             currentDescription_4=" ";
             currentPrice="CONF";
             currentBigPic="Interface/Shops/Icon.png";
-            
+
         }
     }
 
@@ -101,7 +106,7 @@ public class ShopDescriptionManager {
     public String getCurrentDescription_4() {
         return currentDescription_4;
     }
-    
+
 
     public String getCurrentName() {
         return currentName;
@@ -110,8 +115,8 @@ public class ShopDescriptionManager {
     public String getCurrentPrice() {
         return currentPrice;
     }
-    
 
-    
-    
+
+
+
 }

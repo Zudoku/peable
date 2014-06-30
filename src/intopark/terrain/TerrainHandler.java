@@ -81,8 +81,8 @@ public class TerrainHandler implements NeedMouse{
     /**
      * Draws the brush to terrain.
      * It basically changes the terrain texture.
-     * @param x 
-     * @param z 
+     * @param x
+     * @param z
      */
     public void drawBrush(float x, float z) {
         int HEIGHT_WIDTH=128;
@@ -99,7 +99,7 @@ public class TerrainHandler implements NeedMouse{
         }
         /* Clone the texturebuffer so that we dont permanently paint texture to ground. */
         buf = UtilityMethods.cloneByteBuffer(bufferReal);
-        //FOR Z COORD TIMES 
+        //FOR Z COORD TIMES
         for (int j = 0; j < brushSize-1; j++) {
             //FOR X COORD TIMES
             for (int i = 0; i < brushSize-1; i++) {
@@ -190,7 +190,7 @@ public class TerrainHandler implements NeedMouse{
         terrain.setMaterial(testmaterial);
         terrain.setLocalTranslation(63.5f, 0, 63.5f);
         terrain.setUserData("type", "Terrain");
-        
+
         return terrain;
     }
     /**
@@ -242,7 +242,7 @@ public class TerrainHandler implements NeedMouse{
     /**
      * GETTERS AND SETTERS
      */
-    
+
     /**
      * Get Blank heightmap for debugging purposes
      * @return blank 128*128 float heightmap containing only 6.
@@ -250,12 +250,12 @@ public class TerrainHandler implements NeedMouse{
     public float[] getHeightMap() {
         final int totalsize = 128;
         final float[] heightMap = new float[totalsize * totalsize];
-        for (int h = 0; h < totalsize; h++) {
-            for (int w = 0; w < totalsize; w++) {
-                if (h % 3 != 0) {
-                    heightMap[h * totalsize + w] = 6;
+        for (int height = 0; height < totalsize; height++) {
+            for (int width = 0; width < totalsize; width++) {
+                if (height % 3 != 0) {
+                    heightMap[height * totalsize + width] = 6;
                 } else {
-                    heightMap[h * totalsize + w] = 6;
+                    heightMap[height * totalsize + width] = 6;
                 }
             }
         }
@@ -291,7 +291,7 @@ public class TerrainHandler implements NeedMouse{
 
     /**
      * Called when user Clicks when in Terrain Mode.
-     * @param container Contains variables 
+     * @param container Contains variables
      */
     @Override
     public void onClick(MouseContainer container) {
@@ -337,5 +337,5 @@ public class TerrainHandler implements NeedMouse{
     public boolean getLocked(){
         return locked;
     }
-    
+
 }
