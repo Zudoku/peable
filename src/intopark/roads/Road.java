@@ -36,7 +36,7 @@ public class Road extends Walkable{
     /**
      * Checks if road is physically cabable of connecting to walkable
      * @param road2
-     * @return 
+     * @return
      */
     public boolean canConnect(Walkable walk){
         if(walk==null){
@@ -63,12 +63,16 @@ public class Road extends Walkable{
             /* Get a map with all possible transforms that can connect to this */
             Map<RoadTransformContainer,Boolean> possible=getPossibleAttachmentPos();
             /* If it matches, can physically connect */
+            
+            /*
             for(RoadTransformContainer te:possible.keySet()){ //We cant do possible.containsKey because we use Direction.ANY
                 if(te.match(rtc)){
                     return true;
                 }
             }
-            /* Because we need to connect road that is ontop too */
+            * */
+
+            /* Because we need to connect road that is ontop*/
             if(ent.getPosition().isSameMainCoords(position)&&roadhill==RoadHill.FLAT){
                 return true;
             }
@@ -76,7 +80,7 @@ public class Road extends Walkable{
         }else{
             return false;
         }
-        
+
     }
 
     public Map<RoadTransformContainer,Boolean> getPossibleAttachmentPos(){
@@ -87,7 +91,7 @@ public class Road extends Walkable{
                     map.put(rtc,true);
                 }
                 break;
-                
+
             case UP:
                 for(RoadTransformContainer rtc:getUpAttachment()){
                     map.put(rtc,true);
@@ -155,7 +159,7 @@ public class Road extends Walkable{
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
-    
+
     public void setID(int ID) {
         this.ID = ID;
     }
@@ -175,8 +179,8 @@ public class Road extends Walkable{
     public void setSkin(int skin) {
         this.skin = skin;
     }
-   
-    
-    
-    
+
+
+
+
 }

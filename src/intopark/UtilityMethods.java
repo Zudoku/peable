@@ -17,9 +17,12 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
+import intopark.roads.RoadGraph;
+import intopark.roads.Walkable;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jgraph.graph.DefaultEdge;
 
 /**
  *
@@ -35,11 +38,11 @@ public class UtilityMethods {
     private static AssetManager assetManager;
     private static Camera cam;
     //OWNS
-    
+
     //VARIABLES
     public static float HALFTILE=0.49999f;
     public static String programTitle="Into Park 0.05A";
-    
+
     @Inject
     public UtilityMethods(Camera cam,InputManager inputManager,AssetManager assetManager,Node rootNode) {
         this.cam=cam;
@@ -47,7 +50,7 @@ public class UtilityMethods {
         this.assetManager=assetManager;
         this.rootNode=rootNode;
     }
-    
+
     public static void rayCast(CollisionResults results,Node someNode) {
         Vector2f click2d = inputManager.getCursorPosition();
         Vector3f click3d = cam.getWorldCoordinates(
@@ -63,7 +66,16 @@ public class UtilityMethods {
         }else{
             rootNode.collideWith(ray, results);
         }
-        
+
+    }
+    public static Walkable getTheOtherEndOfEdge(RoadGraph roadGraph,DefaultEdge edge,Walkable currentWalkable){
+        if(roadGraph.getRoadMap().getEdgeSource(edge)!=currentWalkable){
+            return roadGraph.getRoadMap().getEdgeSource(edge);
+        }
+        else if(roadGraph.getRoadMap().getEdgeTarget(edge)!=currentWalkable){
+            return roadGraph.getRoadMap().getEdgeTarget(edge);
+        }
+        throw new RuntimeException("Can't figure out the other end. Both ends are the same.");
     }
     /**
      * Clones bytebuffer but doesn't use the copy(). Useful to create identical bytebuffer but they cant be linked together.(?)
@@ -83,7 +95,7 @@ public class UtilityMethods {
      * Tries to find Nodes or its parents userdata if its matching type
      * @param r Spatial to search
      * @param type UserData type
-     * @return 
+     * @return
      */
      public static boolean findUserDataType(Node r,String type){
          if(r==null){
@@ -92,7 +104,7 @@ public class UtilityMethods {
         if(type.equals(r.getUserData("type"))){
             return true;
         }
-        return findUserDataType(r.getParent(),type); 
+        return findUserDataType(r.getParent(),type);
      }
      /**
       * Load model so that the class that needs the model doesn't need AssetManager.
@@ -105,7 +117,7 @@ public class UtilityMethods {
      /**
       * Toggles the nifty-GUI elements visibility.
       * @param nifty
-      * @param elementname 
+      * @param elementname
       */
      public static void toggleVisibility(Nifty nifty,String elementname){
         Element e=nifty.getCurrentScreen().findElementByName(elementname);
@@ -115,7 +127,7 @@ public class UtilityMethods {
      /**
       * This rounds a vector to ~int values. Helps to calculate things like:
       * What tile is this on and so forth.
-      * @param vector Vector3f to round. 
+      * @param vector Vector3f to round.
       * @return Rounded Vector3f.
       */
      public static Vector3f roundVector(Vector3f vector){
@@ -128,5 +140,5 @@ public class UtilityMethods {
         logger.log(Level.FINEST,"Vector {0} rounded to {1}",new Object[]{vector,vector2});
         return vector2;
     }
-             
+
 }

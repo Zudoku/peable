@@ -15,10 +15,9 @@ public class BuildingEnterance extends Walkable{
     private int ID;
     private int buildingType;
     private Direction direction;
-    private boolean needToConnectDirection;
     public transient static int SHOP=100;
     public transient static int RIDE=150;
-    
+
     public BuildingEnterance(MapPosition position,int ID,int buildingType) {
         super(position);
         this.ID=ID;
@@ -42,12 +41,5 @@ public class BuildingEnterance extends Walkable{
     public void setID(int ID) {
         this.ID = ID;
     }
-    public void setNeedToConnectDirection(boolean needToConnectDirection) {
-        this.needToConnectDirection = needToConnectDirection;
-    }
 
-    public boolean isNeedToConnectDirection() {
-        return needToConnectDirection;
-    }
-    
 }

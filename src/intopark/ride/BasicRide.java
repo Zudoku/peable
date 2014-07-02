@@ -4,6 +4,7 @@
  */
 package intopark.ride;
 
+import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.jme3.math.Vector3f;
@@ -14,16 +15,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Main;
+import intopark.UtilityMethods;
 import intopark.npc.Guest;
 import intopark.npc.inventory.RideType;
+import intopark.roads.Road;
 import intopark.shops.ShopReputation;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
 import intopark.terrain.events.PayParkEvent;
 import intopark.terrain.events.RideDemolishEvent;
 import intopark.roads.RoadMaker;
+import intopark.roads.RoadGraph;
+import intopark.roads.Walkable;
 import intopark.shops.BasicBuildables;
 import java.util.List;
+import java.util.Set;
+import org.jgraph.graph.DefaultEdge;
 
 /**
  *
@@ -62,6 +69,8 @@ public class BasicRide {
     private transient double guestRateHour=0; //how many guests per hour
     private int repairCost=100; //how much does it cost to repair this
     private BasicBuildables ride; //this is variable used in saving
+    /* INSPECTION */
+    private boolean validInspection;
 
     //TODO:!!
 
@@ -93,20 +102,74 @@ public class BasicRide {
     public void interact(Guest guest) {
 
     }
-
-
+    /**
+     * Asks the ride if it is ready take on guests to queue. Returns true if successful. Also takes the guest to the queue if true.
+     * @param guest To be queue'd.
+     * @return true if it was successfull.
+     */
     public boolean tryToQueGuest(Guest guest) {
         if(status){
-            guestsInQue.add(guest);
-            return true;
+            if(validInspection){
+                guestsInQue.add(guest);
+                guest.setActive(false);
+                return true;
+            }else{
+                logger.log(Level.FINER, "Ride {0} can't take guests because it needs to be inspected first!",this.toString());
+                return false;
+            }
+
         }
-
-
+        logger.log(Level.FINER, "Ride {0} can't take guests because it needs to be opened first!",this.toString());
         return false;
     }
-
+    /**
+     * Handles the logic that tells the guests where they are supposed to be standing when they are queueing to a this ride.
+     * Gets called on every frame.
+     */
     public void updateQueLine() {
-
+        if (guestsInQue.isEmpty()) {
+            return;
+        }
+        for (int i = 0; i < guestsInQue.size(); i++) { //For every guest in the line.
+            Guest handledguest = guestsInQue.get(i);
+            List<Road> queue = getAllQueueRoadsInOrder();
+            Walkable guestCurrentWalkable = roadMaker.getRoadGraph().getWalkable(handledguest.getX(), handledguest.getY(), handledguest.getZ(), true);
+            if(guestCurrentWalkable == null){
+                //Guest is not standing on anything but still is in queue how is this possible?
+                logger.log(Level.SEVERE, "Guest is not standing on anything but still is in queue.");
+                throw new RuntimeException("Guest is not standing on anything but still is in queue.");
+            }
+            if(!(guestCurrentWalkable instanceof Road)){
+                //Guest is standing on something other than road. This is not supposed to happen.
+                logger.log(Level.SEVERE, "Guest is standing on something other than road while queueing to a ride.");
+                throw new RuntimeException("Guest is standing on something other than road while queueing to a ride.");
+            }
+            Road guestCurrentRoad = (Road)guestCurrentWalkable;
+            int indexof= queue.indexOf(guestCurrentRoad);
+            if(indexof==-1){ //If not standing on queue, go through every queueroad up until destinationRoad (The road where guest is supposed to be)
+                //Full
+                Road destinationRoad = queue.get(i);
+                List<Road> reversedQueue = Lists.reverse(queue);
+                for(Road road:reversedQueue){
+                    if(road != destinationRoad){
+                        //command guest to walk there
+                        handledguest.callToQueue(road);
+                    }else{
+                        //command guest to walk there but then stop for loop
+                        handledguest.callToQueue(road);
+                        break;
+                    }
+                }
+            }else{
+                //Part
+                int currentPosition = queue.indexOf(guestCurrentRoad); //currentPosition is always higher or equal to i
+                for(int p = currentPosition;p > i;p--){//for loop doesn't get executed if guest is on the right place already.
+                    Road r = queue.get(p);
+                    handledguest.callToQueue(r);
+                    //command guest to walk on r
+                }
+            }
+        }
     }
 
     public void updateRide() {
@@ -118,7 +181,66 @@ public class BasicRide {
             }
         }
     }
-
+    /**
+     * Returns all queueroads in order starting from the first being connected to enterance.
+     * @return
+     */
+    private List<Road>getAllQueueRoadsInOrder(){
+        if(enterance == null){
+            throw new NullPointerException("Enterance is not placed yet. Cant find a queue.");
+        }
+        List<Road> queue = new ArrayList<>(); //The list to be returned.
+        RoadGraph roadGraph=roadMaker.getRoadGraph();
+        Road currentRoad;
+        //Find the first road.
+        Set edgeSet = roadGraph.getRoadMap().edgesOf(enterance.getEnteranceWalkable());
+        if(edgeSet.isEmpty()){ //If there is no first road.
+            return queue;
+        }
+        DefaultEdge edge = (DefaultEdge)edgeSet.toArray()[0];
+        Walkable firstRoad=UtilityMethods.getTheOtherEndOfEdge(roadGraph, edge,enterance.getEnteranceWalkable());
+        currentRoad = (Road)firstRoad;
+        queue.add(currentRoad);
+        //Find the rest of the roads.
+        boolean finding = true;
+        while(finding){
+            //For all the outgoing edges.
+            for (DefaultEdge edges : roadGraph.getRoadMap().edgesOf(currentRoad)) {
+                //Find the other end
+                Walkable foundWalkable = UtilityMethods.getTheOtherEndOfEdge(roadGraph, edges, currentRoad);
+                //If we found a road
+                if (foundWalkable instanceof Road) {
+                    Road foundRoad = (Road)foundWalkable;
+                    //But its not queroad.
+                    if(!foundRoad.getQueRoad()){
+                        //Find over.
+                        finding = false;
+                        logger.log(Level.FINER, "Found the end of the queue.");
+                        break;
+                    }else{
+                        //If we went backwards.
+                        if(queue.contains(foundRoad)){
+                            logger.log(Level.SEVERE, "Wrong way.");
+                        }else {
+                            //Found new queue road. Repeat the process to that.
+                            currentRoad = foundRoad;
+                            queue.add(currentRoad);
+                            break;
+                        }
+                    }
+                } else {
+                    //Not a road?!?!? It could be possible that we went backwards on first road. Check if it is then skip else we have a malfunction.
+                    //(Queueroad should never have 2 buildingEnterances attached.)
+                    if(foundWalkable != enterance.getEnteranceWalkable()){
+                        finding = false;
+                        logger.log(Level.FINE, "Found another buildingEnterance stopping loop.");
+                        break;
+                    }
+                }
+            }
+        }
+        return queue;
+    }
     public void takeQuestToRide(Guest g) {
 
         guestsInQue.remove(g);
@@ -138,7 +260,7 @@ public class BasicRide {
         //delete guest from the list
         interact(g);
         guestsInRide.remove(g);
-        //Put the guest to the enterance position
+        //Put the guest to the exit position
         int x1 = (int) (exit.getLocation().getX() + 0.4999);
         int y1 = (int) (exit.getLocation().getY() + 0.4999);
         int z1 = (int) (exit.getLocation().getZ() + 0.4999);

@@ -19,7 +19,7 @@ import intopark.ride.BasicRide;
 import intopark.ride.RideColor;
 import intopark.roads.BuildingEnterance;
 import intopark.roads.Road;
-import intopark.roads.Roadgraph;
+import intopark.roads.RoadGraph;
 import intopark.roads.Walkable;
 import intopark.shops.BasicShop;
 import intopark.util.Direction;
@@ -113,7 +113,7 @@ public class Guest extends BasicNPC {
             /* //Pathfinding goes here... */
         }else{
             /* Guest can move freely */
-            Roadgraph roadGraph=parkHandler.getRoadGraph();
+            RoadGraph roadGraph=parkHandler.getRoadGraph();
             /* Get the walkable that we are standing on */
             Walkable current=roadGraph.getWalkable(x, y, z,true);
             if(current==null){
@@ -151,8 +151,10 @@ public class Guest extends BasicNPC {
                     List<Walkable> queueRoads = new ArrayList<>();
                     Road handledRoad=road;
                     queueRoads.add(handledRoad);
+                    queueRoads.add(current);
                     // Find out what is at the end of queroad.
                     boolean newWalkables = true;
+                    findOtherWalkableLoop:
                     while(newWalkables){
                         for(DefaultEdge edge:roadGraph.getRoadMap().edgesOf(handledRoad)){
                             Walkable edgeSource = roadGraph.getRoadMap().getEdgeSource(edge);
@@ -168,12 +170,13 @@ public class Guest extends BasicNPC {
                                         //Found another queroad repeat loop to it
                                         handledRoad = (Road)edgeSource;
                                         queueRoads.add(edgeSource);
-                                        break;
+                                        continue findOtherWalkableLoop;
                                     }
                                 }
                                 //If we found the destination
                                 if(edgeSource instanceof BuildingEnterance){
                                     foundBuildingEnterance((BuildingEnterance)edgeSource);
+                                    break findOtherWalkableLoop;
                                 }
                             }
                             Walkable edgeTarget = roadGraph.getRoadMap().getEdgeTarget(edge);
@@ -188,17 +191,19 @@ public class Guest extends BasicNPC {
                                         //Found another queroad repeat loop to it
                                         handledRoad = (Road)edgeTarget;
                                         queueRoads.add(edgeTarget);
-                                        break;
+                                        continue findOtherWalkableLoop;
                                     }
                                 }
                                 //If we found the destination
                                 if(edgeTarget instanceof BuildingEnterance){
                                     foundBuildingEnterance((BuildingEnterance)edgeTarget);
+                                    break findOtherWalkableLoop;
                                 }
                             }
 
                         }
                         newWalkables = false;
+                        logger.log(Level.FINER, "Didn't find anything interesting at the end of queue.");
                     }
                 } else { //Not queroad.
                     walkToDirection(target, roadDirection);
@@ -216,7 +221,7 @@ public class Guest extends BasicNPC {
                         targetShop= (BasicShop)object;
                     }
                     if(targetShop!=null){
-                        if(doIWantToGo(targetShop)){
+                        if(doIWantToGoTo(targetShop)){
                             /* Create buy action and walk back to original position */
                             NPCAction action = new NPCAction(target.getPosition().getVector(), ActionType.BUY, targetShop,this);
                             NPCAction action2 = getSimpleAction(current.getPosition().getVector());
@@ -250,9 +255,11 @@ public class Guest extends BasicNPC {
                 return;
             }
             BasicRide foundRide = (BasicRide) object;
-            boolean wantToGo = doIWantToGoThere(foundRide);
+            boolean wantToGo = doIWantToGoTo(foundRide);
             if (wantToGo) {
-                foundRide.takeQuestToRide(this);
+                foundRide.tryToQueGuest(this);
+            }else{
+                logger.log(Level.FINEST,"Guest {0} doesn't want to go to ride {1}.",new Object[]{this.toString(),foundRide});
             }
         } else if (foundEnterance.getBuildingType() == BuildingEnterance.SHOP) {
             //TODO: Do queue logic for shops
@@ -290,21 +297,26 @@ public class Guest extends BasicNPC {
             pos.setOffSetX(pos.getOffSetX()-laneWidth);
         }
     }
-    public void callToQueRoad(NPCAction action) {
-        actions.add(action);
+    public void callToQueue(Road queueroad) {
+        Direction moveDirection = new MapPosition(x, y, z).getDirection(queueroad.getPosition().getX(),queueroad.getPosition().getZ());
+        walkToDirection(queueroad, moveDirection);
     }
-    public void handleQueRoadFound(Spatial temp) {
-
+    public boolean doIWantToGoTo(Object place){
+        if(place instanceof BasicRide){
+            return false;
+        }else if(place instanceof BasicShop){
+            return false;
+        }else{
+            throw new IllegalArgumentException("Given Object not Shop or Ride. Can't rate if "+this.toString()+" wants to go there.");
+        }
     }
+    /*
     public boolean doIWantToGo(BasicShop shop){
         return true;
     }
     public boolean doIWantToGoThere(BasicRide ride) {
         //TODO: REWORK
 
-        /**
-         * happyness+laitteen hyvyys+preferredride +40>100**
-         */
         int h = stats.getHappyness() / 5; //0-20
         int e = ride.getExitement();   //0-80
         int p = 0;                //0-20
@@ -364,6 +376,7 @@ public class Guest extends BasicNPC {
                 break;
 
         }
+
         //happyness+exitement+preference+40
         int rating = h + e + p + 40;
         logger.log(Level.FINEST,"Guest got rating of {0}",rating);
@@ -373,7 +386,7 @@ public class Guest extends BasicNPC {
         }
         return false;
     }
-
+    * */
     /**
      * GETTERS AND SETTERS
      */

@@ -20,16 +20,16 @@ import org.jgrapht.graph.DefaultDirectedGraph;
  * @author arska
  */
 @Singleton
-public class Roadgraph {
+public class RoadGraph {
     //LOGGER
-    private transient static final Logger logger = Logger.getLogger(Roadgraph.class.getName());
+    private transient static final Logger logger = Logger.getLogger(RoadGraph.class.getName());
     //DEPENDENCIES
     private transient EventBus eventBus;
     //OWNS
     private DirectedGraph<Walkable,DefaultEdge> roadMap;
     //VARIABLES
-    
-    public Roadgraph() {
+
+    public RoadGraph() {
         roadMap = new DefaultDirectedGraph<>(DefaultEdge.class);
         //TODO: PROPERLY DOCUMENT THIS CLASS.
     }
@@ -38,7 +38,7 @@ public class Roadgraph {
             if(walkable.isNeedsUpdate()){
                 if(walkable instanceof Road){
                     Road road=(Road)walkable;
-                    
+
                     /* We need to know where the connected vertexes are. N-S-E-W */
                     boolean[] connected=new boolean[]{false,false,false,false};
                     for(DefaultEdge e:roadMap.incomingEdgesOf(road)){
@@ -58,7 +58,7 @@ public class Roadgraph {
                     }
                     logger.log(Level.FINEST,"Road {0} needs updating!",road.getID());
                     eventBus.post(new UpdateRoadEvent(road,connected));
-                    
+
                 }else if(walkable instanceof BuildingEnterance){
                     BuildingEnterance enterance=(BuildingEnterance)walkable;
                     /* DO SOMETHING ...*/
@@ -143,8 +143,9 @@ public class Roadgraph {
             return false;
         }
     }
-    
+
     private void connectWalkables(Walkable walk1,Walkable walk2){
+        //TODO make it that it checks for both edges being there.
         if(!roadMap.containsEdge(walk1, walk2)){
             roadMap.addEdge(walk1, walk2);
             roadMap.addEdge(walk2, walk1);
@@ -152,7 +153,7 @@ public class Roadgraph {
         }else{
             logger.log(Level.FINEST,"Walkables {0} and {1} already connected: only updating.", new Object[]{walk1.position.getVector(),walk2.position.getVector()});
         }
-        
+
         walk1.setNeedsUpdate(true);
         walk2.setNeedsUpdate(true);
     }
@@ -174,7 +175,7 @@ public class Roadgraph {
         }
         logger.log(Level.FINEST,"Deleted Walkable ({0}) from the graph.",type);
     }
-    
+
     public DirectedGraph<Walkable, DefaultEdge> getRoadMap() {
         return roadMap;
     }
@@ -219,6 +220,6 @@ public class Roadgraph {
         }
         return walkable;
     }
-    
-    
+
+
 }

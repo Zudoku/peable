@@ -19,7 +19,7 @@ import intopark.ride.RideColor;
 import intopark.roads.Road;
 import intopark.roads.RoadHill;
 import intopark.roads.RoadMaker;
-import intopark.roads.Roadgraph;
+import intopark.roads.RoadGraph;
 import intopark.roads.events.CreateRoadEvent;
 import intopark.shops.BasicShop;
 import intopark.shops.CreateShopEvent;
@@ -80,7 +80,7 @@ public class SaveAndLoadTest {
         ph.setIdentifier(new Identifier());
         //ROADMAKER
         RoadMaker rm=Mockito.mock(RoadMaker.class);
-        Mockito.stub(rm.getRoadGraph()).toReturn(new Roadgraph());
+        Mockito.stub(rm.getRoadGraph()).toReturn(new RoadGraph());
         ph.setRoadMaker(rm);
         //NPCMANAGER
         NPCManager npcm=new NPCManager(new Node(""),null,bus);

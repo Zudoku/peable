@@ -5,7 +5,6 @@
 package intopark.ride;
 
 import com.google.common.eventbus.EventBus;
-import com.google.inject.Inject;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.Savable;
@@ -130,6 +129,10 @@ public class Enterance implements Savable{
 
     public int getID() {
         return ID;
+    }
+
+    public BuildingEnterance getEnteranceWalkable() {
+        return enteranceWalkable;
     }
 
 }

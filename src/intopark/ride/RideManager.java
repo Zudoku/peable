@@ -102,7 +102,7 @@ public class RideManager implements NeedMouse{
                 Object foundObject = identifier.getObjectWithID(code);
                 if(foundObject instanceof BasicRide){
                     BasicRide foundRide= (BasicRide) foundObject;
-                    boolean built = TryToBuildEnterance(enterancetype, x, y, z, direction,foundRide); //might be direction.getOpposite()
+                    boolean built = TryToBuildEnterance(enterancetype, x, y, z, direction.getOpposite(),foundRide); //might be direction.getOpposite()
                     if(built){
                         return;
                     }

@@ -36,7 +36,7 @@ import intopark.ride.CreateRideEvent;
 import intopark.ride.Enterance;
 import intopark.ride.RideManager;
 import intopark.roads.Road;
-import intopark.roads.Roadgraph;
+import intopark.roads.RoadGraph;
 import intopark.roads.Walkable;
 import intopark.shops.BasicShop;
 import intopark.shops.CreateShopEvent;
@@ -365,7 +365,7 @@ public class ParkHandler {
     public String getParkName() {
         return scenario.getParkName();
     }
-    public Roadgraph getRoadGraph(){
+    public RoadGraph getRoadGraph(){
         return roadMaker.getRoadGraph();
     }
 

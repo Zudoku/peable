@@ -40,7 +40,7 @@ import intopark.terrain.decoration.RotationEvent;
 public class RoadMaker implements NeedMouse{
     private static final Logger logger = Logger.getLogger(RoadMaker.class.getName());
     //DEPENDENCIES
-    @Inject private Roadgraph roadGraph;
+    @Inject private RoadGraph roadGraph;
     private Node roadNode;
     @Inject public RoadFactory roadF;
     private MapContainer map;
@@ -59,7 +59,7 @@ public class RoadMaker implements NeedMouse{
     private boolean queroad = false;
     private boolean change = true;
     /**
-     * This Class is the Main control which does everything regarding to roadSpatials including 
+     * This Class is the Main control which does everything regarding to roadSpatials including
      * loading them and calculating where to move them
      * @param assetManager This is needed to load the road Spatial
      * @param rootNode This is used to attach the roadSpatials to the world
@@ -110,11 +110,11 @@ public class RoadMaker implements NeedMouse{
             }
         }
         logger.log(Level.FINE, "building done");
-        
+
         startingPosition=null;
         endingPosition=null;
         return true;
-        
+
     }
     /**
      * This calculates next position for road. It calculates it based on direction.
@@ -143,14 +143,14 @@ public class RoadMaker implements NeedMouse{
         return roadPos;
     }
     /**
-     * 
+     *
      */
     public void manualBuildRoad() {
         if (status == RoadMakerStatus.CHOOSING) {
             logger.log(Level.WARNING,"Yo,yo we cant build while in choosing-mode. This should not happen ever");
             return;
         }
-        
+
         MapPosition constructedPosition=new MapPosition(calcNextManualRoadPosition());
         Direction roadDir=direction;
         RoadHill angle=RoadHill.FLAT;
@@ -226,8 +226,7 @@ public class RoadMaker implements NeedMouse{
         }
         MapPosition pos=event.getEnterance().getPosition();
         if(!roadGraph.isThereRoom(pos)){
-            logger.log(Level.FINEST,"Already Walkable on the way. Can't build here.");
-            return;
+            logger.log(Level.FINEST,"Already Walkable on the way. Might not be able to connect.");
         }
         try{
             roadGraph.addWalkable(event.getEnterance());
@@ -236,7 +235,7 @@ public class RoadMaker implements NeedMouse{
             return;
         }
         logger.log(Level.FINEST,"BuildingEnterance added succesfully to {0}",event.getEnterance().getPosition().getVector());
-        
+
     }
     @Subscribe
     public void listenUpdateRoadEvent(UpdateRoadEvent event){
@@ -325,7 +324,7 @@ public class RoadMaker implements NeedMouse{
         return status;
     }
 
-    public Roadgraph getRoadGraph() {
+    public RoadGraph getRoadGraph() {
         return roadGraph;
     }
     public void setStatus(RoadMakerStatus status) {
@@ -381,7 +380,7 @@ public class RoadMaker implements NeedMouse{
             Gamestate.ingameHUD.updateClickingIndicator();
             logger.log(Level.FINEST, "Updated Roads starting position");
         } else if (status == RoadMakerStatus.AUTOMATIC) {
-            
+
             if (container.isLeftClick()) {
                 CollisionResult result = null;
                 for (CollisionResult r : container.getResults()) {
@@ -400,7 +399,7 @@ public class RoadMaker implements NeedMouse{
                     }
                 }
             }
-            
+
         } else {
             logger.log(Level.FINER, "Tried clicking while in road mode and not choosing start position, not doing anything");
         }
@@ -408,11 +407,11 @@ public class RoadMaker implements NeedMouse{
 
     @Override
     public void onDrag(MouseContainer container) {
-        
+
     }
 
     @Override
     public void onDragRelease(MouseContainer container) {
-        
+
     }
 }

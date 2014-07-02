@@ -41,12 +41,12 @@ public class RoadgraphTest {
     }
 
     /**
-     * Test of addRoad method, of class Roadgraph.
+     * Test of addRoad method, of class RoadGraph.
      */
     @Test
     public void testAddNullRoad() {
         Road road = null;
-        Roadgraph instance = new Roadgraph();
+        RoadGraph instance = new RoadGraph();
         try{
             instance.addWalkable(road);
             fail("Should throw exception for null argument.");
@@ -59,7 +59,7 @@ public class RoadgraphTest {
     @Test
     public void testConnectAttachedRoads() {
         Road road; 
-        Roadgraph instance = new Roadgraph();
+        RoadGraph instance = new RoadGraph();
         road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
         road=new Road(new MapPosition(2, 6, 1), RoadHill.FLAT, 2, 1, false, Direction.NORTH);
@@ -75,7 +75,7 @@ public class RoadgraphTest {
     @Test
     public void testNotConnectAttachedRoads() {
         Road road; 
-        Roadgraph instance = new Roadgraph();
+        RoadGraph instance = new RoadGraph();
         road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
         road=new Road(new MapPosition(3, 6, 1), RoadHill.FLAT, 2, 1, false, Direction.NORTH);
@@ -90,7 +90,7 @@ public class RoadgraphTest {
     @Test
     public void testSlopedRoads() {
         Road road; 
-        Roadgraph instance = new Roadgraph();
+        RoadGraph instance = new RoadGraph();
         road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
         road=new Road(new MapPosition(2, 6, 1), RoadHill.UP, 2, 1, false, Direction.NORTH);
@@ -113,7 +113,7 @@ public class RoadgraphTest {
     @Test
     public void testIncomingEdges(){
         Road road; 
-        Roadgraph instance = new Roadgraph();
+        RoadGraph instance = new RoadGraph();
         road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
         Road road2=new Road(new MapPosition(2, 6, 1), RoadHill.UP, 2, 1, false, Direction.NORTH);
@@ -129,7 +129,7 @@ public class RoadgraphTest {
     @Test
     public void testBendingEdge(){
         Road road; 
-        Roadgraph instance = new Roadgraph();
+        RoadGraph instance = new RoadGraph();
         road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
         Road road2=new Road(new MapPosition(2, 6, 1), RoadHill.FLAT, 2, 1, false, Direction.NORTH);
@@ -147,7 +147,7 @@ public class RoadgraphTest {
     
     @Test
     public void testRoadConnectToBuilding(){
-        Roadgraph instance = new Roadgraph();
+        RoadGraph instance = new RoadGraph();
         //TEST THAT ROAD CONNECTS TO BUILDING
         Road road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
