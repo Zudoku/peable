@@ -29,6 +29,7 @@ import intopark.roads.RoadGraph;
 import intopark.roads.Walkable;
 import intopark.shops.BasicBuildables;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import org.jgraph.graph.DefaultEdge;
 
@@ -109,7 +110,10 @@ public class BasicRide {
      */
     public boolean tryToQueGuest(Guest guest) {
         if(status){
-            if(validInspection){
+            if(!validInspection){ /// FIXME
+                if(guestsInQue.size() > 3){
+                    return false;
+                }
                 guestsInQue.add(guest);
                 guest.setActive(false);
                 return true;
@@ -163,7 +167,7 @@ public class BasicRide {
             }else{
                 //Part
                 int currentPosition = queue.indexOf(guestCurrentRoad); //currentPosition is always higher or equal to i
-                for(int p = currentPosition;p > i;p--){//for loop doesn't get executed if guest is on the right place already.
+                for(int p = currentPosition-1;p >= i;p--){//for loop doesn't get executed if guest is on the right place already.
                     Road r = queue.get(p);
                     handledguest.callToQueue(r);
                     //command guest to walk on r
@@ -261,11 +265,15 @@ public class BasicRide {
         interact(g);
         guestsInRide.remove(g);
         //Put the guest to the exit position
+
+        /*
         int x1 = (int) (exit.getLocation().getX() + 0.4999);
         int y1 = (int) (exit.getLocation().getY() + 0.4999);
         int z1 = (int) (exit.getLocation().getZ() + 0.4999);
         g.getGeometry().setLocalTranslation(x1, y1, z1);
         g.initXYZ(x1, y1, z1);
+        */
+
         g.setActive(true);
 
     }
@@ -282,7 +290,12 @@ public class BasicRide {
 
     }
     public void update(){
-
+        if(!guestsInQue.isEmpty()){
+            Random r = new Random();
+            if(r.nextInt(1000)==1){
+                takeQuestToRide(guestsInQue.get(0));
+            }
+        }
     }
     public void runAnim(){
         animatedPart.runAnimation();

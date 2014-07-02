@@ -303,7 +303,7 @@ public class Guest extends BasicNPC {
     }
     public boolean doIWantToGoTo(Object place){
         if(place instanceof BasicRide){
-            return false;
+            return true;
         }else if(place instanceof BasicShop){
             return false;
         }else{
