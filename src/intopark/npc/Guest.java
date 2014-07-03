@@ -224,7 +224,7 @@ public class Guest extends BasicNPC {
                         if(doIWantToGoTo(targetShop)){
                             /* Create buy action and walk back to original position */
                             NPCAction action = new NPCAction(target.getPosition().getVector(), ActionType.BUY, targetShop,this);
-                            NPCAction action2 = getSimpleAction(current.getPosition().getVector());
+                            NPCAction action2 = getSimpleAction(current.getPosition());
                             actions.add(action);
                             actions.add(action2);
                         }
@@ -275,7 +275,7 @@ public class Guest extends BasicNPC {
         MapPosition targetLocation = new MapPosition(target.getPosition());
         setOffsetLane(targetLocation, roadDirection);
         /* ADD THE ACTUAL ACTION TO ACTIONS */
-        actions.add(getSimpleAction(targetLocation.getVector()));
+        actions.add(getSimpleAction(targetLocation));
         moving = roadDirection;
         /* SET LOCATION TO CORRECT LOCATION */
         x = target.getPosition().getX();
@@ -309,6 +309,9 @@ public class Guest extends BasicNPC {
         }else{
             throw new IllegalArgumentException("Given Object not Shop or Ride. Can't rate if "+this.toString()+" wants to go there.");
         }
+    }
+    public void forceMove(MapPosition destination){
+        actions.add(getSimpleAction(destination));
     }
     /*
     public boolean doIWantToGo(BasicShop shop){
@@ -394,8 +397,8 @@ public class Guest extends BasicNPC {
     public GuestWalkingStates getWalkState() {
         return walkState;
     }
-    private NPCAction getSimpleAction(Vector3f pos){
-        NPCAction action=new NPCAction(pos, ActionType.NOTHING, this);
+    private NPCAction getSimpleAction(MapPosition position){
+        NPCAction action=new NPCAction(position.getVector(), ActionType.NOTHING, this);
         return action;
     }
     public void initXYZ(int x, int y, int z) {

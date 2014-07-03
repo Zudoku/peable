@@ -111,11 +111,8 @@ public class RideManager implements NeedMouse{
         }
 
     }
-    public void updateRide() {
+    public void updateRides() {
         for (BasicRide ride : rides) {
-            ride.runAnim();
-            ride.updateQueLine();
-            ride.updateRide();
             ride.update();
         }
     }

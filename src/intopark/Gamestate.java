@@ -110,7 +110,7 @@ public class Gamestate extends AbstractAppState {
         try{
         selectionEmitter.updateSelection();
         npcManager.update();
-        rideManager.updateRide();
+        rideManager.updateRides();
         userInput.update();
         roadMaker.update();
         }catch(Throwable t){

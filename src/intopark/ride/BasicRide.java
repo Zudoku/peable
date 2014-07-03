@@ -181,7 +181,7 @@ public class BasicRide {
         List<Guest> guestscopy=(ArrayList<Guest>)asd.clone();
         for (Guest g : guestscopy) {
             if (g.getJoinedRide() + rideLength < System.currentTimeMillis()) {
-                leaveRide(g);
+                removeGuestFromRide(g);
             }
         }
     }
@@ -219,7 +219,7 @@ public class BasicRide {
                     if(!foundRoad.getQueRoad()){
                         //Find over.
                         finding = false;
-                        logger.log(Level.FINER, "Found the end of the queue.");
+                        //logger.log(Level.FINER, "Found the end of the queue.");
                         break;
                     }else{
                         //If we went backwards.
@@ -245,43 +245,60 @@ public class BasicRide {
         }
         return queue;
     }
+    /**
+     * Gets called when guest gets inside the ride.
+     * @param g
+     */
     public void takeQuestToRide(Guest g) {
-
+        //Move it to right list
         guestsInQue.remove(g);
         guestsInRide.add(g);
+        //Start timer
         g.setJoinedRide(System.currentTimeMillis());
+        //Move guest to physically be inside the ride. (might be buggy)
         g.getGeometry().setLocalTranslation(position.getVector());
+        //Pay the ticket
         g.getWallet().pay(price);
         eventBus.post(new PayParkEvent(price));
         eventBus.post(new UpdateMoneyTextBarEvent());
-        moneytotal += price;
-        g.deleteActions();
+        //Add to statistics
         calculateguestRate();
         customerstotal++;
+        moneytotal += price;
+        //Delete actions just in case
+        g.deleteActions();
     }
-
-    private void leaveRide(Guest g) {
+    /**
+     * Gets called when guest exits ride.
+     * @param g
+     */
+    private void removeGuestFromRide(Guest g) {
         //delete guest from the list
         interact(g);
         guestsInRide.remove(g);
         //Put the guest to the exit position
-
-        /*
-        int x1 = (int) (exit.getLocation().getX() + 0.4999);
-        int y1 = (int) (exit.getLocation().getY() + 0.4999);
-        int z1 = (int) (exit.getLocation().getZ() + 0.4999);
-        g.getGeometry().setLocalTranslation(x1, y1, z1);
-        g.initXYZ(x1, y1, z1);
-        */
-
+        g.getGeometry().setLocalTranslation(exit.getLocation().getVector());
+        //Add Action to move infront of the exit.
+        MapPosition guestNewPosition = exit.getLocation();
+        guestNewPosition = guestNewPosition.plus(exit.getDirection().directiontoPosition());
+        g.forceMove(guestNewPosition);
+        //Init XYZ to infront of exit.
+        g.initXYZ(guestNewPosition.getX(), guestNewPosition.getY(), guestNewPosition.getZ());
+        //Set guest to active again.
         g.setActive(true);
 
     }
+    /**
+     * Toggles if ride is open or not.
+     * @return
+     */
     public boolean toggleStatus(){
         status=!status;
         return status;
     }
-
+    /**
+     * Demolishes this ride.
+     */
     public void demolish() {
 
         eventBus.post(new PayParkEvent(0.5f*constructionmoney));
@@ -289,7 +306,13 @@ public class BasicRide {
         eventBus.post(new UpdateMoneyTextBarEvent());
 
     }
+    /**
+     * Update loop for this ride.
+     */
     public void update(){
+        runAnim();
+        updateQueLine();
+        updateRide();
         if(!guestsInQue.isEmpty()){
             Random r = new Random();
             if(r.nextInt(1000)==1){
