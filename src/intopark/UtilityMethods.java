@@ -4,17 +4,22 @@
  */
 package intopark;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import intopark.roads.RoadGraph;
@@ -37,6 +42,7 @@ public class UtilityMethods {
     private static Node rootNode;
     private static AssetManager assetManager;
     private static Camera cam;
+    private static EventBus eventBus;
     //OWNS
 
     //VARIABLES
@@ -44,11 +50,12 @@ public class UtilityMethods {
     public static String programTitle="Into Park 0.05A";
 
     @Inject
-    public UtilityMethods(Camera cam,InputManager inputManager,AssetManager assetManager,Node rootNode) {
+    public UtilityMethods(Camera cam,InputManager inputManager,AssetManager assetManager,Node rootNode,EventBus eventBus) {
         this.cam=cam;
         this.inputManager=inputManager;
         this.assetManager=assetManager;
         this.rootNode=rootNode;
+        this.eventBus=eventBus;
     }
 
     public static void rayCast(CollisionResults results,Node someNode) {
@@ -140,5 +147,17 @@ public class UtilityMethods {
         logger.log(Level.FINEST,"Vector {0} rounded to {1}",new Object[]{vector,vector2});
         return vector2;
     }
+     public static Spatial getDebugBoxSpatial(float size,ColorRGBA color){
+         Box b = new Box(1, 1, 1);
+         Geometry geom = new Geometry("Box", b);
+         Material mat = new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+         mat.setColor("Color", color);
+         geom.setMaterial(mat);
+         geom.setLocalScale(size);
+         return geom;
+     }
+     public static void publishEvent(Object event){
+         eventBus.post(event);
+     }
 
 }

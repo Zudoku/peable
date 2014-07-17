@@ -36,7 +36,6 @@
       "enterance": {
         "ID": 30,
         "buildingType": 100,
-        "needToConnectDirection": false,
         "position": {
           "x": 11,
           "y": 10,
@@ -60,23 +59,28 @@
       ],
       "stats": {
         "currentEmote": "NORMAL",
-        "hunger": 76,
-        "thirst": 88,
-        "happyness": 83,
+        "hunger": 0,
+        "thirst": 4,
+        "happyness": 88,
         "preferredRide": "MEDIUM"
       },
       "wallet": {
         "money": 100.0
       },
-      "x": 10,
-      "y": 10,
-      "z": 10,
-      "ID": 20,
-      "moving": "NORTH",
       "male": false,
       "size": 1,
       "color": "BLUE",
-      "name": "test name"
+      "position": {
+        "x": 10,
+        "y": 10,
+        "z": 10,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "test name",
+      "ID": 20
     }
   ],
   "roads": []

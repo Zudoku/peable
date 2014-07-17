@@ -17,9 +17,9 @@ import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Main;
 import intopark.UtilityMethods;
 import intopark.npc.Guest;
+import intopark.npc.inspector.Inspection;
 import intopark.npc.inventory.RideType;
 import intopark.roads.Road;
-import intopark.shops.ShopReputation;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
 import intopark.terrain.events.PayParkEvent;
@@ -57,7 +57,7 @@ public class BasicRide {
     private MapPosition position; //position of this ride
     private float constructionmoney = 0; //how much did it cost to build this building
     private String rideName = "You found a bug"; //rides name
-    private ShopReputation reputation = ShopReputation.NEW; //not implemented yet
+    private Inspection lastInspection;
     private int rideLength = 10000; //ms = 10s ! How long the ride last
     private RideType rideType; //what type this ride is
     private int exitement =80; //what exitement rate this ride has
@@ -110,20 +110,20 @@ public class BasicRide {
      */
     public boolean tryToQueGuest(Guest guest) {
         if(status){
-            if(!validInspection){ /// FIXME
-                if(guestsInQue.size() > 3){
+            if(validInspection){
+                if(guestsInQue.size() >= getAllQueueRoadsInOrder().size()){ //FIXME
                     return false;
                 }
                 guestsInQue.add(guest);
                 guest.setActive(false);
                 return true;
             }else{
-                logger.log(Level.FINER, "Ride {0} can't take guests because it needs to be inspected first!",this.toString());
+                //logger.log(Level.FINER, "Ride {0} can't take guests because it needs to be inspected first!",this.toString());
                 return false;
             }
 
         }
-        logger.log(Level.FINER, "Ride {0} can't take guests because it needs to be opened first!",this.toString());
+        //logger.log(Level.FINER, "Ride {0} can't take guests because it needs to be opened first!",this.toString());
         return false;
     }
     /**
@@ -136,8 +136,11 @@ public class BasicRide {
         }
         for (int i = 0; i < guestsInQue.size(); i++) { //For every guest in the line.
             Guest handledguest = guestsInQue.get(i);
+            if(!handledguest.getActions().isEmpty()){
+                break;
+            }
             List<Road> queue = getAllQueueRoadsInOrder();
-            Walkable guestCurrentWalkable = roadMaker.getRoadGraph().getWalkable(handledguest.getX(), handledguest.getY(), handledguest.getZ(), true);
+            Walkable guestCurrentWalkable = roadMaker.getRoadGraph().getWalkable(handledguest.getPosition().getX(), handledguest.getPosition().getY(), handledguest.getPosition().getZ(), true);
             if(guestCurrentWalkable == null){
                 //Guest is not standing on anything but still is in queue how is this possible?
                 logger.log(Level.SEVERE, "Guest is not standing on anything but still is in queue.");
@@ -283,7 +286,7 @@ public class BasicRide {
         guestNewPosition = guestNewPosition.plus(exit.getDirection().directiontoPosition());
         g.forceMove(guestNewPosition);
         //Init XYZ to infront of exit.
-        g.initXYZ(guestNewPosition.getX(), guestNewPosition.getY(), guestNewPosition.getZ());
+        //g.setPosition(guestNewPosition);
         //Set guest to active again.
         g.setActive(true);
 
@@ -473,9 +476,18 @@ public class BasicRide {
         return moneytotal;
     }
 
-    public ShopReputation getReputation() {
-        return reputation;
+    public Inspection getLastInspection() {
+        return lastInspection;
     }
+
+    public void setLastInspection(Inspection lastInspection) {
+        this.lastInspection = lastInspection;
+        if(lastInspection!=null){
+            validInspection = lastInspection.isInspectionPassed();
+        }
+    }
+
+
 
     public List<Spatial> getStaticParts() {
         return staticParts;

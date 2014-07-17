@@ -27,7 +27,8 @@ public class GameModule extends AbstractModule {
     private final InputManager input;
     private final EventBus eventBus=new EventBus();
     private final Identifier identifier;
-    
+    private RoadGraph roadGraph=new RoadGraph();
+
   public GameModule(Node rootNode,AssetManager assetManager,AppSettings appSettings,Camera cam,InputManager input){
       this.rootNode=rootNode;
       this.assetManager=assetManager;
@@ -36,26 +37,25 @@ public class GameModule extends AbstractModule {
       this.input=input;
       this.identifier=new Identifier();
   }
-    
-  @Override 
+
+  @Override
   protected void configure() {
 
   }
-  
+
   @Provides
   Identifier provideIdentifier(){
       return identifier;
   }
-    
+
   @Provides
   Node provideRootNode(){
       return rootNode;
   }
   @Provides
   RoadGraph provideroadGraph(){
-      RoadGraph a=new RoadGraph();
-      a.setEventBus(eventBus);
-      return a;
+      roadGraph.setEventBus(eventBus);
+      return roadGraph;
   }
   @Provides
   Camera provideCamera(){
@@ -78,7 +78,7 @@ public class GameModule extends AbstractModule {
       return eventBus;
   }
 
-  
-  
-  
+
+
+
 }

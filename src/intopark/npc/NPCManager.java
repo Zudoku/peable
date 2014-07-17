@@ -12,6 +12,9 @@ import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import intopark.npc.events.NPCLeaveEvent;
+import intopark.npc.inspector.Inspector;
+import intopark.npc.inspector.InspectorManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,11 +30,13 @@ public class NPCManager {
     private static final Logger logger = Logger.getLogger(NPCManager.class.getName());
     //DEPENDENCIES
     @Inject private GuestSpawner guestSpawner;
+    private InspectorManager inspectorManager;
     //VARIABLES
     private List<BasicNPC> npcs;
     private List<Guest> guests=new ArrayList<>();
     private Node rootNode;
     private Node NPCNode;
+    private List<BasicNPC>leavingNPCs=new ArrayList<>();
     private boolean NPCVisible=true;
     private int maxguests=20;
     /**
@@ -41,8 +46,10 @@ public class NPCManager {
      * @param eventBus EventBus
      */
     @Inject
-    public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus){
+    public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus, InspectorManager inspectorManager){
         this.rootNode=rootNode;
+        this.inspectorManager=inspectorManager;
+        inspectorManager.setnPCManager(this);
         NPCNode=new Node("NPCNode");
         rootNode.attachChild(NPCNode);
         eventBus.register(this);
@@ -68,20 +75,44 @@ public class NPCManager {
      */
     public void update(){
         //TODO: REWORK THIS
+        inspectorManager.update();
         if(maxguests>npcs.size()){
             Random r =new Random();
             if(r.nextInt(900)<=maxguests/((guests.isEmpty())?1:guests.size())){
                 guestSpawner.forceSpawnGuest();
             }
-            
+
         }
         if(npcs.isEmpty()==true){
             return;
         }
         for(BasicNPC npc:npcs){
-            
+
             npc.update();
         }
+        if(!leavingNPCs.isEmpty()){
+            for(BasicNPC leaving:leavingNPCs){
+                removeNPCFromPark(leaving);
+            }
+            leavingNPCs.clear();
+        }
+    }
+    private void removeNPCFromPark(BasicNPC npc){
+        if(npcs.contains(npc)){
+            npcs.remove(npc);
+        }
+        if(npc instanceof Guest){
+            if(guestSpawner.getGuests().contains((Guest)npc)){
+                guestSpawner.getGuests().remove((Guest)npc);
+            }
+        }
+        if(npc instanceof Inspector){
+            if(inspectorManager.getInspectorsOnWork().contains((Inspector)npc)){
+                inspectorManager.getInspectorsOnWork().remove((Inspector)npc);
+            }
+        }
+        NPCNode.detachChild(npc.getGeometry());
+        
     }
     /**
      * Used by LoadManager when loading a game.
@@ -91,7 +122,7 @@ public class NPCManager {
     public void setMaxGuests(int a){
         this.maxguests=a;
     }
-    
+
     /**
      * Toggles NPCs visible/invisible
      */
@@ -104,7 +135,7 @@ public class NPCManager {
             rootNode.detachChild(NPCNode);
             logger.info("Toggled NPCs invisible");
         }
-        
+
     }
     /**
      * Get all guests in your park.
@@ -116,6 +147,10 @@ public class NPCManager {
     @Subscribe public void listenAddGuestLimit(AddGuestLimitEvent event){
         this.maxguests=maxguests+event.getM();
         logger.finest("GuestLimit raised!");
+    }
+    @Subscribe public void listenNPCLeaveEvent(NPCLeaveEvent event){
+        leavingNPCs.add(event.getNpcLeaving());
+        logger.log(Level.FINER,"NPC {0} has left the park.",event.getNpcLeaving().toString());
     }
 
     public void setNpcs(List<BasicNPC> npcs) {
@@ -135,7 +170,7 @@ public class NPCManager {
         logger.log(Level.FINEST,"New Spatial added to NPCNode");
         NPCNode.attachChild(object);
     }
-    
-    
-    
+
+
+
 }

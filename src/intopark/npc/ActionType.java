@@ -9,5 +9,11 @@ package intopark.npc;
  * @author arska
  */
 public enum ActionType {
-    NOTHING,BUY,SIT,WATCH,CLEAN,FIX,CONSUME,QUE;
+    /* ALL */
+    NOTHING,EXIT,
+    /* GUEST ONLY */
+    BUY,CONSUME,
+    /* INSPECTOR ONLY */
+    INSPECT
+    ;
 }

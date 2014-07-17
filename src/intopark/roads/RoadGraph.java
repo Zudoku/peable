@@ -5,6 +5,7 @@
 package intopark.roads;
 
 import com.google.common.eventbus.EventBus;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import intopark.roads.events.UpdateRoadEvent;
 import intopark.util.MapPosition;
@@ -26,11 +27,12 @@ public class RoadGraph {
     //DEPENDENCIES
     private transient EventBus eventBus;
     //OWNS
-    private DirectedGraph<Walkable,DefaultEdge> roadMap;
+    private DirectedGraph<Walkable,DefaultEdge> roadMap= new DefaultDirectedGraph<>(DefaultEdge.class);
     //VARIABLES
 
+    @Inject
     public RoadGraph() {
-        roadMap = new DefaultDirectedGraph<>(DefaultEdge.class);
+
         //TODO: PROPERLY DOCUMENT THIS CLASS.
     }
     public void update(){

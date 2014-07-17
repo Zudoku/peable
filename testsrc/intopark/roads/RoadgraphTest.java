@@ -20,22 +20,22 @@ import static org.junit.Assert.*;
  * @author arska
  */
 public class RoadgraphTest {
-    
+
     public RoadgraphTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -51,14 +51,14 @@ public class RoadgraphTest {
             instance.addWalkable(road);
             fail("Should throw exception for null argument.");
         }catch(IllegalArgumentException e){
-            
+
         }
-        
+
     }
-    
+
     @Test
     public void testConnectAttachedRoads() {
-        Road road; 
+        Road road;
         RoadGraph instance = new RoadGraph();
         road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
@@ -70,11 +70,11 @@ public class RoadgraphTest {
         assertNotNull(roadMap.getEdge(vertexes[0],vertexes[1]));
         assertNotNull(roadMap.getEdge(vertexes[1],vertexes[0]));
         assertNull(roadMap.getEdge(vertexes[1],vertexes[1]));
-        
+
     }
     @Test
     public void testNotConnectAttachedRoads() {
-        Road road; 
+        Road road;
         RoadGraph instance = new RoadGraph();
         road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
@@ -85,11 +85,11 @@ public class RoadgraphTest {
         Walkable[] vertexes=roadMap.vertexSet().toArray(new Walkable[roadMap.vertexSet().size()]);
         assertNull(roadMap.getEdge(vertexes[0],vertexes[1]));
         assertNull(roadMap.getEdge(vertexes[1],vertexes[0]));
-        
+
     }
     @Test
     public void testSlopedRoads() {
-        Road road; 
+        Road road;
         RoadGraph instance = new RoadGraph();
         road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
@@ -102,17 +102,17 @@ public class RoadgraphTest {
         Walkable[] vertexes=roadMap.vertexSet().toArray(new Walkable[roadMap.vertexSet().size()]);
         assertNotNull(roadMap.getEdge(vertexes[0],vertexes[1]));
         assertNotNull(roadMap.getEdge(vertexes[1],vertexes[0]));
-        
+
         assertNotNull(roadMap.getEdge(vertexes[1],vertexes[2]));
         assertNotNull(roadMap.getEdge(vertexes[2],vertexes[1]));
-        
+
         assertNull(roadMap.getEdge(vertexes[2],vertexes[0]));
         assertNull(roadMap.getEdge(vertexes[0],vertexes[2]));
-        
+
     }
     @Test
     public void testIncomingEdges(){
-        Road road; 
+        Road road;
         RoadGraph instance = new RoadGraph();
         road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
@@ -128,7 +128,7 @@ public class RoadgraphTest {
     }
     @Test
     public void testBendingEdge(){
-        Road road; 
+        Road road;
         RoadGraph instance = new RoadGraph();
         road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
@@ -141,17 +141,17 @@ public class RoadgraphTest {
         assertSame(2,roadMap.edgesOf(road).size());
         assertSame(2*2,roadMap.edgesOf(road2).size());
         assertSame(2,roadMap.edgesOf(road3).size());
-        
-        
+
+
     }
-    
+
     @Test
     public void testRoadConnectToBuilding(){
         RoadGraph instance = new RoadGraph();
         //TEST THAT ROAD CONNECTS TO BUILDING
         Road road=new Road(new MapPosition(1, 6, 1), RoadHill.FLAT, 1, 1, false, Direction.NORTH);
         instance.addWalkable(road);
-        BuildingEnterance ent= new BuildingEnterance(new MapPosition(2, 6, 1), 1, BuildingEnterance.SHOP);
+        BuildingEnterance ent= new BuildingEnterance(new MapPosition(1, 6, 1), 1, BuildingEnterance.SHOP);
         instance.addWalkable(ent);
         assertSame(2,instance.getRoadMap().edgesOf(ent).size());
         //TEST THAT RIDES DONT ACCEPT NORMAL ROAD
@@ -166,7 +166,7 @@ public class RoadgraphTest {
         BuildingEnterance ent3= new BuildingEnterance(new MapPosition(1, 6, 10), 1, BuildingEnterance.SHOP);
         instance.addWalkable(ent3);
         assertSame(2,instance.getRoadMap().edgesOf(ent3).size());
-        
+
     }
-    
+
 }

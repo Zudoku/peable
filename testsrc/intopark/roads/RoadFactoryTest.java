@@ -24,26 +24,26 @@ import org.mockito.Mockito;
  * @author arska
  */
 public class RoadFactoryTest {
-    
+
     public RoadFactoryTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         AssetManager b=Mockito.mock(AssetManager.class);
         Mockito.stub(b.loadModel(LoadPaths.roadstraight)).toReturn(new Node("Straight"));
         Mockito.stub(b.loadModel(LoadPaths.roaduphill)).toReturn(new Node("angle"));
-        UtilityMethods a=new UtilityMethods(null, null,b,null );
+        UtilityMethods a=new UtilityMethods(null, null,b,null,null);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -78,18 +78,18 @@ public class RoadFactoryTest {
         RoadFactory instance = new RoadFactory();
         Road road=new Road(new MapPosition(5, 6, 3), RoadHill.UP, 8,1,false, Direction.SOUTH);
         Spatial roadSpatial=instance.roadToSpatial(road,new boolean[]{false,false,false,false});
-        
+
         assertSame("road", roadSpatial.getUserData("type"));
         assertEquals(5f,roadSpatial.getLocalTranslation().x,0.005f);//X
         assertEquals(6f+0.5f,roadSpatial.getLocalTranslation().y,0.005f);//Y
         assertEquals(3f,roadSpatial.getLocalTranslation().z,0.005f);//Z
-  
+
     }
     @Test
     public void testRoadToSpatial2(){
         RoadFactory instance = new RoadFactory();
         Road road=new Road(new MapPosition(2, 6, 6), RoadHill.FLAT, 8,1,false, Direction.SOUTH);
         //BOOLEAN NORTH-SOUTH-EAST-WEST
-        
+
     }
 }

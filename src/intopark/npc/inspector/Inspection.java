@@ -15,17 +15,18 @@ public class Inspection {
     private boolean inspectionPassed;
     private boolean paid;
     private double paidAmount;
-    private InspectionComment workingQuality;
+    private InspectionComment workingConditions;
     private InspectionComment workingSafety;
     private List<InspectionComment> additionalComments;
     private int leftImage;
 
-    public Inspection(String inspector, boolean inspectionPassed, boolean paid, double paidAmount, InspectionComment workingQuality, InspectionComment workingSafety, List<InspectionComment> additionalComments) {
+    public Inspection(String inspector, boolean inspectionPassed, boolean paid, double paidAmount, InspectionComment workingConditions,
+            InspectionComment workingSafety, List<InspectionComment> additionalComments) {
         this.inspector = inspector;
         this.inspectionPassed = inspectionPassed;
         this.paid = paid;
         this.paidAmount = paidAmount;
-        this.workingQuality = workingQuality;
+        this.workingConditions = workingConditions;
         this.workingSafety = workingSafety;
         this.additionalComments = additionalComments;
         calculateInspectionLeftImage();
@@ -40,7 +41,7 @@ public class Inspection {
         if(paid){
             image--;
         }
-        image +=workingQuality.getStatus();
+        image +=workingConditions.getStatus();
         image +=workingSafety.getStatus();
         for(InspectionComment comment:additionalComments){
             image += comment.getStatus();
@@ -64,13 +65,17 @@ public class Inspection {
         return paidAmount;
     }
 
-    public InspectionComment getWorkingQuality() {
-        return workingQuality;
+    public InspectionComment getWorkingConditions() {
+        return workingConditions;
     }
 
     public InspectionComment getWorkingSafety() {
         return workingSafety;
     }
-    
+
+    public boolean isInspectionPassed() {
+        return inspectionPassed;
+    }
+
 
 }

@@ -20,8 +20,8 @@ public class MapPosition {
     private float offSetX;
     private float offSetY;
     private float offSetZ;
-    
-    
+
+
     public MapPosition(int x,int y,int z){
         this.x=x;
         this.y=y;
@@ -36,8 +36,8 @@ public class MapPosition {
         this.offSetY=(vec.y-this.y);
         this.offSetZ=(vec.z-this.z);
         logger.log(Level.FINEST,"{0} transformed to {1}",new Object[]{vec,this.getVector()});
-        
-        
+
+
     }
     public MapPosition(MapPosition pos2){
         this.x=pos2.getX();
@@ -184,11 +184,19 @@ public class MapPosition {
     public void setOffSetZ(float offSetZ) {
         this.offSetZ = offSetZ;
     }
-
+    public float getAllX(){
+        return getX() + getOffSetX();
+    }
+    public float getAllY(){
+        return getY() + getOffSetY();
+    }
+    public float getAllZ(){
+        return getZ() + getOffSetZ();
+    }
     @Override
     public String toString() {
         return getVector().toString();
     }
-    
-    
+
+
 }

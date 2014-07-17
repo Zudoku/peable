@@ -72,7 +72,7 @@ public class SaveAndLoadTest {
         AssetManager asmang=Mockito.mock(AssetManager.class);
         Mockito.stub(asmang.loadModel(LoadPaths.guest)).toReturn(new Node("Guest"));
         Mockito.stub(asmang.loadModel(LoadPaths.toilet)).toReturn(new Node("toilet"));
-        UtilityMethods um=new UtilityMethods(null, null, asmang, null);
+        UtilityMethods um=new UtilityMethods(null, null, asmang, null,null);
 
         //PARKHANDLER
         Node node=new Node("");
@@ -83,7 +83,7 @@ public class SaveAndLoadTest {
         Mockito.stub(rm.getRoadGraph()).toReturn(new RoadGraph());
         ph.setRoadMaker(rm);
         //NPCMANAGER
-        NPCManager npcm=new NPCManager(new Node(""),null,bus);
+        NPCManager npcm=new NPCManager(new Node(""),null,bus,null);
         ph.setNpcManager(npcm);
         //SHOPMANAGER
         ShopManager sm=new ShopManager(new Node(""), null, bus,null);
@@ -118,7 +118,7 @@ public class SaveAndLoadTest {
         ph2.setIdentifier(new Identifier());
         Node node2=new Node("");
         //NPCMANAGER
-        npcm=new NPCManager(new Node(""),null,bus);
+        npcm=new NPCManager(new Node(""),null,bus,null);
         ph2.setNpcManager(npcm);
         //SHOPMANAGER
         sm=new ShopManager(new Node(""), null, bus,null);
@@ -144,9 +144,9 @@ public class SaveAndLoadTest {
         assertEquals(g1.getStats().getThirst(), g2.getStats().getThirst());
         assertEquals(g1.getWallet().getmoney(), g2.getWallet().getmoney(),1);
 
-        assertEquals(g1.getX(), g2.getX());
-        assertEquals(g1.getY(), g2.getY());
-        assertEquals(g1.getZ(), g2.getZ());
+        assertEquals(g1.getPosition().getX(), g2.getPosition().getX());
+        assertEquals(g1.getPosition().getY(), g2.getPosition().getY());
+        assertEquals(g1.getPosition().getZ(), g2.getPosition().getZ());
 
         Item item1=g1.getInventory().get(0);
         Item item2=g2.getInventory().get(0);

@@ -4,7 +4,6 @@
  */
 package intopark.npc;
 
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import static intopark.npc.BasicNPC.logger;
 import intopark.npc.inventory.Item;
-import intopark.npc.inventory.RideType;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
 import intopark.ride.BasicRide;
@@ -36,39 +34,29 @@ public class Guest extends BasicNPC {
     //DEPENDENCIES
     private  transient Random r;
     private transient ParkHandler parkHandler;
-
     //OWNS
     private List<Item> inventory = new ArrayList<>(); // What does the guest carry
     private StatManager stats = new StatManager(); //Emotions and feelings, thoughts
     private Wallet wallet; //Money situation
     //VARIABLES
-    private int x;
-    private int y;
-    private int z;
     private transient GuestWalkingStates walkState = GuestWalkingStates.WALK; //Whether guest is walking or not
-    private transient List<NPCAction> actions = new ArrayList<>(); //Npcs actions. Determine where the guest moves and what does he do.
-    private int ID;
-    private Direction moving = Direction.NORTH; //What direction guest is moving.
     private transient boolean active = true; //Is guest active AKA is he on ride? is he allowed to move
-    private transient  Spatial currentQueRoad;
     private  transient long joinedRide;
     private boolean male;
     private int size=1;//0=SHORT //1=NORMAL
     private RideColor color= RideColor.BLUE;
 
-    public Guest(Wallet wallet, int ID, Direction moving, int x1, int y1, int z1, StatManager stats, Spatial geom, String name,ParkHandler parkHandler) {
-        super(name, geom);
+    public Guest(Wallet wallet, int ID, Direction moving,MapPosition position, StatManager stats, Spatial geom, String name,ParkHandler parkHandler) {
+        super(name, geom,ID,position);
         this.parkHandler=parkHandler;
-        initXYZ(x1, y1, z1);
         this.moving = moving;
         this.stats = stats;
         this.wallet = wallet;
-        this.ID = ID;
         r = new Random();
         if(size==0){
             super.getGeometry().setLocalScale(0.5f);
         }
-        super.getGeometry().setLocalTranslation(x, y, z);
+        super.getGeometry().setLocalTranslation(position.getVector());
         super.getGeometry().setUserData("type","guest");
         super.getGeometry().setUserData("ID",ID);
     }
@@ -90,10 +78,7 @@ public class Guest extends BasicNPC {
             calcMovePoints();
         }
         if (walkState == GuestWalkingStates.WALK) {
-            if (actions.isEmpty()) {
-                return;
-            }
-            super.move(actions.get(0), actions);
+            super.move();
         }
         stats.update();
     }
@@ -115,7 +100,7 @@ public class Guest extends BasicNPC {
             /* Guest can move freely */
             RoadGraph roadGraph=parkHandler.getRoadGraph();
             /* Get the walkable that we are standing on */
-            Walkable current=roadGraph.getWalkable(x, y, z,true);
+            Walkable current=roadGraph.getWalkable(getPosition().getX(),getPosition().getY(),getPosition().getZ(),true);
             if(current==null){
                 /* Not on road. Can't move */
                 return;
@@ -138,7 +123,7 @@ public class Guest extends BasicNPC {
             Walkable target=possibilities.get(seed);
             if(target instanceof Road){
                 /* We need to know what direction we are moving */
-                Direction roadDirection=new MapPosition(x, y, z).getDirection(target.getPosition().getX(),target.getPosition().getZ());
+                Direction roadDirection=getPosition().getDirection(target.getPosition().getX(),target.getPosition().getZ());
                 if(moving.isOpposite(roadDirection)){
                     /* We don't want to go backwards if it isn't neccessary*/
                     if(5!=r.nextInt(10)){
@@ -223,7 +208,7 @@ public class Guest extends BasicNPC {
                     if(targetShop!=null){
                         if(doIWantToGoTo(targetShop)){
                             /* Create buy action and walk back to original position */
-                            NPCAction action = new NPCAction(target.getPosition().getVector(), ActionType.BUY, targetShop,this);
+                            NPCAction action = new NPCAction(target.getPosition(), ActionType.BUY,this,targetShop,false);
                             NPCAction action2 = getSimpleAction(current.getPosition());
                             actions.add(action);
                             actions.add(action2);
@@ -277,10 +262,6 @@ public class Guest extends BasicNPC {
         /* ADD THE ACTUAL ACTION TO ACTIONS */
         actions.add(getSimpleAction(targetLocation));
         moving = roadDirection;
-        /* SET LOCATION TO CORRECT LOCATION */
-        x = target.getPosition().getX();
-        y = target.getPosition().getY();
-        z = target.getPosition().getZ();
     }
     private void setOffsetLane(MapPosition pos,Direction direction){
         float laneWidth=0.15f;
@@ -298,13 +279,18 @@ public class Guest extends BasicNPC {
         }
     }
     public void callToQueue(Road queueroad) {
-        Direction moveDirection = new MapPosition(x, y, z).getDirection(queueroad.getPosition().getX(),queueroad.getPosition().getZ());
+        Direction moveDirection = getPosition().getDirection(queueroad.getPosition().getX(),queueroad.getPosition().getZ());
         walkToDirection(queueroad, moveDirection);
     }
     public boolean doIWantToGoTo(Object place){
         if(place instanceof BasicRide){
+
+
             return true;
         }else if(place instanceof BasicShop){
+
+
+            
             return false;
         }else{
             throw new IllegalArgumentException("Given Object not Shop or Ride. Can't rate if "+this.toString()+" wants to go there.");
@@ -398,17 +384,8 @@ public class Guest extends BasicNPC {
         return walkState;
     }
     private NPCAction getSimpleAction(MapPosition position){
-        NPCAction action=new NPCAction(position.getVector(), ActionType.NOTHING, this);
+        NPCAction action=new NPCAction(position,ActionType.NOTHING,this,true);
         return action;
-    }
-    public void initXYZ(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-
-    public int getID() {
-        return ID;
     }
     public StatManager getStats() {
         return stats;
@@ -425,30 +402,12 @@ public class Guest extends BasicNPC {
     public Wallet getWallet() {
         return wallet;
     }
-    public Direction getMoving() {
-        return moving;
-    }
-    public int getX() {
-        return x;
-    }
-    public int getY() {
-        return y;
-    }
-    public int getZ() {
-        return z;
-    }
-
     public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
     }
     public List<Item> getInventory() {
         return inventory;
     }
-
-    public void setMoving(Direction moving) {
-        this.moving = moving;
-    }
-
     public RideColor getColor() {
         return color;
     }

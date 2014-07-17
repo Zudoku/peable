@@ -692,7 +692,7 @@
                                         </interact>
                                     </image>
                                     <control id="riderequestinspection" name="button" label="Request inspection" x="0"y="66"width="130"height="24"visibleToMouse="true">
-                                        <interact onClick="rideInspectionRequest()"/>
+                                        <interact onClick="rideRequestInspection()"/>
                                     </control>
                                     <control id="riderebuildenterance" name="button" label="Rebuild enterances" x="140"y="66"width="130"height="24"visibleToMouse="true">
                                         <interact onClick="rideRebuildEnterance()"/>
@@ -759,6 +759,28 @@
             <control id="NPCWindow" name="window"title="NPCS"width="400"height="560"x="200"y="200"hideOnClose="true"closeable="true"visibleToMouse="true">
                 <panel id="n_rootpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#999f" childLayout="absolute"visibleToMouse="true"x="0"y="0">
                     <control id="guests" name="dropDown"x="40"y="10"displayItems="20" align="left" valign="top"visibleToMouse="true"height="23" width="300"/>
+                </panel>
+            </control>
+            <control id="inspectionWindow" name="window"title="Request an inspection"width="200"height="150"x="400"y="200"hideOnClose="true"closeable="true">
+                <panel id="inspectionpanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#555f" childLayout="absolute"visibleToMouse="true">
+                    <control id="inspectiontoprefix"name="label" text="Request inspection to:" x="4"y="0" color="#ffff"/>
+                    <control id="inspectionto"name="label" text="Haunting House 1222121" x="4"y="22" color="#ffff"/>
+                    <control id="inspectionpayprefix"name="label" text="Pay under the desk" x="4"y="44" color="#ffff"/>
+                    <control id="inspectionpaycheckbox" name="checkbox" x="130"y="44"/>
+                    <control id="inspectionpaytext"name="label" text="Amount:" x="4"y="70" color="#ffff"/>
+                    <control id="inspectionpay"name="label" text="1000" x="74"y="70" color="#ffff"/>
+                    <control id="inspectionaddvalue" name="button" label="+$" x="120"y="70"width="20"height="24"visibleToMouse="true">
+                        <interact onClick="inspectionAddValue()"/>
+                    </control>
+                    <control id="inspectiontakevalue" name="button" label="-$" x="142"y="70"width="20"height="24"visibleToMouse="true">
+                        <interact onClick="inspectionTakeValue()"/>
+                    </control>
+                    <control id="inspectionrequest" name="button" label="Request" x="14"y="100"width="80"height="24"visibleToMouse="true">
+                        <interact onClick="inspectionRequest()"/>
+                    </control>
+                    <control id="inspectioncancel" name="button" label="Cancel" x="100"y="100"width="80"height="24"visibleToMouse="true">
+                        <interact onClick="resetUI()"/>
+                    </control>
                 </panel>
             </control>
             <control id="decorationWindow" name="window"title="DECORATIONS"width="800"height="400"x="200"y="200"hideOnClose="true"closeable="false">
@@ -836,7 +858,6 @@
                                     <interact onClick="">
                                     </interact>
                                 </image>
-                                <control id="rofltext"name="label" text="Hi there ;)" x="500"y="560" color="ffffff"/>
                             </panel>
                         </control>
                     </panel>

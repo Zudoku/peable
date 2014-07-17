@@ -8,6 +8,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.math.Vector3f;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.Button;
+import de.lessvoid.nifty.controls.CheckBox;
+import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.elements.Element;
@@ -47,6 +50,8 @@ public class WindowHandler {
     private int lastIDforGuest;
     private int lastIDforShop;
     private int lastIDforRide;
+
+    private int amountCounter=200;
 
     public WindowHandler() {
         nifty = Main.nifty;
@@ -265,6 +270,10 @@ public class WindowHandler {
         }
 
     }
+    private void updateRideInspection
+    private void updateRideInspectionTab(Element rideWindow, BasicRide ride) {
+
+    }
 
     public void updateRideWindow(boolean updateNameTextField, boolean toggleVisible) {
         updateNifty();
@@ -279,18 +288,16 @@ public class WindowHandler {
          * TAB 1
          */
 
-        /**
         if (updateNameTextField) {
             updateRideNameTextfield(ride.getName());
         }
         updateRidePriceTextTab1(rideWindow, ride.getPrice(), false);
-        updateRideStatusText(rideWindow, ride.getStatus());
-        **/
+
 
         /**
          * TAB 2
          */
-
+        updateRideInspectionTab(rideWindow,ride);
         /**
         updateRidePriceText(rideWindow, ride.getPrice());
         updateRideNameText(rideWindow, ride.getName());
@@ -304,7 +311,7 @@ public class WindowHandler {
         /**
          * TAB 3
          */
-
+        updateRideStatusText(rideWindow, ride.getStatus());
         /**
         updateRideCustomersText(rideWindow, ride.customers());
         updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
@@ -344,6 +351,59 @@ public class WindowHandler {
 
     }
 
+    public void updateInspectionWindow(boolean turnVisible,boolean reset){
+        updateNifty();
+        Object object=identifier.getObjectWithID(lastIDforRide);
+        if(!(object instanceof BasicRide)){
+            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Ride",lastIDforRide);
+            return;
+        }
+
+        BasicRide ride = (BasicRide)object;
+        Element inspectionWindow = nifty.getCurrentScreen().findElementByName("inspectionWindow");
+        if(reset){
+            int default_amount = 200;
+            amountCounter = default_amount;
+            CheckBox payshadyCash = nifty.getCurrentScreen().findNiftyControl("inspectionpaycheckbox", CheckBox.class);
+            payshadyCash.setChecked(false);
+        }
+
+        updateInspectionName(inspectionWindow, ride.getName());
+        updateInspectionAmount(inspectionWindow,amountCounter);
+        CheckBox payshadyCash = inspectionWindow.findNiftyControl("inspectionpaycheckbox", CheckBox.class);
+        //Turn this here because if you do this in the end, it resets every visible attribute to its children.*
+        if(turnVisible){
+            inspectionWindow.setVisible(true);
+        }
+        //Set visibility to other elements based on if checkbox is checked or not. (Hides spare elements that are not needed)
+        Element element = inspectionWindow.findElementByName("inspectionpaytext");
+        element.setVisible(payshadyCash.isChecked());
+        element = inspectionWindow.findElementByName("inspectionpay");
+        element.setVisible(payshadyCash.isChecked());
+        element = inspectionWindow.findElementByName("inspectionaddvalue");
+        element.setVisible(payshadyCash.isChecked());
+        element = inspectionWindow.findElementByName("inspectiontakevalue");
+        element.setVisible(payshadyCash.isChecked());
+
+    }
+    private void updateInspectionName(Element inspectionWindow,String name){
+        Element updatedText = inspectionWindow.findElementByName("inspectionto");
+        updateText(updatedText,name);
+    }
+    private void updateInspectionAmount(Element inspectionWindow,int amount){
+        Element updatedText = inspectionWindow.findElementByName("inspectionpay");
+        updateText(updatedText,Integer.toString(amount));
+    }
+    public void inspectionAddValue(){
+        amountCounter +=50;
+        updateInspectionWindow(false, false);
+    }
+    public void inspectionTakeValue(){
+        if(amountCounter > 0){
+            amountCounter -=50;
+        }
+        updateInspectionWindow(false, false);
+    }
     /* SHOP WINDOW CREATION AND UPDATE METHODS */
     /**
      * Create niftyGUI window element from shop. (Basically the shop window).
@@ -466,6 +526,16 @@ public class WindowHandler {
     }
     public void setIDforShop(int ID){
         this.lastIDforShop=ID;
+    }
+
+    public int getAmountCounter() {
+        return amountCounter;
+    }
+    public boolean isInspectionPayCheckboxChecked(){
+        updateNifty();
+        Element inspectionWindow = nifty.getCurrentScreen().findElementByName("inspectionWindow");
+        CheckBox payshadyCash = inspectionWindow.findNiftyControl("inspectionpaycheckbox", CheckBox.class);
+        return payshadyCash.isChecked();
     }
 
 }

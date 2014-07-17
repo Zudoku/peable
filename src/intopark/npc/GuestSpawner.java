@@ -9,7 +9,6 @@ import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,7 @@ public class GuestSpawner {
     private List<Guest> guests=new ArrayList<>();
     private ParkHandler parkHandler;
     //VARIABLES
-    
+
     @Inject
     public GuestSpawner(AssetManager assetManager,EventBus eventBus,ParkHandler parkHandler,Identifier identifier) {
         this.assetManager = assetManager;
@@ -90,7 +89,7 @@ public class GuestSpawner {
         name = name.concat(" ".concat(surName.get(num2)));
         //random shirt color
         RideColor color=RideColor.values()[r.nextInt(RideColor.values().length-1)];
-        
+
         //Semi-random money
         float money = r.nextInt(30);
         money = money + 35;
@@ -108,10 +107,10 @@ public class GuestSpawner {
         CreateGuestEvent event=new CreateGuestEvent(wallet,new ArrayList<Item>(),ID,
         Direction.NORTH,pos.getX(),pos.getY(),pos.getZ(),stats, geom, name,parkHandler,male,height,color);
         eventBus.post(event);
-        
+
     }
 
-    
+
     private void addNames() {
         String[]fnM=new String[]{
             //M
@@ -125,7 +124,7 @@ public class GuestSpawner {
             "Mary","Patricia","Linda","Barbara","Elisabeth","Jennifer","Maria",
             "Kate","Susan","Margaret","Lisa","Nancy","Helen","Donna","Carol","Laura",
             "Ruth","Karen"
-        
+
         };
         firstNameMale=Arrays.asList(fnM);
         firstNameFemale=Arrays.asList(fnF);
@@ -145,4 +144,9 @@ public class GuestSpawner {
         }
         logger.log(Level.FINER,"{0} Spawnpoints added for guests at {1}",new Object[]{event.getSpawnpoints().size(),locations});
     }
+
+    public List<Guest> getGuests() {
+        return guests;
+    }
+    
 }

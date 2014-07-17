@@ -9,7 +9,7 @@ package intopark.inout;
  * @author arska
  */
 public class LoadPaths {
-    
+
     public static String parkenterance="Models/park/parkEnterance.j3o";
     public static String guest="Models/Human/guest.j3o";
     public static String mball="Models/shops/mball.j3o";
@@ -39,12 +39,13 @@ public class LoadPaths {
     public static String rocktexture="Textures/rocktexture.png";
     public static String selectiontexture="Textures/selection.png";
     public static String rock="Models/Decorations/rock.j3o";
+    public static String inspector = "Models/Human/guest.j3o";
 
     /**
      * Contains hard-coded relative paths to Assets.
      */
     public LoadPaths() {
-
+        //TODO: Redo arranging. (TRANSFER TO FILE INSTEAD OF HARDCODED VALUES)
     }
 
 

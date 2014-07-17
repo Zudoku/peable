@@ -12,7 +12,7 @@ INTOPARK
 - [Mockito](https://code.google.com/p/mockito/)
 
 #WHAT IS THIS#
-This is my passion, a game called IntoPark. It is a theme park strategy game currently in developement. This is my first game.
+This is my passion, a game called IntoPark. It is a theme park creation game/simulator currently in developement.
 Read more [here](http://arttu.me/)
 #FEATURES#
 - #UI#
@@ -72,32 +72,16 @@ Read more [here](http://arttu.me/)
 	- Buildable Shops
 		- #FOOD/DRINK#
 		- Cafe [x]
-		- Nakk kiosk []
-		- Candy Street []
-		- Popcorn van []
-		- Trach food []
-		- Soda machine []
-		- Milkshjake []
-		- Chick em []
-		- Meatballs []
-		- Sweet fruits []
-		- Wrap place []
-		- Into's IceCream []
-		- Pastry shop []
-		- Nor ma'I food []
-		- Sweet corn []
-		- Chips and chicken []
 		- #OTHER#
 		- Balloon stand []
 		- Can throw []
 		- Info board []
 		- News stand []
-		- Joke vending maching []
 		- Info kiosk []
 		- Toilet []
-		- Fast Joy []
 		- Pick a rope []
                 - Camera booth []
+                - Record Store []
 	- Shops sell items [x]
 	- Customizable colors, shop name, product names... []
 	- Shop upgrades []
@@ -133,7 +117,7 @@ Read more [here](http://arttu.me/)
 #Currently doing#
 
 - Models for Shops, Rides, Guest.
-- Refactoring guest queue to ride logic.
+- Creating NPC called Inspector
 - Building selection/ride UI.
 
 #THINGS TO DO LATER#
@@ -142,7 +126,9 @@ Read more [here](http://arttu.me/)
 - Re-organize README.
 - Window asking if you want to demolish building before demolishing it.
 - Populate guest/shop/ride UI.
--
+- Refactor listenCreate***Event's to be on right location. (Move them to right child-managers).
+- Change LoadPaths class to load filepaths from a file.
+- Redo window opening & closing interface
 
 #KNOWN BUGS#
 
