@@ -52,7 +52,7 @@ public class BasicRide {
     private transient List<Guest> guestsInQue = new ArrayList<>();
     //VARIABLES
     private int ID = 0; //every ride has its own id in parks
-    private float price = 1; //charged from the customers every time they visit your ride
+    private float price = 1; //charged from the getCustomersInRideSize every time they visit your ride
     private Direction direction; //not implemented yet
     private MapPosition position; //position of this ride
     private float constructionmoney = 0; //how much did it cost to build this building
@@ -64,7 +64,7 @@ public class BasicRide {
     private int nausea = 10; //what nausea rate this ride has
     private boolean status=false; //is the ride open or not true=open
     private int broken=0; //how broken it is  100=broken 0=full repaired
-    private int customerstotal=0; //how many customers total
+    private int customerstotal=0; //how many getCustomersInRideSize total
     private float moneytotal=0; //how much money gained total
     private transient long lastGuestVisitTime=0; //how much time since last guest visited this ride
     private transient double guestRateHour=0; //how many guests per hour
@@ -367,7 +367,7 @@ public class BasicRide {
     public Spatial getGeometry(){
         return animatedPart.getObject();
     }
-    public int customers(){
+    public int getCustomersInRideSize(){
         return guestsInRide.size();
     }
     public Vector3f getPositionVector(){

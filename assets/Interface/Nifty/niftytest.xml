@@ -730,7 +730,7 @@
                                     <control id="ridetype"name="label" text="Pirate Ship " x="40"y="50" color="#ffff"/>
                                     <control id="ridelocationprefix"name="label" text="Location: " x="0"y="70" color="#ffff"/>
                                     <control id="ridelocation"name="label" text="15X 6Y 15Z " x="60"y="70" color="#ffff"/>
-                                    <control id="rideprofitbyprefix"name="label" text="Profit: " x="0"y="90" color="#ffff"/>
+                                    <control id="rideprofitprefix"name="label" text="Profit: " x="0"y="90" color="#ffff"/>
                                     <control id="rideprofit"name="label" text="1000.0 " x="40"y="90" color="#ffff"/>
                                     <control id="ridestatusprefix"name="label" text="Status: " x="0"y="110" color="#ffff"/>
                                     <control id="ridestatus"name="label" text="closed " x="50"y="110" color="#ffff"/>
@@ -748,7 +748,7 @@
                                     <control id="ridecustomers"name="label" text="9001 " x="78"y="10" color="#ffff"/>
                                     <control id="ridecustomersrideprefix"name="label" text="Customers in ride: " x="0"y="30" color="#ffff"/>
                                     <control id="ridecustomersride"name="label" text="22 " x="118"y="30" color="#ffff"/>
-                                    <control id="ridecustomerfeedback"name="label" font="Interface/Fonts/Impact.fnt"text="Feedback" x="0"y="150" color="#FFF700"/>
+                                    <control id="ridecustomerfeedback"name="label" font="Interface/Fonts/Impact.fnt"text="Customer Feedback" x="0"y="150" color="#FFF700"/>
                                     <control id="ridecustomerfeedbacklistbox" name="listBox" vertical="off" width="450"height="100"horizontal="off" displayItems="8" selection="Single" x="0"y="170"/>
                                 </panel>
                             </control>

@@ -34,6 +34,7 @@ import intopark.shops.BasicShop;
 import intopark.shops.ShopReputation;
 import intopark.shops.ShopUpgradeContainer;
 import intopark.terrain.ParkHandler;
+import intopark.util.MapPosition;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -206,7 +207,7 @@ public class WindowHandler {
     }
 
     private void updateRideExitementText(Element rideWindow, float exitement) {
-        Element updatedText = rideWindow.findElementByName("rideexitement");
+        Element updatedText = rideWindow.findElementByName("rideexcitement");
         updateText(updatedText, Float.toString(exitement));
     }
 
@@ -230,14 +231,14 @@ public class WindowHandler {
         updateText(updatedText, Float.toString(broken));
     }
 
-    private void updateRideCustomersText(Element rideWindow, float customers) {
-        Element updatedText = rideWindow.findElementByName("ridecustomers");
-        updateText(updatedText, Float.toString(customers));
+    private void updateRideCustomersInRideText(Element rideWindow, int customers) {
+        Element updatedText = rideWindow.findElementByName("ridecustomersride");
+        updateText(updatedText, Integer.toString(customers));
     }
 
-    private void updateRideCustomersLifeText(Element rideWindow, float customers) {
-        Element updatedText = rideWindow.findElementByName("ridecustomerslife");
-        updateText(updatedText, Float.toString(customers));
+    private void updateRideCustomersLifeText(Element rideWindow, int customers) {
+        Element updatedText = rideWindow.findElementByName("ridecustomers");
+        updateText(updatedText, Integer.toString(customers));
     }
 
     private void updateRideCustomersHourText(Element rideWindow, double customers) {
@@ -246,7 +247,7 @@ public class WindowHandler {
     }
 
     private void updateRideMoneyGainedText(Element rideWindow, float moneytotal) {
-        Element updatedText = rideWindow.findElementByName("ridemoneygained");
+        Element updatedText = rideWindow.findElementByName("rideprofit");
         updateText(updatedText, Float.toString(moneytotal));
     }
 
@@ -264,8 +265,11 @@ public class WindowHandler {
         TextField textfield = nifty.getCurrentScreen().findNiftyControl("ridenametextfield", TextField.class);
         textfield.setText(name);
     }
-
-    private void updateRidePriceTextTab1(Element rideWindow, float price, boolean updateSlider) {
+    private void updateRideLocationText(Element rideWindow, MapPosition position) {
+        Element updatedText = rideWindow.findElementByName("ridelocation");
+        updateText(updatedText, position.toString());
+    }
+    private void updateRidePriceText(Element rideWindow, float price, boolean updateSlider) {
         Element updatedText = rideWindow.findElementByName("ridepricechange");
         updateText(updatedText, Float.toString(price));
         Slider slider = nifty.getCurrentScreen().findNiftyControl("ridepriceslider", Slider.class);
@@ -316,7 +320,7 @@ public class WindowHandler {
             updateRideInspectionPaid(rideWindow, Boolean.toString(ins.isPaid()));
             updateRideInspectionNotices(rideWindow, ins.getAdditionalComments());
         }else{
-            String notInspected = "NOT INSPECTED";
+            String notInspected = "NOT INSPECTED / EXPIRED INSPECTION";
             updateRideInspectionTime(rideWindow,notInspected);
             updateRideInspectionWorkingCond(rideWindow, notInspected);
             updateRideInspectionWorkingProdQuality(rideWindow, notInspected);
@@ -343,32 +347,37 @@ public class WindowHandler {
         if (updateNameTextField) {
             updateRideNameTextfield(ride.getName());
         }
-        updateRidePriceTextTab1(rideWindow, ride.getPrice(), false);
-
+        updateRidePriceText(rideWindow, ride.getPrice(), false);
 
         /**
          * TAB 2
          */
         updateRideInspectionTab(rideWindow,ride);
-        /**
-        updateRidePriceText(rideWindow, ride.getPrice());
-        updateRideNameText(rideWindow, ride.getName());
-        updateRideTypeText(rideWindow, ride.getRide().toString());
-        updateRideExitementText(rideWindow, ride.getExitement());
-        updateRideNauseaText(rideWindow, ride.getNausea());
-        updateRideStatusText(rideWindow, ride.getStatus());
-        updateRideBrokenText(rideWindow, ride.getBroken());
-        **/
 
         /**
          * TAB 3
          */
+        updateRideNameText(rideWindow, ride.getName());
+        updateRidePriceText(rideWindow, ride.getPrice());
+        updateRideTypeText(rideWindow, ride.getRide().toString());
+        updateRideLocationText(rideWindow,ride.getPosition());
+        updateRideMoneyGainedText(rideWindow, ride.getMoneyGainedTotal());
         updateRideStatusText(rideWindow, ride.getStatus());
+        updateRideExitementText(rideWindow, ride.getExitement());
+        updateRideNauseaText(rideWindow, ride.getNausea());
+        updateRideBrokenText(rideWindow, ride.getBroken());
+
         /**
-        updateRideCustomersText(rideWindow, ride.customers());
+         * TAB 4
+         */
+        updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
+        updateRideCustomersInRideText(rideWindow, ride.getCustomersInRideSize());
+
+        /**
+        updateRideCustomersInRideText(rideWindow, ride.getCustomersInRideSize());
         updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
         updateRideCustomersHourText(rideWindow, ride.getGuestRateHour());
-        updateRideMoneyGainedText(rideWindow, ride.getMoneyGainedTotal());
+
         updateRideMoneyHourText(rideWindow, ride.getMoneyRateHour());
         updateRideCostHourText(rideWindow, ride.getRepairCost());
         **/
@@ -589,5 +598,7 @@ public class WindowHandler {
         CheckBox payshadyCash = inspectionWindow.findNiftyControl("inspectionpaycheckbox", CheckBox.class);
         return payshadyCash.isChecked();
     }
+
+
 
 }
