@@ -11,6 +11,7 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.controls.CheckBox;
 import de.lessvoid.nifty.controls.DropDown;
+import de.lessvoid.nifty.controls.ListBox;
 import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.elements.Element;
@@ -25,12 +26,15 @@ import intopark.Main;
 import intopark.inout.Identifier;
 import intopark.npc.Guest;
 import intopark.npc.NPCManager;
+import intopark.npc.inspector.Inspection;
+import intopark.npc.inspector.InspectionComment;
 import intopark.npc.inventory.Item;
 import intopark.ride.BasicRide;
 import intopark.shops.BasicShop;
 import intopark.shops.ShopReputation;
 import intopark.shops.ShopUpgradeContainer;
 import intopark.terrain.ParkHandler;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -270,9 +274,57 @@ public class WindowHandler {
         }
 
     }
-    private void updateRideInspection
+    private void updateRideInspectionTime(Element rideWindow,String time){
+        Element updatedText = rideWindow.findElementByName("ridelastinspect");
+        updateText(updatedText, time);
+    }
+    private void updateRideInspectionWorkingCond(Element rideWindow,String conditions){
+        Element updatedText = rideWindow.findElementByName("rideworkingconditions");
+        updateText(updatedText, conditions);
+    }
+    private void updateRideInspectionWorkingProdQuality(Element rideWindow,String quality){
+        Element updatedText = rideWindow.findElementByName("rideproductquality");
+        updateText(updatedText, quality);
+    }
+    private void updateRideInspectionLeftImage(Element rideWindow,String image){
+        Element updatedText = rideWindow.findElementByName("rideinspecttaste");
+        updateText(updatedText, image);
+    }
+    private void updateRideInspectionInspector(Element rideWindow,String name){
+        Element updatedText = rideWindow.findElementByName("rideinspectedby");
+        updateText(updatedText, name);
+    }
+    private void updateRideInspectionPaid(Element rideWindow,String paid){
+        Element updatedText = rideWindow.findElementByName("rideinspectpaid");
+        updateText(updatedText, paid);
+    }
+    private void updateRideInspectionNotices(Element rideWindow,List<InspectionComment> comments){
+        ListBox commentBox = rideWindow.findNiftyControl("ridenoticeslistbox", ListBox.class);
+        commentBox.clear();
+        for(InspectionComment comment : comments){
+            commentBox.addItem(comment.getComment());
+        }
+    }
     private void updateRideInspectionTab(Element rideWindow, BasicRide ride) {
-
+        if(ride.isValidInspection()){
+            Inspection ins = ride.getLastInspection();
+            updateRideInspectionTime(rideWindow, "1.1 1970");
+            updateRideInspectionWorkingCond(rideWindow, ins.getWorkingConditions().getComment());
+            updateRideInspectionWorkingProdQuality(rideWindow, ins.getWorkingSafety().getComment());
+            updateRideInspectionLeftImage(rideWindow, Integer.toString(ins.getLeftImage()));
+            updateRideInspectionInspector(rideWindow, ins.getInspector());
+            updateRideInspectionPaid(rideWindow, Boolean.toString(ins.isPaid()));
+            updateRideInspectionNotices(rideWindow, ins.getAdditionalComments());
+        }else{
+            String notInspected = "NOT INSPECTED";
+            updateRideInspectionTime(rideWindow,notInspected);
+            updateRideInspectionWorkingCond(rideWindow, notInspected);
+            updateRideInspectionWorkingProdQuality(rideWindow, notInspected);
+            updateRideInspectionLeftImage(rideWindow, notInspected);
+            updateRideInspectionInspector(rideWindow, notInspected);
+            updateRideInspectionPaid(rideWindow, notInspected);
+            updateRideInspectionNotices(rideWindow, new ArrayList<InspectionComment>());
+        }
     }
 
     public void updateRideWindow(boolean updateNameTextField, boolean toggleVisible) {

@@ -532,4 +532,8 @@ public class BasicRide {
         this.exit.setConnectedRide(this);
     }
 
+    public boolean isValidInspection() {
+        return validInspection;
+    }
+    
 }

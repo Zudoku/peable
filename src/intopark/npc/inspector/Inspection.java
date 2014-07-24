@@ -77,5 +77,9 @@ public class Inspection {
         return inspectionPassed;
     }
 
+    public boolean isPaid() {
+        return paid;
+    }
+    
 
 }
