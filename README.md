@@ -1,9 +1,13 @@
-INTOPARK
+Into Park
 ========
-#INSTALL#
 
-	Things you need to develop this game.
-- It is recommended for you to download JME SDK 3.0 But if you know what your doing you can find just the JARs too (I think).[here](http://hub.jmonkeyengine.org/downloads/)
+###Install instructions###
+
+
+Download JME SDK 3.0 .[here](http://hub.jmonkeyengine.org/downloads/)
+Clone this project and import it to the SDK.
+Download the following libraries that are needed to compile the game.
+
 - [Guava](https://code.google.com/p/guava-libraries/)
 - [Guice](https://code.google.com/p/google-guice/)
 - [JGraphT](http://jgrapht.org/)
@@ -11,126 +15,61 @@ INTOPARK
 - [JUnit](https://github.com/junit-team/junit/wiki/Download-and-Install)
 - [Mockito](https://code.google.com/p/mockito/)
 
-#WHAT IS THIS#
-This is my passion, a game called IntoPark. It is a theme park creation game/simulator currently in developement.
+Import the libraries to the project.
+
+Good to go!
+
+###What is Into Park?###
+Game called IntoPark. It is a theme park creation game/simulator currently in development. Written in Java utilizing JMonkey Engine 3.
 Read more [here](http://arttu.me/)
-#FEATURES#
-- #UI#
-	- TOP BAR []
-	- Guest UI []
-	- Building Selection UI []
-	- Decoration Selection UI []
-	- Shop Inspect UI []
-	- Ride Inspect UI []
-	- Terrain Editor UI []
-	- Road Editor UI []
-	- Settings UI []
-	- Start Screen UI []
-- #LOAD AND SAVE#
-	- Ability to save games to files [x]
-	- Ability load saved games from files [x]
-	- Simple Save-Editor []
-	- Functional Starting screen []
-	- Save preferred settings [x]
-	- Load preferred settings [x]
-	- Save KeyBinds []
-	- Load KeyBinds []
-	- Achievements []
-	- Save Terrain colors []
-- #CONTROLS#
-	- User friendly controls []
-	- Smooth camera []
-	- Ability to change KeyBinds and settings []
-- #PARK#
-	- Unique preset parks []
-	- Ability to do semi-custom parks(change park settings) []
-	- Competing against AI parks []
-	- Tutorial []
-	- Random events []
-- #TERRAIN#
-	- Terrain made of quads [x]
-	- Terrain Editor [x]
-	- Different types of terrain []
-	- Raise and lower terrain [x]
-	- Smoothing tool [x]
-	- Sizeable brush on Terrain Editor [x]
-- #ROADS#
-	- Road Editor [x]
-	- NPCs walk on road [x]
-	- 2 types of road [x] (Normal road, Queue road)
-	- Build road with mouse drag [x]
-	- Different colors of roads []
-	- Roads can contain lamps and benches []
-- #GUESTS#
-	- Guests spawning with different stats to park [x]
-	- Guests can move along roads [x]
-	- Guests vary sizes and colors [/] (yes, but not visually)
-	- Guests interact with shops and rides [x]
-	- Guests have emotions and act according to them []
-	- Rare special guests []
-- #SHOPS#
-	- Buildable Shops
-		- #FOOD/DRINK#
-		- Cafe [x]
-		- #OTHER#
-		- Balloon stand []
-		- Can throw []
-		- Info board []
-		- News stand []
-		- Info kiosk []
-		- Toilet []
-		- Pick a rope []
-                - Camera booth []
-                - Record Store []
-	- Shops sell items [x]
-	- Customizable colors, shop name, product names... []
-	- Shop upgrades []
-	-
-- #RIDES#
-	- Buildable Rides
-		- Archery range []
-		- Chess Center []
-		- Haunted house []
-		- Pirate Ship []
-		-
-	- Rides that move [x]
-	- Customizable colors, ride name, ride price... []
-	- Functional enterances and exits [x]
-	- Functional queue handling []
-        - Inspectors need to inspect ride before it can be activated.
-- #DECORATIONS#
-	- Ability to build decorations []
-	- Rotate them []
-	- Lower and raise them []
-- #DEMOLITION#
-	- Demolish decorations []
-	- Demolish roads []
-	- Demolish rides [x]
-	- Demilish shops []
-- #SPECIAL EFFECTS#
-    - Demolish explosions/smoke []
-    - Day/Night cycle []
-    - Lights to rides so it looks cool in night []
-    - Emotion indicators? []
 
+####Things that need to be done####
 
-#Currently doing#
+All the subgoals have a score of 1-5 of how badly it needs to be done. 1 being the most important. This list is probably not going to make alot of sense,
+so asking me what it means is recommended so that you don't waste your time.
 
-- Models for Shops, Rides, Guest.
-- Creating NPC called Inspector
-- Building selection/ride UI.
+- UI needs to be refined. All the UI art is currently not very good / temporary placeholders. [2]
+- Simple Save-Editor [5]
+- Functional Starting screen [3]
+- Save KeyBinds [2]
+- Load KeyBinds [2]
+- Achievements [4]
+- Save Terrain colors [3]
+- User friendly controls [3]
+- Smooth camera [3]
+- Ability to change KeyBinds and settings [2]
+- Unique preset parks [3]
+- Ability to do semi-custom parks(change park settings) [3]
+- Competing against AI parks [4]
+- Tutorial [4]
+- Random events [3]
+- Different types of terrain [4]
+- Different colors of roads [4]
+- Roads can contain lamps and benches [3]
+- Guests vary sizes and colors [2]
+- Guests have emotions and act according to them [3]
+- Rare special guests [4]
+- Ability to build decorations [3]
+- Rotate decorations [4]
+- Lower and raise them [4]
+- Demolish decorations [4]
+- Demolish roads [2]
+- Demolish explosions/smoke [4]
+- Day/Night cycle [4]
+- Lights to rides so it looks cool in night [4]
+- Emotion indicators? [4]
+- Models for Shops, Rides,NPC's, decorations. [1]
+- Think of better names for shops and rides. [3]
+- Window asking if you want to demolish building before demolishing it. [3]
+- Populate guest/shop/ride UI's. [2]
 
-#THINGS TO DO LATER#
+###Architectural TODO-list###
 
-- Think of better names for shops and rides.
-- Re-organize README.
-- Window asking if you want to demolish building before demolishing it.
-- Populate guest/shop/ride UI.
 - Refactor listenCreate***Event's to be on right location. (Move them to right child-managers).
 - Change LoadPaths class to load filepaths from a file.
 - Redo window opening & closing interface
 
-#KNOWN BUGS#
+###Known Bugs###
 
 - Creating a new map crashes/malfunctions game.
 - Decorations are a mess. (should be completely re-done).
@@ -143,8 +82,3 @@ Read more [here](http://arttu.me/)
 - Placing objects out of map can cause it to crash.
 - Terrain editor drag sometimes frees.
 - Guests walk underground when climbing up roads.
-
-
-#ENCHANCING IDEAS#
-
-- Various blockages like vegetation or rocks that you have to remove if you want to build something there

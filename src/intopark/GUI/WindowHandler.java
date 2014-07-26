@@ -370,6 +370,7 @@ public class WindowHandler {
         /**
          * TAB 4
          */
+        
         updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
         updateRideCustomersInRideText(rideWindow, ride.getCustomersInRideSize());
 
@@ -377,7 +378,6 @@ public class WindowHandler {
         updateRideCustomersInRideText(rideWindow, ride.getCustomersInRideSize());
         updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
         updateRideCustomersHourText(rideWindow, ride.getGuestRateHour());
-
         updateRideMoneyHourText(rideWindow, ride.getMoneyRateHour());
         updateRideCostHourText(rideWindow, ride.getRepairCost());
         **/
