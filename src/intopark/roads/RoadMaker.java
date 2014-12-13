@@ -79,16 +79,27 @@ public class RoadMaker implements NeedMouse{
     public void update(){
         roadGraph.update();
     }
+    private boolean automaticRoadBuildCleanup(boolean valueToReturn){
+        startingPosition=null;
+        endingPosition=null;
+        return valueToReturn;
+    }
     public boolean buildAutomaticRoad(){
         if(startingPosition==null||endingPosition==null){
-            logger.log(Level.FINE, "STARTING OR ENDING POS NULL");
-            return false;
+            logger.log(Level.WARNING, "StartingPosition or endingPosition is null. Exiting buildAutomaticRoad.");
+            return automaticRoadBuildCleanup(false);
         }
+
+        //Build a road at startingposition
+        direction= Direction.NORTH;
+        slope=0;
+        startingPosition.setX(startingPosition.getX()-1);
+        manualBuildRoad();
         if(startingPosition.isSameMainCoords(endingPosition)){
-            logger.log(Level.FINE, "SAME POS");
-            return false;
+            logger.log(Level.FINE, "Road tool was used to build a single piece of road. Skipping the automatic road-building loop.");
+            return automaticRoadBuildCleanup(true);
         }
-        boolean  build=true;
+        boolean build=true;
         int counter=0;
         while(build){
             counter++;
@@ -109,11 +120,8 @@ public class RoadMaker implements NeedMouse{
                 logger.log(Level.WARNING,"ROAD TOOL LOOPED 100 TIMES, QUITTING");
             }
         }
-        logger.log(Level.FINE, "building done");
-
-        startingPosition=null;
-        endingPosition=null;
-        return true;
+        logger.log(Level.FINE, "Finished automatic road building. Built {0} roads.",counter);
+        return automaticRoadBuildCleanup(true);
 
     }
     /**
@@ -374,6 +382,21 @@ public class RoadMaker implements NeedMouse{
 
     @Override
     public void onClick(MouseContainer container) {
+        if(!container.isLeftClick()){
+            if(container.getResults().getClosestCollision()!=null){
+                Spatial foundSpatial=container.getResults().getClosestCollision().getGeometry();
+                if(foundSpatial.getUserData("ID")!=null){
+                    int ID = foundSpatial.getUserData("ID");
+                    Object foundRoad = identifier.getObjectWithID(ID);
+                    if(foundRoad instanceof Road){
+
+                    }
+                }
+            }
+            if(container.getResults().getClosestCollision().getGeometry().getUserData("ID")!=null){
+
+            }
+        }
         if (status == RoadMakerStatus.CHOOSING) {
             setStartingPosition(container.getResults().getClosestCollision().getContactPoint());
             setStatus(RoadMakerStatus.MANUAL);

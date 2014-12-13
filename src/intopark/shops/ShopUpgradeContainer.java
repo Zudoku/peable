@@ -13,14 +13,14 @@ public class ShopUpgradeContainer {
     private boolean friendlyStaffUpgrade=false;
     private boolean qualityUpgrade=false;
     private boolean trendyUpgrade=false;
-    
+
     private int cleaningUpgradeCost=75;
     private int friendlyStaffUpgradeCost=100;
     private int qualityUpgradeCost=200;
     private int trendyUpgradeCost=125;
-    
+
     private ShopReputation reputation= ShopReputation.NEW;
-    
+
     public ShopUpgradeContainer() {
     }
 
@@ -47,7 +47,7 @@ public class ShopUpgradeContainer {
     public void setReputation(ShopReputation reputation) {
         this.reputation = reputation;
     }
-    
+
     public boolean isCleaningUpgrade() {
         return cleaningUpgrade;
     }
@@ -95,5 +95,5 @@ public class ShopUpgradeContainer {
     public void setQualityUpgradeCost(int qualityUpgradeCost) {
         this.qualityUpgradeCost = qualityUpgradeCost;
     }
-    
+
 }

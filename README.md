@@ -62,11 +62,12 @@ so asking me what it means is recommended so that you don't waste your time.
 - Think of better names for shops and rides. [3]
 - Window asking if you want to demolish building before demolishing it. [3]
 - Populate guest/shop/ride UI's. [2]
+- Road tool indicators [1]
 
 ###Architectural TODO-list###
 
 - Refactor listenCreate***Event's to be on right location. (Move them to right child-managers).
-- Change LoadPaths class to load filepaths from a file.
+- Change LoadPaths class to load filepaths from a separate file.
 - Redo window opening & closing interface
 
 ###Known Bugs###
