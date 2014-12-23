@@ -88,4 +88,12 @@ public class Identifier {
     public void setCurrentID(int currentID) {
         this.currentID = currentID;
     }
+    public void removeObjectWithID(int ID){
+        if(idMap.containsKey(ID)){
+            idMap.remove(ID);
+            logger.log(Level.FINEST,"Removed object with ID {0} from MAP",new Object[]{ID});
+            return;
+        }
+        logger.log(Level.FINER,"Couldn't find any object with ID {0} , didn't do anything.",new Object[]{ID});
+    }
 }

@@ -705,7 +705,7 @@ public class IngameHUD implements ScreenController {
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void buildButton() {
-        roadMaker.manualBuildRoad();
+        roadMaker.manualBuildRoad(roadMaker.getStartingPosition());
     }
     public void selectionButton() {
         roadMaker.setStatus(RoadMakerStatus.CHOOSING);

@@ -55,7 +55,7 @@ public class DefaultMouseController implements NeedMouse{
         switch(handler.getClickMode()){
             case NOTHING:
                 if(container.isLeftClick()){
-                    
+
                     if (rootTarget.getUserData("type").equals("guest")) {
                         int ID=(int) rootTarget.getUserData("ID");
                         Object object = identifier.getObjectWithID(ID);
@@ -97,7 +97,7 @@ public class DefaultMouseController implements NeedMouse{
                     }
                 }
                 break;
-                
+
             case DEMOLITION:
                 if (rootTarget.getUserData("type").equals("road")) {
                     //TODO:
@@ -112,12 +112,17 @@ public class DefaultMouseController implements NeedMouse{
 
     @Override
     public void onDrag(MouseContainer container) {
-        
+
     }
 
     @Override
     public void onDragRelease(MouseContainer container) {
-        
+
     }
-    
+
+    @Override
+    public void onCursorHover(MouseContainer container) {
+
+    }
+
 }

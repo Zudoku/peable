@@ -291,4 +291,9 @@ public class ShopManager implements NeedMouse{
 
     }
 
+    @Override
+    public void onCursorHover(MouseContainer container) {
+        
+    }
+
 }

@@ -18,6 +18,7 @@ import intopark.terrain.ParkHandler;
 import intopark.roads.RoadMaker;
 import intopark.terrain.TerrainHandler;
 import intopark.terrain.decoration.DecorationManager;
+import java.util.logging.Level;
 
 /**
  *
@@ -40,7 +41,7 @@ public class ClickingHandler {
     @Inject private DefaultMouseController defaultController;
     //VARIABLES
     private ClickingModes clickMode = ClickingModes.NOTHING;
-    
+
     @Inject
     public ClickingHandler(EventBus eventBus,ParkHandler parkHandler) {
         this.parkHandler = parkHandler;
@@ -60,6 +61,11 @@ public class ClickingHandler {
         getCurrentCaller();
         mouseController.handleReleaseDragMechanic(posX, posY, results);
     }
+    public void handleCursorHover(float posX,float posY,CollisionResults results){
+        getCurrentCaller();
+        mouseController.handleOnCursorHover(posX, posY, results);
+    }
+
     private void getCurrentCaller(){
         switch(clickMode){
             case DECORATION:
@@ -68,23 +74,23 @@ public class ClickingHandler {
             case DEMOLITION:
                 mouseController.setCallable(defaultController);
                 return;
-                
+
             case NOTHING:
                 mouseController.setCallable(defaultController);
                 return;
-                
+
             case PLACE:
                 mouseController.setCallable(shopManager);
                 return;
-                
+
             case RIDE:
                 mouseController.setCallable(rideManager);
                 return;
-                
+
             case ROAD:
                 mouseController.setCallable(roadMaker);
                 return;
-                
+
             case TERRAIN:
                 mouseController.setCallable(terrainHandler);
         }
@@ -97,7 +103,7 @@ public class ClickingHandler {
         this.clickMode = clickMode;
         Gamestate.ingameHUD.updateClickingIndicator();
     }
-    
+
     @Subscribe
     public void listenSetClickModeEvent(SetClickModeEvent event){
         clickMode=event.clickmode;

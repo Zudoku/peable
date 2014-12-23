@@ -26,13 +26,13 @@ public class MyAnalogListener implements AnalogListener {
     private boolean isMouseDragging=false;
     private long lastDragged;
     private String dragger="";
-    
+
     public MyAnalogListener(CameraController camcontrol, ClickingHandler clickH, InputManager inputManager) {
         this.cameraController=camcontrol;
         this.clickingHandler=clickH;
         this.inputManager=inputManager;
     }
-    
+
     @Override
     public void onAnalog(String name, float value, float tpf) {
         if (name.equals("movecameraup")) {
@@ -66,7 +66,7 @@ public class MyAnalogListener implements AnalogListener {
                     float z=inputManager.getCursorPosition().y;
                     clickingHandler. handleMouseDrag(UserInput.getLeftMouse(dragger),x,z,results,lastDragged);
                 }
-               
+
             } else {
                 lastDragged = System.currentTimeMillis();
                 dragger=name;
@@ -87,5 +87,12 @@ public class MyAnalogListener implements AnalogListener {
             }
         }
     }
-    
+    public void onCursorHover(){
+        float x=inputManager.getCursorPosition().x;
+        float z=inputManager.getCursorPosition().y;
+        CollisionResults results=new CollisionResults();
+        UtilityMethods.rayCast(results, null);
+        clickingHandler.handleCursorHover(x,z,results);
+    }
+
 }

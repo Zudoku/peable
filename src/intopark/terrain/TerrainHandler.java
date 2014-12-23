@@ -338,4 +338,9 @@ public class TerrainHandler implements NeedMouse{
         return locked;
     }
 
+    @Override
+    public void onCursorHover(MouseContainer container) {
+        
+    }
+
 }

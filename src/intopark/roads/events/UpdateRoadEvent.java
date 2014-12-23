@@ -13,7 +13,8 @@ import intopark.roads.Road;
 public class UpdateRoadEvent {
     private Road existingRoad;
     private boolean[] connected;
-    
+    private boolean firsTimeUpdated = false;
+
     public UpdateRoadEvent(Road existingRoad,boolean[] connected) {
         this.existingRoad = existingRoad;
         this.connected=connected;
@@ -34,5 +35,14 @@ public class UpdateRoadEvent {
     public void setExistingRoad(Road existingRoad) {
         this.existingRoad = existingRoad;
     }
+
+    public boolean isFirsTimeUpdated() {
+        return firsTimeUpdated;
+    }
+
+    public void setFirsTimeUpdated(boolean firsTimeUpdated) {
+        this.firsTimeUpdated = firsTimeUpdated;
+    }
     
+
 }

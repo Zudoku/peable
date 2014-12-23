@@ -247,4 +247,9 @@ public class DecorationManager implements NeedMouse{
     public void onDragRelease(MouseContainer container) {
 
     }
+
+    @Override
+    public void onCursorHover(MouseContainer container) {
+        
+    }
 }

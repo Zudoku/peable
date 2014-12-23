@@ -208,4 +208,9 @@ public class RideManager implements NeedMouse{
     public void onDragRelease(MouseContainer container) {
 
     }
+
+    @Override
+    public void onCursorHover(MouseContainer container) {
+
+    }
 }

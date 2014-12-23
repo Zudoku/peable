@@ -213,7 +213,12 @@ public class ParkHandler {
      * @param event
      */
     @Subscribe public void listenDeleteSpatialFromMapEvent(DeleteSpatialFromMapEvent event){
-
+        if(event.getO() != null){
+            rootNode.detachChild(event.getO());
+            logger.log(Level.FINEST,"Deleted {0} from rootNode", event.getO().toString());
+        }else{
+            logger.log(Level.FINEST,"Can't delete NULL spatial from rootNode.");
+        }
     }
     /**
      * This will add Spatial or light to the rootNode (The world basically).

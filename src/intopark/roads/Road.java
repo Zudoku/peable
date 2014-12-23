@@ -24,6 +24,7 @@ public class Road extends Walkable{
     private int skin=1;
     private boolean queRoad=false;
     private Direction direction;
+    private boolean firstTimeUpdated = true;
 
     public Road(MapPosition position, RoadHill roadhill, int ID,int skin,boolean queRoad,Direction direction) {
         super(position);
@@ -63,7 +64,7 @@ public class Road extends Walkable{
             /* Get a map with all possible transforms that can connect to this */
             Map<RoadTransformContainer,Boolean> possible=getPossibleAttachmentPos();
             /* If it matches, can physically connect */
-            
+
             /*
             for(RoadTransformContainer te:possible.keySet()){ //We cant do possible.containsKey because we use Direction.ANY
                 if(te.match(rtc)){
@@ -178,6 +179,14 @@ public class Road extends Walkable{
 
     public void setSkin(int skin) {
         this.skin = skin;
+    }
+
+    public boolean isFirstTimeUpdated() {
+        return firstTimeUpdated;
+    }
+
+    public void setFirstTimeUpdated(boolean firstTimeUpdated) {
+        this.firstTimeUpdated = firstTimeUpdated;
     }
 
 

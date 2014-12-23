@@ -25,6 +25,7 @@ import de.lessvoid.nifty.elements.Element;
 import intopark.roads.RoadGraph;
 import intopark.roads.Walkable;
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jgraph.graph.DefaultEdge;
@@ -138,7 +139,7 @@ public class UtilityMethods {
       * @return Rounded Vector3f.
       */
      public static Vector3f roundVector(Vector3f vector){
-        //
+        //TODO use an actual rounding method.
         float x = vector.x - 0.4999f + 1;
         float y = vector.y - 0.4999f + 1;
         float z = vector.z - 0.4999f + 1;
@@ -158,6 +159,18 @@ public class UtilityMethods {
      }
      public static void publishEvent(Object event){
          eventBus.post(event);
+     }
+     public static Spatial findSpatialWithID(List<Spatial> spatials, int ID){
+         Spatial foundSpatial = null;
+         for (Spatial s : spatials) {
+             int value = s.getUserData("ID");
+             if (value == ID) {
+                 foundSpatial = s;
+                 break;
+             }
+
+         }
+         return foundSpatial;
      }
 
 }

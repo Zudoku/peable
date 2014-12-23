@@ -33,7 +33,7 @@ import intopark.terrain.ParkHandler;
 import intopark.terrain.decoration.RotationEvent;
 
 /**
- *
+ * 
  * @author arska
  */
 @Singleton
@@ -44,12 +44,13 @@ public class RoadMaker implements NeedMouse{
     private Node roadNode;
     @Inject public RoadFactory roadF;
     private MapContainer map;
-    @Inject
-    private ParkHandler parkHandler;
+    @Inject private ParkHandler parkHandler;
     private final EventBus eventBus;
     private Identifier identifier;
     //OWNS
     private List<Spatial> roadSpatials = new ArrayList<>();
+    private List<Road> walkablesThatNeedToBePaid = new ArrayList<>();
+    private List<Integer> roadIDsToBeDeleted = new ArrayList<>();
     //VARIABLES
     private Direction direction = Direction.NORTH;
     private int slope = 0; //0= flat 1=up 2=down
@@ -57,7 +58,11 @@ public class RoadMaker implements NeedMouse{
     private MapPosition startingPosition;
     private MapPosition endingPosition;
     private boolean queroad = false;
-    private boolean change = true;
+    private boolean draggingMode = true;
+    private MapPosition lastDragPosition;
+
+    private static int MAX_AUTOMATIC_ROAD_BUILD_CONTER = 1000;
+
     /**
      * This Class is the Main control which does everything regarding to roadSpatials including
      * loading them and calculating where to move them
@@ -74,53 +79,94 @@ public class RoadMaker implements NeedMouse{
         eventBus.register(this);
         this.identifier=identifier;
         roadF = new RoadFactory();
-        //TODO: PROPERLY DOCUMENT THIS CLASS.
     }
     public void update(){
         roadGraph.update();
+        tryToDeleteRoads();
     }
+    /**
+     * Tries to delete road Spatials that are marked to being deleted from roadNode.
+     */
+    private void tryToDeleteRoads(){
+        List<Integer> succesfullyDeleted = new ArrayList<>();
+        for(int id : roadIDsToBeDeleted){
+            Spatial oldRoad = UtilityMethods.findSpatialWithID(roadSpatials, id);
+            if(oldRoad != null){
+                roadNode.detachChild(oldRoad);
+                if(!roadNode.hasChild(oldRoad)){
+                    roadSpatials.remove(oldRoad);
+                    succesfullyDeleted.add((Integer)id);
+                }
+            }else{
+                logger.log(Level.WARNING, "Spatial with ID {0} couldnt be found in roadSpatials",id);
+            }
+        }
+        for(int id:succesfullyDeleted){
+            roadIDsToBeDeleted.remove((Integer)id);
+        }
+    }
+    /**
+     * This should be called after automatic Road building.
+     * If draggingMode is false, will reset variables that store the MapPositions from start to finish
+     * @param valueToReturn Pass a boolean to return. Useful for one-liners.
+     * @return valueToReturn
+     */
     private boolean automaticRoadBuildCleanup(boolean valueToReturn){
-        startingPosition=null;
-        endingPosition=null;
+        if (!draggingMode) {
+            startingPosition = null;
+            endingPosition = null;
+            lastDragPosition = null;
+        }
         return valueToReturn;
     }
-    public boolean buildAutomaticRoad(){
-        if(startingPosition==null||endingPosition==null){
-            logger.log(Level.WARNING, "StartingPosition or endingPosition is null. Exiting buildAutomaticRoad.");
+    /**
+     * Builds Road starting from the sourcePosition to destinationPosition.
+     * Road will be built on sourcePosition always. Source can be the same as destination.
+     * Does a cleanup after every call.
+     * @param sourcePosition Where the road starts.
+     * @param destinationPosition Where the road ends.
+     * @return true if roads were built correctly. False if error was caught.
+     */
+    public boolean buildAutomaticRoad(MapPosition sourcePosition,MapPosition destinationPosition){
+        //Make copies so we dont modify the original
+        MapPosition sourcePos = new MapPosition(sourcePosition);
+        MapPosition destinationPos = new MapPosition(destinationPosition);
+        if(sourcePosition==null||destinationPosition==null){
+            logger.log(Level.WARNING, "SourcePosition or destinationPosition is null. Exiting buildAutomaticRoad.");
             return automaticRoadBuildCleanup(false);
         }
 
         //Build a road at startingposition
         direction= Direction.NORTH;
         slope=0;
-        startingPosition.setX(startingPosition.getX()-1);
-        manualBuildRoad();
-        if(startingPosition.isSameMainCoords(endingPosition)){
+        sourcePos.setX(sourcePos.getX()-1);
+        sourcePos = manualBuildRoad(sourcePos);
+        if(sourcePos.isSameMainCoords(destinationPos)){
             logger.log(Level.FINE, "Road tool was used to build a single piece of road. Skipping the automatic road-building loop.");
             return automaticRoadBuildCleanup(true);
         }
         boolean build=true;
-        int counter=0;
+        int roadsBuiltCounter=0;
         while(build){
-            counter++;
-            direction=endingPosition.getDirection(startingPosition.getX(), startingPosition.getZ());
-            if(startingPosition.getY()<endingPosition.getY()){
+            roadsBuiltCounter++;
+            direction=destinationPosition.getDirection(sourcePos.getX(), sourcePos.getZ());
+            if(sourcePos.getY()<destinationPos.getY()){
                 slope=1;
-            }else if(startingPosition.getY()>endingPosition.getY()){
+            }else if(sourcePos.getY()>destinationPos.getY()){
                 slope=2;
             }else{
                 slope=0;
             }
-            manualBuildRoad();
-            if(startingPosition.isSameMainCoords(endingPosition)){
+            sourcePos = manualBuildRoad(sourcePos);
+            if(sourcePos.isSameMainCoords(destinationPos)){
                 build=false;
             }
-            if(counter>100){
+            if(roadsBuiltCounter>MAX_AUTOMATIC_ROAD_BUILD_CONTER){
                 build=false;
-                logger.log(Level.WARNING,"ROAD TOOL LOOPED 100 TIMES, QUITTING");
+                logger.log(Level.WARNING,"Road tool looped {0} times. Something might have gone wrong, or you either built a too long road.",MAX_AUTOMATIC_ROAD_BUILD_CONTER);
             }
         }
-        logger.log(Level.FINE, "Finished automatic road building. Built {0} roads.",counter);
+        logger.log(Level.FINE, "Finished automatic road building. Built {0} roads.",roadsBuiltCounter);
         return automaticRoadBuildCleanup(true);
 
     }
@@ -128,8 +174,8 @@ public class RoadMaker implements NeedMouse{
      * This calculates next position for road. It calculates it based on direction.
      * @return Position where the next road is going to be
      */
-    public MapPosition calcNextManualRoadPosition() {
-        MapPosition roadPos = new MapPosition(startingPosition);
+    public MapPosition calcNextManualRoadPosition(MapPosition sourcePosition) {
+        MapPosition roadPos = new MapPosition(sourcePosition);
         switch (direction) {
             case NORTH:
                 roadPos.setX(roadPos.getX() + 1);
@@ -151,15 +197,19 @@ public class RoadMaker implements NeedMouse{
         return roadPos;
     }
     /**
-     *
+     * Builds one road forward based on the sourcePosition given and variables in this class.
+     * @param sourcePosition Where the road will start.
+     * @return the position of the built road. null if error was caught.
      */
-    public void manualBuildRoad() {
+    public MapPosition manualBuildRoad(MapPosition sourcePosition) {
+        MapPosition sourcePos = new MapPosition(sourcePosition);
+
         if (status == RoadMakerStatus.CHOOSING) {
-            logger.log(Level.WARNING,"Yo,yo we cant build while in choosing-mode. This should not happen ever");
-            return;
+            logger.log(Level.WARNING,"Can't build while in choosing-mode.");
+            return null;
         }
 
-        MapPosition constructedPosition=new MapPosition(calcNextManualRoadPosition());
+        MapPosition constructedPosition=new MapPosition(calcNextManualRoadPosition(sourcePos));
         Direction roadDir=direction;
         RoadHill angle=RoadHill.FLAT;
         int skin=1;
@@ -178,31 +228,63 @@ public class RoadMaker implements NeedMouse{
          */
         switch (slope) {
             case 0:
-                startingPosition=new MapPosition(constructedPosition);
-                startingPosition.setOffSetY(startingPosition.getOffSetY()-0.1f);
+                sourcePos=new MapPosition(constructedPosition);
+                sourcePos.setOffSetY(startingPosition.getOffSetY()-0.1f);
                 break;
 
             case 1:
-                startingPosition=new MapPosition(constructedPosition);
-                startingPosition.setOffSetY(startingPosition.getOffSetY()-0.1f);
-                startingPosition.setY(startingPosition.getY()+1);
+                sourcePos=new MapPosition(constructedPosition);
+                sourcePos.setOffSetY(startingPosition.getOffSetY()-0.1f);
+                sourcePos.setY(startingPosition.getY()+1);
                 break;
 
             default:
-                startingPosition=new MapPosition(constructedPosition);
-                startingPosition.setOffSetY(startingPosition.getOffSetY()-0.1f);
+                sourcePos=new MapPosition(constructedPosition);
+                sourcePos.setOffSetY(startingPosition.getOffSetY()-0.1f);
                 break;
 
         }
+        return sourcePos;
     }
+    /**
+     * Called when road dragging tool changes position (in the preview of where the road is going to be built)
+     * @param newDragPos new DestinationPosition for the preview tool.
+     */
+    private void dragRoadChangedPosition(MapPosition newDragPos){
+        logger.log(Level.FINER, "Building unpaid roads from {1} to {0}",new Object[]{newDragPos.toString(),startingPosition});
+        removeUnpaidRoads();
+        logger.log(Level.FINER, "Unpaid old roads deleted.");
+        buildAutomaticRoad(startingPosition,newDragPos);
+        logger.log(Level.FINER, "New unpaid roads built.");
+        lastDragPosition=newDragPos;
+        logger.log(Level.FINER, "DraggingPosition has been changed has been changed to {0}",newDragPos.toString());
+    }
+    /**
+     * Removes all the preview roads generated by the road dragging tool preview.
+     */
+    private void removeUnpaidRoads(){
+        for(Road unpaidRoad : walkablesThatNeedToBePaid){
+            roadGraph.deleteWalkable(unpaidRoad);
+            identifier.removeObjectWithID(unpaidRoad.getID());
+            roadIDsToBeDeleted.add(unpaidRoad.getID());
+        }
+        walkablesThatNeedToBePaid.clear();
+        logger.log(Level.FINER, "Unpaid roads list cleared.");
+    }
+
+
+    /**
+     * This method listens for CreateRoadEvents and hadles roads being created.
+     * @param event
+     */
     @Subscribe
     public void listenCreateRoadEvent(CreateRoadEvent event){
         int ROADPRICE=10;
         if(event.getRoad()==null){
-            /* FAILED */
+            logger.log(Level.WARNING,"Can't create null road.");
             return;
         }
-        if (!parkHandler.getParkWallet().canAfford(ROADPRICE)) {
+        if (!parkHandler.getParkWallet().canAfford(ROADPRICE) && !draggingMode) {
             logger.log(Level.FINEST,"You cant afford building a road.");
             return;
         }
@@ -218,6 +300,11 @@ public class RoadMaker implements NeedMouse{
         try{
             roadGraph.addWalkable(event.getRoad());
             identifier.addOldObject(event.getRoad().getID(),event.getRoad());
+            if(draggingMode){
+                walkablesThatNeedToBePaid.add(event.getRoad());
+                logger.log(Level.FINEST,"Unpaid road added succesfully to {0}",event.getRoad().getVector3f());
+                return;
+            }
         }catch(IllegalArgumentException ex){
             logger.log(Level.SEVERE, "ILLEGAL ARGUMENTS: {0}",ex);
             return;
@@ -227,6 +314,10 @@ public class RoadMaker implements NeedMouse{
         logger.log(Level.FINEST,"Road added succesfully to {0}",event.getRoad().getVector3f());
     }
 
+    /**
+     * This method listens for CreateBuildingEnteranceEvents and hadles building enterances being created.
+     * @param event
+     */
     @Subscribe
     public void listenCreateBuildingEnteranceEvent(CreateBuildingEnteranceEvent event){
         if(event.getEnterance()==null){
@@ -245,25 +336,28 @@ public class RoadMaker implements NeedMouse{
         logger.log(Level.FINEST,"BuildingEnterance added succesfully to {0}",event.getEnterance().getPosition().getVector());
 
     }
+    /**
+     * This method listens for UpdateRoadEvents and hadles roads being updated.
+     * The road's spatial will get deleted and a new one will be added to match the updated state of the road.
+     * @param event
+     */
     @Subscribe
     public void listenUpdateRoadEvent(UpdateRoadEvent event){
         int id = event.getExistingRoad().getID();
-        Spatial oldRoad = null;
-        for(Spatial s:roadSpatials){
-            int value=s.getUserData("ID");
-            if(value==id){
-                oldRoad=s;
-                break;
+        if (!event.isFirsTimeUpdated()) {
+            Spatial oldRoad = UtilityMethods.findSpatialWithID(roadSpatials, id);
+            if (oldRoad == null) {
+                /* FAILED CANT FIND ROAD WITH THAT ID   */
+                logger.log(Level.WARNING, "Unable to find roadSpatial with ID {0}", id);
+            } else {
+                /* Delete old road */
+                roadNode.detachChild(oldRoad);//FROM GRAPH
+                if(roadNode.hasChild(oldRoad)){
+                    logger.log(Level.FINEST, "FFFFFFFFFFFFF {0}", id);
+                }
+                roadSpatials.remove(oldRoad);//FROM LIST
+                logger.log(Level.FINEST, "Deleted old roadSpatial with ID {0}", id);
             }
-        }
-        if(oldRoad==null){
-            /* FAILED CANT FIND ROAD WITH THAT ID   */
-            logger.log(Level.FINER, "Unable to find roadSpatial with ID {0}",id);
-        }else{
-            /* Delete old road */
-            roadNode.detachChild(oldRoad);//FROM GRAPH
-            roadSpatials.remove(oldRoad);//FROM LIST
-            logger.log(Level.FINEST,"Deleted old roadSpatial with ID {0}",id);
         }
         /* Get new road */
         Spatial newRoad=roadF.roadToSpatial(event.getExistingRoad(),event.getConnected());
@@ -273,6 +367,10 @@ public class RoadMaker implements NeedMouse{
         event.getExistingRoad().setNeedsUpdate(false);
     }
 
+    /**
+     * Listening on if the manual road tool should rotate
+     * @param event
+     */
     @Subscribe
     public void listenRotateEvent(RotationEvent event) {
         if (event.getWho() == 1) {
@@ -283,8 +381,11 @@ public class RoadMaker implements NeedMouse{
             }
         }
     }
-
+    /**
+     * Turn the manual road tool left.
+     */
     public void turnLeft() {
+        //TODO: REDO
         if (direction == Direction.NORTH) {
             direction = Direction.WEST;
             eventBus.post(new UpdateRoadDirectionEvent(direction));
@@ -305,8 +406,11 @@ public class RoadMaker implements NeedMouse{
             eventBus.post(new UpdateRoadDirectionEvent(direction));
         }
     }
-
+    /**
+     * Turn the manual road tool right.
+     */
     public void turnRight() {
+        //TODO:REDO
         if (direction == Direction.NORTH) {
             direction = Direction.EAST;
             eventBus.post(new UpdateRoadDirectionEvent(direction));
@@ -382,6 +486,7 @@ public class RoadMaker implements NeedMouse{
 
     @Override
     public void onClick(MouseContainer container) {
+
         if(!container.isLeftClick()){
             if(container.getResults().getClosestCollision()!=null){
                 Spatial foundSpatial=container.getResults().getClosestCollision().getGeometry();
@@ -416,9 +521,12 @@ public class RoadMaker implements NeedMouse{
                     Vector3f location = result.getContactPoint();
                     if (startingPosition == null) {
                         setStartingPosition(location);
+                        draggingMode = true;
                     } else {
                         setEndingPosition(location);
-                        buildAutomaticRoad();
+                        draggingMode=false;
+                        removeUnpaidRoads();
+                        buildAutomaticRoad(startingPosition,endingPosition);
                     }
                 }
             }
@@ -430,11 +538,42 @@ public class RoadMaker implements NeedMouse{
 
     @Override
     public void onDrag(MouseContainer container) {
+        if (status == RoadMakerStatus.CHOOSING) {
 
+        } else if (status == RoadMakerStatus.AUTOMATIC) {
+
+
+        } else {
+            logger.log(Level.FINER, "Tried clicking while in road mode and not choosing start position, not doing anything");
+        }
     }
 
     @Override
     public void onDragRelease(MouseContainer container) {
 
+    }
+
+    @Override
+    public void onCursorHover(MouseContainer container) {
+        if (status == RoadMakerStatus.AUTOMATIC && startingPosition != null && draggingMode){
+            CollisionResult result = null;
+            for (CollisionResult r : container.getResults()) {
+                if (UtilityMethods.findUserDataType(r.getGeometry().getParent(), "Terrain")) {
+                    result = r;
+                    break;
+                }
+            }
+            if (result != null) {
+                MapPosition dragPos = new MapPosition(UtilityMethods.roundVector(result.getContactPoint()));
+                if (lastDragPosition != null) {
+                    if (!dragPos.isSameMainCoords(lastDragPosition)) {
+                        dragRoadChangedPosition(dragPos);
+                    }
+                } else {
+                    dragRoadChangedPosition(dragPos);
+                }
+
+            }
+        }
     }
 }

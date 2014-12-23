@@ -7,8 +7,12 @@ package intopark.roads;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import intopark.UtilityMethods;
 import intopark.roads.events.UpdateRoadEvent;
 import intopark.util.MapPosition;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,8 +63,12 @@ public class RoadGraph {
                         }
                     }
                     logger.log(Level.FINEST,"Road {0} needs updating!",road.getID());
-                    eventBus.post(new UpdateRoadEvent(road,connected));
-
+                    UpdateRoadEvent uREvent = new UpdateRoadEvent(road,connected);
+                    uREvent.setFirsTimeUpdated(road.isFirstTimeUpdated());
+                    eventBus.post(uREvent);
+                    if(road.isFirstTimeUpdated()){
+                        road.setFirstTimeUpdated(false);
+                    }
                 }else if(walkable instanceof BuildingEnterance){
                     BuildingEnterance enterance=(BuildingEnterance)walkable;
                     /* DO SOMETHING ...*/
@@ -147,35 +155,45 @@ public class RoadGraph {
     }
 
     private void connectWalkables(Walkable walk1,Walkable walk2){
-        //TODO make it that it checks for both edges being there.
+        boolean addedEdge = false;
         if(!roadMap.containsEdge(walk1, walk2)){
             roadMap.addEdge(walk1, walk2);
-            roadMap.addEdge(walk2, walk1);
+            addedEdge = true;
             logger.log(Level.FINEST,"Walkables {0} and {1} connected via edge ", new Object[]{walk1.position.getVector(),walk2.position.getVector()});
-        }else{
+        }
+        if(!roadMap.containsEdge(walk2, walk1)){
+            roadMap.addEdge(walk2, walk1);
+            addedEdge = true;
+            logger.log(Level.FINEST,"Walkables {0} and {1} connected via edge ", new Object[]{walk2.position.getVector(),walk1.position.getVector()});
+        }
+        if(!addedEdge){
             logger.log(Level.FINEST,"Walkables {0} and {1} already connected: only updating.", new Object[]{walk1.position.getVector(),walk2.position.getVector()});
         }
-
         walk1.setNeedsUpdate(true);
         walk2.setNeedsUpdate(true);
     }
     public void deleteWalkable(Walkable walkable){
+        List<Walkable> walkablesThatNeedUpdateAfterDelete = new ArrayList<>();
         /* Look up all the edges connected to walkable. */
-        Set<DefaultEdge>edgesDelete=roadMap.outgoingEdgesOf(walkable);
+        Set<DefaultEdge>edgesDelete=new HashSet<>(roadMap.outgoingEdgesOf(walkable));
         edgesDelete.addAll(roadMap.incomingEdgesOf(walkable));
+        for(DefaultEdge edge:edgesDelete){
+            Walkable connectedWalkable = UtilityMethods.getTheOtherEndOfEdge(this, edge, walkable);
+            if(connectedWalkable!=null){
+                walkablesThatNeedUpdateAfterDelete.add(connectedWalkable);
+            }else{
+                logger.log(Level.WARNING,"Couldn't find the walkable that need to be updated.");
+            }
+        }
         logger.log(Level.FINEST,"Deleting {0} edges.",edgesDelete.size());
         /* Delete them */
         roadMap.removeAllEdges(edgesDelete);
         /* Delete also the vertex */
         roadMap.removeVertex(walkable);
-        String type=" ";
-        if(walkable instanceof Road){
-            type="road";
+        for(Walkable needUpdate:walkablesThatNeedUpdateAfterDelete){
+            needUpdate.setNeedsUpdate(true);
         }
-        if(walkable instanceof BuildingEnterance){
-            type="building enterance";
-        }
-        logger.log(Level.FINEST,"Deleted Walkable ({0}) from the graph.",type);
+        logger.log(Level.FINEST,"Deleted Walkable ({0}) from roadGraph.",walkable.getClass().toString());
     }
 
     public DirectedGraph<Walkable, DefaultEdge> getRoadMap() {

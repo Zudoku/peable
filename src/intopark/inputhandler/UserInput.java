@@ -69,14 +69,14 @@ public class UserInput {
         addTrigger("movecameraleft", moveCameraLeft);
         addTrigger("rotatecameraright", rotateCameraRight);
         addTrigger("rotatecameraleft", rotateCameraLeft);
-        
+
         inputManager.addListener(analogListener,"mouseleftdrag","mouserightdrag","movecameraup","movecameradown","movecameraright", "movecameraleft","rotatecameraright","rotatecameraleft");
         inputManager.addListener(actionListener,"mouseleftclick","mouserightclick","rotateRight","rotateLeft");
     }
     /**
      * Shorter wrapper to add keybind maps.
      * @param name mapping name.
-     * @param trigger 
+     * @param trigger
      */
     private void addTrigger(String name, Trigger trigger){
         inputManager.addMapping(name, trigger);
@@ -84,9 +84,10 @@ public class UserInput {
     public void initControls(){
         //TODO:
     }
-    
+
     public void update(){
         analogListener.checkDragging();
+        analogListener.onCursorHover();
     }
     /**
      * Utility method to figure if Keybind is for right or left mouse.
@@ -101,10 +102,10 @@ public class UserInput {
         }
         throw new IllegalArgumentException();
     }
-    
+
     public CameraController getCameraController() {
         return cameraController;
     }
-    
-  
+
+
 }
