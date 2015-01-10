@@ -13,7 +13,6 @@ import intopark.inout.Identifier;
 import intopark.npc.Guest;
 import intopark.ride.BasicRide;
 import intopark.shops.BasicShop;
-import intopark.terrain.ParkHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,13 +25,11 @@ public class DefaultMouseController implements NeedMouse{
     private static final Logger logger = Logger.getLogger(DefaultMouseController.class.getName());
     private ClickingHandler handler;
     private WindowHandler windowHandler;
-    private ParkHandler parkHandler;
     private Identifier identifier;
     @Inject
-    public DefaultMouseController(ClickingHandler handler,WindowHandler manager,ParkHandler parkHandler,Identifier identifier) {
+    public DefaultMouseController(ClickingHandler handler,WindowHandler manager,Identifier identifier) {
         this.handler = handler;
         this.windowHandler=manager;
-        this.parkHandler=parkHandler;
         this.identifier=identifier;
     }
 

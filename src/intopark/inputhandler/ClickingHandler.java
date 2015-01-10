@@ -15,7 +15,7 @@ import static intopark.inputhandler.ClickingModes.TERRAIN;
 import intopark.ride.RideManager;
 import intopark.shops.ShopManager;
 import intopark.terrain.ParkHandler;
-import intopark.roads.RoadMaker;
+import intopark.roads.RoadManager;
 import intopark.terrain.TerrainHandler;
 import intopark.terrain.decoration.DecorationManager;
 import java.util.logging.Level;
@@ -35,7 +35,7 @@ public class ClickingHandler {
     //CALLABLES
     @Inject private TerrainHandler terrainHandler;
     @Inject private RideManager rideManager;
-    @Inject private RoadMaker roadMaker;
+    @Inject private RoadManager roadMaker;
     @Inject private ShopManager shopManager;
     @Inject private DecorationManager decorationManager;
     @Inject private DefaultMouseController defaultController;

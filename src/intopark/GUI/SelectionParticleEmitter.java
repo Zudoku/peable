@@ -13,7 +13,7 @@ import com.jme3.scene.Node;
 import intopark.UtilityMethods;
 import intopark.inputhandler.ClickingHandler;
 import intopark.shops.HolomodelDrawer;
-import intopark.roads.RoadMaker;
+import intopark.roads.RoadManager;
 import intopark.terrain.TerrainHandler;
 
 /**
@@ -30,7 +30,7 @@ public class SelectionParticleEmitter {
     private final TerrainHandler terrainHandler;
     private HolomodelDrawer holoDrawer;
     @Inject
-    public SelectionParticleEmitter(HolomodelDrawer holomodelDrawer,AssetManager aM,ClickingHandler click,RoadMaker roadMaker, Node rootNode, TerrainHandler worldHandler) {
+    public SelectionParticleEmitter(HolomodelDrawer holomodelDrawer,AssetManager aM,ClickingHandler click,RoadManager roadMaker, Node rootNode, TerrainHandler worldHandler) {
         this.rootNode = rootNode;
         this.terrainHandler = worldHandler;
         this.clickingHandler=click;

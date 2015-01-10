@@ -18,7 +18,7 @@ import intopark.GUI.SelectionParticleEmitter;
 import intopark.inputhandler.UserInput;
 import intopark.npc.NPCManager;
 import intopark.ride.RideManager;
-import intopark.roads.RoadMaker;
+import intopark.roads.RoadManager;
 import intopark.terrain.ParkHandler;
 import java.io.File;
 
@@ -41,7 +41,7 @@ public class Gamestate extends AbstractAppState {
     @Inject private NPCManager npcManager;
     @Inject private UserInput userInput;
     @Inject private  RideManager rideManager;
-    @Inject private RoadMaker roadMaker;
+    @Inject private RoadManager roadMaker;
 
     //VARIABLES
     /**

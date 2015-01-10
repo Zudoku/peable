@@ -24,7 +24,7 @@ import intopark.util.Direction;
 import intopark.util.MapPosition;
 import intopark.terrain.events.PayParkEvent;
 import intopark.terrain.events.RideDemolishEvent;
-import intopark.roads.RoadMaker;
+import intopark.roads.RoadManager;
 import intopark.roads.RoadGraph;
 import intopark.roads.Walkable;
 import intopark.shops.BasicBuildables;
@@ -41,7 +41,7 @@ public class BasicRide {
     //LOGGER
     protected transient static final Logger logger = Logger.getLogger(BasicRide.class.getName());
     //DEPENDENCIES
-    @Inject transient RoadMaker roadMaker;
+    @Inject transient RoadManager roadMaker;
     @Inject transient protected EventBus eventBus;
     //OWNS
     private transient CustomAnimation animatedPart; //animated part

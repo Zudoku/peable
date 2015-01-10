@@ -4,7 +4,7 @@
  */
 package intopark.terrain;
 
-import intopark.roads.RoadMaker;
+import intopark.roads.RoadManager;
 import intopark.terrain.events.PayParkEvent;
 import intopark.terrain.events.RideDemolishEvent;
 import intopark.terrain.events.DeleteSpatialFromMapEvent;
@@ -61,7 +61,7 @@ public class ParkHandler {
     public transient AppSettings settings;
     //DEPENDENCIES
     @Inject private transient NPCManager npcManager;
-    @Inject private transient RoadMaker roadMaker;
+    @Inject private transient RoadManager roadMaker;
     @Inject private transient ShopManager shopManager;
     @Inject private transient RideManager rideManager;
     @Inject private transient Identifier identifier;
@@ -374,7 +374,7 @@ public class ParkHandler {
         return roadMaker.getRoadGraph();
     }
 
-    public void setRoadMaker(RoadMaker roadMaker) {
+    public void setRoadMaker(RoadManager roadMaker) {
         this.roadMaker = roadMaker;
     }
 

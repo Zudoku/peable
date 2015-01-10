@@ -4,6 +4,9 @@
  */
 package intopark.util;
 
+import com.google.common.collect.ImmutableMap;
+import java.util.Map;
+
 /**
  *
  * @author arska
@@ -23,6 +26,8 @@ public enum Direction {
      */
 
     NORTH,SOUTH,EAST,WEST,ANY;
+
+
 
     /**
      * Returns true if this is same/opposite of dir2.
@@ -176,5 +181,16 @@ public enum Direction {
                 throw new IllegalArgumentException();
 
         }
+    }
+
+    public Direction turnRight(){
+        ImmutableMap<Object,Object> turnRightMap = ImmutableMap.builder().put(EAST,SOUTH).put(SOUTH,WEST).put(WEST,NORTH).put(NORTH,EAST).build();
+        Direction newDirection =(Direction)turnRightMap.get(this);
+        return newDirection;
+    }
+    public Direction turnLeft(){
+        ImmutableMap<Object,Object> turnLeftMap = ImmutableMap.builder().put(EAST,NORTH).put(NORTH,WEST).put(WEST,SOUTH).put(SOUTH,EAST).build();
+        Direction newDirection =(Direction)turnLeftMap.get(this);
+        return newDirection;
     }
 }

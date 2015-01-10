@@ -18,7 +18,7 @@ import intopark.npc.inventory.Wallet;
 import intopark.ride.RideColor;
 import intopark.roads.Road;
 import intopark.roads.RoadHill;
-import intopark.roads.RoadMaker;
+import intopark.roads.RoadManager;
 import intopark.roads.RoadGraph;
 import intopark.roads.events.CreateRoadEvent;
 import intopark.shops.BasicShop;
@@ -79,7 +79,7 @@ public class SaveAndLoadTest {
         ParkHandler ph=new ParkHandler(node, null, null,bus);
         ph.setIdentifier(new Identifier());
         //ROADMAKER
-        RoadMaker rm=Mockito.mock(RoadMaker.class);
+        RoadManager rm=Mockito.mock(RoadManager.class);
         Mockito.stub(rm.getRoadGraph()).toReturn(new RoadGraph());
         ph.setRoadMaker(rm);
         //NPCMANAGER

@@ -4,6 +4,7 @@
  */
 package intopark.roads;
 
+import com.google.common.collect.ImmutableMap;
 import intopark.roads.events.CreateRoadEvent;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -25,6 +26,7 @@ import intopark.inout.Identifier;
 import intopark.inputhandler.MouseContainer;
 import intopark.inputhandler.NeedMouse;
 import intopark.roads.events.CreateBuildingEnteranceEvent;
+import intopark.roads.events.DeleteRoadEvent;
 import intopark.roads.events.UpdateRoadEvent;
 import intopark.util.Direction;
 import intopark.terrain.MapContainer;
@@ -33,12 +35,12 @@ import intopark.terrain.ParkHandler;
 import intopark.terrain.decoration.RotationEvent;
 
 /**
- * 
+ *
  * @author arska
  */
 @Singleton
-public class RoadMaker implements NeedMouse{
-    private static final Logger logger = Logger.getLogger(RoadMaker.class.getName());
+public class RoadManager implements NeedMouse{
+    private static final Logger logger = Logger.getLogger(RoadManager.class.getName());
     //DEPENDENCIES
     @Inject private RoadGraph roadGraph;
     private Node roadNode;
@@ -72,7 +74,7 @@ public class RoadMaker implements NeedMouse{
      * @param eventBus This is used to send events to other components
      */
     @Inject
-    public RoadMaker(Node rootNode,EventBus eventBus,Identifier identifier) {
+    public RoadManager(Node rootNode,EventBus eventBus,Identifier identifier) {
         roadNode=new Node("roadNode");
         rootNode.attachChild(roadNode);
         this.eventBus = eventBus;
@@ -343,21 +345,8 @@ public class RoadMaker implements NeedMouse{
      */
     @Subscribe
     public void listenUpdateRoadEvent(UpdateRoadEvent event){
-        int id = event.getExistingRoad().getID();
         if (!event.isFirsTimeUpdated()) {
-            Spatial oldRoad = UtilityMethods.findSpatialWithID(roadSpatials, id);
-            if (oldRoad == null) {
-                /* FAILED CANT FIND ROAD WITH THAT ID   */
-                logger.log(Level.WARNING, "Unable to find roadSpatial with ID {0}", id);
-            } else {
-                /* Delete old road */
-                roadNode.detachChild(oldRoad);//FROM GRAPH
-                if(roadNode.hasChild(oldRoad)){
-                    logger.log(Level.FINEST, "FFFFFFFFFFFFF {0}", id);
-                }
-                roadSpatials.remove(oldRoad);//FROM LIST
-                logger.log(Level.FINEST, "Deleted old roadSpatial with ID {0}", id);
-            }
+            eventBus.post(new DeleteRoadEvent(event.getExistingRoad(),true));
         }
         /* Get new road */
         Spatial newRoad=roadF.roadToSpatial(event.getExistingRoad(),event.getConnected());
@@ -365,6 +354,29 @@ public class RoadMaker implements NeedMouse{
         roadNode.attachChild(newRoad);
         roadSpatials.add(newRoad);
         event.getExistingRoad().setNeedsUpdate(false);
+    }
+    @Subscribe
+    public void listenDeleteRoadEvent(DeleteRoadEvent event){
+        int id = event.getRoad().getID();
+        Spatial oldRoad = UtilityMethods.findSpatialWithID(roadSpatials, id);
+        if (oldRoad == null) {
+            /* FAILED CANT FIND ROAD WITH THAT ID   */
+            logger.log(Level.WARNING, "Unable to find roadSpatial with ID {0}", id);
+        } else {
+            if(event.isDeleteNow()){
+                /* Delete old road */
+                roadNode.detachChild(oldRoad);//FROM GRAPH
+                if (roadNode.hasChild(oldRoad)) {
+                    logger.log(Level.FINEST, "FFFFFFFFFFFFF {0}", id);
+                }
+                roadSpatials.remove(oldRoad);//FROM LIST
+            }else{
+                roadIDsToBeDeleted.add(id);
+            }
+
+
+            logger.log(Level.FINEST, "Deleted old roadSpatial with ID {0}", id);
+        }
     }
 
     /**
@@ -385,51 +397,15 @@ public class RoadMaker implements NeedMouse{
      * Turn the manual road tool left.
      */
     public void turnLeft() {
-        //TODO: REDO
-        if (direction == Direction.NORTH) {
-            direction = Direction.WEST;
-            eventBus.post(new UpdateRoadDirectionEvent(direction));
-            return;
-        }
-        if (direction == Direction.WEST) {
-            direction = Direction.SOUTH;
-            eventBus.post(new UpdateRoadDirectionEvent(direction));
-            return;
-        }
-        if (direction == Direction.SOUTH) {
-            direction = Direction.EAST;
-            eventBus.post(new UpdateRoadDirectionEvent(direction));
-            return;
-        }
-        if (direction == Direction.EAST) {
-            direction = Direction.NORTH;
-            eventBus.post(new UpdateRoadDirectionEvent(direction));
-        }
+        direction = direction.turnLeft();
+        eventBus.post(new UpdateRoadDirectionEvent(direction));
     }
     /**
      * Turn the manual road tool right.
      */
     public void turnRight() {
-        //TODO:REDO
-        if (direction == Direction.NORTH) {
-            direction = Direction.EAST;
-            eventBus.post(new UpdateRoadDirectionEvent(direction));
-            return;
-        }
-        if (direction == Direction.EAST) {
-            direction = Direction.SOUTH;
-            eventBus.post(new UpdateRoadDirectionEvent(direction));
-            return;
-        }
-        if (direction == Direction.SOUTH) {
-            direction = Direction.WEST;
-            eventBus.post(new UpdateRoadDirectionEvent(direction));
-            return;
-        }
-        if (direction == Direction.WEST) {
-            direction = Direction.NORTH;
-            eventBus.post(new UpdateRoadDirectionEvent(direction));
-        }
+        direction = direction.turnRight();
+        eventBus.post(new UpdateRoadDirectionEvent(direction));
     }
 
     public RoadMakerStatus getStatus() {

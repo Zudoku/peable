@@ -58,7 +58,7 @@ import static intopark.util.Direction.WEST;
 import static intopark.util.Direction.EAST;
 import static intopark.util.Direction.NORTH;
 import intopark.terrain.ParkHandler;
-import intopark.roads.RoadMaker;
+import intopark.roads.RoadManager;
 import intopark.roads.RoadMakerStatus;
 import intopark.terrain.TerrainHandler;
 import intopark.terrain.decoration.DecorationManager;
@@ -78,7 +78,7 @@ public class IngameHUD implements ScreenController {
     @Inject private TerrainHandler terrainHandler;
     @Inject private ParkHandler parkHandler;
     @Inject private ClickingHandler clickingHandler;
-    @Inject private RoadMaker roadMaker;
+    @Inject private RoadManager roadMaker;
     @Inject ShopManager shopManager;
     @Inject EventBus eventBus;
     @Inject private WindowHandler windowMaker;
