@@ -142,7 +142,7 @@ public class RoadManager implements NeedMouse{
         direction= Direction.NORTH;
         slope=0;
         sourcePos.setX(sourcePos.getX()-1);
-        sourcePos = manualBuildRoad(sourcePos);
+        sourcePos = manualBuildRoad(sourcePos,false);
         if(sourcePos.isSameMainCoords(destinationPos)){
             logger.log(Level.FINE, "Road tool was used to build a single piece of road. Skipping the automatic road-building loop.");
             return automaticRoadBuildCleanup(true);
@@ -159,7 +159,7 @@ public class RoadManager implements NeedMouse{
             }else{
                 slope=0;
             }
-            sourcePos = manualBuildRoad(sourcePos);
+            sourcePos = manualBuildRoad(sourcePos,false);
             if(sourcePos.isSameMainCoords(destinationPos)){
                 build=false;
             }
@@ -203,7 +203,7 @@ public class RoadManager implements NeedMouse{
      * @param sourcePosition Where the road will start.
      * @return the position of the built road. null if error was caught.
      */
-    public MapPosition manualBuildRoad(MapPosition sourcePosition) {
+    public MapPosition manualBuildRoad(MapPosition sourcePosition,boolean setPositionForward) {
         MapPosition sourcePos = new MapPosition(sourcePosition);
 
         if (status == RoadManagerStatus.CHOOSING) {
@@ -245,6 +245,9 @@ public class RoadManager implements NeedMouse{
                 sourcePos.setOffSetY(startingPosition.getOffSetY()-0.1f);
                 break;
 
+        }
+        if(setPositionForward){
+            startingPosition = sourcePos;
         }
         return sourcePos;
     }
