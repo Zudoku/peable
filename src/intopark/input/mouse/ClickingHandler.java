@@ -11,6 +11,7 @@ import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResults;
 import java.util.logging.Logger;
 import intopark.Gamestate;
+import intopark.gameplayorgans.ClickModeManager;
 import intopark.input.SetClickModeEvent;
 import static intopark.input.mouse.ClickingModes.TERRAIN;
 import intopark.ride.RideManager;
@@ -67,33 +68,37 @@ public class ClickingHandler {
         mouseController.handleOnCursorHover(posX, posY, results);
     }
 
-    private void getCurrentCaller(){
+    private NeedMouse getCurrentCaller(){
         switch(clickMode){
             case DECORATION:
                 mouseController.setCallable(decorationManager);
-                return;
+                return decorationManager;
             case DEMOLITION:
                 mouseController.setCallable(defaultController);
-                return;
+                return decorationManager;
 
             case NOTHING:
                 mouseController.setCallable(defaultController);
-                return;
+                return defaultController;
 
             case PLACE:
                 mouseController.setCallable(shopManager);
-                return;
+                return shopManager;
 
             case RIDE:
                 mouseController.setCallable(rideManager);
-                return;
+                return rideManager;
 
             case ROAD:
                 mouseController.setCallable(roadMaker);
-                return;
+                return roadMaker;
 
             case TERRAIN:
                 mouseController.setCallable(terrainHandler);
+                return terrainHandler;
+
+            default:
+                return null;
         }
     }
     public ClickingModes getClickMode() {
@@ -101,8 +106,17 @@ public class ClickingHandler {
     }
 
     public  void setClickMode(ClickingModes clickMode) {
+        NeedMouse currentCaller = getCurrentCaller();
+        if(currentCaller instanceof ClickModeManager){
+            ((ClickModeManager)currentCaller).cleanUp();
+        }
         this.clickMode = clickMode;
         Gamestate.ingameHUD.updateClickingIndicator();
+
+        currentCaller = getCurrentCaller();
+        if(currentCaller instanceof ClickModeManager){
+            ((ClickModeManager)currentCaller).onSelection();
+        }
     }
 
     @Subscribe

@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
+import intopark.gameplayorgans.ClickModeManager;
 import intopark.input.mouse.MouseContainer;
 import intopark.input.mouse.NeedMouse;
 
@@ -28,7 +29,7 @@ import intopark.terrain.events.PayParkEvent;
  * @author arska
  */
 @Singleton
-public class DecorationManager implements NeedMouse{
+public class DecorationManager implements NeedMouse,ClickModeManager{
     //LOGGER
     private static final Logger logger = Logger.getLogger(DecorationManager.class.getName());
     //DEPENDENCIES
@@ -250,6 +251,14 @@ public class DecorationManager implements NeedMouse{
 
     @Override
     public void onCursorHover(MouseContainer container) {
-        
+
+    }
+
+    @Override
+    public void onSelection() {
+    }
+
+    @Override
+    public void cleanUp() {
     }
 }

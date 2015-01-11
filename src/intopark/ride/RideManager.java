@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
+import intopark.gameplayorgans.ClickModeManager;
 import intopark.inout.Identifier;
 import intopark.input.mouse.ClickingModes;
 import intopark.input.mouse.MouseContainer;
@@ -35,7 +36,7 @@ import intopark.util.MapPosition;
  * @author arska
  */
 @Singleton
-public class RideManager implements NeedMouse{
+public class RideManager implements NeedMouse,ClickModeManager{
 
     private static final Logger logger = Logger.getLogger(RideManager.class.getName());
     //DEPENDENCIES
@@ -212,5 +213,13 @@ public class RideManager implements NeedMouse{
     @Override
     public void onCursorHover(MouseContainer container) {
 
+    }
+
+    @Override
+    public void onSelection() {
+    }
+
+    @Override
+    public void cleanUp() {
     }
 }

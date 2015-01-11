@@ -22,6 +22,7 @@ import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.GUI.events.UpdateRoadDirectionEvent;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
+import intopark.gameplayorgans.ClickModeManager;
 import intopark.inout.Identifier;
 import intopark.input.mouse.MouseContainer;
 import intopark.input.mouse.NeedMouse;
@@ -39,7 +40,7 @@ import intopark.terrain.decoration.RotationEvent;
  * @author arska
  */
 @Singleton
-public class RoadManager implements NeedMouse{
+public class RoadManager implements NeedMouse,ClickModeManager{
     private static final Logger logger = Logger.getLogger(RoadManager.class.getName());
     //DEPENDENCIES
     @Inject private RoadGraph roadGraph;
@@ -637,5 +638,17 @@ public class RoadManager implements NeedMouse{
 
             }
         }
+    }
+
+    @Override
+    public void onSelection() {
+
+    }
+
+    @Override
+    public void cleanUp() {
+        removeUnpaidRoads();
+        draggingMode = false;
+        automaticRoadBuildCleanup(false);
     }
 }

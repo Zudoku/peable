@@ -21,6 +21,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import intopark.UtilityMethods;
+import intopark.gameplayorgans.ClickModeManager;
 import intopark.input.mouse.MouseContainer;
 import intopark.input.mouse.NeedMouse;
 import intopark.terrain.events.RefreshGroundEvent;
@@ -32,7 +33,7 @@ import java.util.logging.Level;
  * @author arska
  */
 @Singleton
-public class TerrainHandler implements NeedMouse{
+public class TerrainHandler implements NeedMouse,ClickModeManager{
     //LOGGER
     private static final Logger logger = Logger.getLogger(TerrainHandler.class.getName());
     //CONSTANTS
@@ -340,7 +341,17 @@ public class TerrainHandler implements NeedMouse{
 
     @Override
     public void onCursorHover(MouseContainer container) {
-        
+
+    }
+
+    @Override
+    public void onSelection() {
+
+    }
+
+    @Override
+    public void cleanUp() {
+
     }
 
 }

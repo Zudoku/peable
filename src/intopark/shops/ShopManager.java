@@ -20,6 +20,7 @@ import intopark.GUI.events.CloseWindowsEvent;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
+import intopark.gameplayorgans.ClickModeManager;
 import intopark.inout.Identifier;
 import intopark.inout.LoadPaths;
 import intopark.input.mouse.ClickingModes;
@@ -37,7 +38,7 @@ import intopark.terrain.ParkHandler;
  * @author arska
  */
 @Singleton
-public class ShopManager implements NeedMouse{
+public class ShopManager implements NeedMouse,ClickModeManager{
     //LOGGER
     private static final Logger logger = Logger.getLogger(ShopManager.class.getName());
     //DEPENDENCIES
@@ -293,6 +294,16 @@ public class ShopManager implements NeedMouse{
 
     @Override
     public void onCursorHover(MouseContainer container) {
+
+    }
+
+    @Override
+    public void onSelection() {
+
+    }
+
+    @Override
+    public void cleanUp() {
         
     }
 
