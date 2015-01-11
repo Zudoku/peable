@@ -56,7 +56,7 @@ public class RoadManager implements NeedMouse{
     //VARIABLES
     private Direction direction = Direction.NORTH;
     private int slope = 0; //0= flat 1=up 2=down
-    private RoadMakerStatus status = RoadMakerStatus.MANUAL;
+    private RoadManagerStatus status = RoadManagerStatus.MANUAL;
     private MapPosition startingPosition;
     private MapPosition endingPosition;
     private boolean queroad = false;
@@ -206,7 +206,7 @@ public class RoadManager implements NeedMouse{
     public MapPosition manualBuildRoad(MapPosition sourcePosition) {
         MapPosition sourcePos = new MapPosition(sourcePosition);
 
-        if (status == RoadMakerStatus.CHOOSING) {
+        if (status == RoadManagerStatus.CHOOSING) {
             logger.log(Level.WARNING,"Can't build while in choosing-mode.");
             return null;
         }
@@ -408,14 +408,14 @@ public class RoadManager implements NeedMouse{
         eventBus.post(new UpdateRoadDirectionEvent(direction));
     }
 
-    public RoadMakerStatus getStatus() {
+    public RoadManagerStatus getStatus() {
         return status;
     }
 
     public RoadGraph getRoadGraph() {
         return roadGraph;
     }
-    public void setStatus(RoadMakerStatus status) {
+    public void setStatus(RoadManagerStatus status) {
         this.status = status;
     }
 
@@ -462,61 +462,118 @@ public class RoadManager implements NeedMouse{
 
     @Override
     public void onClick(MouseContainer container) {
+        switch(status){
+            case CHOOSING:
+                if(container.isLeftClick()){
+                    setStartingPosition(container.getResults().getClosestCollision().getContactPoint());
+                    setStatus(RoadManagerStatus.MANUAL);
+                    Gamestate.ingameHUD.updateClickingIndicator();
+                    logger.log(Level.FINEST, "Updated Roads starting position");
+                }else{
 
-        if(!container.isLeftClick()){
-            if(container.getResults().getClosestCollision()!=null){
-                Spatial foundSpatial=container.getResults().getClosestCollision().getGeometry();
-                if(foundSpatial.getUserData("ID")!=null){
-                    int ID = foundSpatial.getUserData("ID");
-                    Object foundRoad = identifier.getObjectWithID(ID);
-                    if(foundRoad instanceof Road){
-
-                    }
                 }
-            }
-            if(container.getResults().getClosestCollision().getGeometry().getUserData("ID")!=null){
+                break;
 
-            }
-        }
-        if (status == RoadMakerStatus.CHOOSING) {
-            setStartingPosition(container.getResults().getClosestCollision().getContactPoint());
-            setStatus(RoadMakerStatus.MANUAL);
-            Gamestate.ingameHUD.updateClickingIndicator();
-            logger.log(Level.FINEST, "Updated Roads starting position");
-        } else if (status == RoadMakerStatus.AUTOMATIC) {
-
-            if (container.isLeftClick()) {
-                CollisionResult result = null;
-                for (CollisionResult r : container.getResults()) {
-                    if (UtilityMethods.findUserDataType(r.getGeometry().getParent(), "Terrain")) {
-                        result = r;
-                        break;
+            case AUTOMATIC:
+                if (container.isLeftClick()) {
+                    CollisionResult result = null;
+                    for (CollisionResult r : container.getResults()) {
+                        if (UtilityMethods.findUserDataType(r.getGeometry().getParent(), "Terrain")) {
+                            result = r;
+                            break;
+                        }
                     }
-                }
-                if (result != null) {
-                    Vector3f location = result.getContactPoint();
-                    if (startingPosition == null) {
-                        setStartingPosition(location);
-                        draggingMode = true;
-                    } else {
-                        setEndingPosition(location);
-                        draggingMode=false;
+                    if (result != null) {
+                        Vector3f location = result.getContactPoint();
+                        if (startingPosition == null) {
+                            setStartingPosition(location);
+                            draggingMode = true;
+                        } else {
+                            setEndingPosition(location);
+                            draggingMode = false;
+                            removeUnpaidRoads();
+                            buildAutomaticRoad(startingPosition, endingPosition);
+                        }
+                    }
+                } else {
+                    if(draggingMode){
+                        draggingMode = false;
+                        automaticRoadBuildCleanup(true);
                         removeUnpaidRoads();
-                        buildAutomaticRoad(startingPosition,endingPosition);
+                    }else{
+                        CollisionResult result = container.getResults().getClosestCollision();
+                        if(result != null){
+                            Spatial resultRoad = tryToFindRoadSpatial(result.getGeometry());
+                            if(resultRoad != null){
+                                int ID = (int)resultRoad.getUserData("ID");
+                                Road foundRoad = null;
+                                if(identifier.getObjectWithID(ID) instanceof Road){
+                                    foundRoad = (Road)identifier.getObjectWithID(ID);
+                                }
+                                if(foundRoad == null){
+                                    break;
+                                }
+                                roadGraph.deleteWalkable(foundRoad);
+                                identifier.removeObjectWithID(foundRoad.getID());
+                                eventBus.post(new DeleteRoadEvent(foundRoad, false));
+                            }
+
+                        }
                     }
+
+
+                }
+                break;
+
+            case MANUAL:
+                if(container.isLeftClick()){
+
+                }else{
+
+                }
+                break;
+        }
+    }
+
+    private Spatial tryToFindRoadSpatial(Spatial child){
+        Spatial returnedSpatial = null;
+        if(child.getUserData("type")!=null){
+            if(child.getUserData("type").equals("road")){
+                returnedSpatial = child;
+                return returnedSpatial;
+            }else {
+                return returnedSpatial;
+            }
+        }else{
+            Spatial parent = child.getParent();
+            if (parent.getUserData("type") != null) {
+                if (parent.getUserData("type").equals("road")) {
+                    returnedSpatial = parent;
+                    return returnedSpatial;
+                } else {
+                    return returnedSpatial;
+                }
+            } else {
+                Spatial ancestor = parent.getParent();
+                if (ancestor.getUserData("type") != null) {
+                    if (ancestor.getUserData("type").equals("road")) {
+                        returnedSpatial = ancestor;
+                        return returnedSpatial;
+                    } else {
+                        return returnedSpatial;
+                    }
+                } else {
+                    return returnedSpatial;
                 }
             }
-
-        } else {
-            logger.log(Level.FINER, "Tried clicking while in road mode and not choosing start position, not doing anything");
         }
     }
 
     @Override
     public void onDrag(MouseContainer container) {
-        if (status == RoadMakerStatus.CHOOSING) {
+        if (status == RoadManagerStatus.CHOOSING) {
 
-        } else if (status == RoadMakerStatus.AUTOMATIC) {
+        } else if (status == RoadManagerStatus.AUTOMATIC) {
 
 
         } else {
@@ -531,7 +588,7 @@ public class RoadManager implements NeedMouse{
 
     @Override
     public void onCursorHover(MouseContainer container) {
-        if (status == RoadMakerStatus.AUTOMATIC && startingPosition != null && draggingMode){
+        if (status == RoadManagerStatus.AUTOMATIC && startingPosition != null && draggingMode){
             CollisionResult result = null;
             for (CollisionResult r : container.getResults()) {
                 if (UtilityMethods.findUserDataType(r.getGeometry().getParent(), "Terrain")) {

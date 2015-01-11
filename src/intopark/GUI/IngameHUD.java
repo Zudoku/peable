@@ -59,7 +59,7 @@ import static intopark.util.Direction.EAST;
 import static intopark.util.Direction.NORTH;
 import intopark.terrain.ParkHandler;
 import intopark.roads.RoadManager;
-import intopark.roads.RoadMakerStatus;
+import intopark.roads.RoadManagerStatus;
 import intopark.terrain.TerrainHandler;
 import intopark.terrain.decoration.DecorationManager;
 import intopark.terrain.decoration.Decorations;
@@ -708,10 +708,10 @@ public class IngameHUD implements ScreenController {
         roadMaker.manualBuildRoad(roadMaker.getStartingPosition());
     }
     public void selectionButton() {
-        roadMaker.setStatus(RoadMakerStatus.CHOOSING);
+        roadMaker.setStatus(RoadManagerStatus.CHOOSING);
     }
     public void roadModeButton(){
-        roadMaker.setStatus(RoadMakerStatus.AUTOMATIC);
+        roadMaker.setStatus(RoadManagerStatus.AUTOMATIC);
     }
     /*
      * ALL RELATED TO DECORATION UI.
