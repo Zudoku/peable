@@ -34,8 +34,8 @@ import java.util.logging.Logger;
 import intopark.GUI.events.CloseWindowsEvent;
 import intopark.Main;
 import intopark.inout.SaveManager;
-import intopark.inputhandler.ClickingHandler;
-import intopark.inputhandler.ClickingModes;
+import intopark.input.mouse.ClickingHandler;
+import intopark.input.mouse.ClickingModes;
 import intopark.npc.Guest;
 import intopark.npc.NPCManager;
 import intopark.ride.BasicRide;
@@ -44,13 +44,13 @@ import intopark.shops.BasicShop;
 import intopark.shops.BuildingSelectionEvent;
 import intopark.shops.ShopManager;
 import intopark.GUI.events.UpdateBuildingUIEvent;
-import static intopark.inputhandler.ClickingModes.DECORATION;
-import static intopark.inputhandler.ClickingModes.DEMOLITION;
-import static intopark.inputhandler.ClickingModes.NOTHING;
-import static intopark.inputhandler.ClickingModes.PLACE;
-import static intopark.inputhandler.ClickingModes.RIDE;
-import static intopark.inputhandler.ClickingModes.ROAD;
-import static intopark.inputhandler.ClickingModes.TERRAIN;
+import static intopark.input.mouse.ClickingModes.DECORATION;
+import static intopark.input.mouse.ClickingModes.DEMOLITION;
+import static intopark.input.mouse.ClickingModes.NOTHING;
+import static intopark.input.mouse.ClickingModes.PLACE;
+import static intopark.input.mouse.ClickingModes.RIDE;
+import static intopark.input.mouse.ClickingModes.ROAD;
+import static intopark.input.mouse.ClickingModes.TERRAIN;
 import intopark.npc.inspector.InviteInspectorEvent;
 import intopark.util.Direction;
 import static intopark.util.Direction.SOUTH;
@@ -78,7 +78,7 @@ public class IngameHUD implements ScreenController {
     @Inject private TerrainHandler terrainHandler;
     @Inject private ParkHandler parkHandler;
     @Inject private ClickingHandler clickingHandler;
-    @Inject private RoadManager roadMaker;
+    @Inject private RoadManager roadManager;
     @Inject ShopManager shopManager;
     @Inject EventBus eventBus;
     @Inject private WindowHandler windowMaker;
@@ -640,7 +640,7 @@ public class IngameHUD implements ScreenController {
     }
     @NiftyEventSubscriber(id = "queroad")
     public void queCheckboxChange(String id, CheckBoxStateChangedEvent event) {
-        roadMaker.setQueroad( event.isChecked());
+        roadManager.setQueroad( event.isChecked());
     }
     private void roadDirectionReset(){
         Element niftyElement;
@@ -663,55 +663,55 @@ public class IngameHUD implements ScreenController {
         niftyElement.stopEffect(EffectEventId.onCustom);
     }
     public void roadDirectionUp() {
-        roadMaker.setDirection(Direction.NORTH);
+        roadManager.setDirection(Direction.NORTH);
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadDirectionDown() {
-        roadMaker.setDirection(Direction.SOUTH);
+        roadManager.setDirection(Direction.SOUTH);
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadDirectionRight() {
-        roadMaker.setDirection(Direction.EAST);
+        roadManager.setDirection(Direction.EAST);
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadrightimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadDirectionLeft() {
-        roadMaker.setDirection(Direction.WEST);
+        roadManager.setDirection(Direction.WEST);
         roadDirectionReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadleftimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadUpHill() {
-        roadMaker.setHill(1);
+        roadManager.setHill(1);
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaduphillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadFlatHill() {
-        roadMaker.setHill(0);
+        roadManager.setHill(0);
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roadflatimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void roadDownHill() {
-        roadMaker.setHill(2);
+        roadManager.setHill(2);
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
     }
     public void buildButton() {
-        roadMaker.manualBuildRoad(roadMaker.getStartingPosition(),true);
+        roadManager.manualBuildRoadWrapper(roadManager.getStartingPosition(),true);
     }
     public void selectionButton() {
-        roadMaker.setStatus(RoadManagerStatus.CHOOSING);
+        roadManager.setStatus(RoadManagerStatus.CHOOSING);
     }
     public void roadModeButton(){
-        roadMaker.setStatus(RoadManagerStatus.AUTOMATIC);
+        roadManager.setStatus(RoadManagerStatus.AUTOMATIC);
     }
     /*
      * ALL RELATED TO DECORATION UI.

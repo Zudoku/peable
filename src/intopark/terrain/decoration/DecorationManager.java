@@ -16,8 +16,8 @@ import java.util.logging.Logger;
 import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
-import intopark.inputhandler.MouseContainer;
-import intopark.inputhandler.NeedMouse;
+import intopark.input.mouse.MouseContainer;
+import intopark.input.mouse.NeedMouse;
 
 import intopark.util.Direction;
 import intopark.terrain.ParkHandler;

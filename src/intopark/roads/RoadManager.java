@@ -23,8 +23,8 @@ import intopark.GUI.events.UpdateRoadDirectionEvent;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
 import intopark.inout.Identifier;
-import intopark.inputhandler.MouseContainer;
-import intopark.inputhandler.NeedMouse;
+import intopark.input.mouse.MouseContainer;
+import intopark.input.mouse.NeedMouse;
 import intopark.roads.events.CreateBuildingEnteranceEvent;
 import intopark.roads.events.DeleteRoadEvent;
 import intopark.roads.events.UpdateRoadEvent;
@@ -121,6 +121,11 @@ public class RoadManager implements NeedMouse{
         }
         return valueToReturn;
     }
+
+    public void buildAutomaticRoadWrapper(MapPosition sourcePosition,MapPosition destinationPosition){
+        buildAutomaticRoad(sourcePosition, destinationPosition);
+    }
+
     /**
      * Builds Road starting from the sourcePosition to destinationPosition.
      * Road will be built on sourcePosition always. Source can be the same as destination.
@@ -198,6 +203,14 @@ public class RoadManager implements NeedMouse{
         roadPos.setOffSetY(0.1f);
         return roadPos;
     }
+
+    public void manualBuildRoadWrapper(MapPosition sourcePosition,boolean setPositionForward){
+        draggingMode = false;
+        removeUnpaidRoads();
+        manualBuildRoad(sourcePosition, setPositionForward);
+        updateManualRoadDragging();
+    }
+
     /**
      * Builds one road forward based on the sourcePosition given and variables in this class.
      * @param sourcePosition Where the road will start.
@@ -402,6 +415,7 @@ public class RoadManager implements NeedMouse{
     public void turnLeft() {
         direction = direction.turnLeft();
         eventBus.post(new UpdateRoadDirectionEvent(direction));
+        updateManualRoadDragging();
     }
     /**
      * Turn the manual road tool right.
@@ -409,6 +423,7 @@ public class RoadManager implements NeedMouse{
     public void turnRight() {
         direction = direction.turnRight();
         eventBus.post(new UpdateRoadDirectionEvent(direction));
+        updateManualRoadDragging();
     }
 
     public RoadManagerStatus getStatus() {
@@ -428,6 +443,7 @@ public class RoadManager implements NeedMouse{
 
     public void setHill(int hill) {
         this.slope = hill;
+        updateManualRoadDragging();
     }
 
     public Direction getDirection() {
@@ -436,6 +452,7 @@ public class RoadManager implements NeedMouse{
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+        updateManualRoadDragging();
     }
 
     public boolean isQueroad() {
@@ -444,6 +461,7 @@ public class RoadManager implements NeedMouse{
 
     public void setQueroad(boolean queroad) {
         this.queroad = queroad;
+        updateManualRoadDragging();
     }
     public void setStartingPosition(Vector3f pos) {
         Vector3f vector= UtilityMethods.roundVector(pos);
@@ -504,27 +522,8 @@ public class RoadManager implements NeedMouse{
                         automaticRoadBuildCleanup(true);
                         removeUnpaidRoads();
                     }else{
-                        CollisionResult result = container.getResults().getClosestCollision();
-                        if(result != null){
-                            Spatial resultRoad = tryToFindRoadSpatial(result.getGeometry());
-                            if(resultRoad != null){
-                                int ID = (int)resultRoad.getUserData("ID");
-                                Road foundRoad = null;
-                                if(identifier.getObjectWithID(ID) instanceof Road){
-                                    foundRoad = (Road)identifier.getObjectWithID(ID);
-                                }
-                                if(foundRoad == null){
-                                    break;
-                                }
-                                roadGraph.deleteWalkable(foundRoad);
-                                identifier.removeObjectWithID(foundRoad.getID());
-                                eventBus.post(new DeleteRoadEvent(foundRoad, false));
-                            }
-
-                        }
+                        handleRoadRightClick(container);
                     }
-
-
                 }
                 break;
 
@@ -532,12 +531,33 @@ public class RoadManager implements NeedMouse{
                 if(container.isLeftClick()){
 
                 }else{
-
+                    handleRoadRightClick(container);
                 }
                 break;
         }
     }
+    private void handleRoadRightClick(MouseContainer container) {
+        CollisionResult result = container.getResults().getClosestCollision();
+        if (result != null) {
+            Spatial resultRoad = tryToFindRoadSpatial(result.getGeometry());
+            if (resultRoad != null) {
+                int ID = (int) resultRoad.getUserData("ID");
+                Road foundRoad = null;
+                if (identifier.getObjectWithID(ID) instanceof Road) {
+                    foundRoad = (Road) identifier.getObjectWithID(ID);
+                }
+                if (foundRoad == null) {
+                    return;
+                }
+                roadGraph.deleteWalkable(foundRoad);
+                identifier.removeObjectWithID(foundRoad.getID());
+                eventBus.post(new DeleteRoadEvent(foundRoad, false));
+            }
 
+        }
+
+    }
+    //recursive function done with ifs because why not... X_X
     private Spatial tryToFindRoadSpatial(Spatial child){
         Spatial returnedSpatial = null;
         if(child.getUserData("type")!=null){
@@ -572,16 +592,22 @@ public class RoadManager implements NeedMouse{
         }
     }
 
+    public void updateManualRoadDragging(){
+        if(status != RoadManagerStatus.MANUAL){
+            return;
+        }
+        if(startingPosition == null){
+            return;
+        }
+        draggingMode = true;
+        removeUnpaidRoads();
+        manualBuildRoad(startingPosition,false);
+        draggingMode = false;
+    }
+
     @Override
     public void onDrag(MouseContainer container) {
-        if (status == RoadManagerStatus.CHOOSING) {
 
-        } else if (status == RoadManagerStatus.AUTOMATIC) {
-
-
-        } else {
-            logger.log(Level.FINER, "Tried clicking while in road mode and not choosing start position, not doing anything");
-        }
     }
 
     @Override

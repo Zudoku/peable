@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package intopark.inputhandler;
+package intopark.input.mouse;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.IngameHUD;
 import intopark.GUI.SelectionParticleEmitter;
-import intopark.inputhandler.UserInput;
+import intopark.input.UserInput;
 import intopark.npc.NPCManager;
 import intopark.ride.RideManager;
 import intopark.roads.RoadManager;

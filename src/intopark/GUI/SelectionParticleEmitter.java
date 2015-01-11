@@ -11,7 +11,7 @@ import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Node;
 import intopark.UtilityMethods;
-import intopark.inputhandler.ClickingHandler;
+import intopark.input.mouse.ClickingHandler;
 import intopark.shops.HolomodelDrawer;
 import intopark.roads.RoadManager;
 import intopark.terrain.TerrainHandler;

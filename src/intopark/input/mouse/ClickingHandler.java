@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package intopark.inputhandler;
+package intopark.input.mouse;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -11,7 +11,8 @@ import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResults;
 import java.util.logging.Logger;
 import intopark.Gamestate;
-import static intopark.inputhandler.ClickingModes.TERRAIN;
+import intopark.input.SetClickModeEvent;
+import static intopark.input.mouse.ClickingModes.TERRAIN;
 import intopark.ride.RideManager;
 import intopark.shops.ShopManager;
 import intopark.terrain.ParkHandler;
@@ -106,6 +107,6 @@ public class ClickingHandler {
 
     @Subscribe
     public void listenSetClickModeEvent(SetClickModeEvent event){
-        clickMode=event.clickmode;
+        setClickMode(event.clickmode);
     }
 }

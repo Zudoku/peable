@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package intopark.inputhandler;
+package intopark.input;
 
 import com.google.inject.Singleton;
 import com.jme3.math.Vector3f;
