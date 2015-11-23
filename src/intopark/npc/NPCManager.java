@@ -12,6 +12,8 @@ import com.google.inject.Singleton;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import intopark.inout.Identifier;
+import intopark.npc.events.CreateGuestEvent;
 import intopark.npc.events.NPCLeaveEvent;
 import intopark.npc.inspector.Inspector;
 import intopark.npc.inspector.InspectorManager;
@@ -31,6 +33,7 @@ public class NPCManager {
     //DEPENDENCIES
     @Inject private GuestSpawner guestSpawner;
     private InspectorManager inspectorManager;
+    private Identifier identifier;
     //VARIABLES
     private List<BasicNPC> npcs;
     private List<Guest> guests=new ArrayList<>();
@@ -46,9 +49,10 @@ public class NPCManager {
      * @param eventBus EventBus
      */
     @Inject
-    public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus, InspectorManager inspectorManager){
+    public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus, InspectorManager inspectorManager,Identifier identifier){
         this.rootNode=rootNode;
         this.inspectorManager=inspectorManager;
+        this.identifier = identifier;
         inspectorManager.setnPCManager(this);
         NPCNode=new Node("NPCNode");
         rootNode.attachChild(NPCNode);
@@ -112,7 +116,7 @@ public class NPCManager {
             }
         }
         NPCNode.detachChild(npc.getGeometry());
-        
+
     }
     /**
      * Used by LoadManager when loading a game.
@@ -152,7 +156,18 @@ public class NPCManager {
         leavingNPCs.add(event.getNpcLeaving());
         logger.log(Level.FINER,"NPC {0} has left the park.",event.getNpcLeaving().toString());
     }
-
+    /**
+     * This will create a new Guest from the parameters from the event.
+     * All guest creations should be done using this!
+     * @param event
+     */
+    @Subscribe public void listenCreateGuestsEvent(CreateGuestEvent event){
+        attachToNPCNode(event.g.getGeometry());
+        identifier.addOldObject(event.g.getID(), event.g);
+        guests.add(event.g);
+        npcs.add(event.g);
+        logger.log(Level.FINEST, "Guest {0}, initialized!",event.g.getName());
+    }
     public void setNpcs(List<BasicNPC> npcs) {
         this.npcs = npcs;
         guestSpawner.setNpcs(npcs);

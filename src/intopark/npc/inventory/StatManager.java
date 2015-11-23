@@ -18,10 +18,12 @@ public class StatManager {
     private int thirst=0;
     private int happyness=0;
     private RideType preferredRide;
+    private double size;
+    private double walkingSpeed;
     private  transient Random r = new Random();
-    
+
     public StatManager(){
-        
+
     }
     public void update(){
         int emote=r.nextInt(2);
@@ -42,19 +44,19 @@ public class StatManager {
                         return;
                     }
                     thirst++;
-                    
-                        
-                    
+
+
+
                 }
             case 2:
                 if(r.nextInt(90)==1&&happyness!=100){
                     if(happyness<25){
                         currentEmote= GuestEmotions.MAD;
-                        
+
                     }
                     if(happyness>=90){
                         currentEmote= GuestEmotions.HAPPY;
-                        
+
                     }
                     happyness--;
                     if(happyness<0){
@@ -67,12 +69,14 @@ public class StatManager {
         hunger=r.nextInt(100);
         thirst=r.nextInt(100);
         happyness=r.nextInt(100);
+        walkingSpeed = 0.5d + r.nextDouble() ;
+        size = 0.75d + r.nextDouble()/2 ;
         int u=r.nextInt(2);
         switch(u){
             case 0:
                 preferredRide= RideType.MEDIUM;
                 break;
-                
+
             case 1:
                 if(r.nextInt(1)==1){
                     preferredRide= RideType.HIGH;
@@ -80,7 +84,7 @@ public class StatManager {
                     preferredRide= RideType.LOW;
                 }
                 break;
-                
+
             case 2:
                 if(r.nextInt(1)==1){
                     preferredRide= RideType.CRAZY;
@@ -89,9 +93,9 @@ public class StatManager {
                 }
                 break;
         }
-        
+
     }
-    
+
     public GuestEmotions getCurrentEmote(){
         return currentEmote;
     }
@@ -131,5 +135,22 @@ public class StatManager {
     public void setThirst(int thirst) {
         this.thirst = thirst;
     }
-    
+
+    public double getSize() {
+        return size;
+    }
+
+    public void setWalkingSpeed(double walkingSpeed) {
+        this.walkingSpeed = walkingSpeed;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
+    }
+
+    public double getWalkingSpeed() {
+        return walkingSpeed;
+    }
+
+
 }

@@ -8,9 +8,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.math.Vector3f;
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.controls.CheckBox;
-import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.ListBox;
 import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.controls.TextField;
@@ -79,7 +77,7 @@ public class WindowHandler {
          * TAB 1
          */
         updateGuestNameText(guestwindow, guest.getName());
-        updateGuestAgeText(guestwindow, guest.getSize()==1?"adult":"child");
+        updateGuestAgeText(guestwindow, guest.getStats().getSize()>0.9?"adult":"child");
         updateGuestGenderText(guestwindow,guest.isMale()?"female":"male");
         updateGuestWalletText(guestwindow, guest.getWallet().toString());
         updateGuestPrefText(guestwindow,guest.getStats().getPreferredRide().toString());
@@ -370,7 +368,7 @@ public class WindowHandler {
         /**
          * TAB 4
          */
-        
+
         updateRideCustomersLifeText(rideWindow, ride.getCustomersTotal());
         updateRideCustomersInRideText(rideWindow, ride.getCustomersInRideSize());
 

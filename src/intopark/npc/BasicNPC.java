@@ -4,12 +4,14 @@
  */
 package intopark.npc;
 
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import sun.misc.FloatingDecimal;
 
 /**
  *
@@ -24,13 +26,15 @@ public class BasicNPC {
     protected Direction moving = Direction.NORTH; //What direction NPC is moving.
     private String name;
     private transient Spatial object;
+    protected double walkingSpeed;
     protected int ID;
 
-    public BasicNPC(String name, Spatial object,int ID,MapPosition position) {
+    public BasicNPC(String name, Spatial object,double walkingspeed,int ID,MapPosition position) {
         this.name = name;
         this.object = object;
         this.ID=ID;
         this.position= position;
+        this.walkingSpeed = walkingspeed;
     }
 
     public void update() {
@@ -46,27 +50,12 @@ public class BasicNPC {
         float tarx = 0;
         float tary = 0;
         float tarz = 0;
-        //x
-        if (-(object.getWorldTranslation().x - action.getMovePoint().getAllX()) > 0) {
-            tarx = (0.02f);
-        }
-        if (-(object.getWorldTranslation().x - action.getMovePoint().getAllX()) < 0) {
-            tarx = (-0.02f);
-        }
-        //y
-        if (-(object.getWorldTranslation().y - action.getMovePoint().getAllY()) > 0) {
-            tary = (0.02f);
-        }
-        if (-(object.getWorldTranslation().y - action.getMovePoint().getAllY()) < 0) {
-            tary = (-0.02f);
-        }
-        //z
-        if (-(object.getWorldTranslation().z - action.getMovePoint().getAllZ()) > 0) {
-            tarz = (0.02f);
-        }
-        if (-(object.getWorldTranslation().z - action.getMovePoint().getAllZ()) < 0) {
-            tarz = (-0.02f);
-        }
+
+
+        tarx = (float) calculateWhereToMove(object.getWorldTranslation().x,action.getMovePoint().getAllX(),action.getMovePoint().getVector());
+        tary = (float) calculateWhereToMove(object.getWorldTranslation().y,action.getMovePoint().getAllY(),action.getMovePoint().getVector());
+        tarz = (float) calculateWhereToMove(object.getWorldTranslation().z,action.getMovePoint().getAllZ(),action.getMovePoint().getVector());
+
 
         object.move(tarx,tary,tarz);
 
@@ -77,6 +66,28 @@ public class BasicNPC {
         }
 
 
+    }
+    private double calculateWhereToMove(float npcCoordinate, float actionCoordinate,Vector3f actionMovepoint){
+
+        double worldWalkingSpeed = (walkingSpeed / 100)/5 ;
+
+        if (npcCoordinate - actionCoordinate < 0) {
+            if(actionMovepoint.distance(object.getWorldTranslation())<worldWalkingSpeed){
+                //Float distanceToMove = new Float(-(npcCoordinate- actionCoordinate)); CAUSES JITTER :X
+                return 0;//new FloatingDecimal(distanceToMove.floatValue()).doubleValue();
+            }else{
+                return worldWalkingSpeed;
+            }
+        }else if(npcCoordinate- actionCoordinate > 0){
+            if(actionMovepoint.distance(object.getWorldTranslation())<worldWalkingSpeed){
+                //Float distanceToMove = new Float(-(npcCoordinate- actionCoordinate));
+                return 0;//new FloatingDecimal(distanceToMove.floatValue()).doubleValue();
+            }else{
+                return -worldWalkingSpeed;
+            }
+        }else {
+            return 0d;
+        }
     }
     /**
      * GETTERS AND SETTERS

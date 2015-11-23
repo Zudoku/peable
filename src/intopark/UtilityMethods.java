@@ -24,6 +24,9 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import intopark.roads.RoadGraph;
 import intopark.roads.Walkable;
+import java.awt.Graphics2D;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.logging.Level;
@@ -48,7 +51,8 @@ public class UtilityMethods {
 
     //VARIABLES
     public static float HALFTILE=0.49999f;
-    public static String programTitle="Into Park 0.05A";
+    public static String currentVersion = "7";
+    public static String programTitle="Into Park Version "+currentVersion;
 
     @Inject
     public UtilityMethods(Camera cam,InputManager inputManager,AssetManager assetManager,Node rootNode,EventBus eventBus) {
@@ -170,7 +174,26 @@ public class UtilityMethods {
              }
 
          }
-         return foundSpatial;
-     }
+        return foundSpatial;
+    }
 
+    public static BufferedImage rotate(BufferedImage image, double angle) {
+        double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
+        int w = image.getWidth(), h = image.getHeight();
+        int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h * cos + w * sin);
+        GraphicsConfiguration gc = getDefaultConfiguration();
+        BufferedImage result = gc.createCompatibleImage(neww, newh, Transparency.TRANSLUCENT);
+        Graphics2D g = result.createGraphics();
+        g.translate((neww - w) / 2, (newh - h) / 2);
+        g.rotate(angle, w / 2, h / 2);
+        g.drawRenderedImage(image, null);
+        g.dispose();
+        return result;
+    }
+
+    public static GraphicsConfiguration getDefaultConfiguration() {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        return gd.getDefaultConfiguration();
+    }
 }

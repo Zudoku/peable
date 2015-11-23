@@ -43,19 +43,16 @@ public class Guest extends BasicNPC {
     private transient boolean active = true; //Is guest active AKA is he on ride? is he allowed to move
     private  transient long joinedRide;
     private boolean male;
-    private int size=1;//0=SHORT //1=NORMAL
     private RideColor color= RideColor.BLUE;
 
-    public Guest(Wallet wallet, int ID, Direction moving,MapPosition position, StatManager stats, Spatial geom, String name,ParkHandler parkHandler) {
-        super(name, geom,ID,position);
+    public Guest(Wallet wallet, int ID,double walkingSpeed, Direction moving,MapPosition position, StatManager stats, Spatial geom, String name,ParkHandler parkHandler) {
+        super(name, geom,walkingSpeed,ID,position);
         this.parkHandler=parkHandler;
         this.moving = moving;
         this.stats = stats;
         this.wallet = wallet;
         r = new Random();
-        if(size==0){
-            super.getGeometry().setLocalScale(0.5f);
-        }
+        super.getGeometry().setLocalScale((float) this.stats.getSize());
         super.getGeometry().setLocalTranslation(position.getVector());
         super.getGeometry().setUserData("type","guest");
         super.getGeometry().setUserData("ID",ID);
@@ -290,7 +287,7 @@ public class Guest extends BasicNPC {
         }else if(place instanceof BasicShop){
 
 
-            
+
             return false;
         }else{
             throw new IllegalArgumentException("Given Object not Shop or Ride. Can't rate if "+this.toString()+" wants to go there.");
@@ -410,10 +407,6 @@ public class Guest extends BasicNPC {
     }
     public RideColor getColor() {
         return color;
-    }
-
-    public int getSize() {
-        return size;
     }
 
     public boolean isMale() {

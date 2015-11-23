@@ -4,9 +4,11 @@
  */
 package intopark.input;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Singleton;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -19,6 +21,7 @@ public class CameraController {
     private static final Logger logger = Logger.getLogger(CameraController.class.getName());
     //DEPENDENCIES
     private final Camera camera;
+    private EventBus eventBus;
     //VARIABLES
     private static float MOVESPEED=0.15f; // Speed that the camera moves
     private static double ROTATESPEED=0.02; //Speed that te camera rotates
@@ -29,14 +32,16 @@ public class CameraController {
     private float cameraCenterZ=5; //Camera offset Z - Also the coordinate which the camera looks at.
     private float cameraCenterY=6; //Camera offset Y - Also the coordinate which the camera looks at.
 
-    public CameraController(Camera camera){
+    public CameraController(Camera camera,EventBus eventBus){
         this.camera=camera;
+        this.eventBus =eventBus;
         refreshCamera();
     }
     public void onTurnCamera(boolean right){
 
         turnCamera(right);
         refreshCamera();
+        eventBus.post(new CameraTurnedEvent(getCameraCompass()));
     }
     private void refreshCamera(){
         checkBoundaries(new Vector3f(cameraCenterX,cameraCenterY,cameraCenterZ));
@@ -80,6 +85,7 @@ public class CameraController {
         x+=cameraCenterX;
         z+=cameraCenterZ;
 
+
         return new Vector3f((float)x,cameraHeight,(float)z);
     }
     public void moveUp(){
@@ -117,6 +123,33 @@ public class CameraController {
     public void initialize(){
         alpha=Math.PI; //180 degrees
         refreshCamera();
+    }
+    /**
+     * MAGIC! :D
+     * @return cameras compass angle in degrees
+     */
+    public double getCameraCompass(){
+        Vector3f cameraDir=camera.getDirection();
+        double translated_x = cameraDir.x / cameraDir.y;
+        double translated_y = cameraDir.z / cameraDir.y;
+
+        double side_a = 1d;
+        double side_b = Math.sqrt(translated_x*translated_x + translated_y*translated_y); //Pythagoras theory
+        double side_c = Math.sqrt((Math.abs(translated_y)+1d)*(Math.abs(translated_y)+1d) + translated_x * translated_x);
+
+        double angle = Math.acos((side_a*side_a + side_b*side_b - side_c*side_c) / (2 * side_a * side_b ));
+                        //cos-1 ((side_a^2 + side_b^2-side_c^2)/2ab)
+
+        angle = Math.toDegrees(angle);
+
+        if(translated_x > 0){
+            angle =180+(180-angle);
+        }
+        angle -=90;
+        if(translated_y > 0){
+            angle =180 + (180-angle);
+        }
+        return angle;
     }
 
 

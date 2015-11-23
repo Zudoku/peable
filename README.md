@@ -53,7 +53,6 @@ so asking me what it means is recommended so that you don't waste your time.
 - Rotate decorations [4]
 - Lower and raise them [4]
 - Demolish decorations [4]
-- Demolish roads [2]
 - Demolish explosions/smoke [4]
 - Day/Night cycle [4]
 - Lights to rides so it looks cool in night [4]
@@ -65,7 +64,6 @@ so asking me what it means is recommended so that you don't waste your time.
 
 ###Architectural TODO-list###
 
-- Refactor listenCreate***Event's to be on right location. (Move them to right child-managers).
 - Change LoadPaths class to load filepaths from a separate file.
 - Redo window opening & closing interface
 
@@ -78,7 +76,6 @@ so asking me what it means is recommended so that you don't waste your time.
 - Roads can be built through terrain.
 - Ride price change slider has floating point rounding error.
 - Rides don't cost money.
-- Terrain appears to be blue when game is started.
 - Placing objects out of map can cause it to crash.
 - Terrain editor drag sometimes frees.
 - Guests walk underground when climbing up roads.

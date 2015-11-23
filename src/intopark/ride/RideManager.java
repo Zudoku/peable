@@ -5,6 +5,7 @@
 package intopark.ride;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.light.Light;
@@ -29,6 +30,7 @@ import intopark.terrain.MapContainer;
 import intopark.util.Direction;
 import intopark.terrain.ParkHandler;
 import intopark.terrain.events.AddToBlockingMapEvent;
+import intopark.terrain.events.RideDemolishEvent;
 import intopark.util.MapPosition;
 
 /**
@@ -214,7 +216,40 @@ public class RideManager implements NeedMouse,ClickModeManager{
     public void onCursorHover(MouseContainer container) {
 
     }
-
+    /**
+     * This will demolish (remove it from the map) a ride contained in the event.
+     * @param event
+     */
+    @Subscribe public void listenRideDemolishEvent(RideDemolishEvent event){
+        event.getRide().detachFromNode(rideNode);
+        rides.remove(event.getRide());
+    }
+    /**
+     *
+     * @param event
+     */
+    @Subscribe
+    public void listenCreateRideEvent(CreateRideEvent event){
+        BasicRide ride = event.toRide();
+        Enterance enterance = event.getEnterance();
+        if(enterance != null){
+            attachToRideNode(enterance.getObject());
+            identifier.addOldObject(enterance.getID(), enterance);
+        }
+        Enterance exit = event.getExit();
+        if(exit != null){
+            attachToRideNode(exit.getObject());
+            identifier.addOldObject(exit.getID(), exit);
+        }
+        identifier.addOldObject(ride.getID(), ride);
+        rides.add(ride);
+        attachToRideNode(ride);
+        reserveSpace(ride);
+        for(Spatial spatial:ride.getAllSpatialsFromRide(false)){
+            spatial.setUserData("type","ride");
+            spatial.setUserData("ID",ride.getID());
+        }
+    }
     @Override
     public void onSelection() {
     }

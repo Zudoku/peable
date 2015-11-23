@@ -77,6 +77,7 @@ public class TerrainHandler implements NeedMouse,ClickModeManager{
         for (int x = 0; x < 128 * 128; x++) {
             bufferReal.put(x * 3 + 2, (byte) 128);
         }
+        drawBrush(128,128);
         eventBus.register(this);
     }
     /**

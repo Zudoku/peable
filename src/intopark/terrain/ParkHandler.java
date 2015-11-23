@@ -6,7 +6,6 @@ package intopark.terrain;
 
 import intopark.roads.RoadManager;
 import intopark.terrain.events.PayParkEvent;
-import intopark.terrain.events.RideDemolishEvent;
 import intopark.terrain.events.DeleteSpatialFromMapEvent;
 import com.google.common.eventbus.DeadEvent;
 import com.google.common.eventbus.EventBus;
@@ -27,23 +26,17 @@ import java.util.logging.Logger;
 import intopark.gameplayorgans.Scenario;
 import intopark.inout.Identifier;
 import intopark.npc.BasicNPC;
-import intopark.npc.events.CreateGuestEvent;
 import intopark.npc.Guest;
 import intopark.npc.NPCManager;
 import intopark.npc.events.SetGuestSpawnPointsEvent;
 import intopark.ride.BasicRide;
-import intopark.ride.CreateRideEvent;
-import intopark.ride.Enterance;
 import intopark.ride.RideManager;
 import intopark.roads.Road;
 import intopark.roads.RoadGraph;
 import intopark.roads.Walkable;
 import intopark.shops.BasicShop;
-import intopark.shops.CreateShopEvent;
-import intopark.shops.ShopDemolishEvent;
 import intopark.shops.ShopManager;
 import intopark.terrain.decoration.CreateParkEnteranceEvent;
-import intopark.terrain.events.AddToBlockingMapEvent;
 import intopark.terrain.events.AddToRootNodeEvent;
 import intopark.terrain.events.RefreshGroundEvent;
 import intopark.terrain.events.SetMapDataEvent;
@@ -167,26 +160,7 @@ public class ParkHandler {
         logger.warning(String.format("%s was NOT delivered to its correct destination!",event.getEvent().toString()));
 
     }
-    /**
-     * This will demolish (remove it from the map) a ride contained in the event.
-     * @param event
-     */
-    @Subscribe public void listenRideDemolishEvent(RideDemolishEvent event){
-        Node rideNode=(Node)rootNode.getChild("rideNode");
-        event.getRide().detachFromNode(rideNode);
-        event.getRide().detachFromNode(rootNode);
-        rides.remove(event.getRide());
-    }
-    /**
-     * This will demolish (remove it from the map) a shop contained in the event.
-     * @param event
-     */
-    @Subscribe public void listenShopDemolishEvent(ShopDemolishEvent event){
-        Node shopNode=(Node)rootNode.getChild("shopNode");
-        shopNode.detachChild(event.getShop().getObject());
-        rootNode.detachChild(event.getShop().getObject());
-        getShops().remove(event.getShop());
-    }
+
     /**
      * This will add a payment to players wallet
      * @param event contains the amount the player gets
@@ -234,56 +208,7 @@ public class ParkHandler {
             rootNode.addLight((Light)event.spatial);
         }
     }
-    /**
-     * This will create a new Guest from the parameters from the event.
-     * All guest creations should be done using this!
-     * @param event
-     */
-    @Subscribe public void listenCreateGuestsEvent(CreateGuestEvent event){
-        npcManager.attachToNPCNode(event.g.getGeometry());
-        identifier.addOldObject(event.g.getID(), event.g);
-        guests.add(event.g);
-        npcs.add(event.g);
-        logger.log(Level.FINEST, "Guest {0}, initialized!",event.g.getName());
-    }
-    /**
-     * This will create a new Shop from the parameters from the event.
-     * All shop creations should be done using this!
-     * @param event
-     */
-    @Subscribe public void listenCreateShopsEvent(CreateShopEvent event){
-        BasicShop shop=event.toShop();
-        identifier.addOldObject(shop.getID(),shop);
-        shops.add(shop);
-        shopManager.attachToShopNode(shop.getObject());
-        int ax=shop.getPosition().getX();
-        int ay=shop.getPosition().getY();
-        int az=shop.getPosition().getZ();
-        AddToBlockingMapEvent blockevent= new AddToBlockingMapEvent(shop.getID(), new int[]{ax,ay,az});
-        eventBus.post(blockevent);
-    }
 
-    @Subscribe public void listenCreateRideEvent(CreateRideEvent event){
-        BasicRide ride = event.toRide();
-        Enterance enterance = event.getEnterance();
-        if(enterance != null){
-            rideManager.attachToRideNode(enterance.getObject());
-            identifier.addOldObject(enterance.getID(), enterance);
-        }
-        Enterance exit = event.getExit();
-        if(exit != null){
-            rideManager.attachToRideNode(exit.getObject());
-            identifier.addOldObject(exit.getID(), exit);
-        }
-        identifier.addOldObject(ride.getID(), ride);
-        rides.add(ride);
-        rideManager.attachToRideNode(ride);
-        rideManager.reserveSpace(ride);
-        for(Spatial spatial:ride.getAllSpatialsFromRide(false)){
-            spatial.setUserData("type","ride");
-            spatial.setUserData("ID",ride.getID());
-        }
-    }
     /**
      * This will create a Park Enterance from the parameters from the event.
      * Usually called only once!

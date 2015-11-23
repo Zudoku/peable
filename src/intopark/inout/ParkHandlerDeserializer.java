@@ -88,10 +88,10 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             int y1=getI(jg,"y");
             int z1=getI(jg,"z");
             boolean male=getB(jg, "male");
-            int size=getI(jg, "size");
+            double walkingSpeed = getD(jg,"walkingSpeed");
             RideColor color=jdc.deserialize(jg.get("color"),RideColor.class);
             Spatial model=UtilityMethods.loadModel(LoadPaths.guest);
-            CreateGuestEvent event=new CreateGuestEvent(gw,inv,ID,dir,x1,y1,z1,sm,model,name,parkHandler,male,size,color);
+            CreateGuestEvent event=new CreateGuestEvent(gw,inv,ID,dir,x1,y1,z1,sm,model,name,parkHandler,male,walkingSpeed,color);
             eventBus.post(event);
         }
         logger.log(Level.FINER,"Deserializing terrain...");
@@ -216,6 +216,9 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
      */
     private float getF(JsonObject j,String name){
         return j.get(name).getAsFloat();
+    }
+    private double getD(JsonObject j,String name){
+        return j.get(name).getAsDouble();
     }
     /**
      * There needs to be light so that models in the Node are visible.

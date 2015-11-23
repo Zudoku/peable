@@ -44,6 +44,9 @@ import intopark.shops.BasicShop;
 import intopark.shops.BuildingSelectionEvent;
 import intopark.shops.ShopManager;
 import intopark.GUI.events.UpdateBuildingUIEvent;
+import intopark.UtilityMethods;
+import intopark.inout.LoadPaths;
+import intopark.input.CameraTurnedEvent;
 import static intopark.input.mouse.ClickingModes.DECORATION;
 import static intopark.input.mouse.ClickingModes.DEMOLITION;
 import static intopark.input.mouse.ClickingModes.NOTHING;
@@ -63,6 +66,10 @@ import intopark.roads.RoadManagerStatus;
 import intopark.terrain.TerrainHandler;
 import intopark.terrain.decoration.DecorationManager;
 import intopark.terrain.decoration.Decorations;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -703,6 +710,7 @@ public class IngameHUD implements ScreenController {
         roadHillReset();
         Element niftyElement = nifty.getCurrentScreen().findElementByName("roaddownhillimg");
         niftyElement.startEffect(EffectEventId.onCustom);
+        //niftyElement.set
     }
     public void buildButton() {
         roadManager.manualBuildRoadWrapper(roadManager.getStartingPosition(),true);
@@ -712,6 +720,29 @@ public class IngameHUD implements ScreenController {
     }
     public void roadModeButton(){
         roadManager.setStatus(RoadManagerStatus.AUTOMATIC);
+    }
+    @Subscribe
+    public void listenCameraTurnedEvent(CameraTurnedEvent event){
+        BufferedImage originalImage = null;
+        try {
+            originalImage = ImageIO.read(new File("C:\\Users\\arska\\workspace\\rctc\\assets\\Interface\\Roads\\up.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.log(Level.WARNING, "Couldn't load RoadImage.");
+            return;
+        }
+        BufferedImage modifiedImage = UtilityMethods.rotate(originalImage, Math.toRadians(event.getAngle()));
+        try {
+            File outputfile = new File(System.getProperty("java.io.tmpdir")+"IntoPark_road_up.png");
+            ImageIO.write(modifiedImage, "png", outputfile);
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Couldn't save RoadImage.");
+            return;
+        }
+        String tempImgPath = System.getProperty("java.io.tmpdir").toString()+"IntoPark_road_up.png";
+        NiftyImage img = nifty.getRenderEngine().createImage(nifty.getCurrentScreen(),tempImgPath, false);
+        Element niftyElement = nifty.getCurrentScreen().findElementByName("roadupimg");
+        niftyElement.getRenderer(ImageRenderer.class).setImage(img);
     }
     /*
      * ALL RELATED TO DECORATION UI.

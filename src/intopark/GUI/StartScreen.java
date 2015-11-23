@@ -121,4 +121,7 @@ public class StartScreen implements ScreenController {
     public void onLoadNewGameButton(){
         UtilityMethods.toggleVisibility(nifty,"newgamewindow");
     }
+    public String getCurrentVersion(){
+        return "Version "+ UtilityMethods.currentVersion+ "  ";
+    }
 }

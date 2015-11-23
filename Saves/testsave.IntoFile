@@ -16388,7 +16388,7 @@
     ]
   },
   "parkwallet": {
-    "money": 8920.0,
+    "money": 9700.0,
     "loan": 0.0
   },
   "rides": [],
@@ -16398,720 +16398,505 @@
       "inventory": [],
       "stats": {
         "currentEmote": "MAD",
-        "hunger": 69,
-        "thirst": 78,
-        "happyness": 20,
-        "preferredRide": "LOW"
+        "hunger": 57,
+        "thirst": 70,
+        "happyness": 0,
+        "preferredRide": "LOW",
+        "size": 1.0629050729900564,
+        "walkingSpeed": 1.204912826692929
       },
       "wallet": {
-        "money": 38.0
+        "money": 44.0
       },
-      "x": 7,
-      "y": 6,
-      "z": 1,
-      "guestnum": 1,
-      "moving": "WEST",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Susan Jackson"
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Jeff Anderson",
+      "walkingSpeed": 9.972852933561004,
+      "ID": 1
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 51,
+        "thirst": 100,
+        "happyness": 0,
+        "preferredRide": "MEDIUM",
+        "size": 1.0947307042657406,
+        "walkingSpeed": 0.5846635660568252
+      },
+      "wallet": {
+        "money": 39.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Adam Jones",
+      "walkingSpeed": 10.822137709297992,
+      "ID": 2
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 39,
+        "thirst": 100,
+        "happyness": 0,
+        "preferredRide": "LOW",
+        "size": 1.1900987116735051,
+        "walkingSpeed": 0.6018561462193802
+      },
+      "wallet": {
+        "money": 40.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Nancy Martinez",
+      "walkingSpeed": 7.190489698010462,
+      "ID": 3
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 53,
+        "thirst": 60,
+        "happyness": 1,
+        "preferredRide": "LOW",
+        "size": 0.8339200576021888,
+        "walkingSpeed": 1.4180498677404823
+      },
+      "wallet": {
+        "money": 54.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Ruth Garcia",
+      "walkingSpeed": 13.730785155673797,
+      "ID": 4
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 100,
+        "thirst": 100,
+        "happyness": 0,
+        "preferredRide": "MEDIUM",
+        "size": 1.0110897549937592,
+        "walkingSpeed": 0.9051359417433966
+      },
+      "wallet": {
+        "money": 40.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Barbara Young",
+      "walkingSpeed": 11.47299611269381,
+      "ID": 5
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 46,
+        "thirst": 100,
+        "happyness": 0,
+        "preferredRide": "LOW",
+        "size": 1.1654654815705017,
+        "walkingSpeed": 0.6086656171594371
+      },
+      "wallet": {
+        "money": 58.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Adam Thompson",
+      "walkingSpeed": 13.688473687782086,
+      "ID": 6
     },
     {
       "inventory": [],
       "stats": {
         "currentEmote": "HUNGRY",
         "hunger": 100,
-        "thirst": 90,
-        "happyness": 63,
-        "preferredRide": "MEDIUM"
-      },
-      "wallet": {
-        "money": 64.0
-      },
-      "x": 2,
-      "y": 6,
-      "z": 2,
-      "guestnum": 2,
-      "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Robert Young"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 38,
-        "thirst": 51,
-        "happyness": 62,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 57.0
-      },
-      "x": 1,
-      "y": 6,
-      "z": 2,
-      "guestnum": 3,
-      "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Helen Miller"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "MAD",
-        "hunger": 81,
-        "thirst": 10,
-        "happyness": 8,
-        "preferredRide": "LOW"
+        "thirst": 65,
+        "happyness": 28,
+        "preferredRide": "LOW",
+        "size": 1.0249925093321002,
+        "walkingSpeed": 1.0009002659812007
       },
       "wallet": {
         "money": 35.0
       },
-      "x": 5,
-      "y": 6,
-      "z": 2,
-      "guestnum": 4,
-      "moving": "SOUTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Michael Allen"
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Ed Brown",
+      "walkingSpeed": 11.883388720042557,
+      "ID": 7
     },
     {
       "inventory": [],
       "stats": {
         "currentEmote": "MAD",
-        "hunger": 74,
-        "thirst": 92,
-        "happyness": 0,
-        "preferredRide": "LOW"
+        "hunger": 13,
+        "thirst": 48,
+        "happyness": 2,
+        "preferredRide": "LOW",
+        "size": 1.2172966736099795,
+        "walkingSpeed": 0.5987016022080487
       },
       "wallet": {
-        "money": 42.0
+        "money": 37.0
       },
-      "x": 5,
-      "y": 6,
-      "z": 2,
-      "guestnum": 1,
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
       "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Mary Martin"
+      "name": "Bob Thomas",
+      "walkingSpeed": 9.802434224559164,
+      "ID": 8
     },
     {
       "inventory": [],
       "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 90,
-        "thirst": 61,
-        "happyness": 81,
-        "preferredRide": "MEDIUM"
-      },
-      "wallet": {
-        "money": 46.0
-      },
-      "x": 7,
-      "y": 6,
-      "z": 1,
-      "guestnum": 2,
-      "moving": "EAST",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Elisabeth Thompson"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "MAD",
-        "hunger": 98,
-        "thirst": 34,
-        "happyness": 0,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 44.0
-      },
-      "x": 5,
-      "y": 6,
-      "z": 2,
-      "guestnum": 3,
-      "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Laura Davis"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 65,
-        "thirst": 46,
-        "happyness": 72,
-        "preferredRide": "MEDIUM"
-      },
-      "wallet": {
-        "money": 44.0
-      },
-      "x": 3,
-      "y": 6,
-      "z": 2,
-      "guestnum": 4,
-      "moving": "SOUTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Jennifer Thomas"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 57,
-        "thirst": 36,
-        "happyness": 61,
-        "preferredRide": "MEDIUM"
-      },
-      "wallet": {
-        "money": 61.0
-      },
-      "x": 7,
-      "y": 6,
-      "z": 2,
-      "guestnum": 5,
-      "moving": "WEST",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Donald Thomas"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 45,
-        "thirst": 53,
-        "happyness": 69,
-        "preferredRide": "MEDIUM"
-      },
-      "wallet": {
-        "money": 62.0
-      },
-      "x": 2,
-      "y": 6,
-      "z": 2,
-      "guestnum": 1,
-      "moving": "SOUTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Maria Garcia"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 28,
-        "thirst": 67,
-        "happyness": 76,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 46.0
-      },
-      "x": 6,
-      "y": 6,
-      "z": 2,
-      "guestnum": 1,
-      "moving": "SOUTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Maria Moore"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 35,
-        "thirst": 65,
-        "happyness": 64,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 56.0
-      },
-      "x": 7,
-      "y": 6,
-      "z": 2,
-      "guestnum": 2,
-      "moving": "WEST",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Karen Clark"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "MAD",
-        "hunger": 44,
-        "thirst": 22,
-        "happyness": 1,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 56.0
-      },
-      "x": 5,
-      "y": 6,
-      "z": 2,
-      "guestnum": 3,
-      "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Nancy Jackson"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 81,
-        "thirst": 45,
-        "happyness": 78,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 61.0
-      },
-      "x": 5,
-      "y": 6,
-      "z": 2,
-      "guestnum": 4,
-      "moving": "SOUTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Matt Johnson"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "HAPPY",
-        "hunger": 34,
-        "thirst": 26,
-        "happyness": 87,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 46.0
-      },
-      "x": 7,
-      "y": 6,
-      "z": 1,
-      "guestnum": 5,
-      "moving": "EAST",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "William Smith"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 41,
-        "thirst": 100,
-        "happyness": 74,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 47.0
-      },
-      "x": 7,
-      "y": 6,
-      "z": 2,
-      "guestnum": 6,
-      "moving": "WEST",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Jason Johnson"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "HAPPY",
-        "hunger": 80,
-        "thirst": 80,
-        "happyness": 93,
-        "preferredRide": "MEDIUM"
-      },
-      "wallet": {
-        "money": 44.0
-      },
-      "x": 6,
-      "y": 6,
-      "z": 2,
-      "guestnum": 1,
-      "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Patricia Allen"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 48,
-        "thirst": 73,
-        "happyness": 61,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 47.0
-      },
-      "x": 7,
-      "y": 6,
-      "z": 2,
-      "guestnum": 2,
-      "moving": "WEST",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Will Lee"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 41,
-        "thirst": 100,
+        "currentEmote": "HUNGRY",
+        "hunger": 100,
+        "thirst": 75,
         "happyness": 71,
-        "preferredRide": "MEDIUM"
+        "preferredRide": "MEDIUM",
+        "size": 1.110559489486505,
+        "walkingSpeed": 1.0623779205847652
       },
       "wallet": {
-        "money": 58.0
+        "money": 47.0
       },
-      "x": 6,
-      "y": 6,
-      "z": 2,
-      "guestnum": 3,
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
       "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Kate King"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 25,
-        "thirst": 98,
-        "happyness": 57,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 60.0
-      },
-      "x": 4,
-      "y": 6,
-      "z": 2,
-      "guestnum": 4,
-      "moving": "SOUTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Robert Anderson"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 85,
-        "thirst": 45,
-        "happyness": 41,
-        "preferredRide": "MEDIUM"
-      },
-      "wallet": {
-        "money": 62.0
-      },
-      "x": 5,
-      "y": 6,
-      "z": 2,
-      "guestnum": 1,
-      "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Elisabeth White"
+      "name": "Edward Harris",
+      "walkingSpeed": 13.956705678047399,
+      "ID": 9
     },
     {
       "inventory": [],
       "stats": {
         "currentEmote": "MAD",
-        "hunger": 8,
+        "hunger": 37,
+        "thirst": 54,
+        "happyness": 0,
+        "preferredRide": "LOW",
+        "size": 1.0628899598673287,
+        "walkingSpeed": 1.071619737837418
+      },
+      "wallet": {
+        "money": 64.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Jack Thomas",
+      "walkingSpeed": 8.072486124590103,
+      "ID": 10
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 92,
+        "thirst": 94,
+        "happyness": 40,
+        "preferredRide": "LOW",
+        "size": 1.1681288520498807,
+        "walkingSpeed": 0.9164735683264371
+      },
+      "wallet": {
+        "money": 41.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Ken Lee",
+      "walkingSpeed": 11.990480232840433,
+      "ID": 11
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 83,
+        "thirst": 96,
+        "happyness": 5,
+        "preferredRide": "LOW",
+        "size": 0.9403992066575725,
+        "walkingSpeed": 1.2350339289580914
+      },
+      "wallet": {
+        "money": 46.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Robert Thomas",
+      "walkingSpeed": 8.927847569204431,
+      "ID": 13
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "MAD",
+        "hunger": 45,
         "thirst": 89,
-        "happyness": 23,
-        "preferredRide": "LOW"
+        "happyness": 20,
+        "preferredRide": "LOW",
+        "size": 0.8072945451167768,
+        "walkingSpeed": 1.1964259739133136
+      },
+      "wallet": {
+        "money": 54.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "John Wilson",
+      "walkingSpeed": 10.648203126177577,
+      "ID": 14
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "HAPPY",
+        "hunger": 45,
+        "thirst": 99,
+        "happyness": 88,
+        "preferredRide": "LOW",
+        "size": 0.9929580622835634,
+        "walkingSpeed": 1.156847020426461
+      },
+      "wallet": {
+        "money": 41.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Carol Wilson",
+      "walkingSpeed": 9.96756205720576,
+      "ID": 16
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 64,
+        "thirst": 23,
+        "happyness": 69,
+        "preferredRide": "MEDIUM",
+        "size": 0.9675608912378373,
+        "walkingSpeed": 0.9857010469067564
+      },
+      "wallet": {
+        "money": 55.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Lisa King",
+      "walkingSpeed": 12.157022546890946,
+      "ID": 17
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 97,
+        "thirst": 77,
+        "happyness": 28,
+        "preferredRide": "LOW",
+        "size": 1.148823837693407,
+        "walkingSpeed": 1.3006240460222673
+      },
+      "wallet": {
+        "money": 57.0
+      },
+      "male": false,
+      "color": "BLUE",
+      "position": {
+        "x": 6,
+        "y": 6,
+        "z": 0,
+        "offSetX": 0.0,
+        "offSetY": 0.0,
+        "offSetZ": 0.0
+      },
+      "moving": "NORTH",
+      "name": "Maria Williams",
+      "walkingSpeed": 13.185785880113535,
+      "ID": 18
+    },
+    {
+      "inventory": [],
+      "stats": {
+        "currentEmote": "NORMAL",
+        "hunger": 46,
+        "thirst": 44,
+        "happyness": 69,
+        "preferredRide": "LOW",
+        "size": 0.8211833095673187,
+        "walkingSpeed": 1.3981086285080682
       },
       "wallet": {
         "money": 39.0
       },
-      "x": 5,
-      "y": 6,
-      "z": 2,
-      "guestnum": 2,
-      "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "David Miller"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "HAPPY",
-        "hunger": 32,
-        "thirst": 34,
-        "happyness": 89,
-        "preferredRide": "MEDIUM"
-      },
-      "wallet": {
-        "money": 48.0
-      },
-      "x": 4,
-      "y": 6,
-      "z": 2,
-      "guestnum": 3,
-      "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Arnold Lee"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 94,
-        "thirst": 95,
-        "happyness": 37,
-        "preferredRide": "MEDIUM"
-      },
-      "wallet": {
-        "money": 53.0
-      },
-      "x": 7,
-      "y": 6,
-      "z": 2,
-      "guestnum": 4,
-      "moving": "WEST",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Jack Lee"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "NORMAL",
-        "hunger": 70,
-        "thirst": 15,
-        "happyness": 78,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 38.0
-      },
-      "x": 1,
-      "y": 6,
-      "z": 2,
-      "guestnum": 5,
-      "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Matt Anderson"
-    },
-    {
-      "inventory": [],
-      "stats": {
-        "currentEmote": "HAPPY",
-        "hunger": 35,
-        "thirst": 91,
-        "happyness": 90,
-        "preferredRide": "LOW"
-      },
-      "wallet": {
-        "money": 49.0
-      },
-      "x": 4,
-      "y": 6,
-      "z": 2,
-      "guestnum": 6,
-      "moving": "NORTH",
-	  "male": true,
-	  "size": 1,
-	  "color":"BLUE",
-      "name": "Lisa Williams"
-    }
-  ],
-  "roads": [
-    {
-      "roadhill": "FLAT",
-      "ID": 1,
-      "skin": 1,
-      "queRoad": false,
-      "direction": "NORTH",
-      "position": {
-        "x": 1,
-        "y": 6,
-        "z": 2,
-        "offSetX": 0.0,
-        "offSetY": 0.1,
-        "offSetZ": 0.0
-      }
-    },
-    {
-      "roadhill": "FLAT",
-      "ID": 2,
-      "skin": 1,
-      "queRoad": false,
-      "direction": "NORTH",
-      "position": {
-        "x": 2,
-        "y": 6,
-        "z": 2,
-        "offSetX": 0.0,
-        "offSetY": 0.1,
-        "offSetZ": 0.0
-      }
-    },
-    {
-      "roadhill": "FLAT",
-      "ID": 3,
-      "skin": 1,
-      "queRoad": false,
-      "direction": "NORTH",
-      "position": {
-        "x": 3,
-        "y": 6,
-        "z": 2,
-        "offSetX": 0.0,
-        "offSetY": 0.1,
-        "offSetZ": 0.0
-      }
-    },
-    {
-      "roadhill": "FLAT",
-      "ID": 4,
-      "skin": 1,
-      "queRoad": false,
-      "direction": "NORTH",
-      "position": {
-        "x": 4,
-        "y": 6,
-        "z": 2,
-        "offSetX": 0.0,
-        "offSetY": 0.1,
-        "offSetZ": 0.0
-      }
-    },
-    {
-      "roadhill": "FLAT",
-      "ID": 5,
-      "skin": 1,
-      "queRoad": false,
-      "direction": "NORTH",
-      "position": {
-        "x": 5,
-        "y": 6,
-        "z": 2,
-        "offSetX": 0.0,
-        "offSetY": 0.1,
-        "offSetZ": 0.0
-      }
-    },
-    {
-      "roadhill": "FLAT",
-      "ID": 6,
-      "skin": 1,
-      "queRoad": false,
-      "direction": "NORTH",
+      "male": false,
+      "color": "BLUE",
       "position": {
         "x": 6,
         "y": 6,
-        "z": 2,
-        "offSetX": 0.0,
-        "offSetY": 0.1,
-        "offSetZ": 0.0
-      }
-    },
-    {
-      "roadhill": "FLAT",
-      "ID": 7,
-      "skin": 1,
-      "queRoad": false,
-      "direction": "NORTH",
-      "position": {
-        "x": 7,
-        "y": 6,
-        "z": 2,
-        "offSetX": 0.0,
-        "offSetY": 0.1,
-        "offSetZ": 0.0
-      }
-    },
-    {
-      "roadhill": "FLAT",
-      "ID": 8,
-      "skin": 1,
-      "queRoad": false,
-      "direction": "WEST",
-      "position": {
-        "x": 7,
-        "y": 6,
-        "z": 1,
-        "offSetX": 0.0,
-        "offSetY": 0.1,
-        "offSetZ": 0.0
-      }
-    },
-    {
-      "roadhill": "FLAT",
-      "ID": 9,
-      "skin": 1,
-      "queRoad": false,
-      "direction": "WEST",
-      "position": {
-        "x": 7,
-        "y": 6,
         "z": 0,
         "offSetX": 0.0,
-        "offSetY": 0.1,
+        "offSetY": 0.0,
         "offSetZ": 0.0
-      }
+      },
+      "moving": "NORTH",
+      "name": "Linda Lee",
+      "walkingSpeed": 7.380933841461888,
+      "ID": 19
     }
   ],
+  "roads": [],
   "scenario": {
     "goal": "GUESTS",
     "enterancePos": {
       "x": 6,
-      "y": 5,
+      "y": 6,
       "z": 0,
-      "offSetX": 1.0,
-      "offSetY": 1.0,
+      "offSetX": 0.0,
+      "offSetY": 0.0,
       "offSetZ": 0.0
     },
     "enteranceYRotation": 1.570796,
@@ -17119,7 +16904,7 @@
     "shopID": 1,
     "mapHeight": 101,
     "mapWidth": 101,
-    "maxGuests": 30,
+    "maxGuests": 20,
     "parkName": "asd",
     "neededGuest": 20
   }

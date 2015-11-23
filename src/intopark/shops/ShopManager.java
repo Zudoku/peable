@@ -271,6 +271,15 @@ public class ShopManager implements NeedMouse,ClickModeManager{
     public void listenSetBufferEvent(SetClickingHandlerBufferEvent event){
         buffer=event.value;
     }
+    /**
+     * This will demolish (remove it from the map) a shop contained in the event.
+     * @param event
+     */
+    @Subscribe public void listenShopDemolishEvent(ShopDemolishEvent event){
+        shopNode.detachChild(event.getShop().getObject());
+        shops.remove(event.getShop());
+    }
+
     @Override
     public void onClick(MouseContainer container) {
         if (buffer == 0) {
@@ -304,7 +313,7 @@ public class ShopManager implements NeedMouse,ClickModeManager{
 
     @Override
     public void cleanUp() {
-        
+
     }
 
 }

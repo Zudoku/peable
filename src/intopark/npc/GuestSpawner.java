@@ -75,7 +75,7 @@ public class GuestSpawner {
         }
         //We choose random gender and height
         boolean male=r.nextBoolean();
-        int height=r.nextInt(1);
+        double walkingSpeed=(r.nextDouble()*4+3)*2;
         //We choose a random name
         String name;
         if(male){
@@ -105,7 +105,7 @@ public class GuestSpawner {
         int ID = identifier.reserveID();
         //Create an event and post it forward.
         CreateGuestEvent event=new CreateGuestEvent(wallet,new ArrayList<Item>(),ID,
-        Direction.NORTH,pos.getX(),pos.getY(),pos.getZ(),stats, geom, name,parkHandler,male,height,color);
+        Direction.NORTH,pos.getX(),pos.getY(),pos.getZ(),stats, geom, name,parkHandler,male,walkingSpeed,color);
         eventBus.post(event);
 
     }
@@ -148,5 +148,5 @@ public class GuestSpawner {
     public List<Guest> getGuests() {
         return guests;
     }
-    
+
 }

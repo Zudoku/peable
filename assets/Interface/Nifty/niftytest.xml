@@ -22,7 +22,7 @@
                 </control>
                 <control id="alphatestmessage"name="label"  color="#ffff" text="PLEASE NOTE THAT THIS IS PRE-ALPHA!" x="5"y="36"/>
                 <control id="Author"name="label" font="Interface/Fonts/Impact.fnt"text="Made by Arttu Siren" x="5"y="10" color="#f55f"/>
-                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="Version 0.06A" x="150"y="10" color="#EBB9C2"/>
+                <control id="Version"name="label" font="Interface/Fonts/Impact.fnt"text="${CALL.getCurrentVersion()}" x="150"y="10" color="#EBB9C2"/>
             </panel>
             <control id="newgamewindow" name="window"title=" "width="400"height="500"x="10"y="100"hideOnClose="true"closeable="true">
                 <panel x="0"y="0"id="negamepanel"valign="top"align="left"height="100%" width="100%" backgroundColor="#C4F590" childLayout="absolute"visibleToMouse="true">

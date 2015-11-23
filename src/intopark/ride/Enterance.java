@@ -38,6 +38,9 @@ public class Enterance implements Savable{
         this.location=location;
         this.direction=direction;
         this.eventBus=eventBus;
+
+        this.location.setOffSetY(this.location.getOffSetY() + 0.1f);
+
         if(exit==true){
             object=UtilityMethods.loadModel(LoadPaths.rideExit);
         }

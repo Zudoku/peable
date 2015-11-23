@@ -50,7 +50,7 @@ public class UserInput {
     @Inject
     public UserInput(Node rootNode, InputManager inputManager, Camera cam, ClickingHandler clickingHandler,EventBus eventBus) {
         this.inputManager = inputManager;
-        cameraController = new CameraController(cam);
+        cameraController = new CameraController(cam,eventBus);
         initControls(); //Get players own controls customisation mappings
         inputManager.setCursorVisible(true); //Set cursor visible
         analogListener=new MyAnalogListener(cameraController,clickingHandler,inputManager); //Controls analog input

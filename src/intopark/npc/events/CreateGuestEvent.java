@@ -27,8 +27,8 @@ public class CreateGuestEvent {
     }
 
     public CreateGuestEvent(Wallet wallet, List<Item> inv, int guestNum, Direction moving, int x1, int y1, int z1,
-            StatManager stats, Spatial model, String name, ParkHandler ph, boolean male, int height, RideColor color) {
-        g = new Guest(wallet, guestNum, moving, new MapPosition(x1, y1, z1), stats, model, name, ph);
+            StatManager stats, Spatial model, String name, ParkHandler ph, boolean male,double walkingSpeed, RideColor color) {
+        g = new Guest(wallet, guestNum,walkingSpeed, moving, new MapPosition(x1, y1, z1), stats, model, name, ph);
         g.setInventory(inv);
         /*TEMP FIX*/
         if (moving == null) {

@@ -83,7 +83,7 @@ public class SaveAndLoadTest {
         Mockito.stub(rm.getRoadGraph()).toReturn(new RoadGraph());
         ph.setRoadMaker(rm);
         //NPCMANAGER
-        NPCManager npcm=new NPCManager(new Node(""),null,bus,null);
+        NPCManager npcm=new NPCManager(new Node(""),null,bus,null,new Identifier());
         ph.setNpcManager(npcm);
         //SHOPMANAGER
         ShopManager sm=new ShopManager(new Node(""), null, bus,null);
@@ -118,7 +118,7 @@ public class SaveAndLoadTest {
         ph2.setIdentifier(new Identifier());
         Node node2=new Node("");
         //NPCMANAGER
-        npcm=new NPCManager(new Node(""),null,bus,null);
+        npcm=new NPCManager(new Node(""),null,bus,null,new Identifier());
         ph2.setNpcManager(npcm);
         //SHOPMANAGER
         sm=new ShopManager(new Node(""), null, bus,null);
@@ -157,7 +157,7 @@ public class SaveAndLoadTest {
 
         assertEquals(g1.isMale(), g2.isMale());
         assertEquals(g1.getColor(), g2.getColor());
-        assertEquals(g1.getSize(), g2.getSize());
+        assertEquals(g1.getStats().getSize(), g2.getStats().getSize());
 
         //TEST IF SHOP-DATA IS SAVED
         BasicShop s1=ph.getShops().get(0); //IF TEST DIES HERE, IT MEANS THAT IT WASNT SAVED AT ALL

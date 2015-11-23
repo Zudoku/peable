@@ -22,8 +22,8 @@ public class Inspector extends BasicNPC{
     private BasicRide targetRide;
     private float paidAmount;
     private boolean inspected;
-    public Inspector(String name, Spatial object,int ID,MapPosition position,BasicRide targetRide,float paidAmount) {
-        super(name, object,ID,position);
+    public Inspector(String name, Spatial object,int ID,double walkingSpeed,MapPosition position,BasicRide targetRide,float paidAmount) {
+        super(name, object,walkingSpeed,ID,position);
         this.targetRide = targetRide;
         this.paidAmount = paidAmount;
         super.getGeometry().setLocalTranslation(position.getVector());

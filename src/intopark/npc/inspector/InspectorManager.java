@@ -69,6 +69,7 @@ public class InspectorManager {
                 GraphPath path = pathfind.getPath();
                 if (path == null) {
                     logger.log(Level.FINEST, "Inspector {0} can't find path because there is no valid path to the destination.");
+                    return;
                 }
                 MapPosition lastPosition = null;
                 for (Object e : path.getEdgeList()) {
@@ -119,7 +120,7 @@ public class InspectorManager {
         //Create new Inspector
         Spatial model = UtilityMethods.getDebugBoxSpatial(0.2f, ColorRGBA.randomColor());//UtilityMethods.loadModel(LoadPaths.inspector); //Load up 3D-model
         int ID = identifier.reserveID();
-        Inspector newInspector = new Inspector("Test_Inspector",model, ID,new MapPosition(spawnPoint),event.getRideToInspect(),event.isPaid()?event.getPaidAmount():0f);
+        Inspector newInspector = new Inspector("Test_Inspector",model,ID,10,new MapPosition(spawnPoint),event.getRideToInspect(),event.isPaid()?event.getPaidAmount():0f);
         CreateInspectorEvent inspectorEvent = new CreateInspectorEvent(newInspector);
         eventBus.post(inspectorEvent);
     }
