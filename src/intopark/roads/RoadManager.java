@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import intopark.GUI.events.UpdateMoneyTextBarEvent;
-import intopark.GUI.events.UpdateRoadDirectionEvent;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
 import intopark.gameplayorgans.ClickModeManager;
@@ -329,7 +327,6 @@ public class RoadManager implements NeedMouse,ClickModeManager{
             return;
         }
         parkHandler.getParkWallet().remove(10);
-        eventBus.post(new UpdateMoneyTextBarEvent());
         logger.log(Level.FINEST,"Road added succesfully to {0}",event.getRoad().getVector3f());
     }
 
@@ -415,7 +412,6 @@ public class RoadManager implements NeedMouse,ClickModeManager{
      */
     public void turnLeft() {
         direction = direction.turnLeft();
-        eventBus.post(new UpdateRoadDirectionEvent(direction));
         updateManualRoadDragging();
     }
     /**
@@ -423,7 +419,6 @@ public class RoadManager implements NeedMouse,ClickModeManager{
      */
     public void turnRight() {
         direction = direction.turnRight();
-        eventBus.post(new UpdateRoadDirectionEvent(direction));
         updateManualRoadDragging();
     }
 

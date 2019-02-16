@@ -13,7 +13,6 @@ import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Main;
 import intopark.UtilityMethods;
 import intopark.npc.Guest;
@@ -263,7 +262,6 @@ public class BasicRide {
         //Pay the ticket
         g.getWallet().pay(price);
         eventBus.post(new PayParkEvent(price));
-        eventBus.post(new UpdateMoneyTextBarEvent());
         //Add to statistics
         calculateguestRate();
         customerstotal++;
@@ -306,7 +304,6 @@ public class BasicRide {
 
         eventBus.post(new PayParkEvent(0.5f*constructionmoney));
         eventBus.post(new RideDemolishEvent(this));
-        eventBus.post(new UpdateMoneyTextBarEvent());
 
     }
     /**

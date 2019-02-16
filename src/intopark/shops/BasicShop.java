@@ -9,7 +9,6 @@ import com.google.inject.Inject;
 import com.jme3.scene.Spatial;
 import java.util.Random;
 import java.util.logging.Logger;
-import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.npc.events.AddGuestLimitEvent;
 import intopark.npc.Guest;
 import intopark.roads.BuildingEnterance;
@@ -79,7 +78,6 @@ public class BasicShop {
 
         eventBus.post(new ShopDemolishEvent(this));
         eventBus.post(new PayParkEvent(0.5f*constructionmoney));
-        eventBus.post(new UpdateMoneyTextBarEvent());
         
     }
     

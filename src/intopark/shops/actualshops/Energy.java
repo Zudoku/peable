@@ -6,7 +6,6 @@ package intopark.shops.actualshops;
 
 import com.google.common.eventbus.EventBus;
 import com.jme3.scene.Spatial;
-import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.npc.Guest;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.Itemtypes;
@@ -35,7 +34,6 @@ public class Energy extends BasicShop{
             guest.getInventory().add(new Item(productname, Itemtypes.DRINK,10));
             guest.getWallet().pay(price);
             eventBus.post(new PayParkEvent(price));
-            eventBus.post(new UpdateMoneyTextBarEvent());
         }
     }
 }

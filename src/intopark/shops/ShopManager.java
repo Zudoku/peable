@@ -4,7 +4,6 @@
  */
 package intopark.shops;
 
-import intopark.GUI.events.UpdateBuildingUIEvent;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import intopark.GUI.events.CloseWindowsEvent;
-import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
 import intopark.gameplayorgans.ClickModeManager;
@@ -113,7 +111,6 @@ public class ShopManager implements NeedMouse,ClickModeManager{
         eventBus.post(event);
         //
         parkHandler.getParkWallet().remove(constructionmoney);
-        eventBus.post(new UpdateMoneyTextBarEvent());
         resetShopdata();
 
     }
@@ -248,8 +245,6 @@ public class ShopManager implements NeedMouse,ClickModeManager{
         if(placeBuilding){
            activateplace();
            eventBus.post(new CloseWindowsEvent(""));
-        }else{
-            eventBus.post(new UpdateBuildingUIEvent(selectedBuilding));
         }
     }
     private void checkSelected(BasicBuildables b){

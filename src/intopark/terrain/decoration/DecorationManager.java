@@ -13,7 +13,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.logging.Logger;
-import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.Gamestate;
 import intopark.UtilityMethods;
 import intopark.gameplayorgans.ClickModeManager;
@@ -120,7 +119,6 @@ public class DecorationManager implements NeedMouse,ClickModeManager{
         int z1=(int)(loc.z+UtilityMethods.HALFTILE);
         decobject.setLocalTranslation(x1,y1,z1);
         eventBus.post(new PayParkEvent(price));
-        eventBus.post(new UpdateMoneyTextBarEvent());
         decorationNode.attachChild(decobject);
     }
     /**

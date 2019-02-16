@@ -16,7 +16,6 @@ import com.jme3.light.Light;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
-import intopark.GUI.events.UpdateMoneyTextBarEvent;
 import intopark.inout.LoadPaths;
 import intopark.UtilityMethods;
 import java.util.ArrayList;
@@ -107,7 +106,6 @@ public class ParkHandler {
         npcManager.setMaxGuests(getMaxGuests());
         shopManager.setShops(shops);
         //Update money counter
-        eventBus.post(new UpdateMoneyTextBarEvent());
         logger.log(Level.FINEST,"Configuring finished");
     }
     public void initializeSaving(){
