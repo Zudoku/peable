@@ -31,7 +31,6 @@ import intopark.util.Direction;
 import intopark.terrain.MapContainer;
 import intopark.util.MapPosition;
 import intopark.terrain.ParkHandler;
-import intopark.terrain.decoration.RotationEvent;
 
 /**
  *
@@ -390,21 +389,6 @@ public class RoadManager implements NeedMouse,ClickModeManager{
 
 
             logger.log(Level.FINEST, "Deleted old roadSpatial with ID {0}", id);
-        }
-    }
-
-    /**
-     * Listening on if the manual road tool should rotate
-     * @param event
-     */
-    @Subscribe
-    public void listenRotateEvent(RotationEvent event) {
-        if (event.getWho() == 1) {
-            if (event.getValue() == 1) {
-                turnRight();
-            } else {
-                turnLeft();
-            }
         }
     }
     /**

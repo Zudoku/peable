@@ -14,7 +14,6 @@ import intopark.UtilityMethods;
 import static intopark.input.mouse.ClickingModes.DECORATION;
 import static intopark.input.mouse.ClickingModes.PLACE;
 import static intopark.input.mouse.ClickingModes.ROAD;
-import intopark.terrain.decoration.RotationEvent;
 
 /**
  *
@@ -47,45 +46,6 @@ public class MyActionListener implements ActionListener {
                 if (results.size() > 0) {
                     clickingHandler.handleMouseClick(UserInput.getLeftMouse(name),x,z, results);
                 }
-            }
-        }
-        
-        if (name.equals("rotateRight")) {
-            if (isPressed) {
-                return;
-            }
-            switch (clickingHandler.getClickMode()) {
-                case DECORATION:
-                    eventBus.post(new RotationEvent(1, 0));
-                    break;
-
-                case PLACE:
-                    eventBus.post(new RotationEvent(1, 2));
-                    break;
-
-                case ROAD:
-                    eventBus.post(new RotationEvent(1, 1));
-                    break;
-
-
-            }
-        }
-        if (name.equals("rotateLeft")) {
-            if (isPressed) {
-                return;
-            }
-            switch (clickingHandler.getClickMode()) {
-                case DECORATION:
-                    eventBus.post(new RotationEvent(0, 0));
-                    break;
-
-                case PLACE:
-                    eventBus.post(new RotationEvent(0, 2));
-                    break;
-
-                case ROAD:
-                    eventBus.post(new RotationEvent(0, 1));
-                    break;
             }
         }
     }

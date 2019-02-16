@@ -12,10 +12,8 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import intopark.GUI.SelectionParticleEmitter;
 import intopark.input.UserInput;
 import intopark.npc.NPCManager;
-import intopark.ride.RideManager;
 import intopark.roads.RoadManager;
 import intopark.terrain.ParkHandler;
 import java.io.File;
@@ -33,10 +31,8 @@ public class Gamestate extends AbstractAppState {
     private  ParkHandler currentPark;
     private Main appm;
     @Inject private final LoadManager loadManager;
-    @Inject private SelectionParticleEmitter selectionEmitter;
     @Inject private NPCManager npcManager;
     @Inject private UserInput userInput;
-    @Inject private  RideManager rideManager;
     @Inject private RoadManager roadMaker;
 
     //VARIABLES
@@ -102,9 +98,7 @@ public class Gamestate extends AbstractAppState {
     @Override
     public void update(float tpf) {
         try{
-        selectionEmitter.updateSelection();
         npcManager.update();
-        rideManager.updateRides();
         userInput.update();
         roadMaker.update();
         }catch(Throwable t){

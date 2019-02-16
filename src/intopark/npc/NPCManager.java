@@ -15,8 +15,6 @@ import com.jme3.scene.Spatial;
 import intopark.inout.Identifier;
 import intopark.npc.events.CreateGuestEvent;
 import intopark.npc.events.NPCLeaveEvent;
-import intopark.npc.inspector.Inspector;
-import intopark.npc.inspector.InspectorManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -32,7 +30,6 @@ public class NPCManager {
     private static final Logger logger = Logger.getLogger(NPCManager.class.getName());
     //DEPENDENCIES
     @Inject private GuestSpawner guestSpawner;
-    private InspectorManager inspectorManager;
     private Identifier identifier;
     //VARIABLES
     private List<BasicNPC> npcs;
@@ -49,11 +46,9 @@ public class NPCManager {
      * @param eventBus EventBus
      */
     @Inject
-    public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus, InspectorManager inspectorManager,Identifier identifier){
+    public NPCManager(Node rootNode,AssetManager assetManager,EventBus eventBus, Identifier identifier){
         this.rootNode=rootNode;
-        this.inspectorManager=inspectorManager;
         this.identifier = identifier;
-        inspectorManager.setnPCManager(this);
         NPCNode=new Node("NPCNode");
         rootNode.attachChild(NPCNode);
         eventBus.register(this);
@@ -79,7 +74,6 @@ public class NPCManager {
      */
     public void update(){
         //TODO: REWORK THIS
-        inspectorManager.update();
         if(maxguests>npcs.size()){
             Random r =new Random();
             if(r.nextInt(900)<=maxguests/((guests.isEmpty())?1:guests.size())){
@@ -110,11 +104,7 @@ public class NPCManager {
                 guestSpawner.getGuests().remove((Guest)npc);
             }
         }
-        if(npc instanceof Inspector){
-            if(inspectorManager.getInspectorsOnWork().contains((Inspector)npc)){
-                inspectorManager.getInspectorsOnWork().remove((Inspector)npc);
-            }
-        }
+        
         NPCNode.detachChild(npc.getGeometry());
 
     }

@@ -13,13 +13,10 @@ import static intopark.npc.BasicNPC.logger;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
-import intopark.ride.BasicRide;
-import intopark.ride.RideColor;
 import intopark.roads.BuildingEnterance;
 import intopark.roads.Road;
 import intopark.roads.RoadGraph;
 import intopark.roads.Walkable;
-import intopark.shops.BasicShop;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
 import intopark.terrain.ParkHandler;
@@ -43,7 +40,6 @@ public class Guest extends BasicNPC {
     private transient boolean active = true; //Is guest active AKA is he on ride? is he allowed to move
     private  transient long joinedRide;
     private boolean male;
-    private RideColor color= RideColor.BLUE;
 
     public Guest(Wallet wallet, int ID,double walkingSpeed, Direction moving,MapPosition position, StatManager stats, Spatial geom, String name,ParkHandler parkHandler) {
         super(name, geom,walkingSpeed,ID,position);
@@ -196,25 +192,6 @@ public class Guest extends BasicNPC {
                 if(ent.getBuildingType()== BuildingEnterance.RIDE){
                     logger.log(Level.FINER, "Will not queue to ride because it has no queue");
                 }
-                else if(ent.getBuildingType()==BuildingEnterance.SHOP){
-                    BasicShop targetShop=null;
-                    Object object=parkHandler.getObjectWithID(ent.getID());
-                    if(object instanceof BasicShop){
-                        targetShop= (BasicShop)object;
-                    }
-                    if(targetShop!=null){
-                        if(doIWantToGoTo(targetShop)){
-                            /* Create buy action and walk back to original position */
-                            NPCAction action = new NPCAction(target.getPosition(), ActionType.BUY,this,targetShop,false);
-                            NPCAction action2 = getSimpleAction(current.getPosition());
-                            actions.add(action);
-                            actions.add(action2);
-                        }
-                    }else{
-                        /* buildingEnterance returned null shop. */
-                        logger.log(Level.WARNING,"fail, buildingEnterance returned null shop.");
-                    }
-                }
             }
 
 
@@ -231,18 +208,8 @@ public class Guest extends BasicNPC {
         int foundID = foundEnterance.getID();
         if (foundEnterance.getBuildingType() == BuildingEnterance.RIDE) {
             Object object = parkHandler.getObjectWithID(foundID);
-            if (!(object instanceof BasicRide)) {
-                //OH NO
-                logger.log(Level.SEVERE, "ID corruption when looking up ride.");
-                return;
-            }
-            BasicRide foundRide = (BasicRide) object;
-            boolean wantToGo = doIWantToGoTo(foundRide);
-            if (wantToGo) {
-                foundRide.tryToQueGuest(this);
-            }else{
-                logger.log(Level.FINEST,"Guest {0} doesn't want to go to ride {1}.",new Object[]{this.toString(),foundRide});
-            }
+            
+            
         } else if (foundEnterance.getBuildingType() == BuildingEnterance.SHOP) {
             //TODO: Do queue logic for shops
         }
@@ -280,18 +247,7 @@ public class Guest extends BasicNPC {
         walkToDirection(queueroad, moveDirection);
     }
     public boolean doIWantToGoTo(Object place){
-        if(place instanceof BasicRide){
-
-
-            return true;
-        }else if(place instanceof BasicShop){
-
-
-
-            return false;
-        }else{
-            throw new IllegalArgumentException("Given Object not Shop or Ride. Can't rate if "+this.toString()+" wants to go there.");
-        }
+        return false;
     }
     public void forceMove(MapPosition destination){
         actions.add(getSimpleAction(destination));
@@ -404,9 +360,6 @@ public class Guest extends BasicNPC {
     }
     public List<Item> getInventory() {
         return inventory;
-    }
-    public RideColor getColor() {
-        return color;
     }
 
     public boolean isMale() {

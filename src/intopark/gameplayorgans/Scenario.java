@@ -9,7 +9,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import intopark.Main;
 import intopark.util.MapPosition;
-import intopark.terrain.decoration.CreateParkEnteranceEvent;
 
 /**
  *
@@ -20,7 +19,6 @@ public class Scenario {
     //DEPENDENCIES
     @Inject private transient EventBus eventBus;
     //VARIABLES
-    private ScenarioGoal goal;
     private MapPosition enterancePos;
     private double enteranceYRotation;
     private int rideID;
@@ -32,18 +30,9 @@ public class Scenario {
     //GOAL POSSIBILITIES
     private int neededGuest;
 
-    /**
-     * Holds all kinds of meta-data from the scenario. This gets saved as JSON file. This class will be expanded to track park awards and such.
-     * @param goal
-     */
-    public Scenario(ScenarioGoal goal) {
-        this.goal = goal;
-
-    }
 
     public void setUp(){
         Main.injector.injectMembers(this);
-        eventBus.post(new CreateParkEnteranceEvent(enteranceYRotation, enterancePos)); // Create Park-Enterance
     }
 
     /*
@@ -65,14 +54,6 @@ public class Scenario {
 
     public double getEnteranceYRotation() {
         return enteranceYRotation;
-    }
-
-    public void setGoal(ScenarioGoal goal) {
-        this.goal = goal;
-    }
-
-    public ScenarioGoal getGoal() {
-        return goal;
     }
 
     public void setMapHeight(int mapHeight) {

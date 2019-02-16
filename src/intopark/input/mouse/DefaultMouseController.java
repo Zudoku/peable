@@ -10,8 +10,6 @@ import com.jme3.collision.CollisionResult;
 import com.jme3.scene.Node;
 import intopark.inout.Identifier;
 import intopark.npc.Guest;
-import intopark.ride.BasicRide;
-import intopark.shops.BasicShop;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -64,24 +62,11 @@ public class DefaultMouseController implements NeedMouse{
                     if (rootTarget.getUserData("type").equals("shop")) {
                         int ID=(int) rootTarget.getUserData("ID");
                         Object object = identifier.getObjectWithID(ID);
-                        if(!(object instanceof BasicShop)){
-                            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Shop",ID);
-                            return;
-                        }
-                        BasicShop shop = (BasicShop)object;
-                        logger.log(Level.FINEST, "Displaying Shopwindow for shop with id {0}", shop.getID());
                         return;
                     }
                     if (rootTarget.getUserData("type").equals("ride")||rootTarget.getUserData("type").equals("rideEnterance")) {
                         int ID=(int) rootTarget.getUserData("ID");
                         Object object = identifier.getObjectWithID(ID);
-                        if(!(object instanceof BasicRide)){
-                            logger.log(Level.SEVERE, "ID corruption. ID {0} should return Ride",ID);
-                            return;
-                        }
-                        BasicRide r=(BasicRide)object;
-
-                        logger.log(Level.FINEST, "Displaying Ridewindow for Ride with id {0}", r.getID());
                         return;
                     }
                 }

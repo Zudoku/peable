@@ -10,7 +10,6 @@ import java.util.List;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
-import intopark.ride.RideColor;
 import intopark.terrain.ParkHandler;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
@@ -27,7 +26,7 @@ public class CreateGuestEvent {
     }
 
     public CreateGuestEvent(Wallet wallet, List<Item> inv, int guestNum, Direction moving, int x1, int y1, int z1,
-            StatManager stats, Spatial model, String name, ParkHandler ph, boolean male,double walkingSpeed, RideColor color) {
+            StatManager stats, Spatial model, String name, ParkHandler ph, boolean male,double walkingSpeed) {
         g = new Guest(wallet, guestNum,walkingSpeed, moving, new MapPosition(x1, y1, z1), stats, model, name, ph);
         g.setInventory(inv);
         /*TEMP FIX*/

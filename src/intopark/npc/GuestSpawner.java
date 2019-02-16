@@ -23,7 +23,6 @@ import intopark.npc.events.SetGuestSpawnPointsEvent;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
-import intopark.ride.RideColor;
 import intopark.terrain.ParkHandler;
 import intopark.util.Direction;
 import intopark.util.MapPosition;
@@ -88,7 +87,6 @@ public class GuestSpawner {
         int num2 = r.nextInt(surName.size() - 1);
         name = name.concat(" ".concat(surName.get(num2)));
         //random shirt color
-        RideColor color=RideColor.values()[r.nextInt(RideColor.values().length-1)];
 
         //Semi-random money
         float money = r.nextInt(30);
@@ -105,7 +103,7 @@ public class GuestSpawner {
         int ID = identifier.reserveID();
         //Create an event and post it forward.
         CreateGuestEvent event=new CreateGuestEvent(wallet,new ArrayList<Item>(),ID,
-        Direction.NORTH,pos.getX(),pos.getY(),pos.getZ(),stats, geom, name,parkHandler,male,walkingSpeed,color);
+        Direction.NORTH,pos.getX(),pos.getY(),pos.getZ(),stats, geom, name,parkHandler,male,walkingSpeed);
         eventBus.post(event);
 
     }

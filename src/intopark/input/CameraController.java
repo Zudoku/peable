@@ -38,10 +38,8 @@ public class CameraController {
         refreshCamera();
     }
     public void onTurnCamera(boolean right){
-
         turnCamera(right);
         refreshCamera();
-        eventBus.post(new CameraTurnedEvent(getCameraCompass()));
     }
     private void refreshCamera(){
         checkBoundaries(new Vector3f(cameraCenterX,cameraCenterY,cameraCenterZ));

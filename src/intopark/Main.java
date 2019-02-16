@@ -12,7 +12,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 import java.util.logging.Logger;
 import intopark.GUI.StartScreen;
-import intopark.inout.events.LoadFileEvent;
+import intopark.inout.LoadFileEvent;
 import intopark.terrain.ParkHandler;
 import java.io.File;
 import java.util.logging.Level;

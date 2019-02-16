@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 import com.jme3.app.state.AbstractAppState;
 import intopark.Main;
 import intopark.UtilityMethods;
-import intopark.inout.events.LoadFileEvent;
+import intopark.inout.LoadFileEvent;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.logging.Level;

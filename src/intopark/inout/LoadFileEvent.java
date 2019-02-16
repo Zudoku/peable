@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package intopark.inout.events;
+package intopark.inout;
 
 import com.google.inject.Singleton;
 import java.io.File;

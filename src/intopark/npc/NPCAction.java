@@ -7,10 +7,8 @@ package intopark.npc;
 import com.google.common.eventbus.EventBus;
 import intopark.UtilityMethods;
 import intopark.npc.events.NPCLeaveEvent;
-import intopark.npc.inspector.Inspector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import intopark.shops.BasicShop;
 import intopark.util.MapPosition;
 
 /**
@@ -24,7 +22,6 @@ public class NPCAction {
     private ActionType action = ActionType.NOTHING;
     private boolean setPosition;
     private BasicNPC owner;
-    private BasicShop shop;
     /**
      * NPCs consume these actions
      * @param movePoint Where to move?
@@ -35,21 +32,6 @@ public class NPCAction {
     public NPCAction(MapPosition movePoint, ActionType action,BasicNPC owner,boolean setPosition) {
         this.movepoint = movePoint;
         this.action = action;
-        this.owner=owner;
-        this.setPosition = setPosition;
-    }
-    /**
-     * Buyaction constructor
-     * @param movePoint Where to move?
-     * @param action what kind of action?
-     * @param basicshop where to buy stuff?
-     * @param guest who completes this action?
-     * @param setPosition When this action completes, do you want to set the owners position to action movePoint.
-     */
-    public NPCAction(MapPosition movePoint, ActionType action,BasicNPC owner,BasicShop basicshop,boolean setPosition) {
-        this.movepoint = movePoint;
-        this.action = action;
-        this.shop=basicshop;
         this.owner=owner;
         this.setPosition = setPosition;
     }
@@ -64,11 +46,10 @@ public class NPCAction {
                 break;
 
             case BUY:
-                if(shop==null||owner==null ||!(owner instanceof Guest)){
+                if(owner==null ||!(owner instanceof Guest)){
                     logger.log(Level.WARNING,"NPCAction was corrupted when trying to consume it !");
                     return;
                 }
-                shop.interact((Guest)owner);
                 break;
 
             case CONSUME:
@@ -86,13 +67,6 @@ public class NPCAction {
                 break;
 
             case INSPECT:
-                if(owner==null ||!(owner instanceof Inspector)){
-                    logger.log(Level.WARNING,"NPCAction was corrupted when trying to consume it !");
-                    return;
-                }
-                Inspector inspector = (Inspector)owner;
-                inspector.inspect();
-                break;
             case EXIT:
                 //NPC is supposed to leave the park
                 NPCLeaveEvent npcleaveEvent = new NPCLeaveEvent(owner);
@@ -109,9 +83,5 @@ public class NPCAction {
     public MapPosition getMovePoint() {
 
         return movepoint;
-    }
-    public void buyAction(BasicShop shop,Guest guest){
-        this.owner=guest;
-        this.shop=shop;
     }
 }

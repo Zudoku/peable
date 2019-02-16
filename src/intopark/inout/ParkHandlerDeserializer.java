@@ -22,15 +22,9 @@ import intopark.npc.events.CreateGuestEvent;
 import intopark.npc.inventory.Item;
 import intopark.npc.inventory.StatManager;
 import intopark.npc.inventory.Wallet;
-import intopark.ride.CreateRideEvent;
-import intopark.ride.Enterance;
-import intopark.ride.RideColor;
 import intopark.roads.Road;
 import intopark.roads.RoadHill;
 import intopark.roads.events.CreateRoadEvent;
-import intopark.shops.BasicBuildables;
-import intopark.shops.CreateShopEvent;
-import intopark.shops.ShopReputation;
 import intopark.util.Direction;
 import intopark.terrain.MapContainer;
 import intopark.util.MapPosition;
@@ -89,72 +83,13 @@ public class ParkHandlerDeserializer implements JsonDeserializer<ParkHandler>{
             int z1=getI(jg,"z");
             boolean male=getB(jg, "male");
             double walkingSpeed = getD(jg,"walkingSpeed");
-            RideColor color=jdc.deserialize(jg.get("color"),RideColor.class);
             Spatial model=UtilityMethods.loadModel(LoadPaths.guest);
-            CreateGuestEvent event=new CreateGuestEvent(gw,inv,ID,dir,x1,y1,z1,sm,model,name,parkHandler,male,walkingSpeed,color);
+            CreateGuestEvent event=new CreateGuestEvent(gw,inv,ID,dir,x1,y1,z1,sm,model,name,parkHandler,male,walkingSpeed);
             eventBus.post(event);
         }
         logger.log(Level.FINER,"Deserializing terrain...");
         MapContainer map=jdc.deserialize(jo.get("map"),MapContainer.class);
         parkHandler.setMap(map);
-        //SHOPS
-        logger.log(Level.FINER,"Deserializing shops...");
-        JsonArray shopsarray = jo.get("shops").getAsJsonArray();
-        for(int x=0;x<shopsarray.size();x++){
-            final JsonObject sp = shopsarray.get(x).getAsJsonObject();
-            Direction dir=jdc.deserialize(sp.get("direction"),Direction.class);
-            MapPosition pos=jdc.deserialize(sp.get("position"),MapPosition.class);
-            int ID=getI(sp,"ID");
-            float cm=jdc.deserialize(sp.get("constructionmoney"),Float.class);
-            String prodname=getS(sp,"productname");
-            String shopname=getS(sp,"shopName");
-            float price=jdc.deserialize(sp.get("price"),Float.class);
-            ShopReputation sr=jdc.deserialize(sp.get("reputation"),ShopReputation.class);
-            String stype=getS(sp,"type");
-            CreateShopEvent event=new CreateShopEvent(stype,shopname,prodname,sr,price,cm,ID,pos,dir,eventBus);
-            eventBus.post(event);
-        }
-        //RIDES
-        JsonArray ridesarray = jo.get("rides").getAsJsonArray();
-        for(int x=0;x<ridesarray.size();x++){
-            final JsonObject rp = ridesarray.get(x).getAsJsonObject();
-
-            MapPosition pos=jdc.deserialize(rp.get("position"),MapPosition.class);
-            BasicBuildables ride=jdc.deserialize(rp.get("ride"),BasicBuildables.class);
-            Direction dir=jdc.deserialize(rp.get("direction"),Direction.class);
-            String name=getS(rp,"rideName");
-            int rideID=getI(rp,"rideID");
-            int broken=getI(rp,"broken");
-            int exitement=getI(rp,"exitement");
-            int nausea=getI(rp,"nausea");
-            boolean status=getB(rp,"status");
-            float price=getF(rp,"price");
-
-            //CONSTRUCT ENTERANCE
-            Enterance exit=null;
-            Enterance enterance = null;
-            for(int i=0;i<2;i++){
-                JsonObject enteranceObject;
-                if(i==0){
-                    enteranceObject=jo.get("enterance").getAsJsonObject();
-                }else{
-                    enteranceObject=jo.get("exit").getAsJsonObject();
-                }
-                boolean exitValue=getB(enteranceObject,"exit");
-                MapPosition locationValue=jdc.deserialize(enteranceObject.get("location"),MapPosition.class);
-                Direction directionValue=jdc.deserialize(enteranceObject.get("direction"),Direction.class);
-                int ID = getI(enteranceObject,"ID");
-                if(i==0){
-                    enterance=new Enterance(exitValue, locationValue, directionValue,ID,eventBus);
-                    continue;
-                }
-                exit=new Enterance(exitValue, locationValue, directionValue,ID,eventBus);
-            }
-            //FINISH THE RIDE
-            CreateRideEvent event=new CreateRideEvent(pos,ride,dir,name,rideID,broken,exitement,nausea,status,price,enterance,exit);
-            eventBus.post(event);
-            logger.log(Level.FINER,"Ride {0}, Initialized!",name);
-        }
         //ROADS
         logger.log(Level.FINEST, "Deserializing roads...");
         JsonArray roadsarray = jo.get("roads").getAsJsonArray();

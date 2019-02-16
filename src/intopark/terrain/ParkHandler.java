@@ -5,7 +5,6 @@
 package intopark.terrain;
 
 import intopark.roads.RoadManager;
-import intopark.terrain.events.PayParkEvent;
 import intopark.terrain.events.DeleteSpatialFromMapEvent;
 import com.google.common.eventbus.DeadEvent;
 import com.google.common.eventbus.EventBus;
@@ -28,14 +27,9 @@ import intopark.npc.BasicNPC;
 import intopark.npc.Guest;
 import intopark.npc.NPCManager;
 import intopark.npc.events.SetGuestSpawnPointsEvent;
-import intopark.ride.BasicRide;
-import intopark.ride.RideManager;
 import intopark.roads.Road;
 import intopark.roads.RoadGraph;
 import intopark.roads.Walkable;
-import intopark.shops.BasicShop;
-import intopark.shops.ShopManager;
-import intopark.terrain.decoration.CreateParkEnteranceEvent;
 import intopark.terrain.events.AddToRootNodeEvent;
 import intopark.terrain.events.RefreshGroundEvent;
 import intopark.terrain.events.SetMapDataEvent;
@@ -54,17 +48,13 @@ public class ParkHandler {
     //DEPENDENCIES
     @Inject private transient NPCManager npcManager;
     @Inject private transient RoadManager roadMaker;
-    @Inject private transient ShopManager shopManager;
-    @Inject private transient RideManager rideManager;
     @Inject private transient Identifier identifier;
     private transient EventBus eventBus;
     private transient Node rootNode;
     //OWNS
     private MapContainer map;
     private ParkWallet parkwallet = new ParkWallet(10000);
-    private List<BasicRide> rides = new ArrayList<>();
     private transient List<BasicNPC> npcs = new ArrayList<>();
-    private List<BasicShop> shops = new ArrayList<>();
     private List<Guest> guests = new ArrayList<>();
     private List<Road>roads; //THIS LIST IS ONLY FOR SAVING
     private Scenario scenario;
@@ -100,11 +90,9 @@ public class ParkHandler {
         eventBus.post(new RefreshGroundEvent()); //Force refresh the ground once.
         scenario.setUp();
         /* Set the indivitual parameters to child-Managers */
-        rideManager.rides = rides;
         npcManager.setNpcs(npcs);
         npcManager.setGuests(guests);
         npcManager.setMaxGuests(getMaxGuests());
-        shopManager.setShops(shops);
         //Update money counter
         logger.log(Level.FINEST,"Configuring finished");
     }
@@ -158,15 +146,6 @@ public class ParkHandler {
         logger.warning(String.format("%s was NOT delivered to its correct destination!",event.getEvent().toString()));
 
     }
-
-    /**
-     * This will add a payment to players wallet
-     * @param event contains the amount the player gets
-     */
-    @Subscribe public void listenPayParkEvents(PayParkEvent event){
-        parkwallet.add(event.getAmount());
-        logger.finest(String.format("%s Added to your parks account", event.getAmount()));
-    }
     /**
      * TODO:
      * @param event
@@ -208,25 +187,6 @@ public class ParkHandler {
     }
 
     /**
-     * This will create a Park Enterance from the parameters from the event.
-     * Usually called only once!
-     * @param event
-     */
-    @Subscribe public void listenCreateParkEnteranceEvent(CreateParkEnteranceEvent event){
-        Spatial enterance= UtilityMethods.loadModel(LoadPaths.parkenterance);
-        enterance.setLocalTranslation(event.position.getVector());
-        enterance.rotate(0,(float)event.rotate,0);
-        enterance.scale(0.3f);
-        enterance.setUserData("type","parkenterance");
-        eventBus.post(new AddToRootNodeEvent(enterance));
-        logger.log(Level.FINEST,"Park Enterance set up at {0} rotated {1} degrees.",
-                new Object[]{event.position.getVector().toString(),Math.toDegrees(event.rotate)});
-        //SET GUEST SPAWNPOINT TO THE SAME PLACE!
-        ArrayList<MapPosition> pos=new ArrayList<>();
-        pos.add(event.position);
-        eventBus.post(new SetGuestSpawnPointsEvent(pos));
-    }
-    /**
      * GETTERS AND SETTERS
      */
     public Scenario getScenario() {
@@ -248,18 +208,14 @@ public class ParkHandler {
     public void setParkWallet(ParkWallet wallet) {
         this.parkwallet = wallet;
     }
-    public void setRides(ArrayList<BasicRide> rides) {
-        this.rides = rides;
-    }
+    
     public void setNpcs(ArrayList<BasicNPC> npcs) {
         this.npcs = npcs;
     }
     public void setGuests(ArrayList<Guest> guests) {
         this.guests = guests;
     }
-    public void setShops(ArrayList<BasicShop> shops) {
-        this.shops = shops;
-    }
+   
     public ParkWallet getParkWallet() {
         return parkwallet;
     }
@@ -269,12 +225,7 @@ public class ParkHandler {
     public List<Guest> getGuests() {
         return guests;
     }
-    public List<BasicShop> getShops() {
-        return shops;
-    }
-    public List<BasicRide> getRides() {
-        return rides;
-    }
+   
     public int getRideID() {
         return scenario.getRideID();
     }
@@ -303,10 +254,6 @@ public class ParkHandler {
 
     public void setNpcManager(NPCManager npcManager) {
         this.npcManager = npcManager;
-    }
-
-    public void setShopManager(ShopManager shopManager) {
-        this.shopManager = shopManager;
     }
 
     public void setIdentifier(Identifier identifier) {
