@@ -199,7 +199,6 @@ public class RideManager implements NeedMouse,ClickModeManager{
     @Override
     public void onClick(MouseContainer container) {
         UserClickOnEnteranceMode(container.getResults().getClosestCollision().getContactPoint());
-        Gamestate.ingameHUD.updateClickingIndicator();
     }
 
     @Override

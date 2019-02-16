@@ -285,7 +285,6 @@ public class ShopManager implements NeedMouse,ClickModeManager{
         if (buffer == 0) {
             buy(parkHandler);
             eventBus.post(new ToggleRenderHoloNodeEvent());
-            Gamestate.ingameHUD.updateClickingIndicator();
         } else {
             buffer = buffer - 1;
         }

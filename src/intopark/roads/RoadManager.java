@@ -489,7 +489,6 @@ public class RoadManager implements NeedMouse,ClickModeManager{
                 if(container.isLeftClick()){
                     setStartingPosition(container.getResults().getClosestCollision().getContactPoint());
                     setStatus(RoadManagerStatus.MANUAL);
-                    Gamestate.ingameHUD.updateClickingIndicator();
                     logger.log(Level.FINEST, "Updated Roads starting position");
                 }else{
 

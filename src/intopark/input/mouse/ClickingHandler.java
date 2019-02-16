@@ -111,7 +111,6 @@ public class ClickingHandler {
             ((ClickModeManager)currentCaller).cleanUp();
         }
         this.clickMode = clickMode;
-        Gamestate.ingameHUD.updateClickingIndicator();
 
         currentCaller = getCurrentCaller();
         if(currentCaller instanceof ClickModeManager){

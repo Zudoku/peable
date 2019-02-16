@@ -236,7 +236,6 @@ public class DecorationManager implements NeedMouse,ClickModeManager{
     @Override
     public void onClick(MouseContainer container) {
         build(container.getResults().getClosestCollision().getContactPoint());
-        Gamestate.ingameHUD.updateClickingIndicator();
     }
 
     @Override

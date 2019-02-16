@@ -8,7 +8,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jme3.collision.CollisionResult;
 import com.jme3.scene.Node;
-import intopark.GUI.WindowHandler;
 import intopark.inout.Identifier;
 import intopark.npc.Guest;
 import intopark.ride.BasicRide;
@@ -24,12 +23,10 @@ import java.util.logging.Logger;
 public class DefaultMouseController implements NeedMouse{
     private static final Logger logger = Logger.getLogger(DefaultMouseController.class.getName());
     private ClickingHandler handler;
-    private WindowHandler windowHandler;
     private Identifier identifier;
     @Inject
-    public DefaultMouseController(ClickingHandler handler,WindowHandler manager,Identifier identifier) {
+    public DefaultMouseController(ClickingHandler handler,Identifier identifier) {
         this.handler = handler;
-        this.windowHandler=manager;
         this.identifier=identifier;
     }
 
@@ -61,8 +58,6 @@ public class DefaultMouseController implements NeedMouse{
                             return;
                         }
                         Guest g = (Guest) object;
-                        windowHandler.setIDforGuest(g.getID());
-                        windowHandler.updateGuestWindow(true, true);
                         logger.log(Level.FINEST, "Displaying Guestwindow for guest with id {0}", g.getID());
                         return;
                     }
@@ -74,8 +69,6 @@ public class DefaultMouseController implements NeedMouse{
                             return;
                         }
                         BasicShop shop = (BasicShop)object;
-                        windowHandler.setIDforShop(shop.getID());
-                        windowHandler.updateShopWindow(true);
                         logger.log(Level.FINEST, "Displaying Shopwindow for shop with id {0}", shop.getID());
                         return;
                     }
@@ -87,8 +80,7 @@ public class DefaultMouseController implements NeedMouse{
                             return;
                         }
                         BasicRide r=(BasicRide)object;
-                        windowHandler.setIDforRide(r.getID());
-                        windowHandler.updateRideWindow(true, true);
+
                         logger.log(Level.FINEST, "Displaying Ridewindow for Ride with id {0}", r.getID());
                         return;
                     }

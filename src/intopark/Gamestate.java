@@ -10,10 +10,8 @@ import com.google.inject.Singleton;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import de.lessvoid.nifty.Nifty;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import intopark.GUI.IngameHUD;
 import intopark.GUI.SelectionParticleEmitter;
 import intopark.input.UserInput;
 import intopark.npc.NPCManager;
@@ -32,9 +30,7 @@ public class Gamestate extends AbstractAppState {
     //LOGGER
     private static final Logger logger = Logger.getLogger(Gamestate.class.getName());
     //DEPENDENCIES
-    public static IngameHUD ingameHUD;
     private  ParkHandler currentPark;
-    public  Nifty nifty;
     private Main appm;
     @Inject private final LoadManager loadManager;
     @Inject private SelectionParticleEmitter selectionEmitter;
@@ -64,10 +60,8 @@ public class Gamestate extends AbstractAppState {
         super.initialize(stateManager, app); //Init some JME stuff 
         //TODO:
         this.appm = (Main) app;
-        this.nifty = this.appm.getNifty();
         appm.getInjector().injectMembers(this); //Inject members 
         currentPark = this.appm.currentPark;
-        ingameHUD = this.appm.ingameHUD;
         //TODO ENDS
         logger.log(Level.FINEST, "Loading file.");
         loadScenario();
@@ -120,11 +114,11 @@ public class Gamestate extends AbstractAppState {
     }
     private void loadScenario(){
         File file=appm.getScenariofile();
-        if(file!=null){
+        if (file!=null){
             loadManager.load("Saves/"+file.getName());
             logger.log(Level.FINEST,"Load is supposed to go as planned!");
-        }else{
-            loadManager.load("testfilexd.IntoFile");
+        } else {
+            loadManager.load("Scenarios/BLANKPARK.IntoFile");
             logger.log(Level.FINEST,"LoadFileEvent wasn't sent on time! Loading default scenario({0}) instead.","testfilexd.IntoFile");
         }
     }

@@ -20,8 +20,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.elements.Element;
 import intopark.roads.RoadGraph;
 import intopark.roads.Walkable;
 import java.awt.Graphics2D;
@@ -125,16 +123,6 @@ public class UtilityMethods {
       */
      public static Spatial loadModel(String path){
          return assetManager.loadModel(path);
-     }
-     /**
-      * Toggles the nifty-GUI elements visibility.
-      * @param nifty
-      * @param elementname
-      */
-     public static void toggleVisibility(Nifty nifty,String elementname){
-        Element e=nifty.getCurrentScreen().findElementByName(elementname);
-        e.setVisible(!e.isVisible());
-        e.setId(elementname);
      }
      /**
       * This rounds a vector to ~int values. Helps to calculate things like:
