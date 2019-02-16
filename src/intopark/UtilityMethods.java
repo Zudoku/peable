@@ -50,7 +50,7 @@ public class UtilityMethods {
     //VARIABLES
     public static float HALFTILE=0.49999f;
     public static String currentVersion = "7";
-    public static String programTitle="Into Park Version "+currentVersion;
+    public static String programTitle="Peable";
 
     @Inject
     public UtilityMethods(Camera cam,InputManager inputManager,AssetManager assetManager,Node rootNode,EventBus eventBus) {

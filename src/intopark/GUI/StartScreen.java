@@ -6,7 +6,9 @@ package intopark.GUI;
 
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
+import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
+import com.jme3.app.state.AppStateManager;
 import intopark.Main;
 import intopark.UtilityMethods;
 import intopark.inout.LoadFileEvent;
@@ -20,42 +22,38 @@ import java.util.logging.Logger;
  * @author arska
  */
 public class StartScreen extends AbstractAppState {
-    //LOGGER
     private static final Logger logger = Logger.getLogger(StartScreen.class.getName());
-    //DEPENDENCIES
+
     @Inject EventBus eventBus;
-    //VARIABLES
-    public int startgame=0;
+
     private File[] savedGames;
     private File selectedFile;
-    private int timesClicked=2;
 
-    /**
-     * NiftyGUI controller for the startup-UI.
-     * Contains all the methods callable from UI.
-     */
     public StartScreen(){
 
     }
+    
+    @Override
+    public void initialize(AppStateManager stateManager, Application app) {
+        super.initialize(stateManager, app);
+    }
 
-    public void onStartScreen() {
-        Main.injector.injectMembers(this); //bad habit.
+    @Override
+    public void cleanup() {
+        super.cleanup();
+    }
+
+    @Override
+    public void update(float tpf) {
+        
     }
 
 
-    public void onEndScreen() {
-
-    }
-    /**
-     * Starts the real game.
-     */
     public void startGameLoad(){
         eventBus.post(new LoadFileEvent(selectedFile));
-        Main.startgame=5;
     }
-    /**
-     * This adds all the IntoFile files the the listbox on the startup UI.
-     */
+
+    
     public void populateSavedGames(){
         //Find the listbox
         //Find all the saves in the saves folder.
